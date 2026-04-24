@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================
+// 1. ENUMS
+// ==========================
+enum RoleType {
+  admin
+  teacher
+  student
+  staff
+}
+
+enum StudentStatus {
+  studying
+  suspended
+  graduated
+  dropped
+}
+
+enum PaymentMethod {
+  cash
+  bank_transfer
+  credit_card
+  e_wallet
+}

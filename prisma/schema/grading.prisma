@@ -1,0 +1,80 @@
+
+// ==========================
+// 11. GRADING SYSTEM (HỆ THỐNG ĐIỂM)
+// ==========================
+
+// Cấu hình loại điểm (Ví dụ: Chuyên cần 10%, Giữa kỳ 30%, Cuối kỳ 60%)
+model GradeComponent {
+  id           Int          @id @default(autoincrement())
+  name         String       // midterm, final, assignment...
+  weight       Float        // 0.1, 0.3, 0.6...
+
+  gradeEntries GradeEntry[]
+
+  @@map("grade_components")
+}
+
+// Điểm chi tiết của từng học sinh cho từng thành phần
+model GradeEntry {
+  id            Int            @id @default(autoincrement())
+  
+  studentId     Int
+  student       Student        @relation(fields: [studentId], references: [id])
+  
+  courseOfferId Int
+  courseOffer   CourseOffer    @relation(fields: [courseOfferId], references: [id])
+  
+  componentId   Int
+  component     GradeComponent @relation(fields: [componentId], references: [id])
+  
+  score         Float?
+  
+  // draft, pending, approved, rejected
+  status        String         @default("draft")
+  
+  createdBy     Int            // ID của Staff (Teacher)
+  updatedBy     Int?           // ID của Staff cuối cùng chỉnh sửa
+  
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  histories     GradeHistory[]
+
+  @@unique([studentId, courseOfferId, componentId]) // Một học sinh không thể có 2 điểm cùng loại trong 1 lớp
+  @@map("grade_entries")
+}
+
+// Lịch sử thay đổi điểm (Audit Log)
+model GradeHistory {
+  id           Int        @id @default(autoincrement())
+  
+  gradeEntryId Int
+  gradeEntry   GradeEntry @relation(fields: [gradeEntryId], references: [id])
+  
+  oldScore     Float?
+  newScore     Float?
+  
+  reason       String?    @db.Text // Lý do thay đổi (VD: Chấm phúc khảo)
+  changedBy    Int        // ID của Staff thực hiện sửa
+  changedAt    DateTime   @default(now())
+
+  @@map("grade_histories")
+}
+
+// Bảng điểm tổng kết môn học (Final Score)
+model Grade {
+  id            Int         @id @default(autoincrement())
+  
+  studentId     Int
+  student       Student     @relation(fields: [studentId], references: [id])
+  
+  courseOfferId Int
+  courseOffer   CourseOffer @relation(fields: [courseOfferId], references: [id])
+  
+  finalGrade    Float?      // Kết quả sau khi tính toán các thành phần
+  
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([studentId, courseOfferId])
+  @@map("grades")
+}

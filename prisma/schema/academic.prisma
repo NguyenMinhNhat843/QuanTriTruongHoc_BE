@@ -1,0 +1,206 @@
+
+// ==========================
+// 1. DEPARTMENTS (PHÒNG BAN / KHOA)
+// ==========================
+model Department {
+  id                  Int       @id @default(autoincrement())
+  deptCode            String    @unique
+  deptName            String
+  description         String?   @db.Text
+
+  // Trưởng khoa (Nối đến bảng Staff)
+  headOfDepartmentId  Int?
+  
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  // Quan hệ
+  majors              Major[]
+  subjects            Subject[]
+
+  @@map("departments")
+}
+
+// ==========================
+// 2. MAJORS (NGÀNH ĐÀO TẠO)
+// ==========================
+model Major {
+  id              Int        @id @default(autoincrement())
+  majorCode       String     @unique
+  majorName       String
+  
+  // Thuộc về phòng ban/khoa nào
+  deptId          Int
+  department      Department @relation(fields: [deptId], references: [id])
+  
+  durationYears   String?    // Ví dụ: "2.5 năm" hoặc "3 năm"
+  totalCredits    Int        @default(0)
+  
+  description     String?    @db.Text
+  
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  // Quan hệ
+  classes         Class[]
+  curriculumn     Curriculum[]
+
+  @@map("majors")
+}
+
+// ==========================
+// 3. CLASSES (LỚP HỌC)
+// ==========================
+model Class {
+  id            Int       @id @default(autoincrement())
+  classCode     String    @unique // CNTT17A
+  className     String
+  
+  // Thuộc về 1 ngành
+  majorId       Int
+  major         Major     @relation(fields: [majorId], references: [id])
+  
+  courseYear    Int       // Khóa (2022, 2023...)
+  
+  // Giáo viên chủ nhiệm (Nối đến bảng Staff)
+  formTeacherId Int?
+  
+  maxStudents   Int       @default(40)
+  
+  // active, closed
+  status        String    @default("active")
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // quan hệ
+  courseOffers  CourseOffer[]
+
+  @@map("classes")
+}
+
+// ==========================
+// 4. SUBJECTS (MÔN HỌC)
+// ==========================
+model Subject {
+  id            Int        @id @default(autoincrement())
+  subjectCode   String     @unique
+  subjectName   String
+  
+  credits       Int        @default(0)
+  
+  theoryHours   Int        @default(0)
+  practiceHours Int        @default(0)
+  
+  // Môn thuộc khoa nào quản lý
+  deptId        Int
+  department    Department @relation(fields: [deptId], references: [id])
+  
+  isMandatory   Boolean    @default(true)
+  
+  description   String?    @db.Text
+  
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  // quan hệ
+  curriculumnSubject  CurriculumSubject[]
+  courseOffers       CourseOffer[]
+
+  @@map("subjects")
+}
+
+// ==========================
+// 5. SEMESTERS (HỌC KỲ)
+// ==========================
+model Semester {
+  id          Int      @id @default(autoincrement())
+  name        String   // Ví dụ: HK1-2026, HK2-2026
+  schoolYear  String   // Ví dụ: 2025-2026
+  
+  startDate   DateTime @db.Date
+  endDate     DateTime @db.Date
+  
+  isCurrent   Boolean  @default(false) // Đánh dấu học kỳ hiện tại để hệ thống lấy mặc định
+  
+  createdAt   DateTime @default(now())
+
+  // quan hệ
+  benefitPrograms     BenefitProgram[]
+  courseOffers        CourseOffer[]
+  feeInvoices         FeeInvoice[]
+
+  @@map("semesters")
+}
+
+
+// ==========================
+// ROOM (PHÒNG HỌC)
+// ==========================
+model Room {
+  id        Int      @id @default(autoincrement())
+  roomCode  String   @unique // Ví dụ: A1.102, LAB_IT_01
+  type      String   // theory (lý thuyết), practice (thực hành), hall (hội trường)
+  capacity  Int?     // Sức chứa (tùy chọn thêm để kiểm tra sĩ số lớp)
+  building  String?  // Tòa nhà (ví dụ: Tòa A, Tòa B)
+  
+  createdAt DateTime @default(now())
+
+  // Quan hệ
+  courseOffers   CourseOffer[]
+  courseSchedules CourseSchedule[]
+
+  @@map("rooms")
+}
+
+
+// ==========================
+// 6. CURRICULUMS (CHƯƠNG TRÌNH KHUNG)
+// ==========================
+model Curriculum {
+  id              Int      @id @default(autoincrement())
+  curriculumCode  String   @unique // Ví dụ: CTK-CNTT-2023
+  curriculumName  String
+  
+  majorId         Int
+  major           Major    @relation(fields: [majorId], references: [id])
+  
+  version         Int      @default(1) // Quản lý phiên bản để cập nhật CTK theo năm
+  totalCredits    Int      @default(0)
+  
+  effectiveFrom   DateTime? @db.Date
+  effectiveTo     DateTime? @db.Date
+  
+  isActive        Boolean  @default(true)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Quan hệ 1-n với bảng trung gian
+  curriculumSubjects CurriculumSubject[]
+
+  @@map("curriculums")
+}
+
+// ==========================
+// 7. CURRICULUM_SUBJECTS (MÔN HỌC THUỘC CHƯƠNG TRÌNH)
+// ==========================
+model CurriculumSubject {
+  id             Int        @id @default(autoincrement())
+  
+  curriculumId   Int
+  curriculum     Curriculum @relation(fields: [curriculumId], references: [id])
+  
+  subjectId      Int
+  subject        Subject    @relation(fields: [subjectId], references: [id])
+  
+  semesterNumber Int        // Học kỳ gợi ý (Học kỳ 1, 2, 3...)
+  
+  isMandatory    Boolean    @default(true)
+  minGrade       Float      @default(5.0) // Điểm tối thiểu để qua môn (thường là 4 hoặc 5)
+  
+  createdAt      DateTime   @default(now())
+
+  @@unique([curriculumId, subjectId]) // Một môn học không xuất hiện 2 lần trong 1 chương trình
+  @@map("curriculum_subjects")
+}

@@ -1,0 +1,99 @@
+// ==========================
+// USERS (AUTH + COMMON PROFILE)
+// ==========================
+model User {
+  id            Int       @id @default(autoincrement())
+  userId        String    @unique // Mã định danh ngoại (UUID hoặc NanoID)
+  username      String    @unique
+  passwordHash  String
+  email         String?   @unique
+  
+  fullName      String?
+  gender        Boolean?  // true: male, false: female
+  dob           DateTime? @db.Date
+  phone         String?
+  avatarUrl     String?
+  
+  lastLoginAt   DateTime?
+  
+  role          RoleType
+  isActive      Boolean   @default(true)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? // Soft delete
+
+  // Quan hệ 1-1 với Student và Staff
+  student       Student?
+  staff         Staff?
+
+  @@map("users")
+}
+
+// ==========================
+// STUDENTS
+// ==========================
+model Student {
+  id             Int           @id @default(autoincrement())
+  studentCode    String        @unique
+  
+  // Quan hệ 1-1 với User
+  userId         Int           @unique
+  user           User          @relation(fields: [userId], references: [id])
+
+  classId        Int?
+  
+  enrollmentDate DateTime?     @db.Date
+  graduationDate DateTime?     @db.Date
+  
+  status         StudentStatus @default(studying)
+  
+  parentName     String?
+  parentPhone    String?
+  
+  identityNumber String?       // CCCD
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // quan hệ
+  benefitApplications BenefitApplication[]
+  benefitAwards       BenefitAward[]
+  courseRegistrations CourseRegistration[] 
+  feeInvoices         FeeInvoice[]
+  payments            Payment[]
+  gradeEntries        GradeEntry[]
+  grades              Grade[]
+
+  @@map("students")
+}
+
+// ==========================
+// STAFFS
+// ==========================
+model Staff {
+  id                Int       @id @default(autoincrement())
+  staffCode         String    @unique
+  
+  // Quan hệ 1-1 với User
+  userId            Int       @unique
+  user              User      @relation(fields: [userId], references: [id])
+  
+  departmentId      Int?
+  position          String?   // Ví dụ: Nhân viên kế toán, hiệu trưởng...
+  
+  hireDate          DateTime? @db.Date
+  contractType      String?   // full-time, part-time
+  
+  salaryCoefficient Float?    // Hệ số lương
+  
+  identityNumber    String?   // CCCD
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // quan hệ
+  courseOffers      CourseOffer[]
+
+  @@map("staffs")
+}

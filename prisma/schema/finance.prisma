@@ -1,0 +1,102 @@
+
+// ==========================
+// 12. FINANCIAL SYSTEM (HỆ THỐNG TÀI CHÍNH)
+// ==========================
+
+// Phân loại phí (Học phí, Bảo hiểm, Cơ sở vật chất...)
+model FeeType {
+  id        Int              @id @default(autoincrement())
+  name      String           // Tuition, Insurance, Lab Fee...
+  
+  items     FeeInvoiceItem[]
+
+  @@map("fee_types")
+}
+
+// Hóa đơn tổng theo học kỳ
+model FeeInvoice {
+  id          Int              @id @default(autoincrement())
+  
+  studentId   Int
+  student     Student          @relation(fields: [studentId], references: [id])
+  
+  semesterId  Int
+  semester    Semester         @relation(fields: [semesterId], references: [id])
+  
+  totalAmount Float            // Tổng tiền phải đóng của cả kỳ
+  
+  // status: unpaid, partial, paid
+  status      String           @default("unpaid")
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  items       FeeInvoiceItem[]
+
+  @@map("fee_invoices")
+}
+
+// Chi tiết từng hạng mục trong hóa đơn (Từng môn học hoặc loại phí)
+model FeeInvoiceItem {
+  id            Int                 @id @default(autoincrement())
+  
+  invoiceId     Int
+  invoice       FeeInvoice          @relation(fields: [invoiceId], references: [id])
+  
+  feeTypeId     Int
+  feeType       FeeType             @relation(fields: [feeTypeId], references: [id])
+  
+  // Nếu là học phí môn học thì nối với CourseOffer
+  courseOfferId Int?
+  courseOffer   CourseOffer?        @relation(fields: [courseOfferId], references: [id])
+  
+  amount        Float               // Số tiền gốc của item này
+  paidAmount    Float               @default(0) // Số tiền lũy kế đã đóng cho riêng môn này
+  
+  // status: unpaid, partial, paid
+  status        String              @default("unpaid")
+
+  allocations   PaymentAllocation[]
+
+  @@map("fee_invoice_items")
+}
+
+// Giao dịch thanh toán
+model Payment {
+  id            Int                 @id @default(autoincrement())
+  
+  studentId     Int
+  student       Student             @relation(fields: [studentId], references: [id])
+  
+  totalPaid     Float               // Tổng tiền nộp trong lần giao dịch này
+  paymentDate   DateTime            @default(now())
+  
+  method        PaymentMethod
+  
+  transactionRef String?            // Mã đối soát ngân hàng
+  
+  createdAt     DateTime            @default(now())
+
+  allocations   PaymentAllocation[]
+
+  @@map("payments")
+}
+
+
+// Bảng phân bổ (Gạch nợ)
+// Kết nối số tiền từ 1 lần nộp (Payment) vào các hạng mục hóa đơn (InvoiceItem)
+model PaymentAllocation {
+  id               Int            @id @default(autoincrement())
+  
+  paymentId        Int
+  payment          Payment        @relation(fields: [paymentId], references: [id])
+  
+  feeInvoiceItemId Int
+  feeInvoiceItem   FeeInvoiceItem @relation(fields: [feeInvoiceItemId], references: [id])
+  
+  amount           Float          // Số tiền trích ra để đóng cho mục này
+  
+  allocatedAt      DateTime       @default(now())
+
+  @@map("payment_allocations")
+}

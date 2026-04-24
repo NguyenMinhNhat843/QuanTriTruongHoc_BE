@@ -1,0 +1,105 @@
+
+// ==========================
+// 8. COURSE_OFFERS (LỚP HỌC PHẦN)
+// ==========================
+model CourseOffer {
+  id                Int       @id @default(autoincrement())
+  courseCode        String    @unique // VD: OOP-2026-HK1-01
+  
+  // Giáo viên giảng dạy (Nối tới Staff)
+  teacherId         Int?
+  teacher           Staff?    @relation(fields: [teacherId], references: [id])
+  
+  // Môn học
+  subjectId         Int
+  subject           Subject   @relation(fields: [subjectId], references: [id])
+  
+  // Lớp hành chính chính thức (Có thể null nếu là lớp mở tự do cho nhiều lớp cùng học)
+  classId           Int?
+  baseClass         Class?    @relation(fields: [classId], references: [id])
+  
+  // Học kỳ
+  semesterId        Int
+  semester          Semester  @relation(fields: [semesterId], references: [id])
+  
+  maxStudents       Int       @default(40)
+  currentStudents   Int       @default(0) // Cần logic update khi có sinh viên đăng ký thành công
+  
+  // planned, open, closed, cancelled
+  status            String    @default("planned")
+  
+  // Thời gian đăng ký học phần
+  registrationStart DateTime?
+  registrationEnd   DateTime?
+  
+  // Thời gian bắt đầu và kết thúc khóa học
+  startDate         DateTime? @db.Date
+  endDate           DateTime? @db.Date
+  
+  roomId            Int?
+  room              Room?  @relation(fields: [roomId], references: [id])  // Ví dụ: Phòng A102
+  schedule          String?   // Có thể lưu dạng String (Thứ 2: 7h-9h) hoặc JSON
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Quan hệ 1-n
+  registrations     CourseRegistration[]
+  gradeEntries      GradeEntry[] // Kết nối với hệ thống điểm đã thảo luận trước đó
+  courseSchedules   CourseSchedule[]
+  feeInvoiceItems   FeeInvoiceItem[]
+  grades            Grade[]
+
+  @@map("course_offers")
+}
+
+// ==========================
+// 9. COURSE_REGISTRATIONS (ĐĂNG KÝ HỌC PHẦN)
+// ==========================
+model CourseRegistration {
+  id             Int         @id @default(autoincrement())
+  
+  studentId      Int
+  student        Student     @relation(fields: [studentId], references: [id])
+  
+  courseOfferId  Int
+  courseOffer    CourseOffer @relation(fields: [courseOfferId], references: [id])
+  
+  // registered, cancelled, completed, dropped
+  status         String      @default("registered")
+  
+  registeredAt   DateTime    @default(now())
+  approvedAt     DateTime?
+  
+  isRetake       Boolean     @default(false) // Học lại
+  
+  note           String?     @db.Text
+  
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@unique([studentId, courseOfferId]) // Đảm bảo 1 sinh viên không đăng ký 1 lớp học phần 2 lần
+  @@map("course_registrations")
+}
+
+// ==========================
+// 10. COURSE_SCHEDULES (THỜI KHÓA BIỂU CHI TIẾT)
+// ==========================
+model CourseSchedule {
+  id            Int         @id @default(autoincrement())
+  
+  courseOfferId Int
+  courseOffer   CourseOffer @relation(fields: [courseOfferId], references: [id])
+  
+  dayOfWeek     Int         // 2 -> 8 (Thứ 2 đến Chủ Nhật)
+  
+  startTime     DateTime    @db.Time
+  endTime       DateTime    @db.Time
+  
+  roomId        Int?     // Có thể ghi đè phòng học nếu buổi đó học phòng khác
+  room          Room?       @relation(fields: [roomId], references: [id])
+
+  createdAt     DateTime    @default(now())
+
+  @@map("course_schedules")
+}

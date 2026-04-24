@@ -1,0 +1,70 @@
+// ==========================
+// 13. BENEFIT & SCHOLARSHIP (HỌC BỔNG & MIỄN GIẢM)
+// ==========================
+
+// Các chương trình học bổng hoặc gói miễn giảm phí
+model BenefitProgram {
+  id           Int      @id @default(autoincrement())
+  name         String   // VD: Học bổng khuyến khích học tập, Giảm 50% HP con thương binh
+  
+  // type: scholarship (tiền mặt), discount (giảm trừ học phí), grant (trợ cấp)
+  type         String   
+  
+  totalSlots   Int      @default(0) // Số suất tối đa của chương trình
+  amount       Float    // Giá trị suất học bổng
+  
+  semesterId   Int
+  semester     Semester @relation(fields: [semesterId], references: [id])
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Quan hệ ngược
+  applications BenefitApplication[]
+  awards       BenefitAward[]
+
+  @@map("benefit_programs")
+}
+
+// Đơn ứng tuyển/xét duyệt học bổng của sinh viên
+model BenefitApplication {
+  id          Int            @id @default(autoincrement())
+  
+  studentId   Int
+  student     Student        @relation(fields: [studentId], references: [id])
+  
+  programId   Int
+  program     BenefitProgram @relation(fields: [programId], references: [id])
+  
+  // status: pending, approved, rejected
+  status      String         @default("pending")
+  
+  appliedAt   DateTime       @default(now())
+  
+  // Quan hệ 1-1 với giải thưởng (nếu đơn được duyệt thì sinh ra giải thưởng)
+  award       BenefitAward?
+
+  @@unique([studentId, programId]) // Mỗi chương trình 1 SV chỉ được nộp 1 đơn ứng tuyển
+  @@map("benefit_applications")
+}
+
+// Danh sách sinh viên thực tế nhận được học bổng
+model BenefitAward {
+  id            Int                @id @default(autoincrement())
+  
+  // Nối với đơn ứng tuyển đã được duyệt
+  applicationId Int                @unique
+  application   BenefitApplication @relation(fields: [applicationId], references: [id])
+  
+  studentId     Int
+  student       Student            @relation(fields: [studentId], references: [id])
+  
+  programId     Int
+  program       BenefitProgram     @relation(fields: [programId], references: [id])
+  
+  amount        Float              // Số tiền thực nhận (đề phòng trường hợp điều chỉnh so với định mức gốc)
+  
+  awardedAt     DateTime           @default(now())
+
+  @@map("benefit_awards")
+}
