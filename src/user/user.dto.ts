@@ -1,55 +1,151 @@
-import { PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import {
-  IsString,
   IsEmail,
-  IsOptional,
   IsEnum,
-  IsPhoneNumber,
-  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
   IsBoolean,
-} from 'class-validator';
+  IsDateString,
+  IsInt,
+  Min,
+} from "class-validator";
+import { RoleType } from "../../prisma/generated/prisma/enums.js";
+import { Type } from "class-transformer";
 
 export class CreateUserDto {
+  @ApiProperty({ example: "johndoe", description: "Tên đăng nhập duy nhất" })
   @IsString()
-  id!: string;
-
-  @IsString()
+  @IsNotEmpty()
   username!: string;
 
+  @ApiProperty({
+    example: "hashed_password_123",
+    description: "Mật khẩu đã mã hóa",
+  })
   @IsString()
-  password!: string;
+  @IsNotEmpty()
+  passwordHash!: string;
 
+  @ApiProperty({ enum: RoleType, description: "Vai trò của người dùng" })
+  @IsEnum(RoleType)
+  @IsNotEmpty()
+  role!: RoleType;
+
+  @ApiPropertyOptional({ example: "user@example.com" })
   @IsEmail()
   @IsOptional()
   email?: string;
 
+  @ApiPropertyOptional({ example: "Nguyen Van A" })
   @IsString()
   @IsOptional()
   fullName?: string;
 
-  @IsString()
+  @ApiPropertyOptional({ example: true, description: "true: Nam, false: Nữ" })
+  @IsBoolean()
   @IsOptional()
-  gender?: string;
+  gender?: boolean;
 
-  @IsPhoneNumber('VN')
+  @ApiPropertyOptional({ example: "1995-01-01", description: "Ngày sinh" })
+  @IsDateString()
+  @IsOptional()
+  dob?: Date;
+
+  @ApiPropertyOptional({ example: "0901234567" })
+  @IsString()
   @IsOptional()
   phone?: string;
 
-  @IsDateString()
-  @IsOptional()
-  birthday?: string;
-
-  @IsString()
-  @IsOptional()
-  address?: string;
-
+  @ApiPropertyOptional({ example: "https://avatar.com/image.png" })
   @IsString()
   @IsOptional()
   avatarUrl?: string;
-}
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {
+  @ApiPropertyOptional({ default: true })
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
+}
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+  // Bạn có thể ghi đè hoặc thêm các trường không cho phép sửa khi update tại đây
+  // Ví dụ: Không cho phép cập nhật lại username hoặc role qua API thông thường
+}
+
+export class SearchUserDto {
+  // --- PHÂN TRANG (PAGINATION) ---
+  @ApiPropertyOptional({ description: "Số trang hiện tại", default: 1 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page?: number = 1;
+
+  @ApiPropertyOptional({
+    description: "Số lượng bản ghi trên mỗi trang",
+    default: 10,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  limit?: number = 10;
+
+  // --- TÌM KIẾM & LỌC (FILTERING) ---
+  @ApiPropertyOptional({
+    description: "Tìm kiếm theo username, email hoặc họ tên",
+  })
+  @IsOptional()
+  @IsString()
+  keyword?: string;
+
+  @ApiPropertyOptional({ description: "Lọc theo vai trò", enum: RoleType })
+  @IsOptional()
+  @IsEnum(RoleType)
+  role?: RoleType;
+
+  @ApiPropertyOptional({ description: "Trạng thái hoạt động" })
+  @IsOptional()
+  @IsBoolean()
+  @Type(() => Boolean)
+  isActive?: boolean;
+
+  @ApiPropertyOptional({ description: "Giới tính (true: Nam, false: Nữ)" })
+  @IsOptional()
+  @IsBoolean()
+  @Type(() => Boolean)
+  gender?: boolean;
+
+  @ApiPropertyOptional({
+    description: "Lọc người dùng tạo từ ngày (YYYY-MM-DD)",
+  })
+  @IsOptional()
+  @IsDateString()
+  fromDate?: string;
+
+  @ApiPropertyOptional({
+    description: "Lọc người dùng tạo đến ngày (YYYY-MM-DD)",
+  })
+  @IsOptional()
+  @IsDateString()
+  toDate?: string;
+
+  // --- SẮP XẾP (SORTING) ---
+  @ApiPropertyOptional({
+    description: "Trường cần sắp xếp",
+    default: "createdAt",
+  })
+  @IsOptional()
+  @IsString()
+  sortBy?: string = "createdAt";
+
+  @ApiPropertyOptional({
+    description: "Hướng sắp xếp",
+    enum: ["asc", "desc"],
+    default: "desc",
+  })
+  @IsOptional()
+  @IsEnum(["asc", "desc"])
+  sortOrder?: "asc" | "desc" = "desc";
 }

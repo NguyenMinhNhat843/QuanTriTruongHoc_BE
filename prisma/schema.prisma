@@ -1,0 +1,596 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================
+// 1. ENUMS
+// ==========================
+enum RoleType {
+  admin
+  teacher
+  student
+  staff
+}
+
+enum StudentStatus {
+  studying
+  suspended
+  graduated
+  dropped
+}
+
+// ==========================
+// 2. USERS (AUTH + COMMON PROFILE)
+// ==========================
+model User {
+  id            Int       @id @default(autoincrement())
+  userId        String    @unique // Mã định danh ngoại (UUID hoặc NanoID)
+  username      String    @unique
+  passwordHash  String
+  email         String?   @unique
+  
+  fullName      String?
+  gender        Boolean?  // true: male, false: female
+  dob           DateTime? @db.Date
+  phone         String?
+  avatarUrl     String?
+  
+  lastLoginAt   DateTime?
+  
+  role          RoleType
+  isActive      Boolean   @default(true)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? // Soft delete
+
+  // Quan hệ 1-1 với Student và Staff
+  student       Student?
+  staff         Staff?
+
+  @@map("users")
+}
+
+// ==========================
+// 3. STUDENTS
+// ==========================
+model Student {
+  id             Int           @id @default(autoincrement())
+  studentCode    String        @unique
+  
+  // Quan hệ 1-1 với User
+  userId         Int           @unique
+  user           User          @relation(fields: [userId], references: [id])
+
+  classId        Int?
+  
+  enrollmentDate DateTime?     @db.Date
+  graduationDate DateTime?     @db.Date
+  
+  status         StudentStatus @default(studying)
+  
+  parentName     String?
+  parentPhone    String?
+  
+  identityNumber String?       // CCCD
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@map("students")
+}
+
+// ==========================
+// 4. STAFFS
+// ==========================
+model Staff {
+  id                Int       @id @default(autoincrement())
+  staffCode         String    @unique
+  
+  // Quan hệ 1-1 với User
+  userId            Int       @unique
+  user              User      @relation(fields: [userId], references: [id])
+  
+  departmentId      Int?
+  position          String?   // Ví dụ: Nhân viên kế toán, hiệu trưởng...
+  
+  hireDate          DateTime? @db.Date
+  contractType      String?   // full-time, part-time
+  
+  salaryCoefficient Float?    // Hệ số lương
+  
+  identityNumber    String?   // CCCD
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@map("staffs")
+}
+
+// ==========================
+// 1. DEPARTMENTS (PHÒNG BAN / KHOA)
+// ==========================
+model Department {
+  id                  Int       @id @default(autoincrement())
+  deptCode            String    @unique
+  deptName            String
+  description         String?   @db.Text
+
+  // Trưởng khoa (Nối đến bảng Staff)
+  headOfDepartmentId  Int?
+  
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  // Quan hệ
+  majors              Major[]
+  subjects            Subject[]
+
+  @@map("departments")
+}
+
+// ==========================
+// 2. MAJORS (NGÀNH ĐÀO TẠO)
+// ==========================
+model Major {
+  id              Int        @id @default(autoincrement())
+  majorCode       String     @unique
+  majorName       String
+  
+  // Thuộc về phòng ban/khoa nào
+  deptId          Int
+  department      Department @relation(fields: [deptId], references: [id])
+  
+  durationYears   String?    // Ví dụ: "2.5 năm" hoặc "3 năm"
+  totalCredits    Int        @default(0)
+  
+  description     String?    @db.Text
+  
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  // Quan hệ
+  classes         Class[]
+
+  @@map("majors")
+}
+
+// ==========================
+// 3. CLASSES (LỚP HỌC)
+// ==========================
+model Class {
+  id            Int       @id @default(autoincrement())
+  classCode     String    @unique // CNTT17A
+  className     String
+  
+  // Thuộc về 1 ngành
+  majorId       Int
+  major         Major     @relation(fields: [majorId], references: [id])
+  
+  courseYear    Int       // Khóa (2022, 2023...)
+  
+  // Giáo viên chủ nhiệm (Nối đến bảng Staff)
+  formTeacherId Int?
+  
+  maxStudents   Int       @default(40)
+  
+  // active, closed
+  status        String    @default("active")
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("classes")
+}
+
+// ==========================
+// 4. SUBJECTS (MÔN HỌC)
+// ==========================
+model Subject {
+  id            Int        @id @default(autoincrement())
+  subjectCode   String     @unique
+  subjectName   String
+  
+  credits       Int        @default(0)
+  
+  theoryHours   Int        @default(0)
+  practiceHours Int        @default(0)
+  
+  // Môn thuộc khoa nào quản lý
+  deptId        Int
+  department    Department @relation(fields: [deptId], references: [id])
+  
+  isMandatory   Boolean    @default(true)
+  
+  description   String?    @db.Text
+  
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@map("subjects")
+}
+
+// ==========================
+// 5. SEMESTERS (HỌC KỲ)
+// ==========================
+model Semester {
+  id          Int      @id @default(autoincrement())
+  name        String   // Ví dụ: HK1-2026, HK2-2026
+  schoolYear  String   // Ví dụ: 2025-2026
+  
+  startDate   DateTime @db.Date
+  endDate     DateTime @db.Date
+  
+  isCurrent   Boolean  @default(false) // Đánh dấu học kỳ hiện tại để hệ thống lấy mặc định
+  
+  createdAt   DateTime @default(now())
+
+  @@map("semesters")
+}
+
+// ==========================
+// 6. CURRICULUMS (CHƯƠNG TRÌNH KHUNG)
+// ==========================
+model Curriculum {
+  id              Int      @id @default(autoincrement())
+  curriculumCode  String   @unique // Ví dụ: CTK-CNTT-2023
+  curriculumName  String
+  
+  majorId         Int
+  major           Major    @relation(fields: [majorId], references: [id])
+  
+  version         Int      @default(1) // Quản lý phiên bản để cập nhật CTK theo năm
+  totalCredits    Int      @default(0)
+  
+  effectiveFrom   DateTime? @db.Date
+  effectiveTo     DateTime? @db.Date
+  
+  isActive        Boolean  @default(true)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Quan hệ 1-n với bảng trung gian
+  curriculumSubjects CurriculumSubject[]
+
+  @@map("curriculums")
+}
+
+// ==========================
+// 7. CURRICULUM_SUBJECTS (MÔN HỌC THUỘC CHƯƠNG TRÌNH)
+// ==========================
+model CurriculumSubject {
+  id             Int        @id @default(autoincrement())
+  
+  curriculumId   Int
+  curriculum     Curriculum @relation(fields: [curriculumId], references: [id])
+  
+  subjectId      Int
+  subject        Subject    @relation(fields: [subjectId], references: [id])
+  
+  semesterNumber Int        // Học kỳ gợi ý (Học kỳ 1, 2, 3...)
+  
+  isMandatory    Boolean    @default(true)
+  minGrade       Float      @default(5.0) // Điểm tối thiểu để qua môn (thường là 4 hoặc 5)
+  
+  createdAt      DateTime   @default(now())
+
+  @@unique([curriculumId, subjectId]) // Một môn học không xuất hiện 2 lần trong 1 chương trình
+  @@map("curriculum_subjects")
+}
+
+// ==========================
+// 8. COURSE_OFFERS (LỚP HỌC PHẦN)
+// ==========================
+model CourseOffer {
+  id                Int       @id @default(autoincrement())
+  courseCode        String    @unique // VD: OOP-2026-HK1-01
+  
+  // Giáo viên giảng dạy (Nối tới Staff)
+  teacherId         Int?
+  teacher           Staff?    @relation(fields: [teacherId], references: [id])
+  
+  // Môn học
+  subjectId         Int
+  subject           Subject   @relation(fields: [subjectId], references: [id])
+  
+  // Lớp hành chính chính thức (Có thể null nếu là lớp mở tự do cho nhiều lớp cùng học)
+  classId           Int?
+  baseClass         Class?    @relation(fields: [classId], references: [id])
+  
+  // Học kỳ
+  semesterId        Int
+  semester          Semester  @relation(fields: [semesterId], references: [id])
+  
+  maxStudents       Int       @default(40)
+  currentStudents   Int       @default(0) // Cần logic update khi có sinh viên đăng ký thành công
+  
+  // planned, open, closed, cancelled
+  status            String    @default("planned")
+  
+  // Thời gian đăng ký học phần
+  registrationStart DateTime?
+  registrationEnd   DateTime?
+  
+  // Thời gian bắt đầu và kết thúc khóa học
+  startDate         DateTime? @db.Date
+  endDate           DateTime? @db.Date
+  
+  room_id           Int?
+  room              Room?  @relation(fields: [roomCode], references: [id])  // Ví dụ: Phòng A102
+  schedule          String?   // Có thể lưu dạng String (Thứ 2: 7h-9h) hoặc JSON
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Quan hệ 1-n
+  registrations     CourseRegistration[]
+  gradeEntries      GradeEntry[] // Kết nối với hệ thống điểm đã thảo luận trước đó
+
+  @@map("course_offers")
+}
+
+// ==========================
+// 9. COURSE_REGISTRATIONS (ĐĂNG KÝ HỌC PHẦN)
+// ==========================
+model CourseRegistration {
+  id             Int         @id @default(autoincrement())
+  
+  studentId      Int
+  student        Student     @relation(fields: [studentId], references: [id])
+  
+  courseOfferId  Int
+  courseOffer    CourseOffer @relation(fields: [courseOfferId], references: [id])
+  
+  // registered, cancelled, completed, dropped
+  status         String      @default("registered")
+  
+  registeredAt   DateTime    @default(now())
+  approvedAt     DateTime?
+  
+  isRetake       Boolean     @default(false) // Học lại
+  
+  note           String?     @db.Text
+  
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@unique([studentId, courseOfferId]) // Đảm bảo 1 sinh viên không đăng ký 1 lớp học phần 2 lần
+  @@map("course_registrations")
+}
+
+// ==========================
+// 10. COURSE_SCHEDULES (THỜI KHÓA BIỂU CHI TIẾT)
+// ==========================
+model CourseSchedule {
+  id            Int         @id @default(autoincrement())
+  
+  courseOfferId Int
+  courseOffer   CourseOffer @relation(fields: [courseOfferId], references: [id])
+  
+  dayOfWeek     Int         // 2 -> 8 (Thứ 2 đến Chủ Nhật)
+  
+  startTime     DateTime    @db.Time
+  endTime       DateTime    @db.Time
+  
+  roomId        Int?     // Có thể ghi đè phòng học nếu buổi đó học phòng khác
+  room          Room?       @relation(fields: [roomId], references: [id]).
+
+  createdAt     DateTime    @default(now())
+
+  @@map("course_schedules")
+}
+
+model Room {
+  id        Int      @id @default(autoincrement())
+  roomCode  String   @unique // Ví dụ: A1.102, LAB_IT_01
+  type      String   // theory (lý thuyết), practice (thực hành), hall (hội trường)
+  capacity  Int?     // Sức chứa (tùy chọn thêm để kiểm tra sĩ số lớp)
+  building  String?  // Tòa nhà (ví dụ: Tòa A, Tòa B)
+  
+  createdAt DateTime @default(now())
+
+  // Quan hệ
+  courseOffers   CourseOffer[]
+  courseSchedules CourseSchedule[]
+
+  @@map("rooms")
+}
+
+// ==========================
+// 11. GRADING SYSTEM (HỆ THỐNG ĐIỂM)
+// ==========================
+
+// Cấu hình loại điểm (Ví dụ: Chuyên cần 10%, Giữa kỳ 30%, Cuối kỳ 60%)
+model GradeComponent {
+  id           Int          @id @default(autoincrement())
+  name         String       // midterm, final, assignment...
+  weight       Float        // 0.1, 0.3, 0.6...
+
+  gradeEntries GradeEntry[]
+
+  @@map("grade_components")
+}
+
+// Điểm chi tiết của từng học sinh cho từng thành phần
+model GradeEntry {
+  id            Int            @id @default(autoincrement())
+  
+  studentId     Int
+  student       Student        @relation(fields: [studentId], references: [id])
+  
+  courseOfferId Int
+  courseOffer   CourseOffer    @relation(fields: [courseOfferId], references: [id])
+  
+  componentId   Int
+  component     GradeComponent @relation(fields: [componentId], references: [id])
+  
+  score         Float?
+  
+  // draft, pending, approved, rejected
+  status        String         @default("draft")
+  
+  createdBy     Int            // ID của Staff (Teacher)
+  updatedBy     Int?           // ID của Staff cuối cùng chỉnh sửa
+  
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  histories     GradeHistory[]
+
+  @@unique([studentId, courseOfferId, componentId]) // Một học sinh không thể có 2 điểm cùng loại trong 1 lớp
+  @@map("grade_entries")
+}
+
+// Lịch sử thay đổi điểm (Audit Log)
+model GradeHistory {
+  id           Int        @id @default(autoincrement())
+  
+  gradeEntryId Int
+  gradeEntry   GradeEntry @relation(fields: [gradeEntryId], references: [id])
+  
+  oldScore     Float?
+  newScore     Float?
+  
+  reason       String?    @db.Text // Lý do thay đổi (VD: Chấm phúc khảo)
+  changedBy    Int        // ID của Staff thực hiện sửa
+  changedAt    DateTime   @default(now())
+
+  @@map("grade_histories")
+}
+
+// Bảng điểm tổng kết môn học (Final Score)
+model Grade {
+  id            Int         @id @default(autoincrement())
+  
+  studentId     Int
+  student       Student     @relation(fields: [studentId], references: [id])
+  
+  courseOfferId Int
+  courseOffer   CourseOffer @relation(fields: [courseOfferId], references: [id])
+  
+  finalGrade    Float?      // Kết quả sau khi tính toán các thành phần
+  
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([studentId, courseOfferId])
+  @@map("grades")
+}
+
+// ==========================
+// 12. FINANCIAL SYSTEM (HỆ THỐNG TÀI CHÍNH)
+// ==========================
+
+// Phân loại phí (Học phí, Bảo hiểm, Cơ sở vật chất...)
+model FeeType {
+  id        Int              @id @default(autoincrement())
+  name      String           // Tuition, Insurance, Lab Fee...
+  
+  items     FeeInvoiceItem[]
+
+  @@map("fee_types")
+}
+
+// Hóa đơn tổng theo học kỳ
+model FeeInvoice {
+  id          Int              @id @default(autoincrement())
+  
+  studentId   Int
+  student     Student          @relation(fields: [studentId], references: [id])
+  
+  semesterId  Int
+  semester    Semester         @relation(fields: [semesterId], references: [id])
+  
+  totalAmount Float            // Tổng tiền phải đóng của cả kỳ
+  
+  // status: unpaid, partial, paid
+  status      String           @default("unpaid")
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  items       FeeInvoiceItem[]
+
+  @@map("fee_invoices")
+}
+
+// Chi tiết từng hạng mục trong hóa đơn (Từng môn học hoặc loại phí)
+model FeeInvoiceItem {
+  id            Int                 @id @default(autoincrement())
+  
+  invoiceId     Int
+  invoice       FeeInvoice          @relation(fields: [invoiceId], references: [id])
+  
+  feeTypeId     Int
+  feeType       FeeType             @relation(fields: [feeTypeId], references: [id])
+  
+  // Nếu là học phí môn học thì nối với CourseOffer
+  courseOfferId Int?
+  courseOffer   CourseOffer?        @relation(fields: [courseOfferId], references: [id])
+  
+  amount        Float               // Số tiền gốc của item này
+  paidAmount    Float               @default(0) // Số tiền lũy kế đã đóng cho riêng môn này
+  
+  // status: unpaid, partial, paid
+  status        String              @default("unpaid")
+
+  allocations   PaymentAllocation[]
+
+  @@map("fee_invoice_items")
+}
+
+// Giao dịch thanh toán
+model Payment {
+  id            Int                 @id @default(autoincrement())
+  
+  studentId     Int
+  student       Student             @relation(fields: [studentId], references: [id])
+  
+  totalPaid     Float               // Tổng tiền nộp trong lần giao dịch này
+  paymentDate   DateTime            @default(now())
+  
+  method        PaymentMethod
+  
+  transactionRef String?            // Mã đối soát ngân hàng
+  
+  createdAt     DateTime            @default(now())
+
+  allocations   PaymentAllocation[]
+
+  @@map("payments")
+}
+
+enum PaymentMethod {
+  cash
+  bank_transfer
+  credit_card
+  e_wallet
+}
+
+// Bảng phân bổ (Gạch nợ)
+// Kết nối số tiền từ 1 lần nộp (Payment) vào các hạng mục hóa đơn (InvoiceItem)
+model PaymentAllocation {
+  id               Int            @id @default(autoincrement())
+  
+  paymentId        Int
+  payment          Payment        @relation(fields: [paymentId], references: [id])
+  
+  feeInvoiceItemId Int
+  feeInvoiceItem   FeeInvoiceItem @relation(fields: [feeInvoiceItemId], references: [id])
+  
+  amount           Float          // Số tiền trích ra để đóng cho mục này
+  
+  allocatedAt      DateTime       @default(now())
+
+  @@map("payment_allocations")
+}

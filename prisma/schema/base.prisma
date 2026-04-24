@@ -7,7 +7,9 @@ generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
   previewFeatures = ["prismaSchemaFolder"]
+  moduleFormat    = "cjs"
 }
+
 
 datasource db {
   provider = "postgresql"
