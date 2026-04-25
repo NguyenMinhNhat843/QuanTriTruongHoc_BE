@@ -7,6 +7,7 @@ import { StaffModule } from "./staff/staff.module.js";
 import { AuthModule } from "./auth/auth.module.js";
 import { DepartmentModule } from "./department/department.module.js";
 import { MajorModule } from "./major/major.module.js";
+import { ClassModule } from "./class/class.module.js";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MajorModule } from "./major/major.module.js";
     AuthModule,
     DepartmentModule,
     MajorModule,
+    ClassModule,
   ],
 })
 export class AppModule {}
