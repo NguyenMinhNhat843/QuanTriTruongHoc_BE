@@ -2443,7 +2443,6 @@ export const SubjectScalarFieldEnum = {
   credits: 'credits',
   theoryHours: 'theoryHours',
   practiceHours: 'practiceHours',
-  deptId: 'deptId',
   isMandatory: 'isMandatory',
   description: 'description',
   createdAt: 'createdAt',

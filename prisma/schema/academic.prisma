@@ -16,7 +16,6 @@ model Department {
 
   // Quan hệ
   majors              Major[]
-  subjects            Subject[]
 
   @@map("departments")
 }
@@ -91,10 +90,6 @@ model Subject {
   
   theoryHours   Int        @default(0)
   practiceHours Int        @default(0)
-  
-  // Môn thuộc khoa nào quản lý
-  deptId        Int
-  department    Department @relation(fields: [deptId], references: [id])
   
   isMandatory   Boolean    @default(true)
   
@@ -196,7 +191,7 @@ model CurriculumSubject {
   
   semesterNumber Int        // Học kỳ gợi ý (Học kỳ 1, 2, 3...)
   
-  isMandatory    Boolean    @default(true)
+  isMandatory    Boolean    @default(true) // môn bắt buộc hay tự chọn
   minGrade       Float      @default(5.0) // Điểm tối thiểu để qua môn (thường là 4 hoặc 5)
   
   createdAt      DateTime   @default(now())

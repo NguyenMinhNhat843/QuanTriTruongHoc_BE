@@ -38,11 +38,6 @@ export class CreateSubjectDto {
   @Min(0)
   practiceHours: number;
 
-  @ApiProperty({ example: 1, description: "ID của khoa quản lý môn học" })
-  @IsInt()
-  @IsNotEmpty()
-  deptId: number;
-
   @ApiPropertyOptional({ example: true, default: true })
   @IsBoolean()
   @IsOptional()

@@ -26,7 +26,9 @@ export class CurriculumController {
   @Post()
   @ApiOperation({ summary: "Tạo mới chương trình khung" })
   @ApiCreatedResponse({ type: CurriculumResponseDto })
-  create(@Body() createCurriculumDto: CreateCurriculumDto) {
+  create(
+    @Body() createCurriculumDto: CreateCurriculumDto,
+  ): Promise<CurriculumResponseDto> {
     return this.curriculumService.create(createCurriculumDto);
   }
 

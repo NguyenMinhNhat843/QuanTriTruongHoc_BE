@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
 
 export class CurriculumResponseDto {
   @ApiProperty({ example: 1 })
@@ -44,6 +45,12 @@ export class CurriculumResponseDto {
   })
   subjectCount?: number;
 
+  @ApiProperty({
+    type: [CurriculumSubjectResponseDto],
+    description: "Danh sách chi tiết các môn học trong chương trình",
+  })
+  subjectList?: CurriculumSubjectResponseDto[];
+
   constructor(partial: any) {
     this.id = partial.id;
     this.curriculumCode = partial.curriculumCode;
@@ -57,13 +64,20 @@ export class CurriculumResponseDto {
     this.createdAt = partial.createdAt;
     this.updatedAt = partial.updatedAt;
 
-    // Map quan hệ Major nếu có include
+    // 1. Map danh sách môn học nếu Prisma có include curriculumSubjects
+    if (partial.curriculumSubjects) {
+      this.subjectList = partial.curriculumSubjects.map(
+        (item: any) => new CurriculumSubjectResponseDto(item),
+      );
+    }
+
+    // 2. Map quan hệ Major nếu có include
     if (partial.major) {
       this.major = partial.major;
     }
 
-    // Map số lượng môn học từ Prisma _count (nếu có dùng include trong service)
-    if (partial._count) {
+    // 3. Map số lượng môn học từ Prisma _count
+    if (partial._count && partial._count.curriculumSubjects !== undefined) {
       this.subjectCount = partial._count.curriculumSubjects;
     }
   }

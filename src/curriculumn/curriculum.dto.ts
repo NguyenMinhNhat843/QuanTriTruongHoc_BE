@@ -8,8 +8,12 @@ import {
   IsBoolean,
   IsDateString,
   MaxLength,
+  IsArray,
+  ValidateNested,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
+import { CreateCurriculumSubjectDto } from "../curriculumSubject/curriculumnSubject.dto";
+import { Type } from "class-transformer";
 
 export class CreateCurriculumDto {
   @ApiProperty({
@@ -64,6 +68,15 @@ export class CreateCurriculumDto {
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
+
+  @ApiProperty({
+    type: [CreateCurriculumSubjectDto],
+    description: "Danh sách các môn học thuộc chương trình khung",
+  })
+  @IsArray()
+  @ValidateNested({ each: true }) // Quan trọng: Để validate từng object trong mảng
+  @Type(() => CreateCurriculumSubjectDto) // Quan trọng: Để class-transformer biết kiểu dữ liệu để chuyển đổi
+  curriculumSubjects: CreateCurriculumSubjectDto[];
 }
 
 export class UpdateCurriculumDto extends PartialType(CreateCurriculumDto) {}

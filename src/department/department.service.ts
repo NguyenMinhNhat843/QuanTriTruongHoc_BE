@@ -30,7 +30,7 @@ export class DepartmentService {
     return this.prisma.department.findMany({
       include: {
         _count: {
-          select: { majors: true, subjects: true },
+          select: { majors: true },
         },
       },
     });
@@ -39,7 +39,7 @@ export class DepartmentService {
   async findOne(id: number) {
     const dept = await this.prisma.department.findUnique({
       where: { id },
-      include: { majors: true, subjects: true },
+      include: { majors: true },
     });
 
     if (!dept) {
