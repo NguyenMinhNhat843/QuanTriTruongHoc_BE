@@ -16,30 +16,6 @@ export class UserResponseDto implements User {
   @Expose()
   username: string;
 
-  @ApiPropertyOptional({ example: "john@example.com" })
-  @Expose()
-  email: string | null;
-
-  @ApiPropertyOptional({ example: "John Doe" })
-  @Expose()
-  fullName: string | null;
-
-  @ApiPropertyOptional({ example: true })
-  @Expose()
-  gender: boolean | null;
-
-  @ApiPropertyOptional({ example: "1995-12-25" })
-  @Expose()
-  dob: Date | null;
-
-  @ApiPropertyOptional({ example: "0987654321" })
-  @Expose()
-  phone: string | null;
-
-  @ApiPropertyOptional({ example: "https://example.com/avatar.jpg" })
-  @Expose()
-  avatarUrl: string | null;
-
   @ApiProperty({ enum: RoleType })
   @Expose()
   role: RoleType;

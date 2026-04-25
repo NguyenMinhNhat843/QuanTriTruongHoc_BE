@@ -1,14 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from "@nestjs/common";
+import { Body, Controller, Param, Patch, Post } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger"; // Thêm dòng này
-import { CreateUserDto, SearchUserDto } from "./user.dto.js";
+import { CreateUserDto } from "./user.dto.js";
 import { UserService } from "./user.service.js";
 import { UserResponseDto } from "./user.response.js";
 
@@ -41,15 +33,5 @@ export class UserController {
     @Param("id") id: number,
   ): Promise<UserResponseDto> {
     return await this.userService.updateUser(id, body);
-  }
-
-  @Get("search")
-  @ApiOperation({ summary: "Tìm kiếm và phân trang người dùng" })
-  @ApiResponse({
-    status: 200,
-    description: "Danh sách người dùng và metadata.",
-  })
-  async findAll(@Query() query: SearchUserDto) {
-    return this.userService.searchUsers(query);
   }
 }

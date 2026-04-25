@@ -6,13 +6,6 @@ model User {
   userId        String    @unique // Mã định danh ngoại (UUID hoặc NanoID)
   username      String    @unique
   passwordHash  String
-  email         String?   @unique
-  
-  fullName      String?
-  gender        Boolean?  // true: male, false: female
-  dob           DateTime? @db.Date
-  phone         String?
-  avatarUrl     String?
   
   lastLoginAt   DateTime?
   
@@ -31,30 +24,40 @@ model User {
 }
 
 // ==========================
-// STUDENTS
+// STUDENTS: Hồ sơ học sinh
 // ==========================
 model Student {
   id             Int           @id @default(autoincrement())
   studentCode    String        @unique
   
   // Quan hệ 1-1 với User
-  userId         Int           @unique
-  user           User          @relation(fields: [userId], references: [id])
+  userId         Int?           @unique
+  user           User?           @relation(fields: [userId], references: [id])
 
-  classId        Int?
+  // Thông tin hồ sơ
+  email         String?         @unique
+  fullName      String?
+  gender        Boolean?        // true: male, false: female
+  dob           DateTime?       @db.Date
+  phone         String?         
+  avatarUrl     String?
+  address       String?
+  identityNumber    String?     @unique // CCCD
+
+  classId        Int?           // Lớp
   
-  enrollmentDate DateTime?     @db.Date
-  graduationDate DateTime?     @db.Date
+  enrollmentDate DateTime?      @db.Date
+  graduationDate DateTime?      @db.Date
   
-  status         StudentStatus @default(studying)
+  // status: 'pending' (Mới nộp), 'reviewing' (Đang xét), 
+  // 'approved' (Đạt - Chờ tạo account), 'rejected' (Không đạt), 'studying' (Chính thức)
+  status         StudentStatus  @default(studying)
   
-  parentName     String?
+  parentName     String?        
   parentPhone    String?
   
-  identityNumber String?       // CCCD
-
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
 
   // quan hệ
   benefitApplications BenefitApplication[]
@@ -72,25 +75,35 @@ model Student {
 // STAFFS
 // ==========================
 model Staff {
-  id                Int       @id @default(autoincrement())
-  staffCode         String    @unique
+  id                Int         @id @default(autoincrement())
+  staffCode         String      @unique
   
   // Quan hệ 1-1 với User
-  userId            Int       @unique
-  user              User      @relation(fields: [userId], references: [id])
+  userId            Int         @unique
+  user              User        @relation(fields: [userId], references: [id])
   
+  // thông tin cá nhân
+  email             String?     @unique
+  fullName          String?
+  gender            Boolean?    // true: male, false: female
+  dob               DateTime?   @db.Date
+  phone             String?    
+  avatarUrl         String?
+  address           String?
+  identityNumber    String?     @unique // CCCD
+
   departmentId      Int?
-  position          String?   // Ví dụ: Nhân viên kế toán, hiệu trưởng...
+  position          String?     // Ví dụ: Nhân viên kế toán, hiệu trưởng...
   
-  hireDate          DateTime? @db.Date
-  contractType      String?   // full-time, part-time
+  hireDate          DateTime?   @db.Date
+  contractType      String?     // full-time, part-time
   
-  salaryCoefficient Float?    // Hệ số lương
+  salaryCoefficient Float?      // Hệ số lương
   
-  identityNumber    String?   // CCCD
+ 
   
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 
   // quan hệ
   courseOffers      CourseOffer[]

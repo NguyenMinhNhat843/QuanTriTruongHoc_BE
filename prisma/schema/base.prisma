@@ -26,10 +26,20 @@ enum RoleType {
 }
 
 enum StudentStatus {
-  studying
-  suspended
-  graduated
-  dropped
+  // --- GIAI ĐOẠN TUYỂN SINH (ADMISSION) ---
+  pending    // Hồ sơ mới nộp, đang chờ kiểm tra thông tin
+  reviewing  // Đang trong quá trình xét duyệt hồ sơ/điểm số
+  approved   // Đã đạt tiêu chuẩn, chờ admin bấm cấp tài khoản (User)
+  rejected   // Hồ sơ không đạt yêu cầu hoặc bị từ chối
+
+  // --- GIAI ĐOẠN HỌC TẬP (ACADEMIC) ---
+  studying   // Đã có tài khoản và đang theo học chính thức
+  suspended  // Đang bảo lưu kết quả học tập hoặc bị đình chỉ tạm thời
+  dropped    // Đã thôi học hoặc bỏ học giữa chừng
+  expelled   // Bị buộc thôi học (do kỷ luật hoặc lý do đặc biệt)
+
+  // --- GIAI ĐOẠN KẾT THÚC (GRADUATION) ---
+  graduated  // Đã hoàn thành chương trình và tốt nghiệp
 }
 
 enum PaymentMethod {

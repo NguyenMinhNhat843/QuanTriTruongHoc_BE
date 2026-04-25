@@ -20,10 +20,15 @@ export type RoleType = (typeof RoleType)[keyof typeof RoleType]
 
 
 export const StudentStatus = {
+  pending: 'pending',
+  reviewing: 'reviewing',
+  approved: 'approved',
+  rejected: 'rejected',
   studying: 'studying',
   suspended: 'suspended',
-  graduated: 'graduated',
-  dropped: 'dropped'
+  dropped: 'dropped',
+  expelled: 'expelled',
+  graduated: 'graduated'
 } as const
 
 export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]

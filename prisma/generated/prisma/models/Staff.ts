@@ -44,12 +44,19 @@ export type StaffMinAggregateOutputType = {
   id: number | null
   staffCode: string | null
   userId: number | null
+  email: string | null
+  fullName: string | null
+  gender: boolean | null
+  dob: Date | null
+  phone: string | null
+  avatarUrl: string | null
+  address: string | null
+  identityNumber: string | null
   departmentId: number | null
   position: string | null
   hireDate: Date | null
   contractType: string | null
   salaryCoefficient: number | null
-  identityNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,12 +65,19 @@ export type StaffMaxAggregateOutputType = {
   id: number | null
   staffCode: string | null
   userId: number | null
+  email: string | null
+  fullName: string | null
+  gender: boolean | null
+  dob: Date | null
+  phone: string | null
+  avatarUrl: string | null
+  address: string | null
+  identityNumber: string | null
   departmentId: number | null
   position: string | null
   hireDate: Date | null
   contractType: string | null
   salaryCoefficient: number | null
-  identityNumber: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,12 +86,19 @@ export type StaffCountAggregateOutputType = {
   id: number
   staffCode: number
   userId: number
+  email: number
+  fullName: number
+  gender: number
+  dob: number
+  phone: number
+  avatarUrl: number
+  address: number
+  identityNumber: number
   departmentId: number
   position: number
   hireDate: number
   contractType: number
   salaryCoefficient: number
-  identityNumber: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -102,12 +123,19 @@ export type StaffMinAggregateInputType = {
   id?: true
   staffCode?: true
   userId?: true
+  email?: true
+  fullName?: true
+  gender?: true
+  dob?: true
+  phone?: true
+  avatarUrl?: true
+  address?: true
+  identityNumber?: true
   departmentId?: true
   position?: true
   hireDate?: true
   contractType?: true
   salaryCoefficient?: true
-  identityNumber?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -116,12 +144,19 @@ export type StaffMaxAggregateInputType = {
   id?: true
   staffCode?: true
   userId?: true
+  email?: true
+  fullName?: true
+  gender?: true
+  dob?: true
+  phone?: true
+  avatarUrl?: true
+  address?: true
+  identityNumber?: true
   departmentId?: true
   position?: true
   hireDate?: true
   contractType?: true
   salaryCoefficient?: true
-  identityNumber?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -130,12 +165,19 @@ export type StaffCountAggregateInputType = {
   id?: true
   staffCode?: true
   userId?: true
+  email?: true
+  fullName?: true
+  gender?: true
+  dob?: true
+  phone?: true
+  avatarUrl?: true
+  address?: true
+  identityNumber?: true
   departmentId?: true
   position?: true
   hireDate?: true
   contractType?: true
   salaryCoefficient?: true
-  identityNumber?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -231,12 +273,19 @@ export type StaffGroupByOutputType = {
   id: number
   staffCode: string
   userId: number
+  email: string | null
+  fullName: string | null
+  gender: boolean | null
+  dob: Date | null
+  phone: string | null
+  avatarUrl: string | null
+  address: string | null
+  identityNumber: string | null
   departmentId: number | null
   position: string | null
   hireDate: Date | null
   contractType: string | null
   salaryCoefficient: number | null
-  identityNumber: string | null
   createdAt: Date
   updatedAt: Date
   _count: StaffCountAggregateOutputType | null
@@ -268,12 +317,19 @@ export type StaffWhereInput = {
   id?: Prisma.IntFilter<"Staff"> | number
   staffCode?: Prisma.StringFilter<"Staff"> | string
   userId?: Prisma.IntFilter<"Staff"> | number
+  email?: Prisma.StringNullableFilter<"Staff"> | string | null
+  fullName?: Prisma.StringNullableFilter<"Staff"> | string | null
+  gender?: Prisma.BoolNullableFilter<"Staff"> | boolean | null
+  dob?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
+  phone?: Prisma.StringNullableFilter<"Staff"> | string | null
+  avatarUrl?: Prisma.StringNullableFilter<"Staff"> | string | null
+  address?: Prisma.StringNullableFilter<"Staff"> | string | null
+  identityNumber?: Prisma.StringNullableFilter<"Staff"> | string | null
   departmentId?: Prisma.IntNullableFilter<"Staff"> | number | null
   position?: Prisma.StringNullableFilter<"Staff"> | string | null
   hireDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   contractType?: Prisma.StringNullableFilter<"Staff"> | string | null
   salaryCoefficient?: Prisma.FloatNullableFilter<"Staff"> | number | null
-  identityNumber?: Prisma.StringNullableFilter<"Staff"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Staff"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Staff"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -284,12 +340,19 @@ export type StaffOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   staffCode?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullName?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
+  dob?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  identityNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   position?: Prisma.SortOrderInput | Prisma.SortOrder
   hireDate?: Prisma.SortOrderInput | Prisma.SortOrder
   contractType?: Prisma.SortOrderInput | Prisma.SortOrder
   salaryCoefficient?: Prisma.SortOrderInput | Prisma.SortOrder
-  identityNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -300,31 +363,45 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   staffCode?: string
   userId?: number
+  email?: string
+  identityNumber?: string
   AND?: Prisma.StaffWhereInput | Prisma.StaffWhereInput[]
   OR?: Prisma.StaffWhereInput[]
   NOT?: Prisma.StaffWhereInput | Prisma.StaffWhereInput[]
+  fullName?: Prisma.StringNullableFilter<"Staff"> | string | null
+  gender?: Prisma.BoolNullableFilter<"Staff"> | boolean | null
+  dob?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
+  phone?: Prisma.StringNullableFilter<"Staff"> | string | null
+  avatarUrl?: Prisma.StringNullableFilter<"Staff"> | string | null
+  address?: Prisma.StringNullableFilter<"Staff"> | string | null
   departmentId?: Prisma.IntNullableFilter<"Staff"> | number | null
   position?: Prisma.StringNullableFilter<"Staff"> | string | null
   hireDate?: Prisma.DateTimeNullableFilter<"Staff"> | Date | string | null
   contractType?: Prisma.StringNullableFilter<"Staff"> | string | null
   salaryCoefficient?: Prisma.FloatNullableFilter<"Staff"> | number | null
-  identityNumber?: Prisma.StringNullableFilter<"Staff"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Staff"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Staff"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   courseOffers?: Prisma.CourseOfferListRelationFilter
-}, "id" | "staffCode" | "userId">
+}, "id" | "staffCode" | "userId" | "email" | "identityNumber">
 
 export type StaffOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   staffCode?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  fullName?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
+  dob?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  identityNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   position?: Prisma.SortOrderInput | Prisma.SortOrder
   hireDate?: Prisma.SortOrderInput | Prisma.SortOrder
   contractType?: Prisma.SortOrderInput | Prisma.SortOrder
   salaryCoefficient?: Prisma.SortOrderInput | Prisma.SortOrder
-  identityNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.StaffCountOrderByAggregateInput
@@ -341,24 +418,38 @@ export type StaffScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Staff"> | number
   staffCode?: Prisma.StringWithAggregatesFilter<"Staff"> | string
   userId?: Prisma.IntWithAggregatesFilter<"Staff"> | number
+  email?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
+  fullName?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
+  gender?: Prisma.BoolNullableWithAggregatesFilter<"Staff"> | boolean | null
+  dob?: Prisma.DateTimeNullableWithAggregatesFilter<"Staff"> | Date | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
+  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
+  address?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
+  identityNumber?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   departmentId?: Prisma.IntNullableWithAggregatesFilter<"Staff"> | number | null
   position?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   hireDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Staff"> | Date | string | null
   contractType?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   salaryCoefficient?: Prisma.FloatNullableWithAggregatesFilter<"Staff"> | number | null
-  identityNumber?: Prisma.StringNullableWithAggregatesFilter<"Staff"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Staff"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Staff"> | Date | string
 }
 
 export type StaffCreateInput = {
   staffCode: string
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
   departmentId?: number | null
   position?: string | null
   hireDate?: Date | string | null
   contractType?: string | null
   salaryCoefficient?: number | null
-  identityNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStaffInput
@@ -369,12 +460,19 @@ export type StaffUncheckedCreateInput = {
   id?: number
   staffCode: string
   userId: number
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
   departmentId?: number | null
   position?: string | null
   hireDate?: Date | string | null
   contractType?: string | null
   salaryCoefficient?: number | null
-  identityNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutTeacherInput
@@ -382,12 +480,19 @@ export type StaffUncheckedCreateInput = {
 
 export type StaffUpdateInput = {
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStaffNestedInput
@@ -398,12 +503,19 @@ export type StaffUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutTeacherNestedInput
@@ -413,24 +525,38 @@ export type StaffCreateManyInput = {
   id?: number
   staffCode: string
   userId: number
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
   departmentId?: number | null
   position?: string | null
   hireDate?: Date | string | null
   contractType?: string | null
   salaryCoefficient?: number | null
-  identityNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type StaffUpdateManyMutationInput = {
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -439,12 +565,19 @@ export type StaffUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -458,12 +591,19 @@ export type StaffCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffCode?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  dob?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  identityNumber?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
   position?: Prisma.SortOrder
   hireDate?: Prisma.SortOrder
   contractType?: Prisma.SortOrder
   salaryCoefficient?: Prisma.SortOrder
-  identityNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -479,12 +619,19 @@ export type StaffMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffCode?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  dob?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  identityNumber?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
   position?: Prisma.SortOrder
   hireDate?: Prisma.SortOrder
   contractType?: Prisma.SortOrder
   salaryCoefficient?: Prisma.SortOrder
-  identityNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -493,12 +640,19 @@ export type StaffMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffCode?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
+  dob?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  identityNumber?: Prisma.SortOrder
   departmentId?: Prisma.SortOrder
   position?: Prisma.SortOrder
   hireDate?: Prisma.SortOrder
   contractType?: Prisma.SortOrder
   salaryCoefficient?: Prisma.SortOrder
-  identityNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -568,12 +722,19 @@ export type StaffUpdateOneWithoutCourseOffersNestedInput = {
 
 export type StaffCreateWithoutUserInput = {
   staffCode: string
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
   departmentId?: number | null
   position?: string | null
   hireDate?: Date | string | null
   contractType?: string | null
   salaryCoefficient?: number | null
-  identityNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutTeacherInput
@@ -582,12 +743,19 @@ export type StaffCreateWithoutUserInput = {
 export type StaffUncheckedCreateWithoutUserInput = {
   id?: number
   staffCode: string
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
   departmentId?: number | null
   position?: string | null
   hireDate?: Date | string | null
   contractType?: string | null
   salaryCoefficient?: number | null
-  identityNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutTeacherInput
@@ -611,12 +779,19 @@ export type StaffUpdateToOneWithWhereWithoutUserInput = {
 
 export type StaffUpdateWithoutUserInput = {
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutTeacherNestedInput
@@ -625,12 +800,19 @@ export type StaffUpdateWithoutUserInput = {
 export type StaffUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutTeacherNestedInput
@@ -638,12 +820,19 @@ export type StaffUncheckedUpdateWithoutUserInput = {
 
 export type StaffCreateWithoutCourseOffersInput = {
   staffCode: string
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
   departmentId?: number | null
   position?: string | null
   hireDate?: Date | string | null
   contractType?: string | null
   salaryCoefficient?: number | null
-  identityNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStaffInput
@@ -653,12 +842,19 @@ export type StaffUncheckedCreateWithoutCourseOffersInput = {
   id?: number
   staffCode: string
   userId: number
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
   departmentId?: number | null
   position?: string | null
   hireDate?: Date | string | null
   contractType?: string | null
   salaryCoefficient?: number | null
-  identityNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -681,12 +877,19 @@ export type StaffUpdateToOneWithWhereWithoutCourseOffersInput = {
 
 export type StaffUpdateWithoutCourseOffersInput = {
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStaffNestedInput
@@ -696,12 +899,19 @@ export type StaffUncheckedUpdateWithoutCourseOffersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffCode?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -741,12 +951,19 @@ export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   staffCode?: boolean
   userId?: boolean
+  email?: boolean
+  fullName?: boolean
+  gender?: boolean
+  dob?: boolean
+  phone?: boolean
+  avatarUrl?: boolean
+  address?: boolean
+  identityNumber?: boolean
   departmentId?: boolean
   position?: boolean
   hireDate?: boolean
   contractType?: boolean
   salaryCoefficient?: boolean
-  identityNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -758,12 +975,19 @@ export type StaffSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   staffCode?: boolean
   userId?: boolean
+  email?: boolean
+  fullName?: boolean
+  gender?: boolean
+  dob?: boolean
+  phone?: boolean
+  avatarUrl?: boolean
+  address?: boolean
+  identityNumber?: boolean
   departmentId?: boolean
   position?: boolean
   hireDate?: boolean
   contractType?: boolean
   salaryCoefficient?: boolean
-  identityNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -773,12 +997,19 @@ export type StaffSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   staffCode?: boolean
   userId?: boolean
+  email?: boolean
+  fullName?: boolean
+  gender?: boolean
+  dob?: boolean
+  phone?: boolean
+  avatarUrl?: boolean
+  address?: boolean
+  identityNumber?: boolean
   departmentId?: boolean
   position?: boolean
   hireDate?: boolean
   contractType?: boolean
   salaryCoefficient?: boolean
-  identityNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -788,17 +1019,24 @@ export type StaffSelectScalar = {
   id?: boolean
   staffCode?: boolean
   userId?: boolean
+  email?: boolean
+  fullName?: boolean
+  gender?: boolean
+  dob?: boolean
+  phone?: boolean
+  avatarUrl?: boolean
+  address?: boolean
+  identityNumber?: boolean
   departmentId?: boolean
   position?: boolean
   hireDate?: boolean
   contractType?: boolean
   salaryCoefficient?: boolean
-  identityNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffCode" | "userId" | "departmentId" | "position" | "hireDate" | "contractType" | "salaryCoefficient" | "identityNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
+export type StaffOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffCode" | "userId" | "email" | "fullName" | "gender" | "dob" | "phone" | "avatarUrl" | "address" | "identityNumber" | "departmentId" | "position" | "hireDate" | "contractType" | "salaryCoefficient" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
 export type StaffInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Staff$courseOffersArgs<ExtArgs>
@@ -821,12 +1059,19 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: number
     staffCode: string
     userId: number
+    email: string | null
+    fullName: string | null
+    gender: boolean | null
+    dob: Date | null
+    phone: string | null
+    avatarUrl: string | null
+    address: string | null
+    identityNumber: string | null
     departmentId: number | null
     position: string | null
     hireDate: Date | null
     contractType: string | null
     salaryCoefficient: number | null
-    identityNumber: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["staff"]>
@@ -1257,12 +1502,19 @@ export interface StaffFieldRefs {
   readonly id: Prisma.FieldRef<"Staff", 'Int'>
   readonly staffCode: Prisma.FieldRef<"Staff", 'String'>
   readonly userId: Prisma.FieldRef<"Staff", 'Int'>
+  readonly email: Prisma.FieldRef<"Staff", 'String'>
+  readonly fullName: Prisma.FieldRef<"Staff", 'String'>
+  readonly gender: Prisma.FieldRef<"Staff", 'Boolean'>
+  readonly dob: Prisma.FieldRef<"Staff", 'DateTime'>
+  readonly phone: Prisma.FieldRef<"Staff", 'String'>
+  readonly avatarUrl: Prisma.FieldRef<"Staff", 'String'>
+  readonly address: Prisma.FieldRef<"Staff", 'String'>
+  readonly identityNumber: Prisma.FieldRef<"Staff", 'String'>
   readonly departmentId: Prisma.FieldRef<"Staff", 'Int'>
   readonly position: Prisma.FieldRef<"Staff", 'String'>
   readonly hireDate: Prisma.FieldRef<"Staff", 'DateTime'>
   readonly contractType: Prisma.FieldRef<"Staff", 'String'>
   readonly salaryCoefficient: Prisma.FieldRef<"Staff", 'Float'>
-  readonly identityNumber: Prisma.FieldRef<"Staff", 'String'>
   readonly createdAt: Prisma.FieldRef<"Staff", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Staff", 'DateTime'>
 }
