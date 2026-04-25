@@ -12,6 +12,7 @@ import { SubjectModule } from "./subject/subject.module.js";
 import { SemesterModule } from "./semester/semester.module.js";
 import { RoomModule } from "./room/room.module.js";
 import { CurriculumModule } from "./curriculumn/curriculum.module.js";
+import { CurriculumSubjectModule } from "./curriculumSubject/curriculumnSubject.module.js";
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CurriculumModule } from "./curriculumn/curriculum.module.js";
     SemesterModule,
     RoomModule,
     CurriculumModule,
+    CurriculumSubjectModule,
   ],
 })
 export class AppModule {}

@@ -45,7 +45,7 @@ model CourseOffer {
 
   // Quan hệ 1-n
   registrations     CourseRegistration[]
-  gradeEntries      GradeEntry[] // Kết nối với hệ thống điểm đã thảo luận trước đó
+  gradeEntries      GradeEntry[] 
   courseSchedules   CourseSchedule[]
   feeInvoiceItems   FeeInvoiceItem[]
   grades            Grade[]
