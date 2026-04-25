@@ -8,6 +8,7 @@ import { AuthModule } from "./auth/auth.module.js";
 import { DepartmentModule } from "./department/department.module.js";
 import { MajorModule } from "./major/major.module.js";
 import { ClassModule } from "./class/class.module.js";
+import { SubjectModule } from "./subject/subject.module.js";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ClassModule } from "./class/class.module.js";
     DepartmentModule,
     MajorModule,
     ClassModule,
+    SubjectModule,
   ],
 })
 export class AppModule {}
