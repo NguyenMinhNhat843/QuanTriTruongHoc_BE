@@ -32,19 +32,19 @@ export class FeeController {
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết một loại phí theo ID" })
-  findOne(@Param("id") id: string) {
+  findOne(@Param("id") id: number) {
     return this.feeService.findOne(id);
   }
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật thông tin loại phí" })
-  update(@Param("id") id: string, @Body() updateFeeDto: UpdateFeeDto) {
+  update(@Param("id") id: number, @Body() updateFeeDto: UpdateFeeDto) {
     return this.feeService.update(id, updateFeeDto);
   }
 
   @Delete(":id")
   @ApiOperation({ summary: "Xóa một loại phí" })
-  remove(@Param("id") id: string) {
+  remove(@Param("id") id: number) {
     return this.feeService.remove(id);
   }
 }

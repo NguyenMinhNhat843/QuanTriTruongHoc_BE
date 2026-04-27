@@ -17,6 +17,7 @@ import { BatchModule } from "./batch/batch.module.js";
 import { AdmissionModule } from "./admission/admission.module.js";
 import { TuitionFeeModule } from "./tuitionFee/tuitionFee.module.js";
 import { FeeModule } from "./Fee/fee.module.js";
+import { FeeCatalogModule } from "./FeeCatalog/feeCatalog.module.js";
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { FeeModule } from "./Fee/fee.module.js";
     AdmissionModule,
     TuitionFeeModule,
     FeeModule,
+    FeeCatalogModule,
   ],
 })
 export class AppModule {}

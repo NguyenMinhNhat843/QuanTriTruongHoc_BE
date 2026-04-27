@@ -20,18 +20,28 @@ export type FeeModel = runtime.Types.Result.DefaultSelection<Prisma.$FeePayload>
 
 export type AggregateFee = {
   _count: FeeCountAggregateOutputType | null
+  _avg: FeeAvgAggregateOutputType | null
+  _sum: FeeSumAggregateOutputType | null
   _min: FeeMinAggregateOutputType | null
   _max: FeeMaxAggregateOutputType | null
 }
 
+export type FeeAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type FeeSumAggregateOutputType = {
+  id: number | null
+}
+
 export type FeeMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   createdAt: Date | null
 }
 
 export type FeeMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   createdAt: Date | null
 }
@@ -43,6 +53,14 @@ export type FeeCountAggregateOutputType = {
   _all: number
 }
 
+
+export type FeeAvgAggregateInputType = {
+  id?: true
+}
+
+export type FeeSumAggregateInputType = {
+  id?: true
+}
 
 export type FeeMinAggregateInputType = {
   id?: true
@@ -101,6 +119,18 @@ export type FeeAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: FeeAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: FeeSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: FeeMinAggregateInputType
@@ -131,15 +161,19 @@ export type FeeGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   _count?: FeeCountAggregateInputType | true
+  _avg?: FeeAvgAggregateInputType
+  _sum?: FeeSumAggregateInputType
   _min?: FeeMinAggregateInputType
   _max?: FeeMaxAggregateInputType
 }
 
 export type FeeGroupByOutputType = {
-  id: string
+  id: number
   name: string
   createdAt: Date
   _count: FeeCountAggregateOutputType | null
+  _avg: FeeAvgAggregateOutputType | null
+  _sum: FeeSumAggregateOutputType | null
   _min: FeeMinAggregateOutputType | null
   _max: FeeMaxAggregateOutputType | null
 }
@@ -163,7 +197,7 @@ export type FeeWhereInput = {
   AND?: Prisma.FeeWhereInput | Prisma.FeeWhereInput[]
   OR?: Prisma.FeeWhereInput[]
   NOT?: Prisma.FeeWhereInput | Prisma.FeeWhereInput[]
-  id?: Prisma.StringFilter<"Fee"> | string
+  id?: Prisma.IntFilter<"Fee"> | number
   name?: Prisma.StringFilter<"Fee"> | string
   createdAt?: Prisma.DateTimeFilter<"Fee"> | Date | string
   feeCatalogs?: Prisma.FeeCatalogListRelationFilter
@@ -177,7 +211,7 @@ export type FeeOrderByWithRelationInput = {
 }
 
 export type FeeWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.FeeWhereInput | Prisma.FeeWhereInput[]
   OR?: Prisma.FeeWhereInput[]
   NOT?: Prisma.FeeWhereInput | Prisma.FeeWhereInput[]
@@ -191,61 +225,60 @@ export type FeeOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.FeeCountOrderByAggregateInput
+  _avg?: Prisma.FeeAvgOrderByAggregateInput
   _max?: Prisma.FeeMaxOrderByAggregateInput
   _min?: Prisma.FeeMinOrderByAggregateInput
+  _sum?: Prisma.FeeSumOrderByAggregateInput
 }
 
 export type FeeScalarWhereWithAggregatesInput = {
   AND?: Prisma.FeeScalarWhereWithAggregatesInput | Prisma.FeeScalarWhereWithAggregatesInput[]
   OR?: Prisma.FeeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FeeScalarWhereWithAggregatesInput | Prisma.FeeScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Fee"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Fee"> | number
   name?: Prisma.StringWithAggregatesFilter<"Fee"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Fee"> | Date | string
 }
 
 export type FeeCreateInput = {
-  id?: string
   name: string
   createdAt?: Date | string
   feeCatalogs?: Prisma.FeeCatalogCreateNestedManyWithoutFeeInput
 }
 
 export type FeeUncheckedCreateInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
   feeCatalogs?: Prisma.FeeCatalogUncheckedCreateNestedManyWithoutFeeInput
 }
 
 export type FeeUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   feeCatalogs?: Prisma.FeeCatalogUpdateManyWithoutFeeNestedInput
 }
 
 export type FeeUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   feeCatalogs?: Prisma.FeeCatalogUncheckedUpdateManyWithoutFeeNestedInput
 }
 
 export type FeeCreateManyInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
 }
 
 export type FeeUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FeeUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -254,6 +287,10 @@ export type FeeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type FeeAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type FeeMaxOrderByAggregateInput = {
@@ -266,6 +303,10 @@ export type FeeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type FeeSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type FeeScalarRelationFilter = {
@@ -288,13 +329,12 @@ export type FeeUpdateOneRequiredWithoutFeeCatalogsNestedInput = {
 }
 
 export type FeeCreateWithoutFeeCatalogsInput = {
-  id?: string
   name: string
   createdAt?: Date | string
 }
 
 export type FeeUncheckedCreateWithoutFeeCatalogsInput = {
-  id?: string
+  id?: number
   name: string
   createdAt?: Date | string
 }
@@ -316,13 +356,12 @@ export type FeeUpdateToOneWithWhereWithoutFeeCatalogsInput = {
 }
 
 export type FeeUpdateWithoutFeeCatalogsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type FeeUncheckedUpdateWithoutFeeCatalogsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -398,7 +437,7 @@ export type $FeePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     feeCatalogs: Prisma.$FeeCatalogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     name: string
     createdAt: Date
   }, ExtArgs["result"]["fee"]>
@@ -825,7 +864,7 @@ export interface Prisma__FeeClient<T, Null = never, ExtArgs extends runtime.Type
  * Fields of the Fee model
  */
 export interface FeeFieldRefs {
-  readonly id: Prisma.FieldRef<"Fee", 'String'>
+  readonly id: Prisma.FieldRef<"Fee", 'Int'>
   readonly name: Prisma.FieldRef<"Fee", 'String'>
   readonly createdAt: Prisma.FieldRef<"Fee", 'DateTime'>
 }

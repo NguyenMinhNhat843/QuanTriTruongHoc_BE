@@ -27,20 +27,28 @@ export type AggregateFeeCatalog = {
 }
 
 export type FeeCatalogAvgAggregateOutputType = {
+  id: number | null
+  feeId: number | null
+  majorId: number | null
+  batchId: number | null
   semester: number | null
   amount: number | null
 }
 
 export type FeeCatalogSumAggregateOutputType = {
+  id: number | null
+  feeId: number | null
+  majorId: number | null
+  batchId: number | null
   semester: number | null
   amount: number | null
 }
 
 export type FeeCatalogMinAggregateOutputType = {
-  id: string | null
-  feeId: string | null
-  majorId: string | null
-  batchId: string | null
+  id: number | null
+  feeId: number | null
+  majorId: number | null
+  batchId: number | null
   semester: number | null
   isGlobal: boolean | null
   amount: number | null
@@ -48,10 +56,10 @@ export type FeeCatalogMinAggregateOutputType = {
 }
 
 export type FeeCatalogMaxAggregateOutputType = {
-  id: string | null
-  feeId: string | null
-  majorId: string | null
-  batchId: string | null
+  id: number | null
+  feeId: number | null
+  majorId: number | null
+  batchId: number | null
   semester: number | null
   isGlobal: boolean | null
   amount: number | null
@@ -72,11 +80,19 @@ export type FeeCatalogCountAggregateOutputType = {
 
 
 export type FeeCatalogAvgAggregateInputType = {
+  id?: true
+  feeId?: true
+  majorId?: true
+  batchId?: true
   semester?: true
   amount?: true
 }
 
 export type FeeCatalogSumAggregateInputType = {
+  id?: true
+  feeId?: true
+  majorId?: true
+  batchId?: true
   semester?: true
   amount?: true
 }
@@ -202,10 +218,10 @@ export type FeeCatalogGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 export type FeeCatalogGroupByOutputType = {
-  id: string
-  feeId: string
-  majorId: string | null
-  batchId: string | null
+  id: number
+  feeId: number
+  majorId: number | null
+  batchId: number | null
   semester: number | null
   isGlobal: boolean
   amount: number
@@ -236,10 +252,10 @@ export type FeeCatalogWhereInput = {
   AND?: Prisma.FeeCatalogWhereInput | Prisma.FeeCatalogWhereInput[]
   OR?: Prisma.FeeCatalogWhereInput[]
   NOT?: Prisma.FeeCatalogWhereInput | Prisma.FeeCatalogWhereInput[]
-  id?: Prisma.StringFilter<"FeeCatalog"> | string
-  feeId?: Prisma.StringFilter<"FeeCatalog"> | string
-  majorId?: Prisma.StringNullableFilter<"FeeCatalog"> | string | null
-  batchId?: Prisma.StringNullableFilter<"FeeCatalog"> | string | null
+  id?: Prisma.IntFilter<"FeeCatalog"> | number
+  feeId?: Prisma.IntFilter<"FeeCatalog"> | number
+  majorId?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
+  batchId?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
   semester?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
   isGlobal?: Prisma.BoolFilter<"FeeCatalog"> | boolean
   amount?: Prisma.IntFilter<"FeeCatalog"> | number
@@ -260,13 +276,13 @@ export type FeeCatalogOrderByWithRelationInput = {
 }
 
 export type FeeCatalogWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.FeeCatalogWhereInput | Prisma.FeeCatalogWhereInput[]
   OR?: Prisma.FeeCatalogWhereInput[]
   NOT?: Prisma.FeeCatalogWhereInput | Prisma.FeeCatalogWhereInput[]
-  feeId?: Prisma.StringFilter<"FeeCatalog"> | string
-  majorId?: Prisma.StringNullableFilter<"FeeCatalog"> | string | null
-  batchId?: Prisma.StringNullableFilter<"FeeCatalog"> | string | null
+  feeId?: Prisma.IntFilter<"FeeCatalog"> | number
+  majorId?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
+  batchId?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
   semester?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
   isGlobal?: Prisma.BoolFilter<"FeeCatalog"> | boolean
   amount?: Prisma.IntFilter<"FeeCatalog"> | number
@@ -294,10 +310,10 @@ export type FeeCatalogScalarWhereWithAggregatesInput = {
   AND?: Prisma.FeeCatalogScalarWhereWithAggregatesInput | Prisma.FeeCatalogScalarWhereWithAggregatesInput[]
   OR?: Prisma.FeeCatalogScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FeeCatalogScalarWhereWithAggregatesInput | Prisma.FeeCatalogScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"FeeCatalog"> | string
-  feeId?: Prisma.StringWithAggregatesFilter<"FeeCatalog"> | string
-  majorId?: Prisma.StringNullableWithAggregatesFilter<"FeeCatalog"> | string | null
-  batchId?: Prisma.StringNullableWithAggregatesFilter<"FeeCatalog"> | string | null
+  id?: Prisma.IntWithAggregatesFilter<"FeeCatalog"> | number
+  feeId?: Prisma.IntWithAggregatesFilter<"FeeCatalog"> | number
+  majorId?: Prisma.IntNullableWithAggregatesFilter<"FeeCatalog"> | number | null
+  batchId?: Prisma.IntNullableWithAggregatesFilter<"FeeCatalog"> | number | null
   semester?: Prisma.IntNullableWithAggregatesFilter<"FeeCatalog"> | number | null
   isGlobal?: Prisma.BoolWithAggregatesFilter<"FeeCatalog"> | boolean
   amount?: Prisma.IntWithAggregatesFilter<"FeeCatalog"> | number
@@ -305,9 +321,8 @@ export type FeeCatalogScalarWhereWithAggregatesInput = {
 }
 
 export type FeeCatalogCreateInput = {
-  id?: string
-  majorId?: string | null
-  batchId?: string | null
+  majorId?: number | null
+  batchId?: number | null
   semester?: number | null
   isGlobal?: boolean
   amount: number
@@ -316,10 +331,10 @@ export type FeeCatalogCreateInput = {
 }
 
 export type FeeCatalogUncheckedCreateInput = {
-  id?: string
-  feeId: string
-  majorId?: string | null
-  batchId?: string | null
+  id?: number
+  feeId: number
+  majorId?: number | null
+  batchId?: number | null
   semester?: number | null
   isGlobal?: boolean
   amount: number
@@ -327,9 +342,8 @@ export type FeeCatalogUncheckedCreateInput = {
 }
 
 export type FeeCatalogUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  batchId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semester?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isGlobal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -338,10 +352,10 @@ export type FeeCatalogUpdateInput = {
 }
 
 export type FeeCatalogUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  feeId?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  feeId?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  batchId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semester?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isGlobal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -349,10 +363,10 @@ export type FeeCatalogUncheckedUpdateInput = {
 }
 
 export type FeeCatalogCreateManyInput = {
-  id?: string
-  feeId: string
-  majorId?: string | null
-  batchId?: string | null
+  id?: number
+  feeId: number
+  majorId?: number | null
+  batchId?: number | null
   semester?: number | null
   isGlobal?: boolean
   amount: number
@@ -360,9 +374,8 @@ export type FeeCatalogCreateManyInput = {
 }
 
 export type FeeCatalogUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  batchId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semester?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isGlobal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -370,10 +383,10 @@ export type FeeCatalogUpdateManyMutationInput = {
 }
 
 export type FeeCatalogUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  feeId?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  feeId?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  batchId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semester?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isGlobal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -402,6 +415,10 @@ export type FeeCatalogCountOrderByAggregateInput = {
 }
 
 export type FeeCatalogAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  feeId?: Prisma.SortOrder
+  majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   semester?: Prisma.SortOrder
   amount?: Prisma.SortOrder
 }
@@ -429,6 +446,10 @@ export type FeeCatalogMinOrderByAggregateInput = {
 }
 
 export type FeeCatalogSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  feeId?: Prisma.SortOrder
+  majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   semester?: Prisma.SortOrder
   amount?: Prisma.SortOrder
 }
@@ -476,9 +497,8 @@ export type FeeCatalogUncheckedUpdateManyWithoutFeeNestedInput = {
 }
 
 export type FeeCatalogCreateWithoutFeeInput = {
-  id?: string
-  majorId?: string | null
-  batchId?: string | null
+  majorId?: number | null
+  batchId?: number | null
   semester?: number | null
   isGlobal?: boolean
   amount: number
@@ -486,9 +506,9 @@ export type FeeCatalogCreateWithoutFeeInput = {
 }
 
 export type FeeCatalogUncheckedCreateWithoutFeeInput = {
-  id?: string
-  majorId?: string | null
-  batchId?: string | null
+  id?: number
+  majorId?: number | null
+  batchId?: number | null
   semester?: number | null
   isGlobal?: boolean
   amount: number
@@ -525,10 +545,10 @@ export type FeeCatalogScalarWhereInput = {
   AND?: Prisma.FeeCatalogScalarWhereInput | Prisma.FeeCatalogScalarWhereInput[]
   OR?: Prisma.FeeCatalogScalarWhereInput[]
   NOT?: Prisma.FeeCatalogScalarWhereInput | Prisma.FeeCatalogScalarWhereInput[]
-  id?: Prisma.StringFilter<"FeeCatalog"> | string
-  feeId?: Prisma.StringFilter<"FeeCatalog"> | string
-  majorId?: Prisma.StringNullableFilter<"FeeCatalog"> | string | null
-  batchId?: Prisma.StringNullableFilter<"FeeCatalog"> | string | null
+  id?: Prisma.IntFilter<"FeeCatalog"> | number
+  feeId?: Prisma.IntFilter<"FeeCatalog"> | number
+  majorId?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
+  batchId?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
   semester?: Prisma.IntNullableFilter<"FeeCatalog"> | number | null
   isGlobal?: Prisma.BoolFilter<"FeeCatalog"> | boolean
   amount?: Prisma.IntFilter<"FeeCatalog"> | number
@@ -536,9 +556,9 @@ export type FeeCatalogScalarWhereInput = {
 }
 
 export type FeeCatalogCreateManyFeeInput = {
-  id?: string
-  majorId?: string | null
-  batchId?: string | null
+  id?: number
+  majorId?: number | null
+  batchId?: number | null
   semester?: number | null
   isGlobal?: boolean
   amount: number
@@ -546,9 +566,8 @@ export type FeeCatalogCreateManyFeeInput = {
 }
 
 export type FeeCatalogUpdateWithoutFeeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  batchId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semester?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isGlobal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -556,9 +575,9 @@ export type FeeCatalogUpdateWithoutFeeInput = {
 }
 
 export type FeeCatalogUncheckedUpdateWithoutFeeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  batchId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semester?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isGlobal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -566,9 +585,9 @@ export type FeeCatalogUncheckedUpdateWithoutFeeInput = {
 }
 
 export type FeeCatalogUncheckedUpdateManyWithoutFeeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  batchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  majorId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  batchId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semester?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isGlobal?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amount?: Prisma.IntFieldUpdateOperationsInput | number
@@ -641,10 +660,10 @@ export type $FeeCatalogPayload<ExtArgs extends runtime.Types.Extensions.Internal
     fee: Prisma.$FeePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    feeId: string
-    majorId: string | null
-    batchId: string | null
+    id: number
+    feeId: number
+    majorId: number | null
+    batchId: number | null
     semester: number | null
     isGlobal: boolean
     amount: number
@@ -1073,10 +1092,10 @@ export interface Prisma__FeeCatalogClient<T, Null = never, ExtArgs extends runti
  * Fields of the FeeCatalog model
  */
 export interface FeeCatalogFieldRefs {
-  readonly id: Prisma.FieldRef<"FeeCatalog", 'String'>
-  readonly feeId: Prisma.FieldRef<"FeeCatalog", 'String'>
-  readonly majorId: Prisma.FieldRef<"FeeCatalog", 'String'>
-  readonly batchId: Prisma.FieldRef<"FeeCatalog", 'String'>
+  readonly id: Prisma.FieldRef<"FeeCatalog", 'Int'>
+  readonly feeId: Prisma.FieldRef<"FeeCatalog", 'Int'>
+  readonly majorId: Prisma.FieldRef<"FeeCatalog", 'Int'>
+  readonly batchId: Prisma.FieldRef<"FeeCatalog", 'Int'>
   readonly semester: Prisma.FieldRef<"FeeCatalog", 'Int'>
   readonly isGlobal: Prisma.FieldRef<"FeeCatalog", 'Boolean'>
   readonly amount: Prisma.FieldRef<"FeeCatalog", 'Int'>

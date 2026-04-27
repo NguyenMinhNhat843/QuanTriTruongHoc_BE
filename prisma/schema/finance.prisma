@@ -102,7 +102,7 @@ model PaymentAllocation {
 }
 
 model Fee {
-  id        String   @id @default(uuid())
+  id        Int   @id @default(autoincrement())
   name      String   // BHYT, CSV, ...
 
   createdAt DateTime @default(now())
@@ -111,14 +111,14 @@ model Fee {
 }
 
 model FeeCatalog {
-  id        String   @id @default(uuid())
+  id        Int   @id @default(autoincrement())
 
-  feeId     String
+  feeId     Int
   fee       Fee      @relation(fields: [feeId], references: [id])
 
   // phạm vi
-  majorId   String?
-  batchId   String?
+  majorId   Int?
+  batchId   Int?
   semester  Int?
 
   // global hay không

@@ -26,7 +26,7 @@ export class FeeService {
   }
 
   // Lấy chi tiết một danh mục
-  async findOne(id: string) {
+  async findOne(id: number) {
     const fee = await this.prisma.fee.findUnique({
       where: { id },
       include: { feeCatalogs: true },
@@ -36,7 +36,7 @@ export class FeeService {
   }
 
   // Cập nhật danh mục
-  async update(id: string, updateFeeDto: UpdateFeeDto) {
+  async update(id: number, updateFeeDto: UpdateFeeDto) {
     try {
       return await this.prisma.fee.update({
         where: { id },
@@ -49,7 +49,7 @@ export class FeeService {
   }
 
   // Xóa danh mục
-  async remove(id: string) {
+  async remove(id: number) {
     try {
       return await this.prisma.fee.delete({
         where: { id },
