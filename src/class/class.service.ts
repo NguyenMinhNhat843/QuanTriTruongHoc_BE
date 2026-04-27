@@ -12,6 +12,9 @@ import { CreateClassDto, UpdateClassDto } from "./class.dto";
 export class ClassService {
   constructor(private prisma: PrismaService) {}
 
+  // Phân lớp cho học sinh
+  async assignStudentsToClass(classId: number, studentIds: number[]) {}
+
   async create(data: CreateClassDto): Promise<ClassResponseDto> {
     const { classCode, majorId, formTeacherId } = data;
 

@@ -13,6 +13,7 @@ import { SemesterModule } from "./semester/semester.module.js";
 import { RoomModule } from "./room/room.module.js";
 import { CurriculumModule } from "./curriculumn/curriculum.module.js";
 import { CurriculumSubjectModule } from "./curriculumSubject/curriculumnSubject.module.js";
+import { BatchModule } from "./batch/batch.module.js";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CurriculumSubjectModule } from "./curriculumSubject/curriculumnSubject.
     AuthModule,
     DepartmentModule,
     MajorModule,
+    BatchModule,
     ClassModule,
     SubjectModule,
     SemesterModule,

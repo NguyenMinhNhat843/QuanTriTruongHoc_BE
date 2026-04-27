@@ -65,6 +65,21 @@ export class CreateStudentDto {
   @IsOptional()
   parentPhone?: string;
 
+  // --- THÔNG TIN ĐÀO TẠO (BỔ SUNG QUAN TRỌNG) ---
+
+  @ApiProperty({ example: 1, description: "ID của Ngành học" })
+  @IsInt()
+  @IsNotEmpty()
+  majorId: number;
+
+  @ApiPropertyOptional({
+    example: 1,
+    description: "ID của Khóa đào tạo (K1, K2...)",
+  })
+  @IsInt()
+  @IsOptional()
+  batchId?: number;
+
   @ApiPropertyOptional({
     enum: StudentStatus,
     default: StudentStatus.pending,

@@ -43,37 +43,67 @@ model Major {
   // Quan hệ
   classes         Class[]
   curriculumn     Curriculum[]
+  students        Student[]
 
   @@map("majors")
+}
+
+// ==========================
+// 2.5 BATCHES (KHÓA ĐÀO TẠO)
+// ==========================
+model Batch {
+  id          Int      @id @default(autoincrement())
+  batchCode   String   @unique // Ví dụ: K1, K26, 2026
+  batchName   String   // Ví dụ: Khóa 1, Khóa 2026
+  
+  startYear   Int      // Năm bắt đầu (2026)
+  endYear     Int      // Năm kết thúc dự kiến (2030)
+
+  description String?
+  
+  // Trạng thái khóa học: ADMISSION (đang tuyển), ACTIVE (đang học), GRADUATED (đã tốt nghiệp)
+  status      String   @default("ACTIVE")
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Quan hệ: Một khóa có nhiều lớp
+  classes     Class[]
+  // Quan hệ: Một khóa có nhiều học sinh
+  students    Student[]
+
+  @@map("batches")
 }
 
 // ==========================
 // 3. CLASSES (LỚP HỌC)
 // ==========================
 model Class {
-  id            Int       @id @default(autoincrement())
-  classCode     String    @unique // CNTT17A
+  id            Int      @id @default(autoincrement())
+  classCode     String   @unique // CNTTK1A
   className     String
   
   // Thuộc về 1 ngành
   majorId       Int
-  major         Major     @relation(fields: [majorId], references: [id])
+  major         Major    @relation(fields: [majorId], references: [id])
   
-  courseYear    Int       // Khóa (2022, 2023...)
+  // Liên kết với Khóa đào tạo
+  batchId       Int?
+  batch         Batch?    @relation(fields: [batchId], references: [id])
   
-  // Giáo viên chủ nhiệm (Nối đến bảng Staff)
+  // Giáo viên chủ nhiệm
   formTeacherId Int?
   
-  maxStudents   Int       @default(40)
+  maxStudents   Int      @default(40)
+  currentSize   Int      @default(0) // Nên có trường này để track sĩ số nhanh
   
-  // active, closed
-  status        String    @default("active")
+  status        String   @default("active")
   
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  // quan hệ
   courseOffers  CourseOffer[]
+  students      Student[] // Một lớp có nhiều học sinh
 
   @@map("classes")
 }

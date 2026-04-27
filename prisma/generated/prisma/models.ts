@@ -10,6 +10,7 @@
  */
 export type * from './models/Department'
 export type * from './models/Major'
+export type * from './models/Batch'
 export type * from './models/Class'
 export type * from './models/Subject'
 export type * from './models/Semester'

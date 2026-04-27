@@ -28,6 +28,11 @@ export type Department = Prisma.DepartmentModel
  */
 export type Major = Prisma.MajorModel
 /**
+ * Model Batch
+ * 
+ */
+export type Batch = Prisma.BatchModel
+/**
  * Model Class
  * 
  */

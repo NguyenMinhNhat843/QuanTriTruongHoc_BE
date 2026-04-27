@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Department: 'Department',
   Major: 'Major',
+  Batch: 'Batch',
   Class: 'Class',
   Subject: 'Subject',
   Semester: 'Semester',
@@ -123,14 +124,30 @@ export const MajorScalarFieldEnum = {
 export type MajorScalarFieldEnum = (typeof MajorScalarFieldEnum)[keyof typeof MajorScalarFieldEnum]
 
 
+export const BatchScalarFieldEnum = {
+  id: 'id',
+  batchCode: 'batchCode',
+  batchName: 'batchName',
+  startYear: 'startYear',
+  endYear: 'endYear',
+  description: 'description',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BatchScalarFieldEnum = (typeof BatchScalarFieldEnum)[keyof typeof BatchScalarFieldEnum]
+
+
 export const ClassScalarFieldEnum = {
   id: 'id',
   classCode: 'classCode',
   className: 'className',
   majorId: 'majorId',
-  courseYear: 'courseYear',
+  batchId: 'batchId',
   formTeacherId: 'formTeacherId',
   maxStudents: 'maxStudents',
+  currentSize: 'currentSize',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -238,6 +255,8 @@ export const StudentScalarFieldEnum = {
   avatarUrl: 'avatarUrl',
   address: 'address',
   identityNumber: 'identityNumber',
+  majorId: 'majorId',
+  batchId: 'batchId',
   classId: 'classId',
   enrollmentDate: 'enrollmentDate',
   graduationDate: 'graduationDate',

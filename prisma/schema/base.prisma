@@ -32,6 +32,9 @@ enum StudentStatus {
   approved   // Đã đạt tiêu chuẩn, chờ admin bấm cấp tài khoản (User)
   rejected   // Hồ sơ không đạt yêu cầu hoặc bị từ chối
 
+  // --- GIAI ĐOẠN TRUNG GIAN (Quan trọng cho phân lớp) ---
+  enrolled   // Đã xác nhận nhập học, nộp phí. API phân lớp sẽ quét những người này.
+
   // --- GIAI ĐOẠN HỌC TẬP (ACADEMIC) ---
   studying   // Đã có tài khoản và đang theo học chính thức
   suspended  // Đang bảo lưu kết quả học tập hoặc bị đình chỉ tạm thời

@@ -74,6 +74,10 @@ export class StudentResponseDto implements Student {
   @ApiProperty()
   updatedAt: Date;
 
+  batchId: number | null;
+
+  majorId: number | null;
+
   constructor(student: any) {
     this.id = student.id;
     this.studentCode = student.studentCode;

@@ -44,7 +44,14 @@ model Student {
   address       String?
   identityNumber    String?     @unique // CCCD
 
+  majorId         Int?           // Ngành           
+  major         Major?           @relation(fields: [majorId], references: [id])
+
+  batchId         Int?          // Khóa đào tạo
+  batch         Batch?          @relation(fields: [batchId], references: [id])
+
   classId        Int?           // Lớp
+  classCode     Class?           @relation(fields: [classId], references: [id])
   
   enrollmentDate DateTime?      @db.Date
   graduationDate DateTime?      @db.Date

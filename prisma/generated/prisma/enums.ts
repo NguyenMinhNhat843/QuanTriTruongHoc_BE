@@ -24,6 +24,7 @@ export const StudentStatus = {
   reviewing: 'reviewing',
   approved: 'approved',
   rejected: 'rejected',
+  enrolled: 'enrolled',
   studying: 'studying',
   suspended: 'suspended',
   dropped: 'dropped',
