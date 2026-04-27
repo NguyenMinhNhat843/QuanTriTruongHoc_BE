@@ -45,6 +45,7 @@ model Major {
   curriculumn     Curriculum[]
   students        Student[]
   batches         Batch[]
+  creditPrices    CreditPrice[] 
 
   @@map("majors")
 }
@@ -78,6 +79,7 @@ model Batch {
   classes     Class[]
   students    Student[]
   admissionItems    AdmissionItem[]
+  creditPrices CreditPrice[] 
 
   @@map("batches")
 }

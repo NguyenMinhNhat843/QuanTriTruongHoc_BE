@@ -412,6 +412,7 @@ export const ModelName = {
   PaymentAllocation: 'PaymentAllocation',
   Fee: 'Fee',
   FeeCatalog: 'FeeCatalog',
+  CreditPrice: 'CreditPrice',
   GradeComponent: 'GradeComponent',
   GradeEntry: 'GradeEntry',
   GradeHistory: 'GradeHistory',
@@ -431,7 +432,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "feeType" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "feeType" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2507,6 +2508,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CreditPrice: {
+      payload: Prisma.$CreditPricePayload<ExtArgs>
+      fields: Prisma.CreditPriceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CreditPriceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CreditPriceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>
+        }
+        findFirst: {
+          args: Prisma.CreditPriceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CreditPriceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>
+        }
+        findMany: {
+          args: Prisma.CreditPriceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>[]
+        }
+        create: {
+          args: Prisma.CreditPriceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>
+        }
+        createMany: {
+          args: Prisma.CreditPriceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CreditPriceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>[]
+        }
+        delete: {
+          args: Prisma.CreditPriceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>
+        }
+        update: {
+          args: Prisma.CreditPriceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>
+        }
+        deleteMany: {
+          args: Prisma.CreditPriceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CreditPriceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CreditPriceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>[]
+        }
+        upsert: {
+          args: Prisma.CreditPriceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPricePayload>
+        }
+        aggregate: {
+          args: Prisma.CreditPriceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCreditPrice>
+        }
+        groupBy: {
+          args: Prisma.CreditPriceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CreditPriceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CreditPriceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CreditPriceCountAggregateOutputType> | number
+        }
+      }
+    }
     GradeComponent: {
       payload: Prisma.$GradeComponentPayload<ExtArgs>
       fields: Prisma.GradeComponentFieldRefs
@@ -3245,6 +3320,20 @@ export const FeeCatalogScalarFieldEnum = {
 export type FeeCatalogScalarFieldEnum = (typeof FeeCatalogScalarFieldEnum)[keyof typeof FeeCatalogScalarFieldEnum]
 
 
+export const CreditPriceScalarFieldEnum = {
+  id: 'id',
+  majorId: 'majorId',
+  batchId: 'batchId',
+  semester: 'semester',
+  isGlobal: 'isGlobal',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreditPriceScalarFieldEnum = (typeof CreditPriceScalarFieldEnum)[keyof typeof CreditPriceScalarFieldEnum]
+
+
 export const GradeComponentScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -3551,6 +3640,7 @@ export type GlobalOmitConfig = {
   paymentAllocation?: Prisma.PaymentAllocationOmit
   fee?: Prisma.FeeOmit
   feeCatalog?: Prisma.FeeCatalogOmit
+  creditPrice?: Prisma.CreditPriceOmit
   gradeComponent?: Prisma.GradeComponentOmit
   gradeEntry?: Prisma.GradeEntryOmit
   gradeHistory?: Prisma.GradeHistoryOmit

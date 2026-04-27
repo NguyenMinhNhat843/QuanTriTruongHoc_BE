@@ -180,6 +180,11 @@ export type Fee = Prisma.FeeModel
  */
 export type FeeCatalog = Prisma.FeeCatalogModel
 /**
+ * Model CreditPrice
+ * 
+ */
+export type CreditPrice = Prisma.CreditPriceModel
+/**
  * Model GradeComponent
  * 
  */

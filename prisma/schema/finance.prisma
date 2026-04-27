@@ -128,3 +128,24 @@ model FeeCatalog {
 
   createdAt DateTime @default(now())
 }
+
+model CreditPrice {
+  id        Int   @id @default(autoincrement())
+
+  // phạm vi áp dụng
+  majorId   Int?
+  major     Major?   @relation(fields: [majorId], references: [id])
+
+  batchId   Int?
+  batch     Batch?   @relation(fields: [batchId], references: [id])
+
+  semester  Int?     // optional (nếu sau này có khác theo kỳ)
+
+  isGlobal  Boolean  @default(false)
+
+  // giá tiền / tín chỉ
+  price     Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -79,6 +79,7 @@ export const ModelName = {
   PaymentAllocation: 'PaymentAllocation',
   Fee: 'Fee',
   FeeCatalog: 'FeeCatalog',
+  CreditPrice: 'CreditPrice',
   GradeComponent: 'GradeComponent',
   GradeEntry: 'GradeEntry',
   GradeHistory: 'GradeHistory',
@@ -502,6 +503,20 @@ export const FeeCatalogScalarFieldEnum = {
 } as const
 
 export type FeeCatalogScalarFieldEnum = (typeof FeeCatalogScalarFieldEnum)[keyof typeof FeeCatalogScalarFieldEnum]
+
+
+export const CreditPriceScalarFieldEnum = {
+  id: 'id',
+  majorId: 'majorId',
+  batchId: 'batchId',
+  semester: 'semester',
+  isGlobal: 'isGlobal',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreditPriceScalarFieldEnum = (typeof CreditPriceScalarFieldEnum)[keyof typeof CreditPriceScalarFieldEnum]
 
 
 export const GradeComponentScalarFieldEnum = {
