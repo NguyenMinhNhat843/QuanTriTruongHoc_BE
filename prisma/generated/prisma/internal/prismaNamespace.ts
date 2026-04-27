@@ -2502,6 +2502,7 @@ export const BatchScalarFieldEnum = {
   startYear: 'startYear',
   endYear: 'endYear',
   description: 'description',
+  majorId: 'majorId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

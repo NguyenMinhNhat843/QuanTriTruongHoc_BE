@@ -44,6 +44,7 @@ model Major {
   classes         Class[]
   curriculumn     Curriculum[]
   students        Student[]
+  batches         Batch[]
 
   @@map("majors")
 }
@@ -60,6 +61,9 @@ model Batch {
   endYear     Int      // Năm kết thúc dự kiến (2030)
 
   description String?
+
+  majorId     Int
+  major       Major    @relation(fields: [majorId], references: [id])
   
   // Trạng thái khóa học: ADMISSION (đang tuyển), ACTIVE (đang học), GRADUATED (đã tốt nghiệp)
   status      String   @default("ACTIVE")

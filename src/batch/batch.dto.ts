@@ -38,6 +38,11 @@ export class CreateBatchDto {
   @IsOptional()
   description?: string;
 
+  @ApiProperty({ example: 1, description: "ID ngành học mà khóa này thuộc về" })
+  @IsInt()
+  @IsNotEmpty()
+  majorId: number;
+
   @ApiPropertyOptional({
     example: "ADMISSION",
     description: "Trạng thái: ADMISSION, ACTIVE, GRADUATED",

@@ -15,13 +15,23 @@ import {
   ApiOkResponse,
 } from "@nestjs/swagger";
 import { ClassService } from "./class.service";
-import { CreateClassDto, UpdateClassDto } from "./class.dto";
+import { AssignClassDto, CreateClassDto, UpdateClassDto } from "./class.dto";
 import { ClassResponseDto } from "./class.response";
 
 @ApiTags("Classes")
 @Controller("classes")
 export class ClassController {
   constructor(private readonly classService: ClassService) {}
+
+  @Post("auto-assign")
+  @ApiOperation({ summary: "Tự động phân lớp cho sinh viên mới" })
+  async autoAssign(@Body() dto: AssignClassDto) {
+    return await this.classService.assignStudentsToClass(
+      dto.majorId,
+      dto.batchId,
+      dto.maxStudents,
+    );
+  }
 
   @Post()
   @ApiOperation({ summary: "Tạo mới lớp học" })

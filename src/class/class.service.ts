@@ -3,17 +3,85 @@ import {
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  BadRequestException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { ClassResponseDto } from "./class.response";
 import { CreateClassDto, UpdateClassDto } from "./class.dto";
+import { StudentStatus } from "../../prisma/generated/prisma/enums";
 
 @Injectable()
 export class ClassService {
   constructor(private prisma: PrismaService) {}
 
   // Phân lớp cho học sinh
-  async assignStudentsToClass(classId: number, studentIds: number[]) {}
+  async assignStudentsToClass(
+    majorId: number,
+    batchId: number,
+    maxStudents: number = 40,
+  ) {
+    // 1. Lấy danh sách sinh viên đủ điều kiện
+    const students = await this.prisma.student.findMany({
+      where: {
+        majorId,
+        batchId,
+        classId: null, // Chưa có lớp
+        status: StudentStatus.enrolled,
+      },
+      orderBy: { fullName: "asc" }, // Sắp xếp theo tên cho đẹp danh sách
+    });
+
+    if (students.length === 0) {
+      throw new BadRequestException("Không có sinh viên nào cần phân lớp.");
+    }
+
+    // 2. Lấy thông tin Ngành và Khóa để đặt tên lớp
+    const major = await this.prisma.major.findUnique({
+      where: { id: majorId },
+    });
+    const batch = await this.prisma.batch.findUnique({
+      where: { id: batchId },
+    });
+
+    // 3. Tính toán số lượng lớp cần tạo
+    const numClasses = Math.ceil(students.length / maxStudents);
+    const classLetters = ["A", "B", "C", "D", "E"]; // Hậu tố tên lớp
+
+    for (let i = 0; i < numClasses; i++) {
+      // Tạo tên lớp ví dụ: CNTTK1A
+      const classCode = `${major?.majorCode}${batch?.batchCode}${classLetters[i]}`;
+      const className = `Lớp ${major?.majorName} - ${batch?.batchName} ${classLetters[i]}`;
+
+      // 4. Tạo Lớp mới trong DB
+      const newClass = await this.prisma.class.create({
+        data: {
+          classCode,
+          className,
+          majorId,
+          batchId,
+        },
+      });
+
+      // 5. Cắt danh sách học sinh và gán vào lớp này
+      const studentGroup = students.slice(
+        i * maxStudents,
+        (i + 1) * maxStudents,
+      );
+      const studentIds = studentGroup.map((s) => s.id);
+
+      await this.prisma.student.updateMany({
+        where: { id: { in: studentIds } },
+        data: {
+          classId: newClass.id,
+          status: StudentStatus.studying, // Chuyển trạng thái sang đang học
+        },
+      });
+    }
+
+    return {
+      message: `Đã phân ${students.length} sinh viên vào ${numClasses} lớp.`,
+    };
+  }
 
   async create(data: CreateClassDto): Promise<ClassResponseDto> {
     const { classCode, majorId, formTeacherId } = data;

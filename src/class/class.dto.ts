@@ -6,6 +6,7 @@ import {
   IsInt,
   MaxLength,
   Min,
+  Max,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
@@ -54,3 +55,32 @@ export class CreateClassDto {
 }
 
 export class UpdateClassDto extends PartialType(CreateClassDto) {}
+
+export class AssignClassDto {
+  @ApiProperty({
+    example: 1,
+    description: "ID của Ngành cần phân lớp",
+  })
+  @IsInt()
+  @IsNotEmpty()
+  majorId: number;
+
+  @ApiProperty({
+    example: 1,
+    description: "ID của Khóa đào tạo cần phân lớp",
+  })
+  @IsInt()
+  @IsNotEmpty()
+  batchId: number;
+
+  @ApiPropertyOptional({
+    example: 30,
+    description: "Số lượng sinh viên tối đa trong một lớp",
+    default: 40,
+  })
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  @IsOptional()
+  maxStudents?: number = 40;
+}

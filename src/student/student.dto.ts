@@ -82,11 +82,11 @@ export class CreateStudentDto {
 
   @ApiPropertyOptional({
     enum: StudentStatus,
-    default: StudentStatus.pending,
+    default: StudentStatus.enrolled,
   })
   @IsEnum(StudentStatus)
   @IsOptional()
-  status?: StudentStatus = StudentStatus.pending;
+  status?: StudentStatus = StudentStatus.enrolled;
 }
 
 export class UpdateStudentDto extends PartialType(CreateStudentDto) {
