@@ -60,6 +60,9 @@ export const ModelName = {
   Room: 'Room',
   Curriculum: 'Curriculum',
   CurriculumSubject: 'CurriculumSubject',
+  Admission: 'Admission',
+  AdmissionItem: 'AdmissionItem',
+  Application: 'Application',
   User: 'User',
   Student: 'Student',
   Staff: 'Staff',
@@ -226,6 +229,39 @@ export const CurriculumSubjectScalarFieldEnum = {
 } as const
 
 export type CurriculumSubjectScalarFieldEnum = (typeof CurriculumSubjectScalarFieldEnum)[keyof typeof CurriculumSubjectScalarFieldEnum]
+
+
+export const AdmissionScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  startDate: 'startDate',
+  endDate: 'endDate'
+} as const
+
+export type AdmissionScalarFieldEnum = (typeof AdmissionScalarFieldEnum)[keyof typeof AdmissionScalarFieldEnum]
+
+
+export const AdmissionItemScalarFieldEnum = {
+  id: 'id',
+  admissionId: 'admissionId',
+  batchId: 'batchId',
+  quota: 'quota'
+} as const
+
+export type AdmissionItemScalarFieldEnum = (typeof AdmissionItemScalarFieldEnum)[keyof typeof AdmissionItemScalarFieldEnum]
+
+
+export const ApplicationScalarFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  email: 'email',
+  phone: 'phone',
+  admissionId: 'admissionId',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

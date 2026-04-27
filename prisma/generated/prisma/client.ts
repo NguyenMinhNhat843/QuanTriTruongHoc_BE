@@ -85,6 +85,21 @@ export type Curriculum = Prisma.CurriculumModel
  */
 export type CurriculumSubject = Prisma.CurriculumSubjectModel
 /**
+ * Model Admission
+ * 
+ */
+export type Admission = Prisma.AdmissionModel
+/**
+ * Model AdmissionItem
+ * 
+ */
+export type AdmissionItem = Prisma.AdmissionItemModel
+/**
+ * Model Application
+ * 
+ */
+export type Application = Prisma.ApplicationModel
+/**
  * Model User
  * 
  */

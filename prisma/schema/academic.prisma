@@ -73,8 +73,8 @@ model Batch {
 
   // Quan hệ: Một khóa có nhiều lớp
   classes     Class[]
-  // Quan hệ: Một khóa có nhiều học sinh
   students    Student[]
+  admissionItems    AdmissionItem[]
 
   @@map("batches")
 }

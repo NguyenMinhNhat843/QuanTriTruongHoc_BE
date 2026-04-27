@@ -1,0 +1,46 @@
+
+// ======================================
+// 1 đợt tuyển sinh sẽ tuyển nhiều ngành
+// ======================================
+model Admission {
+  id        Int      @id @default(autoincrement())
+  name      String   // Đợt 1 - 2026
+  startDate DateTime
+  endDate   DateTime
+
+  items AdmissionItem[]
+
+  // quan hệ
+  applications      Application[]
+}
+
+
+// ===================================================
+// 1 chi tiết tuyển sinh cho biết đang tuyển ngành nào, khóa nào
+// ==================================================
+model AdmissionItem {
+  id          Int   @id @default(autoincrement())
+
+  admissionId Int
+  admission   Admission @relation(fields: [admissionId], references: [id])
+
+  batchId     Int
+  batch       Batch @relation(fields: [batchId], references: [id])
+
+  quota       Int   // chỉ tiêu ngành đó
+}
+
+model Application {
+  id        Int    @id @default(autoincrement())
+  fullName  String
+  email     String
+  phone     String
+
+  admissionId Int
+  admission   Admission @relation(fields: [admissionId], references: [id])
+
+  status String @default("PENDING") 
+  // PENDING | APPROVED | REJECTED | PAID
+
+  createdAt DateTime @default(now())
+}

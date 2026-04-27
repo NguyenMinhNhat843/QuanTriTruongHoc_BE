@@ -14,6 +14,7 @@ import { RoomModule } from "./room/room.module.js";
 import { CurriculumModule } from "./curriculumn/curriculum.module.js";
 import { CurriculumSubjectModule } from "./curriculumSubject/curriculumnSubject.module.js";
 import { BatchModule } from "./batch/batch.module.js";
+import { AdmissionModule } from "./admission/admission.module.js";
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { BatchModule } from "./batch/batch.module.js";
     RoomModule,
     CurriculumModule,
     CurriculumSubjectModule,
+    AdmissionModule,
   ],
 })
 export class AppModule {}
