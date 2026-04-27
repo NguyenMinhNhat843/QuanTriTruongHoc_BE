@@ -44,6 +44,14 @@ export class CreateBatchDto {
   majorId: number;
 
   @ApiPropertyOptional({
+    example: 1,
+    description: "ID chương trình đào tạo nếu có",
+  })
+  @IsInt()
+  @IsOptional()
+  curriculumId?: number; // Thêm trường curriculumId nếu cần thiết
+
+  @ApiPropertyOptional({
     example: "ADMISSION",
     description: "Trạng thái: ADMISSION, ACTIVE, GRADUATED",
     default: "ACTIVE",

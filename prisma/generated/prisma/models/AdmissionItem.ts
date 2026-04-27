@@ -222,6 +222,7 @@ export type AdmissionItemWhereInput = {
   quota?: Prisma.IntFilter<"AdmissionItem"> | number
   admission?: Prisma.XOR<Prisma.AdmissionScalarRelationFilter, Prisma.AdmissionWhereInput>
   batch?: Prisma.XOR<Prisma.BatchScalarRelationFilter, Prisma.BatchWhereInput>
+  applications?: Prisma.ApplicationListRelationFilter
 }
 
 export type AdmissionItemOrderByWithRelationInput = {
@@ -231,6 +232,7 @@ export type AdmissionItemOrderByWithRelationInput = {
   quota?: Prisma.SortOrder
   admission?: Prisma.AdmissionOrderByWithRelationInput
   batch?: Prisma.BatchOrderByWithRelationInput
+  applications?: Prisma.ApplicationOrderByRelationAggregateInput
 }
 
 export type AdmissionItemWhereUniqueInput = Prisma.AtLeast<{
@@ -243,6 +245,7 @@ export type AdmissionItemWhereUniqueInput = Prisma.AtLeast<{
   quota?: Prisma.IntFilter<"AdmissionItem"> | number
   admission?: Prisma.XOR<Prisma.AdmissionScalarRelationFilter, Prisma.AdmissionWhereInput>
   batch?: Prisma.XOR<Prisma.BatchScalarRelationFilter, Prisma.BatchWhereInput>
+  applications?: Prisma.ApplicationListRelationFilter
 }, "id">
 
 export type AdmissionItemOrderByWithAggregationInput = {
@@ -271,6 +274,7 @@ export type AdmissionItemCreateInput = {
   quota: number
   admission: Prisma.AdmissionCreateNestedOneWithoutItemsInput
   batch: Prisma.BatchCreateNestedOneWithoutAdmissionItemsInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemUncheckedCreateInput = {
@@ -278,12 +282,14 @@ export type AdmissionItemUncheckedCreateInput = {
   admissionId: number
   batchId: number
   quota: number
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemUpdateInput = {
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   admission?: Prisma.AdmissionUpdateOneRequiredWithoutItemsNestedInput
   batch?: Prisma.BatchUpdateOneRequiredWithoutAdmissionItemsNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemUncheckedUpdateInput = {
@@ -291,6 +297,7 @@ export type AdmissionItemUncheckedUpdateInput = {
   admissionId?: Prisma.IntFieldUpdateOperationsInput | number
   batchId?: Prisma.IntFieldUpdateOperationsInput | number
   quota?: Prisma.IntFieldUpdateOperationsInput | number
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemCreateManyInput = {
@@ -354,6 +361,11 @@ export type AdmissionItemSumOrderByAggregateInput = {
   admissionId?: Prisma.SortOrder
   batchId?: Prisma.SortOrder
   quota?: Prisma.SortOrder
+}
+
+export type AdmissionItemScalarRelationFilter = {
+  is?: Prisma.AdmissionItemWhereInput
+  isNot?: Prisma.AdmissionItemWhereInput
 }
 
 export type AdmissionItemCreateNestedManyWithoutBatchInput = {
@@ -440,15 +452,31 @@ export type AdmissionItemUncheckedUpdateManyWithoutAdmissionNestedInput = {
   deleteMany?: Prisma.AdmissionItemScalarWhereInput | Prisma.AdmissionItemScalarWhereInput[]
 }
 
+export type AdmissionItemCreateNestedOneWithoutApplicationsInput = {
+  create?: Prisma.XOR<Prisma.AdmissionItemCreateWithoutApplicationsInput, Prisma.AdmissionItemUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.AdmissionItemCreateOrConnectWithoutApplicationsInput
+  connect?: Prisma.AdmissionItemWhereUniqueInput
+}
+
+export type AdmissionItemUpdateOneRequiredWithoutApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionItemCreateWithoutApplicationsInput, Prisma.AdmissionItemUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.AdmissionItemCreateOrConnectWithoutApplicationsInput
+  upsert?: Prisma.AdmissionItemUpsertWithoutApplicationsInput
+  connect?: Prisma.AdmissionItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionItemUpdateToOneWithWhereWithoutApplicationsInput, Prisma.AdmissionItemUpdateWithoutApplicationsInput>, Prisma.AdmissionItemUncheckedUpdateWithoutApplicationsInput>
+}
+
 export type AdmissionItemCreateWithoutBatchInput = {
   quota: number
   admission: Prisma.AdmissionCreateNestedOneWithoutItemsInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemUncheckedCreateWithoutBatchInput = {
   id?: number
   admissionId: number
   quota: number
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemCreateOrConnectWithoutBatchInput = {
@@ -490,12 +518,14 @@ export type AdmissionItemScalarWhereInput = {
 export type AdmissionItemCreateWithoutAdmissionInput = {
   quota: number
   batch: Prisma.BatchCreateNestedOneWithoutAdmissionItemsInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemUncheckedCreateWithoutAdmissionInput = {
   id?: number
   batchId: number
   quota: number
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemCreateOrConnectWithoutAdmissionInput = {
@@ -524,6 +554,48 @@ export type AdmissionItemUpdateManyWithWhereWithoutAdmissionInput = {
   data: Prisma.XOR<Prisma.AdmissionItemUpdateManyMutationInput, Prisma.AdmissionItemUncheckedUpdateManyWithoutAdmissionInput>
 }
 
+export type AdmissionItemCreateWithoutApplicationsInput = {
+  quota: number
+  admission: Prisma.AdmissionCreateNestedOneWithoutItemsInput
+  batch: Prisma.BatchCreateNestedOneWithoutAdmissionItemsInput
+}
+
+export type AdmissionItemUncheckedCreateWithoutApplicationsInput = {
+  id?: number
+  admissionId: number
+  batchId: number
+  quota: number
+}
+
+export type AdmissionItemCreateOrConnectWithoutApplicationsInput = {
+  where: Prisma.AdmissionItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdmissionItemCreateWithoutApplicationsInput, Prisma.AdmissionItemUncheckedCreateWithoutApplicationsInput>
+}
+
+export type AdmissionItemUpsertWithoutApplicationsInput = {
+  update: Prisma.XOR<Prisma.AdmissionItemUpdateWithoutApplicationsInput, Prisma.AdmissionItemUncheckedUpdateWithoutApplicationsInput>
+  create: Prisma.XOR<Prisma.AdmissionItemCreateWithoutApplicationsInput, Prisma.AdmissionItemUncheckedCreateWithoutApplicationsInput>
+  where?: Prisma.AdmissionItemWhereInput
+}
+
+export type AdmissionItemUpdateToOneWithWhereWithoutApplicationsInput = {
+  where?: Prisma.AdmissionItemWhereInput
+  data: Prisma.XOR<Prisma.AdmissionItemUpdateWithoutApplicationsInput, Prisma.AdmissionItemUncheckedUpdateWithoutApplicationsInput>
+}
+
+export type AdmissionItemUpdateWithoutApplicationsInput = {
+  quota?: Prisma.IntFieldUpdateOperationsInput | number
+  admission?: Prisma.AdmissionUpdateOneRequiredWithoutItemsNestedInput
+  batch?: Prisma.BatchUpdateOneRequiredWithoutAdmissionItemsNestedInput
+}
+
+export type AdmissionItemUncheckedUpdateWithoutApplicationsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
+  quota?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type AdmissionItemCreateManyBatchInput = {
   id?: number
   admissionId: number
@@ -533,12 +605,14 @@ export type AdmissionItemCreateManyBatchInput = {
 export type AdmissionItemUpdateWithoutBatchInput = {
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   admission?: Prisma.AdmissionUpdateOneRequiredWithoutItemsNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemUncheckedUpdateWithoutBatchInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionId?: Prisma.IntFieldUpdateOperationsInput | number
   quota?: Prisma.IntFieldUpdateOperationsInput | number
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemUncheckedUpdateManyWithoutBatchInput = {
@@ -556,12 +630,14 @@ export type AdmissionItemCreateManyAdmissionInput = {
 export type AdmissionItemUpdateWithoutAdmissionInput = {
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   batch?: Prisma.BatchUpdateOneRequiredWithoutAdmissionItemsNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemUncheckedUpdateWithoutAdmissionInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   batchId?: Prisma.IntFieldUpdateOperationsInput | number
   quota?: Prisma.IntFieldUpdateOperationsInput | number
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemUncheckedUpdateManyWithoutAdmissionInput = {
@@ -571,6 +647,35 @@ export type AdmissionItemUncheckedUpdateManyWithoutAdmissionInput = {
 }
 
 
+/**
+ * Count Type AdmissionItemCountOutputType
+ */
+
+export type AdmissionItemCountOutputType = {
+  applications: number
+}
+
+export type AdmissionItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  applications?: boolean | AdmissionItemCountOutputTypeCountApplicationsArgs
+}
+
+/**
+ * AdmissionItemCountOutputType without action
+ */
+export type AdmissionItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdmissionItemCountOutputType
+   */
+  select?: Prisma.AdmissionItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AdmissionItemCountOutputType without action
+ */
+export type AdmissionItemCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApplicationWhereInput
+}
+
 
 export type AdmissionItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -579,6 +684,8 @@ export type AdmissionItemSelect<ExtArgs extends runtime.Types.Extensions.Interna
   quota?: boolean
   admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
   batch?: boolean | Prisma.BatchDefaultArgs<ExtArgs>
+  applications?: boolean | Prisma.AdmissionItem$applicationsArgs<ExtArgs>
+  _count?: boolean | Prisma.AdmissionItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admissionItem"]>
 
 export type AdmissionItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -610,6 +717,8 @@ export type AdmissionItemOmit<ExtArgs extends runtime.Types.Extensions.InternalA
 export type AdmissionItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
   batch?: boolean | Prisma.BatchDefaultArgs<ExtArgs>
+  applications?: boolean | Prisma.AdmissionItem$applicationsArgs<ExtArgs>
+  _count?: boolean | Prisma.AdmissionItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AdmissionItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
@@ -625,6 +734,7 @@ export type $AdmissionItemPayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     admission: Prisma.$AdmissionPayload<ExtArgs>
     batch: Prisma.$BatchPayload<ExtArgs>
+    applications: Prisma.$ApplicationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1027,6 +1137,7 @@ export interface Prisma__AdmissionItemClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   admission<T extends Prisma.AdmissionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionClient<runtime.Types.Result.GetResult<Prisma.$AdmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   batch<T extends Prisma.BatchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BatchDefaultArgs<ExtArgs>>): Prisma.Prisma__BatchClient<runtime.Types.Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  applications<T extends Prisma.AdmissionItem$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionItem$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1458,6 +1569,30 @@ export type AdmissionItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many AdmissionItems to delete.
    */
   limit?: number
+}
+
+/**
+ * AdmissionItem.applications
+ */
+export type AdmissionItem$applicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Application
+   */
+  select?: Prisma.ApplicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Application
+   */
+  omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  where?: Prisma.ApplicationWhereInput
+  orderBy?: Prisma.ApplicationOrderByWithRelationInput | Prisma.ApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.ApplicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApplicationScalarFieldEnum | Prisma.ApplicationScalarFieldEnum[]
 }
 
 /**

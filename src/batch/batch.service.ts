@@ -27,11 +27,16 @@ export class BatchService {
       throw new BadRequestException("batchCode đã tồn tại");
     }
 
-    const { majorId, ...rest } = createBatchDto;
+    const { majorId, curriculumId, ...rest } = createBatchDto;
 
     return this.prisma.batch.create({
       data: {
         ...rest,
+        curriculum: {
+          connect: {
+            id: curriculumId,
+          },
+        },
         major: {
           connect: { id: majorId },
         },
@@ -49,6 +54,7 @@ export class BatchService {
             classes: true,
           },
         },
+        major: true,
       },
       orderBy: {
         startYear: "desc",

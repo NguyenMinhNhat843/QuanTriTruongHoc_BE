@@ -64,7 +64,10 @@ model Batch {
 
   majorId     Int
   major       Major    @relation(fields: [majorId], references: [id])
-  
+
+  curriculumId  Int?    @unique
+  curriculum    Curriculum? @relation(fields: [curriculumId], references: [id])
+
   // Trạng thái khóa học: ADMISSION (đang tuyển), ACTIVE (đang học), GRADUATED (đã tốt nghiệp)
   status      String   @default("ACTIVE")
 
@@ -193,7 +196,7 @@ model Curriculum {
   
   majorId         Int
   major           Major    @relation(fields: [majorId], references: [id])
-  
+
   version         Int      @default(1) // Quản lý phiên bản để cập nhật CTK theo năm
   totalCredits    Int      @default(0)
   
@@ -207,6 +210,7 @@ model Curriculum {
 
   // Quan hệ 1-n với bảng trung gian
   curriculumSubjects CurriculumSubject[]
+  batch               Batch?
 
   @@map("curriculums")
 }

@@ -28,12 +28,12 @@ export type AggregateApplication = {
 
 export type ApplicationAvgAggregateOutputType = {
   id: number | null
-  admissionId: number | null
+  admissionItemId: number | null
 }
 
 export type ApplicationSumAggregateOutputType = {
   id: number | null
-  admissionId: number | null
+  admissionItemId: number | null
 }
 
 export type ApplicationMinAggregateOutputType = {
@@ -41,7 +41,7 @@ export type ApplicationMinAggregateOutputType = {
   fullName: string | null
   email: string | null
   phone: string | null
-  admissionId: number | null
+  admissionItemId: number | null
   status: string | null
   createdAt: Date | null
 }
@@ -51,7 +51,7 @@ export type ApplicationMaxAggregateOutputType = {
   fullName: string | null
   email: string | null
   phone: string | null
-  admissionId: number | null
+  admissionItemId: number | null
   status: string | null
   createdAt: Date | null
 }
@@ -61,7 +61,7 @@ export type ApplicationCountAggregateOutputType = {
   fullName: number
   email: number
   phone: number
-  admissionId: number
+  admissionItemId: number
   status: number
   createdAt: number
   _all: number
@@ -70,12 +70,12 @@ export type ApplicationCountAggregateOutputType = {
 
 export type ApplicationAvgAggregateInputType = {
   id?: true
-  admissionId?: true
+  admissionItemId?: true
 }
 
 export type ApplicationSumAggregateInputType = {
   id?: true
-  admissionId?: true
+  admissionItemId?: true
 }
 
 export type ApplicationMinAggregateInputType = {
@@ -83,7 +83,7 @@ export type ApplicationMinAggregateInputType = {
   fullName?: true
   email?: true
   phone?: true
-  admissionId?: true
+  admissionItemId?: true
   status?: true
   createdAt?: true
 }
@@ -93,7 +93,7 @@ export type ApplicationMaxAggregateInputType = {
   fullName?: true
   email?: true
   phone?: true
-  admissionId?: true
+  admissionItemId?: true
   status?: true
   createdAt?: true
 }
@@ -103,7 +103,7 @@ export type ApplicationCountAggregateInputType = {
   fullName?: true
   email?: true
   phone?: true
-  admissionId?: true
+  admissionItemId?: true
   status?: true
   createdAt?: true
   _all?: true
@@ -200,7 +200,7 @@ export type ApplicationGroupByOutputType = {
   fullName: string
   email: string
   phone: string
-  admissionId: number
+  admissionItemId: number
   status: string
   createdAt: Date
   _count: ApplicationCountAggregateOutputType | null
@@ -233,10 +233,10 @@ export type ApplicationWhereInput = {
   fullName?: Prisma.StringFilter<"Application"> | string
   email?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringFilter<"Application"> | string
-  admissionId?: Prisma.IntFilter<"Application"> | number
+  admissionItemId?: Prisma.IntFilter<"Application"> | number
   status?: Prisma.StringFilter<"Application"> | string
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
-  admission?: Prisma.XOR<Prisma.AdmissionScalarRelationFilter, Prisma.AdmissionWhereInput>
+  admissionItem?: Prisma.XOR<Prisma.AdmissionItemScalarRelationFilter, Prisma.AdmissionItemWhereInput>
 }
 
 export type ApplicationOrderByWithRelationInput = {
@@ -244,10 +244,10 @@ export type ApplicationOrderByWithRelationInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  admissionId?: Prisma.SortOrder
+  admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  admission?: Prisma.AdmissionOrderByWithRelationInput
+  admissionItem?: Prisma.AdmissionItemOrderByWithRelationInput
 }
 
 export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
@@ -258,10 +258,10 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   fullName?: Prisma.StringFilter<"Application"> | string
   email?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringFilter<"Application"> | string
-  admissionId?: Prisma.IntFilter<"Application"> | number
+  admissionItemId?: Prisma.IntFilter<"Application"> | number
   status?: Prisma.StringFilter<"Application"> | string
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
-  admission?: Prisma.XOR<Prisma.AdmissionScalarRelationFilter, Prisma.AdmissionWhereInput>
+  admissionItem?: Prisma.XOR<Prisma.AdmissionItemScalarRelationFilter, Prisma.AdmissionItemWhereInput>
 }, "id">
 
 export type ApplicationOrderByWithAggregationInput = {
@@ -269,7 +269,7 @@ export type ApplicationOrderByWithAggregationInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  admissionId?: Prisma.SortOrder
+  admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ApplicationCountOrderByAggregateInput
@@ -287,7 +287,7 @@ export type ApplicationScalarWhereWithAggregatesInput = {
   fullName?: Prisma.StringWithAggregatesFilter<"Application"> | string
   email?: Prisma.StringWithAggregatesFilter<"Application"> | string
   phone?: Prisma.StringWithAggregatesFilter<"Application"> | string
-  admissionId?: Prisma.IntWithAggregatesFilter<"Application"> | number
+  admissionItemId?: Prisma.IntWithAggregatesFilter<"Application"> | number
   status?: Prisma.StringWithAggregatesFilter<"Application"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
 }
@@ -298,7 +298,7 @@ export type ApplicationCreateInput = {
   phone: string
   status?: string
   createdAt?: Date | string
-  admission: Prisma.AdmissionCreateNestedOneWithoutApplicationsInput
+  admissionItem: Prisma.AdmissionItemCreateNestedOneWithoutApplicationsInput
 }
 
 export type ApplicationUncheckedCreateInput = {
@@ -306,7 +306,7 @@ export type ApplicationUncheckedCreateInput = {
   fullName: string
   email: string
   phone: string
-  admissionId: number
+  admissionItemId: number
   status?: string
   createdAt?: Date | string
 }
@@ -317,7 +317,7 @@ export type ApplicationUpdateInput = {
   phone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admission?: Prisma.AdmissionUpdateOneRequiredWithoutApplicationsNestedInput
+  admissionItem?: Prisma.AdmissionItemUpdateOneRequiredWithoutApplicationsNestedInput
 }
 
 export type ApplicationUncheckedUpdateInput = {
@@ -325,7 +325,7 @@ export type ApplicationUncheckedUpdateInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionItemId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -335,7 +335,7 @@ export type ApplicationCreateManyInput = {
   fullName: string
   email: string
   phone: string
-  admissionId: number
+  admissionItemId: number
   status?: string
   createdAt?: Date | string
 }
@@ -353,7 +353,7 @@ export type ApplicationUncheckedUpdateManyInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionItemId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -373,14 +373,14 @@ export type ApplicationCountOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  admissionId?: Prisma.SortOrder
+  admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type ApplicationAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  admissionId?: Prisma.SortOrder
+  admissionItemId?: Prisma.SortOrder
 }
 
 export type ApplicationMaxOrderByAggregateInput = {
@@ -388,7 +388,7 @@ export type ApplicationMaxOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  admissionId?: Prisma.SortOrder
+  admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -398,59 +398,59 @@ export type ApplicationMinOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
-  admissionId?: Prisma.SortOrder
+  admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type ApplicationSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  admissionId?: Prisma.SortOrder
+  admissionItemId?: Prisma.SortOrder
 }
 
-export type ApplicationCreateNestedManyWithoutAdmissionInput = {
-  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionInput> | Prisma.ApplicationCreateWithoutAdmissionInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionInput[]
-  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionInput[]
-  createMany?: Prisma.ApplicationCreateManyAdmissionInputEnvelope
+export type ApplicationCreateNestedManyWithoutAdmissionItemInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput> | Prisma.ApplicationCreateWithoutAdmissionItemInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput[]
+  createMany?: Prisma.ApplicationCreateManyAdmissionItemInputEnvelope
   connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
 }
 
-export type ApplicationUncheckedCreateNestedManyWithoutAdmissionInput = {
-  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionInput> | Prisma.ApplicationCreateWithoutAdmissionInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionInput[]
-  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionInput[]
-  createMany?: Prisma.ApplicationCreateManyAdmissionInputEnvelope
+export type ApplicationUncheckedCreateNestedManyWithoutAdmissionItemInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput> | Prisma.ApplicationCreateWithoutAdmissionItemInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput[]
+  createMany?: Prisma.ApplicationCreateManyAdmissionItemInputEnvelope
   connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
 }
 
-export type ApplicationUpdateManyWithoutAdmissionNestedInput = {
-  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionInput> | Prisma.ApplicationCreateWithoutAdmissionInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionInput[]
-  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionInput[]
-  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionInput[]
-  createMany?: Prisma.ApplicationCreateManyAdmissionInputEnvelope
+export type ApplicationUpdateManyWithoutAdmissionItemNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput> | Prisma.ApplicationCreateWithoutAdmissionItemInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionItemInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionItemInput[]
+  createMany?: Prisma.ApplicationCreateManyAdmissionItemInputEnvelope
   set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
   disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
   delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
   connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
-  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionInput[]
-  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionInput | Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionItemInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionItemInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionItemInput | Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionItemInput[]
   deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
 }
 
-export type ApplicationUncheckedUpdateManyWithoutAdmissionNestedInput = {
-  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionInput> | Prisma.ApplicationCreateWithoutAdmissionInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionInput[]
-  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionInput[]
-  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionInput[]
-  createMany?: Prisma.ApplicationCreateManyAdmissionInputEnvelope
+export type ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput> | Prisma.ApplicationCreateWithoutAdmissionItemInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionItemInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAdmissionItemInput[]
+  createMany?: Prisma.ApplicationCreateManyAdmissionItemInputEnvelope
   set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
   disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
   delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
   connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
-  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionInput[]
-  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionInput | Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionItemInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAdmissionItemInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionItemInput | Prisma.ApplicationUpdateManyWithWhereWithoutAdmissionItemInput[]
   deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
 }
 
-export type ApplicationCreateWithoutAdmissionInput = {
+export type ApplicationCreateWithoutAdmissionItemInput = {
   fullName: string
   email: string
   phone: string
@@ -458,7 +458,7 @@ export type ApplicationCreateWithoutAdmissionInput = {
   createdAt?: Date | string
 }
 
-export type ApplicationUncheckedCreateWithoutAdmissionInput = {
+export type ApplicationUncheckedCreateWithoutAdmissionItemInput = {
   id?: number
   fullName: string
   email: string
@@ -467,30 +467,30 @@ export type ApplicationUncheckedCreateWithoutAdmissionInput = {
   createdAt?: Date | string
 }
 
-export type ApplicationCreateOrConnectWithoutAdmissionInput = {
+export type ApplicationCreateOrConnectWithoutAdmissionItemInput = {
   where: Prisma.ApplicationWhereUniqueInput
-  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput>
 }
 
-export type ApplicationCreateManyAdmissionInputEnvelope = {
-  data: Prisma.ApplicationCreateManyAdmissionInput | Prisma.ApplicationCreateManyAdmissionInput[]
+export type ApplicationCreateManyAdmissionItemInputEnvelope = {
+  data: Prisma.ApplicationCreateManyAdmissionItemInput | Prisma.ApplicationCreateManyAdmissionItemInput[]
   skipDuplicates?: boolean
 }
 
-export type ApplicationUpsertWithWhereUniqueWithoutAdmissionInput = {
+export type ApplicationUpsertWithWhereUniqueWithoutAdmissionItemInput = {
   where: Prisma.ApplicationWhereUniqueInput
-  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutAdmissionInput, Prisma.ApplicationUncheckedUpdateWithoutAdmissionInput>
-  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionInput>
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedUpdateWithoutAdmissionItemInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput>
 }
 
-export type ApplicationUpdateWithWhereUniqueWithoutAdmissionInput = {
+export type ApplicationUpdateWithWhereUniqueWithoutAdmissionItemInput = {
   where: Prisma.ApplicationWhereUniqueInput
-  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutAdmissionInput, Prisma.ApplicationUncheckedUpdateWithoutAdmissionInput>
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedUpdateWithoutAdmissionItemInput>
 }
 
-export type ApplicationUpdateManyWithWhereWithoutAdmissionInput = {
+export type ApplicationUpdateManyWithWhereWithoutAdmissionItemInput = {
   where: Prisma.ApplicationScalarWhereInput
-  data: Prisma.XOR<Prisma.ApplicationUpdateManyMutationInput, Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionInput>
+  data: Prisma.XOR<Prisma.ApplicationUpdateManyMutationInput, Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionItemInput>
 }
 
 export type ApplicationScalarWhereInput = {
@@ -501,12 +501,12 @@ export type ApplicationScalarWhereInput = {
   fullName?: Prisma.StringFilter<"Application"> | string
   email?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringFilter<"Application"> | string
-  admissionId?: Prisma.IntFilter<"Application"> | number
+  admissionItemId?: Prisma.IntFilter<"Application"> | number
   status?: Prisma.StringFilter<"Application"> | string
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
 }
 
-export type ApplicationCreateManyAdmissionInput = {
+export type ApplicationCreateManyAdmissionItemInput = {
   id?: number
   fullName: string
   email: string
@@ -515,7 +515,7 @@ export type ApplicationCreateManyAdmissionInput = {
   createdAt?: Date | string
 }
 
-export type ApplicationUpdateWithoutAdmissionInput = {
+export type ApplicationUpdateWithoutAdmissionItemInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
@@ -523,7 +523,7 @@ export type ApplicationUpdateWithoutAdmissionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ApplicationUncheckedUpdateWithoutAdmissionInput = {
+export type ApplicationUncheckedUpdateWithoutAdmissionItemInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -532,7 +532,7 @@ export type ApplicationUncheckedUpdateWithoutAdmissionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ApplicationUncheckedUpdateManyWithoutAdmissionInput = {
+export type ApplicationUncheckedUpdateManyWithoutAdmissionItemInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -548,10 +548,10 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   fullName?: boolean
   email?: boolean
   phone?: boolean
-  admissionId?: boolean
+  admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
-  admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
+  admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -559,10 +559,10 @@ export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   fullName?: boolean
   email?: boolean
   phone?: boolean
-  admissionId?: boolean
+  admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
-  admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
+  admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -570,10 +570,10 @@ export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   fullName?: boolean
   email?: boolean
   phone?: boolean
-  admissionId?: boolean
+  admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
-  admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
+  admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectScalar = {
@@ -581,33 +581,33 @@ export type ApplicationSelectScalar = {
   fullName?: boolean
   email?: boolean
   phone?: boolean
-  admissionId?: boolean
+  admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
 }
 
-export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "admissionId" | "status" | "createdAt", ExtArgs["result"]["application"]>
+export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "admissionItemId" | "status" | "createdAt", ExtArgs["result"]["application"]>
 export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
+  admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
 }
 export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
+  admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
 }
 export type ApplicationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admission?: boolean | Prisma.AdmissionDefaultArgs<ExtArgs>
+  admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
 }
 
 export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Application"
   objects: {
-    admission: Prisma.$AdmissionPayload<ExtArgs>
+    admissionItem: Prisma.$AdmissionItemPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     fullName: string
     email: string
     phone: string
-    admissionId: number
+    admissionItemId: number
     status: string
     createdAt: Date
   }, ExtArgs["result"]["application"]>
@@ -1004,7 +1004,7 @@ readonly fields: ApplicationFieldRefs;
  */
 export interface Prisma__ApplicationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  admission<T extends Prisma.AdmissionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionClient<runtime.Types.Result.GetResult<Prisma.$AdmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  admissionItem<T extends Prisma.AdmissionItemDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionItemDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionItemClient<runtime.Types.Result.GetResult<Prisma.$AdmissionItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1038,7 +1038,7 @@ export interface ApplicationFieldRefs {
   readonly fullName: Prisma.FieldRef<"Application", 'String'>
   readonly email: Prisma.FieldRef<"Application", 'String'>
   readonly phone: Prisma.FieldRef<"Application", 'String'>
-  readonly admissionId: Prisma.FieldRef<"Application", 'Int'>
+  readonly admissionItemId: Prisma.FieldRef<"Application", 'Int'>
   readonly status: Prisma.FieldRef<"Application", 'String'>
   readonly createdAt: Prisma.FieldRef<"Application", 'DateTime'>
 }

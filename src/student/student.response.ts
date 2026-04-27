@@ -74,8 +74,10 @@ export class StudentResponseDto implements Student {
   @ApiProperty()
   updatedAt: Date;
 
+  @ApiProperty()
   batchId: number | null;
 
+  @ApiProperty()
   majorId: number | null;
 
   constructor(student: any) {
@@ -105,5 +107,7 @@ export class StudentResponseDto implements Student {
     this.address = student.address;
     this.createdAt = student.createdAt;
     this.updatedAt = student.updatedAt;
+    this.batchId = student.batchId;
+    this.majorId = student.majorId;
   }
 }

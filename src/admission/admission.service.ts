@@ -60,9 +60,6 @@ export class AdmissionService {
   async findAll() {
     return await this.prisma.admission.findMany({
       include: {
-        _count: {
-          select: { items: true, applications: true },
-        },
         items: {
           include: {
             batch: {

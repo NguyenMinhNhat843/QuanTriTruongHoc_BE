@@ -209,7 +209,6 @@ export type AdmissionWhereInput = {
   startDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
   items?: Prisma.AdmissionItemListRelationFilter
-  applications?: Prisma.ApplicationListRelationFilter
 }
 
 export type AdmissionOrderByWithRelationInput = {
@@ -218,7 +217,6 @@ export type AdmissionOrderByWithRelationInput = {
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
   items?: Prisma.AdmissionItemOrderByRelationAggregateInput
-  applications?: Prisma.ApplicationOrderByRelationAggregateInput
 }
 
 export type AdmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -230,7 +228,6 @@ export type AdmissionWhereUniqueInput = Prisma.AtLeast<{
   startDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
   items?: Prisma.AdmissionItemListRelationFilter
-  applications?: Prisma.ApplicationListRelationFilter
 }, "id">
 
 export type AdmissionOrderByWithAggregationInput = {
@@ -260,7 +257,6 @@ export type AdmissionCreateInput = {
   startDate: Date | string
   endDate: Date | string
   items?: Prisma.AdmissionItemCreateNestedManyWithoutAdmissionInput
-  applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionInput
 }
 
 export type AdmissionUncheckedCreateInput = {
@@ -269,7 +265,6 @@ export type AdmissionUncheckedCreateInput = {
   startDate: Date | string
   endDate: Date | string
   items?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutAdmissionInput
-  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionInput
 }
 
 export type AdmissionUpdateInput = {
@@ -277,7 +272,6 @@ export type AdmissionUpdateInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.AdmissionItemUpdateManyWithoutAdmissionNestedInput
-  applications?: Prisma.ApplicationUpdateManyWithoutAdmissionNestedInput
 }
 
 export type AdmissionUncheckedUpdateInput = {
@@ -286,7 +280,6 @@ export type AdmissionUncheckedUpdateInput = {
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.AdmissionItemUncheckedUpdateManyWithoutAdmissionNestedInput
-  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionNestedInput
 }
 
 export type AdmissionCreateManyInput = {
@@ -357,25 +350,10 @@ export type AdmissionUpdateOneRequiredWithoutItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionUpdateToOneWithWhereWithoutItemsInput, Prisma.AdmissionUpdateWithoutItemsInput>, Prisma.AdmissionUncheckedUpdateWithoutItemsInput>
 }
 
-export type AdmissionCreateNestedOneWithoutApplicationsInput = {
-  create?: Prisma.XOR<Prisma.AdmissionCreateWithoutApplicationsInput, Prisma.AdmissionUncheckedCreateWithoutApplicationsInput>
-  connectOrCreate?: Prisma.AdmissionCreateOrConnectWithoutApplicationsInput
-  connect?: Prisma.AdmissionWhereUniqueInput
-}
-
-export type AdmissionUpdateOneRequiredWithoutApplicationsNestedInput = {
-  create?: Prisma.XOR<Prisma.AdmissionCreateWithoutApplicationsInput, Prisma.AdmissionUncheckedCreateWithoutApplicationsInput>
-  connectOrCreate?: Prisma.AdmissionCreateOrConnectWithoutApplicationsInput
-  upsert?: Prisma.AdmissionUpsertWithoutApplicationsInput
-  connect?: Prisma.AdmissionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionUpdateToOneWithWhereWithoutApplicationsInput, Prisma.AdmissionUpdateWithoutApplicationsInput>, Prisma.AdmissionUncheckedUpdateWithoutApplicationsInput>
-}
-
 export type AdmissionCreateWithoutItemsInput = {
   name: string
   startDate: Date | string
   endDate: Date | string
-  applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionInput
 }
 
 export type AdmissionUncheckedCreateWithoutItemsInput = {
@@ -383,7 +361,6 @@ export type AdmissionUncheckedCreateWithoutItemsInput = {
   name: string
   startDate: Date | string
   endDate: Date | string
-  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionInput
 }
 
 export type AdmissionCreateOrConnectWithoutItemsInput = {
@@ -406,7 +383,6 @@ export type AdmissionUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  applications?: Prisma.ApplicationUpdateManyWithoutAdmissionNestedInput
 }
 
 export type AdmissionUncheckedUpdateWithoutItemsInput = {
@@ -414,53 +390,6 @@ export type AdmissionUncheckedUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionNestedInput
-}
-
-export type AdmissionCreateWithoutApplicationsInput = {
-  name: string
-  startDate: Date | string
-  endDate: Date | string
-  items?: Prisma.AdmissionItemCreateNestedManyWithoutAdmissionInput
-}
-
-export type AdmissionUncheckedCreateWithoutApplicationsInput = {
-  id?: number
-  name: string
-  startDate: Date | string
-  endDate: Date | string
-  items?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutAdmissionInput
-}
-
-export type AdmissionCreateOrConnectWithoutApplicationsInput = {
-  where: Prisma.AdmissionWhereUniqueInput
-  create: Prisma.XOR<Prisma.AdmissionCreateWithoutApplicationsInput, Prisma.AdmissionUncheckedCreateWithoutApplicationsInput>
-}
-
-export type AdmissionUpsertWithoutApplicationsInput = {
-  update: Prisma.XOR<Prisma.AdmissionUpdateWithoutApplicationsInput, Prisma.AdmissionUncheckedUpdateWithoutApplicationsInput>
-  create: Prisma.XOR<Prisma.AdmissionCreateWithoutApplicationsInput, Prisma.AdmissionUncheckedCreateWithoutApplicationsInput>
-  where?: Prisma.AdmissionWhereInput
-}
-
-export type AdmissionUpdateToOneWithWhereWithoutApplicationsInput = {
-  where?: Prisma.AdmissionWhereInput
-  data: Prisma.XOR<Prisma.AdmissionUpdateWithoutApplicationsInput, Prisma.AdmissionUncheckedUpdateWithoutApplicationsInput>
-}
-
-export type AdmissionUpdateWithoutApplicationsInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  items?: Prisma.AdmissionItemUpdateManyWithoutAdmissionNestedInput
-}
-
-export type AdmissionUncheckedUpdateWithoutApplicationsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  items?: Prisma.AdmissionItemUncheckedUpdateManyWithoutAdmissionNestedInput
 }
 
 
@@ -470,12 +399,10 @@ export type AdmissionUncheckedUpdateWithoutApplicationsInput = {
 
 export type AdmissionCountOutputType = {
   items: number
-  applications: number
 }
 
 export type AdmissionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | AdmissionCountOutputTypeCountItemsArgs
-  applications?: boolean | AdmissionCountOutputTypeCountApplicationsArgs
 }
 
 /**
@@ -495,13 +422,6 @@ export type AdmissionCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Types
   where?: Prisma.AdmissionItemWhereInput
 }
 
-/**
- * AdmissionCountOutputType without action
- */
-export type AdmissionCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ApplicationWhereInput
-}
-
 
 export type AdmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -509,7 +429,6 @@ export type AdmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   startDate?: boolean
   endDate?: boolean
   items?: boolean | Prisma.Admission$itemsArgs<ExtArgs>
-  applications?: boolean | Prisma.Admission$applicationsArgs<ExtArgs>
   _count?: boolean | Prisma.AdmissionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admission"]>
 
@@ -537,7 +456,6 @@ export type AdmissionSelectScalar = {
 export type AdmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "startDate" | "endDate", ExtArgs["result"]["admission"]>
 export type AdmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | Prisma.Admission$itemsArgs<ExtArgs>
-  applications?: boolean | Prisma.Admission$applicationsArgs<ExtArgs>
   _count?: boolean | Prisma.AdmissionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AdmissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -547,7 +465,6 @@ export type $AdmissionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Admission"
   objects: {
     items: Prisma.$AdmissionItemPayload<ExtArgs>[]
-    applications: Prisma.$ApplicationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -949,7 +866,6 @@ readonly fields: AdmissionFieldRefs;
 export interface Prisma__AdmissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   items<T extends Prisma.Admission$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admission$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  applications<T extends Prisma.Admission$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admission$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1397,30 +1313,6 @@ export type Admission$itemsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.AdmissionItemScalarFieldEnum | Prisma.AdmissionItemScalarFieldEnum[]
-}
-
-/**
- * Admission.applications
- */
-export type Admission$applicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Application
-   */
-  select?: Prisma.ApplicationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Application
-   */
-  omit?: Prisma.ApplicationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ApplicationInclude<ExtArgs> | null
-  where?: Prisma.ApplicationWhereInput
-  orderBy?: Prisma.ApplicationOrderByWithRelationInput | Prisma.ApplicationOrderByWithRelationInput[]
-  cursor?: Prisma.ApplicationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ApplicationScalarFieldEnum | Prisma.ApplicationScalarFieldEnum[]
 }
 
 /**

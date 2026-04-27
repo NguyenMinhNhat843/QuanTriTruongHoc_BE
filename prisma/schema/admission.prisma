@@ -9,9 +9,6 @@ model Admission {
   endDate   DateTime
 
   items AdmissionItem[]
-
-  // quan hệ
-  applications      Application[]
 }
 
 
@@ -28,6 +25,9 @@ model AdmissionItem {
   batch       Batch @relation(fields: [batchId], references: [id])
 
   quota       Int   // chỉ tiêu ngành đó
+
+  // quan hệ
+  applications    Application[]
 }
 
 model Application {
@@ -36,8 +36,8 @@ model Application {
   email     String
   phone     String
 
-  admissionId Int
-  admission   Admission @relation(fields: [admissionId], references: [id])
+  admissionItemId   Int
+  admissionItem     AdmissionItem     @relation(fields: [admissionItemId], references: [id])
 
   status String @default("PENDING") 
   // PENDING | APPROVED | REJECTED | PAID

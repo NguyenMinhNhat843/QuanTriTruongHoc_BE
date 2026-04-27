@@ -170,6 +170,16 @@ export type Payment = Prisma.PaymentModel
  */
 export type PaymentAllocation = Prisma.PaymentAllocationModel
 /**
+ * Model Fee
+ * 
+ */
+export type Fee = Prisma.FeeModel
+/**
+ * Model FeeCatalog
+ * 
+ */
+export type FeeCatalog = Prisma.FeeCatalogModel
+/**
  * Model GradeComponent
  * 
  */

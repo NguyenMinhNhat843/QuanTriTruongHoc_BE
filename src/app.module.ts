@@ -15,6 +15,8 @@ import { CurriculumModule } from "./curriculumn/curriculum.module.js";
 import { CurriculumSubjectModule } from "./curriculumSubject/curriculumnSubject.module.js";
 import { BatchModule } from "./batch/batch.module.js";
 import { AdmissionModule } from "./admission/admission.module.js";
+import { TuitionFeeModule } from "./tuitionFee/tuitionFee.module.js";
+import { FeeModule } from "./Fee/fee.module.js";
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { AdmissionModule } from "./admission/admission.module.js";
     CurriculumModule,
     CurriculumSubjectModule,
     AdmissionModule,
+    TuitionFeeModule,
+    FeeModule,
   ],
 })
 export class AppModule {}

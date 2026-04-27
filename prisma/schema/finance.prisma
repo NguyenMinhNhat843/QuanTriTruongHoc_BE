@@ -100,3 +100,31 @@ model PaymentAllocation {
 
   @@map("payment_allocations")
 }
+
+model Fee {
+  id        String   @id @default(uuid())
+  name      String   // BHYT, CSV, ...
+
+  createdAt DateTime @default(now())
+
+  feeCatalogs FeeCatalog[]
+}
+
+model FeeCatalog {
+  id        String   @id @default(uuid())
+
+  feeId     String
+  fee       Fee      @relation(fields: [feeId], references: [id])
+
+  // phạm vi
+  majorId   String?
+  batchId   String?
+  semester  Int?
+
+  // global hay không
+  isGlobal  Boolean  @default(false)
+
+  amount    Int
+
+  createdAt DateTime @default(now())
+}

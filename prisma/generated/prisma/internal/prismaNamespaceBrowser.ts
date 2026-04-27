@@ -77,6 +77,8 @@ export const ModelName = {
   FeeInvoiceItem: 'FeeInvoiceItem',
   Payment: 'Payment',
   PaymentAllocation: 'PaymentAllocation',
+  Fee: 'Fee',
+  FeeCatalog: 'FeeCatalog',
   GradeComponent: 'GradeComponent',
   GradeEntry: 'GradeEntry',
   GradeHistory: 'GradeHistory',
@@ -135,6 +137,7 @@ export const BatchScalarFieldEnum = {
   endYear: 'endYear',
   description: 'description',
   majorId: 'majorId',
+  curriculumId: 'curriculumId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -256,7 +259,7 @@ export const ApplicationScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   phone: 'phone',
-  admissionId: 'admissionId',
+  admissionItemId: 'admissionItemId',
   status: 'status',
   createdAt: 'createdAt'
 } as const
@@ -476,6 +479,29 @@ export const PaymentAllocationScalarFieldEnum = {
 } as const
 
 export type PaymentAllocationScalarFieldEnum = (typeof PaymentAllocationScalarFieldEnum)[keyof typeof PaymentAllocationScalarFieldEnum]
+
+
+export const FeeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type FeeScalarFieldEnum = (typeof FeeScalarFieldEnum)[keyof typeof FeeScalarFieldEnum]
+
+
+export const FeeCatalogScalarFieldEnum = {
+  id: 'id',
+  feeId: 'feeId',
+  majorId: 'majorId',
+  batchId: 'batchId',
+  semester: 'semester',
+  isGlobal: 'isGlobal',
+  amount: 'amount',
+  createdAt: 'createdAt'
+} as const
+
+export type FeeCatalogScalarFieldEnum = (typeof FeeCatalogScalarFieldEnum)[keyof typeof FeeCatalogScalarFieldEnum]
 
 
 export const GradeComponentScalarFieldEnum = {
