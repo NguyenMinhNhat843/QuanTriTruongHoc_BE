@@ -284,7 +284,6 @@ export type BatchWhereInput = {
   curriculum?: Prisma.XOR<Prisma.CurriculumNullableScalarRelationFilter, Prisma.CurriculumWhereInput> | null
   classes?: Prisma.ClassListRelationFilter
   students?: Prisma.StudentListRelationFilter
-  admissionItems?: Prisma.AdmissionItemListRelationFilter
   creditPrices?: Prisma.CreditPriceListRelationFilter
 }
 
@@ -304,7 +303,6 @@ export type BatchOrderByWithRelationInput = {
   curriculum?: Prisma.CurriculumOrderByWithRelationInput
   classes?: Prisma.ClassOrderByRelationAggregateInput
   students?: Prisma.StudentOrderByRelationAggregateInput
-  admissionItems?: Prisma.AdmissionItemOrderByRelationAggregateInput
   creditPrices?: Prisma.CreditPriceOrderByRelationAggregateInput
 }
 
@@ -327,7 +325,6 @@ export type BatchWhereUniqueInput = Prisma.AtLeast<{
   curriculum?: Prisma.XOR<Prisma.CurriculumNullableScalarRelationFilter, Prisma.CurriculumWhereInput> | null
   classes?: Prisma.ClassListRelationFilter
   students?: Prisma.StudentListRelationFilter
-  admissionItems?: Prisma.AdmissionItemListRelationFilter
   creditPrices?: Prisma.CreditPriceListRelationFilter
 }, "id" | "batchCode" | "curriculumId">
 
@@ -380,7 +377,6 @@ export type BatchCreateInput = {
   curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
 }
 
@@ -398,7 +394,6 @@ export type BatchUncheckedCreateInput = {
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceUncheckedCreateNestedManyWithoutBatchInput
 }
 
@@ -415,7 +410,6 @@ export type BatchUpdateInput = {
   curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
 }
 
@@ -433,7 +427,6 @@ export type BatchUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUncheckedUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUncheckedUpdateManyWithoutBatchNestedInput
 }
 
@@ -549,11 +542,6 @@ export type BatchNullableScalarRelationFilter = {
   isNot?: Prisma.BatchWhereInput | null
 }
 
-export type BatchScalarRelationFilter = {
-  is?: Prisma.BatchWhereInput
-  isNot?: Prisma.BatchWhereInput
-}
-
 export type BatchCreateNestedManyWithoutMajorInput = {
   create?: Prisma.XOR<Prisma.BatchCreateWithoutMajorInput, Prisma.BatchUncheckedCreateWithoutMajorInput> | Prisma.BatchCreateWithoutMajorInput[] | Prisma.BatchUncheckedCreateWithoutMajorInput[]
   connectOrCreate?: Prisma.BatchCreateOrConnectWithoutMajorInput | Prisma.BatchCreateOrConnectWithoutMajorInput[]
@@ -644,20 +632,6 @@ export type BatchUncheckedUpdateOneWithoutCurriculumNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BatchUpdateToOneWithWhereWithoutCurriculumInput, Prisma.BatchUpdateWithoutCurriculumInput>, Prisma.BatchUncheckedUpdateWithoutCurriculumInput>
 }
 
-export type BatchCreateNestedOneWithoutAdmissionItemsInput = {
-  create?: Prisma.XOR<Prisma.BatchCreateWithoutAdmissionItemsInput, Prisma.BatchUncheckedCreateWithoutAdmissionItemsInput>
-  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutAdmissionItemsInput
-  connect?: Prisma.BatchWhereUniqueInput
-}
-
-export type BatchUpdateOneRequiredWithoutAdmissionItemsNestedInput = {
-  create?: Prisma.XOR<Prisma.BatchCreateWithoutAdmissionItemsInput, Prisma.BatchUncheckedCreateWithoutAdmissionItemsInput>
-  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutAdmissionItemsInput
-  upsert?: Prisma.BatchUpsertWithoutAdmissionItemsInput
-  connect?: Prisma.BatchWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.BatchUpdateToOneWithWhereWithoutAdmissionItemsInput, Prisma.BatchUpdateWithoutAdmissionItemsInput>, Prisma.BatchUncheckedUpdateWithoutAdmissionItemsInput>
-}
-
 export type BatchCreateNestedOneWithoutStudentsInput = {
   create?: Prisma.XOR<Prisma.BatchCreateWithoutStudentsInput, Prisma.BatchUncheckedCreateWithoutStudentsInput>
   connectOrCreate?: Prisma.BatchCreateOrConnectWithoutStudentsInput
@@ -702,7 +676,6 @@ export type BatchCreateWithoutMajorInput = {
   curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
 }
 
@@ -719,7 +692,6 @@ export type BatchUncheckedCreateWithoutMajorInput = {
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceUncheckedCreateNestedManyWithoutBatchInput
 }
 
@@ -778,7 +750,6 @@ export type BatchCreateWithoutClassesInput = {
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
   curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
 }
 
@@ -795,7 +766,6 @@ export type BatchUncheckedCreateWithoutClassesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceUncheckedCreateNestedManyWithoutBatchInput
 }
 
@@ -827,7 +797,6 @@ export type BatchUpdateWithoutClassesInput = {
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
   curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
 }
 
@@ -844,7 +813,6 @@ export type BatchUncheckedUpdateWithoutClassesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUncheckedUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUncheckedUpdateManyWithoutBatchNestedInput
 }
 
@@ -860,7 +828,6 @@ export type BatchCreateWithoutCurriculumInput = {
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
 }
 
@@ -877,7 +844,6 @@ export type BatchUncheckedCreateWithoutCurriculumInput = {
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceUncheckedCreateNestedManyWithoutBatchInput
 }
 
@@ -909,7 +875,6 @@ export type BatchUpdateWithoutCurriculumInput = {
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
 }
 
@@ -921,89 +886,6 @@ export type BatchUncheckedUpdateWithoutCurriculumInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUncheckedUpdateManyWithoutBatchNestedInput
-  creditPrices?: Prisma.CreditPriceUncheckedUpdateManyWithoutBatchNestedInput
-}
-
-export type BatchCreateWithoutAdmissionItemsInput = {
-  batchCode: string
-  batchName: string
-  startYear: number
-  endYear: number
-  description?: string | null
-  status?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  major: Prisma.MajorCreateNestedOneWithoutBatchesInput
-  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
-  classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
-  students?: Prisma.StudentCreateNestedManyWithoutBatchInput
-  creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
-}
-
-export type BatchUncheckedCreateWithoutAdmissionItemsInput = {
-  id?: number
-  batchCode: string
-  batchName: string
-  startYear: number
-  endYear: number
-  description?: string | null
-  majorId: number
-  curriculumId?: number | null
-  status?: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutBatchInput
-  creditPrices?: Prisma.CreditPriceUncheckedCreateNestedManyWithoutBatchInput
-}
-
-export type BatchCreateOrConnectWithoutAdmissionItemsInput = {
-  where: Prisma.BatchWhereUniqueInput
-  create: Prisma.XOR<Prisma.BatchCreateWithoutAdmissionItemsInput, Prisma.BatchUncheckedCreateWithoutAdmissionItemsInput>
-}
-
-export type BatchUpsertWithoutAdmissionItemsInput = {
-  update: Prisma.XOR<Prisma.BatchUpdateWithoutAdmissionItemsInput, Prisma.BatchUncheckedUpdateWithoutAdmissionItemsInput>
-  create: Prisma.XOR<Prisma.BatchCreateWithoutAdmissionItemsInput, Prisma.BatchUncheckedCreateWithoutAdmissionItemsInput>
-  where?: Prisma.BatchWhereInput
-}
-
-export type BatchUpdateToOneWithWhereWithoutAdmissionItemsInput = {
-  where?: Prisma.BatchWhereInput
-  data: Prisma.XOR<Prisma.BatchUpdateWithoutAdmissionItemsInput, Prisma.BatchUncheckedUpdateWithoutAdmissionItemsInput>
-}
-
-export type BatchUpdateWithoutAdmissionItemsInput = {
-  batchCode?: Prisma.StringFieldUpdateOperationsInput | string
-  batchName?: Prisma.StringFieldUpdateOperationsInput | string
-  startYear?: Prisma.IntFieldUpdateOperationsInput | number
-  endYear?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
-  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
-  classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
-  students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
-  creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
-}
-
-export type BatchUncheckedUpdateWithoutAdmissionItemsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  batchCode?: Prisma.StringFieldUpdateOperationsInput | string
-  batchName?: Prisma.StringFieldUpdateOperationsInput | string
-  startYear?: Prisma.IntFieldUpdateOperationsInput | number
-  endYear?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1024,7 +906,6 @@ export type BatchCreateWithoutStudentsInput = {
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
   curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
 }
 
@@ -1041,7 +922,6 @@ export type BatchUncheckedCreateWithoutStudentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceUncheckedCreateNestedManyWithoutBatchInput
 }
 
@@ -1073,7 +953,6 @@ export type BatchUpdateWithoutStudentsInput = {
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
   curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
 }
 
@@ -1090,7 +969,6 @@ export type BatchUncheckedUpdateWithoutStudentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUncheckedUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUncheckedUpdateManyWithoutBatchNestedInput
 }
 
@@ -1107,7 +985,6 @@ export type BatchCreateWithoutCreditPricesInput = {
   curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemCreateNestedManyWithoutBatchInput
 }
 
 export type BatchUncheckedCreateWithoutCreditPricesInput = {
@@ -1124,7 +1001,6 @@ export type BatchUncheckedCreateWithoutCreditPricesInput = {
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutBatchInput
-  admissionItems?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutBatchInput
 }
 
 export type BatchCreateOrConnectWithoutCreditPricesInput = {
@@ -1156,7 +1032,6 @@ export type BatchUpdateWithoutCreditPricesInput = {
   curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUpdateManyWithoutBatchNestedInput
 }
 
 export type BatchUncheckedUpdateWithoutCreditPricesInput = {
@@ -1173,7 +1048,6 @@ export type BatchUncheckedUpdateWithoutCreditPricesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUncheckedUpdateManyWithoutBatchNestedInput
 }
 
 export type BatchCreateManyMajorInput = {
@@ -1201,7 +1075,6 @@ export type BatchUpdateWithoutMajorInput = {
   curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
 }
 
@@ -1218,7 +1091,6 @@ export type BatchUncheckedUpdateWithoutMajorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
-  admissionItems?: Prisma.AdmissionItemUncheckedUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUncheckedUpdateManyWithoutBatchNestedInput
 }
 
@@ -1243,14 +1115,12 @@ export type BatchUncheckedUpdateManyWithoutMajorInput = {
 export type BatchCountOutputType = {
   classes: number
   students: number
-  admissionItems: number
   creditPrices: number
 }
 
 export type BatchCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   classes?: boolean | BatchCountOutputTypeCountClassesArgs
   students?: boolean | BatchCountOutputTypeCountStudentsArgs
-  admissionItems?: boolean | BatchCountOutputTypeCountAdmissionItemsArgs
   creditPrices?: boolean | BatchCountOutputTypeCountCreditPricesArgs
 }
 
@@ -1281,13 +1151,6 @@ export type BatchCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.
 /**
  * BatchCountOutputType without action
  */
-export type BatchCountOutputTypeCountAdmissionItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AdmissionItemWhereInput
-}
-
-/**
- * BatchCountOutputType without action
- */
 export type BatchCountOutputTypeCountCreditPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CreditPriceWhereInput
 }
@@ -1309,7 +1172,6 @@ export type BatchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   curriculum?: boolean | Prisma.Batch$curriculumArgs<ExtArgs>
   classes?: boolean | Prisma.Batch$classesArgs<ExtArgs>
   students?: boolean | Prisma.Batch$studentsArgs<ExtArgs>
-  admissionItems?: boolean | Prisma.Batch$admissionItemsArgs<ExtArgs>
   creditPrices?: boolean | Prisma.Batch$creditPricesArgs<ExtArgs>
   _count?: boolean | Prisma.BatchCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["batch"]>
@@ -1366,7 +1228,6 @@ export type BatchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   curriculum?: boolean | Prisma.Batch$curriculumArgs<ExtArgs>
   classes?: boolean | Prisma.Batch$classesArgs<ExtArgs>
   students?: boolean | Prisma.Batch$studentsArgs<ExtArgs>
-  admissionItems?: boolean | Prisma.Batch$admissionItemsArgs<ExtArgs>
   creditPrices?: boolean | Prisma.Batch$creditPricesArgs<ExtArgs>
   _count?: boolean | Prisma.BatchCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1386,7 +1247,6 @@ export type $BatchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     curriculum: Prisma.$CurriculumPayload<ExtArgs> | null
     classes: Prisma.$ClassPayload<ExtArgs>[]
     students: Prisma.$StudentPayload<ExtArgs>[]
-    admissionItems: Prisma.$AdmissionItemPayload<ExtArgs>[]
     creditPrices: Prisma.$CreditPricePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1799,7 +1659,6 @@ export interface Prisma__BatchClient<T, Null = never, ExtArgs extends runtime.Ty
   curriculum<T extends Prisma.Batch$curriculumArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Batch$curriculumArgs<ExtArgs>>): Prisma.Prisma__CurriculumClient<runtime.Types.Result.GetResult<Prisma.$CurriculumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   classes<T extends Prisma.Batch$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Batch$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   students<T extends Prisma.Batch$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Batch$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  admissionItems<T extends Prisma.Batch$admissionItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Batch$admissionItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   creditPrices<T extends Prisma.Batch$creditPricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Batch$creditPricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2306,30 +2165,6 @@ export type Batch$studentsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.StudentScalarFieldEnum | Prisma.StudentScalarFieldEnum[]
-}
-
-/**
- * Batch.admissionItems
- */
-export type Batch$admissionItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AdmissionItem
-   */
-  select?: Prisma.AdmissionItemSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AdmissionItem
-   */
-  omit?: Prisma.AdmissionItemOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdmissionItemInclude<ExtArgs> | null
-  where?: Prisma.AdmissionItemWhereInput
-  orderBy?: Prisma.AdmissionItemOrderByWithRelationInput | Prisma.AdmissionItemOrderByWithRelationInput[]
-  cursor?: Prisma.AdmissionItemWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AdmissionItemScalarFieldEnum | Prisma.AdmissionItemScalarFieldEnum[]
 }
 
 /**

@@ -1,50 +1,79 @@
-
 // ======================================
-// 1 đợt tuyển sinh sẽ tuyển nhiều ngành
+// 1. ĐỢT TUYỂN SINH TỔNG THỂ
 // ======================================
 model Admission {
   id        Int      @id @default(autoincrement())
-  name      String   // Đợt 1 - 2026
+  name      String   // Ví dụ: Tuyển sinh Đợt 1 - 2026
   startDate DateTime
   endDate   DateTime
+  status    AdmissionStatus   @default(OPEN) // OPEN, CLOSED, ARCHIVED
 
-  items AdmissionItem[]
+  items     AdmissionItem[]
+
+  @@map("admissions")
 }
 
-
 // ===================================================
-// 1 chi tiết tuyển sinh cho biết đang tuyển ngành nào, khóa nào
-// ==================================================
+// 2. CHI TIẾT TUYỂN SINH THEO NGÀNH (Mục tiêu & Khóa)
+// ===================================================
 model AdmissionItem {
-  id          Int   @id @default(autoincrement())
-
+  id          Int      @id @default(autoincrement())
+  
   admissionId Int
   admission   Admission @relation(fields: [admissionId], references: [id])
 
-  batchId     Int
-  batch       Batch @relation(fields: [batchId], references: [id])
+  majorId     Int
+  major       Major     @relation(fields: [majorId], references: [id])
 
-  quota       Int   // chỉ tiêu ngành đó
+  batchName   String    // Ví dụ: "K18" - Tự động tính toán từ Major.currentBatch + 1
+  quota       Int       // Chỉ tiêu số lượng sinh viên
 
-  // quan hệ
-  applications    Application[]
+  // Quan hệ
+  criteria     AdmissionCriterion[] // Các điều kiện để trúng tuyển ngành này
+  applications Application[]
+
+  @@map("admission_items")
 }
 
+// ===================================================
+// 3. TIÊU CHÍ TUYỂN SINH (Điều kiện cho từng ngành)
+// ===================================================
+model AdmissionCriterion {
+  id              Int      @id @default(autoincrement())
+  admissionItemId Int
+  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id])
+
+  criterionName   String   // Ví dụ: "Điểm Toán", "Điểm IELTS", "Bằng tốt nghiệp THPT"
+  minValue        Float?   // Giá trị tối thiểu (nếu là điểm số)
+  isRequired      Boolean  @default(true)
+  description     String?  // Mô tả thêm
+
+  @@map("admission_criteria")
+}
 
 // ===================================================
-// ĐƠN ỨNG TUYỂN ĐỢT TUYỂN SINH
-// ==================================================
+// 4. ĐƠN ỨNG TUYỂN (Dữ liệu từ thí sinh)
+// ===================================================
 model Application {
-  id        Int    @id @default(autoincrement())
-  fullName  String
-  email     String
-  phone     String
+  id              Int      @id @default(autoincrement())
+  fullName        String
+  email           String
+  phone           String
+  
+  // Dữ liệu xét tuyển (Lưu dưới dạng JSON để linh hoạt các loại điểm/chứng chỉ)
+  rawdata         Json?    // Ví dụ: { "math_score": 8.5, "ielts": 6.0, "highschool_graduated": true }
 
-  admissionItemId   Int
-  admissionItem     AdmissionItem     @relation(fields: [admissionItemId], references: [id])
+  admissionItemId Int
+  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id])
 
-  status String @default("PENDING") 
-  // PENDING | APPROVED | REJECTED | PAID
+  status          ApplycationAdmissionStatus   @default(PENDING) 
+  // PENDING: Chờ xét
+  // QUALIFIED: Đủ điều kiện (vượt qua vòng điểm số)
+  // ADMITTED: Đã trúng tuyển (nằm trong danh sách chỉ tiêu)
+  // REJECTED: Đã loại
+  // ENROLLED: Đã hoàn tất thủ tục nhập học & đóng tiền
 
-  createdAt DateTime @default(now())
+  createdAt       DateTime @default(now())
+
+  @@map("applications")
 }

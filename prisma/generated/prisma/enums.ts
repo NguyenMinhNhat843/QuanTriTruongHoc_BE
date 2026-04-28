@@ -45,6 +45,26 @@ export const PaymentMethod = {
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 
+export const ApplycationAdmissionStatus = {
+  PENDING: 'PENDING',
+  QUALIFIED: 'QUALIFIED',
+  ADMITTED: 'ADMITTED',
+  REJECTED: 'REJECTED',
+  ENROLLED: 'ENROLLED'
+} as const
+
+export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[keyof typeof ApplycationAdmissionStatus]
+
+
+export const AdmissionStatus = {
+  OPEN: 'OPEN',
+  CLOSE: 'CLOSE',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type AdmissionStatus = (typeof AdmissionStatus)[keyof typeof AdmissionStatus]
+
+
 export const CourseOfferStatus = {
   planned: 'planned',
   open: 'open',

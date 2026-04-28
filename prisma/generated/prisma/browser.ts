@@ -73,6 +73,11 @@ export type Admission = Prisma.AdmissionModel
  */
 export type AdmissionItem = Prisma.AdmissionItemModel
 /**
+ * Model AdmissionCriterion
+ * 
+ */
+export type AdmissionCriterion = Prisma.AdmissionCriterionModel
+/**
  * Model Application
  * 
  */

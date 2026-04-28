@@ -62,6 +62,7 @@ export const ModelName = {
   CurriculumSubject: 'CurriculumSubject',
   Admission: 'Admission',
   AdmissionItem: 'AdmissionItem',
+  AdmissionCriterion: 'AdmissionCriterion',
   Application: 'Application',
   User: 'User',
   Student: 'Student',
@@ -242,7 +243,8 @@ export const AdmissionScalarFieldEnum = {
   id: 'id',
   name: 'name',
   startDate: 'startDate',
-  endDate: 'endDate'
+  endDate: 'endDate',
+  status: 'status'
 } as const
 
 export type AdmissionScalarFieldEnum = (typeof AdmissionScalarFieldEnum)[keyof typeof AdmissionScalarFieldEnum]
@@ -251,11 +253,24 @@ export type AdmissionScalarFieldEnum = (typeof AdmissionScalarFieldEnum)[keyof t
 export const AdmissionItemScalarFieldEnum = {
   id: 'id',
   admissionId: 'admissionId',
-  batchId: 'batchId',
+  majorId: 'majorId',
+  batchName: 'batchName',
   quota: 'quota'
 } as const
 
 export type AdmissionItemScalarFieldEnum = (typeof AdmissionItemScalarFieldEnum)[keyof typeof AdmissionItemScalarFieldEnum]
+
+
+export const AdmissionCriterionScalarFieldEnum = {
+  id: 'id',
+  admissionItemId: 'admissionItemId',
+  criterionName: 'criterionName',
+  minValue: 'minValue',
+  isRequired: 'isRequired',
+  description: 'description'
+} as const
+
+export type AdmissionCriterionScalarFieldEnum = (typeof AdmissionCriterionScalarFieldEnum)[keyof typeof AdmissionCriterionScalarFieldEnum]
 
 
 export const ApplicationScalarFieldEnum = {
@@ -263,6 +278,7 @@ export const ApplicationScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   phone: 'phone',
+  rawdata: 'rawdata',
   admissionItemId: 'admissionItemId',
   status: 'status',
   createdAt: 'createdAt'
@@ -596,6 +612,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -610,4 +634,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

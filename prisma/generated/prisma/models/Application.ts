@@ -42,7 +42,7 @@ export type ApplicationMinAggregateOutputType = {
   email: string | null
   phone: string | null
   admissionItemId: number | null
-  status: string | null
+  status: $Enums.ApplycationAdmissionStatus | null
   createdAt: Date | null
 }
 
@@ -52,7 +52,7 @@ export type ApplicationMaxAggregateOutputType = {
   email: string | null
   phone: string | null
   admissionItemId: number | null
-  status: string | null
+  status: $Enums.ApplycationAdmissionStatus | null
   createdAt: Date | null
 }
 
@@ -61,6 +61,7 @@ export type ApplicationCountAggregateOutputType = {
   fullName: number
   email: number
   phone: number
+  rawdata: number
   admissionItemId: number
   status: number
   createdAt: number
@@ -103,6 +104,7 @@ export type ApplicationCountAggregateInputType = {
   fullName?: true
   email?: true
   phone?: true
+  rawdata?: true
   admissionItemId?: true
   status?: true
   createdAt?: true
@@ -200,8 +202,9 @@ export type ApplicationGroupByOutputType = {
   fullName: string
   email: string
   phone: string
+  rawdata: runtime.JsonValue | null
   admissionItemId: number
-  status: string
+  status: $Enums.ApplycationAdmissionStatus
   createdAt: Date
   _count: ApplicationCountAggregateOutputType | null
   _avg: ApplicationAvgAggregateOutputType | null
@@ -233,8 +236,9 @@ export type ApplicationWhereInput = {
   fullName?: Prisma.StringFilter<"Application"> | string
   email?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringFilter<"Application"> | string
+  rawdata?: Prisma.JsonNullableFilter<"Application">
   admissionItemId?: Prisma.IntFilter<"Application"> | number
-  status?: Prisma.StringFilter<"Application"> | string
+  status?: Prisma.EnumApplycationAdmissionStatusFilter<"Application"> | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   admissionItem?: Prisma.XOR<Prisma.AdmissionItemScalarRelationFilter, Prisma.AdmissionItemWhereInput>
 }
@@ -244,6 +248,7 @@ export type ApplicationOrderByWithRelationInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  rawdata?: Prisma.SortOrderInput | Prisma.SortOrder
   admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -258,8 +263,9 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   fullName?: Prisma.StringFilter<"Application"> | string
   email?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringFilter<"Application"> | string
+  rawdata?: Prisma.JsonNullableFilter<"Application">
   admissionItemId?: Prisma.IntFilter<"Application"> | number
-  status?: Prisma.StringFilter<"Application"> | string
+  status?: Prisma.EnumApplycationAdmissionStatusFilter<"Application"> | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   admissionItem?: Prisma.XOR<Prisma.AdmissionItemScalarRelationFilter, Prisma.AdmissionItemWhereInput>
 }, "id">
@@ -269,6 +275,7 @@ export type ApplicationOrderByWithAggregationInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  rawdata?: Prisma.SortOrderInput | Prisma.SortOrder
   admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -287,8 +294,9 @@ export type ApplicationScalarWhereWithAggregatesInput = {
   fullName?: Prisma.StringWithAggregatesFilter<"Application"> | string
   email?: Prisma.StringWithAggregatesFilter<"Application"> | string
   phone?: Prisma.StringWithAggregatesFilter<"Application"> | string
+  rawdata?: Prisma.JsonNullableWithAggregatesFilter<"Application">
   admissionItemId?: Prisma.IntWithAggregatesFilter<"Application"> | number
-  status?: Prisma.StringWithAggregatesFilter<"Application"> | string
+  status?: Prisma.EnumApplycationAdmissionStatusWithAggregatesFilter<"Application"> | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
 }
 
@@ -296,7 +304,8 @@ export type ApplicationCreateInput = {
   fullName: string
   email: string
   phone: string
-  status?: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
   admissionItem: Prisma.AdmissionItemCreateNestedOneWithoutApplicationsInput
 }
@@ -306,8 +315,9 @@ export type ApplicationUncheckedCreateInput = {
   fullName: string
   email: string
   phone: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   admissionItemId: number
-  status?: string
+  status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
 }
 
@@ -315,7 +325,8 @@ export type ApplicationUpdateInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admissionItem?: Prisma.AdmissionItemUpdateOneRequiredWithoutApplicationsNestedInput
 }
@@ -325,8 +336,9 @@ export type ApplicationUncheckedUpdateInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   admissionItemId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -335,8 +347,9 @@ export type ApplicationCreateManyInput = {
   fullName: string
   email: string
   phone: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   admissionItemId: number
-  status?: string
+  status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
 }
 
@@ -344,7 +357,8 @@ export type ApplicationUpdateManyMutationInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -353,8 +367,9 @@ export type ApplicationUncheckedUpdateManyInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   admissionItemId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -373,6 +388,7 @@ export type ApplicationCountOrderByAggregateInput = {
   fullName?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  rawdata?: Prisma.SortOrder
   admissionItemId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -450,11 +466,16 @@ export type ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput = {
   deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
 }
 
+export type EnumApplycationAdmissionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ApplycationAdmissionStatus
+}
+
 export type ApplicationCreateWithoutAdmissionItemInput = {
   fullName: string
   email: string
   phone: string
-  status?: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
 }
 
@@ -463,7 +484,8 @@ export type ApplicationUncheckedCreateWithoutAdmissionItemInput = {
   fullName: string
   email: string
   phone: string
-  status?: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
 }
 
@@ -501,8 +523,9 @@ export type ApplicationScalarWhereInput = {
   fullName?: Prisma.StringFilter<"Application"> | string
   email?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringFilter<"Application"> | string
+  rawdata?: Prisma.JsonNullableFilter<"Application">
   admissionItemId?: Prisma.IntFilter<"Application"> | number
-  status?: Prisma.StringFilter<"Application"> | string
+  status?: Prisma.EnumApplycationAdmissionStatusFilter<"Application"> | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
 }
 
@@ -511,7 +534,8 @@ export type ApplicationCreateManyAdmissionItemInput = {
   fullName: string
   email: string
   phone: string
-  status?: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
 }
 
@@ -519,7 +543,8 @@ export type ApplicationUpdateWithoutAdmissionItemInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -528,7 +553,8 @@ export type ApplicationUncheckedUpdateWithoutAdmissionItemInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -537,7 +563,8 @@ export type ApplicationUncheckedUpdateManyWithoutAdmissionItemInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -548,6 +575,7 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  rawdata?: boolean
   admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -559,6 +587,7 @@ export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  rawdata?: boolean
   admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -570,6 +599,7 @@ export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  rawdata?: boolean
   admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -581,12 +611,13 @@ export type ApplicationSelectScalar = {
   fullName?: boolean
   email?: boolean
   phone?: boolean
+  rawdata?: boolean
   admissionItemId?: boolean
   status?: boolean
   createdAt?: boolean
 }
 
-export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "admissionItemId" | "status" | "createdAt", ExtArgs["result"]["application"]>
+export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "rawdata" | "admissionItemId" | "status" | "createdAt", ExtArgs["result"]["application"]>
 export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
 }
@@ -607,8 +638,9 @@ export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     fullName: string
     email: string
     phone: string
+    rawdata: runtime.JsonValue | null
     admissionItemId: number
-    status: string
+    status: $Enums.ApplycationAdmissionStatus
     createdAt: Date
   }, ExtArgs["result"]["application"]>
   composites: {}
@@ -1038,8 +1070,9 @@ export interface ApplicationFieldRefs {
   readonly fullName: Prisma.FieldRef<"Application", 'String'>
   readonly email: Prisma.FieldRef<"Application", 'String'>
   readonly phone: Prisma.FieldRef<"Application", 'String'>
+  readonly rawdata: Prisma.FieldRef<"Application", 'Json'>
   readonly admissionItemId: Prisma.FieldRef<"Application", 'Int'>
-  readonly status: Prisma.FieldRef<"Application", 'String'>
+  readonly status: Prisma.FieldRef<"Application", 'ApplycationAdmissionStatus'>
   readonly createdAt: Prisma.FieldRef<"Application", 'DateTime'>
 }
     

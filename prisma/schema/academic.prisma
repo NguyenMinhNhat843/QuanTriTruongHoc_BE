@@ -46,6 +46,7 @@ model Major {
   students        Student[]
   batches         Batch[]
   creditPrices    CreditPrice[] 
+  admissionItems  AdmissionItem[]
 
   @@map("majors")
 }
@@ -78,7 +79,6 @@ model Batch {
   // Quan hệ: Một khóa có nhiều lớp
   classes     Class[]
   students    Student[]
-  admissionItems    AdmissionItem[]
   creditPrices CreditPrice[] 
 
   @@map("batches")

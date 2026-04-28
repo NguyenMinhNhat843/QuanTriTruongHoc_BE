@@ -1,54 +1,109 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
-  IsArray,
-  IsDateString,
-  IsInt,
-  IsNotEmpty,
   IsString,
+  IsNumber,
+  IsBoolean,
+  IsOptional,
+  IsNotEmpty,
+  IsInt,
   Min,
+  IsArray,
   ValidateNested,
+  IsDateString,
+  ArrayMinSize,
 } from "class-validator";
+import { Type } from "class-transformer";
 
-export class CreateAdmissionItemDto {
-  @ApiProperty({ example: 1, description: "ID của Khóa đào tạo (Batch)" })
+export class AdmissionCriterionDto {
+  @ApiProperty({ example: "Điểm Toán", description: "Tên tiêu chí xét tuyển" })
+  @IsString()
+  @IsNotEmpty()
+  criterionName: string;
+
+  @ApiPropertyOptional({ example: 7.0, description: "Điểm tối thiểu cần đạt" })
+  @IsNumber()
+  @IsOptional()
+  minValue?: number;
+
+  @ApiProperty({ example: true, description: "Tiêu chí này có bắt buộc không" })
+  @IsBoolean()
+  @IsOptional()
+  isRequired: boolean = true;
+
+  @ApiPropertyOptional({
+    example: "Xét điểm thi tốt nghiệp THPT",
+    description: "Mô tả thêm về tiêu chí",
+  })
+  @IsString()
+  @IsOptional()
+  description?: string;
+}
+
+export class AdmissionItemDto {
+  @ApiProperty({ example: 1, description: "ID của ngành học (Major)" })
   @IsInt()
   @IsNotEmpty()
-  batchId: number;
+  majorId: number;
+
+  @ApiProperty({ example: "K18" })
+  @IsString()
+  @IsNotEmpty()
+  batchName: string;
 
   @ApiProperty({
-    example: 50,
+    example: 100,
     description: "Chỉ tiêu tuyển sinh cho ngành này",
+    minimum: 1,
   })
   @IsInt()
   @Min(1)
   @IsNotEmpty()
   quota: number;
+
+  @ApiPropertyOptional({
+    type: [AdmissionCriterionDto],
+    description: "Danh sách các điều kiện xét tuyển riêng cho ngành",
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => AdmissionCriterionDto)
+  @IsOptional()
+  criteria?: AdmissionCriterionDto[];
 }
 
 export class CreateAdmissionDto {
-  @ApiProperty({ example: "Đợt 1 - Tuyển sinh 2026" })
+  @ApiProperty({
+    example: "Tuyển sinh Đợt 1 - 2026",
+    description: "Tên đợt tuyển sinh",
+  })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ example: "2026-03-01T00:00:00Z" })
+  @ApiProperty({
+    example: "2026-05-01T00:00:00Z",
+    description: "Ngày bắt đầu nhận hồ sơ",
+  })
   @IsDateString()
   @IsNotEmpty()
-  startDate: Date;
-
-  @ApiProperty({ example: "2026-06-30T23:59:59Z" })
-  @IsDateString()
-  @IsNotEmpty()
-  endDate: Date;
+  startDate: string;
 
   @ApiProperty({
-    type: [CreateAdmissionItemDto],
-    description: "Danh sách các ngành và khóa học trong đợt tuyển sinh này",
+    example: "2026-08-30T00:00:00Z",
+    description: "Ngày kết thúc nhận hồ sơ",
+  })
+  @IsDateString()
+  @IsNotEmpty()
+  endDate: string;
+
+  @ApiProperty({
+    type: [AdmissionItemDto],
+    description: "Danh sách chi tiết các ngành và chỉ tiêu",
+    minItems: 1,
   })
   @IsArray()
-  @ValidateNested({ each: true }) // Kiểm tra tính hợp lệ của từng item trong mảng
-  @Type(() => CreateAdmissionItemDto) // Yêu cầu class-transformer nhận diện kiểu dữ liệu lồng nhau
-  @IsNotEmpty()
-  items: CreateAdmissionItemDto[];
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => AdmissionItemDto)
+  items: AdmissionItemDto[];
 }

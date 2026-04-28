@@ -14,7 +14,7 @@ export class CourseRegisService {
     private readonly curriculumSubjectQuery: CurriculumSubjectQuery,
   ) {}
   // ======================
-  // TỰ ĐỘNG ĐĂNG KÝ LỚP ỌC PHẦN THEO CHƯƠNG TRÌNH CHO HỌC SINH
+  // TỰ ĐỘNG ĐĂNG KÝ LỚP HỌC PHẦN THEO CHƯƠNG TRÌNH CHO HỌC SINH
   // ======================
   async autoRegisterByCurriculum(studentId: number) {
     // 1. Lấy student + curriculum

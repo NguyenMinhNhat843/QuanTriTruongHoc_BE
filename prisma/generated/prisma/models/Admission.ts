@@ -39,6 +39,7 @@ export type AdmissionMinAggregateOutputType = {
   name: string | null
   startDate: Date | null
   endDate: Date | null
+  status: $Enums.AdmissionStatus | null
 }
 
 export type AdmissionMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type AdmissionMaxAggregateOutputType = {
   name: string | null
   startDate: Date | null
   endDate: Date | null
+  status: $Enums.AdmissionStatus | null
 }
 
 export type AdmissionCountAggregateOutputType = {
@@ -53,6 +55,7 @@ export type AdmissionCountAggregateOutputType = {
   name: number
   startDate: number
   endDate: number
+  status: number
   _all: number
 }
 
@@ -70,6 +73,7 @@ export type AdmissionMinAggregateInputType = {
   name?: true
   startDate?: true
   endDate?: true
+  status?: true
 }
 
 export type AdmissionMaxAggregateInputType = {
@@ -77,6 +81,7 @@ export type AdmissionMaxAggregateInputType = {
   name?: true
   startDate?: true
   endDate?: true
+  status?: true
 }
 
 export type AdmissionCountAggregateInputType = {
@@ -84,6 +89,7 @@ export type AdmissionCountAggregateInputType = {
   name?: true
   startDate?: true
   endDate?: true
+  status?: true
   _all?: true
 }
 
@@ -178,6 +184,7 @@ export type AdmissionGroupByOutputType = {
   name: string
   startDate: Date
   endDate: Date
+  status: $Enums.AdmissionStatus
   _count: AdmissionCountAggregateOutputType | null
   _avg: AdmissionAvgAggregateOutputType | null
   _sum: AdmissionSumAggregateOutputType | null
@@ -208,6 +215,7 @@ export type AdmissionWhereInput = {
   name?: Prisma.StringFilter<"Admission"> | string
   startDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
+  status?: Prisma.EnumAdmissionStatusFilter<"Admission"> | $Enums.AdmissionStatus
   items?: Prisma.AdmissionItemListRelationFilter
 }
 
@@ -216,6 +224,7 @@ export type AdmissionOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   items?: Prisma.AdmissionItemOrderByRelationAggregateInput
 }
 
@@ -227,6 +236,7 @@ export type AdmissionWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Admission"> | string
   startDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
   endDate?: Prisma.DateTimeFilter<"Admission"> | Date | string
+  status?: Prisma.EnumAdmissionStatusFilter<"Admission"> | $Enums.AdmissionStatus
   items?: Prisma.AdmissionItemListRelationFilter
 }, "id">
 
@@ -235,6 +245,7 @@ export type AdmissionOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   _count?: Prisma.AdmissionCountOrderByAggregateInput
   _avg?: Prisma.AdmissionAvgOrderByAggregateInput
   _max?: Prisma.AdmissionMaxOrderByAggregateInput
@@ -250,12 +261,14 @@ export type AdmissionScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Admission"> | string
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Admission"> | Date | string
   endDate?: Prisma.DateTimeWithAggregatesFilter<"Admission"> | Date | string
+  status?: Prisma.EnumAdmissionStatusWithAggregatesFilter<"Admission"> | $Enums.AdmissionStatus
 }
 
 export type AdmissionCreateInput = {
   name: string
   startDate: Date | string
   endDate: Date | string
+  status?: $Enums.AdmissionStatus
   items?: Prisma.AdmissionItemCreateNestedManyWithoutAdmissionInput
 }
 
@@ -264,6 +277,7 @@ export type AdmissionUncheckedCreateInput = {
   name: string
   startDate: Date | string
   endDate: Date | string
+  status?: $Enums.AdmissionStatus
   items?: Prisma.AdmissionItemUncheckedCreateNestedManyWithoutAdmissionInput
 }
 
@@ -271,6 +285,7 @@ export type AdmissionUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAdmissionStatusFieldUpdateOperationsInput | $Enums.AdmissionStatus
   items?: Prisma.AdmissionItemUpdateManyWithoutAdmissionNestedInput
 }
 
@@ -279,6 +294,7 @@ export type AdmissionUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAdmissionStatusFieldUpdateOperationsInput | $Enums.AdmissionStatus
   items?: Prisma.AdmissionItemUncheckedUpdateManyWithoutAdmissionNestedInput
 }
 
@@ -287,12 +303,14 @@ export type AdmissionCreateManyInput = {
   name: string
   startDate: Date | string
   endDate: Date | string
+  status?: $Enums.AdmissionStatus
 }
 
 export type AdmissionUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAdmissionStatusFieldUpdateOperationsInput | $Enums.AdmissionStatus
 }
 
 export type AdmissionUncheckedUpdateManyInput = {
@@ -300,6 +318,7 @@ export type AdmissionUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAdmissionStatusFieldUpdateOperationsInput | $Enums.AdmissionStatus
 }
 
 export type AdmissionCountOrderByAggregateInput = {
@@ -307,6 +326,7 @@ export type AdmissionCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type AdmissionAvgOrderByAggregateInput = {
@@ -318,6 +338,7 @@ export type AdmissionMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type AdmissionMinOrderByAggregateInput = {
@@ -325,6 +346,7 @@ export type AdmissionMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
+  status?: Prisma.SortOrder
 }
 
 export type AdmissionSumOrderByAggregateInput = {
@@ -334,6 +356,10 @@ export type AdmissionSumOrderByAggregateInput = {
 export type AdmissionScalarRelationFilter = {
   is?: Prisma.AdmissionWhereInput
   isNot?: Prisma.AdmissionWhereInput
+}
+
+export type EnumAdmissionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AdmissionStatus
 }
 
 export type AdmissionCreateNestedOneWithoutItemsInput = {
@@ -354,6 +380,7 @@ export type AdmissionCreateWithoutItemsInput = {
   name: string
   startDate: Date | string
   endDate: Date | string
+  status?: $Enums.AdmissionStatus
 }
 
 export type AdmissionUncheckedCreateWithoutItemsInput = {
@@ -361,6 +388,7 @@ export type AdmissionUncheckedCreateWithoutItemsInput = {
   name: string
   startDate: Date | string
   endDate: Date | string
+  status?: $Enums.AdmissionStatus
 }
 
 export type AdmissionCreateOrConnectWithoutItemsInput = {
@@ -383,6 +411,7 @@ export type AdmissionUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAdmissionStatusFieldUpdateOperationsInput | $Enums.AdmissionStatus
 }
 
 export type AdmissionUncheckedUpdateWithoutItemsInput = {
@@ -390,6 +419,7 @@ export type AdmissionUncheckedUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumAdmissionStatusFieldUpdateOperationsInput | $Enums.AdmissionStatus
 }
 
 
@@ -428,6 +458,7 @@ export type AdmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   name?: boolean
   startDate?: boolean
   endDate?: boolean
+  status?: boolean
   items?: boolean | Prisma.Admission$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.AdmissionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admission"]>
@@ -437,6 +468,7 @@ export type AdmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   name?: boolean
   startDate?: boolean
   endDate?: boolean
+  status?: boolean
 }, ExtArgs["result"]["admission"]>
 
 export type AdmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -444,6 +476,7 @@ export type AdmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   name?: boolean
   startDate?: boolean
   endDate?: boolean
+  status?: boolean
 }, ExtArgs["result"]["admission"]>
 
 export type AdmissionSelectScalar = {
@@ -451,9 +484,10 @@ export type AdmissionSelectScalar = {
   name?: boolean
   startDate?: boolean
   endDate?: boolean
+  status?: boolean
 }
 
-export type AdmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "startDate" | "endDate", ExtArgs["result"]["admission"]>
+export type AdmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "startDate" | "endDate" | "status", ExtArgs["result"]["admission"]>
 export type AdmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | Prisma.Admission$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.AdmissionCountOutputTypeDefaultArgs<ExtArgs>
@@ -471,6 +505,7 @@ export type $AdmissionPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     name: string
     startDate: Date
     endDate: Date
+    status: $Enums.AdmissionStatus
   }, ExtArgs["result"]["admission"]>
   composites: {}
 }
@@ -899,6 +934,7 @@ export interface AdmissionFieldRefs {
   readonly name: Prisma.FieldRef<"Admission", 'String'>
   readonly startDate: Prisma.FieldRef<"Admission", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Admission", 'DateTime'>
+  readonly status: Prisma.FieldRef<"Admission", 'AdmissionStatus'>
 }
     
 
