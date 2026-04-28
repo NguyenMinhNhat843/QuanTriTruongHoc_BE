@@ -2,6 +2,10 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsString, IsInt, IsOptional, Min } from "class-validator";
 
+export class CreateTuitionFeesDto {
+  studentCode;
+}
+
 export class EnrollmentPaymentDto {
   @ApiProperty({ example: "SV20260001", description: "Mã số sinh viên" })
   @IsString({ message: "Mã sinh viên phải là chuỗi ký tự" })

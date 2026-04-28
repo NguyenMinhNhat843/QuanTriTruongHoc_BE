@@ -429,9 +429,9 @@ export type FeeInvoiceSumOrderByAggregateInput = {
   totalAmount?: Prisma.SortOrder
 }
 
-export type FeeInvoiceScalarRelationFilter = {
-  is?: Prisma.FeeInvoiceWhereInput
-  isNot?: Prisma.FeeInvoiceWhereInput
+export type FeeInvoiceNullableScalarRelationFilter = {
+  is?: Prisma.FeeInvoiceWhereInput | null
+  isNot?: Prisma.FeeInvoiceWhereInput | null
 }
 
 export type FeeInvoiceCreateNestedManyWithoutSemesterInput = {
@@ -524,10 +524,12 @@ export type FeeInvoiceCreateNestedOneWithoutItemsInput = {
   connect?: Prisma.FeeInvoiceWhereUniqueInput
 }
 
-export type FeeInvoiceUpdateOneRequiredWithoutItemsNestedInput = {
+export type FeeInvoiceUpdateOneWithoutItemsNestedInput = {
   create?: Prisma.XOR<Prisma.FeeInvoiceCreateWithoutItemsInput, Prisma.FeeInvoiceUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.FeeInvoiceCreateOrConnectWithoutItemsInput
   upsert?: Prisma.FeeInvoiceUpsertWithoutItemsInput
+  disconnect?: Prisma.FeeInvoiceWhereInput | boolean
+  delete?: Prisma.FeeInvoiceWhereInput | boolean
   connect?: Prisma.FeeInvoiceWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.FeeInvoiceUpdateToOneWithWhereWithoutItemsInput, Prisma.FeeInvoiceUpdateWithoutItemsInput>, Prisma.FeeInvoiceUncheckedUpdateWithoutItemsInput>
 }

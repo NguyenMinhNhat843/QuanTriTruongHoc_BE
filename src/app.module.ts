@@ -18,6 +18,7 @@ import { AdmissionModule } from "./admission/admission.module.js";
 import { TuitionFeeModule } from "./tuitionFee/tuitionFee.module.js";
 import { FeeModule } from "./Fee/fee.module.js";
 import { FeeCatalogModule } from "./FeeCatalog/feeCatalog.module.js";
+import { CreditPriceModule } from "./creaditPrice/creditPrice.module.js";
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { FeeCatalogModule } from "./FeeCatalog/feeCatalog.module.js";
     TuitionFeeModule,
     FeeModule,
     FeeCatalogModule,
+    CreditPriceModule,
   ],
 })
 export class AppModule {}

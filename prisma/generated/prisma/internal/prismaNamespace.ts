@@ -405,7 +405,6 @@ export const ModelName = {
   CourseOffer: 'CourseOffer',
   CourseRegistration: 'CourseRegistration',
   CourseSchedule: 'CourseSchedule',
-  FeeType: 'FeeType',
   FeeInvoice: 'FeeInvoice',
   FeeInvoiceItem: 'FeeInvoiceItem',
   Payment: 'Payment',
@@ -432,7 +431,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "feeType" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1990,80 +1989,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    FeeType: {
-      payload: Prisma.$FeeTypePayload<ExtArgs>
-      fields: Prisma.FeeTypeFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.FeeTypeFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.FeeTypeFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>
-        }
-        findFirst: {
-          args: Prisma.FeeTypeFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.FeeTypeFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>
-        }
-        findMany: {
-          args: Prisma.FeeTypeFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>[]
-        }
-        create: {
-          args: Prisma.FeeTypeCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>
-        }
-        createMany: {
-          args: Prisma.FeeTypeCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.FeeTypeCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>[]
-        }
-        delete: {
-          args: Prisma.FeeTypeDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>
-        }
-        update: {
-          args: Prisma.FeeTypeUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>
-        }
-        deleteMany: {
-          args: Prisma.FeeTypeDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.FeeTypeUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.FeeTypeUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>[]
-        }
-        upsert: {
-          args: Prisma.FeeTypeUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeeTypePayload>
-        }
-        aggregate: {
-          args: Prisma.FeeTypeAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateFeeType>
-        }
-        groupBy: {
-          args: Prisma.FeeTypeGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FeeTypeGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.FeeTypeCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FeeTypeCountAggregateOutputType> | number
-        }
-      }
-    }
     FeeInvoice: {
       payload: Prisma.$FeeInvoicePayload<ExtArgs>
       fields: Prisma.FeeInvoiceFieldRefs
@@ -3239,14 +3164,6 @@ export const CourseScheduleScalarFieldEnum = {
 export type CourseScheduleScalarFieldEnum = (typeof CourseScheduleScalarFieldEnum)[keyof typeof CourseScheduleScalarFieldEnum]
 
 
-export const FeeTypeScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-} as const
-
-export type FeeTypeScalarFieldEnum = (typeof FeeTypeScalarFieldEnum)[keyof typeof FeeTypeScalarFieldEnum]
-
-
 export const FeeInvoiceScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
@@ -3262,11 +3179,10 @@ export type FeeInvoiceScalarFieldEnum = (typeof FeeInvoiceScalarFieldEnum)[keyof
 
 export const FeeInvoiceItemScalarFieldEnum = {
   id: 'id',
-  invoiceId: 'invoiceId',
-  feeTypeId: 'feeTypeId',
-  courseOfferId: 'courseOfferId',
+  studentId: 'studentId',
+  name: 'name',
   amount: 'amount',
-  paidAmount: 'paidAmount',
+  invoiceId: 'invoiceId',
   status: 'status'
 } as const
 
@@ -3633,7 +3549,6 @@ export type GlobalOmitConfig = {
   courseOffer?: Prisma.CourseOfferOmit
   courseRegistration?: Prisma.CourseRegistrationOmit
   courseSchedule?: Prisma.CourseScheduleOmit
-  feeType?: Prisma.FeeTypeOmit
   feeInvoice?: Prisma.FeeInvoiceOmit
   feeInvoiceItem?: Prisma.FeeInvoiceItemOmit
   payment?: Prisma.PaymentOmit

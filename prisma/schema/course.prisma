@@ -47,7 +47,6 @@ model CourseOffer {
   registrations     CourseRegistration[]
   gradeEntries      GradeEntry[] 
   courseSchedules   CourseSchedule[]
-  feeInvoiceItems   FeeInvoiceItem[]
   grades            Grade[]
 
   @@map("course_offers")

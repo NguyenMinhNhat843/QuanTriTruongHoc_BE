@@ -28,49 +28,42 @@ export type AggregateFeeInvoiceItem = {
 
 export type FeeInvoiceItemAvgAggregateOutputType = {
   id: number | null
-  invoiceId: number | null
-  feeTypeId: number | null
-  courseOfferId: number | null
+  studentId: number | null
   amount: number | null
-  paidAmount: number | null
+  invoiceId: number | null
 }
 
 export type FeeInvoiceItemSumAggregateOutputType = {
   id: number | null
-  invoiceId: number | null
-  feeTypeId: number | null
-  courseOfferId: number | null
+  studentId: number | null
   amount: number | null
-  paidAmount: number | null
+  invoiceId: number | null
 }
 
 export type FeeInvoiceItemMinAggregateOutputType = {
   id: number | null
-  invoiceId: number | null
-  feeTypeId: number | null
-  courseOfferId: number | null
+  studentId: number | null
+  name: string | null
   amount: number | null
-  paidAmount: number | null
+  invoiceId: number | null
   status: string | null
 }
 
 export type FeeInvoiceItemMaxAggregateOutputType = {
   id: number | null
-  invoiceId: number | null
-  feeTypeId: number | null
-  courseOfferId: number | null
+  studentId: number | null
+  name: string | null
   amount: number | null
-  paidAmount: number | null
+  invoiceId: number | null
   status: string | null
 }
 
 export type FeeInvoiceItemCountAggregateOutputType = {
   id: number
-  invoiceId: number
-  feeTypeId: number
-  courseOfferId: number
+  studentId: number
+  name: number
   amount: number
-  paidAmount: number
+  invoiceId: number
   status: number
   _all: number
 }
@@ -78,49 +71,42 @@ export type FeeInvoiceItemCountAggregateOutputType = {
 
 export type FeeInvoiceItemAvgAggregateInputType = {
   id?: true
-  invoiceId?: true
-  feeTypeId?: true
-  courseOfferId?: true
+  studentId?: true
   amount?: true
-  paidAmount?: true
+  invoiceId?: true
 }
 
 export type FeeInvoiceItemSumAggregateInputType = {
   id?: true
-  invoiceId?: true
-  feeTypeId?: true
-  courseOfferId?: true
+  studentId?: true
   amount?: true
-  paidAmount?: true
+  invoiceId?: true
 }
 
 export type FeeInvoiceItemMinAggregateInputType = {
   id?: true
-  invoiceId?: true
-  feeTypeId?: true
-  courseOfferId?: true
+  studentId?: true
+  name?: true
   amount?: true
-  paidAmount?: true
+  invoiceId?: true
   status?: true
 }
 
 export type FeeInvoiceItemMaxAggregateInputType = {
   id?: true
-  invoiceId?: true
-  feeTypeId?: true
-  courseOfferId?: true
+  studentId?: true
+  name?: true
   amount?: true
-  paidAmount?: true
+  invoiceId?: true
   status?: true
 }
 
 export type FeeInvoiceItemCountAggregateInputType = {
   id?: true
-  invoiceId?: true
-  feeTypeId?: true
-  courseOfferId?: true
+  studentId?: true
+  name?: true
   amount?: true
-  paidAmount?: true
+  invoiceId?: true
   status?: true
   _all?: true
 }
@@ -213,11 +199,10 @@ export type FeeInvoiceItemGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 
 export type FeeInvoiceItemGroupByOutputType = {
   id: number
-  invoiceId: number
-  feeTypeId: number
-  courseOfferId: number | null
+  studentId: number | null
+  name: string
   amount: number
-  paidAmount: number
+  invoiceId: number | null
   status: string
   _count: FeeInvoiceItemCountAggregateOutputType | null
   _avg: FeeInvoiceItemAvgAggregateOutputType | null
@@ -246,29 +231,23 @@ export type FeeInvoiceItemWhereInput = {
   OR?: Prisma.FeeInvoiceItemWhereInput[]
   NOT?: Prisma.FeeInvoiceItemWhereInput | Prisma.FeeInvoiceItemWhereInput[]
   id?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  invoiceId?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  feeTypeId?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  courseOfferId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
+  studentId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
+  name?: Prisma.StringFilter<"FeeInvoiceItem"> | string
   amount?: Prisma.FloatFilter<"FeeInvoiceItem"> | number
-  paidAmount?: Prisma.FloatFilter<"FeeInvoiceItem"> | number
+  invoiceId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
   status?: Prisma.StringFilter<"FeeInvoiceItem"> | string
-  invoice?: Prisma.XOR<Prisma.FeeInvoiceScalarRelationFilter, Prisma.FeeInvoiceWhereInput>
-  feeType?: Prisma.XOR<Prisma.FeeTypeScalarRelationFilter, Prisma.FeeTypeWhereInput>
-  courseOffer?: Prisma.XOR<Prisma.CourseOfferNullableScalarRelationFilter, Prisma.CourseOfferWhereInput> | null
+  invoice?: Prisma.XOR<Prisma.FeeInvoiceNullableScalarRelationFilter, Prisma.FeeInvoiceWhereInput> | null
   allocations?: Prisma.PaymentAllocationListRelationFilter
 }
 
 export type FeeInvoiceItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  invoiceId?: Prisma.SortOrder
-  feeTypeId?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrderInput | Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  paidAmount?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   invoice?: Prisma.FeeInvoiceOrderByWithRelationInput
-  feeType?: Prisma.FeeTypeOrderByWithRelationInput
-  courseOffer?: Prisma.CourseOfferOrderByWithRelationInput
   allocations?: Prisma.PaymentAllocationOrderByRelationAggregateInput
 }
 
@@ -277,25 +256,21 @@ export type FeeInvoiceItemWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.FeeInvoiceItemWhereInput | Prisma.FeeInvoiceItemWhereInput[]
   OR?: Prisma.FeeInvoiceItemWhereInput[]
   NOT?: Prisma.FeeInvoiceItemWhereInput | Prisma.FeeInvoiceItemWhereInput[]
-  invoiceId?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  feeTypeId?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  courseOfferId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
+  studentId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
+  name?: Prisma.StringFilter<"FeeInvoiceItem"> | string
   amount?: Prisma.FloatFilter<"FeeInvoiceItem"> | number
-  paidAmount?: Prisma.FloatFilter<"FeeInvoiceItem"> | number
+  invoiceId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
   status?: Prisma.StringFilter<"FeeInvoiceItem"> | string
-  invoice?: Prisma.XOR<Prisma.FeeInvoiceScalarRelationFilter, Prisma.FeeInvoiceWhereInput>
-  feeType?: Prisma.XOR<Prisma.FeeTypeScalarRelationFilter, Prisma.FeeTypeWhereInput>
-  courseOffer?: Prisma.XOR<Prisma.CourseOfferNullableScalarRelationFilter, Prisma.CourseOfferWhereInput> | null
+  invoice?: Prisma.XOR<Prisma.FeeInvoiceNullableScalarRelationFilter, Prisma.FeeInvoiceWhereInput> | null
   allocations?: Prisma.PaymentAllocationListRelationFilter
 }, "id">
 
 export type FeeInvoiceItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  invoiceId?: Prisma.SortOrder
-  feeTypeId?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrderInput | Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  paidAmount?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   _count?: Prisma.FeeInvoiceItemCountOrderByAggregateInput
   _avg?: Prisma.FeeInvoiceItemAvgOrderByAggregateInput
@@ -309,79 +284,73 @@ export type FeeInvoiceItemScalarWhereWithAggregatesInput = {
   OR?: Prisma.FeeInvoiceItemScalarWhereWithAggregatesInput[]
   NOT?: Prisma.FeeInvoiceItemScalarWhereWithAggregatesInput | Prisma.FeeInvoiceItemScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"FeeInvoiceItem"> | number
-  invoiceId?: Prisma.IntWithAggregatesFilter<"FeeInvoiceItem"> | number
-  feeTypeId?: Prisma.IntWithAggregatesFilter<"FeeInvoiceItem"> | number
-  courseOfferId?: Prisma.IntNullableWithAggregatesFilter<"FeeInvoiceItem"> | number | null
+  studentId?: Prisma.IntNullableWithAggregatesFilter<"FeeInvoiceItem"> | number | null
+  name?: Prisma.StringWithAggregatesFilter<"FeeInvoiceItem"> | string
   amount?: Prisma.FloatWithAggregatesFilter<"FeeInvoiceItem"> | number
-  paidAmount?: Prisma.FloatWithAggregatesFilter<"FeeInvoiceItem"> | number
+  invoiceId?: Prisma.IntNullableWithAggregatesFilter<"FeeInvoiceItem"> | number | null
   status?: Prisma.StringWithAggregatesFilter<"FeeInvoiceItem"> | string
 }
 
 export type FeeInvoiceItemCreateInput = {
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
   status?: string
-  invoice: Prisma.FeeInvoiceCreateNestedOneWithoutItemsInput
-  feeType: Prisma.FeeTypeCreateNestedOneWithoutItemsInput
-  courseOffer?: Prisma.CourseOfferCreateNestedOneWithoutFeeInvoiceItemsInput
+  invoice?: Prisma.FeeInvoiceCreateNestedOneWithoutItemsInput
   allocations?: Prisma.PaymentAllocationCreateNestedManyWithoutFeeInvoiceItemInput
 }
 
 export type FeeInvoiceItemUncheckedCreateInput = {
   id?: number
-  invoiceId: number
-  feeTypeId: number
-  courseOfferId?: number | null
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
+  invoiceId?: number | null
   status?: string
   allocations?: Prisma.PaymentAllocationUncheckedCreateNestedManyWithoutFeeInvoiceItemInput
 }
 
 export type FeeInvoiceItemUpdateInput = {
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  invoice?: Prisma.FeeInvoiceUpdateOneRequiredWithoutItemsNestedInput
-  feeType?: Prisma.FeeTypeUpdateOneRequiredWithoutItemsNestedInput
-  courseOffer?: Prisma.CourseOfferUpdateOneWithoutFeeInvoiceItemsNestedInput
+  invoice?: Prisma.FeeInvoiceUpdateOneWithoutItemsNestedInput
   allocations?: Prisma.PaymentAllocationUpdateManyWithoutFeeInvoiceItemNestedInput
 }
 
 export type FeeInvoiceItemUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  invoiceId?: Prisma.IntFieldUpdateOperationsInput | number
-  feeTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  invoiceId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   allocations?: Prisma.PaymentAllocationUncheckedUpdateManyWithoutFeeInvoiceItemNestedInput
 }
 
 export type FeeInvoiceItemCreateManyInput = {
   id?: number
-  invoiceId: number
-  feeTypeId: number
-  courseOfferId?: number | null
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
+  invoiceId?: number | null
   status?: string
 }
 
 export type FeeInvoiceItemUpdateManyMutationInput = {
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FeeInvoiceItemUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  invoiceId?: Prisma.IntFieldUpdateOperationsInput | number
-  feeTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  invoiceId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -397,139 +366,48 @@ export type FeeInvoiceItemOrderByRelationAggregateInput = {
 
 export type FeeInvoiceItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  invoiceId?: Prisma.SortOrder
-  feeTypeId?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  paidAmount?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type FeeInvoiceItemAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  invoiceId?: Prisma.SortOrder
-  feeTypeId?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  paidAmount?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
 }
 
 export type FeeInvoiceItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  invoiceId?: Prisma.SortOrder
-  feeTypeId?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  paidAmount?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type FeeInvoiceItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  invoiceId?: Prisma.SortOrder
-  feeTypeId?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  paidAmount?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
   status?: Prisma.SortOrder
 }
 
 export type FeeInvoiceItemSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  invoiceId?: Prisma.SortOrder
-  feeTypeId?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
-  paidAmount?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
 }
 
 export type FeeInvoiceItemScalarRelationFilter = {
   is?: Prisma.FeeInvoiceItemWhereInput
   isNot?: Prisma.FeeInvoiceItemWhereInput
-}
-
-export type FeeInvoiceItemCreateNestedManyWithoutCourseOfferInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput> | Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyCourseOfferInputEnvelope
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-}
-
-export type FeeInvoiceItemUncheckedCreateNestedManyWithoutCourseOfferInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput> | Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyCourseOfferInputEnvelope
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-}
-
-export type FeeInvoiceItemUpdateManyWithoutCourseOfferNestedInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput> | Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput[]
-  upsert?: Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutCourseOfferInput | Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutCourseOfferInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyCourseOfferInputEnvelope
-  set?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  disconnect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  delete?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  update?: Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutCourseOfferInput | Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutCourseOfferInput[]
-  updateMany?: Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutCourseOfferInput | Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutCourseOfferInput[]
-  deleteMany?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
-}
-
-export type FeeInvoiceItemUncheckedUpdateManyWithoutCourseOfferNestedInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput> | Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput[]
-  upsert?: Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutCourseOfferInput | Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutCourseOfferInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyCourseOfferInputEnvelope
-  set?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  disconnect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  delete?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  update?: Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutCourseOfferInput | Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutCourseOfferInput[]
-  updateMany?: Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutCourseOfferInput | Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutCourseOfferInput[]
-  deleteMany?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
-}
-
-export type FeeInvoiceItemCreateNestedManyWithoutFeeTypeInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput> | Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyFeeTypeInputEnvelope
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-}
-
-export type FeeInvoiceItemUncheckedCreateNestedManyWithoutFeeTypeInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput> | Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyFeeTypeInputEnvelope
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-}
-
-export type FeeInvoiceItemUpdateManyWithoutFeeTypeNestedInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput> | Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput[]
-  upsert?: Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutFeeTypeInput | Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutFeeTypeInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyFeeTypeInputEnvelope
-  set?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  disconnect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  delete?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  update?: Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutFeeTypeInput | Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutFeeTypeInput[]
-  updateMany?: Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutFeeTypeInput | Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutFeeTypeInput[]
-  deleteMany?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
-}
-
-export type FeeInvoiceItemUncheckedUpdateManyWithoutFeeTypeNestedInput = {
-  create?: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput> | Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput[] | Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput[]
-  connectOrCreate?: Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput | Prisma.FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput[]
-  upsert?: Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutFeeTypeInput | Prisma.FeeInvoiceItemUpsertWithWhereUniqueWithoutFeeTypeInput[]
-  createMany?: Prisma.FeeInvoiceItemCreateManyFeeTypeInputEnvelope
-  set?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  disconnect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  delete?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  connect?: Prisma.FeeInvoiceItemWhereUniqueInput | Prisma.FeeInvoiceItemWhereUniqueInput[]
-  update?: Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutFeeTypeInput | Prisma.FeeInvoiceItemUpdateWithWhereUniqueWithoutFeeTypeInput[]
-  updateMany?: Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutFeeTypeInput | Prisma.FeeInvoiceItemUpdateManyWithWhereWithoutFeeTypeInput[]
-  deleteMany?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
 }
 
 export type FeeInvoiceItemCreateNestedManyWithoutInvoiceInput = {
@@ -588,124 +466,19 @@ export type FeeInvoiceItemUpdateOneRequiredWithoutAllocationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FeeInvoiceItemUpdateToOneWithWhereWithoutAllocationsInput, Prisma.FeeInvoiceItemUpdateWithoutAllocationsInput>, Prisma.FeeInvoiceItemUncheckedUpdateWithoutAllocationsInput>
 }
 
-export type FeeInvoiceItemCreateWithoutCourseOfferInput = {
-  amount: number
-  paidAmount?: number
-  status?: string
-  invoice: Prisma.FeeInvoiceCreateNestedOneWithoutItemsInput
-  feeType: Prisma.FeeTypeCreateNestedOneWithoutItemsInput
-  allocations?: Prisma.PaymentAllocationCreateNestedManyWithoutFeeInvoiceItemInput
-}
-
-export type FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput = {
-  id?: number
-  invoiceId: number
-  feeTypeId: number
-  amount: number
-  paidAmount?: number
-  status?: string
-  allocations?: Prisma.PaymentAllocationUncheckedCreateNestedManyWithoutFeeInvoiceItemInput
-}
-
-export type FeeInvoiceItemCreateOrConnectWithoutCourseOfferInput = {
-  where: Prisma.FeeInvoiceItemWhereUniqueInput
-  create: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput>
-}
-
-export type FeeInvoiceItemCreateManyCourseOfferInputEnvelope = {
-  data: Prisma.FeeInvoiceItemCreateManyCourseOfferInput | Prisma.FeeInvoiceItemCreateManyCourseOfferInput[]
-  skipDuplicates?: boolean
-}
-
-export type FeeInvoiceItemUpsertWithWhereUniqueWithoutCourseOfferInput = {
-  where: Prisma.FeeInvoiceItemWhereUniqueInput
-  update: Prisma.XOR<Prisma.FeeInvoiceItemUpdateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedUpdateWithoutCourseOfferInput>
-  create: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutCourseOfferInput>
-}
-
-export type FeeInvoiceItemUpdateWithWhereUniqueWithoutCourseOfferInput = {
-  where: Prisma.FeeInvoiceItemWhereUniqueInput
-  data: Prisma.XOR<Prisma.FeeInvoiceItemUpdateWithoutCourseOfferInput, Prisma.FeeInvoiceItemUncheckedUpdateWithoutCourseOfferInput>
-}
-
-export type FeeInvoiceItemUpdateManyWithWhereWithoutCourseOfferInput = {
-  where: Prisma.FeeInvoiceItemScalarWhereInput
-  data: Prisma.XOR<Prisma.FeeInvoiceItemUpdateManyMutationInput, Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutCourseOfferInput>
-}
-
-export type FeeInvoiceItemScalarWhereInput = {
-  AND?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
-  OR?: Prisma.FeeInvoiceItemScalarWhereInput[]
-  NOT?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
-  id?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  invoiceId?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  feeTypeId?: Prisma.IntFilter<"FeeInvoiceItem"> | number
-  courseOfferId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
-  amount?: Prisma.FloatFilter<"FeeInvoiceItem"> | number
-  paidAmount?: Prisma.FloatFilter<"FeeInvoiceItem"> | number
-  status?: Prisma.StringFilter<"FeeInvoiceItem"> | string
-}
-
-export type FeeInvoiceItemCreateWithoutFeeTypeInput = {
-  amount: number
-  paidAmount?: number
-  status?: string
-  invoice: Prisma.FeeInvoiceCreateNestedOneWithoutItemsInput
-  courseOffer?: Prisma.CourseOfferCreateNestedOneWithoutFeeInvoiceItemsInput
-  allocations?: Prisma.PaymentAllocationCreateNestedManyWithoutFeeInvoiceItemInput
-}
-
-export type FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput = {
-  id?: number
-  invoiceId: number
-  courseOfferId?: number | null
-  amount: number
-  paidAmount?: number
-  status?: string
-  allocations?: Prisma.PaymentAllocationUncheckedCreateNestedManyWithoutFeeInvoiceItemInput
-}
-
-export type FeeInvoiceItemCreateOrConnectWithoutFeeTypeInput = {
-  where: Prisma.FeeInvoiceItemWhereUniqueInput
-  create: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput>
-}
-
-export type FeeInvoiceItemCreateManyFeeTypeInputEnvelope = {
-  data: Prisma.FeeInvoiceItemCreateManyFeeTypeInput | Prisma.FeeInvoiceItemCreateManyFeeTypeInput[]
-  skipDuplicates?: boolean
-}
-
-export type FeeInvoiceItemUpsertWithWhereUniqueWithoutFeeTypeInput = {
-  where: Prisma.FeeInvoiceItemWhereUniqueInput
-  update: Prisma.XOR<Prisma.FeeInvoiceItemUpdateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedUpdateWithoutFeeTypeInput>
-  create: Prisma.XOR<Prisma.FeeInvoiceItemCreateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedCreateWithoutFeeTypeInput>
-}
-
-export type FeeInvoiceItemUpdateWithWhereUniqueWithoutFeeTypeInput = {
-  where: Prisma.FeeInvoiceItemWhereUniqueInput
-  data: Prisma.XOR<Prisma.FeeInvoiceItemUpdateWithoutFeeTypeInput, Prisma.FeeInvoiceItemUncheckedUpdateWithoutFeeTypeInput>
-}
-
-export type FeeInvoiceItemUpdateManyWithWhereWithoutFeeTypeInput = {
-  where: Prisma.FeeInvoiceItemScalarWhereInput
-  data: Prisma.XOR<Prisma.FeeInvoiceItemUpdateManyMutationInput, Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutFeeTypeInput>
-}
-
 export type FeeInvoiceItemCreateWithoutInvoiceInput = {
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
   status?: string
-  feeType: Prisma.FeeTypeCreateNestedOneWithoutItemsInput
-  courseOffer?: Prisma.CourseOfferCreateNestedOneWithoutFeeInvoiceItemsInput
   allocations?: Prisma.PaymentAllocationCreateNestedManyWithoutFeeInvoiceItemInput
 }
 
 export type FeeInvoiceItemUncheckedCreateWithoutInvoiceInput = {
   id?: number
-  feeTypeId: number
-  courseOfferId?: number | null
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
   status?: string
   allocations?: Prisma.PaymentAllocationUncheckedCreateNestedManyWithoutFeeInvoiceItemInput
 }
@@ -736,22 +509,32 @@ export type FeeInvoiceItemUpdateManyWithWhereWithoutInvoiceInput = {
   data: Prisma.XOR<Prisma.FeeInvoiceItemUpdateManyMutationInput, Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutInvoiceInput>
 }
 
+export type FeeInvoiceItemScalarWhereInput = {
+  AND?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
+  OR?: Prisma.FeeInvoiceItemScalarWhereInput[]
+  NOT?: Prisma.FeeInvoiceItemScalarWhereInput | Prisma.FeeInvoiceItemScalarWhereInput[]
+  id?: Prisma.IntFilter<"FeeInvoiceItem"> | number
+  studentId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
+  name?: Prisma.StringFilter<"FeeInvoiceItem"> | string
+  amount?: Prisma.FloatFilter<"FeeInvoiceItem"> | number
+  invoiceId?: Prisma.IntNullableFilter<"FeeInvoiceItem"> | number | null
+  status?: Prisma.StringFilter<"FeeInvoiceItem"> | string
+}
+
 export type FeeInvoiceItemCreateWithoutAllocationsInput = {
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
   status?: string
-  invoice: Prisma.FeeInvoiceCreateNestedOneWithoutItemsInput
-  feeType: Prisma.FeeTypeCreateNestedOneWithoutItemsInput
-  courseOffer?: Prisma.CourseOfferCreateNestedOneWithoutFeeInvoiceItemsInput
+  invoice?: Prisma.FeeInvoiceCreateNestedOneWithoutItemsInput
 }
 
 export type FeeInvoiceItemUncheckedCreateWithoutAllocationsInput = {
   id?: number
-  invoiceId: number
-  feeTypeId: number
-  courseOfferId?: number | null
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
+  invoiceId?: number | null
   status?: string
 }
 
@@ -772,132 +555,52 @@ export type FeeInvoiceItemUpdateToOneWithWhereWithoutAllocationsInput = {
 }
 
 export type FeeInvoiceItemUpdateWithoutAllocationsInput = {
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  invoice?: Prisma.FeeInvoiceUpdateOneRequiredWithoutItemsNestedInput
-  feeType?: Prisma.FeeTypeUpdateOneRequiredWithoutItemsNestedInput
-  courseOffer?: Prisma.CourseOfferUpdateOneWithoutFeeInvoiceItemsNestedInput
+  invoice?: Prisma.FeeInvoiceUpdateOneWithoutItemsNestedInput
 }
 
 export type FeeInvoiceItemUncheckedUpdateWithoutAllocationsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  invoiceId?: Prisma.IntFieldUpdateOperationsInput | number
-  feeTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type FeeInvoiceItemCreateManyCourseOfferInput = {
-  id?: number
-  invoiceId: number
-  feeTypeId: number
-  amount: number
-  paidAmount?: number
-  status?: string
-}
-
-export type FeeInvoiceItemUpdateWithoutCourseOfferInput = {
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  invoice?: Prisma.FeeInvoiceUpdateOneRequiredWithoutItemsNestedInput
-  feeType?: Prisma.FeeTypeUpdateOneRequiredWithoutItemsNestedInput
-  allocations?: Prisma.PaymentAllocationUpdateManyWithoutFeeInvoiceItemNestedInput
-}
-
-export type FeeInvoiceItemUncheckedUpdateWithoutCourseOfferInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  invoiceId?: Prisma.IntFieldUpdateOperationsInput | number
-  feeTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  allocations?: Prisma.PaymentAllocationUncheckedUpdateManyWithoutFeeInvoiceItemNestedInput
-}
-
-export type FeeInvoiceItemUncheckedUpdateManyWithoutCourseOfferInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  invoiceId?: Prisma.IntFieldUpdateOperationsInput | number
-  feeTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type FeeInvoiceItemCreateManyFeeTypeInput = {
-  id?: number
-  invoiceId: number
-  courseOfferId?: number | null
-  amount: number
-  paidAmount?: number
-  status?: string
-}
-
-export type FeeInvoiceItemUpdateWithoutFeeTypeInput = {
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  invoice?: Prisma.FeeInvoiceUpdateOneRequiredWithoutItemsNestedInput
-  courseOffer?: Prisma.CourseOfferUpdateOneWithoutFeeInvoiceItemsNestedInput
-  allocations?: Prisma.PaymentAllocationUpdateManyWithoutFeeInvoiceItemNestedInput
-}
-
-export type FeeInvoiceItemUncheckedUpdateWithoutFeeTypeInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  invoiceId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  allocations?: Prisma.PaymentAllocationUncheckedUpdateManyWithoutFeeInvoiceItemNestedInput
-}
-
-export type FeeInvoiceItemUncheckedUpdateManyWithoutFeeTypeInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  invoiceId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  invoiceId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FeeInvoiceItemCreateManyInvoiceInput = {
   id?: number
-  feeTypeId: number
-  courseOfferId?: number | null
+  studentId?: number | null
+  name: string
   amount: number
-  paidAmount?: number
   status?: string
 }
 
 export type FeeInvoiceItemUpdateWithoutInvoiceInput = {
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  feeType?: Prisma.FeeTypeUpdateOneRequiredWithoutItemsNestedInput
-  courseOffer?: Prisma.CourseOfferUpdateOneWithoutFeeInvoiceItemsNestedInput
   allocations?: Prisma.PaymentAllocationUpdateManyWithoutFeeInvoiceItemNestedInput
 }
 
 export type FeeInvoiceItemUncheckedUpdateWithoutInvoiceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  feeTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   allocations?: Prisma.PaymentAllocationUncheckedUpdateManyWithoutFeeInvoiceItemNestedInput
 }
 
 export type FeeInvoiceItemUncheckedUpdateManyWithoutInvoiceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  feeTypeId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
-  paidAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -934,89 +637,70 @@ export type FeeInvoiceItemCountOutputTypeCountAllocationsArgs<ExtArgs extends ru
 
 export type FeeInvoiceItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  invoiceId?: boolean
-  feeTypeId?: boolean
-  courseOfferId?: boolean
+  studentId?: boolean
+  name?: boolean
   amount?: boolean
-  paidAmount?: boolean
+  invoiceId?: boolean
   status?: boolean
-  invoice?: boolean | Prisma.FeeInvoiceDefaultArgs<ExtArgs>
-  feeType?: boolean | Prisma.FeeTypeDefaultArgs<ExtArgs>
-  courseOffer?: boolean | Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs>
+  invoice?: boolean | Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs>
   allocations?: boolean | Prisma.FeeInvoiceItem$allocationsArgs<ExtArgs>
   _count?: boolean | Prisma.FeeInvoiceItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["feeInvoiceItem"]>
 
 export type FeeInvoiceItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  invoiceId?: boolean
-  feeTypeId?: boolean
-  courseOfferId?: boolean
+  studentId?: boolean
+  name?: boolean
   amount?: boolean
-  paidAmount?: boolean
+  invoiceId?: boolean
   status?: boolean
-  invoice?: boolean | Prisma.FeeInvoiceDefaultArgs<ExtArgs>
-  feeType?: boolean | Prisma.FeeTypeDefaultArgs<ExtArgs>
-  courseOffer?: boolean | Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs>
+  invoice?: boolean | Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs>
 }, ExtArgs["result"]["feeInvoiceItem"]>
 
 export type FeeInvoiceItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  invoiceId?: boolean
-  feeTypeId?: boolean
-  courseOfferId?: boolean
+  studentId?: boolean
+  name?: boolean
   amount?: boolean
-  paidAmount?: boolean
+  invoiceId?: boolean
   status?: boolean
-  invoice?: boolean | Prisma.FeeInvoiceDefaultArgs<ExtArgs>
-  feeType?: boolean | Prisma.FeeTypeDefaultArgs<ExtArgs>
-  courseOffer?: boolean | Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs>
+  invoice?: boolean | Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs>
 }, ExtArgs["result"]["feeInvoiceItem"]>
 
 export type FeeInvoiceItemSelectScalar = {
   id?: boolean
-  invoiceId?: boolean
-  feeTypeId?: boolean
-  courseOfferId?: boolean
+  studentId?: boolean
+  name?: boolean
   amount?: boolean
-  paidAmount?: boolean
+  invoiceId?: boolean
   status?: boolean
 }
 
-export type FeeInvoiceItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoiceId" | "feeTypeId" | "courseOfferId" | "amount" | "paidAmount" | "status", ExtArgs["result"]["feeInvoiceItem"]>
+export type FeeInvoiceItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "name" | "amount" | "invoiceId" | "status", ExtArgs["result"]["feeInvoiceItem"]>
 export type FeeInvoiceItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  invoice?: boolean | Prisma.FeeInvoiceDefaultArgs<ExtArgs>
-  feeType?: boolean | Prisma.FeeTypeDefaultArgs<ExtArgs>
-  courseOffer?: boolean | Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs>
+  invoice?: boolean | Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs>
   allocations?: boolean | Prisma.FeeInvoiceItem$allocationsArgs<ExtArgs>
   _count?: boolean | Prisma.FeeInvoiceItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FeeInvoiceItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  invoice?: boolean | Prisma.FeeInvoiceDefaultArgs<ExtArgs>
-  feeType?: boolean | Prisma.FeeTypeDefaultArgs<ExtArgs>
-  courseOffer?: boolean | Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs>
+  invoice?: boolean | Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs>
 }
 export type FeeInvoiceItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  invoice?: boolean | Prisma.FeeInvoiceDefaultArgs<ExtArgs>
-  feeType?: boolean | Prisma.FeeTypeDefaultArgs<ExtArgs>
-  courseOffer?: boolean | Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs>
+  invoice?: boolean | Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs>
 }
 
 export type $FeeInvoiceItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FeeInvoiceItem"
   objects: {
-    invoice: Prisma.$FeeInvoicePayload<ExtArgs>
-    feeType: Prisma.$FeeTypePayload<ExtArgs>
-    courseOffer: Prisma.$CourseOfferPayload<ExtArgs> | null
+    invoice: Prisma.$FeeInvoicePayload<ExtArgs> | null
     allocations: Prisma.$PaymentAllocationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    invoiceId: number
-    feeTypeId: number
-    courseOfferId: number | null
+    studentId: number | null
+    name: string
     amount: number
-    paidAmount: number
+    invoiceId: number | null
     status: string
   }, ExtArgs["result"]["feeInvoiceItem"]>
   composites: {}
@@ -1412,9 +1096,7 @@ readonly fields: FeeInvoiceItemFieldRefs;
  */
 export interface Prisma__FeeInvoiceItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  invoice<T extends Prisma.FeeInvoiceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FeeInvoiceDefaultArgs<ExtArgs>>): Prisma.Prisma__FeeInvoiceClient<runtime.Types.Result.GetResult<Prisma.$FeeInvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  feeType<T extends Prisma.FeeTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FeeTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__FeeTypeClient<runtime.Types.Result.GetResult<Prisma.$FeeTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  courseOffer<T extends Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FeeInvoiceItem$courseOfferArgs<ExtArgs>>): Prisma.Prisma__CourseOfferClient<runtime.Types.Result.GetResult<Prisma.$CourseOfferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  invoice<T extends Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FeeInvoiceItem$invoiceArgs<ExtArgs>>): Prisma.Prisma__FeeInvoiceClient<runtime.Types.Result.GetResult<Prisma.$FeeInvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   allocations<T extends Prisma.FeeInvoiceItem$allocationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FeeInvoiceItem$allocationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1446,11 +1128,10 @@ export interface Prisma__FeeInvoiceItemClient<T, Null = never, ExtArgs extends r
  */
 export interface FeeInvoiceItemFieldRefs {
   readonly id: Prisma.FieldRef<"FeeInvoiceItem", 'Int'>
-  readonly invoiceId: Prisma.FieldRef<"FeeInvoiceItem", 'Int'>
-  readonly feeTypeId: Prisma.FieldRef<"FeeInvoiceItem", 'Int'>
-  readonly courseOfferId: Prisma.FieldRef<"FeeInvoiceItem", 'Int'>
+  readonly studentId: Prisma.FieldRef<"FeeInvoiceItem", 'Int'>
+  readonly name: Prisma.FieldRef<"FeeInvoiceItem", 'String'>
   readonly amount: Prisma.FieldRef<"FeeInvoiceItem", 'Float'>
-  readonly paidAmount: Prisma.FieldRef<"FeeInvoiceItem", 'Float'>
+  readonly invoiceId: Prisma.FieldRef<"FeeInvoiceItem", 'Int'>
   readonly status: Prisma.FieldRef<"FeeInvoiceItem", 'String'>
 }
     
@@ -1853,22 +1534,22 @@ export type FeeInvoiceItemDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * FeeInvoiceItem.courseOffer
+ * FeeInvoiceItem.invoice
  */
-export type FeeInvoiceItem$courseOfferArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type FeeInvoiceItem$invoiceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the CourseOffer
+   * Select specific fields to fetch from the FeeInvoice
    */
-  select?: Prisma.CourseOfferSelect<ExtArgs> | null
+  select?: Prisma.FeeInvoiceSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the CourseOffer
+   * Omit specific fields from the FeeInvoice
    */
-  omit?: Prisma.CourseOfferOmit<ExtArgs> | null
+  omit?: Prisma.FeeInvoiceOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.CourseOfferInclude<ExtArgs> | null
-  where?: Prisma.CourseOfferWhereInput
+  include?: Prisma.FeeInvoiceInclude<ExtArgs> | null
+  where?: Prisma.FeeInvoiceWhereInput
 }
 
 /**

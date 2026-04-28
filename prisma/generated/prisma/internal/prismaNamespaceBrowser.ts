@@ -72,7 +72,6 @@ export const ModelName = {
   CourseOffer: 'CourseOffer',
   CourseRegistration: 'CourseRegistration',
   CourseSchedule: 'CourseSchedule',
-  FeeType: 'FeeType',
   FeeInvoice: 'FeeInvoice',
   FeeInvoiceItem: 'FeeInvoiceItem',
   Payment: 'Payment',
@@ -424,14 +423,6 @@ export const CourseScheduleScalarFieldEnum = {
 export type CourseScheduleScalarFieldEnum = (typeof CourseScheduleScalarFieldEnum)[keyof typeof CourseScheduleScalarFieldEnum]
 
 
-export const FeeTypeScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-} as const
-
-export type FeeTypeScalarFieldEnum = (typeof FeeTypeScalarFieldEnum)[keyof typeof FeeTypeScalarFieldEnum]
-
-
 export const FeeInvoiceScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
@@ -447,11 +438,10 @@ export type FeeInvoiceScalarFieldEnum = (typeof FeeInvoiceScalarFieldEnum)[keyof
 
 export const FeeInvoiceItemScalarFieldEnum = {
   id: 'id',
-  invoiceId: 'invoiceId',
-  feeTypeId: 'feeTypeId',
-  courseOfferId: 'courseOfferId',
+  studentId: 'studentId',
+  name: 'name',
   amount: 'amount',
-  paidAmount: 'paidAmount',
+  invoiceId: 'invoiceId',
   status: 'status'
 } as const
 

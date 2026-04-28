@@ -2,17 +2,6 @@
 // ==========================
 // 12. FINANCIAL SYSTEM (HỆ THỐNG TÀI CHÍNH)
 // ==========================
-
-// Phân loại phí (Học phí, Bảo hiểm, Cơ sở vật chất...)
-model FeeType {
-  id        Int              @id @default(autoincrement())
-  name      String           // Tuition, Insurance, Lab Fee...
-  
-  items     FeeInvoiceItem[]
-
-  @@map("fee_types")
-}
-
 // Hóa đơn tổng theo học kỳ
 model FeeInvoice {
   id          Int              @id @default(autoincrement())
@@ -39,19 +28,13 @@ model FeeInvoice {
 // Chi tiết từng hạng mục trong hóa đơn (Từng môn học hoặc loại phí)
 model FeeInvoiceItem {
   id            Int                 @id @default(autoincrement())
-  
-  invoiceId     Int
-  invoice       FeeInvoice          @relation(fields: [invoiceId], references: [id])
-  
-  feeTypeId     Int
-  feeType       FeeType             @relation(fields: [feeTypeId], references: [id])
-  
-  // Nếu là học phí môn học thì nối với CourseOffer
-  courseOfferId Int?
-  courseOffer   CourseOffer?        @relation(fields: [courseOfferId], references: [id])
-  
+  studentId     Int?                
+
+  name          String
   amount        Float               // Số tiền gốc của item này
-  paidAmount    Float               @default(0) // Số tiền lũy kế đã đóng cho riêng môn này
+
+  invoiceId     Int?
+  invoice       FeeInvoice?          @relation(fields: [invoiceId], references: [id])
   
   // status: unpaid, partial, paid
   status        String              @default("unpaid")

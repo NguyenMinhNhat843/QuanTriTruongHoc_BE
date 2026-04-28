@@ -1,22 +1,32 @@
-import { Body, Controller, Get, Query } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { TuitionFeeService } from "./tuitionFee.service";
-import { EnrollmentPaymentDto } from "./tuitionFee.dto";
 
 @ApiTags("Tuition Fee (Thu học phí)")
 @Controller("tuition-fee")
 export class TuitionFeeController {
   constructor(private readonly tuitionFeeService: TuitionFeeService) {}
 
-  @Get("enrollment-fees-preview")
+  @Post("create-semester-fees")
   @ApiOperation({
-    summary: "Lấy danh sách các khoản phí nhập học cần đóng",
-    description:
-      "Tính toán và trả về chi tiết các môn học, tín chỉ, đơn giá và các loại phí dịch vụ đi kèm.",
+    summary: "Tạo các khoản phí học kỳ cho sinh viên",
   })
-  @ApiResponse({ status: 200, description: "Lấy danh sách thành công." })
-  async getEnrollmentFeesPreview(@Query() data: EnrollmentPaymentDto) {
-    // Lưu ý: Dùng @Query vì đây là phương thức GET để lấy thông tin
-    return await this.tuitionFeeService.getInitialEnrollmentFees(data);
+  @ApiResponse({ status: 201, description: "Tạo các khoản phí thành công." })
+  async createSemesterFees() {
+    return await this.tuitionFeeService.createTuitionFees();
+  }
+
+  @Get("/fees/:studentId")
+  @ApiOperation({
+    summary: "Lấy danh sách các khoản phí học kỳ của sinh viên",
+    description:
+      "Dựa trên ID sinh viên, lấy danh sách các khoản phí học kỳ đã tạo.",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Danh sách các khoản phí học kỳ của sinh viên.",
+  })
+  async getTuitionFees(@Query("studentId") studentId: number) {
+    return await this.tuitionFeeService.getTuitionFees(studentId);
   }
 }

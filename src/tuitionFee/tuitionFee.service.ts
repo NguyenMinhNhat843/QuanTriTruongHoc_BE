@@ -1,32 +1,24 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { EnrollmentPaymentDto } from "./tuitionFee.dto";
+import { StudentStatus } from "../../prisma/generated/prisma/enums";
 
 @Injectable()
 export class TuitionFeeService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // Học sinh lần đầu đóng sẽ gọi api này
-  async getInitialEnrollmentFees(data: EnrollmentPaymentDto) {
-    // 1. Lấy Student: học sinh này đã chốt hồ sơ và bắt đầu đóng tiền HK1
-    const student = await this.prisma.student.findUnique({
-      where: { studentCode: data.studentCode },
+  // api lên đợt đóng học phí cho học kỳ
+  async createTuitionFees() {
+    // 1. Quét danh sách sinh viên ENROLLED
+    const students = await this.prisma.student.findMany({
+      where: { status: StudentStatus.enrolled },
       include: {
         batch: {
           include: {
             curriculum: {
               include: {
                 curriculumSubjects: {
-                  where: {
-                    semesterNumber: 1,
-                  },
-                  include: {
-                    subject: true,
-                  },
+                  where: { semesterNumber: 1 },
+                  include: { subject: true },
                 },
               },
             },
@@ -35,98 +27,125 @@ export class TuitionFeeService {
       },
     });
 
-    if (!student) {
-      throw new NotFoundException("Không tìm thấy sinh viên");
-    }
-
-    // 2. Lấy danh sách môn HK1
-    const subjects =
-      student.batch?.curriculum?.curriculumSubjects.map((cs) => cs.subject) ||
-      [];
-
-    if (subjects.length === 0) {
-      throw new BadRequestException("Chưa cấu hình môn học kỳ 1");
-    }
-
-    // 3. Lấy giá tín chỉ (có fallback)
-    const prices = await this.prisma.creditPrice.findMany({
-      where: {
-        semester: 1,
-        OR: [
-          { isGlobal: true },
-          { majorId: student.majorId },
-          { batchId: student.batchId },
-          {
-            AND: [{ majorId: student.majorId }, { batchId: student.batchId }],
-          },
-        ],
-      },
-    });
-
-    const getPriority = (p: any) => {
-      if (p.majorId && p.batchId) return 4;
-      if (p.batchId) return 3;
-      if (p.majorId) return 2;
-      if (p.isGlobal) return 1;
-      return 0;
-    };
-
-    const bestPrice = prices.sort((a, b) => getPriority(b) - getPriority(a))[0];
-
-    if (!bestPrice || bestPrice.price <= 0) {
-      throw new BadRequestException(
-        "Chưa cấu hình giá tín chỉ cho sinh viên này",
+    if (!students || students.length === 0) {
+      throw new NotFoundException(
+        "Không tìm thấy sinh viên nào cần lập học phí",
       );
     }
 
-    // 4. Tính học phí môn
-    const subjectFees = subjects.map((subject) => ({
-      type: "SUBJECT",
-      name: subject.subjectName,
-      credits: subject.credits,
-      amount: subject.credits * bestPrice.price,
-    }));
+    const results: { studentCode: string; itemCount: number; total: number }[] =
+      [];
 
-    // 5. Lấy phí khác (FIX LOGIC)
-    const feeCatalogs = await this.prisma.feeCatalog.findMany({
-      where: {
-        OR: [
-          { isGlobal: true },
-          { majorId: student.majorId },
-          { batchId: student.batchId },
-          {
-            AND: [{ majorId: student.majorId }, { batchId: student.batchId }],
+    // Sử dụng Transaction để đảm bảo nếu lỗi một em thì không bị rác data (hoặc tùy mục đích của bạn)
+    return await this.prisma.$transaction(async (tx) => {
+      for (const student of students) {
+        // 2. Lấy danh sách môn HK1 của từng sinh viên
+        const subjects =
+          student.batch?.curriculum?.curriculumSubjects.map(
+            (cs) => cs.subject,
+          ) || [];
+
+        if (subjects.length === 0) continue; // Bỏ qua nếu chưa cấu hình môn
+
+        const prices = await tx.creditPrice.findMany({
+          where: {
+            OR: [
+              { isGlobal: true }, // Giá áp dụng toàn cầu (thường không quan tâm kỳ nào)
+              {
+                semester: 1,
+                majorId: student.majorId,
+              }, // Giá riêng cho ngành + kỳ này
+              {
+                semester: 1,
+                batchId: student.batchId,
+              }, // Giá riêng cho khóa + kỳ này
+              {
+                majorId: student.majorId,
+                batchId: student.batchId,
+                // Có thể thêm cả 3 điều kiện kết hợp nếu muốn độ ưu tiên cao nhất
+              },
+            ],
           },
-        ],
-      },
-      include: {
-        fee: true, // nếu bạn có bảng Fee
+          // Sắp xếp để lấy cái "chi tiết nhất" lên đầu nếu cần
+          orderBy: [
+            { majorId: "desc" },
+            { batchId: "desc" },
+            { semester: "desc" },
+          ],
+        });
+
+        const getPriority = (p: any) => {
+          if (p.majorId && p.batchId) return 4;
+          if (p.batchId) return 3;
+          if (p.majorId) return 2;
+          if (p.isGlobal) return 1;
+          return 0;
+        };
+
+        const bestPrice = prices.sort(
+          (a, b) => getPriority(b) - getPriority(a),
+        )[0];
+
+        if (!bestPrice || bestPrice.price <= 0) continue;
+
+        // 4. Lấy phí khác (Bảo hiểm, đồng phục...) cho sinh viên này
+        const feeCatalogs = await tx.feeCatalog.findMany({
+          where: {
+            OR: [
+              { isGlobal: true },
+              { majorId: student.majorId },
+              { batchId: student.batchId },
+            ],
+          },
+          include: { fee: true },
+        });
+
+        // 5. Gom tất cả các mục thu
+        const subjectItems = subjects.map((sub) => ({
+          studentId: student.id,
+          name: `Học phí môn: ${sub.subjectName}`,
+          amount: sub.credits * bestPrice.price,
+          status: "unpaid",
+        }));
+
+        const otherItems = feeCatalogs.map((fc) => ({
+          studentId: student.id,
+          name: fc.fee?.name || "Lệ phí khác",
+          amount: fc.amount,
+          status: "unpaid",
+        }));
+
+        const allItems = [...subjectItems, ...otherItems];
+
+        // 6. Lưu vào DB
+        if (allItems.length > 0) {
+          await tx.feeInvoiceItem.createMany({
+            data: allItems,
+          });
+
+          results.push({
+            studentCode: student.studentCode,
+            itemCount: allItems.length,
+            total: allItems.reduce((sum, i) => sum + i.amount, 0),
+          });
+        }
+      }
+
+      return {
+        message: `Đã tạo thành công danh mục học phí cho ${results.length} sinh viên`,
+        details: results,
+      };
+    });
+  }
+
+  // api lấy danh sách các khoản phí của sinh viên
+  async getTuitionFees(studentId: number) {
+    const fees = await this.prisma.feeInvoiceItem.findFirst({
+      where: {
+        studentId: studentId,
       },
     });
 
-    const otherFees = feeCatalogs.map((f) => ({
-      type: "FEE",
-      name: f.fee?.name || "Khác",
-      amount: f.amount,
-    }));
-
-    // 6. Gộp lại
-    const allFees = [...subjectFees, ...otherFees];
-
-    const total = allFees.reduce((sum, item) => sum + item.amount, 0);
-
-    // 7. Response chuẩn cho FE
-    return {
-      studentCode: student.studentCode,
-      semester: 1,
-
-      breakdown: allFees,
-
-      summary: {
-        subjectTotal: subjectFees.reduce((s, i) => s + i.amount, 0),
-        otherFeeTotal: otherFees.reduce((s, i) => s + i.amount, 0),
-        total,
-      },
-    };
+    return fees;
   }
 }
