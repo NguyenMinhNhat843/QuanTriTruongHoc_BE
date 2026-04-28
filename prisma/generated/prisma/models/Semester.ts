@@ -278,6 +278,7 @@ export type SemesterOrderByWithRelationInput = {
 
 export type SemesterWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  unique_semester_term?: Prisma.SemesterUnique_semester_termCompoundUniqueInput
   AND?: Prisma.SemesterWhereInput | Prisma.SemesterWhereInput[]
   OR?: Prisma.SemesterWhereInput[]
   NOT?: Prisma.SemesterWhereInput | Prisma.SemesterWhereInput[]
@@ -292,7 +293,7 @@ export type SemesterWhereUniqueInput = Prisma.AtLeast<{
   benefitPrograms?: Prisma.BenefitProgramListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
   feeInvoices?: Prisma.FeeInvoiceListRelationFilter
-}, "id">
+}, "id" | "unique_semester_term">
 
 export type SemesterOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -417,6 +418,11 @@ export type SemesterUncheckedUpdateManyInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SemesterUnique_semester_termCompoundUniqueInput = {
+  year: number
+  term: number
 }
 
 export type SemesterCountOrderByAggregateInput = {

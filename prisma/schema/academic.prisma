@@ -139,7 +139,8 @@ model Subject {
 
   // quan hệ
   curriculumnSubject  CurriculumSubject[]
-  courseOffers       CourseOffer[]
+  courseOffers        CourseOffer[]
+  teacherSubjects     TeacherSubject[]
 
   @@map("subjects")
 }
@@ -185,7 +186,6 @@ model Room {
   createdAt DateTime @default(now())
 
   // Quan hệ
-  courseOffers   CourseOffer[]
   courseSchedules CourseSchedule[]
 
   @@map("rooms")

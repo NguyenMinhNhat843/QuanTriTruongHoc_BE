@@ -1,10 +1,27 @@
 
+enum CourseOfferStatus {
+  planned
+  open
+  closed
+  cancelled
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
 // ==========================
 // 8. COURSE_OFFERS (LỚP HỌC PHẦN)
 // ==========================
 model CourseOffer {
   id                Int       @id @default(autoincrement())
-  courseCode        String    @unique // VD: OOP-2026-HK1-01
+  courseCode        String    // VD: OOP-2026-HK1-01
   
   // Giáo viên giảng dạy (Nối tới Staff)
   teacherId         Int?
@@ -26,7 +43,7 @@ model CourseOffer {
   currentStudents   Int       @default(0) // Cần logic update khi có sinh viên đăng ký thành công
   
   // planned, open, closed, cancelled
-  status            String    @default("planned")
+  status            CourseOfferStatus @default(planned)
   
   // Thời gian đăng ký học phần
   registrationStart DateTime?
@@ -35,10 +52,6 @@ model CourseOffer {
   // Thời gian bắt đầu và kết thúc khóa học
   startDate         DateTime? @db.Date
   endDate           DateTime? @db.Date
-  
-  roomId            Int?
-  room              Room?  @relation(fields: [roomId], references: [id])  // Ví dụ: Phòng A102
-  schedule          String?   // Có thể lưu dạng String (Thứ 2: 7h-9h) hoặc JSON
   
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -49,6 +62,10 @@ model CourseOffer {
   courseSchedules   CourseSchedule[]
   grades            Grade[]
 
+  @@index([subjectId, semesterId])
+  @@index([teacherId])
+  @@index([semesterId])
+  @@index([classId])
   @@map("course_offers")
 }
 
@@ -90,7 +107,7 @@ model CourseSchedule {
   courseOfferId Int
   courseOffer   CourseOffer @relation(fields: [courseOfferId], references: [id])
   
-  dayOfWeek     Int         // 2 -> 8 (Thứ 2 đến Chủ Nhật)
+  dayOfWeek     DayOfWeek   // 2 -> 8 (Thứ 2 đến Chủ Nhật)
   
   startTime     DateTime    @db.Time
   endTime       DateTime    @db.Time
@@ -100,5 +117,21 @@ model CourseSchedule {
 
   createdAt     DateTime    @default(now())
 
+  @@unique([courseOfferId, dayOfWeek, startTime])
   @@map("course_schedules")
+}
+
+model TeacherSubject {
+  id        Int @id @default(autoincrement())
+
+  teacherId Int
+  subjectId Int
+
+  teacher   Staff   @relation(fields: [teacherId], references: [id])
+  subject   Subject @relation(fields: [subjectId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([teacherId, subjectId])
+  @@map("teacher_subjects")
 }

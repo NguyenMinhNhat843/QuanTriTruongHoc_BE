@@ -1,13 +1,19 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
+  ArrayMinSize,
+  IsArray,
   IsDateString,
+  IsEnum,
   IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
+  Matches,
   Min,
+  ValidateNested,
 } from "class-validator";
+import { DayOfWeek } from "../../prisma/generated/prisma/enums";
 
 // ==========================================
 // XEM DANH SACH LỚP DỰ KIẾN: DTO để xem trước kế hoạch học tập của một học kỳ thực tế, ngành và khóa đào tạo cụ thể
@@ -119,4 +125,70 @@ export class CreateOptionalCourseOfferDto {
   @IsDateString()
   @IsOptional()
   registrationEnd?: string;
+}
+
+export class ScheduleItemDto {
+  @ApiProperty({
+    example: "MONDAY",
+    enum: DayOfWeek,
+    description: "Thứ trong tuần",
+  })
+  @IsEnum(DayOfWeek)
+  @IsNotEmpty()
+  dayOfWeek: DayOfWeek;
+
+  @ApiProperty({
+    example: "07:30",
+    description: "Giờ bắt đầu (Định dạng HH:mm)",
+  })
+  @IsString()
+  @Matches(/^([01]\d|2[0-3]):?([0-5]\d)$/, {
+    message: "startTime must be in HH:mm format",
+  })
+  @IsNotEmpty()
+  startTime: string;
+
+  @ApiProperty({
+    example: "11:00",
+    description: "Giờ kết thúc (Định dạng HH:mm)",
+  })
+  @IsString()
+  @Matches(/^([01]\d|2[0-3]):?([0-5]\d)$/, {
+    message: "endTime must be in HH:mm format",
+  })
+  @IsNotEmpty()
+  endTime: string;
+
+  @ApiProperty({ example: 1, description: "ID của phòng học" })
+  @IsInt()
+  @IsNotEmpty()
+  roomId: number;
+}
+
+export class AssignScheduleDto {
+  @ApiProperty({
+    example: 101,
+    description: "ID của lớp học phần (CourseOffer)",
+  })
+  @IsInt()
+  @IsNotEmpty()
+  courseOfferId: number;
+
+  @ApiProperty({
+    example: 15,
+    description: "ID của giảng viên (Staff)",
+  })
+  @IsInt()
+  @IsNotEmpty()
+  teacherId: number;
+
+  @ApiProperty({
+    type: [ScheduleItemDto],
+    description: "Danh sách các buổi học trong tuần",
+  })
+  @IsArray()
+  @ArrayMinSize(1, { message: "Phải có ít nhất một buổi học được phân bổ" })
+  @ValidateNested({ each: true })
+  @Type(() => ScheduleItemDto)
+  schedules: ScheduleItemDto[];
 }

@@ -145,6 +145,11 @@ export type CourseRegistration = Prisma.CourseRegistrationModel
  */
 export type CourseSchedule = Prisma.CourseScheduleModel
 /**
+ * Model TeacherSubject
+ * 
+ */
+export type TeacherSubject = Prisma.TeacherSubjectModel
+/**
  * Model FeeInvoice
  * 
  */

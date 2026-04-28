@@ -9,6 +9,7 @@ import {
   CreateOptionalCourseOfferDto,
   PreviewCourseOfferDto,
 } from "./courseOffer.dto";
+import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 
 @Injectable()
 export class CourseOfferService {
@@ -257,5 +258,148 @@ export class CourseOfferService {
         "Lỗi khi tạo lớp học phần tùy chọn: " + error.message,
       );
     }
+  }
+
+  // ========================================
+  // PHÂN BỐ LỊCH HỌC VÀ PHÒNG HỌC CHO LỚP HỌC PHẦN (Optional, có thể thêm sau)
+  // ========================================
+  async autoAssignTeacher(courseOfferId: number) {
+    return await this.prisma.$transaction(async (tx) => {
+      // --- Bước 1: Kiểm tra sự tồn tại và trạng thái
+      const courseOffer = await tx.courseOffer.findUnique({
+        where: { id: courseOfferId },
+        include: { subject: true, semester: true },
+      });
+
+      if (!courseOffer)
+        throw new NotFoundException("Lớp học phần không tồn tại");
+
+      // Kiểm tra trạng thái hợp lệ
+      if (
+        courseOffer.status !== CourseOfferStatus.planned &&
+        courseOffer.status !== CourseOfferStatus.open
+      ) {
+        throw new BadRequestException(
+          "Trạng thái lớp không cho phép phân công tự động",
+        );
+      }
+
+      // --- Bước 2 & 3: Lấy danh sách giảng viên phù hợp & Sắp xếp theo mức độ bận
+      const teachers = await tx.staff.findMany({
+        where: {
+          teacherSubjects: { some: { subjectId: courseOffer.subjectId } }, // Bước 2: Đúng môn
+        },
+        include: {
+          _count: {
+            select: {
+              courseOffers: { where: { semesterId: courseOffer.semesterId } },
+            },
+          },
+        },
+        orderBy: {
+          courseOffers: { _count: "asc" }, // Bước 3: Ưu tiên ít lớp hơn
+        },
+      });
+
+      if (teachers.length === 0) {
+        return {
+          success: false,
+          message: "Không có giảng viên nào có khả năng dạy môn này",
+        };
+      }
+
+      // Giả định danh sách khung giờ (Time Slots) mẫu [cite: 249]
+      // Trong thực tế, bạn có thể lấy từ DB hoặc cấu hình hệ thống
+      const availableTimeSlots = [
+        { day: "MONDAY", start: "07:30:00", end: "11:30:00" },
+        { day: "TUESDAY", start: "13:30:00", end: "17:30:00" },
+        // ... các khung giờ khác
+      ];
+
+      // --- Bước 4: Duyệt từng giảng viên --- [cite: 244]
+      for (const teacher of teachers) {
+        // --- Bước 5: Duyệt danh sách khung giờ --- [cite: 248]
+        for (const slot of availableTimeSlots) {
+          // --- Bước 6: Kiểm tra xung đột (Validation) --- [cite: 252]
+
+          // 6.1 Kiểm tra trùng lịch giảng viên [cite: 254]
+          const teacherConflict = await tx.courseSchedule.findFirst({
+            where: {
+              courseOffer: {
+                teacherId: teacher.id,
+                semesterId: courseOffer.semesterId,
+              },
+              dayOfWeek: slot.day as any,
+              OR: [
+                {
+                  startTime: { lt: this.formatTime(slot.end) },
+                  endTime: { gt: this.formatTime(slot.start) },
+                },
+              ],
+            },
+          });
+
+          if (teacherConflict) continue; // Nếu trùng lịch giảng viên, thử slot khác
+
+          // 6.2 Kiểm tra trùng lịch phòng học (Giả định lấy phòng mặc định hoặc trống) [cite: 261]
+          // Phần này có thể mở rộng để tìm phòng trống từ bảng Room [cite: 176]
+          const roomId = 1; // Ví dụ phòng số 1
+
+          const roomConflict = await tx.courseSchedule.findFirst({
+            where: {
+              roomId: roomId,
+              dayOfWeek: slot.day as any,
+              OR: [
+                {
+                  startTime: { lt: this.formatTime(slot.end) },
+                  endTime: { gt: this.formatTime(slot.start) },
+                },
+              ],
+            },
+          });
+
+          if (roomConflict) continue; // Nếu trùng phòng, thử slot khác
+
+          // --- Bước 7: Gán giảng viên và tạo lịch học --- [cite: 268]
+          // Nếu đến đây không có xung đột (Conflict)
+          await tx.courseOffer.update({
+            where: { id: courseOfferId },
+            data: {
+              teacherId: teacher.id, // [cite: 271]
+              startDate: courseOffer.semester.startDate, // Bước 9: Đồng bộ thời gian
+              endDate: courseOffer.semester.endDate,
+            },
+          });
+
+          await tx.courseSchedule.create({
+            // [cite: 272]
+            data: {
+              courseOfferId: courseOfferId,
+              dayOfWeek: slot.day as any,
+              startTime: this.formatTime(slot.start),
+              endTime: this.formatTime(slot.end),
+              roomId: roomId,
+            },
+          });
+
+          return {
+            success: true,
+            teacherName: teacher.fullName,
+            slot: slot,
+          };
+        }
+      }
+
+      // --- Bước 8: Xử lý khi không tìm được --- [cite: 275]
+      return {
+        success: false,
+        message: "Không tìm được giảng viên và khung giờ phù hợp",
+      };
+    });
+  }
+
+  // Hỗ trợ format string giờ thành đối tượng Date cho Prisma @db.Time
+  private formatTime(timeStr: string): Date {
+    return new Date(`1970-01-01T${timeStr}Z`);
   }
 }

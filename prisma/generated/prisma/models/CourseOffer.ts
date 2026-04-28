@@ -34,7 +34,6 @@ export type CourseOfferAvgAggregateOutputType = {
   semesterId: number | null
   maxStudents: number | null
   currentStudents: number | null
-  roomId: number | null
 }
 
 export type CourseOfferSumAggregateOutputType = {
@@ -45,7 +44,6 @@ export type CourseOfferSumAggregateOutputType = {
   semesterId: number | null
   maxStudents: number | null
   currentStudents: number | null
-  roomId: number | null
 }
 
 export type CourseOfferMinAggregateOutputType = {
@@ -57,13 +55,11 @@ export type CourseOfferMinAggregateOutputType = {
   semesterId: number | null
   maxStudents: number | null
   currentStudents: number | null
-  status: string | null
+  status: $Enums.CourseOfferStatus | null
   registrationStart: Date | null
   registrationEnd: Date | null
   startDate: Date | null
   endDate: Date | null
-  roomId: number | null
-  schedule: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -77,13 +73,11 @@ export type CourseOfferMaxAggregateOutputType = {
   semesterId: number | null
   maxStudents: number | null
   currentStudents: number | null
-  status: string | null
+  status: $Enums.CourseOfferStatus | null
   registrationStart: Date | null
   registrationEnd: Date | null
   startDate: Date | null
   endDate: Date | null
-  roomId: number | null
-  schedule: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -102,8 +96,6 @@ export type CourseOfferCountAggregateOutputType = {
   registrationEnd: number
   startDate: number
   endDate: number
-  roomId: number
-  schedule: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -118,7 +110,6 @@ export type CourseOfferAvgAggregateInputType = {
   semesterId?: true
   maxStudents?: true
   currentStudents?: true
-  roomId?: true
 }
 
 export type CourseOfferSumAggregateInputType = {
@@ -129,7 +120,6 @@ export type CourseOfferSumAggregateInputType = {
   semesterId?: true
   maxStudents?: true
   currentStudents?: true
-  roomId?: true
 }
 
 export type CourseOfferMinAggregateInputType = {
@@ -146,8 +136,6 @@ export type CourseOfferMinAggregateInputType = {
   registrationEnd?: true
   startDate?: true
   endDate?: true
-  roomId?: true
-  schedule?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -166,8 +154,6 @@ export type CourseOfferMaxAggregateInputType = {
   registrationEnd?: true
   startDate?: true
   endDate?: true
-  roomId?: true
-  schedule?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -186,8 +172,6 @@ export type CourseOfferCountAggregateInputType = {
   registrationEnd?: true
   startDate?: true
   endDate?: true
-  roomId?: true
-  schedule?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -288,13 +272,11 @@ export type CourseOfferGroupByOutputType = {
   semesterId: number
   maxStudents: number
   currentStudents: number
-  status: string
+  status: $Enums.CourseOfferStatus
   registrationStart: Date | null
   registrationEnd: Date | null
   startDate: Date | null
   endDate: Date | null
-  roomId: number | null
-  schedule: string | null
   createdAt: Date
   updatedAt: Date
   _count: CourseOfferCountAggregateOutputType | null
@@ -331,20 +313,17 @@ export type CourseOfferWhereInput = {
   semesterId?: Prisma.IntFilter<"CourseOffer"> | number
   maxStudents?: Prisma.IntFilter<"CourseOffer"> | number
   currentStudents?: Prisma.IntFilter<"CourseOffer"> | number
-  status?: Prisma.StringFilter<"CourseOffer"> | string
+  status?: Prisma.EnumCourseOfferStatusFilter<"CourseOffer"> | $Enums.CourseOfferStatus
   registrationStart?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   registrationEnd?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   startDate?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
-  roomId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
-  schedule?: Prisma.StringNullableFilter<"CourseOffer"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseOffer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseOffer"> | Date | string
   teacher?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   baseClass?: Prisma.XOR<Prisma.ClassNullableScalarRelationFilter, Prisma.ClassWhereInput> | null
   semester?: Prisma.XOR<Prisma.SemesterScalarRelationFilter, Prisma.SemesterWhereInput>
-  room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   registrations?: Prisma.CourseRegistrationListRelationFilter
   gradeEntries?: Prisma.GradeEntryListRelationFilter
   courseSchedules?: Prisma.CourseScheduleListRelationFilter
@@ -365,15 +344,12 @@ export type CourseOfferOrderByWithRelationInput = {
   registrationEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  roomId?: Prisma.SortOrderInput | Prisma.SortOrder
-  schedule?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   teacher?: Prisma.StaffOrderByWithRelationInput
   subject?: Prisma.SubjectOrderByWithRelationInput
   baseClass?: Prisma.ClassOrderByWithRelationInput
   semester?: Prisma.SemesterOrderByWithRelationInput
-  room?: Prisma.RoomOrderByWithRelationInput
   registrations?: Prisma.CourseRegistrationOrderByRelationAggregateInput
   gradeEntries?: Prisma.GradeEntryOrderByRelationAggregateInput
   courseSchedules?: Prisma.CourseScheduleOrderByRelationAggregateInput
@@ -382,35 +358,32 @@ export type CourseOfferOrderByWithRelationInput = {
 
 export type CourseOfferWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  courseCode?: string
   AND?: Prisma.CourseOfferWhereInput | Prisma.CourseOfferWhereInput[]
   OR?: Prisma.CourseOfferWhereInput[]
   NOT?: Prisma.CourseOfferWhereInput | Prisma.CourseOfferWhereInput[]
+  courseCode?: Prisma.StringFilter<"CourseOffer"> | string
   teacherId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
   subjectId?: Prisma.IntFilter<"CourseOffer"> | number
   classId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
   semesterId?: Prisma.IntFilter<"CourseOffer"> | number
   maxStudents?: Prisma.IntFilter<"CourseOffer"> | number
   currentStudents?: Prisma.IntFilter<"CourseOffer"> | number
-  status?: Prisma.StringFilter<"CourseOffer"> | string
+  status?: Prisma.EnumCourseOfferStatusFilter<"CourseOffer"> | $Enums.CourseOfferStatus
   registrationStart?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   registrationEnd?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   startDate?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
-  roomId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
-  schedule?: Prisma.StringNullableFilter<"CourseOffer"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseOffer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseOffer"> | Date | string
   teacher?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   baseClass?: Prisma.XOR<Prisma.ClassNullableScalarRelationFilter, Prisma.ClassWhereInput> | null
   semester?: Prisma.XOR<Prisma.SemesterScalarRelationFilter, Prisma.SemesterWhereInput>
-  room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   registrations?: Prisma.CourseRegistrationListRelationFilter
   gradeEntries?: Prisma.GradeEntryListRelationFilter
   courseSchedules?: Prisma.CourseScheduleListRelationFilter
   grades?: Prisma.GradeListRelationFilter
-}, "id" | "courseCode">
+}, "id">
 
 export type CourseOfferOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -426,8 +399,6 @@ export type CourseOfferOrderByWithAggregationInput = {
   registrationEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
-  roomId?: Prisma.SortOrderInput | Prisma.SortOrder
-  schedule?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CourseOfferCountOrderByAggregateInput
@@ -449,13 +420,11 @@ export type CourseOfferScalarWhereWithAggregatesInput = {
   semesterId?: Prisma.IntWithAggregatesFilter<"CourseOffer"> | number
   maxStudents?: Prisma.IntWithAggregatesFilter<"CourseOffer"> | number
   currentStudents?: Prisma.IntWithAggregatesFilter<"CourseOffer"> | number
-  status?: Prisma.StringWithAggregatesFilter<"CourseOffer"> | string
+  status?: Prisma.EnumCourseOfferStatusWithAggregatesFilter<"CourseOffer"> | $Enums.CourseOfferStatus
   registrationStart?: Prisma.DateTimeNullableWithAggregatesFilter<"CourseOffer"> | Date | string | null
   registrationEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"CourseOffer"> | Date | string | null
   startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"CourseOffer"> | Date | string | null
   endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"CourseOffer"> | Date | string | null
-  roomId?: Prisma.IntNullableWithAggregatesFilter<"CourseOffer"> | number | null
-  schedule?: Prisma.StringNullableWithAggregatesFilter<"CourseOffer"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CourseOffer"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CourseOffer"> | Date | string
 }
@@ -464,19 +433,17 @@ export type CourseOfferCreateInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
@@ -492,13 +459,11 @@ export type CourseOfferUncheckedCreateInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -511,19 +476,17 @@ export type CourseOfferUpdateInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
@@ -539,13 +502,11 @@ export type CourseOfferUncheckedUpdateInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -563,13 +524,11 @@ export type CourseOfferCreateManyInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -578,12 +537,11 @@ export type CourseOfferUpdateManyMutationInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -597,13 +555,11 @@ export type CourseOfferUncheckedUpdateManyInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -632,8 +588,6 @@ export type CourseOfferCountOrderByAggregateInput = {
   registrationEnd?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
-  schedule?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -646,7 +600,6 @@ export type CourseOfferAvgOrderByAggregateInput = {
   semesterId?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   currentStudents?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
 }
 
 export type CourseOfferMaxOrderByAggregateInput = {
@@ -663,8 +616,6 @@ export type CourseOfferMaxOrderByAggregateInput = {
   registrationEnd?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
-  schedule?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -683,8 +634,6 @@ export type CourseOfferMinOrderByAggregateInput = {
   registrationEnd?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
   endDate?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
-  schedule?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -697,7 +646,6 @@ export type CourseOfferSumOrderByAggregateInput = {
   semesterId?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   currentStudents?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
 }
 
 export type CourseOfferScalarRelationFilter = {
@@ -831,48 +779,6 @@ export type CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput = {
   deleteMany?: Prisma.CourseOfferScalarWhereInput | Prisma.CourseOfferScalarWhereInput[]
 }
 
-export type CourseOfferCreateNestedManyWithoutRoomInput = {
-  create?: Prisma.XOR<Prisma.CourseOfferCreateWithoutRoomInput, Prisma.CourseOfferUncheckedCreateWithoutRoomInput> | Prisma.CourseOfferCreateWithoutRoomInput[] | Prisma.CourseOfferUncheckedCreateWithoutRoomInput[]
-  connectOrCreate?: Prisma.CourseOfferCreateOrConnectWithoutRoomInput | Prisma.CourseOfferCreateOrConnectWithoutRoomInput[]
-  createMany?: Prisma.CourseOfferCreateManyRoomInputEnvelope
-  connect?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-}
-
-export type CourseOfferUncheckedCreateNestedManyWithoutRoomInput = {
-  create?: Prisma.XOR<Prisma.CourseOfferCreateWithoutRoomInput, Prisma.CourseOfferUncheckedCreateWithoutRoomInput> | Prisma.CourseOfferCreateWithoutRoomInput[] | Prisma.CourseOfferUncheckedCreateWithoutRoomInput[]
-  connectOrCreate?: Prisma.CourseOfferCreateOrConnectWithoutRoomInput | Prisma.CourseOfferCreateOrConnectWithoutRoomInput[]
-  createMany?: Prisma.CourseOfferCreateManyRoomInputEnvelope
-  connect?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-}
-
-export type CourseOfferUpdateManyWithoutRoomNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseOfferCreateWithoutRoomInput, Prisma.CourseOfferUncheckedCreateWithoutRoomInput> | Prisma.CourseOfferCreateWithoutRoomInput[] | Prisma.CourseOfferUncheckedCreateWithoutRoomInput[]
-  connectOrCreate?: Prisma.CourseOfferCreateOrConnectWithoutRoomInput | Prisma.CourseOfferCreateOrConnectWithoutRoomInput[]
-  upsert?: Prisma.CourseOfferUpsertWithWhereUniqueWithoutRoomInput | Prisma.CourseOfferUpsertWithWhereUniqueWithoutRoomInput[]
-  createMany?: Prisma.CourseOfferCreateManyRoomInputEnvelope
-  set?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  disconnect?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  delete?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  connect?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  update?: Prisma.CourseOfferUpdateWithWhereUniqueWithoutRoomInput | Prisma.CourseOfferUpdateWithWhereUniqueWithoutRoomInput[]
-  updateMany?: Prisma.CourseOfferUpdateManyWithWhereWithoutRoomInput | Prisma.CourseOfferUpdateManyWithWhereWithoutRoomInput[]
-  deleteMany?: Prisma.CourseOfferScalarWhereInput | Prisma.CourseOfferScalarWhereInput[]
-}
-
-export type CourseOfferUncheckedUpdateManyWithoutRoomNestedInput = {
-  create?: Prisma.XOR<Prisma.CourseOfferCreateWithoutRoomInput, Prisma.CourseOfferUncheckedCreateWithoutRoomInput> | Prisma.CourseOfferCreateWithoutRoomInput[] | Prisma.CourseOfferUncheckedCreateWithoutRoomInput[]
-  connectOrCreate?: Prisma.CourseOfferCreateOrConnectWithoutRoomInput | Prisma.CourseOfferCreateOrConnectWithoutRoomInput[]
-  upsert?: Prisma.CourseOfferUpsertWithWhereUniqueWithoutRoomInput | Prisma.CourseOfferUpsertWithWhereUniqueWithoutRoomInput[]
-  createMany?: Prisma.CourseOfferCreateManyRoomInputEnvelope
-  set?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  disconnect?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  delete?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  connect?: Prisma.CourseOfferWhereUniqueInput | Prisma.CourseOfferWhereUniqueInput[]
-  update?: Prisma.CourseOfferUpdateWithWhereUniqueWithoutRoomInput | Prisma.CourseOfferUpdateWithWhereUniqueWithoutRoomInput[]
-  updateMany?: Prisma.CourseOfferUpdateManyWithWhereWithoutRoomInput | Prisma.CourseOfferUpdateManyWithWhereWithoutRoomInput[]
-  deleteMany?: Prisma.CourseOfferScalarWhereInput | Prisma.CourseOfferScalarWhereInput[]
-}
-
 export type CourseOfferCreateNestedManyWithoutTeacherInput = {
   create?: Prisma.XOR<Prisma.CourseOfferCreateWithoutTeacherInput, Prisma.CourseOfferUncheckedCreateWithoutTeacherInput> | Prisma.CourseOfferCreateWithoutTeacherInput[] | Prisma.CourseOfferUncheckedCreateWithoutTeacherInput[]
   connectOrCreate?: Prisma.CourseOfferCreateOrConnectWithoutTeacherInput | Prisma.CourseOfferCreateOrConnectWithoutTeacherInput[]
@@ -913,6 +819,10 @@ export type CourseOfferUncheckedUpdateManyWithoutTeacherNestedInput = {
   update?: Prisma.CourseOfferUpdateWithWhereUniqueWithoutTeacherInput | Prisma.CourseOfferUpdateWithWhereUniqueWithoutTeacherInput[]
   updateMany?: Prisma.CourseOfferUpdateManyWithWhereWithoutTeacherInput | Prisma.CourseOfferUpdateManyWithWhereWithoutTeacherInput[]
   deleteMany?: Prisma.CourseOfferScalarWhereInput | Prisma.CourseOfferScalarWhereInput[]
+}
+
+export type EnumCourseOfferStatusFieldUpdateOperationsInput = {
+  set?: $Enums.CourseOfferStatus
 }
 
 export type CourseOfferCreateNestedOneWithoutRegistrationsInput = {
@@ -975,18 +885,16 @@ export type CourseOfferCreateWithoutBaseClassInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
@@ -1001,13 +909,11 @@ export type CourseOfferUncheckedCreateWithoutBaseClassInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1054,13 +960,11 @@ export type CourseOfferScalarWhereInput = {
   semesterId?: Prisma.IntFilter<"CourseOffer"> | number
   maxStudents?: Prisma.IntFilter<"CourseOffer"> | number
   currentStudents?: Prisma.IntFilter<"CourseOffer"> | number
-  status?: Prisma.StringFilter<"CourseOffer"> | string
+  status?: Prisma.EnumCourseOfferStatusFilter<"CourseOffer"> | $Enums.CourseOfferStatus
   registrationStart?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   registrationEnd?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   startDate?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
   endDate?: Prisma.DateTimeNullableFilter<"CourseOffer"> | Date | string | null
-  roomId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
-  schedule?: Prisma.StringNullableFilter<"CourseOffer"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseOffer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseOffer"> | Date | string
 }
@@ -1069,18 +973,16 @@ export type CourseOfferCreateWithoutSubjectInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
@@ -1095,13 +997,11 @@ export type CourseOfferUncheckedCreateWithoutSubjectInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1140,18 +1040,16 @@ export type CourseOfferCreateWithoutSemesterInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
@@ -1166,13 +1064,11 @@ export type CourseOfferUncheckedCreateWithoutSemesterInput = {
   classId?: number | null
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1207,93 +1103,20 @@ export type CourseOfferUpdateManyWithWhereWithoutSemesterInput = {
   data: Prisma.XOR<Prisma.CourseOfferUpdateManyMutationInput, Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterInput>
 }
 
-export type CourseOfferCreateWithoutRoomInput = {
-  courseCode: string
-  maxStudents?: number
-  currentStudents?: number
-  status?: string
-  registrationStart?: Date | string | null
-  registrationEnd?: Date | string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
-  schedule?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
-  subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
-  baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
-  semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
-  gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
-  courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
-  grades?: Prisma.GradeCreateNestedManyWithoutCourseOfferInput
-}
-
-export type CourseOfferUncheckedCreateWithoutRoomInput = {
-  id?: number
-  courseCode: string
-  teacherId?: number | null
-  subjectId: number
-  classId?: number | null
-  semesterId: number
-  maxStudents?: number
-  currentStudents?: number
-  status?: string
-  registrationStart?: Date | string | null
-  registrationEnd?: Date | string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
-  schedule?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
-  gradeEntries?: Prisma.GradeEntryUncheckedCreateNestedManyWithoutCourseOfferInput
-  courseSchedules?: Prisma.CourseScheduleUncheckedCreateNestedManyWithoutCourseOfferInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutCourseOfferInput
-}
-
-export type CourseOfferCreateOrConnectWithoutRoomInput = {
-  where: Prisma.CourseOfferWhereUniqueInput
-  create: Prisma.XOR<Prisma.CourseOfferCreateWithoutRoomInput, Prisma.CourseOfferUncheckedCreateWithoutRoomInput>
-}
-
-export type CourseOfferCreateManyRoomInputEnvelope = {
-  data: Prisma.CourseOfferCreateManyRoomInput | Prisma.CourseOfferCreateManyRoomInput[]
-  skipDuplicates?: boolean
-}
-
-export type CourseOfferUpsertWithWhereUniqueWithoutRoomInput = {
-  where: Prisma.CourseOfferWhereUniqueInput
-  update: Prisma.XOR<Prisma.CourseOfferUpdateWithoutRoomInput, Prisma.CourseOfferUncheckedUpdateWithoutRoomInput>
-  create: Prisma.XOR<Prisma.CourseOfferCreateWithoutRoomInput, Prisma.CourseOfferUncheckedCreateWithoutRoomInput>
-}
-
-export type CourseOfferUpdateWithWhereUniqueWithoutRoomInput = {
-  where: Prisma.CourseOfferWhereUniqueInput
-  data: Prisma.XOR<Prisma.CourseOfferUpdateWithoutRoomInput, Prisma.CourseOfferUncheckedUpdateWithoutRoomInput>
-}
-
-export type CourseOfferUpdateManyWithWhereWithoutRoomInput = {
-  where: Prisma.CourseOfferScalarWhereInput
-  data: Prisma.XOR<Prisma.CourseOfferUpdateManyMutationInput, Prisma.CourseOfferUncheckedUpdateManyWithoutRoomInput>
-}
-
 export type CourseOfferCreateWithoutTeacherInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
@@ -1308,13 +1131,11 @@ export type CourseOfferUncheckedCreateWithoutTeacherInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1353,19 +1174,17 @@ export type CourseOfferCreateWithoutRegistrationsInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
   grades?: Prisma.GradeCreateNestedManyWithoutCourseOfferInput
@@ -1380,13 +1199,11 @@ export type CourseOfferUncheckedCreateWithoutRegistrationsInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   gradeEntries?: Prisma.GradeEntryUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1414,19 +1231,17 @@ export type CourseOfferUpdateWithoutRegistrationsInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
   grades?: Prisma.GradeUpdateManyWithoutCourseOfferNestedInput
@@ -1441,13 +1256,11 @@ export type CourseOfferUncheckedUpdateWithoutRegistrationsInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gradeEntries?: Prisma.GradeEntryUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -1459,19 +1272,17 @@ export type CourseOfferCreateWithoutCourseSchedulesInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   grades?: Prisma.GradeCreateNestedManyWithoutCourseOfferInput
@@ -1486,13 +1297,11 @@ export type CourseOfferUncheckedCreateWithoutCourseSchedulesInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1520,19 +1329,17 @@ export type CourseOfferUpdateWithoutCourseSchedulesInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   grades?: Prisma.GradeUpdateManyWithoutCourseOfferNestedInput
@@ -1547,13 +1354,11 @@ export type CourseOfferUncheckedUpdateWithoutCourseSchedulesInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -1565,19 +1370,17 @@ export type CourseOfferCreateWithoutGradeEntriesInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
   grades?: Prisma.GradeCreateNestedManyWithoutCourseOfferInput
@@ -1592,13 +1395,11 @@ export type CourseOfferUncheckedCreateWithoutGradeEntriesInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1626,19 +1427,17 @@ export type CourseOfferUpdateWithoutGradeEntriesInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
   grades?: Prisma.GradeUpdateManyWithoutCourseOfferNestedInput
@@ -1653,13 +1452,11 @@ export type CourseOfferUncheckedUpdateWithoutGradeEntriesInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -1671,19 +1468,17 @@ export type CourseOfferCreateWithoutGradesInput = {
   courseCode: string
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   teacher?: Prisma.StaffCreateNestedOneWithoutCourseOffersInput
   subject: Prisma.SubjectCreateNestedOneWithoutCourseOffersInput
   baseClass?: Prisma.ClassCreateNestedOneWithoutCourseOffersInput
   semester: Prisma.SemesterCreateNestedOneWithoutCourseOffersInput
-  room?: Prisma.RoomCreateNestedOneWithoutCourseOffersInput
   registrations?: Prisma.CourseRegistrationCreateNestedManyWithoutCourseOfferInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutCourseOfferInput
   courseSchedules?: Prisma.CourseScheduleCreateNestedManyWithoutCourseOfferInput
@@ -1698,13 +1493,11 @@ export type CourseOfferUncheckedCreateWithoutGradesInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   registrations?: Prisma.CourseRegistrationUncheckedCreateNestedManyWithoutCourseOfferInput
@@ -1732,19 +1525,17 @@ export type CourseOfferUpdateWithoutGradesInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
@@ -1759,13 +1550,11 @@ export type CourseOfferUncheckedUpdateWithoutGradesInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -1781,13 +1570,11 @@ export type CourseOfferCreateManyBaseClassInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1796,18 +1583,16 @@ export type CourseOfferUpdateWithoutBaseClassInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
@@ -1822,13 +1607,11 @@ export type CourseOfferUncheckedUpdateWithoutBaseClassInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -1845,13 +1628,11 @@ export type CourseOfferUncheckedUpdateManyWithoutBaseClassInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1864,13 +1645,11 @@ export type CourseOfferCreateManySubjectInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1879,18 +1658,16 @@ export type CourseOfferUpdateWithoutSubjectInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
@@ -1905,13 +1682,11 @@ export type CourseOfferUncheckedUpdateWithoutSubjectInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -1928,13 +1703,11 @@ export type CourseOfferUncheckedUpdateManyWithoutSubjectInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1947,13 +1720,11 @@ export type CourseOfferCreateManySemesterInput = {
   classId?: number | null
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1962,18 +1733,16 @@ export type CourseOfferUpdateWithoutSemesterInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
@@ -1988,13 +1757,11 @@ export type CourseOfferUncheckedUpdateWithoutSemesterInput = {
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -2011,96 +1778,11 @@ export type CourseOfferUncheckedUpdateManyWithoutSemesterInput = {
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type CourseOfferCreateManyRoomInput = {
-  id?: number
-  courseCode: string
-  teacherId?: number | null
-  subjectId: number
-  classId?: number | null
-  semesterId: number
-  maxStudents?: number
-  currentStudents?: number
-  status?: string
-  registrationStart?: Date | string | null
-  registrationEnd?: Date | string | null
-  startDate?: Date | string | null
-  endDate?: Date | string | null
-  schedule?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type CourseOfferUpdateWithoutRoomInput = {
-  courseCode?: Prisma.StringFieldUpdateOperationsInput | string
-  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  teacher?: Prisma.StaffUpdateOneWithoutCourseOffersNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
-  baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
-  semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
-  gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
-  courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutCourseOfferNestedInput
-}
-
-export type CourseOfferUncheckedUpdateWithoutRoomInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseCode?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  subjectId?: Prisma.IntFieldUpdateOperationsInput | number
-  classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  semesterId?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
-  gradeEntries?: Prisma.GradeEntryUncheckedUpdateManyWithoutCourseOfferNestedInput
-  courseSchedules?: Prisma.CourseScheduleUncheckedUpdateManyWithoutCourseOfferNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutCourseOfferNestedInput
-}
-
-export type CourseOfferUncheckedUpdateManyWithoutRoomInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseCode?: Prisma.StringFieldUpdateOperationsInput | string
-  teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  subjectId?: Prisma.IntFieldUpdateOperationsInput | number
-  classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  semesterId?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2113,13 +1795,11 @@ export type CourseOfferCreateManyTeacherInput = {
   semesterId: number
   maxStudents?: number
   currentStudents?: number
-  status?: string
+  status?: $Enums.CourseOfferStatus
   registrationStart?: Date | string | null
   registrationEnd?: Date | string | null
   startDate?: Date | string | null
   endDate?: Date | string | null
-  roomId?: number | null
-  schedule?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -2128,18 +1808,16 @@ export type CourseOfferUpdateWithoutTeacherInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOffersNestedInput
   baseClass?: Prisma.ClassUpdateOneWithoutCourseOffersNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutCourseOffersNestedInput
-  room?: Prisma.RoomUpdateOneWithoutCourseOffersNestedInput
   registrations?: Prisma.CourseRegistrationUpdateManyWithoutCourseOfferNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutCourseOfferNestedInput
   courseSchedules?: Prisma.CourseScheduleUpdateManyWithoutCourseOfferNestedInput
@@ -2154,13 +1832,11 @@ export type CourseOfferUncheckedUpdateWithoutTeacherInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   registrations?: Prisma.CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput
@@ -2177,13 +1853,11 @@ export type CourseOfferUncheckedUpdateManyWithoutTeacherInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
   registrationStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   registrationEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  schedule?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -2260,15 +1934,12 @@ export type CourseOfferSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   registrationEnd?: boolean
   startDate?: boolean
   endDate?: boolean
-  roomId?: boolean
-  schedule?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   teacher?: boolean | Prisma.CourseOffer$teacherArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   baseClass?: boolean | Prisma.CourseOffer$baseClassArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
-  room?: boolean | Prisma.CourseOffer$roomArgs<ExtArgs>
   registrations?: boolean | Prisma.CourseOffer$registrationsArgs<ExtArgs>
   gradeEntries?: boolean | Prisma.CourseOffer$gradeEntriesArgs<ExtArgs>
   courseSchedules?: boolean | Prisma.CourseOffer$courseSchedulesArgs<ExtArgs>
@@ -2290,15 +1961,12 @@ export type CourseOfferSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   registrationEnd?: boolean
   startDate?: boolean
   endDate?: boolean
-  roomId?: boolean
-  schedule?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   teacher?: boolean | Prisma.CourseOffer$teacherArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   baseClass?: boolean | Prisma.CourseOffer$baseClassArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
-  room?: boolean | Prisma.CourseOffer$roomArgs<ExtArgs>
 }, ExtArgs["result"]["courseOffer"]>
 
 export type CourseOfferSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2315,15 +1983,12 @@ export type CourseOfferSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   registrationEnd?: boolean
   startDate?: boolean
   endDate?: boolean
-  roomId?: boolean
-  schedule?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   teacher?: boolean | Prisma.CourseOffer$teacherArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   baseClass?: boolean | Prisma.CourseOffer$baseClassArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
-  room?: boolean | Prisma.CourseOffer$roomArgs<ExtArgs>
 }, ExtArgs["result"]["courseOffer"]>
 
 export type CourseOfferSelectScalar = {
@@ -2340,19 +2005,16 @@ export type CourseOfferSelectScalar = {
   registrationEnd?: boolean
   startDate?: boolean
   endDate?: boolean
-  roomId?: boolean
-  schedule?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CourseOfferOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "courseCode" | "teacherId" | "subjectId" | "classId" | "semesterId" | "maxStudents" | "currentStudents" | "status" | "registrationStart" | "registrationEnd" | "startDate" | "endDate" | "roomId" | "schedule" | "createdAt" | "updatedAt", ExtArgs["result"]["courseOffer"]>
+export type CourseOfferOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "courseCode" | "teacherId" | "subjectId" | "classId" | "semesterId" | "maxStudents" | "currentStudents" | "status" | "registrationStart" | "registrationEnd" | "startDate" | "endDate" | "createdAt" | "updatedAt", ExtArgs["result"]["courseOffer"]>
 export type CourseOfferInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.CourseOffer$teacherArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   baseClass?: boolean | Prisma.CourseOffer$baseClassArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
-  room?: boolean | Prisma.CourseOffer$roomArgs<ExtArgs>
   registrations?: boolean | Prisma.CourseOffer$registrationsArgs<ExtArgs>
   gradeEntries?: boolean | Prisma.CourseOffer$gradeEntriesArgs<ExtArgs>
   courseSchedules?: boolean | Prisma.CourseOffer$courseSchedulesArgs<ExtArgs>
@@ -2364,14 +2026,12 @@ export type CourseOfferIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   baseClass?: boolean | Prisma.CourseOffer$baseClassArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
-  room?: boolean | Prisma.CourseOffer$roomArgs<ExtArgs>
 }
 export type CourseOfferIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.CourseOffer$teacherArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   baseClass?: boolean | Prisma.CourseOffer$baseClassArgs<ExtArgs>
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
-  room?: boolean | Prisma.CourseOffer$roomArgs<ExtArgs>
 }
 
 export type $CourseOfferPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2381,7 +2041,6 @@ export type $CourseOfferPayload<ExtArgs extends runtime.Types.Extensions.Interna
     subject: Prisma.$SubjectPayload<ExtArgs>
     baseClass: Prisma.$ClassPayload<ExtArgs> | null
     semester: Prisma.$SemesterPayload<ExtArgs>
-    room: Prisma.$RoomPayload<ExtArgs> | null
     registrations: Prisma.$CourseRegistrationPayload<ExtArgs>[]
     gradeEntries: Prisma.$GradeEntryPayload<ExtArgs>[]
     courseSchedules: Prisma.$CourseSchedulePayload<ExtArgs>[]
@@ -2396,13 +2055,11 @@ export type $CourseOfferPayload<ExtArgs extends runtime.Types.Extensions.Interna
     semesterId: number
     maxStudents: number
     currentStudents: number
-    status: string
+    status: $Enums.CourseOfferStatus
     registrationStart: Date | null
     registrationEnd: Date | null
     startDate: Date | null
     endDate: Date | null
-    roomId: number | null
-    schedule: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["courseOffer"]>
@@ -2803,7 +2460,6 @@ export interface Prisma__CourseOfferClient<T, Null = never, ExtArgs extends runt
   subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   baseClass<T extends Prisma.CourseOffer$baseClassArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOffer$baseClassArgs<ExtArgs>>): Prisma.Prisma__ClassClient<runtime.Types.Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   semester<T extends Prisma.SemesterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SemesterDefaultArgs<ExtArgs>>): Prisma.Prisma__SemesterClient<runtime.Types.Result.GetResult<Prisma.$SemesterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  room<T extends Prisma.CourseOffer$roomArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOffer$roomArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   registrations<T extends Prisma.CourseOffer$registrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOffer$registrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CourseRegistrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gradeEntries<T extends Prisma.CourseOffer$gradeEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOffer$gradeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courseSchedules<T extends Prisma.CourseOffer$courseSchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOffer$courseSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CourseSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2845,13 +2501,11 @@ export interface CourseOfferFieldRefs {
   readonly semesterId: Prisma.FieldRef<"CourseOffer", 'Int'>
   readonly maxStudents: Prisma.FieldRef<"CourseOffer", 'Int'>
   readonly currentStudents: Prisma.FieldRef<"CourseOffer", 'Int'>
-  readonly status: Prisma.FieldRef<"CourseOffer", 'String'>
+  readonly status: Prisma.FieldRef<"CourseOffer", 'CourseOfferStatus'>
   readonly registrationStart: Prisma.FieldRef<"CourseOffer", 'DateTime'>
   readonly registrationEnd: Prisma.FieldRef<"CourseOffer", 'DateTime'>
   readonly startDate: Prisma.FieldRef<"CourseOffer", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"CourseOffer", 'DateTime'>
-  readonly roomId: Prisma.FieldRef<"CourseOffer", 'Int'>
-  readonly schedule: Prisma.FieldRef<"CourseOffer", 'String'>
   readonly createdAt: Prisma.FieldRef<"CourseOffer", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CourseOffer", 'DateTime'>
 }
@@ -3290,25 +2944,6 @@ export type CourseOffer$baseClassArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   include?: Prisma.ClassInclude<ExtArgs> | null
   where?: Prisma.ClassWhereInput
-}
-
-/**
- * CourseOffer.room
- */
-export type CourseOffer$roomArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Room
-   */
-  select?: Prisma.RoomSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Room
-   */
-  omit?: Prisma.RoomOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RoomInclude<ExtArgs> | null
-  where?: Prisma.RoomWhereInput
 }
 
 /**

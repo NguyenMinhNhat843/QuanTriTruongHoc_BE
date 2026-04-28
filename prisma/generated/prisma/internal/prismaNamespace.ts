@@ -405,6 +405,7 @@ export const ModelName = {
   CourseOffer: 'CourseOffer',
   CourseRegistration: 'CourseRegistration',
   CourseSchedule: 'CourseSchedule',
+  TeacherSubject: 'TeacherSubject',
   FeeInvoice: 'FeeInvoice',
   FeeInvoiceItem: 'FeeInvoiceItem',
   Payment: 'Payment',
@@ -432,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade" | "post"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade" | "post"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1990,6 +1991,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TeacherSubject: {
+      payload: Prisma.$TeacherSubjectPayload<ExtArgs>
+      fields: Prisma.TeacherSubjectFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TeacherSubjectFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TeacherSubjectFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>
+        }
+        findFirst: {
+          args: Prisma.TeacherSubjectFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TeacherSubjectFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>
+        }
+        findMany: {
+          args: Prisma.TeacherSubjectFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>[]
+        }
+        create: {
+          args: Prisma.TeacherSubjectCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>
+        }
+        createMany: {
+          args: Prisma.TeacherSubjectCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TeacherSubjectCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>[]
+        }
+        delete: {
+          args: Prisma.TeacherSubjectDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>
+        }
+        update: {
+          args: Prisma.TeacherSubjectUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>
+        }
+        deleteMany: {
+          args: Prisma.TeacherSubjectDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TeacherSubjectUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TeacherSubjectUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>[]
+        }
+        upsert: {
+          args: Prisma.TeacherSubjectUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherSubjectPayload>
+        }
+        aggregate: {
+          args: Prisma.TeacherSubjectAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTeacherSubject>
+        }
+        groupBy: {
+          args: Prisma.TeacherSubjectGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeacherSubjectGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TeacherSubjectCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeacherSubjectCountAggregateOutputType> | number
+        }
+      }
+    }
     FeeInvoice: {
       payload: Prisma.$FeeInvoicePayload<ExtArgs>
       fields: Prisma.FeeInvoiceFieldRefs
@@ -3203,8 +3278,6 @@ export const CourseOfferScalarFieldEnum = {
   registrationEnd: 'registrationEnd',
   startDate: 'startDate',
   endDate: 'endDate',
-  roomId: 'roomId',
-  schedule: 'schedule',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3239,6 +3312,16 @@ export const CourseScheduleScalarFieldEnum = {
 } as const
 
 export type CourseScheduleScalarFieldEnum = (typeof CourseScheduleScalarFieldEnum)[keyof typeof CourseScheduleScalarFieldEnum]
+
+
+export const TeacherSubjectScalarFieldEnum = {
+  id: 'id',
+  teacherId: 'teacherId',
+  subjectId: 'subjectId',
+  createdAt: 'createdAt'
+} as const
+
+export type TeacherSubjectScalarFieldEnum = (typeof TeacherSubjectScalarFieldEnum)[keyof typeof TeacherSubjectScalarFieldEnum]
 
 
 export const FeeInvoiceScalarFieldEnum = {
@@ -3516,6 +3599,34 @@ export type ListEnumStudentStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'CourseOfferStatus'
+ */
+export type EnumCourseOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseOfferStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'CourseOfferStatus[]'
+ */
+export type ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseOfferStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DayOfWeek'
+ */
+export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
+    
+
+
+/**
+ * Reference to a field of type 'DayOfWeek[]'
+ */
+export type ListEnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek[]'>
+    
+
+
+/**
  * Reference to a field of type 'PaymentMethod'
  */
 export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
@@ -3672,6 +3783,7 @@ export type GlobalOmitConfig = {
   courseOffer?: Prisma.CourseOfferOmit
   courseRegistration?: Prisma.CourseRegistrationOmit
   courseSchedule?: Prisma.CourseScheduleOmit
+  teacherSubject?: Prisma.TeacherSubjectOmit
   feeInvoice?: Prisma.FeeInvoiceOmit
   feeInvoiceItem?: Prisma.FeeInvoiceItemOmit
   payment?: Prisma.PaymentOmit

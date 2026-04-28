@@ -115,6 +115,7 @@ model Staff {
 
   // quan hệ
   courseOffers      CourseOffer[]
+  teacherSubjects   TeacherSubject[]
 
   @@map("staffs")
 }

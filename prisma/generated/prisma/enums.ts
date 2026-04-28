@@ -45,6 +45,29 @@ export const PaymentMethod = {
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 
+export const CourseOfferStatus = {
+  planned: 'planned',
+  open: 'open',
+  closed: 'closed',
+  cancelled: 'cancelled'
+} as const
+
+export type CourseOfferStatus = (typeof CourseOfferStatus)[keyof typeof CourseOfferStatus]
+
+
+export const DayOfWeek = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY'
+} as const
+
+export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
+
+
 export const PostType = {
   NEWS: 'NEWS',
   ADMISSION: 'ADMISSION',
