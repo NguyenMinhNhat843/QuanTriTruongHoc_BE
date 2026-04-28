@@ -1,0 +1,42 @@
+// Loại bài viết
+enum PostType {
+  NEWS          // Tin tức chung
+  ADMISSION     // Tuyển sinh
+  EVENT         // Sự kiện
+  INTERNAL      // Thông báo nội bộ
+  ACHIEVEMENT   // Gương mặt tiêu biểu/Thành tích
+  MENU          // Thực đơn
+  POLICY        // Quy định/Chính sách
+}
+
+// Trạng thái của bài viết
+enum PostStatus {
+  DRAFT      // Lưu nháp
+  PENDING    // Chờ duyệt
+  PUBLISHED  // Đã đăng
+  ARCHIVED   // Đã lưu trữ (ẩn đi)
+}
+
+model Post {
+  id            Int         @id @default(autoincrement())
+  title         String      // Tiêu đề bài viết
+  slug          String      @unique // Đường dẫn thân thiện (vd: tin-tuc-tuyen-sinh-2026)
+  coverImage    String?     // URL ảnh nền (Ảnh bìa)
+  content       String      @db.Text // Nội dung dạng chuỗi (HTML/Markdown)
+  
+  type          PostType    @default(NEWS)
+  status        PostStatus  @default(DRAFT)
+  
+  // Hẹn giờ đăng bài
+  publishedAt   DateTime?   // Thời điểm bài viết sẽ được hiển thị công khai
+  
+  // Metadata
+  viewCount     Int         @default(0)
+  authorId      Int         // Liên kết với bảng User (Người tạo)
+  author        User        @relation(fields: [authorId], references: [id])
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([status, type, publishedAt]) // Optimize cho việc truy vấn bài viết theo trạng thái và thời gian
+}

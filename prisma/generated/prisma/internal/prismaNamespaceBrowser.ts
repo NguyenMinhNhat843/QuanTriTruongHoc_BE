@@ -82,7 +82,8 @@ export const ModelName = {
   GradeComponent: 'GradeComponent',
   GradeEntry: 'GradeEntry',
   GradeHistory: 'GradeHistory',
-  Grade: 'Grade'
+  Grade: 'Grade',
+  Post: 'Post'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -556,6 +557,24 @@ export const GradeScalarFieldEnum = {
 } as const
 
 export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
+
+
+export const PostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  coverImage: 'coverImage',
+  content: 'content',
+  type: 'type',
+  status: 'status',
+  publishedAt: 'publishedAt',
+  viewCount: 'viewCount',
+  authorId: 'authorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
 export const SortOrder = {

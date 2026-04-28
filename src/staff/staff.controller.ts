@@ -7,21 +7,17 @@ import {
   ParseIntPipe,
   Get,
   Query,
-  UseGuards,
 } from "@nestjs/common";
 import { StaffService } from "./staff.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
 import { ApiTags, ApiOperation } from "@nestjs/swagger";
 import { StaffResponseDto } from "./staff.response.js";
-import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard.js";
-import { GetUser } from "../common/decorators/get-user.decorator.js";
-import { RolesGuard } from "../auth/guard/role.guard.js";
 import { Roles } from "../common/decorators/role.decorator.js";
 import { RoleType } from "../../prisma/generated/prisma/enums.js";
 
 @ApiTags("Staffs")
 @Controller("staffs")
-@UseGuards(JwtAuthGuard, RolesGuard)
+// @UseGuards(JwtAuthGuard, RolesGuard)
 export class StaffController {
   constructor(private readonly staffService: StaffService) {}
 
@@ -30,9 +26,7 @@ export class StaffController {
   @Roles(RoleType.admin)
   async create(
     @Body() createStaffDto: CreateStaffDto,
-    @GetUser() user: any, // Lấy thông tin người đang thực hiện tạo
   ): Promise<StaffResponseDto> {
-    console.log("Admin thực hiện:", user.username);
     return this.staffService.createStaff(createStaffDto);
   }
 

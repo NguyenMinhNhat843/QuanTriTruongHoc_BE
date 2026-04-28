@@ -43,3 +43,26 @@ export const PaymentMethod = {
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const PostType = {
+  NEWS: 'NEWS',
+  ADMISSION: 'ADMISSION',
+  EVENT: 'EVENT',
+  INTERNAL: 'INTERNAL',
+  ACHIEVEMENT: 'ACHIEVEMENT',
+  MENU: 'MENU',
+  POLICY: 'POLICY'
+} as const
+
+export type PostType = (typeof PostType)[keyof typeof PostType]
+
+
+export const PostStatus = {
+  DRAFT: 'DRAFT',
+  PENDING: 'PENDING',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type PostStatus = (typeof PostStatus)[keyof typeof PostStatus]

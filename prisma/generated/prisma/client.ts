@@ -199,3 +199,8 @@ export type GradeHistory = Prisma.GradeHistoryModel
  * 
  */
 export type Grade = Prisma.GradeModel
+/**
+ * Model Post
+ * 
+ */
+export type Post = Prisma.PostModel

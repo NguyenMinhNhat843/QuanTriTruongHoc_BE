@@ -16,9 +16,10 @@ model User {
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? // Soft delete
 
-  // Quan hệ 1-1 với Student và Staff
+  // Quan hệ
   student       Student?
   staff         Staff?
+  posts         Post[]
 
   @@map("users")
 }
