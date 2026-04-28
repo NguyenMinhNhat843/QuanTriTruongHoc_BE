@@ -85,7 +85,7 @@ model Batch {
 }
 
 // ==========================
-// 3. CLASSES (LỚP HỌC)
+// 3. CLASSES (LỚP DANH NGHĨA)
 // ==========================
 model Class {
   id            Int      @id @default(autoincrement())
@@ -150,7 +150,9 @@ model Subject {
 model Semester {
   id          Int      @id @default(autoincrement())
   name        String   // Ví dụ: HK1-2026, HK2-2026
-  schoolYear  String   // Ví dụ: 2025-2026
+  term        Int?       // Kỳ, ví dụ: 1, 2 nghĩa là Học kỳ 1 2 dùng để truy vấn dễ hơn
+  year        Int?      // Năm học nào
+  schoolYear  String?   // Ví dụ: 2025-2026
   
   startDate   DateTime @db.Date
   endDate     DateTime @db.Date
@@ -164,6 +166,8 @@ model Semester {
   courseOffers        CourseOffer[]
   feeInvoices         FeeInvoice[]
 
+  // ràng buộc duy nhất
+  @@unique([year, term], name: "unique_semester_term")
   @@map("semesters")
 }
 

@@ -7,6 +7,12 @@ export class SemesterResponseDto {
   @ApiProperty({ example: "HK1-2026" })
   name: string;
 
+  @ApiProperty({ example: 2025 })
+  year: number;
+
+  @ApiProperty({ example: 1 })
+  term: number;
+
   @ApiProperty({ example: "2025-2026" })
   schoolYear: string;
 
@@ -43,6 +49,8 @@ export class SemesterResponseDto {
     this.endDate = partial.endDate;
     this.isCurrent = partial.isCurrent;
     this.createdAt = partial.createdAt;
+    this.term = partial.term;
+    this.year = partial.year;
 
     // Map số lượng quan hệ từ Prisma _count (nếu có dùng trong service)
     if (partial._count) {

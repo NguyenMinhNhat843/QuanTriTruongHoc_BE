@@ -5,6 +5,7 @@ import {
   IsBoolean,
   IsOptional,
   IsDateString,
+  IsInt,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
@@ -14,10 +15,18 @@ export class CreateSemesterDto {
   @IsNotEmpty({ message: "Tên học kỳ không được để trống" })
   name: string;
 
-  @ApiProperty({ example: "2025-2026", description: "Năm học" })
-  @IsString()
-  @IsNotEmpty({ message: "Năm học không được để trống" })
-  schoolYear: string;
+  @ApiProperty({ example: 2026, description: "Năm học của học kỳ" })
+  @IsInt()
+  @IsOptional()
+  year: number;
+
+  @ApiProperty({
+    example: 1,
+    description: "Học kỳ thứ mấy trong năm (1 hoặc 2)",
+  })
+  @IsInt()
+  @IsNotEmpty({ message: "Học kỳ phải là số nguyên (1 hoặc 2)" })
+  term: number;
 
   @ApiProperty({ example: "2026-09-01", description: "Ngày bắt đầu học kỳ" })
   @IsDateString()
