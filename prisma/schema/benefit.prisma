@@ -26,7 +26,9 @@ model BenefitProgram {
   @@map("benefit_programs")
 }
 
-// Đơn ứng tuyển/xét duyệt học bổng của sinh viên
+// ==========================
+// 13. ĐƠN ỨNG TUYỂN HỌC BỔNG
+// ==========================
 model BenefitApplication {
   id          Int            @id @default(autoincrement())
   
@@ -48,7 +50,9 @@ model BenefitApplication {
   @@map("benefit_applications")
 }
 
-// Danh sách sinh viên thực tế nhận được học bổng
+// ==========================
+// DANH SÁCH ỨNG TUYỂN ĐẠT
+// ==========================
 model BenefitAward {
   id            Int                @id @default(autoincrement())
   

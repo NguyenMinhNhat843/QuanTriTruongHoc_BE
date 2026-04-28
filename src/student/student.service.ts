@@ -25,8 +25,6 @@ import * as bcrypt from "bcryptjs";
 export class StudentService {
   constructor(private prisma: PrismaService) {}
 
-  // api phân lớp
-
   /**
    * Tạo mới một sinh viên
    */

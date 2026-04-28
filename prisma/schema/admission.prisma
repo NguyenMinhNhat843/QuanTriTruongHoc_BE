@@ -30,6 +30,10 @@ model AdmissionItem {
   applications    Application[]
 }
 
+
+// ===================================================
+// ĐƠN ỨNG TUYỂN ĐỢT TUYỂN SINH
+// ==================================================
 model Application {
   id        Int    @id @default(autoincrement())
   fullName  String

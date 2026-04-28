@@ -27,7 +27,7 @@ model Post {
   type          PostType    @default(NEWS)
   status        PostStatus  @default(DRAFT)
   
-  // Hẹn giờ đăng bài
+  // Hẹn giờ đăng bài   
   publishedAt   DateTime?   // Thời điểm bài viết sẽ được hiển thị công khai
   
   // Metadata
