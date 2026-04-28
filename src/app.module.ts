@@ -20,6 +20,7 @@ import { FeeModule } from "./Fee/fee.module.js";
 import { FeeCatalogModule } from "./FeeCatalog/feeCatalog.module.js";
 import { CreditPriceModule } from "./creaditPrice/creditPrice.module.js";
 import { PostModule } from "./post/post.module.js";
+import { ScheduleModule } from "@nestjs/schedule";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PostModule } from "./post/post.module.js";
       isGlobal: true,
       envFilePath: `.env`,
     }),
+    ScheduleModule.forRoot(),
     StudentModule,
     PrismaModule,
     UserModule,
