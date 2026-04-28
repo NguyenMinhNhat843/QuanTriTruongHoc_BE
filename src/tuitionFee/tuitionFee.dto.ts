@@ -1,6 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsString, IsInt, IsOptional, Min } from "class-validator";
+import {
+  IsNotEmpty,
+  IsString,
+  IsInt,
+  IsOptional,
+  Min,
+  IsArray,
+  ArrayNotEmpty,
+} from "class-validator";
 
 export class CreateTuitionFeesDto {
   studentCode;
@@ -42,4 +50,33 @@ export class EnrollmentPaymentDto {
   @IsOptional()
   @IsString()
   paymentMethod?: string;
+}
+
+export class PayTuitionFeeDto {
+  @ApiProperty({
+    description: "ID của sinh viên thực hiện thanh toán",
+    example: 123,
+  })
+  @IsNotEmpty()
+  @IsInt()
+  studentId: number;
+
+  @ApiProperty({
+    description:
+      "Danh sách ID của các mục thanh toán (ví dụ: ID đăng ký học phần)",
+    example: [1, 2, 5],
+    type: [Number],
+  })
+  @IsArray()
+  @ArrayNotEmpty() // Đảm bảo mảng không trống
+  @IsInt({ each: true }) // Kiểm tra từng phần tử trong mảng phải là số nguyên
+  itemsPaymented: number[];
+
+  @ApiProperty({
+    description: "ID của học kỳ thực hiện thanh toán",
+    example: 1,
+  })
+  @IsNotEmpty()
+  @IsInt()
+  semesterId: number;
 }

@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { TuitionFeeService } from "./tuitionFee.service";
+import { PayTuitionFeeDto } from "./tuitionFee.dto";
 
 @ApiTags("Tuition Fee (Thu học phí)")
 @Controller("tuition-fee")
@@ -28,5 +29,15 @@ export class TuitionFeeController {
   })
   async getTuitionFees(@Query("studentId") studentId: number) {
     return await this.tuitionFeeService.getTuitionFees(studentId);
+  }
+
+  @Post("/pay")
+  @ApiOperation({
+    summary: "Thanh toán học phí",
+    description:
+      "Sinh viên thực hiện thanh toán học phí dựa trên danh sách các khoản phí đã tạo.",
+  })
+  async payTuitionFee(@Body() data: PayTuitionFeeDto) {
+    return await this.tuitionFeeService.payTuitionFee(data);
   }
 }

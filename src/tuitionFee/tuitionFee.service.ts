@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { StudentStatus } from "../../prisma/generated/prisma/enums";
+import { PayTuitionFeeDto } from "./tuitionFee.dto";
 
 @Injectable()
 export class TuitionFeeService {
@@ -140,12 +141,50 @@ export class TuitionFeeService {
 
   // api lấy danh sách các khoản phí của sinh viên
   async getTuitionFees(studentId: number) {
-    const fees = await this.prisma.feeInvoiceItem.findFirst({
+    const fees = await this.prisma.feeInvoiceItem.findMany({
       where: {
         studentId: studentId,
       },
     });
 
     return fees;
+  }
+
+  // Thanh toán học phí
+  async payTuitionFee(data: PayTuitionFeeDto) {
+    const { studentId, itemsPaymented, semesterId } = data;
+    const items = await this.prisma.feeInvoiceItem.findMany({
+      where: {
+        id: { in: itemsPaymented },
+        studentId: studentId,
+        status: "unpaid",
+      },
+    });
+
+    if (items.length === 0) {
+      throw new NotFoundException("Không tìm thấy khoản phí nào để thanh toán");
+    }
+
+    // cập nhật status các item đó là paymented
+    await this.prisma.feeInvoiceItem.updateMany({
+      where: {
+        id: { in: itemsPaymented },
+        studentId: studentId,
+      },
+      data: {
+        status: "paid",
+      },
+    });
+
+    // tạo hoa đơn thanh toán
+    const invoice = await this.prisma.feeInvoice.create({
+      data: {
+        studentId: studentId,
+        totalAmount: items.reduce((sum, i) => sum + i.amount, 0),
+        semesterId: semesterId,
+      },
+    });
+
+    return invoice;
   }
 }
