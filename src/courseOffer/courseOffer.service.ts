@@ -6,6 +6,7 @@ import {
 import { PrismaService } from "../prisma/prisma.service";
 import {
   CreateBulkCourseOfferDto,
+  CreateOptionalCourseOfferDto,
   PreviewCourseOfferDto,
 } from "./courseOffer.dto";
 
@@ -148,6 +149,9 @@ export class CourseOfferService {
     };
   }
 
+  // =========================================
+  // Hàm tái sử dụng để lấy thông tin cơ bản cho cả preview và generate
+  // =========================================
   private async getGenerationContext(
     semesterId: number,
     majorId: number,
@@ -189,5 +193,69 @@ export class CourseOfferService {
     });
 
     return { subjectsInTerm, nominalClasses, semester };
+  }
+
+  // =========================================
+  // Hàm tạo lớp học phần tùy chọn (Optional Course Offer)
+  // =========================================
+  async createOptionalSection(dto: CreateOptionalCourseOfferDto) {
+    const {
+      semesterId,
+      subjectId,
+      classId,
+      maxStudents,
+      registrationStart,
+      registrationEnd,
+    } = dto;
+
+    // 1. Kiểm tra sự tồn tại của Môn học và Học kỳ
+    const [subject, semester] = await Promise.all([
+      this.prisma.subject.findUnique({ where: { id: subjectId } }),
+      this.prisma.semester.findUnique({ where: { id: semesterId } }),
+    ]);
+
+    if (!subject || !semester) {
+      throw new NotFoundException("Môn học hoặc Học kỳ không tồn tại");
+    }
+
+    // 2. Sinh mã lớp học phần (Course Code) tùy chọn
+    // Định dạng: [MãMôn]-[TênHọcKỳ]-OPT-[SốNgẫuNhiên/ThứTự]
+    // Ví dụ: POL101-HK12026-OPT1
+    const timestamp = Date.now().toString().slice(-3);
+    const generatedCode = `${subject.subjectCode}-${semester.name}-OPT${timestamp}`;
+
+    // 3. Tạo bản ghi mới
+    try {
+      const newSection = await this.prisma.courseOffer.create({
+        data: {
+          courseCode: generatedCode,
+          subjectId: subjectId,
+          semesterId: semesterId,
+          classId: classId || null, // Có thể không thuộc lớp danh nghĩa nào
+          maxStudents: maxStudents,
+          status: "open", // Mở luôn để sinh viên thấy và đăng ký
+          registrationStart: registrationStart
+            ? new Date(registrationStart)
+            : null,
+          registrationEnd: registrationEnd ? new Date(registrationEnd) : null,
+          // Nếu trong schema của bạn có trường lưu tên lớp hiển thị riêng:
+          // name: courseName
+        },
+        include: {
+          subject: true,
+          semester: true,
+        },
+      });
+
+      return {
+        message: "Mở lớp học phần tùy chọn thành công",
+        data: newSection,
+      };
+    } catch (error: any) {
+      console.error("Lỗi khi tạo lớp học phần tùy chọn: ", error);
+      throw new BadRequestException(
+        "Lỗi khi tạo lớp học phần tùy chọn: " + error.message,
+      );
+    }
   }
 }
