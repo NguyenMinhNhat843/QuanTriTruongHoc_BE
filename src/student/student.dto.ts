@@ -67,11 +67,6 @@ export class CreateStudentDto {
 
   // --- THÔNG TIN ĐÀO TẠO (BỔ SUNG QUAN TRỌNG) ---
 
-  @ApiProperty({ example: 1, description: "ID của Ngành học" })
-  @IsInt()
-  @IsNotEmpty()
-  majorId: number;
-
   @ApiPropertyOptional({
     example: 1,
     description: "ID của Khóa đào tạo (K1, K2...)",
@@ -126,7 +121,7 @@ export class SearchStudentDto {
   @IsString()
   keyword?: string;
 
-  @ApiPropertyOptional({ enum: StudentStatus })
+  @ApiPropertyOptional({ enum: StudentStatus, enumName: "StudentStatus" })
   @IsOptional()
   @IsEnum(StudentStatus)
   status?: StudentStatus;
@@ -159,6 +154,6 @@ export class SearchStudentDto {
 
   @ApiPropertyOptional({ enum: ["asc", "desc"], default: "desc" })
   @IsOptional()
-  @IsEnum(["asc", "desc"])
+  @IsEnum(["asc", "desc"], { each: true })
   sortOrder?: "asc" | "desc" = "desc";
 }

@@ -45,9 +45,6 @@ model Student {
   address       String?
   identityNumber    String?     @unique // CCCD
 
-  majorId         Int?           // Ngành           
-  major         Major?           @relation(fields: [majorId], references: [id])
-
   batchId         Int?          // Khóa đào tạo
   batch         Batch?          @relation(fields: [batchId], references: [id])
 

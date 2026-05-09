@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service"; // Đảm bảo đường dẫn đúng tới PrismaService
 import { CreateBatchDto, UpdateBatchDto } from "./batch.dto";
+import { BatchResponseDto } from "./batch.response";
 
 @Injectable()
 export class BatchService {
@@ -45,21 +46,17 @@ export class BatchService {
   }
 
   // 2. LẤY TẤT CẢ DANH SÁCH KHÓA ĐÀO TẠO
-  async findAll() {
-    return await this.prisma.batch.findMany({
+  async findAll(): Promise<BatchResponseDto[]> {
+    const data = await this.prisma.batch.findMany({
       include: {
-        _count: {
-          select: {
-            students: true,
-            classes: true,
-          },
-        },
         major: true,
       },
       orderBy: {
         startYear: "desc",
       },
     });
+
+    return data.map((item) => new BatchResponseDto(item));
   }
 
   // 3. CẬP NHẬT THÔNG TIN KHÓA

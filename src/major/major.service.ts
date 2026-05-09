@@ -7,6 +7,7 @@ import {
 import { PrismaService } from "../prisma/prisma.service";
 import { MajorResponseDto } from "./major.response";
 import { CreateMajorDto, UpdateMajorDto } from "./major.dto";
+import { Prisma } from "../../prisma/generated/prisma/client";
 
 @Injectable()
 export class MajorService {
@@ -33,8 +34,8 @@ export class MajorService {
 
     try {
       const major = await this.prisma.major.create({
-        data,
-        include: { department: true }, // Include để trả về thông tin khoa
+        data: data as Prisma.MajorUncheckedCreateInput,
+        include: { department: true },
       });
       return new MajorResponseDto(major);
     } catch (error) {

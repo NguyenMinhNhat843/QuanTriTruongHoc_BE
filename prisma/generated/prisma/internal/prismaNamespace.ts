@@ -3085,8 +3085,6 @@ export const MajorScalarFieldEnum = {
   majorCode: 'majorCode',
   majorName: 'majorName',
   deptId: 'deptId',
-  durationYears: 'durationYears',
-  totalCredits: 'totalCredits',
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3278,7 +3276,6 @@ export const StudentScalarFieldEnum = {
   avatarUrl: 'avatarUrl',
   address: 'address',
   identityNumber: 'identityNumber',
-  majorId: 'majorId',
   batchId: 'batchId',
   classId: 'classId',
   enrollmentDate: 'enrollmentDate',

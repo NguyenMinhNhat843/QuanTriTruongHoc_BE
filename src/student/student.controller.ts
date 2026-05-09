@@ -16,15 +16,21 @@ import {
   UpdateStudentDto,
 } from "./student.dto.js";
 import { StudentResponseDto } from "./student.response.js";
-import { ResponsePagination } from "../common/common.response.js";
+import {
+  ApiOkResponsePaginated,
+  ResponsePagination,
+} from "../common/common.response.js";
 
-@ApiTags("Students") // Phân nhóm trong Swagger
+@ApiTags("Students")
 @Controller("students")
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
   @Post()
-  @ApiOperation({ summary: "Tạo mới hồ sơ sinh viên (Nộp hồ sơ)" })
+  @ApiOperation({
+    summary: "Tạo mới hồ sơ sinh viên",
+    operationId: "createStudent", // Orval sẽ gen ra: createStudent()
+  })
   @ApiOkResponse({ type: StudentResponseDto })
   async create(
     @Body() createStudentDto: CreateStudentDto,
@@ -33,8 +39,11 @@ export class StudentController {
   }
 
   @Get()
-  @ApiOperation({ summary: "Tìm kiếm và phân trang danh sách sinh viên" })
-  @ApiOkResponse({ description: "Danh sách sinh viên và thông tin phân trang" })
+  @ApiOperation({
+    summary: "Tìm kiếm và phân trang danh sách sinh viên",
+    operationId: "searchStudents", // Orval sẽ gen ra: searchStudents()
+  })
+  @ApiOkResponsePaginated(StudentResponseDto)
   async searchStudent(
     @Query() query: SearchStudentDto,
   ): Promise<ResponsePagination<StudentResponseDto>> {
@@ -42,7 +51,10 @@ export class StudentController {
   }
 
   @Patch(":id")
-  @ApiOperation({ summary: "Cập nhật thông tin hồ sơ sinh viên" })
+  @ApiOperation({
+    summary: "Cập nhật thông tin hồ sơ sinh viên",
+    operationId: "updateStudent", // Orval sẽ gen ra: updateStudent()
+  })
   @ApiOkResponse({ type: StudentResponseDto })
   async update(
     @Param("id", ParseIntPipe) id: number,
@@ -51,18 +63,15 @@ export class StudentController {
     return this.studentService.updateStudent(id, updateStudentDto);
   }
 
-  /**
-   * Lưu ý: Bạn nên tạo thêm một endpoint riêng cho việc duyệt hồ sơ (Approve)
-   * vì nó chứa logic nghiệp vụ đặc biệt là tạo tài khoản User.
-   */
   @Post(":id/approve")
-  @ApiOperation({ summary: "Duyệt hồ sơ và cấp tài khoản đăng nhập" })
+  @ApiOperation({
+    summary: "Duyệt hồ sơ và cấp tài khoản đăng nhập",
+    operationId: "approveStudent", // Orval sẽ gen ra: approveStudent()
+  })
   @ApiOkResponse({ type: StudentResponseDto })
   async approve(
     @Param("id", ParseIntPipe) id: number,
   ): Promise<StudentResponseDto> {
-    // Gọi hàm approve trong service (hàm này bạn sẽ bổ sung dựa trên logic
-    // transaction tạo User và Student mà chúng ta đã thảo luận)
     return this.studentService.approveStudent(id);
   }
 }

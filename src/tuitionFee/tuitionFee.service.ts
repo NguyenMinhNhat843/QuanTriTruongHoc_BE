@@ -54,14 +54,12 @@ export class TuitionFeeService {
               { isGlobal: true }, // Giá áp dụng toàn cầu (thường không quan tâm kỳ nào)
               {
                 semester: 1,
-                majorId: student.majorId,
               }, // Giá riêng cho ngành + kỳ này
               {
                 semester: 1,
                 batchId: student.batchId,
               }, // Giá riêng cho khóa + kỳ này
               {
-                majorId: student.majorId,
                 batchId: student.batchId,
                 // Có thể thêm cả 3 điều kiện kết hợp nếu muốn độ ưu tiên cao nhất
               },
@@ -92,11 +90,7 @@ export class TuitionFeeService {
         // 4. Lấy phí khác (Bảo hiểm, đồng phục...) cho sinh viên này
         const feeCatalogs = await tx.feeCatalog.findMany({
           where: {
-            OR: [
-              { isGlobal: true },
-              { majorId: student.majorId },
-              { batchId: student.batchId },
-            ],
+            OR: [{ isGlobal: true }, { batchId: student.batchId }],
           },
           include: { fee: true },
         });

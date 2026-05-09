@@ -32,9 +32,6 @@ model Major {
   deptId          Int
   department      Department @relation(fields: [deptId], references: [id])
   
-  durationYears   String?    // Ví dụ: "2.5 năm" hoặc "3 năm"
-  totalCredits    Int        @default(0)
-  
   description     String?    @db.Text
   
   createdAt       DateTime   @default(now())
@@ -43,7 +40,6 @@ model Major {
   // Quan hệ
   classes         Class[]
   curriculumn     Curriculum[]
-  students        Student[]
   batches         Batch[]
   creditPrices    CreditPrice[] 
   admissionItems  AdmissionItem[]

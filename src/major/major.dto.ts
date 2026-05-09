@@ -5,7 +5,6 @@ import {
   IsString,
   IsInt,
   MaxLength,
-  Min,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
@@ -22,21 +21,12 @@ export class CreateMajorDto {
   @MaxLength(255)
   majorName: string;
 
-  @ApiProperty({ example: 1, description: "ID của phòng ban/khoa trực thuộc" })
+  @ApiPropertyOptional({
+    example: 1,
+    description: "ID của phòng ban/khoa trực thuộc",
+  })
   @IsInt()
-  @IsNotEmpty()
-  deptId: number;
-
-  @ApiPropertyOptional({ example: "2.5 năm" })
-  @IsString()
-  @IsOptional()
-  durationYears?: string;
-
-  @ApiPropertyOptional({ example: 90 })
-  @IsInt()
-  @Min(0)
-  @IsOptional()
-  totalCredits?: number;
+  deptId?: number;
 
   @ApiPropertyOptional({
     example: "Ngành học tập trung vào phát triển phần mềm",

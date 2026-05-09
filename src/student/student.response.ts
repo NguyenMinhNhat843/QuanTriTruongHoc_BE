@@ -25,10 +25,19 @@ export class StudentResponseDto implements Student {
   @ApiProperty({ example: "student@school.edu.vn" })
   email: string | null;
 
-  @ApiProperty({ example: true, description: "true: Nam, false: Nữ" })
+  @ApiProperty({
+    type: Boolean,
+    example: true,
+    description: "true: Nam, false: Nữ",
+  })
   gender: boolean | null;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Date, // Xác định rõ kiểu dữ liệu là Date
+    nullable: true, // Cho phép giá trị null trong tài liệu API
+    required: false, // Nếu trường này không bắt buộc gửi lên
+    example: "2000-01-01",
+  })
   dob: Date | null;
 
   @ApiProperty()

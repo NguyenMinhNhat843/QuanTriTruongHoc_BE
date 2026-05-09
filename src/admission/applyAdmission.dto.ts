@@ -1,35 +1,42 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsEmail,
-  IsInt,
-  IsNotEmpty,
-  IsPhoneNumber,
   IsString,
+  IsEmail,
+  IsNotEmpty,
+  IsInt,
+  IsObject,
+  IsOptional,
 } from "class-validator";
 
-export class CreateApplicationDto {
-  @ApiProperty({ example: "Nguyễn Văn A", description: "Họ và tên đầy đủ" })
+export class ApplyApplicationDto {
+  @ApiProperty({ example: "Nguyễn Văn A" })
   @IsString()
-  @IsNotEmpty({ message: "Họ tên không được để trống" })
+  @IsNotEmpty()
   fullName: string;
 
   @ApiProperty({ example: "nguyenvana@gmail.com" })
-  @IsEmail({}, { message: "Email không đúng định dạng" })
-  @IsNotEmpty({ message: "Email không được để trống" })
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
 
-  @ApiProperty({ example: "0905123456", description: "Số điện thoại liên lạc" })
-  @IsPhoneNumber("VN", {
-    message: "Số điện thoại phải đúng định dạng Việt Nam",
-  })
-  @IsNotEmpty({ message: "Số điện thoại không được để trống" })
+  @ApiProperty({ example: "0905123456" })
+  @IsString()
+  @IsNotEmpty()
   phone: string;
 
   @ApiProperty({
-    example: 1,
-    description: "ID chi tiết tuyển sinh (xác định Ngành và Khóa học)",
+    example: 10,
+    description: "ID của AdmissionItem (Ngành muốn thi vào)",
   })
   @IsInt()
-  @IsNotEmpty({ message: "Phải chọn một nguyện vọng ngành học" })
+  @IsNotEmpty()
   admissionItemId: number;
+
+  @ApiProperty({
+    example: { math_score: 8.5, english_score: 7.0, ielts: 6.5 },
+    description: "Dữ liệu điểm số/chứng chỉ dạng JSON",
+  })
+  @IsObject()
+  @IsOptional()
+  rawdata: any;
 }

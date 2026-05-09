@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { TuitionFeeService } from "./tuitionFee.service";
 import { PayTuitionFeeDto } from "./tuitionFee.dto";
@@ -27,7 +27,7 @@ export class TuitionFeeController {
     status: 200,
     description: "Danh sách các khoản phí học kỳ của sinh viên.",
   })
-  async getTuitionFees(@Query("studentId") studentId: number) {
+  async getTuitionFees(@Param("studentId") studentId: number) {
     return await this.tuitionFeeService.getTuitionFees(studentId);
   }
 

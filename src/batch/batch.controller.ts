@@ -7,9 +7,15 @@ import {
   Param,
   ParseIntPipe,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiOkResponse,
+} from "@nestjs/swagger";
 import { BatchService } from "./batch.service";
 import { CreateBatchDto, UpdateBatchDto } from "./batch.dto";
+import { BatchResponseDto } from "./batch.response";
 
 @ApiTags("Batches (Khóa đào tạo)") // Phân nhóm trong Swagger
 @Controller("batches")
@@ -26,6 +32,7 @@ export class BatchController {
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả các khóa đào tạo" })
+  @ApiOkResponse({ type: [BatchResponseDto] })
   findAll() {
     return this.batchService.findAll();
   }

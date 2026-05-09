@@ -1,12 +1,5 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
-import {
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Min,
-  Max,
-} from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateBatchDto {
   @ApiProperty({ example: "K1", description: "Mã khóa học viết tắt" })
@@ -21,15 +14,11 @@ export class CreateBatchDto {
 
   @ApiProperty({ example: 2026, description: "Năm bắt đầu khóa học" })
   @IsInt()
-  @Min(2000)
-  @Max(2100)
   @IsNotEmpty()
   startYear: number;
 
   @ApiProperty({ example: 2030, description: "Năm kết thúc dự kiến" })
   @IsInt()
-  @Min(2000)
-  @Max(2100)
   @IsNotEmpty()
   endYear: number;
 

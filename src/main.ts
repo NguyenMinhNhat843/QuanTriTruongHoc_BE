@@ -13,6 +13,8 @@ async function bootstrap() {
     .addBearerAuth() // nếu dùng JWT
     .build();
 
+  app.enableCors();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document);
 

@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { DepartmentResponseDto } from "../department/department.response";
+import { Major } from "../../prisma/generated/prisma/client";
 
-export class MajorResponseDto {
+export class MajorResponseDto implements Readonly<Major> {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -14,14 +15,8 @@ export class MajorResponseDto {
   @ApiProperty({ example: 1 })
   deptId: number;
 
-  @ApiPropertyOptional({ example: "2.5 năm" })
-  durationYears?: string;
-
   @ApiProperty({ example: 90 })
   totalCredits: number;
-
-  @ApiPropertyOptional({ example: "Mô tả ngành học" })
-  description?: string;
 
   @ApiProperty({ example: "2024-04-25T10:00:00Z" })
   createdAt: Date;
@@ -39,16 +34,21 @@ export class MajorResponseDto {
   })
   classCount?: number;
 
+  @ApiPropertyOptional({
+    example: "Ngành học tập trung vào phát triển phần mềm",
+    description: "Mô tả chi tiết về ngành học",
+  })
+  description: string | null;
+
   constructor(partial: any) {
     this.id = partial.id;
     this.majorCode = partial.majorCode;
     this.majorName = partial.majorName;
     this.deptId = partial.deptId;
-    this.durationYears = partial.durationYears;
     this.totalCredits = partial.totalCredits;
-    this.description = partial.description;
     this.createdAt = partial.createdAt;
     this.updatedAt = partial.updatedAt;
+    this.description = partial.description;
 
     // Map thông tin phòng ban nếu có include
     if (partial.department) {

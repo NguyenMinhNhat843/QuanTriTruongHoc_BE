@@ -23,7 +23,6 @@ export class ClassService {
     // 1. Lấy danh sách sinh viên đủ điều kiện
     const students = await this.prisma.student.findMany({
       where: {
-        majorId,
         batchId,
         classId: null, // Chưa có lớp
         status: StudentStatus.enrolled,
