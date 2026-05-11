@@ -11,9 +11,9 @@ import {
 import { PartialType } from "@nestjs/swagger";
 
 export class CreateCurriculumSubjectDto {
-  @ApiProperty({ example: 1, description: "ID của chương trình khung" })
+  @ApiPropertyOptional({ example: 1, description: "ID của chương trình khung" })
   @IsInt()
-  @IsNotEmpty()
+  @IsOptional()
   curriculumId: number;
 
   @ApiProperty({ example: 1, description: "ID của môn học" })

@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { SubjectResponseDto } from "../subject/subject.response";
 
 export class CurriculumSubjectResponseDto {
   @ApiProperty({ example: 1 })
@@ -24,7 +25,7 @@ export class CurriculumSubjectResponseDto {
 
   // --- Dữ liệu quan hệ (Thường dùng nhất là thông tin môn học) ---
   @ApiPropertyOptional({ description: "Thông tin chi tiết môn học" })
-  subject?: any;
+  subject?: SubjectResponseDto;
 
   @ApiPropertyOptional({ description: "Thông tin chương trình khung" })
   curriculum?: any;

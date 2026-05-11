@@ -33,11 +33,11 @@ export class BatchService {
     return this.prisma.batch.create({
       data: {
         ...rest,
-        curriculum: {
-          connect: {
-            id: curriculumId,
+        ...(curriculumId && {
+          curriculum: {
+            connect: { id: curriculumId },
           },
-        },
+        }),
         major: {
           connect: { id: majorId },
         },
