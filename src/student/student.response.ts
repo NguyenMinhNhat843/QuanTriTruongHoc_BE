@@ -12,8 +12,8 @@ export class StudentResponseDto implements Student {
   @ApiProperty()
   studentCode: string;
 
-  @ApiProperty()
-  userId: number;
+  @ApiProperty({ nullable: true })
+  userId: number | null;
 
   // --- Thông tin từ quan hệ User ---
   @ApiProperty({ example: "nguyenvana" })
@@ -55,6 +55,9 @@ export class StudentResponseDto implements Student {
   @ApiProperty()
   isActive: boolean;
 
+  @ApiProperty()
+  applicationId: number | null;
+
   // --- Thông tin riêng của Student ---
   @ApiProperty()
   classId: number | null;
@@ -89,34 +92,7 @@ export class StudentResponseDto implements Student {
   @ApiProperty()
   majorId: number | null;
 
-  constructor(student: any) {
-    this.id = student.id;
-    this.studentCode = student.studentCode;
-    this.userId = student.userId;
-
-    // Ánh xạ dữ liệu từ quan hệ 'user' nếu có
-    if (student.user) {
-      this.username = student.user.username;
-      this.role = student.user.role;
-      this.isActive = student.user.isActive;
-    }
-
-    this.classId = student.classId;
-    this.enrollmentDate = student.enrollmentDate;
-    this.graduationDate = student.graduationDate;
-    this.status = student.status;
-    this.parentName = student.parentName;
-    this.parentPhone = student.parentPhone;
-    this.identityNumber = student.identityNumber;
-    this.fullName = student.fullName;
-    this.email = student.email;
-    this.gender = student.gender;
-    this.dob = student.dob;
-    this.phone = student.phone;
-    this.address = student.address;
-    this.createdAt = student.createdAt;
-    this.updatedAt = student.updatedAt;
-    this.batchId = student.batchId;
-    this.majorId = student.majorId;
+  constructor(partial: Partial<StudentResponseDto>) {
+    Object.assign(this, partial);
   }
 }

@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Param } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Delete } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
 import { AdmissionService } from "./admission.service";
-import { CreateAdmissionDto } from "./admission.dto";
+import { ApproveAdmissionDto, CreateAdmissionDto } from "./admission.dto";
 import { AdmissionResponseDto } from "./admission.response";
 
 @ApiTags("Admission (Đợt tuyển sinh)")
@@ -55,5 +55,35 @@ export class AdmissionController {
   })
   async findOne(@Param("id") id: string) {
     return await this.admissionService.findOne(Number(id));
+  }
+
+  @Delete(":id")
+  @ApiOperation({ summary: "Xóa một đợt tuyển sinh theo ID" })
+  @ApiResponse({
+    status: 200,
+    description: "Xóa thành công.",
+  })
+  @ApiResponse({
+    status: 404,
+    description: "Không tìm thấy đợt tuyển sinh với ID đã cho.",
+  })
+  async deleteAdmissionById(@Param("id") id: number) {
+    return await this.admissionService.deleteAdmissionById(Number(id));
+  }
+
+  // Chốt đợt xét tuyển
+  @Post("approve")
+  @ApiOperation({ summary: "Chốt đợt xét tuyển" })
+  @ApiResponse({
+    status: 200,
+    description: "Chốt đợt xét tuyển thành công.",
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      "Dữ liệu đầu vào không hợp lệ hoặc đợt tuyển sinh không tồn tại.",
+  })
+  async approveAdmissionBatch(@Body() body: ApproveAdmissionDto) {
+    return await this.admissionService.approveAdmissionBatch(body);
   }
 }

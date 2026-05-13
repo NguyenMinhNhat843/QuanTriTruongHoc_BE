@@ -13,8 +13,7 @@ export const ApplycationAdmissionStatus = {
   PENDING: 'PENDING',
   QUALIFIED: 'QUALIFIED',
   ADMITTED: 'ADMITTED',
-  REJECTED: 'REJECTED',
-  ENROLLED: 'ENROLLED'
+  REJECTED: 'REJECTED'
 } as const
 
 export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[keyof typeof ApplycationAdmissionStatus]

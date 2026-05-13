@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service"; // Giả sử bạn đã có PrismaModule
 import {
   CreateApplyApplicationDto,
+  FindApplicationQueryDto,
   UpdateApplicationDto,
 } from "./applyAdmission.dto";
 
@@ -19,6 +20,7 @@ export class ApplicationService {
         phone: data.phone,
         rawdata: data.rawdata,
         admissionItemId: data.admissionItemId,
+        admissionId: data.admissionId,
       },
       include: {
         admissionItem: true, // Trả về kèm thông tin đợt tuyển
@@ -27,19 +29,14 @@ export class ApplicationService {
   }
 
   // Lấy danh sách (có phân trang & filter cơ bản)
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    status?: string;
-    admissionItemId?: number;
-  }) {
-    const { skip, take, status, admissionItemId } = params;
+  async findAll(query: FindApplicationQueryDto) {
+    const { skip, take, status, admissionId } = query;
     return this.prisma.application.findMany({
       skip,
       take,
       where: {
         status: status as any,
-        admissionItemId: admissionItemId,
+        admissionId: admissionId,
       },
       include: {
         admissionItem: {
@@ -89,7 +86,4 @@ export class ApplicationService {
       },
     });
   }
-
-  // Duyệt hồ sơ tuyển sinh (ví dụ: chuyển trạng thái từ PENDING -> ADMITTED)
-  async;
 }

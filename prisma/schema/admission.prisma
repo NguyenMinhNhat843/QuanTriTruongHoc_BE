@@ -9,6 +9,7 @@ model Admission {
   status    AdmissionStatus   @default(OPEN) // OPEN, CLOSED, ARCHIVED
 
   items     AdmissionItem[]
+  applications  Application[]
 
   @@map("admissions")
 }
@@ -20,7 +21,7 @@ model AdmissionItem {
   id          Int      @id @default(autoincrement())
   
   admissionId Int
-  admission   Admission @relation(fields: [admissionId], references: [id])
+  admission   Admission @relation(fields: [admissionId], references: [id], onDelete: Cascade)
 
   majorId     Int
   major       Major     @relation(fields: [majorId], references: [id])
@@ -55,7 +56,7 @@ model Criterion {
 // ===================================================
 model AdmissionItemCriterion {
   admissionItemId Int
-  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id])
+  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id], onDelete: Cascade)
 
   criterionId     Int
   criterion       Criterion     @relation(fields: [criterionId], references: [id])
@@ -77,8 +78,7 @@ enum ApplycationAdmissionStatus {
   QUALIFIED
   ADMITTED
   REJECTED
-  ENROLLED
-}
+   }
 
 model Application {
   id              Int      @id @default(autoincrement())
@@ -89,15 +89,17 @@ model Application {
   // Dữ liệu xét tuyển (Lưu dưới dạng JSON để linh hoạt các loại điểm/chứng chỉ)
   rawdata         Json?    // Ví dụ: { "math_score": 8.5, "ielts": 6.0, "highschool_graduated": true }
 
+  admissionId     Int?
+  admission       Admission?  @relation(fields: [admissionId], references: [id], onDelete: Cascade)
+
   admissionItemId Int
-  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id])
+  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id], onDelete: Cascade)
 
   status          ApplycationAdmissionStatus   @default(PENDING) 
   // PENDING: Chờ xét
   // QUALIFIED: Đủ điều kiện (vượt qua vòng điểm số)
   // ADMITTED: Đã trúng tuyển (nằm trong danh sách chỉ tiêu)
   // REJECTED: Đã loại
-  // ENROLLED: Đã hoàn tất thủ tục nhập học & đóng tiền
 
   createdAt       DateTime @default(now())
 

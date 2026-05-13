@@ -7,8 +7,10 @@ import {
   IsObject,
   IsOptional,
   IsEnum,
+  IsNumber,
 } from "class-validator";
 import { ApplycationAdmissionStatus } from "../../prisma/generated/prisma/enums";
+import { Type } from "class-transformer";
 
 export class CreateApplyApplicationDto {
   @ApiProperty({ example: "Nguyễn Văn A" })
@@ -34,6 +36,11 @@ export class CreateApplyApplicationDto {
   @IsNotEmpty()
   admissionItemId: number;
 
+  @ApiPropertyOptional()
+  @IsNumber()
+  @IsOptional()
+  admissionId?: number;
+
   @ApiProperty({
     example: { math_score: 8.5, english_score: 7.0, ielts: 6.5 },
     description: "Dữ liệu điểm số/chứng chỉ dạng JSON",
@@ -55,4 +62,29 @@ export class UpdateApplicationDto extends PartialType(
   @IsOptional()
   @IsEnum(ApplycationAdmissionStatus)
   status?: ApplycationAdmissionStatus;
+}
+
+export class FindApplicationQueryDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  skip?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  take?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsEnum(ApplycationAdmissionStatus)
+  status?: ApplycationAdmissionStatus;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  admissionId?: number;
 }

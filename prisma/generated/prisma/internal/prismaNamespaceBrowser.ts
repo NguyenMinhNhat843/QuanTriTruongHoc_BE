@@ -287,6 +287,7 @@ export const ApplicationScalarFieldEnum = {
   email: 'email',
   phone: 'phone',
   rawdata: 'rawdata',
+  admissionId: 'admissionId',
   admissionItemId: 'admissionItemId',
   status: 'status',
   createdAt: 'createdAt'

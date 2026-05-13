@@ -9,19 +9,13 @@ import {
   Query,
   ParseIntPipe,
 } from "@nestjs/common";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiQuery,
-  ApiParam,
-} from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
 import { ApplicationService } from "./application.service";
 import {
   CreateApplyApplicationDto,
+  FindApplicationQueryDto,
   UpdateApplicationDto,
 } from "./applyAdmission.dto";
-import { ApplycationAdmissionStatus } from "../../prisma/generated/prisma/enums";
 import {
   ApplicationResponseDto,
   ApplicationStatsResponseDto,
@@ -33,14 +27,7 @@ export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
 
   @Post()
-  @ApiOperation({
-    summary: "Nộp đơn ứng tuyển mới",
-    description:
-      "Thí sinh gửi thông tin cá nhân và dữ liệu điểm số để ứng tuyển vào một ngành học.",
-  })
   @ApiResponse({
-    status: 201,
-    description: "Nộp đơn thành công.",
     type: ApplicationResponseDto,
   })
   @ApiResponse({ status: 400, description: "Dữ liệu đầu vào không hợp lệ." })
@@ -49,45 +36,16 @@ export class ApplicationController {
   }
 
   @Get()
-  @ApiOperation({ summary: "Lấy danh sách các đơn ứng tuyển" })
-  @ApiQuery({ name: "skip", required: false, type: Number, example: 0 })
-  @ApiQuery({ name: "take", required: false, type: Number, example: 10 })
-  @ApiQuery({
-    name: "status",
-    required: false,
-    enum: ApplycationAdmissionStatus,
-    description: "Lọc theo trạng thái hồ sơ",
-  })
-  @ApiQuery({
-    name: "admissionItemId",
-    required: false,
-    type: Number,
-    description: "Lọc theo ID mục tuyển sinh",
-  })
   @ApiResponse({
-    status: 200,
-    description: "Trả về danh sách đơn ứng tuyển.",
     type: [ApplicationResponseDto],
   })
-  findAll(
-    @Query("skip") skip?: string,
-    @Query("take") take?: string,
-    @Query("status") status?: string,
-    @Query("admissionItemId") admissionItemId?: string,
-  ) {
-    return this.applicationService.findAll({
-      skip: skip ? +skip : undefined,
-      take: take ? +take : undefined,
-      status,
-      admissionItemId: admissionItemId ? +admissionItemId : undefined,
-    });
+  findAll(@Query() query: FindApplicationQueryDto) {
+    return this.applicationService.findAll(query);
   }
 
   @Get("stats")
   @ApiOperation({
     summary: "Thống kê số lượng đơn theo trạng thái",
-    description:
-      "Trả về số lượng đơn cho mỗi trạng thái (PENDING, ADMITTED, ...)",
   })
   @ApiResponse({
     status: 200,

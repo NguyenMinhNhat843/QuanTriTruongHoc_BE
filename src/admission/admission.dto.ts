@@ -153,3 +153,14 @@ export class CreateAdmissionDto {
   @Type(() => CreateAdmissionItemDto)
   items: CreateAdmissionItemDto[];
 }
+
+// chốt đợt Xét tuyển
+export class ApproveAdmissionDto {
+  @ApiProperty({
+    example: 1,
+    description: "ID của đợt xét tuyển cần duyệt",
+  })
+  @IsInt()
+  @IsNotEmpty()
+  admissionId: number;
+}
