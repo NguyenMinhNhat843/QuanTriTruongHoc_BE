@@ -9,6 +9,17 @@
 * 🟢 You can import this file directly.
 */
 
+export const ApplycationAdmissionStatus = {
+  PENDING: 'PENDING',
+  QUALIFIED: 'QUALIFIED',
+  ADMITTED: 'ADMITTED',
+  REJECTED: 'REJECTED',
+  ENROLLED: 'ENROLLED'
+} as const
+
+export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[keyof typeof ApplycationAdmissionStatus]
+
+
 export const RoleType = {
   admin: 'admin',
   teacher: 'teacher',
@@ -43,17 +54,6 @@ export const PaymentMethod = {
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
-
-
-export const ApplycationAdmissionStatus = {
-  PENDING: 'PENDING',
-  QUALIFIED: 'QUALIFIED',
-  ADMITTED: 'ADMITTED',
-  REJECTED: 'REJECTED',
-  ENROLLED: 'ENROLLED'
-} as const
-
-export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[keyof typeof ApplycationAdmissionStatus]
 
 
 export const AdmissionStatus = {

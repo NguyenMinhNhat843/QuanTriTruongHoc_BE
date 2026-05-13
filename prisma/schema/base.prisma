@@ -52,13 +52,7 @@ enum PaymentMethod {
   e_wallet
 }
 
-enum ApplycationAdmissionStatus {
-  PENDING
-  QUALIFIED
-  ADMITTED
-  REJECTED
-  ENROLLED
-}
+
 
 enum AdmissionStatus {
   OPEN 

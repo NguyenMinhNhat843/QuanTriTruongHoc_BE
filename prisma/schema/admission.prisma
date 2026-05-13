@@ -72,6 +72,14 @@ model AdmissionItemCriterion {
 // ===================================================
 // 4. ĐƠN ỨNG TUYỂN (Dữ liệu từ thí sinh)
 // ===================================================
+enum ApplycationAdmissionStatus {
+  PENDING
+  QUALIFIED
+  ADMITTED
+  REJECTED
+  ENROLLED
+}
+
 model Application {
   id              Int      @id @default(autoincrement())
   fullName        String
@@ -94,4 +102,6 @@ model Application {
   createdAt       DateTime @default(now())
 
   @@map("applications")
+
+  student     Student?
 }

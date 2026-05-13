@@ -3362,6 +3362,7 @@ export const StudentScalarFieldEnum = {
   identityNumber: 'identityNumber',
   batchId: 'batchId',
   classId: 'classId',
+  applicationId: 'applicationId',
   enrollmentDate: 'enrollmentDate',
   graduationDate: 'graduationDate',
   status: 'status',

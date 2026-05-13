@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import {
   IsString,
   IsEmail,
@@ -6,9 +6,11 @@ import {
   IsInt,
   IsObject,
   IsOptional,
+  IsEnum,
 } from "class-validator";
+import { ApplycationAdmissionStatus } from "../../prisma/generated/prisma/enums";
 
-export class ApplyApplicationDto {
+export class CreateApplyApplicationDto {
   @ApiProperty({ example: "Nguyễn Văn A" })
   @IsString()
   @IsNotEmpty()
@@ -39,4 +41,18 @@ export class ApplyApplicationDto {
   @IsObject()
   @IsOptional()
   rawdata: any;
+}
+
+export class UpdateApplicationDto extends PartialType(
+  CreateApplyApplicationDto,
+) {
+  @ApiPropertyOptional({
+    enum: ApplycationAdmissionStatus,
+    example: ApplycationAdmissionStatus.ADMITTED,
+    description:
+      "Trạng thái hồ sơ: PENDING, QUALIFIED, ADMITTED, REJECTED, ENROLLED",
+  })
+  @IsOptional()
+  @IsEnum(ApplycationAdmissionStatus)
+  status?: ApplycationAdmissionStatus;
 }

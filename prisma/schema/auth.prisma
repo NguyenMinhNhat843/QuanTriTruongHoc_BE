@@ -50,6 +50,9 @@ model Student {
 
   classId        Int?           // Lớp
   classCode     Class?           @relation(fields: [classId], references: [id])
+
+  applicationId Int?            @unique // Hồ sơ tuyển sinh
+  application   Application?    @relation(fields: [applicationId], references: [id])
   
   enrollmentDate DateTime?      @db.Date
   graduationDate DateTime?      @db.Date

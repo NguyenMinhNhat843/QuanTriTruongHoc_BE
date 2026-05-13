@@ -241,6 +241,7 @@ export type ApplicationWhereInput = {
   status?: Prisma.EnumApplycationAdmissionStatusFilter<"Application"> | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   admissionItem?: Prisma.XOR<Prisma.AdmissionItemScalarRelationFilter, Prisma.AdmissionItemWhereInput>
+  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
 }
 
 export type ApplicationOrderByWithRelationInput = {
@@ -253,6 +254,7 @@ export type ApplicationOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   admissionItem?: Prisma.AdmissionItemOrderByWithRelationInput
+  student?: Prisma.StudentOrderByWithRelationInput
 }
 
 export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumApplycationAdmissionStatusFilter<"Application"> | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   admissionItem?: Prisma.XOR<Prisma.AdmissionItemScalarRelationFilter, Prisma.AdmissionItemWhereInput>
+  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
 }, "id">
 
 export type ApplicationOrderByWithAggregationInput = {
@@ -308,6 +311,7 @@ export type ApplicationCreateInput = {
   status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
   admissionItem: Prisma.AdmissionItemCreateNestedOneWithoutApplicationsInput
+  student?: Prisma.StudentCreateNestedOneWithoutApplicationInput
 }
 
 export type ApplicationUncheckedCreateInput = {
@@ -319,6 +323,7 @@ export type ApplicationUncheckedCreateInput = {
   admissionItemId: number
   status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutApplicationInput
 }
 
 export type ApplicationUpdateInput = {
@@ -329,6 +334,7 @@ export type ApplicationUpdateInput = {
   status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admissionItem?: Prisma.AdmissionItemUpdateOneRequiredWithoutApplicationsNestedInput
+  student?: Prisma.StudentUpdateOneWithoutApplicationNestedInput
 }
 
 export type ApplicationUncheckedUpdateInput = {
@@ -340,6 +346,7 @@ export type ApplicationUncheckedUpdateInput = {
   admissionItemId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student?: Prisma.StudentUncheckedUpdateOneWithoutApplicationNestedInput
 }
 
 export type ApplicationCreateManyInput = {
@@ -424,6 +431,11 @@ export type ApplicationSumOrderByAggregateInput = {
   admissionItemId?: Prisma.SortOrder
 }
 
+export type ApplicationNullableScalarRelationFilter = {
+  is?: Prisma.ApplicationWhereInput | null
+  isNot?: Prisma.ApplicationWhereInput | null
+}
+
 export type ApplicationCreateNestedManyWithoutAdmissionItemInput = {
   create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAdmissionItemInput, Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput> | Prisma.ApplicationCreateWithoutAdmissionItemInput[] | Prisma.ApplicationUncheckedCreateWithoutAdmissionItemInput[]
   connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput | Prisma.ApplicationCreateOrConnectWithoutAdmissionItemInput[]
@@ -470,6 +482,22 @@ export type EnumApplycationAdmissionStatusFieldUpdateOperationsInput = {
   set?: $Enums.ApplycationAdmissionStatus
 }
 
+export type ApplicationCreateNestedOneWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutStudentInput, Prisma.ApplicationUncheckedCreateWithoutStudentInput>
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutStudentInput
+  connect?: Prisma.ApplicationWhereUniqueInput
+}
+
+export type ApplicationUpdateOneWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutStudentInput, Prisma.ApplicationUncheckedCreateWithoutStudentInput>
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutStudentInput
+  upsert?: Prisma.ApplicationUpsertWithoutStudentInput
+  disconnect?: Prisma.ApplicationWhereInput | boolean
+  delete?: Prisma.ApplicationWhereInput | boolean
+  connect?: Prisma.ApplicationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ApplicationUpdateToOneWithWhereWithoutStudentInput, Prisma.ApplicationUpdateWithoutStudentInput>, Prisma.ApplicationUncheckedUpdateWithoutStudentInput>
+}
+
 export type ApplicationCreateWithoutAdmissionItemInput = {
   fullName: string
   email: string
@@ -477,6 +505,7 @@ export type ApplicationCreateWithoutAdmissionItemInput = {
   rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
+  student?: Prisma.StudentCreateNestedOneWithoutApplicationInput
 }
 
 export type ApplicationUncheckedCreateWithoutAdmissionItemInput = {
@@ -487,6 +516,7 @@ export type ApplicationUncheckedCreateWithoutAdmissionItemInput = {
   rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   status?: $Enums.ApplycationAdmissionStatus
   createdAt?: Date | string
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutApplicationInput
 }
 
 export type ApplicationCreateOrConnectWithoutAdmissionItemInput = {
@@ -529,6 +559,64 @@ export type ApplicationScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
 }
 
+export type ApplicationCreateWithoutStudentInput = {
+  fullName: string
+  email: string
+  phone: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.ApplycationAdmissionStatus
+  createdAt?: Date | string
+  admissionItem: Prisma.AdmissionItemCreateNestedOneWithoutApplicationsInput
+}
+
+export type ApplicationUncheckedCreateWithoutStudentInput = {
+  id?: number
+  fullName: string
+  email: string
+  phone: string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  admissionItemId: number
+  status?: $Enums.ApplycationAdmissionStatus
+  createdAt?: Date | string
+}
+
+export type ApplicationCreateOrConnectWithoutStudentInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutStudentInput, Prisma.ApplicationUncheckedCreateWithoutStudentInput>
+}
+
+export type ApplicationUpsertWithoutStudentInput = {
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutStudentInput, Prisma.ApplicationUncheckedUpdateWithoutStudentInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutStudentInput, Prisma.ApplicationUncheckedCreateWithoutStudentInput>
+  where?: Prisma.ApplicationWhereInput
+}
+
+export type ApplicationUpdateToOneWithWhereWithoutStudentInput = {
+  where?: Prisma.ApplicationWhereInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutStudentInput, Prisma.ApplicationUncheckedUpdateWithoutStudentInput>
+}
+
+export type ApplicationUpdateWithoutStudentInput = {
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  admissionItem?: Prisma.AdmissionItemUpdateOneRequiredWithoutApplicationsNestedInput
+}
+
+export type ApplicationUncheckedUpdateWithoutStudentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  admissionItemId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ApplicationCreateManyAdmissionItemInput = {
   id?: number
   fullName: string
@@ -546,6 +634,7 @@ export type ApplicationUpdateWithoutAdmissionItemInput = {
   rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student?: Prisma.StudentUpdateOneWithoutApplicationNestedInput
 }
 
 export type ApplicationUncheckedUpdateWithoutAdmissionItemInput = {
@@ -556,6 +645,7 @@ export type ApplicationUncheckedUpdateWithoutAdmissionItemInput = {
   rawdata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumApplycationAdmissionStatusFieldUpdateOperationsInput | $Enums.ApplycationAdmissionStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  student?: Prisma.StudentUncheckedUpdateOneWithoutApplicationNestedInput
 }
 
 export type ApplicationUncheckedUpdateManyWithoutAdmissionItemInput = {
@@ -580,6 +670,7 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   status?: boolean
   createdAt?: boolean
   admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Application$studentArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -620,6 +711,7 @@ export type ApplicationSelectScalar = {
 export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "rawdata" | "admissionItemId" | "status" | "createdAt", ExtArgs["result"]["application"]>
 export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.Application$studentArgs<ExtArgs>
 }
 export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionItem?: boolean | Prisma.AdmissionItemDefaultArgs<ExtArgs>
@@ -632,6 +724,7 @@ export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "Application"
   objects: {
     admissionItem: Prisma.$AdmissionItemPayload<ExtArgs>
+    student: Prisma.$StudentPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1037,6 +1130,7 @@ readonly fields: ApplicationFieldRefs;
 export interface Prisma__ApplicationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   admissionItem<T extends Prisma.AdmissionItemDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionItemDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionItemClient<runtime.Types.Result.GetResult<Prisma.$AdmissionItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.Application$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1472,6 +1566,25 @@ export type ApplicationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many Applications to delete.
    */
   limit?: number
+}
+
+/**
+ * Application.student
+ */
+export type Application$studentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Student
+   */
+  select?: Prisma.StudentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Student
+   */
+  omit?: Prisma.StudentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentInclude<ExtArgs> | null
+  where?: Prisma.StudentWhereInput
 }
 
 /**
