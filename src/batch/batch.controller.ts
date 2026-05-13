@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   ParseIntPipe,
+  Delete,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -52,5 +53,14 @@ export class BatchController {
     @Body() updateBatchDto: UpdateBatchDto,
   ) {
     return this.batchService.update(id, updateBatchDto);
+  }
+
+  // delete by id
+  @Delete(":id")
+  @ApiOperation({ summary: "Xóa một khóa đào tạo theo ID" })
+  @ApiResponse({ status: 200, description: "Xóa thành công." })
+  @ApiResponse({ status: 404, description: "Không tìm thấy khóa." })
+  async deleteBatchById(@Param("id", ParseIntPipe) id: number) {
+    return await this.batchService.deleteBatchById(id);
   }
 }

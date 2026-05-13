@@ -27,6 +27,20 @@ model User {
 // ==========================
 // STUDENTS: Hồ sơ học sinh
 // ==========================
+enum StudentStatus {
+  // --- GIAI ĐOẠN TRUNG GIAN (Quan trọng cho phân lớp) ---
+  approved   // Đã xác nhận nhập học, đợi đóng học phí nhập học. API phân lớp sẽ quét những người này.
+
+  // --- GIAI ĐOẠN HỌC TẬP (ACADEMIC) ---
+  studying   // Đã có tài khoản và đang theo học chính thức
+  suspended  // Đang bảo lưu kết quả học tập hoặc bị đình chỉ tạm thời
+  dropped    // Đã thôi học hoặc bỏ học giữa chừng
+  expelled   // Bị buộc thôi học (do kỷ luật hoặc lý do đặc biệt)
+
+  // --- GIAI ĐOẠN KẾT THÚC (GRADUATION) ---
+  graduated  // Đã hoàn thành chương trình và tốt nghiệp
+}
+
 model Student {
   id             Int           @id @default(autoincrement())
   studentCode    String        @unique
@@ -36,7 +50,7 @@ model Student {
   user           User?           @relation(fields: [userId], references: [id])
 
   // Thông tin hồ sơ
-  email         String?         @unique
+  email         String?        
   fullName      String?
   gender        Boolean?        // true: male, false: female
   dob           DateTime?       @db.Date
@@ -52,7 +66,7 @@ model Student {
   classCode     Class?           @relation(fields: [classId], references: [id])
 
   applicationId Int?            @unique // Hồ sơ tuyển sinh
-  application   Application?    @relation(fields: [applicationId], references: [id])
+  application   Application?    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   
   enrollmentDate DateTime?      @db.Date
   graduationDate DateTime?      @db.Date

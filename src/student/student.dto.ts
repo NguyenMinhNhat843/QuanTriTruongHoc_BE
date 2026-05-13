@@ -77,11 +77,11 @@ export class CreateStudentDto {
 
   @ApiPropertyOptional({
     enum: StudentStatus,
-    default: StudentStatus.enrolled,
+    default: StudentStatus.approved,
   })
   @IsEnum(StudentStatus)
   @IsOptional()
-  status?: StudentStatus = StudentStatus.enrolled;
+  status?: StudentStatus = StudentStatus.approved;
 }
 
 export class UpdateStudentDto extends PartialType(CreateStudentDto) {
@@ -106,14 +106,14 @@ export class SearchStudentDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  page?: number = 1;
+  page?: number;
 
   @ApiPropertyOptional({ default: 10 })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  limit?: number = 10;
+  limit?: number;
 
   // --- LỌC & TÌM KIẾM ---
   @ApiPropertyOptional({ description: "Tìm kiếm theo mã SV, tên SV hoặc CCCD" })

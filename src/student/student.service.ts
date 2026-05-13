@@ -17,7 +17,6 @@ import {
   RoleType,
   StudentStatus,
 } from "../../prisma/generated/prisma/client.js";
-import { ResponsePagination } from "../common/common.response.js";
 import { generateId } from "../utils/generateId.js";
 import * as bcrypt from "bcryptjs";
 
@@ -49,6 +48,12 @@ export class StudentService {
     });
 
     return new StudentResponseDto(student);
+  }
+
+  async deleteStudentById(id: number) {
+    return await this.prisma.student.delete({
+      where: { id },
+    });
   }
 
   /**
@@ -161,12 +166,10 @@ export class StudentService {
     }
   }
 
-  async searchStudents(
-    query: SearchStudentDto,
-  ): Promise<ResponsePagination<StudentResponseDto>> {
+  async searchStudents(query: SearchStudentDto) {
     const {
       page = 1,
-      limit = 10,
+      limit = 1000,
       keyword,
       status,
       classId,
@@ -219,6 +222,7 @@ export class StudentService {
         where,
         include: {
           user: true, // Quan trọng: include để StudentResponseDto có dữ liệu map
+          batch: true, // Include batch để map vào BatchResponseDto trong StudentResponseDto
         },
         skip,
         take: limit,
@@ -227,13 +231,12 @@ export class StudentService {
           : { [sortBy]: sortOrder },
       }),
     ]);
+    console.log(
+      "🚀 ~ file: student.service.ts:263 ~ StudentService ~ searchStudents ~ items:",
+      total,
+    );
 
     // 3. Trả về kết quả theo format chung
-    return {
-      data: items.map((item) => new StudentResponseDto(item)),
-      meta: {
-        total,
-      },
-    };
+    return items.map((item) => new StudentResponseDto(item));
   }
 }

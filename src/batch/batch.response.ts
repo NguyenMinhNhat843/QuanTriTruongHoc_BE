@@ -29,8 +29,8 @@ export class BatchResponseDto {
   @ApiProperty()
   updatedAt: Date;
 
-  @ApiProperty({ type: MajorResponseDto })
-  major: MajorResponseDto;
+  @ApiProperty({ type: MajorResponseDto, nullable: true })
+  major?: MajorResponseDto | null;
 
   constructor(data: any) {
     this.id = data.id;
@@ -43,6 +43,6 @@ export class BatchResponseDto {
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
 
-    this.major = new MajorResponseDto(data.major);
+    this.major = data.major ? new MajorResponseDto(data.major) : null;
   }
 }

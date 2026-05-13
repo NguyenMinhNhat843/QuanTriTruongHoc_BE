@@ -412,12 +412,12 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   studentCode?: string
   userId?: number
-  email?: string
   identityNumber?: string
   applicationId?: number
   AND?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
   OR?: Prisma.StudentWhereInput[]
   NOT?: Prisma.StudentWhereInput | Prisma.StudentWhereInput[]
+  email?: Prisma.StringNullableFilter<"Student"> | string | null
   fullName?: Prisma.StringNullableFilter<"Student"> | string | null
   gender?: Prisma.BoolNullableFilter<"Student"> | boolean | null
   dob?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
@@ -444,7 +444,7 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   payments?: Prisma.PaymentListRelationFilter
   gradeEntries?: Prisma.GradeEntryListRelationFilter
   grades?: Prisma.GradeListRelationFilter
-}, "id" | "studentCode" | "userId" | "email" | "identityNumber" | "applicationId">
+}, "id" | "studentCode" | "userId" | "identityNumber" | "applicationId">
 
 export type StudentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

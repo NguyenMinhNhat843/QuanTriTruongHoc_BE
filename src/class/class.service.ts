@@ -25,7 +25,7 @@ export class ClassService {
       where: {
         batchId,
         classId: null, // Chưa có lớp
-        status: StudentStatus.enrolled,
+        status: StudentStatus.approved,
       },
       orderBy: { fullName: "asc" }, // Sắp xếp theo tên cho đẹp danh sách
     });

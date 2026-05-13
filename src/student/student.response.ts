@@ -4,6 +4,7 @@ import {
   RoleType,
 } from "../../prisma/generated/prisma/enums.js";
 import { Student } from "../../prisma/generated/prisma/client";
+import { BatchResponseDto } from "../batch/batch.response.js";
 
 export class StudentResponseDto implements Student {
   @ApiProperty()
@@ -12,17 +13,17 @@ export class StudentResponseDto implements Student {
   @ApiProperty()
   studentCode: string;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: Number, nullable: true })
   userId: number | null;
 
   // --- Thông tin từ quan hệ User ---
-  @ApiProperty({ example: "nguyenvana" })
+  @ApiProperty({ type: String, example: "nguyenvana" })
   username: string;
 
-  @ApiProperty({ example: "Nguyễn Văn A" })
+  @ApiProperty({ type: String, example: "Nguyễn Văn A" })
   fullName: string | null;
 
-  @ApiProperty({ example: "student@school.edu.vn" })
+  @ApiProperty({ type: String, example: "student@school.edu.vn" })
   email: string | null;
 
   @ApiProperty({
@@ -40,56 +41,59 @@ export class StudentResponseDto implements Student {
   })
   dob: Date | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   phone: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   avatarUrl: string | null;
 
-  @ApiProperty({ example: "123 Đường ABC, Nha Trang" })
+  @ApiProperty({ type: String, example: "123 Đường ABC, Nha Trang" })
   address: string | null;
 
   @ApiProperty({ enum: RoleType })
   role: RoleType;
 
-  @ApiProperty()
+  @ApiProperty({ type: Boolean })
   isActive: boolean;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number, nullable: true })
   applicationId: number | null;
 
   // --- Thông tin riêng của Student ---
-  @ApiProperty()
+  @ApiProperty({ type: Number, nullable: true })
   classId: number | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date, nullable: true })
   enrollmentDate: Date | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date, nullable: true })
   graduationDate: Date | null;
 
   @ApiProperty({ enum: StudentStatus })
   status: StudentStatus;
 
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   parentName: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   parentPhone: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   identityNumber: string | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date })
   createdAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date })
   updatedAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number, nullable: true })
   batchId: number | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => BatchResponseDto, nullable: true })
+  batch: BatchResponseDto | null;
+
+  @ApiProperty({ type: Number, nullable: true })
   majorId: number | null;
 
   constructor(partial: Partial<StudentResponseDto>) {

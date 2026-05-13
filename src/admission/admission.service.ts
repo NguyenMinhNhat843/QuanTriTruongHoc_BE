@@ -141,7 +141,7 @@ export class AdmissionService {
       const qualifiedApplications = await tx.application.findMany({
         where: {
           admissionId: admissionId,
-          status: "QUALIFIED",
+          // status: "QUALIFIED", --- Đang test nên tạm thời lấy tất cả hồ sơ để dễ kiểm tra
         },
       });
 
@@ -161,6 +161,28 @@ export class AdmissionService {
           data: { status: "ADMITTED" },
         });
 
+        // TÌm khóa đào tạo để gán vô học ính
+        const admissionItem = await tx.admissionItem.findUnique({
+          where: {
+            id: app.admissionItemId,
+          },
+        });
+        if (!admissionItem) {
+          throw new NotFoundException(
+            `Không tìm thấy AdmissionItem với ID ${app.admissionItemId}`,
+          );
+        }
+        const batch = await tx.batch.findUnique({
+          where: {
+            batchCode: admissionItem.batchName,
+          },
+        });
+        if (!batch) {
+          throw new NotFoundException(
+            `Không tìm thấy Batch với mã ${admissionItem.batchName}`,
+          );
+        }
+
         // Tạo bản ghi Student tương ứng
         const newStudent = await tx.student.create({
           data: {
@@ -170,6 +192,7 @@ export class AdmissionService {
             phone: app.phone,
             applicationId: app.id,
             status: "approved", // Chờ tạo account theo logic file schema
+            batchId: batch.id, // Gán batchId từ admissionItem
           },
         });
 

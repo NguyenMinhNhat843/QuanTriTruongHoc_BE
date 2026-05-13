@@ -11,7 +11,7 @@ export class TuitionFeeService {
   async createTuitionFees() {
     // 1. Quét danh sách sinh viên ENROLLED
     const students = await this.prisma.student.findMany({
-      where: { status: StudentStatus.enrolled },
+      where: { status: StudentStatus.approved },
       include: {
         batch: {
           include: {

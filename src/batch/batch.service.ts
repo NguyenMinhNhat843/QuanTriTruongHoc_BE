@@ -100,4 +100,10 @@ export class BatchService {
     }
     return batch;
   }
+
+  async deleteBatchById(id: number) {
+    return await this.prisma.batch.delete({
+      where: { id },
+    });
+  }
 }

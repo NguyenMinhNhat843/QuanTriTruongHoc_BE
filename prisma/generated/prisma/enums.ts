@@ -19,22 +19,8 @@ export const ApplycationAdmissionStatus = {
 export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[keyof typeof ApplycationAdmissionStatus]
 
 
-export const RoleType = {
-  admin: 'admin',
-  teacher: 'teacher',
-  student: 'student',
-  staff: 'staff'
-} as const
-
-export type RoleType = (typeof RoleType)[keyof typeof RoleType]
-
-
 export const StudentStatus = {
-  pending: 'pending',
-  reviewing: 'reviewing',
   approved: 'approved',
-  rejected: 'rejected',
-  enrolled: 'enrolled',
   studying: 'studying',
   suspended: 'suspended',
   dropped: 'dropped',
@@ -43,6 +29,16 @@ export const StudentStatus = {
 } as const
 
 export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]
+
+
+export const RoleType = {
+  admin: 'admin',
+  teacher: 'teacher',
+  student: 'student',
+  staff: 'staff'
+} as const
+
+export type RoleType = (typeof RoleType)[keyof typeof RoleType]
 
 
 export const PaymentMethod = {

@@ -7,8 +7,14 @@ import {
   Param,
   Query,
   ParseIntPipe,
+  Delete,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiOkResponse } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiOkResponse,
+  ApiResponse,
+} from "@nestjs/swagger";
 import { StudentService } from "./student.service.js";
 import {
   CreateStudentDto,
@@ -16,10 +22,6 @@ import {
   UpdateStudentDto,
 } from "./student.dto.js";
 import { StudentResponseDto } from "./student.response.js";
-import {
-  ApiOkResponsePaginated,
-  ResponsePagination,
-} from "../common/common.response.js";
 
 @ApiTags("Students")
 @Controller("students")
@@ -38,15 +40,25 @@ export class StudentController {
     return this.studentService.createStudent(createStudentDto);
   }
 
+  // delete student by id
+  @Delete(":id")
+  @ApiOperation({
+    summary: "Xóa hồ sơ sinh viên",
+    operationId: "deleteStudent", // Orval sẽ gen ra: deleteStudent()
+  })
+  @ApiOkResponse({ description: "Hồ sơ sinh viên đã được xóa" })
+  async deleteStudentById(@Param("id", ParseIntPipe) id: number) {
+    return this.studentService.deleteStudentById(id);
+  }
+
   @Get()
   @ApiOperation({
     summary: "Tìm kiếm và phân trang danh sách sinh viên",
     operationId: "searchStudents", // Orval sẽ gen ra: searchStudents()
   })
-  @ApiOkResponsePaginated(StudentResponseDto)
-  async searchStudent(
-    @Query() query: SearchStudentDto,
-  ): Promise<ResponsePagination<StudentResponseDto>> {
+  @ApiResponse({ status: 200, type: [StudentResponseDto] })
+  // @ApiOkResponsePaginated(StudentResponseDto)
+  async searchStudent(@Query() query: SearchStudentDto) {
     return this.studentService.searchStudents(query);
   }
 
