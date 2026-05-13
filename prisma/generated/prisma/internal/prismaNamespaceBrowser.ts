@@ -62,7 +62,8 @@ export const ModelName = {
   CurriculumSubject: 'CurriculumSubject',
   Admission: 'Admission',
   AdmissionItem: 'AdmissionItem',
-  AdmissionCriterion: 'AdmissionCriterion',
+  Criterion: 'Criterion',
+  AdmissionItemCriterion: 'AdmissionItemCriterion',
   Application: 'Application',
   User: 'User',
   Student: 'Student',
@@ -259,16 +260,25 @@ export const AdmissionItemScalarFieldEnum = {
 export type AdmissionItemScalarFieldEnum = (typeof AdmissionItemScalarFieldEnum)[keyof typeof AdmissionItemScalarFieldEnum]
 
 
-export const AdmissionCriterionScalarFieldEnum = {
+export const CriterionScalarFieldEnum = {
   id: 'id',
-  admissionItemId: 'admissionItemId',
   criterionName: 'criterionName',
-  minValue: 'minValue',
-  isRequired: 'isRequired',
+  type: 'type',
   description: 'description'
 } as const
 
-export type AdmissionCriterionScalarFieldEnum = (typeof AdmissionCriterionScalarFieldEnum)[keyof typeof AdmissionCriterionScalarFieldEnum]
+export type CriterionScalarFieldEnum = (typeof CriterionScalarFieldEnum)[keyof typeof CriterionScalarFieldEnum]
+
+
+export const AdmissionItemCriterionScalarFieldEnum = {
+  admissionItemId: 'admissionItemId',
+  criterionId: 'criterionId',
+  minValue: 'minValue',
+  isRequired: 'isRequired',
+  weight: 'weight'
+} as const
+
+export type AdmissionItemCriterionScalarFieldEnum = (typeof AdmissionItemCriterionScalarFieldEnum)[keyof typeof AdmissionItemCriterionScalarFieldEnum]
 
 
 export const ApplicationScalarFieldEnum = {

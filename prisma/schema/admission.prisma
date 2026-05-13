@@ -29,26 +29,44 @@ model AdmissionItem {
   quota       Int       // Chỉ tiêu số lượng sinh viên
 
   // Quan hệ
-  criteria     AdmissionCriterion[] // Các điều kiện để trúng tuyển ngành này
+  criteria     AdmissionItemCriterion[] // Các điều kiện để trúng tuyển ngành này
   applications Application[]
 
   @@map("admission_items")
 }
 
 // ===================================================
-// 3. TIÊU CHÍ TUYỂN SINH (Điều kiện cho từng ngành)
+// 3. DANH MỤC TIÊU CHÍ (Bảng định nghĩa các tiêu chí mẫu)
 // ===================================================
-model AdmissionCriterion {
-  id              Int      @id @default(autoincrement())
+model Criterion {
+  id            Int      @id @default(autoincrement())
+  criterionName String   // Ví dụ: "Điểm Toán", "IELTS", "Điểm Học bạ"
+  type          String   // Ví dụ: "NUMBER", "STRING", "BOOLEAN" để dễ quản lý dữ liệu đầu vào
+  description   String?
+
+  // Quan hệ ngược lại
+  admissionItems AdmissionItemCriterion[]
+
+  @@map("criteria")
+}
+
+// ===================================================
+// 4. BẢNG TRUNG GIAN (Nối Chi tiết tuyển sinh và Tiêu chí)
+// ===================================================
+model AdmissionItemCriterion {
   admissionItemId Int
   admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id])
 
-  criterionName   String   // Ví dụ: "Điểm Toán", "Điểm IELTS", "Bằng tốt nghiệp THPT"
-  minValue        Float?   // Giá trị tối thiểu (nếu là điểm số)
-  isRequired      Boolean  @default(true)
-  description     String?  // Mô tả thêm
+  criterionId     Int
+  criterion       Criterion     @relation(fields: [criterionId], references: [id])
 
-  @@map("admission_criteria")
+  // Dữ liệu đặc thù cho từng ngành (Ví dụ: Ngành IT yêu cầu Toán > 8, nhưng Kinh tế chỉ cần > 7)
+  minValue        Float?   
+  isRequired      Boolean  @default(true)
+  weight          Float?   // Trọng số (nếu có, ví dụ Toán hệ số 2)
+
+  @@id([admissionItemId, criterionId]) // Khóa chính tổ hợp
+  @@map("admission_item_criteria")
 }
 
 // ===================================================

@@ -395,7 +395,8 @@ export const ModelName = {
   CurriculumSubject: 'CurriculumSubject',
   Admission: 'Admission',
   AdmissionItem: 'AdmissionItem',
-  AdmissionCriterion: 'AdmissionCriterion',
+  Criterion: 'Criterion',
+  AdmissionItemCriterion: 'AdmissionItemCriterion',
   Application: 'Application',
   User: 'User',
   Student: 'Student',
@@ -434,7 +435,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "admissionCriterion" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade" | "post"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "criterion" | "admissionItemCriterion" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "gradeComponent" | "gradeEntry" | "gradeHistory" | "grade" | "post"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1252,77 +1253,151 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    AdmissionCriterion: {
-      payload: Prisma.$AdmissionCriterionPayload<ExtArgs>
-      fields: Prisma.AdmissionCriterionFieldRefs
+    Criterion: {
+      payload: Prisma.$CriterionPayload<ExtArgs>
+      fields: Prisma.CriterionFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.AdmissionCriterionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload> | null
+          args: Prisma.CriterionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.AdmissionCriterionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>
+          args: Prisma.CriterionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>
         }
         findFirst: {
-          args: Prisma.AdmissionCriterionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload> | null
+          args: Prisma.CriterionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.AdmissionCriterionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>
+          args: Prisma.CriterionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>
         }
         findMany: {
-          args: Prisma.AdmissionCriterionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>[]
+          args: Prisma.CriterionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>[]
         }
         create: {
-          args: Prisma.AdmissionCriterionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>
+          args: Prisma.CriterionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>
         }
         createMany: {
-          args: Prisma.AdmissionCriterionCreateManyArgs<ExtArgs>
+          args: Prisma.CriterionCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.AdmissionCriterionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>[]
+          args: Prisma.CriterionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>[]
         }
         delete: {
-          args: Prisma.AdmissionCriterionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>
+          args: Prisma.CriterionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>
         }
         update: {
-          args: Prisma.AdmissionCriterionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>
+          args: Prisma.CriterionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>
         }
         deleteMany: {
-          args: Prisma.AdmissionCriterionDeleteManyArgs<ExtArgs>
+          args: Prisma.CriterionDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.AdmissionCriterionUpdateManyArgs<ExtArgs>
+          args: Prisma.CriterionUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.AdmissionCriterionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>[]
+          args: Prisma.CriterionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>[]
         }
         upsert: {
-          args: Prisma.AdmissionCriterionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionCriterionPayload>
+          args: Prisma.CriterionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CriterionPayload>
         }
         aggregate: {
-          args: Prisma.AdmissionCriterionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateAdmissionCriterion>
+          args: Prisma.CriterionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCriterion>
         }
         groupBy: {
-          args: Prisma.AdmissionCriterionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AdmissionCriterionGroupByOutputType>[]
+          args: Prisma.CriterionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CriterionGroupByOutputType>[]
         }
         count: {
-          args: Prisma.AdmissionCriterionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AdmissionCriterionCountAggregateOutputType> | number
+          args: Prisma.CriterionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CriterionCountAggregateOutputType> | number
+        }
+      }
+    }
+    AdmissionItemCriterion: {
+      payload: Prisma.$AdmissionItemCriterionPayload<ExtArgs>
+      fields: Prisma.AdmissionItemCriterionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdmissionItemCriterionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdmissionItemCriterionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>
+        }
+        findFirst: {
+          args: Prisma.AdmissionItemCriterionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdmissionItemCriterionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>
+        }
+        findMany: {
+          args: Prisma.AdmissionItemCriterionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>[]
+        }
+        create: {
+          args: Prisma.AdmissionItemCriterionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>
+        }
+        createMany: {
+          args: Prisma.AdmissionItemCriterionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AdmissionItemCriterionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>[]
+        }
+        delete: {
+          args: Prisma.AdmissionItemCriterionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>
+        }
+        update: {
+          args: Prisma.AdmissionItemCriterionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>
+        }
+        deleteMany: {
+          args: Prisma.AdmissionItemCriterionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdmissionItemCriterionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AdmissionItemCriterionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>[]
+        }
+        upsert: {
+          args: Prisma.AdmissionItemCriterionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionItemCriterionPayload>
+        }
+        aggregate: {
+          args: Prisma.AdmissionItemCriterionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdmissionItemCriterion>
+        }
+        groupBy: {
+          args: Prisma.AdmissionItemCriterionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdmissionItemCriterionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdmissionItemCriterionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdmissionItemCriterionCountAggregateOutputType> | number
         }
       }
     }
@@ -3222,16 +3297,25 @@ export const AdmissionItemScalarFieldEnum = {
 export type AdmissionItemScalarFieldEnum = (typeof AdmissionItemScalarFieldEnum)[keyof typeof AdmissionItemScalarFieldEnum]
 
 
-export const AdmissionCriterionScalarFieldEnum = {
+export const CriterionScalarFieldEnum = {
   id: 'id',
-  admissionItemId: 'admissionItemId',
   criterionName: 'criterionName',
-  minValue: 'minValue',
-  isRequired: 'isRequired',
+  type: 'type',
   description: 'description'
 } as const
 
-export type AdmissionCriterionScalarFieldEnum = (typeof AdmissionCriterionScalarFieldEnum)[keyof typeof AdmissionCriterionScalarFieldEnum]
+export type CriterionScalarFieldEnum = (typeof CriterionScalarFieldEnum)[keyof typeof CriterionScalarFieldEnum]
+
+
+export const AdmissionItemCriterionScalarFieldEnum = {
+  admissionItemId: 'admissionItemId',
+  criterionId: 'criterionId',
+  minValue: 'minValue',
+  isRequired: 'isRequired',
+  weight: 'weight'
+} as const
+
+export type AdmissionItemCriterionScalarFieldEnum = (typeof AdmissionItemCriterionScalarFieldEnum)[keyof typeof AdmissionItemCriterionScalarFieldEnum]
 
 
 export const ApplicationScalarFieldEnum = {
@@ -3919,7 +4003,8 @@ export type GlobalOmitConfig = {
   curriculumSubject?: Prisma.CurriculumSubjectOmit
   admission?: Prisma.AdmissionOmit
   admissionItem?: Prisma.AdmissionItemOmit
-  admissionCriterion?: Prisma.AdmissionCriterionOmit
+  criterion?: Prisma.CriterionOmit
+  admissionItemCriterion?: Prisma.AdmissionItemCriterionOmit
   application?: Prisma.ApplicationOmit
   user?: Prisma.UserOmit
   student?: Prisma.StudentOmit

@@ -230,7 +230,7 @@ export type AdmissionItemWhereInput = {
   quota?: Prisma.IntFilter<"AdmissionItem"> | number
   admission?: Prisma.XOR<Prisma.AdmissionScalarRelationFilter, Prisma.AdmissionWhereInput>
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
-  criteria?: Prisma.AdmissionCriterionListRelationFilter
+  criteria?: Prisma.AdmissionItemCriterionListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
 }
 
@@ -242,7 +242,7 @@ export type AdmissionItemOrderByWithRelationInput = {
   quota?: Prisma.SortOrder
   admission?: Prisma.AdmissionOrderByWithRelationInput
   major?: Prisma.MajorOrderByWithRelationInput
-  criteria?: Prisma.AdmissionCriterionOrderByRelationAggregateInput
+  criteria?: Prisma.AdmissionItemCriterionOrderByRelationAggregateInput
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
 }
 
@@ -257,7 +257,7 @@ export type AdmissionItemWhereUniqueInput = Prisma.AtLeast<{
   quota?: Prisma.IntFilter<"AdmissionItem"> | number
   admission?: Prisma.XOR<Prisma.AdmissionScalarRelationFilter, Prisma.AdmissionWhereInput>
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
-  criteria?: Prisma.AdmissionCriterionListRelationFilter
+  criteria?: Prisma.AdmissionItemCriterionListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
 }, "id">
 
@@ -290,7 +290,7 @@ export type AdmissionItemCreateInput = {
   quota: number
   admission: Prisma.AdmissionCreateNestedOneWithoutItemsInput
   major: Prisma.MajorCreateNestedOneWithoutAdmissionItemsInput
-  criteria?: Prisma.AdmissionCriterionCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionCreateNestedManyWithoutAdmissionItemInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionItemInput
 }
 
@@ -300,7 +300,7 @@ export type AdmissionItemUncheckedCreateInput = {
   majorId: number
   batchName: string
   quota: number
-  criteria?: Prisma.AdmissionCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionItemInput
 }
 
@@ -309,7 +309,7 @@ export type AdmissionItemUpdateInput = {
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   admission?: Prisma.AdmissionUpdateOneRequiredWithoutItemsNestedInput
   major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionItemsNestedInput
-  criteria?: Prisma.AdmissionCriterionUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUpdateManyWithoutAdmissionItemNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutAdmissionItemNestedInput
 }
 
@@ -319,7 +319,7 @@ export type AdmissionItemUncheckedUpdateInput = {
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   quota?: Prisma.IntFieldUpdateOperationsInput | number
-  criteria?: Prisma.AdmissionCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput
 }
 
@@ -513,7 +513,7 @@ export type AdmissionItemCreateWithoutMajorInput = {
   batchName: string
   quota: number
   admission: Prisma.AdmissionCreateNestedOneWithoutItemsInput
-  criteria?: Prisma.AdmissionCriterionCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionCreateNestedManyWithoutAdmissionItemInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionItemInput
 }
 
@@ -522,7 +522,7 @@ export type AdmissionItemUncheckedCreateWithoutMajorInput = {
   admissionId: number
   batchName: string
   quota: number
-  criteria?: Prisma.AdmissionCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionItemInput
 }
 
@@ -567,7 +567,7 @@ export type AdmissionItemCreateWithoutAdmissionInput = {
   batchName: string
   quota: number
   major: Prisma.MajorCreateNestedOneWithoutAdmissionItemsInput
-  criteria?: Prisma.AdmissionCriterionCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionCreateNestedManyWithoutAdmissionItemInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutAdmissionItemInput
 }
 
@@ -576,7 +576,7 @@ export type AdmissionItemUncheckedCreateWithoutAdmissionInput = {
   majorId: number
   batchName: string
   quota: number
-  criteria?: Prisma.AdmissionCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutAdmissionItemInput
 }
 
@@ -661,7 +661,7 @@ export type AdmissionItemCreateWithoutApplicationsInput = {
   quota: number
   admission: Prisma.AdmissionCreateNestedOneWithoutItemsInput
   major: Prisma.MajorCreateNestedOneWithoutAdmissionItemsInput
-  criteria?: Prisma.AdmissionCriterionCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemUncheckedCreateWithoutApplicationsInput = {
@@ -670,7 +670,7 @@ export type AdmissionItemUncheckedCreateWithoutApplicationsInput = {
   majorId: number
   batchName: string
   quota: number
-  criteria?: Prisma.AdmissionCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedCreateNestedManyWithoutAdmissionItemInput
 }
 
 export type AdmissionItemCreateOrConnectWithoutApplicationsInput = {
@@ -694,7 +694,7 @@ export type AdmissionItemUpdateWithoutApplicationsInput = {
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   admission?: Prisma.AdmissionUpdateOneRequiredWithoutItemsNestedInput
   major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionItemsNestedInput
-  criteria?: Prisma.AdmissionCriterionUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemUncheckedUpdateWithoutApplicationsInput = {
@@ -703,7 +703,7 @@ export type AdmissionItemUncheckedUpdateWithoutApplicationsInput = {
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   quota?: Prisma.IntFieldUpdateOperationsInput | number
-  criteria?: Prisma.AdmissionCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
 }
 
 export type AdmissionItemCreateManyMajorInput = {
@@ -717,7 +717,7 @@ export type AdmissionItemUpdateWithoutMajorInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   admission?: Prisma.AdmissionUpdateOneRequiredWithoutItemsNestedInput
-  criteria?: Prisma.AdmissionCriterionUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUpdateManyWithoutAdmissionItemNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutAdmissionItemNestedInput
 }
 
@@ -726,7 +726,7 @@ export type AdmissionItemUncheckedUpdateWithoutMajorInput = {
   admissionId?: Prisma.IntFieldUpdateOperationsInput | number
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   quota?: Prisma.IntFieldUpdateOperationsInput | number
-  criteria?: Prisma.AdmissionCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput
 }
 
@@ -748,7 +748,7 @@ export type AdmissionItemUpdateWithoutAdmissionInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionItemsNestedInput
-  criteria?: Prisma.AdmissionCriterionUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUpdateManyWithoutAdmissionItemNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutAdmissionItemNestedInput
 }
 
@@ -757,7 +757,7 @@ export type AdmissionItemUncheckedUpdateWithoutAdmissionInput = {
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   quota?: Prisma.IntFieldUpdateOperationsInput | number
-  criteria?: Prisma.AdmissionCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
+  criteria?: Prisma.AdmissionItemCriterionUncheckedUpdateManyWithoutAdmissionItemNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutAdmissionItemNestedInput
 }
 
@@ -797,7 +797,7 @@ export type AdmissionItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Type
  * AdmissionItemCountOutputType without action
  */
 export type AdmissionItemCountOutputTypeCountCriteriaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AdmissionCriterionWhereInput
+  where?: Prisma.AdmissionItemCriterionWhereInput
 }
 
 /**
@@ -871,7 +871,7 @@ export type $AdmissionItemPayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     admission: Prisma.$AdmissionPayload<ExtArgs>
     major: Prisma.$MajorPayload<ExtArgs>
-    criteria: Prisma.$AdmissionCriterionPayload<ExtArgs>[]
+    criteria: Prisma.$AdmissionItemCriterionPayload<ExtArgs>[]
     applications: Prisma.$ApplicationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1276,7 +1276,7 @@ export interface Prisma__AdmissionItemClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   admission<T extends Prisma.AdmissionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionClient<runtime.Types.Result.GetResult<Prisma.$AdmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   major<T extends Prisma.MajorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MajorDefaultArgs<ExtArgs>>): Prisma.Prisma__MajorClient<runtime.Types.Result.GetResult<Prisma.$MajorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  criteria<T extends Prisma.AdmissionItem$criteriaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionItem$criteriaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionCriterionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  criteria<T extends Prisma.AdmissionItem$criteriaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionItem$criteriaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionItemCriterionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   applications<T extends Prisma.AdmissionItem$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionItem$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1717,23 +1717,23 @@ export type AdmissionItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
  */
 export type AdmissionItem$criteriaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the AdmissionCriterion
+   * Select specific fields to fetch from the AdmissionItemCriterion
    */
-  select?: Prisma.AdmissionCriterionSelect<ExtArgs> | null
+  select?: Prisma.AdmissionItemCriterionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the AdmissionCriterion
+   * Omit specific fields from the AdmissionItemCriterion
    */
-  omit?: Prisma.AdmissionCriterionOmit<ExtArgs> | null
+  omit?: Prisma.AdmissionItemCriterionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AdmissionCriterionInclude<ExtArgs> | null
-  where?: Prisma.AdmissionCriterionWhereInput
-  orderBy?: Prisma.AdmissionCriterionOrderByWithRelationInput | Prisma.AdmissionCriterionOrderByWithRelationInput[]
-  cursor?: Prisma.AdmissionCriterionWhereUniqueInput
+  include?: Prisma.AdmissionItemCriterionInclude<ExtArgs> | null
+  where?: Prisma.AdmissionItemCriterionWhereInput
+  orderBy?: Prisma.AdmissionItemCriterionOrderByWithRelationInput | Prisma.AdmissionItemCriterionOrderByWithRelationInput[]
+  cursor?: Prisma.AdmissionItemCriterionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AdmissionCriterionScalarFieldEnum | Prisma.AdmissionCriterionScalarFieldEnum[]
+  distinct?: Prisma.AdmissionItemCriterionScalarFieldEnum | Prisma.AdmissionItemCriterionScalarFieldEnum[]
 }
 
 /**

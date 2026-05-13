@@ -1,90 +1,114 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateAdmissionDto } from "./admission.dto";
-import { AdmissionStatus } from "../../prisma/generated/prisma/enums";
 
 @Injectable()
 export class AdmissionService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateAdmissionDto) {
-    const { name, startDate, endDate, items } = data;
+  async create(createAdmissionDto: CreateAdmissionDto) {
+    const { items, ...admissionData } = createAdmissionDto;
 
-    // Sử dụng $transaction để đảm bảo tính toàn vẹn dữ liệu
-    return await this.prisma.$transaction(async (tx) => {
-      // 1. Tạo đợt tuyển sinh tổng thể
-      const admission = await tx.admission.create({
-        data: {
-          name,
-          startDate: new Date(startDate),
-          endDate: new Date(endDate),
-          status: AdmissionStatus.OPEN,
-        },
-      });
+    // Kiểm tra logic: ngày kết thúc phải sau ngày bắt đầu
+    if (new Date(admissionData.endDate) <= new Date(admissionData.startDate)) {
+      throw new BadRequestException("Ngày kết thúc phải sau ngày bắt đầu.");
+    }
 
-      // 2. Xử lý từng ngành tuyển sinh (AdmissionItem)
-      for (const item of items) {
-        // Lấy thông tin ngành để biết khóa hiện tại (currentBatch)
-        const major = await tx.major.findUnique({
-          where: { id: item.majorId },
-        });
-
-        if (!major) {
-          throw new NotFoundException(
-            `Ngành với ID ${item.majorId} không tồn tại`,
-          );
-        }
-
-        // 3. Tạo AdmissionItem
-        const admissionItem = await tx.admissionItem.create({
+    try {
+      // Sử dụng $transaction để đảm bảo tạo đợt tuyển sinh và các item cùng lúc
+      return await this.prisma.$transaction(async (tx) => {
+        // 1. Tạo Đợt tuyển sinh tổng thể (Admission)
+        const admission = await tx.admission.create({
           data: {
-            admissionId: admission.id,
-            majorId: item.majorId,
-            batchName: item.batchName,
-            quota: item.quota,
-          },
-        });
-
-        // 4. Nếu có tiêu chí đi kèm, tạo các AdmissionCriterion
-        if (item.criteria && item.criteria.length > 0) {
-          await tx.admissionCriterion.createMany({
-            data: item.criteria.map((criterion) => ({
-              admissionItemId: admissionItem.id,
-              criterionName: criterion.criterionName,
-              minValue: criterion.minValue,
-              isRequired: criterion.isRequired,
-              description: criterion.description,
-            })),
-          });
-        }
-      }
-
-      return tx.admission.findUnique({
-        where: { id: admission.id },
-        include: {
-          items: {
-            include: {
-              criteria: true,
-              major: true,
+            ...admissionData,
+            // 2. Tạo các Chi tiết tuyển sinh (AdmissionItem)
+            items: {
+              create: items.map((item) => ({
+                majorId: item.majorId,
+                batchName: item.batchName,
+                quota: item.quota,
+                // 3. Tạo các Tiêu chí cho từng ngành (AdmissionItemCriterion)
+                criteria: {
+                  create: item.criteria.map((criterion) => ({
+                    criterionId: criterion.criterionId,
+                    minValue: criterion.minValue,
+                    isRequired: criterion.isRequired,
+                    weight: criterion.weight,
+                  })),
+                },
+              })),
             },
           },
-        },
+          // Bao gồm các quan hệ trong kết quả trả về để kiểm tra
+          include: {
+            items: {
+              include: {
+                criteria: true,
+              },
+            },
+          },
+        });
+
+        return admission;
       });
-    });
+    } catch (error) {
+      console.log("Lỗi khi tạo đợt tuyển sinh:", error);
+      // Xử lý lỗi Prisma (ví dụ: sai ID ngành, sai ID tiêu chí mẫu)
+      throw new BadRequestException(
+        "Không thể tạo đợt tuyển sinh. Vui lòng kiểm tra lại dữ liệu đầu vào.",
+      );
+    }
   }
 
   // Hàm lấy danh sách để bạn kiểm tra kết quả
   async findAll() {
     return await this.prisma.admission.findMany({
       include: {
+        // Đếm số lượng ngành trong mỗi đợt (tùy chọn)
+        _count: {
+          select: { items: true },
+        },
+      },
+      orderBy: {
+        startDate: "desc", // Đợt mới nhất hiện lên đầu
+      },
+    });
+  }
+
+  async findOne(id: number) {
+    const admission = await this.prisma.admission.findUnique({
+      where: { id },
+      include: {
         items: {
           include: {
-            criteria: true,
+            // Lấy thông tin ngành học (Tên ngành, mã ngành)
             major: true,
+            // Lấy danh sách tiêu chí của ngành này
+            criteria: {
+              include: {
+                // Quan trọng: Lấy thông tin từ bảng tiêu chí mẫu (Criterion)
+                criterion: {
+                  select: {
+                    criterionName: true,
+                    type: true,
+                    description: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
-      orderBy: { startDate: "desc" },
     });
+
+    if (!admission) {
+      throw new NotFoundException(`Không tìm thấy đợt tuyển sinh với ID ${id}`);
+    }
+
+    return admission;
   }
 }
