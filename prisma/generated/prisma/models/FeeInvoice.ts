@@ -208,7 +208,7 @@ export type FeeInvoiceGroupByOutputType = {
   studentId: number
   semesterId: number
   totalAmount: number
-  status: string
+  status: string | null
   createdAt: Date
   updatedAt: Date
   _count: FeeInvoiceCountAggregateOutputType | null
@@ -241,7 +241,7 @@ export type FeeInvoiceWhereInput = {
   studentId?: Prisma.IntFilter<"FeeInvoice"> | number
   semesterId?: Prisma.IntFilter<"FeeInvoice"> | number
   totalAmount?: Prisma.FloatFilter<"FeeInvoice"> | number
-  status?: Prisma.StringFilter<"FeeInvoice"> | string
+  status?: Prisma.StringNullableFilter<"FeeInvoice"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FeeInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FeeInvoice"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
@@ -254,7 +254,7 @@ export type FeeInvoiceOrderByWithRelationInput = {
   studentId?: Prisma.SortOrder
   semesterId?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
-  status?: Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   student?: Prisma.StudentOrderByWithRelationInput
@@ -270,7 +270,7 @@ export type FeeInvoiceWhereUniqueInput = Prisma.AtLeast<{
   studentId?: Prisma.IntFilter<"FeeInvoice"> | number
   semesterId?: Prisma.IntFilter<"FeeInvoice"> | number
   totalAmount?: Prisma.FloatFilter<"FeeInvoice"> | number
-  status?: Prisma.StringFilter<"FeeInvoice"> | string
+  status?: Prisma.StringNullableFilter<"FeeInvoice"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FeeInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FeeInvoice"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
@@ -283,7 +283,7 @@ export type FeeInvoiceOrderByWithAggregationInput = {
   studentId?: Prisma.SortOrder
   semesterId?: Prisma.SortOrder
   totalAmount?: Prisma.SortOrder
-  status?: Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.FeeInvoiceCountOrderByAggregateInput
@@ -301,14 +301,14 @@ export type FeeInvoiceScalarWhereWithAggregatesInput = {
   studentId?: Prisma.IntWithAggregatesFilter<"FeeInvoice"> | number
   semesterId?: Prisma.IntWithAggregatesFilter<"FeeInvoice"> | number
   totalAmount?: Prisma.FloatWithAggregatesFilter<"FeeInvoice"> | number
-  status?: Prisma.StringWithAggregatesFilter<"FeeInvoice"> | string
+  status?: Prisma.StringNullableWithAggregatesFilter<"FeeInvoice"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FeeInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"FeeInvoice"> | Date | string
 }
 
 export type FeeInvoiceCreateInput = {
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutFeeInvoicesInput
@@ -321,7 +321,7 @@ export type FeeInvoiceUncheckedCreateInput = {
   studentId: number
   semesterId: number
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.FeeInvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
@@ -329,7 +329,7 @@ export type FeeInvoiceUncheckedCreateInput = {
 
 export type FeeInvoiceUpdateInput = {
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutFeeInvoicesNestedInput
@@ -342,7 +342,7 @@ export type FeeInvoiceUncheckedUpdateInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -353,14 +353,14 @@ export type FeeInvoiceCreateManyInput = {
   studentId: number
   semesterId: number
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type FeeInvoiceUpdateManyMutationInput = {
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -370,7 +370,7 @@ export type FeeInvoiceUncheckedUpdateManyInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -536,7 +536,7 @@ export type FeeInvoiceUpdateOneWithoutItemsNestedInput = {
 
 export type FeeInvoiceCreateWithoutSemesterInput = {
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutFeeInvoicesInput
@@ -547,7 +547,7 @@ export type FeeInvoiceUncheckedCreateWithoutSemesterInput = {
   id?: number
   studentId: number
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.FeeInvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
@@ -587,14 +587,14 @@ export type FeeInvoiceScalarWhereInput = {
   studentId?: Prisma.IntFilter<"FeeInvoice"> | number
   semesterId?: Prisma.IntFilter<"FeeInvoice"> | number
   totalAmount?: Prisma.FloatFilter<"FeeInvoice"> | number
-  status?: Prisma.StringFilter<"FeeInvoice"> | string
+  status?: Prisma.StringNullableFilter<"FeeInvoice"> | string | null
   createdAt?: Prisma.DateTimeFilter<"FeeInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FeeInvoice"> | Date | string
 }
 
 export type FeeInvoiceCreateWithoutStudentInput = {
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   semester: Prisma.SemesterCreateNestedOneWithoutFeeInvoicesInput
@@ -605,7 +605,7 @@ export type FeeInvoiceUncheckedCreateWithoutStudentInput = {
   id?: number
   semesterId: number
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.FeeInvoiceItemUncheckedCreateNestedManyWithoutInvoiceInput
@@ -639,7 +639,7 @@ export type FeeInvoiceUpdateManyWithWhereWithoutStudentInput = {
 
 export type FeeInvoiceCreateWithoutItemsInput = {
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutFeeInvoicesInput
@@ -651,7 +651,7 @@ export type FeeInvoiceUncheckedCreateWithoutItemsInput = {
   studentId: number
   semesterId: number
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -674,7 +674,7 @@ export type FeeInvoiceUpdateToOneWithWhereWithoutItemsInput = {
 
 export type FeeInvoiceUpdateWithoutItemsInput = {
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutFeeInvoicesNestedInput
@@ -686,7 +686,7 @@ export type FeeInvoiceUncheckedUpdateWithoutItemsInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -695,14 +695,14 @@ export type FeeInvoiceCreateManySemesterInput = {
   id?: number
   studentId: number
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type FeeInvoiceUpdateWithoutSemesterInput = {
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutFeeInvoicesNestedInput
@@ -713,7 +713,7 @@ export type FeeInvoiceUncheckedUpdateWithoutSemesterInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -723,7 +723,7 @@ export type FeeInvoiceUncheckedUpdateManyWithoutSemesterInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -732,14 +732,14 @@ export type FeeInvoiceCreateManyStudentInput = {
   id?: number
   semesterId: number
   totalAmount: number
-  status?: string
+  status?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type FeeInvoiceUpdateWithoutStudentInput = {
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   semester?: Prisma.SemesterUpdateOneRequiredWithoutFeeInvoicesNestedInput
@@ -750,7 +750,7 @@ export type FeeInvoiceUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -760,7 +760,7 @@ export type FeeInvoiceUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   totalAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -872,7 +872,7 @@ export type $FeeInvoicePayload<ExtArgs extends runtime.Types.Extensions.Internal
     studentId: number
     semesterId: number
     totalAmount: number
-    status: string
+    status: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["feeInvoice"]>

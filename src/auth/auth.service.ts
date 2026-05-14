@@ -43,4 +43,15 @@ export class AuthService {
       },
     };
   }
+
+  async getAllAccount() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        isActive: true,
+      },
+    });
+  }
 }

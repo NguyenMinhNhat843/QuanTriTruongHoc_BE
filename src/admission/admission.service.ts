@@ -142,6 +142,9 @@ export class AdmissionService {
         where: {
           admissionId: admissionId,
           // status: "QUALIFIED", --- Đang test nên tạm thời lấy tất cả hồ sơ để dễ kiểm tra
+          status: {
+            notIn: ["REJECTED", "ADMITTED"], // Loại bỏ hồ sơ bị từ chối, còn lại đều được xét duyệt
+          },
         },
       });
 
@@ -186,7 +189,7 @@ export class AdmissionService {
         // Tạo bản ghi Student tương ứng
         const newStudent = await tx.student.create({
           data: {
-            studentCode: generateId(), // Logic tạo mã SV tạm thời
+            studentCode: generateId(),
             fullName: app.fullName,
             email: app.email,
             phone: app.phone,

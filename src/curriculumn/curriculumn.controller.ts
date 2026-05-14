@@ -7,15 +7,21 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from "@nestjs/common";
 import {
   ApiTags,
   ApiOperation,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiQuery,
 } from "@nestjs/swagger";
 import { CurriculumService } from "./curriculum.service";
-import { CreateCurriculumDto, UpdateCurriculumDto } from "./curriculum.dto";
+import {
+  CreateCurriculumDto,
+  SearchCurriculumDto,
+  UpdateCurriculumDto,
+} from "./curriculum.dto";
 import { CurriculumResponseDto } from "./curriculum.response";
 
 @ApiTags("Curriculums")
@@ -35,8 +41,11 @@ export class CurriculumController {
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả chương trình khung" })
   @ApiOkResponse({ type: CurriculumResponseDto, isArray: true })
-  findAll() {
-    return this.curriculumService.findAll();
+  @ApiQuery({ type: SearchCurriculumDto })
+  findAll(
+    @Query() query: SearchCurriculumDto,
+  ): Promise<CurriculumResponseDto[]> {
+    return this.curriculumService.findAll(query);
   }
 
   @Get(":id")

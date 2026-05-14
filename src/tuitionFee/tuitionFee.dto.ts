@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {
   IsNotEmpty,
@@ -8,6 +8,7 @@ import {
   Min,
   IsArray,
   ArrayNotEmpty,
+  IsNumber,
 } from "class-validator";
 
 export class CreateTuitionFeesDto {
@@ -79,4 +80,17 @@ export class PayTuitionFeeDto {
   @IsNotEmpty()
   @IsInt()
   semesterId: number;
+}
+
+export class SearchTuitionDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  studentCode?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  semesterId?: number;
 }

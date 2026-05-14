@@ -177,6 +177,7 @@ export class StudentService {
       toDate,
       sortBy = "createdAt",
       sortOrder = "desc",
+      studentCode,
     } = query;
 
     const skip = (page - 1) * limit;
@@ -211,6 +212,11 @@ export class StudentService {
                 ...(toDate && { lte: new Date(toDate) }),
               },
             }
+          : {},
+
+        // Lọc theo mã sinh viên
+        studentCode
+          ? { studentCode: { contains: studentCode, mode: "insensitive" } }
           : {},
       ],
     };

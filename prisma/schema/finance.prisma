@@ -15,7 +15,7 @@ model FeeInvoice {
   totalAmount Float            // Tổng tiền phải đóng của cả kỳ
   
   // status: unpaid, partial, paid
-  status      String           @default("unpaid")
+  status      String?           @default("unpaid")
   
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
@@ -35,6 +35,9 @@ model FeeInvoiceItem {
 
   invoiceId     Int?
   invoice       FeeInvoice?          @relation(fields: [invoiceId], references: [id])
+
+  semesterId    Int?
+  semester      Semester?       @relation(fields: [semesterId], references: [id], onDelete: Cascade)
   
   // status: unpaid, partial, paid
   status        String              @default("unpaid")

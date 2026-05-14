@@ -3516,6 +3516,7 @@ export const FeeInvoiceItemScalarFieldEnum = {
   name: 'name',
   amount: 'amount',
   invoiceId: 'invoiceId',
+  semesterId: 'semesterId',
   status: 'status'
 } as const
 

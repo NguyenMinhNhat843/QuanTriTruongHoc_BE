@@ -162,6 +162,7 @@ model Semester {
   benefitPrograms     BenefitProgram[]
   courseOffers        CourseOffer[]
   feeInvoices         FeeInvoice[]
+  feeInvoiceItems     FeeInvoiceItem[]
 
   // ràng buộc duy nhất
   @@unique([year, term], name: "unique_semester_term")

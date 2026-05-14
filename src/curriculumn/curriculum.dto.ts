@@ -10,6 +10,7 @@ import {
   MaxLength,
   IsArray,
   ValidateNested,
+  IsNumber,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 import { CreateCurriculumSubjectDto } from "../curriculumSubject/curriculumnSubject.dto";
@@ -80,3 +81,11 @@ export class CreateCurriculumDto {
 }
 
 export class UpdateCurriculumDto extends PartialType(CreateCurriculumDto) {}
+
+export class SearchCurriculumDto {
+  @ApiPropertyOptional({ type: Number })
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  majorId?: number;
+}

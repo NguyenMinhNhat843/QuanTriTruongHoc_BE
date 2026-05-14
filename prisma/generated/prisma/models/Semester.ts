@@ -259,6 +259,7 @@ export type SemesterWhereInput = {
   benefitPrograms?: Prisma.BenefitProgramListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
   feeInvoices?: Prisma.FeeInvoiceListRelationFilter
+  feeInvoiceItems?: Prisma.FeeInvoiceItemListRelationFilter
 }
 
 export type SemesterOrderByWithRelationInput = {
@@ -274,6 +275,7 @@ export type SemesterOrderByWithRelationInput = {
   benefitPrograms?: Prisma.BenefitProgramOrderByRelationAggregateInput
   courseOffers?: Prisma.CourseOfferOrderByRelationAggregateInput
   feeInvoices?: Prisma.FeeInvoiceOrderByRelationAggregateInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemOrderByRelationAggregateInput
 }
 
 export type SemesterWhereUniqueInput = Prisma.AtLeast<{
@@ -293,6 +295,7 @@ export type SemesterWhereUniqueInput = Prisma.AtLeast<{
   benefitPrograms?: Prisma.BenefitProgramListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
   feeInvoices?: Prisma.FeeInvoiceListRelationFilter
+  feeInvoiceItems?: Prisma.FeeInvoiceItemListRelationFilter
 }, "id" | "unique_semester_term">
 
 export type SemesterOrderByWithAggregationInput = {
@@ -339,6 +342,7 @@ export type SemesterCreateInput = {
   benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterUncheckedCreateInput = {
@@ -354,6 +358,7 @@ export type SemesterUncheckedCreateInput = {
   benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterUpdateInput = {
@@ -368,6 +373,7 @@ export type SemesterUpdateInput = {
   benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUpdateManyWithoutSemesterNestedInput
 }
 
 export type SemesterUncheckedUpdateInput = {
@@ -383,6 +389,7 @@ export type SemesterUncheckedUpdateInput = {
   benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutSemesterNestedInput
 }
 
 export type SemesterCreateManyInput = {
@@ -478,6 +485,11 @@ export type SemesterScalarRelationFilter = {
   isNot?: Prisma.SemesterWhereInput
 }
 
+export type SemesterNullableScalarRelationFilter = {
+  is?: Prisma.SemesterWhereInput | null
+  isNot?: Prisma.SemesterWhereInput | null
+}
+
 export type SemesterCreateNestedOneWithoutBenefitProgramsInput = {
   create?: Prisma.XOR<Prisma.SemesterCreateWithoutBenefitProgramsInput, Prisma.SemesterUncheckedCreateWithoutBenefitProgramsInput>
   connectOrCreate?: Prisma.SemesterCreateOrConnectWithoutBenefitProgramsInput
@@ -520,6 +532,22 @@ export type SemesterUpdateOneRequiredWithoutFeeInvoicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SemesterUpdateToOneWithWhereWithoutFeeInvoicesInput, Prisma.SemesterUpdateWithoutFeeInvoicesInput>, Prisma.SemesterUncheckedUpdateWithoutFeeInvoicesInput>
 }
 
+export type SemesterCreateNestedOneWithoutFeeInvoiceItemsInput = {
+  create?: Prisma.XOR<Prisma.SemesterCreateWithoutFeeInvoiceItemsInput, Prisma.SemesterUncheckedCreateWithoutFeeInvoiceItemsInput>
+  connectOrCreate?: Prisma.SemesterCreateOrConnectWithoutFeeInvoiceItemsInput
+  connect?: Prisma.SemesterWhereUniqueInput
+}
+
+export type SemesterUpdateOneWithoutFeeInvoiceItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.SemesterCreateWithoutFeeInvoiceItemsInput, Prisma.SemesterUncheckedCreateWithoutFeeInvoiceItemsInput>
+  connectOrCreate?: Prisma.SemesterCreateOrConnectWithoutFeeInvoiceItemsInput
+  upsert?: Prisma.SemesterUpsertWithoutFeeInvoiceItemsInput
+  disconnect?: Prisma.SemesterWhereInput | boolean
+  delete?: Prisma.SemesterWhereInput | boolean
+  connect?: Prisma.SemesterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SemesterUpdateToOneWithWhereWithoutFeeInvoiceItemsInput, Prisma.SemesterUpdateWithoutFeeInvoiceItemsInput>, Prisma.SemesterUncheckedUpdateWithoutFeeInvoiceItemsInput>
+}
+
 export type SemesterCreateWithoutBenefitProgramsInput = {
   name: string
   term?: number | null
@@ -531,6 +559,7 @@ export type SemesterCreateWithoutBenefitProgramsInput = {
   createdAt?: Date | string
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterUncheckedCreateWithoutBenefitProgramsInput = {
@@ -545,6 +574,7 @@ export type SemesterUncheckedCreateWithoutBenefitProgramsInput = {
   createdAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterCreateOrConnectWithoutBenefitProgramsInput = {
@@ -574,6 +604,7 @@ export type SemesterUpdateWithoutBenefitProgramsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUpdateManyWithoutSemesterNestedInput
 }
 
 export type SemesterUncheckedUpdateWithoutBenefitProgramsInput = {
@@ -588,6 +619,7 @@ export type SemesterUncheckedUpdateWithoutBenefitProgramsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutSemesterNestedInput
 }
 
 export type SemesterCreateWithoutCourseOffersInput = {
@@ -601,6 +633,7 @@ export type SemesterCreateWithoutCourseOffersInput = {
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterUncheckedCreateWithoutCourseOffersInput = {
@@ -615,6 +648,7 @@ export type SemesterUncheckedCreateWithoutCourseOffersInput = {
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterCreateOrConnectWithoutCourseOffersInput = {
@@ -644,6 +678,7 @@ export type SemesterUpdateWithoutCourseOffersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUpdateManyWithoutSemesterNestedInput
 }
 
 export type SemesterUncheckedUpdateWithoutCourseOffersInput = {
@@ -658,6 +693,7 @@ export type SemesterUncheckedUpdateWithoutCourseOffersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutSemesterNestedInput
 }
 
 export type SemesterCreateWithoutFeeInvoicesInput = {
@@ -671,6 +707,7 @@ export type SemesterCreateWithoutFeeInvoicesInput = {
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterUncheckedCreateWithoutFeeInvoicesInput = {
@@ -685,6 +722,7 @@ export type SemesterUncheckedCreateWithoutFeeInvoicesInput = {
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedCreateNestedManyWithoutSemesterInput
 }
 
 export type SemesterCreateOrConnectWithoutFeeInvoicesInput = {
@@ -714,6 +752,7 @@ export type SemesterUpdateWithoutFeeInvoicesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUpdateManyWithoutSemesterNestedInput
 }
 
 export type SemesterUncheckedUpdateWithoutFeeInvoicesInput = {
@@ -728,6 +767,81 @@ export type SemesterUncheckedUpdateWithoutFeeInvoicesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
+  feeInvoiceItems?: Prisma.FeeInvoiceItemUncheckedUpdateManyWithoutSemesterNestedInput
+}
+
+export type SemesterCreateWithoutFeeInvoiceItemsInput = {
+  name: string
+  term?: number | null
+  year?: number | null
+  schoolYear?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  isCurrent?: boolean
+  createdAt?: Date | string
+  benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
+  courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
+  feeInvoices?: Prisma.FeeInvoiceCreateNestedManyWithoutSemesterInput
+}
+
+export type SemesterUncheckedCreateWithoutFeeInvoiceItemsInput = {
+  id?: number
+  name: string
+  term?: number | null
+  year?: number | null
+  schoolYear?: string | null
+  startDate: Date | string
+  endDate: Date | string
+  isCurrent?: boolean
+  createdAt?: Date | string
+  benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
+  courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
+  feeInvoices?: Prisma.FeeInvoiceUncheckedCreateNestedManyWithoutSemesterInput
+}
+
+export type SemesterCreateOrConnectWithoutFeeInvoiceItemsInput = {
+  where: Prisma.SemesterWhereUniqueInput
+  create: Prisma.XOR<Prisma.SemesterCreateWithoutFeeInvoiceItemsInput, Prisma.SemesterUncheckedCreateWithoutFeeInvoiceItemsInput>
+}
+
+export type SemesterUpsertWithoutFeeInvoiceItemsInput = {
+  update: Prisma.XOR<Prisma.SemesterUpdateWithoutFeeInvoiceItemsInput, Prisma.SemesterUncheckedUpdateWithoutFeeInvoiceItemsInput>
+  create: Prisma.XOR<Prisma.SemesterCreateWithoutFeeInvoiceItemsInput, Prisma.SemesterUncheckedCreateWithoutFeeInvoiceItemsInput>
+  where?: Prisma.SemesterWhereInput
+}
+
+export type SemesterUpdateToOneWithWhereWithoutFeeInvoiceItemsInput = {
+  where?: Prisma.SemesterWhereInput
+  data: Prisma.XOR<Prisma.SemesterUpdateWithoutFeeInvoiceItemsInput, Prisma.SemesterUncheckedUpdateWithoutFeeInvoiceItemsInput>
+}
+
+export type SemesterUpdateWithoutFeeInvoiceItemsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  term?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  schoolYear?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
+  courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
+  feeInvoices?: Prisma.FeeInvoiceUpdateManyWithoutSemesterNestedInput
+}
+
+export type SemesterUncheckedUpdateWithoutFeeInvoiceItemsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  term?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  schoolYear?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
+  courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
+  feeInvoices?: Prisma.FeeInvoiceUncheckedUpdateManyWithoutSemesterNestedInput
 }
 
 
@@ -739,12 +853,14 @@ export type SemesterCountOutputType = {
   benefitPrograms: number
   courseOffers: number
   feeInvoices: number
+  feeInvoiceItems: number
 }
 
 export type SemesterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   benefitPrograms?: boolean | SemesterCountOutputTypeCountBenefitProgramsArgs
   courseOffers?: boolean | SemesterCountOutputTypeCountCourseOffersArgs
   feeInvoices?: boolean | SemesterCountOutputTypeCountFeeInvoicesArgs
+  feeInvoiceItems?: boolean | SemesterCountOutputTypeCountFeeInvoiceItemsArgs
 }
 
 /**
@@ -778,6 +894,13 @@ export type SemesterCountOutputTypeCountFeeInvoicesArgs<ExtArgs extends runtime.
   where?: Prisma.FeeInvoiceWhereInput
 }
 
+/**
+ * SemesterCountOutputType without action
+ */
+export type SemesterCountOutputTypeCountFeeInvoiceItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FeeInvoiceItemWhereInput
+}
+
 
 export type SemesterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -792,6 +915,7 @@ export type SemesterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   benefitPrograms?: boolean | Prisma.Semester$benefitProgramsArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Semester$courseOffersArgs<ExtArgs>
   feeInvoices?: boolean | Prisma.Semester$feeInvoicesArgs<ExtArgs>
+  feeInvoiceItems?: boolean | Prisma.Semester$feeInvoiceItemsArgs<ExtArgs>
   _count?: boolean | Prisma.SemesterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["semester"]>
 
@@ -836,6 +960,7 @@ export type SemesterInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   benefitPrograms?: boolean | Prisma.Semester$benefitProgramsArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Semester$courseOffersArgs<ExtArgs>
   feeInvoices?: boolean | Prisma.Semester$feeInvoicesArgs<ExtArgs>
+  feeInvoiceItems?: boolean | Prisma.Semester$feeInvoiceItemsArgs<ExtArgs>
   _count?: boolean | Prisma.SemesterCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SemesterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -847,6 +972,7 @@ export type $SemesterPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     benefitPrograms: Prisma.$BenefitProgramPayload<ExtArgs>[]
     courseOffers: Prisma.$CourseOfferPayload<ExtArgs>[]
     feeInvoices: Prisma.$FeeInvoicePayload<ExtArgs>[]
+    feeInvoiceItems: Prisma.$FeeInvoiceItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1255,6 +1381,7 @@ export interface Prisma__SemesterClient<T, Null = never, ExtArgs extends runtime
   benefitPrograms<T extends Prisma.Semester$benefitProgramsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Semester$benefitProgramsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BenefitProgramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courseOffers<T extends Prisma.Semester$courseOffersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Semester$courseOffersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CourseOfferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   feeInvoices<T extends Prisma.Semester$feeInvoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Semester$feeInvoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeeInvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  feeInvoiceItems<T extends Prisma.Semester$feeInvoiceItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Semester$feeInvoiceItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeeInvoiceItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1755,6 +1882,30 @@ export type Semester$feeInvoicesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.FeeInvoiceScalarFieldEnum | Prisma.FeeInvoiceScalarFieldEnum[]
+}
+
+/**
+ * Semester.feeInvoiceItems
+ */
+export type Semester$feeInvoiceItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FeeInvoiceItem
+   */
+  select?: Prisma.FeeInvoiceItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FeeInvoiceItem
+   */
+  omit?: Prisma.FeeInvoiceItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeeInvoiceItemInclude<ExtArgs> | null
+  where?: Prisma.FeeInvoiceItemWhereInput
+  orderBy?: Prisma.FeeInvoiceItemOrderByWithRelationInput | Prisma.FeeInvoiceItemOrderByWithRelationInput[]
+  cursor?: Prisma.FeeInvoiceItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FeeInvoiceItemScalarFieldEnum | Prisma.FeeInvoiceItemScalarFieldEnum[]
 }
 
 /**

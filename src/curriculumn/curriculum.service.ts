@@ -5,7 +5,11 @@ import {
   InternalServerErrorException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreateCurriculumDto, UpdateCurriculumDto } from "./curriculum.dto";
+import {
+  CreateCurriculumDto,
+  SearchCurriculumDto,
+  UpdateCurriculumDto,
+} from "./curriculum.dto";
 import { CurriculumResponseDto } from "./curriculum.response";
 
 @Injectable()
@@ -85,8 +89,11 @@ export class CurriculumService {
     }
   }
 
-  async findAll(): Promise<CurriculumResponseDto[]> {
+  async findAll(query: SearchCurriculumDto): Promise<CurriculumResponseDto[]> {
     const list = await this.prisma.curriculum.findMany({
+      where: {
+        majorId: query.majorId,
+      },
       include: {
         major: true,
         _count: { select: { curriculumSubjects: true } },

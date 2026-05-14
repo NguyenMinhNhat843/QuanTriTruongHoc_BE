@@ -152,6 +152,11 @@ export class SearchStudentDto {
   @IsString()
   sortBy?: string = "createdAt";
 
+  @ApiPropertyOptional({ description: "Tìm kiếm theo mã sinh viên" })
+  @IsOptional()
+  @IsString()
+  studentCode?: string; // Thêm trường studentCode để hỗ trợ tìm kiếm theo mã sinh viên
+
   @ApiPropertyOptional({ enum: ["asc", "desc"], default: "desc" })
   @IsOptional()
   @IsEnum(["asc", "desc"], { each: true })

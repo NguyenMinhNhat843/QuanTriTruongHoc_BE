@@ -1,4 +1,11 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Get,
+} from "@nestjs/common";
 import { AuthService } from "./auth.service.js";
 import { LoginDto } from "./auth.dto.js";
 import { ApiTags, ApiOperation } from "@nestjs/swagger";
@@ -13,5 +20,11 @@ export class AuthController {
   @ApiOperation({ summary: "Đăng nhập vào hệ thống" })
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Get("accounts")
+  @ApiOperation({ summary: "Lấy danh sách tất cả tài khoản" })
+  async getAllAccount() {
+    return this.authService.getAllAccount();
   }
 }

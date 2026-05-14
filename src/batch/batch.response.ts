@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { MajorResponseDto } from "../major/major.response";
+import { Batch } from "../../prisma/generated/prisma/client";
 
-export class BatchResponseDto {
+export class BatchResponseDto implements Batch {
   @ApiProperty()
   id: number;
 
@@ -32,6 +33,12 @@ export class BatchResponseDto {
   @ApiProperty({ type: MajorResponseDto, nullable: true })
   major?: MajorResponseDto | null;
 
+  @ApiProperty({ type: Number, nullable: true })
+  curriculumId: number | null;
+
+  @ApiProperty({ type: Number })
+  majorId: number;
+
   constructor(data: any) {
     this.id = data.id;
     this.batchCode = data.batchCode;
@@ -44,5 +51,7 @@ export class BatchResponseDto {
     this.updatedAt = data.updatedAt;
 
     this.major = data.major ? new MajorResponseDto(data.major) : null;
+    this.curriculumId = data.curriculumId;
+    this.majorId = data.majorId;
   }
 }
