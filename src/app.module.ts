@@ -22,6 +22,7 @@ import { CreditPriceModule } from "./creaditPrice/creditPrice.module.js";
 import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
+import { GradeComponentModule } from "./grade/grade.module.js";
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
     CreditPriceModule,
     PostModule,
     CourseOfferModule,
+    GradeComponentModule,
   ],
 })
 export class AppModule {}

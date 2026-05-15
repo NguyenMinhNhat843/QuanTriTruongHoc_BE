@@ -3212,7 +3212,8 @@ export const SubjectScalarFieldEnum = {
   isMandatory: 'isMandatory',
   description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  grade_components: 'grade_components'
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]

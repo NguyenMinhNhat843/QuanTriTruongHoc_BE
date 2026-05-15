@@ -64,4 +64,10 @@ export class CourseOfferController {
   async getDetail(@Param("id", ParseIntPipe) id: number) {
     return await this.courseOfferService.getCourseOfferDetail(id);
   }
+
+  // Phê duyệt lớp học phần
+  @Get(":id/approve")
+  async approve(@Param("id", ParseIntPipe) id: number) {
+    return await this.courseOfferService.approveCourseOffer(id);
+  }
 }

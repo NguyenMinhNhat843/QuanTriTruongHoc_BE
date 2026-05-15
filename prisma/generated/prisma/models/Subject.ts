@@ -51,6 +51,7 @@ export type SubjectMinAggregateOutputType = {
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  grade_components: string | null
 }
 
 export type SubjectMaxAggregateOutputType = {
@@ -64,6 +65,7 @@ export type SubjectMaxAggregateOutputType = {
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  grade_components: string | null
 }
 
 export type SubjectCountAggregateOutputType = {
@@ -77,6 +79,7 @@ export type SubjectCountAggregateOutputType = {
   description: number
   createdAt: number
   updatedAt: number
+  grade_components: number
   _all: number
 }
 
@@ -106,6 +109,7 @@ export type SubjectMinAggregateInputType = {
   description?: true
   createdAt?: true
   updatedAt?: true
+  grade_components?: true
 }
 
 export type SubjectMaxAggregateInputType = {
@@ -119,6 +123,7 @@ export type SubjectMaxAggregateInputType = {
   description?: true
   createdAt?: true
   updatedAt?: true
+  grade_components?: true
 }
 
 export type SubjectCountAggregateInputType = {
@@ -132,6 +137,7 @@ export type SubjectCountAggregateInputType = {
   description?: true
   createdAt?: true
   updatedAt?: true
+  grade_components?: true
   _all?: true
 }
 
@@ -232,6 +238,7 @@ export type SubjectGroupByOutputType = {
   description: string | null
   createdAt: Date
   updatedAt: Date
+  grade_components: string | null
   _count: SubjectCountAggregateOutputType | null
   _avg: SubjectAvgAggregateOutputType | null
   _sum: SubjectSumAggregateOutputType | null
@@ -268,6 +275,7 @@ export type SubjectWhereInput = {
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
+  grade_components?: Prisma.StringNullableFilter<"Subject"> | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
   teacherSubjects?: Prisma.TeacherSubjectListRelationFilter
@@ -284,6 +292,7 @@ export type SubjectOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  grade_components?: Prisma.SortOrderInput | Prisma.SortOrder
   curriculumnSubject?: Prisma.CurriculumSubjectOrderByRelationAggregateInput
   courseOffers?: Prisma.CourseOfferOrderByRelationAggregateInput
   teacherSubjects?: Prisma.TeacherSubjectOrderByRelationAggregateInput
@@ -303,6 +312,7 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
+  grade_components?: Prisma.StringNullableFilter<"Subject"> | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
   teacherSubjects?: Prisma.TeacherSubjectListRelationFilter
@@ -319,6 +329,7 @@ export type SubjectOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  grade_components?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SubjectCountOrderByAggregateInput
   _avg?: Prisma.SubjectAvgOrderByAggregateInput
   _max?: Prisma.SubjectMaxOrderByAggregateInput
@@ -340,6 +351,7 @@ export type SubjectScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
+  grade_components?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
 }
 
 export type SubjectCreateInput = {
@@ -352,6 +364,7 @@ export type SubjectCreateInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutSubjectInput
@@ -368,6 +381,7 @@ export type SubjectUncheckedCreateInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutSubjectInput
@@ -383,6 +397,7 @@ export type SubjectUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutSubjectNestedInput
@@ -399,6 +414,7 @@ export type SubjectUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutSubjectNestedInput
@@ -415,6 +431,7 @@ export type SubjectCreateManyInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
 }
 
 export type SubjectUpdateManyMutationInput = {
@@ -427,6 +444,7 @@ export type SubjectUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SubjectUncheckedUpdateManyInput = {
@@ -440,6 +458,7 @@ export type SubjectUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SubjectCountOrderByAggregateInput = {
@@ -453,6 +472,7 @@ export type SubjectCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  grade_components?: Prisma.SortOrder
 }
 
 export type SubjectAvgOrderByAggregateInput = {
@@ -473,6 +493,7 @@ export type SubjectMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  grade_components?: Prisma.SortOrder
 }
 
 export type SubjectMinOrderByAggregateInput = {
@@ -486,6 +507,7 @@ export type SubjectMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  grade_components?: Prisma.SortOrder
 }
 
 export type SubjectSumOrderByAggregateInput = {
@@ -556,6 +578,7 @@ export type SubjectCreateWithoutCurriculumnSubjectInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutSubjectInput
 }
@@ -571,6 +594,7 @@ export type SubjectUncheckedCreateWithoutCurriculumnSubjectInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutSubjectInput
 }
@@ -601,6 +625,7 @@ export type SubjectUpdateWithoutCurriculumnSubjectInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutSubjectNestedInput
 }
@@ -616,6 +641,7 @@ export type SubjectUncheckedUpdateWithoutCurriculumnSubjectInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutSubjectNestedInput
 }
@@ -630,6 +656,7 @@ export type SubjectCreateWithoutCourseOffersInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutSubjectInput
 }
@@ -645,6 +672,7 @@ export type SubjectUncheckedCreateWithoutCourseOffersInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutSubjectInput
 }
@@ -675,6 +703,7 @@ export type SubjectUpdateWithoutCourseOffersInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutSubjectNestedInput
 }
@@ -690,6 +719,7 @@ export type SubjectUncheckedUpdateWithoutCourseOffersInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutSubjectNestedInput
 }
@@ -704,6 +734,7 @@ export type SubjectCreateWithoutTeacherSubjectsInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSubjectInput
 }
@@ -719,6 +750,7 @@ export type SubjectUncheckedCreateWithoutTeacherSubjectsInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSubjectInput
 }
@@ -749,6 +781,7 @@ export type SubjectUpdateWithoutTeacherSubjectsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSubjectNestedInput
 }
@@ -764,6 +797,7 @@ export type SubjectUncheckedUpdateWithoutTeacherSubjectsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSubjectNestedInput
 }
@@ -828,6 +862,7 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  grade_components?: boolean
   curriculumnSubject?: boolean | Prisma.Subject$curriculumnSubjectArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Subject$courseOffersArgs<ExtArgs>
   teacherSubjects?: boolean | Prisma.Subject$teacherSubjectsArgs<ExtArgs>
@@ -845,6 +880,7 @@ export type SubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  grade_components?: boolean
 }, ExtArgs["result"]["subject"]>
 
 export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -858,6 +894,7 @@ export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  grade_components?: boolean
 }, ExtArgs["result"]["subject"]>
 
 export type SubjectSelectScalar = {
@@ -871,9 +908,10 @@ export type SubjectSelectScalar = {
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  grade_components?: boolean
 }
 
-export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "credits" | "theoryHours" | "practiceHours" | "isMandatory" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
+export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "credits" | "theoryHours" | "practiceHours" | "isMandatory" | "description" | "createdAt" | "updatedAt" | "grade_components", ExtArgs["result"]["subject"]>
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculumnSubject?: boolean | Prisma.Subject$curriculumnSubjectArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Subject$courseOffersArgs<ExtArgs>
@@ -901,6 +939,7 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     description: string | null
     createdAt: Date
     updatedAt: Date
+    grade_components: string | null
   }, ExtArgs["result"]["subject"]>
   composites: {}
 }
@@ -1337,6 +1376,7 @@ export interface SubjectFieldRefs {
   readonly description: Prisma.FieldRef<"Subject", 'String'>
   readonly createdAt: Prisma.FieldRef<"Subject", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Subject", 'DateTime'>
+  readonly grade_components: Prisma.FieldRef<"Subject", 'String'>
 }
     
 

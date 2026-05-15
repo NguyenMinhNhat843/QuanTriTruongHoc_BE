@@ -133,6 +133,8 @@ model Subject {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
+  grade_components    String?     // Điểm thành phần ID của môn này, ví dụ: "1, 7, 9"
+
   // quan hệ
   curriculumnSubject  CurriculumSubject[]
   courseOffers        CourseOffer[]

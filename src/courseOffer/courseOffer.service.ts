@@ -465,4 +465,26 @@ export class CourseOfferService {
     });
     return courseOffer;
   }
+
+  /**
+   * Chấp nhận mở lớp học phần
+   */
+  async approveCourseOffer(courseOfferId: number) {
+    // Kiểm tra lớp học phần tồn tại và đang ở trạng thái "planned"
+    const courseOffer = await this.prisma.courseOffer.findUnique({
+      where: { id: courseOfferId },
+    });
+
+    // Cập nhật trạng thái sttaus là open
+    if (courseOffer) {
+      await this.prisma.courseOffer.update({
+        where: { id: courseOfferId },
+        data: { status: "open" },
+      });
+    }
+
+    return {
+      message: "Lớp học phần đã được phê duyệt và được phép giảng dạy",
+    };
+  }
 }
