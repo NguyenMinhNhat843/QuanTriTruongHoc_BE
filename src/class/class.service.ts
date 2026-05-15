@@ -7,7 +7,12 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { ClassResponseDto } from "./class.response";
-import { CreateClassDto, UpdateClassDto } from "./class.dto";
+import {
+  AssignStudentsToClassesDto,
+  CreateClassDto,
+  RequestEligibleStudents,
+  UpdateClassDto,
+} from "./class.dto";
 import { StudentStatus } from "../../prisma/generated/prisma/enums";
 
 @Injectable()
@@ -179,5 +184,162 @@ export class ClassService {
   async remove(id: number) {
     await this.findOne(id);
     return this.prisma.class.delete({ where: { id } });
+  }
+
+  // Get danh sacsh hocj sinh đủ điều kiện phân lớp
+
+  // Phân lớp
+  async assignStudentsToClasses(body: AssignStudentsToClassesDto) {
+    const { batchId, studentsPerClass = 40 } = body;
+    const batch = await this.prisma.batch.findUnique({
+      where: { id: batchId },
+    });
+    const majorId = batch!.majorId!;
+
+    // 1. Lấy danh sách học sinh thuộc ngành, khóa đó, đang trạng thái 'studying' và chưa có lớp
+    const students = await this.prisma.student.findMany({
+      where: {
+        batchId,
+        classId: null, // Chưa có lớp
+        status: StudentStatus.studying, // Đã đóng tiền và chuyển sang trạng thái đang học
+        batch: {
+          curriculum: {
+            majorId: majorId, // Đảm bảo sinh viên thuộc đúng Ngành cần phân lớp
+          },
+        },
+      },
+      orderBy: { fullName: "asc" }, // Sắp xếp theo tên alpha-b
+    });
+
+    if (students.length === 0) {
+      throw new BadRequestException("Không có sinh viên nào cần phân lớp.");
+    }
+
+    // 2. Lấy thông tin Batch và Major để làm tiền tố đặt mã lớp (Ví dụ: CNTTK20)
+    const [major] = await Promise.all([
+      this.prisma.batch.findUnique({ where: { id: batchId } }),
+      this.prisma.major.findUnique({ where: { id: majorId } }),
+    ]);
+
+    if (!batch || !major) {
+      throw new NotFoundException(
+        "Không tìm thấy thông tin Khóa hoặc Ngành học hợp lệ.",
+      );
+    }
+
+    // 3. Tính số lượng lớp cần tạo dựa trên sĩ số tối đa mỗi lớp
+    const numClasses = Math.ceil(students.length / studentsPerClass);
+
+    // Tạo hậu tố tên lớp động phòng trường hợp vượt quá mảng chữ cái cố định
+    const getClassSuffix = (index: number) => {
+      const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
+      return letters[index] || `Lớp-${index + 1}`;
+    };
+
+    // 4. Chạy Transaction để thực hiện tạo lớp và phân phối sinh viên
+    return await this.prisma.$transaction(async (tx) => {
+      const createdClasses: {
+        classId: number;
+        classCode: string;
+        assignedCount: number;
+      }[] = [];
+
+      for (let i = 0; i < numClasses; i++) {
+        const suffix = getClassSuffix(i);
+
+        // Định dạng mã lớp: Ví dụ ngành CNTT, khóa K26 -> CNTTK26A
+        const classCode = `${batch.batchCode}${suffix}`
+          .toUpperCase()
+          .replace(/\s+/g, "");
+        const className = `${batch.batchCode} ${suffix}`;
+
+        // Kiểm tra xem mã lớp này đã vô tình được tạo trước đó chưa (tránh lỗi trùng Unique classCode)
+        let currentClass = await tx.class.findUnique({
+          where: { classCode },
+        });
+
+        // Xác định nhóm sinh viên sẽ vào lớp này thông qua hàm slice mảng sinh viên tổng
+        const startIdx = i * studentsPerClass;
+        const endIdx = startIdx + studentsPerClass;
+        const studentsForThisClass = students.slice(startIdx, endIdx);
+
+        // Nếu lớp chưa tồn tại thì tiến hành tạo lớp mới
+        if (!currentClass) {
+          currentClass = await tx.class.create({
+            data: {
+              classCode,
+              className,
+              majorId,
+              batchId,
+              maxStudents: studentsPerClass,
+              currentSize: studentsForThisClass.length, // Cập nhật sĩ số thực tế luôn
+              status: "active",
+            },
+          });
+        } else {
+          // Nếu lớp đã tồn tại từ trước, cộng dồn sĩ số mới vào sĩ số hiện tại
+          await tx.class.update({
+            where: { id: currentClass.id },
+            data: {
+              currentSize: { increment: studentsForThisClass.length },
+            },
+          });
+        }
+
+        // Cập nhật classId cho nhóm sinh viên thuộc lớp này
+        const studentIdsForClass = studentsForThisClass.map((s) => s.id);
+        await tx.student.updateMany({
+          where: {
+            id: { in: studentIdsForClass },
+          },
+          data: {
+            classId: currentClass.id, // Gắn ID lớp cho sinh viên
+          },
+        });
+
+        createdClasses.push({
+          classId: currentClass.id,
+          classCode: currentClass.classCode,
+          assignedCount: studentsForThisClass.length,
+        });
+      }
+
+      return {
+        message: `Phân lớp thành công cho ${students.length} sinh viên vào ${createdClasses.length} lớp.`,
+        details: createdClasses,
+      };
+    });
+  }
+
+  // Lấy danh sách học sinh đủ điều kiện phân lớp: đã đóng học phí nhập học
+  async getEligibleStudentsForAssignment(query: RequestEligibleStudents) {
+    const { batchId } = query;
+    const students = await this.prisma.student.findMany({
+      where: {
+        status: StudentStatus.studying, // Đã đóng tiền và đang học,
+        classId: null, // Chưa có lớp
+        batchId: batchId ? batchId : undefined, // Lọc theo khóa nếu có
+      },
+      include: {
+        application: {
+          include: {
+            admission: true, // Lấy thông tin đợt tuyển sinh từ quan hệ Application [cite: 78]
+          },
+        },
+      },
+      orderBy: { fullName: "asc" }, // Sắp xếp theo tên sinh viên [cite: 10]
+    });
+
+    return {
+      // Thống kê tổng số sinh viên đủ điều kiện
+      totalEligible: students.length,
+      students: students.map((s) => ({
+        id: s.id, // [cite: 3]
+        studentCode: s.studentCode, // [cite: 4]
+        fullName: s.fullName, // [cite: 10]
+        // Lấy tên đợt tuyển sinh từ thông tin Admission
+        admissionName: s.application?.admission?.name || "Không rõ đợt",
+      })),
+    };
   }
 }

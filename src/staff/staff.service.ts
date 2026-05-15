@@ -11,7 +11,6 @@ import { RoleType } from "../../prisma/generated/prisma/enums.js";
 import { generateId } from "../utils/generateId.js";
 import { Prisma } from "../../prisma/generated/prisma/client.js";
 import { StaffResponseDto } from "./staff.response.js";
-import { ResponsePagination } from "../common/common.response.js";
 
 @Injectable()
 export class StaffService {
@@ -133,9 +132,7 @@ export class StaffService {
     }
   }
 
-  async searchStaffs(
-    query: SearchStaffDto,
-  ): Promise<ResponsePagination<StaffResponseDto>> {
+  async searchStaffs(query: SearchStaffDto): Promise<StaffResponseDto[]> {
     const {
       page = 1,
       limit = 10,
@@ -187,10 +184,8 @@ export class StaffService {
         orderBy: { [sortBy]: sortOrder },
       }),
     ]);
+    console.log("Total staff found:", total);
 
-    return {
-      data: items.map((item) => new StaffResponseDto(item)),
-      meta: { total },
-    };
+    return items.map((item) => new StaffResponseDto(item));
   }
 }

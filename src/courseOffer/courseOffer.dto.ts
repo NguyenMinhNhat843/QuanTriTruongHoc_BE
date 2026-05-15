@@ -103,13 +103,13 @@ export class CreateOptionalCourseOfferDto {
   @IsOptional()
   classId?: number;
 
-  @ApiProperty({
-    example: "Lớp học lại Chính trị kinh tế - K18",
-    description: "Tên hiển thị của lớp",
+  @ApiPropertyOptional({
+    example: 15,
+    description: "ID giảng viên phụ trách (nếu muốn chỉ định ngay)",
   })
-  @IsString()
-  @IsNotEmpty()
-  courseName: string;
+  @IsInt()
+  @IsOptional()
+  teacherId?: number;
 
   @ApiProperty({ example: 50, description: "Sĩ số tối đa" })
   @IsInt()

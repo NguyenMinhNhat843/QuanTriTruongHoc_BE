@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   Query,
   UsePipes,
@@ -15,10 +17,17 @@ import {
   PreviewCourseOfferDto,
 } from "./courseOffer.dto";
 
-@ApiTags("Quản trị Đào tạo - Lớp học phần")
+@ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
 export class CourseOfferController {
   constructor(private readonly courseOfferService: CourseOfferService) {}
+
+  @Get()
+  @ApiOperation({ summary: "Lấy danh sách tất cả lớp học phần" })
+  @ApiResponse({ status: 200, description: "Danh sách lớp học phần" })
+  async getAll() {
+    return this.courseOfferService.getAllCourseOffers();
+  }
 
   @Get("preview")
   @ApiOperation({
@@ -48,5 +57,11 @@ export class CourseOfferController {
   @ApiResponse({ status: 201, description: "Tạo lớp thành công" })
   async createOptional(@Body() dto: CreateOptionalCourseOfferDto) {
     return this.courseOfferService.createOptionalSection(dto);
+  }
+
+  // Lấy chi tiết
+  @Get(":id")
+  async getDetail(@Param("id", ParseIntPipe) id: number) {
+    return await this.courseOfferService.getCourseOfferDetail(id);
   }
 }

@@ -49,6 +49,7 @@ export type CourseOfferSumAggregateOutputType = {
 export type CourseOfferMinAggregateOutputType = {
   id: number | null
   courseCode: string | null
+  courseName: string | null
   teacherId: number | null
   subjectId: number | null
   classId: number | null
@@ -67,6 +68,7 @@ export type CourseOfferMinAggregateOutputType = {
 export type CourseOfferMaxAggregateOutputType = {
   id: number | null
   courseCode: string | null
+  courseName: string | null
   teacherId: number | null
   subjectId: number | null
   classId: number | null
@@ -85,6 +87,7 @@ export type CourseOfferMaxAggregateOutputType = {
 export type CourseOfferCountAggregateOutputType = {
   id: number
   courseCode: number
+  courseName: number
   teacherId: number
   subjectId: number
   classId: number
@@ -125,6 +128,7 @@ export type CourseOfferSumAggregateInputType = {
 export type CourseOfferMinAggregateInputType = {
   id?: true
   courseCode?: true
+  courseName?: true
   teacherId?: true
   subjectId?: true
   classId?: true
@@ -143,6 +147,7 @@ export type CourseOfferMinAggregateInputType = {
 export type CourseOfferMaxAggregateInputType = {
   id?: true
   courseCode?: true
+  courseName?: true
   teacherId?: true
   subjectId?: true
   classId?: true
@@ -161,6 +166,7 @@ export type CourseOfferMaxAggregateInputType = {
 export type CourseOfferCountAggregateInputType = {
   id?: true
   courseCode?: true
+  courseName?: true
   teacherId?: true
   subjectId?: true
   classId?: true
@@ -266,6 +272,7 @@ export type CourseOfferGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type CourseOfferGroupByOutputType = {
   id: number
   courseCode: string
+  courseName: string | null
   teacherId: number | null
   subjectId: number
   classId: number | null
@@ -307,6 +314,7 @@ export type CourseOfferWhereInput = {
   NOT?: Prisma.CourseOfferWhereInput | Prisma.CourseOfferWhereInput[]
   id?: Prisma.IntFilter<"CourseOffer"> | number
   courseCode?: Prisma.StringFilter<"CourseOffer"> | string
+  courseName?: Prisma.StringNullableFilter<"CourseOffer"> | string | null
   teacherId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
   subjectId?: Prisma.IntFilter<"CourseOffer"> | number
   classId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
@@ -333,6 +341,7 @@ export type CourseOfferWhereInput = {
 export type CourseOfferOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   courseCode?: Prisma.SortOrder
+  courseName?: Prisma.SortOrderInput | Prisma.SortOrder
   teacherId?: Prisma.SortOrderInput | Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   classId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -362,6 +371,7 @@ export type CourseOfferWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CourseOfferWhereInput[]
   NOT?: Prisma.CourseOfferWhereInput | Prisma.CourseOfferWhereInput[]
   courseCode?: Prisma.StringFilter<"CourseOffer"> | string
+  courseName?: Prisma.StringNullableFilter<"CourseOffer"> | string | null
   teacherId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
   subjectId?: Prisma.IntFilter<"CourseOffer"> | number
   classId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
@@ -388,6 +398,7 @@ export type CourseOfferWhereUniqueInput = Prisma.AtLeast<{
 export type CourseOfferOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   courseCode?: Prisma.SortOrder
+  courseName?: Prisma.SortOrderInput | Prisma.SortOrder
   teacherId?: Prisma.SortOrderInput | Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   classId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -414,6 +425,7 @@ export type CourseOfferScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CourseOfferScalarWhereWithAggregatesInput | Prisma.CourseOfferScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"CourseOffer"> | number
   courseCode?: Prisma.StringWithAggregatesFilter<"CourseOffer"> | string
+  courseName?: Prisma.StringNullableWithAggregatesFilter<"CourseOffer"> | string | null
   teacherId?: Prisma.IntNullableWithAggregatesFilter<"CourseOffer"> | number | null
   subjectId?: Prisma.IntWithAggregatesFilter<"CourseOffer"> | number
   classId?: Prisma.IntNullableWithAggregatesFilter<"CourseOffer"> | number | null
@@ -431,6 +443,7 @@ export type CourseOfferScalarWhereWithAggregatesInput = {
 
 export type CourseOfferCreateInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -453,6 +466,7 @@ export type CourseOfferCreateInput = {
 export type CourseOfferUncheckedCreateInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -474,6 +488,7 @@ export type CourseOfferUncheckedCreateInput = {
 
 export type CourseOfferUpdateInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -496,6 +511,7 @@ export type CourseOfferUpdateInput = {
 export type CourseOfferUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -518,6 +534,7 @@ export type CourseOfferUncheckedUpdateInput = {
 export type CourseOfferCreateManyInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -535,6 +552,7 @@ export type CourseOfferCreateManyInput = {
 
 export type CourseOfferUpdateManyMutationInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -549,6 +567,7 @@ export type CourseOfferUpdateManyMutationInput = {
 export type CourseOfferUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -577,6 +596,7 @@ export type CourseOfferOrderByRelationAggregateInput = {
 export type CourseOfferCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   courseCode?: Prisma.SortOrder
+  courseName?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
@@ -605,6 +625,7 @@ export type CourseOfferAvgOrderByAggregateInput = {
 export type CourseOfferMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   courseCode?: Prisma.SortOrder
+  courseName?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
@@ -623,6 +644,7 @@ export type CourseOfferMaxOrderByAggregateInput = {
 export type CourseOfferMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   courseCode?: Prisma.SortOrder
+  courseName?: Prisma.SortOrder
   teacherId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   classId?: Prisma.SortOrder
@@ -883,6 +905,7 @@ export type CourseOfferUpdateOneRequiredWithoutGradesNestedInput = {
 
 export type CourseOfferCreateWithoutBaseClassInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -904,6 +927,7 @@ export type CourseOfferCreateWithoutBaseClassInput = {
 export type CourseOfferUncheckedCreateWithoutBaseClassInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   semesterId: number
@@ -954,6 +978,7 @@ export type CourseOfferScalarWhereInput = {
   NOT?: Prisma.CourseOfferScalarWhereInput | Prisma.CourseOfferScalarWhereInput[]
   id?: Prisma.IntFilter<"CourseOffer"> | number
   courseCode?: Prisma.StringFilter<"CourseOffer"> | string
+  courseName?: Prisma.StringNullableFilter<"CourseOffer"> | string | null
   teacherId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
   subjectId?: Prisma.IntFilter<"CourseOffer"> | number
   classId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
@@ -971,6 +996,7 @@ export type CourseOfferScalarWhereInput = {
 
 export type CourseOfferCreateWithoutSubjectInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -992,6 +1018,7 @@ export type CourseOfferCreateWithoutSubjectInput = {
 export type CourseOfferUncheckedCreateWithoutSubjectInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   classId?: number | null
   semesterId: number
@@ -1038,6 +1065,7 @@ export type CourseOfferUpdateManyWithWhereWithoutSubjectInput = {
 
 export type CourseOfferCreateWithoutSemesterInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -1059,6 +1087,7 @@ export type CourseOfferCreateWithoutSemesterInput = {
 export type CourseOfferUncheckedCreateWithoutSemesterInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -1105,6 +1134,7 @@ export type CourseOfferUpdateManyWithWhereWithoutSemesterInput = {
 
 export type CourseOfferCreateWithoutTeacherInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -1126,6 +1156,7 @@ export type CourseOfferCreateWithoutTeacherInput = {
 export type CourseOfferUncheckedCreateWithoutTeacherInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   subjectId: number
   classId?: number | null
   semesterId: number
@@ -1172,6 +1203,7 @@ export type CourseOfferUpdateManyWithWhereWithoutTeacherInput = {
 
 export type CourseOfferCreateWithoutRegistrationsInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -1193,6 +1225,7 @@ export type CourseOfferCreateWithoutRegistrationsInput = {
 export type CourseOfferUncheckedCreateWithoutRegistrationsInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -1229,6 +1262,7 @@ export type CourseOfferUpdateToOneWithWhereWithoutRegistrationsInput = {
 
 export type CourseOfferUpdateWithoutRegistrationsInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1250,6 +1284,7 @@ export type CourseOfferUpdateWithoutRegistrationsInput = {
 export type CourseOfferUncheckedUpdateWithoutRegistrationsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1270,6 +1305,7 @@ export type CourseOfferUncheckedUpdateWithoutRegistrationsInput = {
 
 export type CourseOfferCreateWithoutCourseSchedulesInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -1291,6 +1327,7 @@ export type CourseOfferCreateWithoutCourseSchedulesInput = {
 export type CourseOfferUncheckedCreateWithoutCourseSchedulesInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -1327,6 +1364,7 @@ export type CourseOfferUpdateToOneWithWhereWithoutCourseSchedulesInput = {
 
 export type CourseOfferUpdateWithoutCourseSchedulesInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1348,6 +1386,7 @@ export type CourseOfferUpdateWithoutCourseSchedulesInput = {
 export type CourseOfferUncheckedUpdateWithoutCourseSchedulesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1368,6 +1407,7 @@ export type CourseOfferUncheckedUpdateWithoutCourseSchedulesInput = {
 
 export type CourseOfferCreateWithoutGradeEntriesInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -1389,6 +1429,7 @@ export type CourseOfferCreateWithoutGradeEntriesInput = {
 export type CourseOfferUncheckedCreateWithoutGradeEntriesInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -1425,6 +1466,7 @@ export type CourseOfferUpdateToOneWithWhereWithoutGradeEntriesInput = {
 
 export type CourseOfferUpdateWithoutGradeEntriesInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1446,6 +1488,7 @@ export type CourseOfferUpdateWithoutGradeEntriesInput = {
 export type CourseOfferUncheckedUpdateWithoutGradeEntriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1466,6 +1509,7 @@ export type CourseOfferUncheckedUpdateWithoutGradeEntriesInput = {
 
 export type CourseOfferCreateWithoutGradesInput = {
   courseCode: string
+  courseName?: string | null
   maxStudents?: number
   currentStudents?: number
   status?: $Enums.CourseOfferStatus
@@ -1487,6 +1531,7 @@ export type CourseOfferCreateWithoutGradesInput = {
 export type CourseOfferUncheckedCreateWithoutGradesInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -1523,6 +1568,7 @@ export type CourseOfferUpdateToOneWithWhereWithoutGradesInput = {
 
 export type CourseOfferUpdateWithoutGradesInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1544,6 +1590,7 @@ export type CourseOfferUpdateWithoutGradesInput = {
 export type CourseOfferUncheckedUpdateWithoutGradesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1565,6 +1612,7 @@ export type CourseOfferUncheckedUpdateWithoutGradesInput = {
 export type CourseOfferCreateManyBaseClassInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   semesterId: number
@@ -1581,6 +1629,7 @@ export type CourseOfferCreateManyBaseClassInput = {
 
 export type CourseOfferUpdateWithoutBaseClassInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1602,6 +1651,7 @@ export type CourseOfferUpdateWithoutBaseClassInput = {
 export type CourseOfferUncheckedUpdateWithoutBaseClassInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1623,6 +1673,7 @@ export type CourseOfferUncheckedUpdateWithoutBaseClassInput = {
 export type CourseOfferUncheckedUpdateManyWithoutBaseClassInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1640,6 +1691,7 @@ export type CourseOfferUncheckedUpdateManyWithoutBaseClassInput = {
 export type CourseOfferCreateManySubjectInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   classId?: number | null
   semesterId: number
@@ -1656,6 +1708,7 @@ export type CourseOfferCreateManySubjectInput = {
 
 export type CourseOfferUpdateWithoutSubjectInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1677,6 +1730,7 @@ export type CourseOfferUpdateWithoutSubjectInput = {
 export type CourseOfferUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1698,6 +1752,7 @@ export type CourseOfferUncheckedUpdateWithoutSubjectInput = {
 export type CourseOfferUncheckedUpdateManyWithoutSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1715,6 +1770,7 @@ export type CourseOfferUncheckedUpdateManyWithoutSubjectInput = {
 export type CourseOfferCreateManySemesterInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   teacherId?: number | null
   subjectId: number
   classId?: number | null
@@ -1731,6 +1787,7 @@ export type CourseOfferCreateManySemesterInput = {
 
 export type CourseOfferUpdateWithoutSemesterInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1752,6 +1809,7 @@ export type CourseOfferUpdateWithoutSemesterInput = {
 export type CourseOfferUncheckedUpdateWithoutSemesterInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1773,6 +1831,7 @@ export type CourseOfferUncheckedUpdateWithoutSemesterInput = {
 export type CourseOfferUncheckedUpdateManyWithoutSemesterInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1790,6 +1849,7 @@ export type CourseOfferUncheckedUpdateManyWithoutSemesterInput = {
 export type CourseOfferCreateManyTeacherInput = {
   id?: number
   courseCode: string
+  courseName?: string | null
   subjectId: number
   classId?: number | null
   semesterId: number
@@ -1806,6 +1866,7 @@ export type CourseOfferCreateManyTeacherInput = {
 
 export type CourseOfferUpdateWithoutTeacherInput = {
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentStudents?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumCourseOfferStatusFieldUpdateOperationsInput | $Enums.CourseOfferStatus
@@ -1827,6 +1888,7 @@ export type CourseOfferUpdateWithoutTeacherInput = {
 export type CourseOfferUncheckedUpdateWithoutTeacherInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1848,6 +1910,7 @@ export type CourseOfferUncheckedUpdateWithoutTeacherInput = {
 export type CourseOfferUncheckedUpdateManyWithoutTeacherInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseCode?: Prisma.StringFieldUpdateOperationsInput | string
+  courseName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1923,6 +1986,7 @@ export type CourseOfferCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Ty
 export type CourseOfferSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   courseCode?: boolean
+  courseName?: boolean
   teacherId?: boolean
   subjectId?: boolean
   classId?: boolean
@@ -1950,6 +2014,7 @@ export type CourseOfferSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type CourseOfferSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   courseCode?: boolean
+  courseName?: boolean
   teacherId?: boolean
   subjectId?: boolean
   classId?: boolean
@@ -1972,6 +2037,7 @@ export type CourseOfferSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type CourseOfferSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   courseCode?: boolean
+  courseName?: boolean
   teacherId?: boolean
   subjectId?: boolean
   classId?: boolean
@@ -1994,6 +2060,7 @@ export type CourseOfferSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type CourseOfferSelectScalar = {
   id?: boolean
   courseCode?: boolean
+  courseName?: boolean
   teacherId?: boolean
   subjectId?: boolean
   classId?: boolean
@@ -2009,7 +2076,7 @@ export type CourseOfferSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CourseOfferOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "courseCode" | "teacherId" | "subjectId" | "classId" | "semesterId" | "maxStudents" | "currentStudents" | "status" | "registrationStart" | "registrationEnd" | "startDate" | "endDate" | "createdAt" | "updatedAt", ExtArgs["result"]["courseOffer"]>
+export type CourseOfferOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "courseCode" | "courseName" | "teacherId" | "subjectId" | "classId" | "semesterId" | "maxStudents" | "currentStudents" | "status" | "registrationStart" | "registrationEnd" | "startDate" | "endDate" | "createdAt" | "updatedAt", ExtArgs["result"]["courseOffer"]>
 export type CourseOfferInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teacher?: boolean | Prisma.CourseOffer$teacherArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
@@ -2049,6 +2116,7 @@ export type $CourseOfferPayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     courseCode: string
+    courseName: string | null
     teacherId: number | null
     subjectId: number
     classId: number | null
@@ -2495,6 +2563,7 @@ export interface Prisma__CourseOfferClient<T, Null = never, ExtArgs extends runt
 export interface CourseOfferFieldRefs {
   readonly id: Prisma.FieldRef<"CourseOffer", 'Int'>
   readonly courseCode: Prisma.FieldRef<"CourseOffer", 'String'>
+  readonly courseName: Prisma.FieldRef<"CourseOffer", 'String'>
   readonly teacherId: Prisma.FieldRef<"CourseOffer", 'Int'>
   readonly subjectId: Prisma.FieldRef<"CourseOffer", 'Int'>
   readonly classId: Prisma.FieldRef<"CourseOffer", 'Int'>

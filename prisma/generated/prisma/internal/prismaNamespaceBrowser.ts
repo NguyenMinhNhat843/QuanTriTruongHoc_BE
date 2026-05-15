@@ -403,6 +403,7 @@ export type BenefitAwardScalarFieldEnum = (typeof BenefitAwardScalarFieldEnum)[k
 export const CourseOfferScalarFieldEnum = {
   id: 'id',
   courseCode: 'courseCode',
+  courseName: 'courseName',
   teacherId: 'teacherId',
   subjectId: 'subjectId',
   classId: 'classId',
@@ -428,7 +429,6 @@ export const CourseRegistrationScalarFieldEnum = {
   status: 'status',
   registeredAt: 'registeredAt',
   approvedAt: 'approvedAt',
-  isRetake: 'isRetake',
   note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

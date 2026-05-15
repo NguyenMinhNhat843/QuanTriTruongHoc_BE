@@ -7,15 +7,25 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  HttpStatus,
+  Query,
 } from "@nestjs/common";
 import {
   ApiTags,
   ApiOperation,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiResponse,
 } from "@nestjs/swagger";
 import { ClassService } from "./class.service";
-import { AssignClassDto, CreateClassDto, UpdateClassDto } from "./class.dto";
+import {
+  AssignClassDto,
+  AssignStudentsToClassesDto,
+  CreateClassDto,
+  EligibleStudentsResponseDto,
+  RequestEligibleStudents,
+  UpdateClassDto,
+} from "./class.dto";
 import { ClassResponseDto } from "./class.response";
 
 @ApiTags("Classes")
@@ -45,6 +55,37 @@ export class ClassController {
   @ApiOkResponse({ type: ClassResponseDto, isArray: true })
   findAll() {
     return this.classService.findAll();
+  }
+
+  // phân lớp
+  @Post("/assign-classes")
+  @ApiOperation({
+    summary: "Tự động chia lớp danh nghĩa cho sinh viên chính thức",
+    description:
+      'Gom các sinh viên có trạng thái "studying" chưa có lớp thuộc Ngành và Khóa học được chỉ định để thực hiện thuật toán chia đều lớp dựa trên sĩ số tối đa.',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "Tự động xử lý phân phối lớp cho sinh viên thành công.",
+  })
+  async assignStudentsToClasses(@Body() body: AssignStudentsToClassesDto) {
+    // Nếu clients không truyền studentsPerClass, hệ thống sẽ tự dùng mặc định (ví dụ: 40) ở tầng Service
+    return await this.classService.assignStudentsToClasses(body);
+  }
+
+  @Get("/eligible-for-assignment")
+  @ApiOperation({
+    summary: "Lấy danh sách sinh viên đủ điều kiện phân lớp",
+    description:
+      'Danh sách sinh viên có trạng thái "studying" nhưng chưa có classId.',
+  })
+  @ApiResponse({
+    status: 200,
+    type: EligibleStudentsResponseDto,
+  })
+  async getEligibleStudents(@Query() query: RequestEligibleStudents) {
+    // Lúc này batchId sẽ nằm trong object query
+    return await this.classService.getEligibleStudentsForAssignment(query);
   }
 
   @Get(":id")

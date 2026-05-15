@@ -45,7 +45,6 @@ export type CourseRegistrationMinAggregateOutputType = {
   status: string | null
   registeredAt: Date | null
   approvedAt: Date | null
-  isRetake: boolean | null
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -58,7 +57,6 @@ export type CourseRegistrationMaxAggregateOutputType = {
   status: string | null
   registeredAt: Date | null
   approvedAt: Date | null
-  isRetake: boolean | null
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -71,7 +69,6 @@ export type CourseRegistrationCountAggregateOutputType = {
   status: number
   registeredAt: number
   approvedAt: number
-  isRetake: number
   note: number
   createdAt: number
   updatedAt: number
@@ -98,7 +95,6 @@ export type CourseRegistrationMinAggregateInputType = {
   status?: true
   registeredAt?: true
   approvedAt?: true
-  isRetake?: true
   note?: true
   createdAt?: true
   updatedAt?: true
@@ -111,7 +107,6 @@ export type CourseRegistrationMaxAggregateInputType = {
   status?: true
   registeredAt?: true
   approvedAt?: true
-  isRetake?: true
   note?: true
   createdAt?: true
   updatedAt?: true
@@ -124,7 +119,6 @@ export type CourseRegistrationCountAggregateInputType = {
   status?: true
   registeredAt?: true
   approvedAt?: true
-  isRetake?: true
   note?: true
   createdAt?: true
   updatedAt?: true
@@ -224,7 +218,6 @@ export type CourseRegistrationGroupByOutputType = {
   status: string
   registeredAt: Date
   approvedAt: Date | null
-  isRetake: boolean
   note: string | null
   createdAt: Date
   updatedAt: Date
@@ -260,7 +253,6 @@ export type CourseRegistrationWhereInput = {
   status?: Prisma.StringFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
-  isRetake?: Prisma.BoolFilter<"CourseRegistration"> | boolean
   note?: Prisma.StringNullableFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
@@ -275,7 +267,6 @@ export type CourseRegistrationOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  isRetake?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -294,7 +285,6 @@ export type CourseRegistrationWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
-  isRetake?: Prisma.BoolFilter<"CourseRegistration"> | boolean
   note?: Prisma.StringNullableFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
@@ -309,7 +299,6 @@ export type CourseRegistrationOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  isRetake?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -330,7 +319,6 @@ export type CourseRegistrationScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeWithAggregatesFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CourseRegistration"> | Date | string | null
-  isRetake?: Prisma.BoolWithAggregatesFilter<"CourseRegistration"> | boolean
   note?: Prisma.StringNullableWithAggregatesFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CourseRegistration"> | Date | string
@@ -340,7 +328,6 @@ export type CourseRegistrationCreateInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -355,7 +342,6 @@ export type CourseRegistrationUncheckedCreateInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -365,7 +351,6 @@ export type CourseRegistrationUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -380,7 +365,6 @@ export type CourseRegistrationUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -393,7 +377,6 @@ export type CourseRegistrationCreateManyInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -403,7 +386,6 @@ export type CourseRegistrationUpdateManyMutationInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -416,7 +398,6 @@ export type CourseRegistrationUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -444,7 +425,6 @@ export type CourseRegistrationCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
-  isRetake?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -463,7 +443,6 @@ export type CourseRegistrationMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
-  isRetake?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -476,7 +455,6 @@ export type CourseRegistrationMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
-  isRetake?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -576,7 +554,6 @@ export type CourseRegistrationCreateWithoutStudentInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -589,7 +566,6 @@ export type CourseRegistrationUncheckedCreateWithoutStudentInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -631,7 +607,6 @@ export type CourseRegistrationScalarWhereInput = {
   status?: Prisma.StringFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
-  isRetake?: Prisma.BoolFilter<"CourseRegistration"> | boolean
   note?: Prisma.StringNullableFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
@@ -641,7 +616,6 @@ export type CourseRegistrationCreateWithoutCourseOfferInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -654,7 +628,6 @@ export type CourseRegistrationUncheckedCreateWithoutCourseOfferInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -692,7 +665,6 @@ export type CourseRegistrationCreateManyStudentInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -702,7 +674,6 @@ export type CourseRegistrationUpdateWithoutStudentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -715,7 +686,6 @@ export type CourseRegistrationUncheckedUpdateWithoutStudentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -727,7 +697,6 @@ export type CourseRegistrationUncheckedUpdateManyWithoutStudentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -739,7 +708,6 @@ export type CourseRegistrationCreateManyCourseOfferInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  isRetake?: boolean
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -749,7 +717,6 @@ export type CourseRegistrationUpdateWithoutCourseOfferInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -762,7 +729,6 @@ export type CourseRegistrationUncheckedUpdateWithoutCourseOfferInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -774,7 +740,6 @@ export type CourseRegistrationUncheckedUpdateManyWithoutCourseOfferInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  isRetake?: Prisma.BoolFieldUpdateOperationsInput | boolean
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -789,7 +754,6 @@ export type CourseRegistrationSelect<ExtArgs extends runtime.Types.Extensions.In
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  isRetake?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -804,7 +768,6 @@ export type CourseRegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  isRetake?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -819,7 +782,6 @@ export type CourseRegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  isRetake?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -834,13 +796,12 @@ export type CourseRegistrationSelectScalar = {
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  isRetake?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CourseRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseOfferId" | "status" | "registeredAt" | "approvedAt" | "isRetake" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["courseRegistration"]>
+export type CourseRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseOfferId" | "status" | "registeredAt" | "approvedAt" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["courseRegistration"]>
 export type CourseRegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
@@ -867,7 +828,6 @@ export type $CourseRegistrationPayload<ExtArgs extends runtime.Types.Extensions.
     status: string
     registeredAt: Date
     approvedAt: Date | null
-    isRetake: boolean
     note: string | null
     createdAt: Date
     updatedAt: Date
@@ -1302,7 +1262,6 @@ export interface CourseRegistrationFieldRefs {
   readonly status: Prisma.FieldRef<"CourseRegistration", 'String'>
   readonly registeredAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
   readonly approvedAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
-  readonly isRetake: Prisma.FieldRef<"CourseRegistration", 'Boolean'>
   readonly note: Prisma.FieldRef<"CourseRegistration", 'String'>
   readonly createdAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>

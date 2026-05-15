@@ -7,8 +7,10 @@ import {
   MaxLength,
   Min,
   Max,
+  IsNumber,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 
 export class CreateClassDto {
   @ApiProperty({ example: "CNTT17A", description: "Mã lớp học duy nhất" })
@@ -83,4 +85,49 @@ export class AssignClassDto {
   @Max(100)
   @IsOptional()
   maxStudents?: number = 40;
+}
+
+class StudentSimpleDto {
+  @ApiProperty({ example: 1 })
+  id: number;
+
+  @ApiProperty({ example: "SV2026001" })
+  studentCode: string;
+
+  @ApiProperty({ example: "Nguyễn Văn A" })
+  fullName: string;
+
+  @ApiProperty({ example: "Tuyển sinh Đợt 1 - 2026" })
+  admissionName: string;
+}
+
+export class EligibleStudentsResponseDto {
+  @ApiProperty({ example: 150 })
+  totalEligible: number;
+
+  @ApiProperty({ type: [StudentSimpleDto] })
+  students: StudentSimpleDto[];
+}
+
+export class RequestEligibleStudents {
+  @ApiProperty({
+    example: 1,
+    description: "ID của Khóa đào tạo cần phân lớp",
+    type: Number,
+    required: false, // Thêm cái này để Swagger hiểu là không bắt buộc
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber({}, { message: "batchId phải là số!" })
+  batchId?: number;
+}
+
+export class AssignStudentsToClassesDto {
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  batchId?: number;
+
+  @ApiPropertyOptional({ type: Number, default: 40 })
+  @IsOptional()
+  studentsPerClass?: number;
 }

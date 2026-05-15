@@ -15,6 +15,24 @@ import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 export class CourseOfferService {
   constructor(private prisma: PrismaService) {}
 
+  // get all lớp học phần
+  async getAllCourseOffers() {
+    const result = await this.prisma.courseOffer.findMany({
+      include: {
+        subject: true,
+        semester: true,
+        baseClass: true,
+        teacher: true,
+        _count: {
+          select: {
+            registrations: true,
+          },
+        },
+      },
+    });
+    return result;
+  }
+
   async previewSections(dto: PreviewCourseOfferDto) {
     const { semesterId, majorId, batchId } = dto;
 
@@ -207,6 +225,7 @@ export class CourseOfferService {
       maxStudents,
       registrationStart,
       registrationEnd,
+      teacherId,
     } = dto;
 
     // 1. Kiểm tra sự tồn tại của Môn học và Học kỳ
@@ -224,6 +243,7 @@ export class CourseOfferService {
     // Ví dụ: POL101-HK12026-OPT1
     const timestamp = Date.now().toString().slice(-3);
     const generatedCode = `${subject.subjectCode}-${semester.name}-OPT${timestamp}`;
+    const courseName = `${subject.subjectName} ${classId ? `(Lớp ${classId})` : "(Tùy chọn)"}`;
 
     // 3. Tạo bản ghi mới
     try {
@@ -234,11 +254,13 @@ export class CourseOfferService {
           semesterId: semesterId,
           classId: classId || null, // Có thể không thuộc lớp danh nghĩa nào
           maxStudents: maxStudents,
+          courseName: courseName,
           status: "open", // Mở luôn để sinh viên thấy và đăng ký
           registrationStart: registrationStart
             ? new Date(registrationStart)
             : null,
           registrationEnd: registrationEnd ? new Date(registrationEnd) : null,
+          teacherId: teacherId || null,
           // Nếu trong schema của bạn có trường lưu tên lớp hiển thị riêng:
           // name: courseName
         },
@@ -401,5 +423,46 @@ export class CourseOfferService {
   // Hỗ trợ format string giờ thành đối tượng Date cho Prisma @db.Time
   private formatTime(timeStr: string): Date {
     return new Date(`1970-01-01T${timeStr}Z`);
+  }
+
+  /**
+   * Chi tiết lớp học phần
+   */
+  async getCourseOfferDetail(courseOfferId: number) {
+    const courseOffer = await this.prisma.courseOffer.findUnique({
+      where: { id: courseOfferId },
+      include: {
+        registrations: {
+          include: {
+            student: {
+              select: {
+                fullName: true,
+                studentCode: true,
+              },
+            },
+          },
+        },
+        teacher: {
+          select: {
+            fullName: true,
+            departmentId: true,
+          },
+        },
+        subject: {
+          select: {
+            id: true,
+            subjectCode: true,
+            subjectName: true,
+          },
+        },
+        baseClass: {
+          select: {
+            classCode: true,
+            className: true,
+          },
+        },
+      },
+    });
+    return courseOffer;
   }
 }

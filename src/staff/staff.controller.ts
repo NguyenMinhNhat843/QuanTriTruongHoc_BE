@@ -10,7 +10,7 @@ import {
 } from "@nestjs/common";
 import { StaffService } from "./staff.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
-import { ApiTags, ApiOperation } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { StaffResponseDto } from "./staff.response.js";
 import { Roles } from "../common/decorators/role.decorator.js";
 import { RoleType } from "../../prisma/generated/prisma/enums.js";
@@ -41,6 +41,7 @@ export class StaffController {
 
   @Get()
   @ApiOperation({ summary: "Tìm kiếm và phân trang danh sách nhân viên" })
+  @ApiResponse({ status: 200, type: [StaffResponseDto] })
   async findAll(@Query() query: SearchStaffDto) {
     return this.staffService.searchStaffs(query);
   }

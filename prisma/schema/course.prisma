@@ -22,6 +22,7 @@ enum DayOfWeek {
 model CourseOffer {
   id                Int       @id @default(autoincrement())
   courseCode        String    // VD: OOP-2026-HK1-01
+  courseName        String?   
   
   // Giáo viên giảng dạy (Nối tới Staff)
   teacherId         Int?
@@ -86,8 +87,6 @@ model CourseRegistration {
   
   registeredAt   DateTime    @default(now())
   approvedAt     DateTime?
-  
-  isRetake       Boolean     @default(false) // Học lại
   
   note           String?     @db.Text
   
