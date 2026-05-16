@@ -56,7 +56,9 @@ export class StaffResponseDto {
   @ApiProperty({ example: "2024-04-25T10:00:00Z" })
   createdAt: Date;
 
-  constructor(partial: any) {
+  constructor(partial: any = {}) {
+    // Thêm = {} ở đây
+    if (!partial) return; // Bảo vệ an toàn tuyệt đối
     // 1. Gán các trường cơ bản từ Staff
     this.id = partial.id;
     this.staffCode = partial.staffCode;

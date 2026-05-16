@@ -10,10 +10,16 @@ import {
   PreviewCourseOfferDto,
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
+import { SubjectService } from "../subject/subject.service";
+import { CourseOfferDetailResponseDto } from "./CourseOfferRegis.response";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class CourseOfferService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private subjectService: SubjectService,
+  ) {}
 
   // get all lớp học phần
   async getAllCourseOffers() {
@@ -428,7 +434,10 @@ export class CourseOfferService {
   /**
    * Chi tiết lớp học phần
    */
-  async getCourseOfferDetail(courseOfferId: number) {
+  async getCourseOfferDetail(
+    courseOfferId: number,
+  ): Promise<CourseOfferDetailResponseDto> {
+    // 1. Query dữ liệu từ Database thông qua Prisma
     const courseOffer = await this.prisma.courseOffer.findUnique({
       where: { id: courseOfferId },
       include: {
@@ -436,6 +445,7 @@ export class CourseOfferService {
           include: {
             student: {
               select: {
+                id: true, // Nên lấy thêm ID để khớp hoàn toàn với DTO
                 fullName: true,
                 studentCode: true,
               },
@@ -444,6 +454,7 @@ export class CourseOfferService {
         },
         teacher: {
           select: {
+            id: true, // Nên lấy thêm ID để khớp hoàn toàn với DTO
             fullName: true,
             departmentId: true,
           },
@@ -455,15 +466,47 @@ export class CourseOfferService {
             subjectName: true,
           },
         },
+        // Chú ý: Ở DTO bạn đặt tên field quan hệ là `class`,
+        // nhưng trong Prisma include bạn đang dùng `baseClass`.
+        // Để mapping tự động mượt mà bằng plainToInstance, ta có thể alias hoặc gán lại sau.
         baseClass: {
           select: {
+            id: true,
             classCode: true,
             className: true,
           },
         },
       },
     });
-    return courseOffer;
+
+    if (!courseOffer) {
+      throw new NotFoundException("Không tìm thấy lớp học phần");
+    }
+
+    // 2. Lấy cấu hình điểm (gradeConfig) nếu lớp đã OPEN
+    let gradeConfig: any = null;
+    if (courseOffer.status === CourseOfferStatus.open) {
+      // Chú ý viết hoa chữ OPEN theo đúng Enum Prisma của bạn nếu có lỗi
+      const subjectDetail = await this.subjectService.findOne(
+        courseOffer.subjectId,
+      );
+      // Giả sử subjectDetail có chứa mảng cấu hình điểm diễm thành phần (ví dụ: subjectDetail.gradeComponents)
+      gradeConfig = subjectDetail?.gradeComponents ?? null;
+    }
+
+    // 3. Chuẩn bị object thô để nạp vào plainToInstance
+    const plainData = {
+      ...courseOffer,
+      gradeConfig: gradeConfig,
+    };
+
+    console.log("Dữ liệu thô trước khi chuyển đổi: ", plainData);
+
+    // 4. Chuyển đổi object thô sang Instance của DTO bằng class-transformer
+    return plainToInstance(CourseOfferDetailResponseDto, plainData, {
+      excludeExtraneousValues: false,
+      // Đặt false để giữ lại các trường mặc định từ Prisma mà không cần phải viết @Expose() cho từng field trong DTO.
+    });
   }
 
   /**
@@ -486,5 +529,53 @@ export class CourseOfferService {
     return {
       message: "Lớp học phần đã được phê duyệt và được phép giảng dạy",
     };
+  }
+
+  /**
+   * Lấy danh sách học sinh đủ điều kiện đăng ký học phần
+   * Học sinh đó có trạng thái là đang học và ngành phải khớp với lớp học phần
+   */
+  async getEligibleStudentsForCourseOffer(courseOfferId: number) {
+    // 1. Lấy thông tin lớp học phần (CourseOffer) cùng với ngành học (majorId) liên quan
+    // Giả sử majorId nằm trong bảng Subject (Môn học) hoặc trực tiếp trong CourseOffer
+    const courseOffer = await this.prisma.courseOffer.findUnique({
+      where: { id: courseOfferId },
+      include: {
+        baseClass: true,
+      },
+    });
+
+    if (!courseOffer) {
+      throw new NotFoundException(
+        `Không tìm thấy lớp học phần với ID ${courseOfferId}`,
+      );
+    }
+
+    // Xác định majorId mục tiêu của lớp học phần này
+    // (Bạn điều chỉnh lại dòng này nếu majorId nằm ở vị trí khác, ví dụ: courseOffer.majorId)
+    const targetMajorId = courseOffer.baseClass?.majorId;
+
+    if (!targetMajorId) {
+      throw new BadRequestException(
+        `Lớp học phần này chưa được cấu hình ngành học (majorId)`,
+      );
+    }
+
+    // 2. Tìm kiếm sinh viên đi xuyên qua bảng batch để lọc theo majorId
+    const students = await this.prisma.student.findMany({
+      where: {
+        status: "studying", // Điều kiện 1: Trạng thái đang học
+
+        // Điều kiện 2: Đi qua quan hệ 'batch' để kiểm tra 'majorId'
+        batch: {
+          majorId: targetMajorId,
+        },
+      },
+      include: {
+        batch: true, // Include thêm thông tin khóa đào tạo nếu cần hiển thị ở UI
+      },
+    });
+
+    return students;
   }
 }

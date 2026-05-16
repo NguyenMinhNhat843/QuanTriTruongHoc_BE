@@ -44,7 +44,9 @@ export class ClassResponseDto {
   })
   studentCount?: number;
 
-  constructor(partial: any) {
+  constructor(partial: any = {}) {
+    // Thêm = {} ở đây
+    if (!partial) return; // Bảo vệ an toàn tuyệt đối
     this.id = partial.id;
     this.classCode = partial.classCode;
     this.className = partial.className;

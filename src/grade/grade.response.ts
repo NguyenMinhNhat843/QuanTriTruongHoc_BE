@@ -20,10 +20,4 @@ export class GradeComponentDto implements GradeComponent {
       "Trọng số điểm hệ số thập phân (Ví dụ: Giữa kỳ chiếm 30% = 0.3)",
   })
   weight: number;
-
-  @ApiProperty({
-    example: 0.3,
-    description: "Chuỗi hiển thị phần trăm trực quan cho giao diện",
-  })
-  weightLabel: number;
 }

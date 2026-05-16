@@ -1,6 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Subject } from "../../prisma/generated/prisma/client";
+import { GradeComponentDto } from "../grade/grade.response";
 
-export class SubjectResponseDto {
+export class SubjectResponseDto implements Subject {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -25,8 +27,21 @@ export class SubjectResponseDto {
   @ApiProperty({ example: true })
   isMandatory: boolean;
 
-  @ApiPropertyOptional({ example: "Mô tả môn học", nullable: true })
-  description?: string;
+  @ApiPropertyOptional({
+    example: "Mô tả môn học",
+    nullable: true,
+    type: String,
+  })
+  description: string | null;
+
+  @ApiPropertyOptional({
+    example: "1,2,3",
+    description:
+      "Chuỗi ID của các thành phần điểm (grade components) liên kết với môn học, cách nhau bằng dấu phẩy. Ví dụ: '1,2,3'",
+    nullable: true,
+    type: String,
+  })
+  grade_components: string | null;
 
   @ApiProperty({ example: "2024-04-25T10:00:00Z" })
   createdAt: Date;
@@ -43,28 +58,12 @@ export class SubjectResponseDto {
     description: "Số lượng chương trình đào tạo có môn này",
   })
   curriculumCount?: number;
+}
 
-  constructor(partial: any) {
-    this.id = partial.id;
-    this.subjectCode = partial.subjectCode;
-    this.subjectName = partial.subjectName;
-    this.credits = partial.credits;
-    this.theoryHours = partial.theoryHours;
-    this.practiceHours = partial.practiceHours;
-    this.deptId = partial.deptId;
-    this.isMandatory = partial.isMandatory;
-    this.description = partial.description;
-    this.createdAt = partial.createdAt;
-    this.updatedAt = partial.updatedAt;
-
-    // Map quan hệ Department nếu có include
-    if (partial.department) {
-      this.department = partial.department;
-    }
-
-    // Map số lượng quan hệ từ Prisma _count
-    if (partial._count) {
-      this.curriculumCount = partial._count.curriculumnSubject;
-    }
-  }
+export class ResponseFindOneSubject extends SubjectResponseDto {
+  @ApiProperty({
+    type: [GradeComponentDto],
+    description: "Danh sách các thành phần điểm của môn học",
+  })
+  gradeComponents: GradeComponentDto[] | null;
 }

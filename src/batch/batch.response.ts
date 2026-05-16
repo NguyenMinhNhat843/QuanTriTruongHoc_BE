@@ -39,7 +39,8 @@ export class BatchResponseDto implements Batch {
   @ApiProperty({ type: Number })
   majorId: number;
 
-  constructor(data: any) {
+  constructor(data: any = {}) {
+    if (!data) return;
     this.id = data.id;
     this.batchCode = data.batchCode;
     this.batchName = data.batchName;

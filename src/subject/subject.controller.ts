@@ -16,7 +16,7 @@ import {
 } from "@nestjs/swagger";
 import { SubjectService } from "./subject.service";
 import { CreateSubjectDto, UpdateSubjectDto } from "./subject.dto";
-import { SubjectResponseDto } from "./subject.response";
+import { ResponseFindOneSubject, SubjectResponseDto } from "./subject.response";
 
 @ApiTags("Subjects")
 @Controller("subjects")
@@ -25,21 +25,21 @@ export class SubjectController {
 
   @Post()
   @ApiOperation({ summary: "Tạo mới môn học" })
-  @ApiCreatedResponse({ type: SubjectResponseDto })
+  @ApiCreatedResponse({ type: ResponseFindOneSubject })
   create(@Body() createSubjectDto: CreateSubjectDto) {
     return this.subjectService.create(createSubjectDto);
   }
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả môn học" })
-  @ApiOkResponse({ type: SubjectResponseDto, isArray: true })
+  @ApiOkResponse({ type: ResponseFindOneSubject, isArray: true })
   findAll() {
     return this.subjectService.findAll();
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết môn học theo ID" })
-  @ApiOkResponse({ type: SubjectResponseDto })
+  @ApiOkResponse({ type: ResponseFindOneSubject })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.subjectService.findOne(id);
   }

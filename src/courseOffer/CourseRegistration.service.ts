@@ -47,11 +47,11 @@ export class CourseRegistrationService {
           "Chưa đến thời gian mở đăng ký cho lớp học phần này.",
         );
       }
-      if (courseOffer.registrationEnd && now > courseOffer.registrationEnd) {
-        throw new BadRequestException(
-          "Hạn đăng ký lớp học phần này đã kết thúc.",
-        );
-      }
+      // if (courseOffer.registrationEnd && now > courseOffer.registrationEnd) {
+      //   throw new BadRequestException(
+      //     "Hạn đăng ký lớp học phần này đã kết thúc.",
+      //   );
+      // }
 
       // Kiểm tra sĩ số lớp hiện tại xem đã đầy chưa
       if (courseOffer.currentStudents >= courseOffer.maxStudents) {

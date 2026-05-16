@@ -7,6 +7,7 @@ import {
   MaxLength,
   Min,
   IsBoolean,
+  IsArray,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 
@@ -47,6 +48,16 @@ export class CreateSubjectDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @ApiProperty({
+    example: [1, 4, 7],
+    description: "Mảng các ID điểm thành phần",
+    type: [Number],
+  })
+  @IsArray({ message: "gradeComponentIds phải là một mảng" })
+  @IsInt({ each: true, message: "Mỗi ID điểm thành phần phải là số nguyên" })
+  @IsNotEmpty({ message: "Vui lòng chọn các điểm thành phần cho môn học" })
+  gradeComponentIds: number[];
 }
 
 export class UpdateSubjectDto extends PartialType(CreateSubjectDto) {}

@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   UsePipes,
@@ -16,6 +17,8 @@ import {
   CreateOptionalCourseOfferDto,
   PreviewCourseOfferDto,
 } from "./courseOffer.dto";
+import { CourseOfferDetailResponseDto } from "./CourseOfferRegis.response";
+import { StudentResponseDto } from "../student/student.response";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
@@ -59,15 +62,34 @@ export class CourseOfferController {
     return this.courseOfferService.createOptionalSection(dto);
   }
 
+  // Phê duyệt lớp học phần
+  @Patch(":id/approve")
+  @ApiOperation({ summary: "Chấp nhận mở lớp học phần" })
+  async approve(@Param("id", ParseIntPipe) id: number) {
+    return await this.courseOfferService.approveCourseOffer(id);
+  }
+
   // Lấy chi tiết
   @Get(":id")
+  @ApiOperation({ summary: "Lấy chi tiết lớp học phần" })
+  @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
   async getDetail(@Param("id", ParseIntPipe) id: number) {
     return await this.courseOfferService.getCourseOfferDetail(id);
   }
 
-  // Phê duyệt lớp học phần
-  @Get(":id/approve")
-  async approve(@Param("id", ParseIntPipe) id: number) {
-    return await this.courseOfferService.approveCourseOffer(id);
+  // Lấy danh sách học sinh đủ điều kiện đăng ký vào lớp học phần
+  @Get(":courseOfferId/eligible-students")
+  @ApiOperation({
+    summary: "Lấy danh sách học sinh đủ điều kiện đăng ký vào lớp học phần",
+  })
+  @ApiResponse({
+    type: StudentResponseDto,
+  })
+  async getEligibleStudents(
+    @Param("courseOfferId", ParseIntPipe) courseOfferId: number,
+  ) {
+    return await this.courseOfferService.getEligibleStudentsForCourseOffer(
+      courseOfferId,
+    );
   }
 }
