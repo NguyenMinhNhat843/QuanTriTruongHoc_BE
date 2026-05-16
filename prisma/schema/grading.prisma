@@ -7,14 +7,45 @@
 model GradeComponent {
   id           Int          @id @default(autoincrement())
   name         String       // midterm, final, assignment...
-  weight       Float        // 0.1, 0.3, 0.6...
+  weight       Float?        // 0.1, 0.3, 0.6... // Bỏ field này
 
+  subjectGrades SubjectGradeWeight[]
   gradeEntries GradeEntry[]
 
   @@map("grade_components")
 }
 
+// ==========================
+// BẢNG TRUNG GIAN: CẤU HÌNH TỶ LỆ ĐIỂM CHO TỪNG MÔN HỌC
+// ==========================
+model SubjectGradeWeight {
+  id               Int            @id @default(autoincrement())
+  
+  subjectId        Int
+  subject          Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  
+  gradeComponentId Int
+  gradeComponent   GradeComponent @relation(fields: [gradeComponentId], references: [id], onDelete: Restrict)
+  
+  // Trọng số điểm của riêng môn học này (Ví dụ: 0.1, 0.3, 0.6)
+  weight           Float          
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  // Ràng buộc: Một môn học không thể cấu hình trùng 1 loại điểm 2 lần
+  @@unique([subjectId, gradeComponentId])
+  @@map("subject_grade_weights")
+}
+
 // Điểm chi tiết của từng học sinh cho từng thành phần
+enum GradeEntryStatus {
+  DARFT
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model GradeEntry {
   id            Int            @id @default(autoincrement())
   
@@ -30,7 +61,7 @@ model GradeEntry {
   score         Float?
   
   // draft, pending, approved, rejected
-  status        String         @default("draft")
+  status        GradeEntryStatus         @default(PENDING)
   
   createdBy     Int            // ID của Staff (Teacher)
   updatedBy     Int?           // ID của Staff cuối cùng chỉnh sửa

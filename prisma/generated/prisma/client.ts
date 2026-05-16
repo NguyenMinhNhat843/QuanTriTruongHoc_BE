@@ -200,6 +200,11 @@ export type CreditPrice = Prisma.CreditPriceModel
  */
 export type GradeComponent = Prisma.GradeComponentModel
 /**
+ * Model SubjectGradeWeight
+ * 
+ */
+export type SubjectGradeWeight = Prisma.SubjectGradeWeightModel
+/**
  * Model GradeEntry
  * 
  */

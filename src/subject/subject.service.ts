@@ -9,15 +9,19 @@ import { PrismaService } from "../prisma/prisma.service";
 import { ResponseFindOneSubject, SubjectResponseDto } from "./subject.response";
 import { CreateSubjectDto, UpdateSubjectDto } from "./subject.dto";
 import { plainToInstance } from "class-transformer";
+import { GradeSubjectService } from "../grade/gradeSubject.service";
 
 @Injectable()
 export class SubjectService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private gradeSubjectService: GradeSubjectService,
+  ) {}
 
   async create(data: CreateSubjectDto): Promise<SubjectResponseDto> {
-    const { subjectCode, gradeComponentIds, ...subjectData } = data;
+    const { subjectCode, gradeComponents, ...subjectData } = data;
 
-    // 2. Kiểm tra trùng mã môn học
+    // 1. Kiểm tra trùng mã môn học trước khi mở transaction (Tránh giữ lock DB lâu không cần thiết)
     const existingSubject = await this.prisma.subject.findUnique({
       where: { subjectCode },
     });
@@ -25,60 +29,48 @@ export class SubjectService {
       throw new ConflictException(`Mã môn học ${subjectCode} đã tồn tại`);
     }
 
-    // 3. Kiểm tra mảng ID truyền lên không được rỗng
-    if (!gradeComponentIds || gradeComponentIds.length === 0) {
+    // 2. Kiểm tra mảng cấu hình điểm truyền lên không được rỗng
+    if (!gradeComponents || gradeComponents.length === 0) {
       throw new BadRequestException(
-        "Môn học phải cấu hình ít nhất một cột điểm thành phần",
+        "Môn học phải cấu hình ít nhất một cột điểm thành phần với trọng số kèm theo",
       );
     }
-
-    // 4. Lấy danh sách GradeComponent từ database dựa theo các ID truyền lên
-    const gradeComponents = await this.prisma.gradeComponent.findMany({
-      where: {
-        id: { in: gradeComponentIds },
-      },
-    });
-
-    // Kiểm tra xem có ID nào không hợp lệ (không tìm thấy trong DB) không
-    if (
-      gradeComponents.length !== Array.from(new Set(gradeComponentIds)).length
-    ) {
-      throw new BadRequestException(
-        "Một hoặc nhiều ID điểm thành phần không tồn tại trên hệ thống",
-      );
-    }
-
-    // 5. Tính tổng trọng số (weight)
-    // Sử dụng reduce để cộng dồn các trọng số
-    const totalWeight = gradeComponents.reduce(
-      (sum, comp) => sum + comp.weight,
-      0,
-    );
-
-    // Kiểm tra tổng trọng số có bằng 1 hay không (Sử dụng Math.abs để tránh sai số dấu phẩy động)
-    if (Math.abs(totalWeight - 1) > 0.00001) {
-      throw new BadRequestException(
-        `Tổng trọng số cấu hình các điểm phải bằng 1 (Hiện tại là: ${totalWeight * 100}%)`,
-      );
-    }
-
-    // 6. Chuẩn bị chuỗi string dạng "1, 4, 7" từ mảng ID ban đầu để lưu vào DB
-    const gradeComponentsString = gradeComponentIds.join(", ");
 
     try {
-      // 7. Thực hiện tạo môn học với trường grade_components đã được map thành string [cite: 15]
-      const subject = await this.prisma.subject.create({
-        data: {
-          ...subjectData,
-          subjectCode,
-          grade_components: gradeComponentsString, // Lưu chuỗi ID [cite: 15]
-        },
+      // 3. Sử dụng $transaction để đảm bảo đồng thời tạo môn học và tạo trọng số điểm thành công
+      const newSubject = await this.prisma.$transaction(async (tx) => {
+        // 3.1 Tạo thông tin cơ bản cho môn học (Đã loại bỏ trường grade_components dạng chuỗi cũ)
+        const subject = await tx.subject.create({
+          data: {
+            ...subjectData,
+            subjectCode,
+          },
+        });
+
+        // 3.2 Gọi hàm xử lý cấu hình điểm thành phần của bạn, truyền tx vào để chạy chung luồng
+        // Hàm này sẽ tự động chạy kiểm tra tổng weight xem có bằng 1.0 (100%) hay không
+        await this.gradeSubjectService.createSubjectWeights(
+          {
+            subjectId: subject.id,
+            gradeComponents: gradeComponents,
+          },
+          tx, // KHÓA MẤU CHỐT: Ép hàm createSubjectWeights chạy chung transaction
+        );
+
+        return subject;
       });
 
-      return plainToInstance(SubjectResponseDto, subject);
+      return plainToInstance(SubjectResponseDto, newSubject);
     } catch (error) {
+      // Nếu lỗi sinh ra do các BadRequestException ở tầng kiểm tra trọng số của hàm createSubjectWeights phát ra
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
       console.log("Lỗi tạo môn học:", error);
-      throw new InternalServerErrorException("Lỗi hệ thống khi tạo môn học");
+      throw new InternalServerErrorException(
+        "Lỗi hệ thống khi tạo môn học kèm cấu hình điểm",
+      );
     }
   }
 
@@ -92,29 +84,24 @@ export class SubjectService {
    * Lấy chi tiết môn học theo id với cấu hình điểm
    */
   async findOne(id: number): Promise<ResponseFindOneSubject> {
+    // Sử dụng include để lấy luôn thông tin bảng trung gian và bảng loại điểm hệ thống
     const subject = await this.prisma.subject.findUnique({
       where: { id },
-    });
-
-    // Lấy danh sách cột điểm từ trường grade_components (chuỗi "1, 4, 7") và chuyển thành mảng [1, 4, 7]
-    const gradeComponentIds = subject?.grade_components
-      ? subject.grade_components
-          .split(",")
-          .map((idStr) => parseInt(idStr.trim()))
-      : [];
-
-    const gradeComponents = await this.prisma.gradeComponent.findMany({
-      where: {
-        id: { in: gradeComponentIds },
+      include: {
+        subjectGrades: {
+          include: {
+            gradeComponent: true, // Lấy tên và thông tin chi tiết của loại điểm (Chuyên cần, Giữa kỳ...)
+          },
+        },
       },
     });
 
     if (!subject) {
       throw new NotFoundException(`Không tìm thấy môn học với ID ${id}`);
     }
-    const response = plainToInstance(ResponseFindOneSubject, subject);
-    response.gradeComponents = gradeComponents;
-    return response;
+
+    // Chuyển đổi dữ liệu sang DTO Response sạch sẽ
+    return plainToInstance(ResponseFindOneSubject, subject);
   }
 
   /**
@@ -124,11 +111,14 @@ export class SubjectService {
     id: number,
     data: UpdateSubjectDto,
   ): Promise<SubjectResponseDto> {
+    const { subjectCode, gradeComponents, ...subjectData } = data;
     // 1. Kiểm tra môn học có tồn tại hay không
-    await this.findOne(id);
-
-    // Bóc tách gradeComponentIds và subjectCode ra khỏi data để xử lý riêng
-    const { gradeComponentIds, subjectCode, ...subjectData } = data;
+    const existingSubject = await this.prisma.subject.findUnique({
+      where: { subjectCode },
+    });
+    if (existingSubject) {
+      throw new ConflictException(`Mã môn học ${subjectCode} đã tồn tại`);
+    }
 
     // Chuẩn bị object data để update vào Prisma
     const updateData: any = { ...subjectData };
@@ -149,60 +139,46 @@ export class SubjectService {
       updateData.subjectCode = subjectCode;
     }
 
-    // 3. Nếu người dùng có truyền mảng gradeComponentIds lên thì mới validate và xử lý
-    if (gradeComponentIds) {
-      // Kiểm tra mảng ID truyền lên không được rỗng
-      if (gradeComponentIds.length === 0) {
-        throw new BadRequestException(
-          "Môn học phải cấu hình ít nhất một cột điểm thành phần",
-        );
-      }
-
-      // Lấy danh sách GradeComponent từ database dựa theo các ID truyền lên
-      const gradeComponents = await this.prisma.gradeComponent.findMany({
-        where: {
-          id: { in: gradeComponentIds },
-        },
-      });
-
-      // Kiểm tra xem có ID nào không hợp lệ (không tìm thấy trong DB) không
-      if (
-        gradeComponents.length !== Array.from(new Set(gradeComponentIds)).length
-      ) {
-        throw new BadRequestException(
-          "Một hoặc nhiều ID điểm thành phần không tồn tại trên hệ thống",
-        );
-      }
-
-      // Tính tổng trọng số (weight) để đảm bảo bằng 1 (100%)
-      const totalWeight = gradeComponents.reduce(
-        (sum, comp) => sum + comp.weight,
-        0,
-      );
-
-      if (Math.abs(totalWeight - 1) > 0.00001) {
-        throw new BadRequestException(
-          `Tổng trọng số cấu hình các điểm phải bằng 1 (Hiện tại là: ${totalWeight * 100}%)`,
-        );
-      }
-
-      // Chuẩn bị chuỗi string dạng "1, 4, 7" từ mảng ID ban đầu để lưu vào DB
-      const gradeComponentsString = gradeComponentIds.join(", ");
-      updateData.grade_components = gradeComponentsString;
-    }
-
-    // 4. Tiến hành cập nhật vào database
     try {
-      const updated = await this.prisma.subject.update({
-        where: { id },
-        data: updateData,
+      // 3. Sử dụng $transaction để đảm bảo cập nhật thông tin môn học và điểm thành phần diễn ra nguyên tử
+      const updatedSubject = await this.prisma.$transaction(async (tx) => {
+        // 3.1 Nếu người dùng có truyền mảng cấu hình điểm thành phần lên thì mới xử lý
+        if (gradeComponents) {
+          // Kiểm tra mảng cấu hình truyền lên không được rỗng
+          if (gradeComponents.length === 0) {
+            throw new BadRequestException(
+              "Môn học phải cấu hình ít nhất một cột điểm thành phần với trọng số kèm theo",
+            );
+          }
+
+          // Gọi hàm tạo/ghi đè cấu hình điểm thành phần, truyền tx vào chạy chung transaction
+          // Hàm này sẽ tự động chạy logic kiểm tra tổng weight xem có bằng 1.0 (100%) hay không
+          await this.gradeSubjectService.createSubjectWeights(
+            {
+              subjectId: id,
+              gradeComponents: gradeComponents,
+            },
+            tx, // Ép hàm createSubjectWeights chạy chung transaction để có thể rollback khi lỗi
+          );
+        }
+
+        // 3.2 Cập nhật các thông tin cơ bản của môn học vào database
+        return tx.subject.update({
+          where: { id },
+          data: updateData,
+        });
       });
 
-      return plainToInstance(SubjectResponseDto, updated);
+      return plainToInstance(SubjectResponseDto, updatedSubject);
     } catch (error) {
+      // Bắn ngược lại các lỗi validate logic (như lỗi tổng trọng số không bằng 1.0) từ hàm createSubjectWeights ra ngoài
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+
       console.log("Lỗi cập nhật môn học:", error);
       throw new InternalServerErrorException(
-        "Lỗi hệ thống khi cập nhật môn học",
+        "Lỗi hệ thống khi cập nhật môn học và cấu hình điểm",
       );
     }
   }

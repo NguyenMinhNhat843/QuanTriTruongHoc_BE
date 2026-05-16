@@ -19,7 +19,6 @@ export class GradeComponentService {
     const newComponent = await this.prisma.gradeComponent.create({
       data: {
         name: dto.name,
-        weight: dto.weight,
       },
     });
 
@@ -84,7 +83,6 @@ export class GradeComponentService {
       where: { id },
       data: {
         name: dto.name ?? existing.name,
-        weight: dto.weight ?? existing.weight,
       },
     });
 

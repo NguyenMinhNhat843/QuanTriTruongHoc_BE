@@ -52,7 +52,7 @@ export type GradeEntryMinAggregateOutputType = {
   courseOfferId: number | null
   componentId: number | null
   score: number | null
-  status: string | null
+  status: $Enums.GradeEntryStatus | null
   createdBy: number | null
   updatedBy: number | null
   createdAt: Date | null
@@ -65,7 +65,7 @@ export type GradeEntryMaxAggregateOutputType = {
   courseOfferId: number | null
   componentId: number | null
   score: number | null
-  status: string | null
+  status: $Enums.GradeEntryStatus | null
   createdBy: number | null
   updatedBy: number | null
   createdAt: Date | null
@@ -239,7 +239,7 @@ export type GradeEntryGroupByOutputType = {
   courseOfferId: number
   componentId: number
   score: number | null
-  status: string
+  status: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy: number | null
   createdAt: Date
@@ -275,7 +275,7 @@ export type GradeEntryWhereInput = {
   courseOfferId?: Prisma.IntFilter<"GradeEntry"> | number
   componentId?: Prisma.IntFilter<"GradeEntry"> | number
   score?: Prisma.FloatNullableFilter<"GradeEntry"> | number | null
-  status?: Prisma.StringFilter<"GradeEntry"> | string
+  status?: Prisma.EnumGradeEntryStatusFilter<"GradeEntry"> | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFilter<"GradeEntry"> | number
   updatedBy?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   createdAt?: Prisma.DateTimeFilter<"GradeEntry"> | Date | string
@@ -313,7 +313,7 @@ export type GradeEntryWhereUniqueInput = Prisma.AtLeast<{
   courseOfferId?: Prisma.IntFilter<"GradeEntry"> | number
   componentId?: Prisma.IntFilter<"GradeEntry"> | number
   score?: Prisma.FloatNullableFilter<"GradeEntry"> | number | null
-  status?: Prisma.StringFilter<"GradeEntry"> | string
+  status?: Prisma.EnumGradeEntryStatusFilter<"GradeEntry"> | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFilter<"GradeEntry"> | number
   updatedBy?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   createdAt?: Prisma.DateTimeFilter<"GradeEntry"> | Date | string
@@ -351,7 +351,7 @@ export type GradeEntryScalarWhereWithAggregatesInput = {
   courseOfferId?: Prisma.IntWithAggregatesFilter<"GradeEntry"> | number
   componentId?: Prisma.IntWithAggregatesFilter<"GradeEntry"> | number
   score?: Prisma.FloatNullableWithAggregatesFilter<"GradeEntry"> | number | null
-  status?: Prisma.StringWithAggregatesFilter<"GradeEntry"> | string
+  status?: Prisma.EnumGradeEntryStatusWithAggregatesFilter<"GradeEntry"> | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntWithAggregatesFilter<"GradeEntry"> | number
   updatedBy?: Prisma.IntNullableWithAggregatesFilter<"GradeEntry"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GradeEntry"> | Date | string
@@ -360,7 +360,7 @@ export type GradeEntryScalarWhereWithAggregatesInput = {
 
 export type GradeEntryCreateInput = {
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -377,7 +377,7 @@ export type GradeEntryUncheckedCreateInput = {
   courseOfferId: number
   componentId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -387,7 +387,7 @@ export type GradeEntryUncheckedCreateInput = {
 
 export type GradeEntryUpdateInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -404,7 +404,7 @@ export type GradeEntryUncheckedUpdateInput = {
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -418,7 +418,7 @@ export type GradeEntryCreateManyInput = {
   courseOfferId: number
   componentId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -427,7 +427,7 @@ export type GradeEntryCreateManyInput = {
 
 export type GradeEntryUpdateManyMutationInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -440,7 +440,7 @@ export type GradeEntryUncheckedUpdateManyInput = {
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -653,6 +653,10 @@ export type GradeEntryUncheckedUpdateManyWithoutComponentNestedInput = {
   deleteMany?: Prisma.GradeEntryScalarWhereInput | Prisma.GradeEntryScalarWhereInput[]
 }
 
+export type EnumGradeEntryStatusFieldUpdateOperationsInput = {
+  set?: $Enums.GradeEntryStatus
+}
+
 export type GradeEntryCreateNestedOneWithoutHistoriesInput = {
   create?: Prisma.XOR<Prisma.GradeEntryCreateWithoutHistoriesInput, Prisma.GradeEntryUncheckedCreateWithoutHistoriesInput>
   connectOrCreate?: Prisma.GradeEntryCreateOrConnectWithoutHistoriesInput
@@ -669,7 +673,7 @@ export type GradeEntryUpdateOneRequiredWithoutHistoriesNestedInput = {
 
 export type GradeEntryCreateWithoutStudentInput = {
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -684,7 +688,7 @@ export type GradeEntryUncheckedCreateWithoutStudentInput = {
   courseOfferId: number
   componentId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -727,7 +731,7 @@ export type GradeEntryScalarWhereInput = {
   courseOfferId?: Prisma.IntFilter<"GradeEntry"> | number
   componentId?: Prisma.IntFilter<"GradeEntry"> | number
   score?: Prisma.FloatNullableFilter<"GradeEntry"> | number | null
-  status?: Prisma.StringFilter<"GradeEntry"> | string
+  status?: Prisma.EnumGradeEntryStatusFilter<"GradeEntry"> | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFilter<"GradeEntry"> | number
   updatedBy?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   createdAt?: Prisma.DateTimeFilter<"GradeEntry"> | Date | string
@@ -736,7 +740,7 @@ export type GradeEntryScalarWhereInput = {
 
 export type GradeEntryCreateWithoutCourseOfferInput = {
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -751,7 +755,7 @@ export type GradeEntryUncheckedCreateWithoutCourseOfferInput = {
   studentId: number
   componentId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -787,7 +791,7 @@ export type GradeEntryUpdateManyWithWhereWithoutCourseOfferInput = {
 
 export type GradeEntryCreateWithoutComponentInput = {
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -802,7 +806,7 @@ export type GradeEntryUncheckedCreateWithoutComponentInput = {
   studentId: number
   courseOfferId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -838,7 +842,7 @@ export type GradeEntryUpdateManyWithWhereWithoutComponentInput = {
 
 export type GradeEntryCreateWithoutHistoriesInput = {
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -854,7 +858,7 @@ export type GradeEntryUncheckedCreateWithoutHistoriesInput = {
   courseOfferId: number
   componentId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -879,7 +883,7 @@ export type GradeEntryUpdateToOneWithWhereWithoutHistoriesInput = {
 
 export type GradeEntryUpdateWithoutHistoriesInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -895,7 +899,7 @@ export type GradeEntryUncheckedUpdateWithoutHistoriesInput = {
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -907,7 +911,7 @@ export type GradeEntryCreateManyStudentInput = {
   courseOfferId: number
   componentId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -916,7 +920,7 @@ export type GradeEntryCreateManyStudentInput = {
 
 export type GradeEntryUpdateWithoutStudentInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -931,7 +935,7 @@ export type GradeEntryUncheckedUpdateWithoutStudentInput = {
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -944,7 +948,7 @@ export type GradeEntryUncheckedUpdateManyWithoutStudentInput = {
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -956,7 +960,7 @@ export type GradeEntryCreateManyCourseOfferInput = {
   studentId: number
   componentId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -965,7 +969,7 @@ export type GradeEntryCreateManyCourseOfferInput = {
 
 export type GradeEntryUpdateWithoutCourseOfferInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -980,7 +984,7 @@ export type GradeEntryUncheckedUpdateWithoutCourseOfferInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -993,7 +997,7 @@ export type GradeEntryUncheckedUpdateManyWithoutCourseOfferInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1005,7 +1009,7 @@ export type GradeEntryCreateManyComponentInput = {
   studentId: number
   courseOfferId: number
   score?: number | null
-  status?: string
+  status?: $Enums.GradeEntryStatus
   createdBy: number
   updatedBy?: number | null
   createdAt?: Date | string
@@ -1014,7 +1018,7 @@ export type GradeEntryCreateManyComponentInput = {
 
 export type GradeEntryUpdateWithoutComponentInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1029,7 +1033,7 @@ export type GradeEntryUncheckedUpdateWithoutComponentInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1042,7 +1046,7 @@ export type GradeEntryUncheckedUpdateManyWithoutComponentInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumGradeEntryStatusFieldUpdateOperationsInput | $Enums.GradeEntryStatus
   createdBy?: Prisma.IntFieldUpdateOperationsInput | number
   updatedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1176,7 +1180,7 @@ export type $GradeEntryPayload<ExtArgs extends runtime.Types.Extensions.Internal
     courseOfferId: number
     componentId: number
     score: number | null
-    status: string
+    status: $Enums.GradeEntryStatus
     createdBy: number
     updatedBy: number | null
     createdAt: Date
@@ -1613,7 +1617,7 @@ export interface GradeEntryFieldRefs {
   readonly courseOfferId: Prisma.FieldRef<"GradeEntry", 'Int'>
   readonly componentId: Prisma.FieldRef<"GradeEntry", 'Int'>
   readonly score: Prisma.FieldRef<"GradeEntry", 'Float'>
-  readonly status: Prisma.FieldRef<"GradeEntry", 'String'>
+  readonly status: Prisma.FieldRef<"GradeEntry", 'GradeEntryStatus'>
   readonly createdBy: Prisma.FieldRef<"GradeEntry", 'Int'>
   readonly updatedBy: Prisma.FieldRef<"GradeEntry", 'Int'>
   readonly createdAt: Prisma.FieldRef<"GradeEntry", 'DateTime'>

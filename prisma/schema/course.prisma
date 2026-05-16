@@ -87,6 +87,8 @@ model CourseRegistration {
   
   registeredAt   DateTime    @default(now())
   approvedAt     DateTime?
+
+  finalGrade     Float?   // Điểm tổng kết tính từ các cột điểm
   
   note           String?     @db.Text
   
