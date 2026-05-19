@@ -439,21 +439,21 @@ export type EnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumPaymentMethodFilter<$PrismaModel>
 }
 
-export type EnumGradeEntryStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.GradeEntryStatus | Prisma.EnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumGradeEntryStatusFilter<$PrismaModel> | $Enums.GradeEntryStatus
+export type EnumGradeSubmissionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.GradeSubmissionStatus | Prisma.EnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGradeSubmissionStatusFilter<$PrismaModel> | $Enums.GradeSubmissionStatus
 }
 
-export type EnumGradeEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.GradeEntryStatus | Prisma.EnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumGradeEntryStatusWithAggregatesFilter<$PrismaModel> | $Enums.GradeEntryStatus
+export type EnumGradeSubmissionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GradeSubmissionStatus | Prisma.EnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGradeSubmissionStatusWithAggregatesFilter<$PrismaModel> | $Enums.GradeSubmissionStatus
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumGradeEntryStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumGradeEntryStatusFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGradeSubmissionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGradeSubmissionStatusFilter<$PrismaModel>
 }
 
 export type EnumPostTypeFilter<$PrismaModel = never> = {
@@ -879,21 +879,21 @@ export type NestedEnumPaymentMethodWithAggregatesFilter<$PrismaModel = never> = 
   _max?: Prisma.NestedEnumPaymentMethodFilter<$PrismaModel>
 }
 
-export type NestedEnumGradeEntryStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.GradeEntryStatus | Prisma.EnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumGradeEntryStatusFilter<$PrismaModel> | $Enums.GradeEntryStatus
+export type NestedEnumGradeSubmissionStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.GradeSubmissionStatus | Prisma.EnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGradeSubmissionStatusFilter<$PrismaModel> | $Enums.GradeSubmissionStatus
 }
 
-export type NestedEnumGradeEntryStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.GradeEntryStatus | Prisma.EnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.GradeEntryStatus[] | Prisma.ListEnumGradeEntryStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumGradeEntryStatusWithAggregatesFilter<$PrismaModel> | $Enums.GradeEntryStatus
+export type NestedEnumGradeSubmissionStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.GradeSubmissionStatus | Prisma.EnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.GradeSubmissionStatus[] | Prisma.ListEnumGradeSubmissionStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumGradeSubmissionStatusWithAggregatesFilter<$PrismaModel> | $Enums.GradeSubmissionStatus
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumGradeEntryStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumGradeEntryStatusFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumGradeSubmissionStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumGradeSubmissionStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumPostTypeFilter<$PrismaModel = never> = {

@@ -11,8 +11,8 @@ import {
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { SubjectService } from "../subject/subject.service";
-import { CourseOfferDetailResponseDto } from "./CourseOfferRegis.response";
 import { plainToInstance } from "class-transformer";
+import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 
 @Injectable()
 export class CourseOfferService {
@@ -126,7 +126,7 @@ export class CourseOfferService {
   }
 
   /**
-   * BƯỚC 4: Khởi tạo dữ liệu lớp học phần (Bulk Create)
+   * Khởi tạo dữ liệu lớp học phần (Bulk Create)
    */
   async generateSections(dto: CreateBulkCourseOfferDto) {
     const { semesterId, majorId, batchId, registrationStart, registrationEnd } =
@@ -432,6 +432,37 @@ export class CourseOfferService {
   }
 
   /**
+   * Lấy điểm của 1 lớp
+   */
+  async getDiemCua1Lop(courseOfferId: number) {
+    const courseOffer = await this.prisma.courseOffer.findUnique({
+      where: { id: courseOfferId },
+      include: {
+        registrations: {
+          include: {
+            gradeEntries: {
+              include: {
+                component: true,
+              },
+            },
+            student: {
+              select: {
+                id: true,
+                fullName: true,
+                studentCode: true,
+                gender: true,
+                dob: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return courseOffer;
+  }
+
+  /**
    * Chi tiết lớp học phần
    */
   async getCourseOfferDetail(
@@ -450,6 +481,12 @@ export class CourseOfferService {
                 studentCode: true,
               },
             },
+            gradeEntries: {
+              select: {
+                componentId: true,
+                score: true,
+              },
+            },
           },
         },
         teacher: {
@@ -460,10 +497,12 @@ export class CourseOfferService {
           },
         },
         subject: {
-          select: {
-            id: true,
-            subjectCode: true,
-            subjectName: true,
+          include: {
+            subjectGrades: {
+              include: {
+                gradeComponent: true,
+              },
+            },
           },
         },
         // Chú ý: Ở DTO bạn đặt tên field quan hệ là `class`,
@@ -483,27 +522,8 @@ export class CourseOfferService {
       throw new NotFoundException("Không tìm thấy lớp học phần");
     }
 
-    // 2. Lấy cấu hình điểm (gradeConfig) nếu lớp đã OPEN
-    let gradeConfig: any = null;
-    if (courseOffer.status === CourseOfferStatus.open) {
-      // Chú ý viết hoa chữ OPEN theo đúng Enum Prisma của bạn nếu có lỗi
-      const subjectDetail = await this.subjectService.findOne(
-        courseOffer.subjectId,
-      );
-      // Giả sử subjectDetail có chứa mảng cấu hình điểm diễm thành phần (ví dụ: subjectDetail.gradeComponents)
-      gradeConfig = subjectDetail?.gradeComponents ?? null;
-    }
-
-    // 3. Chuẩn bị object thô để nạp vào plainToInstance
-    const plainData = {
-      ...courseOffer,
-      gradeConfig: gradeConfig,
-    };
-
-    console.log("Dữ liệu thô trước khi chuyển đổi: ", plainData);
-
     // 4. Chuyển đổi object thô sang Instance của DTO bằng class-transformer
-    return plainToInstance(CourseOfferDetailResponseDto, plainData, {
+    return plainToInstance(CourseOfferDetailResponseDto, courseOffer, {
       excludeExtraneousValues: false,
       // Đặt false để giữ lại các trường mặc định từ Prisma mà không cần phải viết @Expose() cho từng field trong DTO.
     });

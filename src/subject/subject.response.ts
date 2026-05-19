@@ -1,6 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Subject } from "../../prisma/generated/prisma/client";
-import { GradeComponentDto } from "../grade/grade.response";
+import { SubjetGradeWeightResponseDtoSimple } from "../grade/grade.response";
+import { ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
 export class SubjectResponseDto implements Subject {
   @ApiProperty({ example: 1 })
@@ -58,12 +60,13 @@ export class SubjectResponseDto implements Subject {
     description: "Số lượng chương trình đào tạo có môn này",
   })
   curriculumCount?: number;
-}
 
-export class ResponseFindOneSubject extends SubjectResponseDto {
   @ApiProperty({
-    type: [GradeComponentDto],
-    description: "Danh sách các thành phần điểm của môn học",
+    type: [SubjetGradeWeightResponseDtoSimple],
+    nullable: true,
+    description: "Danh sách cấu hình tỷ lệ điểm của môn học",
   })
-  gradeComponents: GradeComponentDto[] | null;
+  @ValidateNested({ each: true })
+  @Type(() => SubjetGradeWeightResponseDtoSimple)
+  subjectGrades: SubjetGradeWeightResponseDtoSimple[] | null;
 }

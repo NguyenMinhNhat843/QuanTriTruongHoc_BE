@@ -85,8 +85,7 @@ export const ModelName = {
   GradeComponent: 'GradeComponent',
   SubjectGradeWeight: 'SubjectGradeWeight',
   GradeEntry: 'GradeEntry',
-  GradeHistory: 'GradeHistory',
-  Grade: 'Grade',
+  GradeSubmission: 'GradeSubmission',
   Post: 'Post'
 } as const
 
@@ -431,6 +430,7 @@ export const CourseRegistrationScalarFieldEnum = {
   status: 'status',
   registeredAt: 'registeredAt',
   approvedAt: 'approvedAt',
+  finalGrade: 'finalGrade',
   note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -572,42 +572,26 @@ export type SubjectGradeWeightScalarFieldEnum = (typeof SubjectGradeWeightScalar
 
 export const GradeEntryScalarFieldEnum = {
   id: 'id',
-  studentId: 'studentId',
-  courseOfferId: 'courseOfferId',
+  gradeSubmissionId: 'gradeSubmissionId',
   componentId: 'componentId',
-  score: 'score',
-  status: 'status',
-  createdBy: 'createdBy',
-  updatedBy: 'updatedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  courseRegistrationId: 'courseRegistrationId',
+  score: 'score'
 } as const
 
 export type GradeEntryScalarFieldEnum = (typeof GradeEntryScalarFieldEnum)[keyof typeof GradeEntryScalarFieldEnum]
 
 
-export const GradeHistoryScalarFieldEnum = {
+export const GradeSubmissionScalarFieldEnum = {
   id: 'id',
-  gradeEntryId: 'gradeEntryId',
-  oldScore: 'oldScore',
-  newScore: 'newScore',
-  reason: 'reason',
-  changedBy: 'changedBy',
-  changedAt: 'changedAt'
-} as const
-
-export type GradeHistoryScalarFieldEnum = (typeof GradeHistoryScalarFieldEnum)[keyof typeof GradeHistoryScalarFieldEnum]
-
-
-export const GradeScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
   courseOfferId: 'courseOfferId',
-  finalGrade: 'finalGrade',
+  status: 'status',
+  submitedBy: 'submitedBy',
+  approvedBy: 'approvedBy',
+  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
+export type GradeSubmissionScalarFieldEnum = (typeof GradeSubmissionScalarFieldEnum)[keyof typeof GradeSubmissionScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {

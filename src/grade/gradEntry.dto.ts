@@ -6,19 +6,12 @@ import {
   IsNumber,
   Min,
   Max,
-  IsEnum,
   IsArray,
   ValidateNested,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { GradeEntryStatus } from "../../prisma/generated/prisma/enums";
 
 export class CreateGradeEntryDto {
-  @ApiProperty({ example: 30, description: "ID của học sinh được nhập điểm" })
-  @IsInt()
-  @IsNotEmpty()
-  studentId: number;
-
   @ApiProperty({
     example: 1,
     description:
@@ -27,6 +20,14 @@ export class CreateGradeEntryDto {
   @IsInt()
   @IsNotEmpty()
   componentId: number;
+
+  @ApiProperty({
+    example: 123,
+    description: "ID của học sinh (Student)",
+  })
+  @IsInt()
+  @IsNotEmpty()
+  courseRegistrationId: number;
 
   @ApiPropertyOptional({
     example: 8.5,
@@ -40,18 +41,11 @@ export class CreateGradeEntryDto {
   @Max(10)
   @IsOptional()
   score: number | null;
-
-  @ApiPropertyOptional({
-    example: GradeEntryStatus.PENDING,
-    enum: GradeEntryStatus,
-    default: GradeEntryStatus.PENDING,
-    description: "Trạng thái lưu trữ của đầu điểm",
-  })
-  @IsEnum(GradeEntryStatus)
-  @IsOptional()
-  status?: GradeEntryStatus;
 }
 
+/**
+ * Nộp duyệt điểm cho 1 lớp học phần
+ */
 export class CreateManyGradeEntriesDto {
   @ApiProperty({ example: 5, description: "ID của lớp học phần (CourseOffer)" })
   @IsInt()
@@ -75,4 +69,22 @@ export class CreateManyGradeEntriesDto {
   @ValidateNested({ each: true }) // Bắt buộc chạy sâu xuống để validate từng item trong mảng
   @Type(() => CreateGradeEntryDto) // Kích hoạt class-transformer để mapping dữ liệu lồng nhau
   grades: CreateGradeEntryDto[];
+}
+
+/**
+ * Phê duyệt điểm cho 1 lớp
+ */
+export class ApproveGradeEntryDto {
+  @ApiProperty({
+    example: 1,
+    description: "ID của bản ghi nhập điểm (GradeEntry)",
+  })
+  @IsInt()
+  @IsNotEmpty()
+  gradeSubmissionId: number;
+
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  approverId: number;
 }

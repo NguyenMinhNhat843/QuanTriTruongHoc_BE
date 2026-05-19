@@ -11,6 +11,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { StudentResponseDto } from "../student/student.response";
+import { GradeEntryResponseDto } from "../grade/gradeEntry.response";
 
 // Giả sử bạn có Enum cho trạng thái đăng ký, nếu không có bạn có thể bỏ IsEnum và dùng IsString
 export enum RegistrationStatus {
@@ -68,6 +69,9 @@ export class CourseOfferRegisResponseDto implements CourseRegistration {
   @Type(() => Date)
   registeredAt: Date;
 
+  @ApiPropertyOptional({ type: Number })
+  finalGrade: number | null;
+
   @ApiPropertyOptional({
     example: "2026-05-16T03:00:00.000Z",
     nullable: true,
@@ -102,4 +106,7 @@ export class CourseOfferRegisResponseDto implements CourseRegistration {
   @ValidateNested() // Đảm bảo class-validator sẽ chạy vào validate sâu bên trong StudentResponseDto nếu cần
   @Type(() => StudentResponseDto) // Ép kiểu object thô sang Instance của StudentResponseDto
   student: StudentResponseDto;
+
+  @ApiProperty({ type: GradeEntryResponseDto, isArray: true, nullable: true })
+  gradeEntries: GradeEntryResponseDto[] | null; // Thêm trường này để chứa grade entries khi cần thiết
 }

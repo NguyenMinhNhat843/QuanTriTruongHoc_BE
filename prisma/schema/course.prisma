@@ -59,9 +59,8 @@ model CourseOffer {
 
   // Quan hệ 1-n
   registrations     CourseRegistration[]
-  gradeEntries      GradeEntry[] 
   courseSchedules   CourseSchedule[]
-  grades            Grade[]
+  gradeSubmission   GradeSubmission[]
 
   @@index([subjectId, semesterId])
   @@index([teacherId])
@@ -97,6 +96,8 @@ model CourseRegistration {
 
   @@unique([studentId, courseOfferId]) // Đảm bảo 1 sinh viên không đăng ký 1 lớp học phần 2 lần
   @@map("course_registrations")
+
+  gradeEntries    GradeEntry[]
 }
 
 // ==========================

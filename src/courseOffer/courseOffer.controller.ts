@@ -17,8 +17,8 @@ import {
   CreateOptionalCourseOfferDto,
   PreviewCourseOfferDto,
 } from "./courseOffer.dto";
-import { CourseOfferDetailResponseDto } from "./CourseOfferRegis.response";
 import { StudentResponseDto } from "../student/student.response";
+import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
@@ -91,5 +91,15 @@ export class CourseOfferController {
     return await this.courseOfferService.getEligibleStudentsForCourseOffer(
       courseOfferId,
     );
+  }
+
+  @Get(":courseOfferId/diem")
+  @ApiOperation({
+    summary: "Lấy điểm của 1 lớp",
+  })
+  async getDiemCua1Lop(
+    @Param("courseOfferId", ParseIntPipe) courseOfferId: number,
+  ) {
+    return await this.courseOfferService.getDiemCua1Lop(courseOfferId);
   }
 }

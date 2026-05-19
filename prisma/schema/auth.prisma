@@ -6,17 +6,13 @@ model User {
   userId        String    @unique // Mã định danh ngoại (UUID hoặc NanoID)
   username      String    @unique
   passwordHash  String
-  
   lastLoginAt   DateTime?
-  
   role          RoleType
   isActive      Boolean   @default(true)
-  
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? // Soft delete
 
-  // Quan hệ
   student       Student?
   staff         Staff?
   posts         Post[]
@@ -24,71 +20,50 @@ model User {
   @@map("users")
 }
 
-// ==========================
-// STUDENTS: Hồ sơ học sinh
-// ==========================
+/* 
+**  Student: Hồ sơ học sinh
+*/
 enum StudentStatus {
-  // --- GIAI ĐOẠN TRUNG GIAN (Quan trọng cho phân lớp) ---
-  approved   // Đã xác nhận nhập học, đợi đóng học phí nhập học. API phân lớp sẽ quét những người này.
-
-  // --- GIAI ĐOẠN HỌC TẬP (ACADEMIC) ---
+  approved   // Đã xác nhận nhập học, đợi đóng học phí nhập học
   studying   // Đã có tài khoản và đang theo học chính thức
   suspended  // Đang bảo lưu kết quả học tập hoặc bị đình chỉ tạm thời
   dropped    // Đã thôi học hoặc bỏ học giữa chừng
   expelled   // Bị buộc thôi học (do kỷ luật hoặc lý do đặc biệt)
-
-  // --- GIAI ĐOẠN KẾT THÚC (GRADUATION) ---
   graduated  // Đã hoàn thành chương trình và tốt nghiệp
 }
 
 model Student {
-  id             Int           @id @default(autoincrement())
-  studentCode    String        @unique
-  
-  // Quan hệ 1-1 với User
-  userId         Int?           @unique
-  user           User?           @relation(fields: [userId], references: [id])
+  id              Int             @id @default(autoincrement())
+  studentCode     String          @unique
+  userId          Int?            @unique
+  user            User?           @relation(fields: [userId], references: [id])
+  email           String?        
+  fullName        String?
+  gender          Boolean?        // true: male, false: female
+  dob             DateTime?       @db.Date
+  phone           String?         
+  avatarUrl       String?
+  address         String?
+  identityNumber  String?         @unique // CCCD
+  batchId         Int?            // Khóa đào tạo
+  batch           Batch?          @relation(fields: [batchId], references: [id])
+  classId         Int?            // Lớp
+  classCode       Class?          @relation(fields: [classId], references: [id])
+  applicationId   Int?            @unique // Hồ sơ tuyển sinh
+  application     Application?    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  enrollmentDate  DateTime?       @db.Date
+  graduationDate  DateTime?       @db.Date
+  status          StudentStatus   @default(studying)
+  parentName      String?        
+  parentPhone     String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
-  // Thông tin hồ sơ
-  email         String?        
-  fullName      String?
-  gender        Boolean?        // true: male, false: female
-  dob           DateTime?       @db.Date
-  phone         String?         
-  avatarUrl     String?
-  address       String?
-  identityNumber    String?     @unique // CCCD
-
-  batchId         Int?          // Khóa đào tạo
-  batch         Batch?          @relation(fields: [batchId], references: [id])
-
-  classId        Int?           // Lớp
-  classCode     Class?           @relation(fields: [classId], references: [id])
-
-  applicationId Int?            @unique // Hồ sơ tuyển sinh
-  application   Application?    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
-  
-  enrollmentDate DateTime?      @db.Date
-  graduationDate DateTime?      @db.Date
-  
-  // status: 'pending' (Mới nộp), 'reviewing' (Đang xét), 
-  // 'approved' (Đạt - Chờ tạo account), 'rejected' (Không đạt), 'studying' (Chính thức)
-  status         StudentStatus  @default(studying)
-  
-  parentName     String?        
-  parentPhone    String?
-  
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-
-  // quan hệ
   benefitApplications BenefitApplication[]
   benefitAwards       BenefitAward[]
   courseRegistrations CourseRegistration[] 
   feeInvoices         FeeInvoice[]
   payments            Payment[]
-  gradeEntries        GradeEntry[]
-  grades              Grade[]
 
   @@map("students")
 }
@@ -99,12 +74,8 @@ model Student {
 model Staff {
   id                Int         @id @default(autoincrement())
   staffCode         String      @unique
-  
-  // Quan hệ 1-1 với User
   userId            Int         @unique
   user              User        @relation(fields: [userId], references: [id])
-  
-  // thông tin cá nhân
   email             String?     @unique
   fullName          String?
   gender            Boolean?    // true: male, false: female
@@ -113,23 +84,18 @@ model Staff {
   avatarUrl         String?
   address           String?
   identityNumber    String?     @unique // CCCD
-
   departmentId      Int?
   position          String?     // Ví dụ: Nhân viên kế toán, hiệu trưởng...
-  
   hireDate          DateTime?   @db.Date
   contractType      String?     // full-time, part-time
-  
   salaryCoefficient Float?      // Hệ số lương
-  
- 
-  
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
 
-  // quan hệ
   courseOffers      CourseOffer[]
   teacherSubjects   TeacherSubject[]
+  submittedGrades   GradeSubmission[] @relation("submitterRelation")
+  approvedGrades    GradeSubmission[] @relation("approverRelation")
 
   @@map("staffs")
 }

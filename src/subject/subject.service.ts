@@ -6,7 +6,7 @@ import {
   BadRequestException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { ResponseFindOneSubject, SubjectResponseDto } from "./subject.response";
+import { SubjectResponseDto } from "./subject.response";
 import { CreateSubjectDto, UpdateSubjectDto } from "./subject.dto";
 import { plainToInstance } from "class-transformer";
 import { GradeSubjectService } from "../grade/gradeSubject.service";
@@ -83,7 +83,7 @@ export class SubjectService {
   /**
    * Lấy chi tiết môn học theo id với cấu hình điểm
    */
-  async findOne(id: number): Promise<ResponseFindOneSubject> {
+  async findOne(id: number): Promise<SubjectResponseDto> {
     // Sử dụng include để lấy luôn thông tin bảng trung gian và bảng loại điểm hệ thống
     const subject = await this.prisma.subject.findUnique({
       where: { id },
@@ -101,7 +101,7 @@ export class SubjectService {
     }
 
     // Chuyển đổi dữ liệu sang DTO Response sạch sẽ
-    return plainToInstance(ResponseFindOneSubject, subject);
+    return plainToInstance(SubjectResponseDto, subject);
   }
 
   /**

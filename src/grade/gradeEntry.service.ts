@@ -1,33 +1,68 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreateManyGradeEntriesDto } from "./gradEntry.dto";
+import {
+  ApproveGradeEntryDto,
+  CreateManyGradeEntriesDto,
+} from "./gradEntry.dto";
+import { SubmitGradeResponse } from "./gradeSubmis.response";
 
 @Injectable()
 export class GradeEntryService {
   constructor(private prisma: PrismaService) {}
 
-  async submitGrade(dto: CreateManyGradeEntriesDto) {
-    const { courseOfferId, createdBy, grades } = dto;
+  // Gửi phê duyệt điểm
+  async submitGrade(
+    dto: CreateManyGradeEntriesDto,
+  ): Promise<SubmitGradeResponse> {
+    const { grades, createdBy, courseOfferId } = dto;
 
-    // Chuẩn bị dữ liệu thô mapping khớp hoàn toàn với cấu trúc mảng của Prisma
-    const rawEntries = grades.map((item) => ({
-      courseOfferId: courseOfferId,
-      studentId: item.studentId,
-      componentId: item.componentId,
-      score: item.score,
-      status: item.status ?? "PENDING", // fallback về mặc định nếu client không gửi lên
-      createdBy: createdBy,
-    }));
+    try {
+      await this.prisma.$transaction(async (tx) => {
+        // 1. Tạo đơn phê duyệt điểm
+        const submission = await tx.gradeSubmission.create({
+          data: {
+            courseOfferId: courseOfferId,
+            status: "PENDING",
+            submitedBy: createdBy,
+          },
+        });
 
-    // Thực hiện transaction tạo đồng loạt siêu tốc dưới DB
-    const result = await this.prisma.gradeEntry.createMany({
-      data: rawEntries,
-      skipDuplicates: true, // Nếu trùng khớp @@unique([studentId, courseOfferId, componentId]) sẽ bỏ qua hoặc không làm sập API
+        // 2. Tạo danh sách GradeEntry
+        await tx.gradeEntry.createMany({
+          data: grades.map((grade) => ({
+            ...grade,
+            gradeSubmissionId: submission.id,
+          })),
+          skipDuplicates: true,
+        });
+      });
+
+      return {
+        message:
+          "Điểm đã được nộp phê duyệt thành công. Vui lòng chờ giảng viên duyệt điểm.",
+        status: true,
+      };
+    } catch (error) {
+      console.error("Lỗi khi submit điểm:", error);
+
+      return {
+        message: "Có lỗi xảy ra khi nộp điểm. Vui lòng thử lại sau.",
+        status: false,
+      };
+    }
+  }
+
+  // Phê duyệt điểm
+  async approveGradeEntry(data: ApproveGradeEntryDto) {
+    const { gradeSubmissionId, approverId } = data;
+    const updatedGradeSubmission = await this.prisma.gradeSubmission.update({
+      where: { id: gradeSubmissionId },
+      data: {
+        status: "APPROVED",
+        approvedBy: approverId,
+        updatedAt: new Date(),
+      },
     });
-
-    return {
-      message: "Xử lý danh sách điểm thành công",
-      count: result.count,
-    };
+    return updatedGradeSubmission;
   }
 }
