@@ -35,14 +35,15 @@ model SubjectGradeWeight {
 model GradeEntry {
   id                    Int                 @id @default(autoincrement())
   gradeSubmissionId     Int?                // Thuộc về đơn submit nào
-  gradeSubmission       GradeSubmission?    @relation(fields: [gradeSubmissionId], references: [id])
+  gradeSubmission       GradeSubmission?    @relation(fields: [gradeSubmissionId], references: [id], onDelete: Cascade)
   componentId           Int
   component             GradeComponent      @relation(fields: [componentId], references: [id])
   courseRegistrationId  Int?
   CourseRegistration    CourseRegistration? @relation(fields: [courseRegistrationId], references: [id])
   score                 Float?
+  status                GradeSubmissionStatus?
 
-  @@unique([componentId, courseRegistrationId]) // Một học sinh không thể có 2 điểm cùng loại trong 1 lớp
+  @@unique([componentId, courseRegistrationId, gradeSubmissionId]) // Một học sinh không thể có 2 điểm cùng loại trong 1 lớp
   @@map("grade_entries")
 }
 
@@ -54,15 +55,15 @@ enum GradeSubmissionStatus {
 }
 model GradeSubmission {
   id                Int                   @id @default(autoincrement())
-  courseOfferId     Int
-  courseOffer       CourseOffer           @relation(fields: [courseOfferId], references: [id])
+  courseOfferId     Int?
+  courseOffer       CourseOffer?           @relation(fields: [courseOfferId], references: [id])
   status            GradeSubmissionStatus
   submitedBy        Int
-  submitter         Staff                 @relation("submitterRelation", fields: [submitedBy], references: [id])
+  submitter         Staff                 @relation(fields: [submitedBy], references: [id])
   approvedBy        Int?
-  approver          Staff?                @relation("approverRelation", fields: [approvedBy], references: [id])
   createdAt         DateTime              @default(now())
-  updatedAt         DateTime?             
+  updatedAt         DateTime?    
+  note              String?    
 
   gradeEntries      GradeEntry[]
 }

@@ -92,14 +92,4 @@ export class CourseOfferController {
       courseOfferId,
     );
   }
-
-  @Get(":courseOfferId/diem")
-  @ApiOperation({
-    summary: "Lấy điểm của 1 lớp",
-  })
-  async getDiemCua1Lop(
-    @Param("courseOfferId", ParseIntPipe) courseOfferId: number,
-  ) {
-    return await this.courseOfferService.getDiemCua1Lop(courseOfferId);
-  }
 }

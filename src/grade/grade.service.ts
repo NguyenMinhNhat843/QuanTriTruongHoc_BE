@@ -126,4 +126,18 @@ export class GradeComponentService {
       deletedId: id,
     };
   }
+
+  /**
+   * Lấy danh sách grade hiện tại của 1 lớp học phần
+   */
+  async getCurrentGrades(courseOfferId: number) {
+    // lấy các submission của lớp đó xếp thứ tự từ mới nhất đến cũ nhất
+    const submissions = await this.prisma.gradeSubmission.findMany({
+      where: { courseOfferId, status: "APPROVED" },
+      include: {
+        gradeEntries: true,
+      },
+    });
+    return submissions;
+  }
 }

@@ -48,6 +48,7 @@ export type GradeSubmissionMinAggregateOutputType = {
   approvedBy: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  note: string | null
 }
 
 export type GradeSubmissionMaxAggregateOutputType = {
@@ -58,6 +59,7 @@ export type GradeSubmissionMaxAggregateOutputType = {
   approvedBy: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  note: string | null
 }
 
 export type GradeSubmissionCountAggregateOutputType = {
@@ -68,6 +70,7 @@ export type GradeSubmissionCountAggregateOutputType = {
   approvedBy: number
   createdAt: number
   updatedAt: number
+  note: number
   _all: number
 }
 
@@ -94,6 +97,7 @@ export type GradeSubmissionMinAggregateInputType = {
   approvedBy?: true
   createdAt?: true
   updatedAt?: true
+  note?: true
 }
 
 export type GradeSubmissionMaxAggregateInputType = {
@@ -104,6 +108,7 @@ export type GradeSubmissionMaxAggregateInputType = {
   approvedBy?: true
   createdAt?: true
   updatedAt?: true
+  note?: true
 }
 
 export type GradeSubmissionCountAggregateInputType = {
@@ -114,6 +119,7 @@ export type GradeSubmissionCountAggregateInputType = {
   approvedBy?: true
   createdAt?: true
   updatedAt?: true
+  note?: true
   _all?: true
 }
 
@@ -205,12 +211,13 @@ export type GradeSubmissionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type GradeSubmissionGroupByOutputType = {
   id: number
-  courseOfferId: number
+  courseOfferId: number | null
   status: $Enums.GradeSubmissionStatus
   submitedBy: number
   approvedBy: number | null
   createdAt: Date
   updatedAt: Date | null
+  note: string | null
   _count: GradeSubmissionCountAggregateOutputType | null
   _avg: GradeSubmissionAvgAggregateOutputType | null
   _sum: GradeSubmissionSumAggregateOutputType | null
@@ -238,29 +245,29 @@ export type GradeSubmissionWhereInput = {
   OR?: Prisma.GradeSubmissionWhereInput[]
   NOT?: Prisma.GradeSubmissionWhereInput | Prisma.GradeSubmissionWhereInput[]
   id?: Prisma.IntFilter<"GradeSubmission"> | number
-  courseOfferId?: Prisma.IntFilter<"GradeSubmission"> | number
+  courseOfferId?: Prisma.IntNullableFilter<"GradeSubmission"> | number | null
   status?: Prisma.EnumGradeSubmissionStatusFilter<"GradeSubmission"> | $Enums.GradeSubmissionStatus
   submitedBy?: Prisma.IntFilter<"GradeSubmission"> | number
   approvedBy?: Prisma.IntNullableFilter<"GradeSubmission"> | number | null
   createdAt?: Prisma.DateTimeFilter<"GradeSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"GradeSubmission"> | Date | string | null
-  courseOffer?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
+  note?: Prisma.StringNullableFilter<"GradeSubmission"> | string | null
+  courseOffer?: Prisma.XOR<Prisma.CourseOfferNullableScalarRelationFilter, Prisma.CourseOfferWhereInput> | null
   submitter?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
-  approver?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
   gradeEntries?: Prisma.GradeEntryListRelationFilter
 }
 
 export type GradeSubmissionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrder
+  courseOfferId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   submitedBy?: Prisma.SortOrder
   approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   courseOffer?: Prisma.CourseOfferOrderByWithRelationInput
   submitter?: Prisma.StaffOrderByWithRelationInput
-  approver?: Prisma.StaffOrderByWithRelationInput
   gradeEntries?: Prisma.GradeEntryOrderByRelationAggregateInput
 }
 
@@ -269,26 +276,27 @@ export type GradeSubmissionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.GradeSubmissionWhereInput | Prisma.GradeSubmissionWhereInput[]
   OR?: Prisma.GradeSubmissionWhereInput[]
   NOT?: Prisma.GradeSubmissionWhereInput | Prisma.GradeSubmissionWhereInput[]
-  courseOfferId?: Prisma.IntFilter<"GradeSubmission"> | number
+  courseOfferId?: Prisma.IntNullableFilter<"GradeSubmission"> | number | null
   status?: Prisma.EnumGradeSubmissionStatusFilter<"GradeSubmission"> | $Enums.GradeSubmissionStatus
   submitedBy?: Prisma.IntFilter<"GradeSubmission"> | number
   approvedBy?: Prisma.IntNullableFilter<"GradeSubmission"> | number | null
   createdAt?: Prisma.DateTimeFilter<"GradeSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"GradeSubmission"> | Date | string | null
-  courseOffer?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
+  note?: Prisma.StringNullableFilter<"GradeSubmission"> | string | null
+  courseOffer?: Prisma.XOR<Prisma.CourseOfferNullableScalarRelationFilter, Prisma.CourseOfferWhereInput> | null
   submitter?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
-  approver?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
   gradeEntries?: Prisma.GradeEntryListRelationFilter
 }, "id">
 
 export type GradeSubmissionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  courseOfferId?: Prisma.SortOrder
+  courseOfferId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   submitedBy?: Prisma.SortOrder
   approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.GradeSubmissionCountOrderByAggregateInput
   _avg?: Prisma.GradeSubmissionAvgOrderByAggregateInput
   _max?: Prisma.GradeSubmissionMaxOrderByAggregateInput
@@ -301,80 +309,89 @@ export type GradeSubmissionScalarWhereWithAggregatesInput = {
   OR?: Prisma.GradeSubmissionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.GradeSubmissionScalarWhereWithAggregatesInput | Prisma.GradeSubmissionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"GradeSubmission"> | number
-  courseOfferId?: Prisma.IntWithAggregatesFilter<"GradeSubmission"> | number
+  courseOfferId?: Prisma.IntNullableWithAggregatesFilter<"GradeSubmission"> | number | null
   status?: Prisma.EnumGradeSubmissionStatusWithAggregatesFilter<"GradeSubmission"> | $Enums.GradeSubmissionStatus
   submitedBy?: Prisma.IntWithAggregatesFilter<"GradeSubmission"> | number
   approvedBy?: Prisma.IntNullableWithAggregatesFilter<"GradeSubmission"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GradeSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"GradeSubmission"> | Date | string | null
+  note?: Prisma.StringNullableWithAggregatesFilter<"GradeSubmission"> | string | null
 }
 
 export type GradeSubmissionCreateInput = {
   status: $Enums.GradeSubmissionStatus
+  approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  courseOffer: Prisma.CourseOfferCreateNestedOneWithoutGradeSubmissionInput
+  note?: string | null
+  courseOffer?: Prisma.CourseOfferCreateNestedOneWithoutGradeSubmissionInput
   submitter: Prisma.StaffCreateNestedOneWithoutSubmittedGradesInput
-  approver?: Prisma.StaffCreateNestedOneWithoutApprovedGradesInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutGradeSubmissionInput
 }
 
 export type GradeSubmissionUncheckedCreateInput = {
   id?: number
-  courseOfferId: number
+  courseOfferId?: number | null
   status: $Enums.GradeSubmissionStatus
   submitedBy: number
   approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  note?: string | null
   gradeEntries?: Prisma.GradeEntryUncheckedCreateNestedManyWithoutGradeSubmissionInput
 }
 
 export type GradeSubmissionUpdateInput = {
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
+  approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  courseOffer?: Prisma.CourseOfferUpdateOneRequiredWithoutGradeSubmissionNestedInput
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  courseOffer?: Prisma.CourseOfferUpdateOneWithoutGradeSubmissionNestedInput
   submitter?: Prisma.StaffUpdateOneRequiredWithoutSubmittedGradesNestedInput
-  approver?: Prisma.StaffUpdateOneWithoutApprovedGradesNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutGradeSubmissionNestedInput
 }
 
 export type GradeSubmissionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
+  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
   submitedBy?: Prisma.IntFieldUpdateOperationsInput | number
   approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeEntries?: Prisma.GradeEntryUncheckedUpdateManyWithoutGradeSubmissionNestedInput
 }
 
 export type GradeSubmissionCreateManyInput = {
   id?: number
-  courseOfferId: number
+  courseOfferId?: number | null
   status: $Enums.GradeSubmissionStatus
   submitedBy: number
   approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  note?: string | null
 }
 
 export type GradeSubmissionUpdateManyMutationInput = {
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
+  approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GradeSubmissionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
+  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
   submitedBy?: Prisma.IntFieldUpdateOperationsInput | number
   approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GradeSubmissionListRelationFilter = {
@@ -400,6 +417,7 @@ export type GradeSubmissionCountOrderByAggregateInput = {
   approvedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type GradeSubmissionAvgOrderByAggregateInput = {
@@ -417,6 +435,7 @@ export type GradeSubmissionMaxOrderByAggregateInput = {
   approvedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type GradeSubmissionMinOrderByAggregateInput = {
@@ -427,6 +446,7 @@ export type GradeSubmissionMinOrderByAggregateInput = {
   approvedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type GradeSubmissionSumOrderByAggregateInput = {
@@ -443,24 +463,10 @@ export type GradeSubmissionCreateNestedManyWithoutSubmitterInput = {
   connect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
 }
 
-export type GradeSubmissionCreateNestedManyWithoutApproverInput = {
-  create?: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutApproverInput, Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput> | Prisma.GradeSubmissionCreateWithoutApproverInput[] | Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput[]
-  connectOrCreate?: Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput | Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput[]
-  createMany?: Prisma.GradeSubmissionCreateManyApproverInputEnvelope
-  connect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-}
-
 export type GradeSubmissionUncheckedCreateNestedManyWithoutSubmitterInput = {
   create?: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutSubmitterInput, Prisma.GradeSubmissionUncheckedCreateWithoutSubmitterInput> | Prisma.GradeSubmissionCreateWithoutSubmitterInput[] | Prisma.GradeSubmissionUncheckedCreateWithoutSubmitterInput[]
   connectOrCreate?: Prisma.GradeSubmissionCreateOrConnectWithoutSubmitterInput | Prisma.GradeSubmissionCreateOrConnectWithoutSubmitterInput[]
   createMany?: Prisma.GradeSubmissionCreateManySubmitterInputEnvelope
-  connect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-}
-
-export type GradeSubmissionUncheckedCreateNestedManyWithoutApproverInput = {
-  create?: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutApproverInput, Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput> | Prisma.GradeSubmissionCreateWithoutApproverInput[] | Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput[]
-  connectOrCreate?: Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput | Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput[]
-  createMany?: Prisma.GradeSubmissionCreateManyApproverInputEnvelope
   connect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
 }
 
@@ -478,20 +484,6 @@ export type GradeSubmissionUpdateManyWithoutSubmitterNestedInput = {
   deleteMany?: Prisma.GradeSubmissionScalarWhereInput | Prisma.GradeSubmissionScalarWhereInput[]
 }
 
-export type GradeSubmissionUpdateManyWithoutApproverNestedInput = {
-  create?: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutApproverInput, Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput> | Prisma.GradeSubmissionCreateWithoutApproverInput[] | Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput[]
-  connectOrCreate?: Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput | Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput[]
-  upsert?: Prisma.GradeSubmissionUpsertWithWhereUniqueWithoutApproverInput | Prisma.GradeSubmissionUpsertWithWhereUniqueWithoutApproverInput[]
-  createMany?: Prisma.GradeSubmissionCreateManyApproverInputEnvelope
-  set?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  disconnect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  delete?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  connect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  update?: Prisma.GradeSubmissionUpdateWithWhereUniqueWithoutApproverInput | Prisma.GradeSubmissionUpdateWithWhereUniqueWithoutApproverInput[]
-  updateMany?: Prisma.GradeSubmissionUpdateManyWithWhereWithoutApproverInput | Prisma.GradeSubmissionUpdateManyWithWhereWithoutApproverInput[]
-  deleteMany?: Prisma.GradeSubmissionScalarWhereInput | Prisma.GradeSubmissionScalarWhereInput[]
-}
-
 export type GradeSubmissionUncheckedUpdateManyWithoutSubmitterNestedInput = {
   create?: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutSubmitterInput, Prisma.GradeSubmissionUncheckedCreateWithoutSubmitterInput> | Prisma.GradeSubmissionCreateWithoutSubmitterInput[] | Prisma.GradeSubmissionUncheckedCreateWithoutSubmitterInput[]
   connectOrCreate?: Prisma.GradeSubmissionCreateOrConnectWithoutSubmitterInput | Prisma.GradeSubmissionCreateOrConnectWithoutSubmitterInput[]
@@ -503,20 +495,6 @@ export type GradeSubmissionUncheckedUpdateManyWithoutSubmitterNestedInput = {
   connect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
   update?: Prisma.GradeSubmissionUpdateWithWhereUniqueWithoutSubmitterInput | Prisma.GradeSubmissionUpdateWithWhereUniqueWithoutSubmitterInput[]
   updateMany?: Prisma.GradeSubmissionUpdateManyWithWhereWithoutSubmitterInput | Prisma.GradeSubmissionUpdateManyWithWhereWithoutSubmitterInput[]
-  deleteMany?: Prisma.GradeSubmissionScalarWhereInput | Prisma.GradeSubmissionScalarWhereInput[]
-}
-
-export type GradeSubmissionUncheckedUpdateManyWithoutApproverNestedInput = {
-  create?: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutApproverInput, Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput> | Prisma.GradeSubmissionCreateWithoutApproverInput[] | Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput[]
-  connectOrCreate?: Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput | Prisma.GradeSubmissionCreateOrConnectWithoutApproverInput[]
-  upsert?: Prisma.GradeSubmissionUpsertWithWhereUniqueWithoutApproverInput | Prisma.GradeSubmissionUpsertWithWhereUniqueWithoutApproverInput[]
-  createMany?: Prisma.GradeSubmissionCreateManyApproverInputEnvelope
-  set?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  disconnect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  delete?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  connect?: Prisma.GradeSubmissionWhereUniqueInput | Prisma.GradeSubmissionWhereUniqueInput[]
-  update?: Prisma.GradeSubmissionUpdateWithWhereUniqueWithoutApproverInput | Prisma.GradeSubmissionUpdateWithWhereUniqueWithoutApproverInput[]
-  updateMany?: Prisma.GradeSubmissionUpdateManyWithWhereWithoutApproverInput | Prisma.GradeSubmissionUpdateManyWithWhereWithoutApproverInput[]
   deleteMany?: Prisma.GradeSubmissionScalarWhereInput | Prisma.GradeSubmissionScalarWhereInput[]
 }
 
@@ -584,20 +562,22 @@ export type EnumGradeSubmissionStatusFieldUpdateOperationsInput = {
 
 export type GradeSubmissionCreateWithoutSubmitterInput = {
   status: $Enums.GradeSubmissionStatus
+  approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  courseOffer: Prisma.CourseOfferCreateNestedOneWithoutGradeSubmissionInput
-  approver?: Prisma.StaffCreateNestedOneWithoutApprovedGradesInput
+  note?: string | null
+  courseOffer?: Prisma.CourseOfferCreateNestedOneWithoutGradeSubmissionInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutGradeSubmissionInput
 }
 
 export type GradeSubmissionUncheckedCreateWithoutSubmitterInput = {
   id?: number
-  courseOfferId: number
+  courseOfferId?: number | null
   status: $Enums.GradeSubmissionStatus
   approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  note?: string | null
   gradeEntries?: Prisma.GradeEntryUncheckedCreateNestedManyWithoutGradeSubmissionInput
 }
 
@@ -608,35 +588,6 @@ export type GradeSubmissionCreateOrConnectWithoutSubmitterInput = {
 
 export type GradeSubmissionCreateManySubmitterInputEnvelope = {
   data: Prisma.GradeSubmissionCreateManySubmitterInput | Prisma.GradeSubmissionCreateManySubmitterInput[]
-  skipDuplicates?: boolean
-}
-
-export type GradeSubmissionCreateWithoutApproverInput = {
-  status: $Enums.GradeSubmissionStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  courseOffer: Prisma.CourseOfferCreateNestedOneWithoutGradeSubmissionInput
-  submitter: Prisma.StaffCreateNestedOneWithoutSubmittedGradesInput
-  gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutGradeSubmissionInput
-}
-
-export type GradeSubmissionUncheckedCreateWithoutApproverInput = {
-  id?: number
-  courseOfferId: number
-  status: $Enums.GradeSubmissionStatus
-  submitedBy: number
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
-  gradeEntries?: Prisma.GradeEntryUncheckedCreateNestedManyWithoutGradeSubmissionInput
-}
-
-export type GradeSubmissionCreateOrConnectWithoutApproverInput = {
-  where: Prisma.GradeSubmissionWhereUniqueInput
-  create: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutApproverInput, Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput>
-}
-
-export type GradeSubmissionCreateManyApproverInputEnvelope = {
-  data: Prisma.GradeSubmissionCreateManyApproverInput | Prisma.GradeSubmissionCreateManyApproverInput[]
   skipDuplicates?: boolean
 }
 
@@ -661,36 +612,22 @@ export type GradeSubmissionScalarWhereInput = {
   OR?: Prisma.GradeSubmissionScalarWhereInput[]
   NOT?: Prisma.GradeSubmissionScalarWhereInput | Prisma.GradeSubmissionScalarWhereInput[]
   id?: Prisma.IntFilter<"GradeSubmission"> | number
-  courseOfferId?: Prisma.IntFilter<"GradeSubmission"> | number
+  courseOfferId?: Prisma.IntNullableFilter<"GradeSubmission"> | number | null
   status?: Prisma.EnumGradeSubmissionStatusFilter<"GradeSubmission"> | $Enums.GradeSubmissionStatus
   submitedBy?: Prisma.IntFilter<"GradeSubmission"> | number
   approvedBy?: Prisma.IntNullableFilter<"GradeSubmission"> | number | null
   createdAt?: Prisma.DateTimeFilter<"GradeSubmission"> | Date | string
   updatedAt?: Prisma.DateTimeNullableFilter<"GradeSubmission"> | Date | string | null
-}
-
-export type GradeSubmissionUpsertWithWhereUniqueWithoutApproverInput = {
-  where: Prisma.GradeSubmissionWhereUniqueInput
-  update: Prisma.XOR<Prisma.GradeSubmissionUpdateWithoutApproverInput, Prisma.GradeSubmissionUncheckedUpdateWithoutApproverInput>
-  create: Prisma.XOR<Prisma.GradeSubmissionCreateWithoutApproverInput, Prisma.GradeSubmissionUncheckedCreateWithoutApproverInput>
-}
-
-export type GradeSubmissionUpdateWithWhereUniqueWithoutApproverInput = {
-  where: Prisma.GradeSubmissionWhereUniqueInput
-  data: Prisma.XOR<Prisma.GradeSubmissionUpdateWithoutApproverInput, Prisma.GradeSubmissionUncheckedUpdateWithoutApproverInput>
-}
-
-export type GradeSubmissionUpdateManyWithWhereWithoutApproverInput = {
-  where: Prisma.GradeSubmissionScalarWhereInput
-  data: Prisma.XOR<Prisma.GradeSubmissionUpdateManyMutationInput, Prisma.GradeSubmissionUncheckedUpdateManyWithoutApproverInput>
+  note?: Prisma.StringNullableFilter<"GradeSubmission"> | string | null
 }
 
 export type GradeSubmissionCreateWithoutCourseOfferInput = {
   status: $Enums.GradeSubmissionStatus
+  approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  note?: string | null
   submitter: Prisma.StaffCreateNestedOneWithoutSubmittedGradesInput
-  approver?: Prisma.StaffCreateNestedOneWithoutApprovedGradesInput
   gradeEntries?: Prisma.GradeEntryCreateNestedManyWithoutGradeSubmissionInput
 }
 
@@ -701,6 +638,7 @@ export type GradeSubmissionUncheckedCreateWithoutCourseOfferInput = {
   approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  note?: string | null
   gradeEntries?: Prisma.GradeEntryUncheckedCreateNestedManyWithoutGradeSubmissionInput
 }
 
@@ -732,21 +670,23 @@ export type GradeSubmissionUpdateManyWithWhereWithoutCourseOfferInput = {
 
 export type GradeSubmissionCreateWithoutGradeEntriesInput = {
   status: $Enums.GradeSubmissionStatus
+  approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
-  courseOffer: Prisma.CourseOfferCreateNestedOneWithoutGradeSubmissionInput
+  note?: string | null
+  courseOffer?: Prisma.CourseOfferCreateNestedOneWithoutGradeSubmissionInput
   submitter: Prisma.StaffCreateNestedOneWithoutSubmittedGradesInput
-  approver?: Prisma.StaffCreateNestedOneWithoutApprovedGradesInput
 }
 
 export type GradeSubmissionUncheckedCreateWithoutGradeEntriesInput = {
   id?: number
-  courseOfferId: number
+  courseOfferId?: number | null
   status: $Enums.GradeSubmissionStatus
   submitedBy: number
   approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  note?: string | null
 }
 
 export type GradeSubmissionCreateOrConnectWithoutGradeEntriesInput = {
@@ -767,95 +707,64 @@ export type GradeSubmissionUpdateToOneWithWhereWithoutGradeEntriesInput = {
 
 export type GradeSubmissionUpdateWithoutGradeEntriesInput = {
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
+  approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  courseOffer?: Prisma.CourseOfferUpdateOneRequiredWithoutGradeSubmissionNestedInput
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  courseOffer?: Prisma.CourseOfferUpdateOneWithoutGradeSubmissionNestedInput
   submitter?: Prisma.StaffUpdateOneRequiredWithoutSubmittedGradesNestedInput
-  approver?: Prisma.StaffUpdateOneWithoutApprovedGradesNestedInput
 }
 
 export type GradeSubmissionUncheckedUpdateWithoutGradeEntriesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
+  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
   submitedBy?: Prisma.IntFieldUpdateOperationsInput | number
   approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GradeSubmissionCreateManySubmitterInput = {
   id?: number
-  courseOfferId: number
+  courseOfferId?: number | null
   status: $Enums.GradeSubmissionStatus
   approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
-}
-
-export type GradeSubmissionCreateManyApproverInput = {
-  id?: number
-  courseOfferId: number
-  status: $Enums.GradeSubmissionStatus
-  submitedBy: number
-  createdAt?: Date | string
-  updatedAt?: Date | string | null
+  note?: string | null
 }
 
 export type GradeSubmissionUpdateWithoutSubmitterInput = {
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
+  approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  courseOffer?: Prisma.CourseOfferUpdateOneRequiredWithoutGradeSubmissionNestedInput
-  approver?: Prisma.StaffUpdateOneWithoutApprovedGradesNestedInput
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  courseOffer?: Prisma.CourseOfferUpdateOneWithoutGradeSubmissionNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutGradeSubmissionNestedInput
 }
 
 export type GradeSubmissionUncheckedUpdateWithoutSubmitterInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
+  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
   approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeEntries?: Prisma.GradeEntryUncheckedUpdateManyWithoutGradeSubmissionNestedInput
 }
 
 export type GradeSubmissionUncheckedUpdateManyWithoutSubmitterInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
+  courseOfferId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
   approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-}
-
-export type GradeSubmissionUpdateWithoutApproverInput = {
-  status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  courseOffer?: Prisma.CourseOfferUpdateOneRequiredWithoutGradeSubmissionNestedInput
-  submitter?: Prisma.StaffUpdateOneRequiredWithoutSubmittedGradesNestedInput
-  gradeEntries?: Prisma.GradeEntryUpdateManyWithoutGradeSubmissionNestedInput
-}
-
-export type GradeSubmissionUncheckedUpdateWithoutApproverInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
-  submitedBy?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  gradeEntries?: Prisma.GradeEntryUncheckedUpdateManyWithoutGradeSubmissionNestedInput
-}
-
-export type GradeSubmissionUncheckedUpdateManyWithoutApproverInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
-  submitedBy?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type GradeSubmissionCreateManyCourseOfferInput = {
@@ -865,14 +774,16 @@ export type GradeSubmissionCreateManyCourseOfferInput = {
   approvedBy?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string | null
+  note?: string | null
 }
 
 export type GradeSubmissionUpdateWithoutCourseOfferInput = {
   status?: Prisma.EnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus
+  approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   submitter?: Prisma.StaffUpdateOneRequiredWithoutSubmittedGradesNestedInput
-  approver?: Prisma.StaffUpdateOneWithoutApprovedGradesNestedInput
   gradeEntries?: Prisma.GradeEntryUpdateManyWithoutGradeSubmissionNestedInput
 }
 
@@ -883,6 +794,7 @@ export type GradeSubmissionUncheckedUpdateWithoutCourseOfferInput = {
   approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeEntries?: Prisma.GradeEntryUncheckedUpdateManyWithoutGradeSubmissionNestedInput
 }
 
@@ -893,6 +805,7 @@ export type GradeSubmissionUncheckedUpdateManyWithoutCourseOfferInput = {
   approvedBy?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -934,9 +847,9 @@ export type GradeSubmissionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   approvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  note?: boolean
+  courseOffer?: boolean | Prisma.GradeSubmission$courseOfferArgs<ExtArgs>
   submitter?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  approver?: boolean | Prisma.GradeSubmission$approverArgs<ExtArgs>
   gradeEntries?: boolean | Prisma.GradeSubmission$gradeEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.GradeSubmissionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gradeSubmission"]>
@@ -949,9 +862,9 @@ export type GradeSubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   approvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  note?: boolean
+  courseOffer?: boolean | Prisma.GradeSubmission$courseOfferArgs<ExtArgs>
   submitter?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  approver?: boolean | Prisma.GradeSubmission$approverArgs<ExtArgs>
 }, ExtArgs["result"]["gradeSubmission"]>
 
 export type GradeSubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -962,9 +875,9 @@ export type GradeSubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   approvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  note?: boolean
+  courseOffer?: boolean | Prisma.GradeSubmission$courseOfferArgs<ExtArgs>
   submitter?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  approver?: boolean | Prisma.GradeSubmission$approverArgs<ExtArgs>
 }, ExtArgs["result"]["gradeSubmission"]>
 
 export type GradeSubmissionSelectScalar = {
@@ -975,43 +888,41 @@ export type GradeSubmissionSelectScalar = {
   approvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  note?: boolean
 }
 
-export type GradeSubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "courseOfferId" | "status" | "submitedBy" | "approvedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["gradeSubmission"]>
+export type GradeSubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "courseOfferId" | "status" | "submitedBy" | "approvedBy" | "createdAt" | "updatedAt" | "note", ExtArgs["result"]["gradeSubmission"]>
 export type GradeSubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  courseOffer?: boolean | Prisma.GradeSubmission$courseOfferArgs<ExtArgs>
   submitter?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  approver?: boolean | Prisma.GradeSubmission$approverArgs<ExtArgs>
   gradeEntries?: boolean | Prisma.GradeSubmission$gradeEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.GradeSubmissionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GradeSubmissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  courseOffer?: boolean | Prisma.GradeSubmission$courseOfferArgs<ExtArgs>
   submitter?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  approver?: boolean | Prisma.GradeSubmission$approverArgs<ExtArgs>
 }
 export type GradeSubmissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  courseOffer?: boolean | Prisma.GradeSubmission$courseOfferArgs<ExtArgs>
   submitter?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  approver?: boolean | Prisma.GradeSubmission$approverArgs<ExtArgs>
 }
 
 export type $GradeSubmissionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GradeSubmission"
   objects: {
-    courseOffer: Prisma.$CourseOfferPayload<ExtArgs>
+    courseOffer: Prisma.$CourseOfferPayload<ExtArgs> | null
     submitter: Prisma.$StaffPayload<ExtArgs>
-    approver: Prisma.$StaffPayload<ExtArgs> | null
     gradeEntries: Prisma.$GradeEntryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    courseOfferId: number
+    courseOfferId: number | null
     status: $Enums.GradeSubmissionStatus
     submitedBy: number
     approvedBy: number | null
     createdAt: Date
     updatedAt: Date | null
+    note: string | null
   }, ExtArgs["result"]["gradeSubmission"]>
   composites: {}
 }
@@ -1406,9 +1317,8 @@ readonly fields: GradeSubmissionFieldRefs;
  */
 export interface Prisma__GradeSubmissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  courseOffer<T extends Prisma.CourseOfferDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOfferDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseOfferClient<runtime.Types.Result.GetResult<Prisma.$CourseOfferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  courseOffer<T extends Prisma.GradeSubmission$courseOfferArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeSubmission$courseOfferArgs<ExtArgs>>): Prisma.Prisma__CourseOfferClient<runtime.Types.Result.GetResult<Prisma.$CourseOfferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   submitter<T extends Prisma.StaffDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StaffDefaultArgs<ExtArgs>>): Prisma.Prisma__StaffClient<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  approver<T extends Prisma.GradeSubmission$approverArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeSubmission$approverArgs<ExtArgs>>): Prisma.Prisma__StaffClient<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   gradeEntries<T extends Prisma.GradeSubmission$gradeEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeSubmission$gradeEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1446,6 +1356,7 @@ export interface GradeSubmissionFieldRefs {
   readonly approvedBy: Prisma.FieldRef<"GradeSubmission", 'Int'>
   readonly createdAt: Prisma.FieldRef<"GradeSubmission", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"GradeSubmission", 'DateTime'>
+  readonly note: Prisma.FieldRef<"GradeSubmission", 'String'>
 }
     
 
@@ -1847,22 +1758,22 @@ export type GradeSubmissionDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * GradeSubmission.approver
+ * GradeSubmission.courseOffer
  */
-export type GradeSubmission$approverArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type GradeSubmission$courseOfferArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Staff
+   * Select specific fields to fetch from the CourseOffer
    */
-  select?: Prisma.StaffSelect<ExtArgs> | null
+  select?: Prisma.CourseOfferSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Staff
+   * Omit specific fields from the CourseOffer
    */
-  omit?: Prisma.StaffOmit<ExtArgs> | null
+  omit?: Prisma.CourseOfferOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.StaffInclude<ExtArgs> | null
-  where?: Prisma.StaffWhereInput
+  include?: Prisma.CourseOfferInclude<ExtArgs> | null
+  where?: Prisma.CourseOfferWhereInput
 }
 
 /**

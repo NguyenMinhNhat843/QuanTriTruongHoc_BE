@@ -668,6 +668,11 @@ export type CourseOfferScalarRelationFilter = {
   isNot?: Prisma.CourseOfferWhereInput
 }
 
+export type CourseOfferNullableScalarRelationFilter = {
+  is?: Prisma.CourseOfferWhereInput | null
+  isNot?: Prisma.CourseOfferWhereInput | null
+}
+
 export type CourseOfferCreateNestedManyWithoutBaseClassInput = {
   create?: Prisma.XOR<Prisma.CourseOfferCreateWithoutBaseClassInput, Prisma.CourseOfferUncheckedCreateWithoutBaseClassInput> | Prisma.CourseOfferCreateWithoutBaseClassInput[] | Prisma.CourseOfferUncheckedCreateWithoutBaseClassInput[]
   connectOrCreate?: Prisma.CourseOfferCreateOrConnectWithoutBaseClassInput | Prisma.CourseOfferCreateOrConnectWithoutBaseClassInput[]
@@ -874,10 +879,12 @@ export type CourseOfferCreateNestedOneWithoutGradeSubmissionInput = {
   connect?: Prisma.CourseOfferWhereUniqueInput
 }
 
-export type CourseOfferUpdateOneRequiredWithoutGradeSubmissionNestedInput = {
+export type CourseOfferUpdateOneWithoutGradeSubmissionNestedInput = {
   create?: Prisma.XOR<Prisma.CourseOfferCreateWithoutGradeSubmissionInput, Prisma.CourseOfferUncheckedCreateWithoutGradeSubmissionInput>
   connectOrCreate?: Prisma.CourseOfferCreateOrConnectWithoutGradeSubmissionInput
   upsert?: Prisma.CourseOfferUpsertWithoutGradeSubmissionInput
+  disconnect?: Prisma.CourseOfferWhereInput | boolean
+  delete?: Prisma.CourseOfferWhereInput | boolean
   connect?: Prisma.CourseOfferWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.CourseOfferUpdateToOneWithWhereWithoutGradeSubmissionInput, Prisma.CourseOfferUpdateWithoutGradeSubmissionInput>, Prisma.CourseOfferUncheckedUpdateWithoutGradeSubmissionInput>
 }

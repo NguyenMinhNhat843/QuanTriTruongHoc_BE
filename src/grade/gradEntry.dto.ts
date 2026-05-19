@@ -21,14 +21,6 @@ export class CreateGradeEntryDto {
   @IsNotEmpty()
   componentId: number;
 
-  @ApiProperty({
-    example: 123,
-    description: "ID của học sinh (Student)",
-  })
-  @IsInt()
-  @IsNotEmpty()
-  courseRegistrationId: number;
-
   @ApiPropertyOptional({
     example: 8.5,
     nullable: true,
@@ -41,6 +33,10 @@ export class CreateGradeEntryDto {
   @Max(10)
   @IsOptional()
   score: number | null;
+
+  @ApiProperty({ type: Number })
+  @IsNumber()
+  courseRegistrationId: number;
 }
 
 /**

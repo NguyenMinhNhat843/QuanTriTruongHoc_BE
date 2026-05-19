@@ -3612,7 +3612,8 @@ export const GradeEntryScalarFieldEnum = {
   gradeSubmissionId: 'gradeSubmissionId',
   componentId: 'componentId',
   courseRegistrationId: 'courseRegistrationId',
-  score: 'score'
+  score: 'score',
+  status: 'status'
 } as const
 
 export type GradeEntryScalarFieldEnum = (typeof GradeEntryScalarFieldEnum)[keyof typeof GradeEntryScalarFieldEnum]
@@ -3625,7 +3626,8 @@ export const GradeSubmissionScalarFieldEnum = {
   submitedBy: 'submitedBy',
   approvedBy: 'approvedBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  note: 'note'
 } as const
 
 export type GradeSubmissionScalarFieldEnum = (typeof GradeSubmissionScalarFieldEnum)[keyof typeof GradeSubmissionScalarFieldEnum]

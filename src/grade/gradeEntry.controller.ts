@@ -1,11 +1,14 @@
-import { Controller, Post, Body } from "@nestjs/common";
+import { Controller, Post, Body, Get, Query } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { GradeEntryService } from "./gradeEntry.service";
 import {
   ApproveGradeEntryDto,
   CreateManyGradeEntriesDto,
 } from "./gradEntry.dto";
-import { SubmitGradeResponse } from "./gradeSubmis.response";
+import {
+  SubmissionHistoryResponse,
+  SubmitGradeResponse,
+} from "./gradeSubmis.response";
 
 @ApiTags("Grade Entries - Nhập điểm")
 @Controller("grade-entries")
@@ -32,4 +35,23 @@ export class GradeEntryController {
   async approveGrade(@Body() body: ApproveGradeEntryDto) {
     return this.gradeEntryService.approveGradeEntry(body);
   }
+
+  /**
+   * Lấy danh sách submit điểm theo lớp
+   */
+  @Get("submission-history")
+  @ApiOperation({
+    summary: "Lấy lịch sử submit điểm của 1 lớp học phần",
+  })
+  @ApiResponse({
+    status: 200,
+    type: [SubmissionHistoryResponse],
+  })
+  async getSubmissionHistory(@Query("courseOfferId") courseOfferId: number) {
+    return this.gradeEntryService.getSubmissionHistory(courseOfferId);
+  }
+
+  /**
+   * Lấy danh sách điểm hiện tại
+   */
 }

@@ -94,8 +94,7 @@ model Staff {
 
   courseOffers      CourseOffer[]
   teacherSubjects   TeacherSubject[]
-  submittedGrades   GradeSubmission[] @relation("submitterRelation")
-  approvedGrades    GradeSubmission[] @relation("approverRelation")
+  submittedGrades   GradeSubmission[]
 
   @@map("staffs")
 }

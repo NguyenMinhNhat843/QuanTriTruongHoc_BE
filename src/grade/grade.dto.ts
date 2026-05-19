@@ -1,6 +1,7 @@
 import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsInt, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { Transform } from "class-transformer";
+import { GradeSubmissionStatus } from "../../prisma/generated/prisma/enums";
 
 // --- 1. DTO CHO PATH PARAMETERS (ID) ---
 export class GradeComponentParamDto {
@@ -27,3 +28,21 @@ export class CreateGradeComponentDto {
 export class UpdateGradeComponentDto extends PartialType(
   CreateGradeComponentDto,
 ) {}
+
+// submit-diem.dto.ts
+export class SubmitDiemDto {
+  @ApiProperty({ example: 5, description: "ID của lớp học phần (CourseOffer)" })
+  @IsInt()
+  @IsNotEmpty()
+  courseOfferId: number;
+
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  createBy: number; // Sau này nếu bạn làm Auth (JWT), ID này sẽ lấy từ Token chứ không cần truyền ở Body.
+
+  @ApiProperty()
+  @IsEnum(GradeSubmissionStatus)
+  @IsNotEmpty()
+  status: GradeSubmissionStatus;
+}
