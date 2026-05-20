@@ -4,7 +4,6 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
-  console.log("A");
   const app = await NestFactory.create(AppModule);
 
   console.log("B");
@@ -15,14 +14,11 @@ async function bootstrap() {
     .addBearerAuth() // nếu dùng JWT
     .build();
 
-  console.log("C");
   app.enableCors();
 
-  console.log("D");
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document);
 
-  console.log("E");
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // bỏ field dư
@@ -31,7 +27,6 @@ async function bootstrap() {
     }),
   );
 
-  console.log("F");
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

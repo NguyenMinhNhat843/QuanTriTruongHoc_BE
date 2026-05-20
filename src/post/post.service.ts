@@ -117,7 +117,6 @@ export class PostService {
     });
   }
 
-  // Chạy mỗi phút một lần (hoặc tùy chỉnh thời gian phù hợp)
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async handleScheduledPosts() {
     this.logger.debug("Đang kiểm tra các bài viết hẹn giờ...");
