@@ -33,6 +33,10 @@ import { ClassResponseDto } from "./class.response";
 export class ClassController {
   constructor(private readonly classService: ClassService) {}
 
+  /**
+   * Phân lớp tự động cho sinh viên
+   * THeo ngành, khóa, sĩ số tối đa
+   */
   @Post("auto-assign")
   @ApiOperation({ summary: "Tự động phân lớp cho sinh viên mới" })
   async autoAssign(@Body() dto: AssignClassDto) {

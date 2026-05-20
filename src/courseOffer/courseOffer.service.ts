@@ -23,7 +23,9 @@ export class CourseOfferService {
     private courseOfferQuery: CourseOfferQuery,
   ) {}
 
-  // get all lớp học phần
+  /**
+   * Lấy danh sách tất cả lớp học phần (có thể thêm phân trang sau này)
+   */
   async getAllCourseOffers() {
     const result = await this.prisma.courseOffer.findMany({
       include: {
@@ -434,37 +436,6 @@ export class CourseOfferService {
   }
 
   /**
-   * Lấy điểm của 1 lớp
-   */
-  async getDiemCua1Lop(courseOfferId: number) {
-    const courseOffer = await this.prisma.courseOffer.findUnique({
-      where: { id: courseOfferId },
-      include: {
-        registrations: {
-          include: {
-            gradeEntries: {
-              include: {
-                component: true,
-              },
-            },
-            student: {
-              select: {
-                id: true,
-                fullName: true,
-                studentCode: true,
-                gender: true,
-                dob: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    return courseOffer;
-  }
-
-  /**
    * Chi tiết lớp học phần
    */
   async getCourseOfferDetail(
@@ -508,9 +479,6 @@ export class CourseOfferService {
             },
           },
         },
-        // Chú ý: Ở DTO bạn đặt tên field quan hệ là `class`,
-        // nhưng trong Prisma include bạn đang dùng `baseClass`.
-        // Để mapping tự động mượt mà bằng plainToInstance, ta có thể alias hoặc gán lại sau.
         baseClass: {
           select: {
             id: true,
@@ -603,7 +571,10 @@ export class CourseOfferService {
   }
 
   /**
-   * Xuất excel danh sách loại điểm
+   * Xuất excel danh sách điểm của lớp học phần
+   * File excel sẽ được tạo dựa trên template có sẵn trong thư mục assets của project
+   * Template này đã được thiết kế sẵn với phần header và định dạng cơ bản
+   * Phần dữ liệu điểm sẽ được chèn động vào template dựa trên cấu trúc đã định nghĩa
    */
   async exportToExcel(courseOfferId: number) {
     // 1. Xác định đường dẫn file template (Sử dụng process.cwd() để an toàn cho cả dev và production)

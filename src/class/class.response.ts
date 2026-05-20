@@ -1,6 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { MajorResponseDto } from "../major/major.response";
+import { StaffResponseDto } from "../staff/staff.response";
+import { BatchResponseDto } from "../batch/batch.response";
+import { Class } from "../../prisma/generated/prisma/client";
 
-export class ClassResponseDto {
+export class ClassResponseDto implements Class {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -16,8 +20,8 @@ export class ClassResponseDto {
   @ApiProperty({ example: 2024 })
   courseYear: number;
 
-  @ApiPropertyOptional({ example: 1, nullable: true })
-  formTeacherId?: number;
+  @ApiPropertyOptional({ example: 1, nullable: true, type: Number })
+  formTeacherId: number | null;
 
   @ApiProperty({ example: 40 })
   maxStudents: number;
@@ -31,18 +35,40 @@ export class ClassResponseDto {
   @ApiProperty({ example: "2024-04-25T10:00:00Z" })
   updatedAt: Date;
 
-  // --- Dữ liệu quan hệ ---
-  @ApiPropertyOptional({ description: "Thông tin ngành đào tạo" })
-  major?: any;
+  @ApiPropertyOptional({ example: 1, nullable: true, type: Number })
+  batchId: number | null;
 
-  @ApiPropertyOptional({ description: "Thông tin giáo viên chủ nhiệm" })
-  formTeacher?: any;
+  @ApiPropertyOptional({
+    example: 35,
+    description: "Số lượng sinh viên hiện tại",
+    type: Number,
+  })
+  currentSize: number;
+
+  // --- Dữ liệu quan hệ ---
+  @ApiPropertyOptional({
+    description: "Thông tin ngành đào tạo",
+    type: () => MajorResponseDto,
+  })
+  major?: MajorResponseDto;
+
+  @ApiPropertyOptional({
+    description: "Thông tin giáo viên chủ nhiệm",
+    type: () => StaffResponseDto,
+  })
+  formTeacher?: StaffResponseDto;
 
   @ApiPropertyOptional({
     example: 35,
     description: "Số lượng sinh viên hiện tại",
   })
   studentCount?: number;
+
+  @ApiPropertyOptional({
+    description: "Thông tin khóa học (batch)",
+    type: () => BatchResponseDto,
+  })
+  batch?: BatchResponseDto;
 
   constructor(partial: any = {}) {
     // Thêm = {} ở đây

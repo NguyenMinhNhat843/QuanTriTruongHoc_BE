@@ -103,8 +103,6 @@ export class CourseOfferController {
   ) {
     try {
       // 1. Gọi service để xử lý và nhận về file dạng Buffer
-      // const { buffer: fileBuffer, fileName } =
-      //   await this.courseOfferService.exportToExcel(id);
       const fileBuffer = await this.courseOfferService.exportToExcel(id);
       const fileName = `bangdiem_lophocphan_${id}.xlsx`;
 
@@ -114,16 +112,13 @@ export class CourseOfferController {
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "Content-Disposition": `attachment; filename="${fileName}"`,
         "Content-Length": fileBuffer.byteLength,
-        // Đảm bảo không bị lưu cache file cũ
         "Cache-Control": "no-cache, no-store, must-revalidate",
         Pragma: "no-cache",
         Expires: "0",
       });
 
-      // 3. Trả Buffer file trực tiếp về cho client qua stream response
       res.end(fileBuffer);
     } catch (error: any) {
-      // Xử lý lỗi nếu không tìm thấy đợt mở môn hoặc lỗi đọc file template
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message:

@@ -14,12 +14,15 @@ import {
   UpdateClassDto,
 } from "./class.dto";
 import { StudentStatus } from "../../prisma/generated/prisma/enums";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class ClassService {
   constructor(private prisma: PrismaService) {}
 
-  // Phân lớp cho học sinh
+  /**
+   * Phân lớp tự động cho sinh viên dựa trên Ngành, Khóa và sĩ số tối đa mỗi lớp
+   */
   async assignStudentsToClass(
     majorId: number,
     batchId: number,
@@ -49,7 +52,7 @@ export class ClassService {
 
     // 3. Tính toán số lượng lớp cần tạo
     const numClasses = Math.ceil(students.length / maxStudents);
-    const classLetters = ["A", "B", "C", "D", "E"]; // Hậu tố tên lớp
+    const classLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "K"];
 
     for (let i = 0; i < numClasses; i++) {
       // Tạo tên lớp ví dụ: CNTTK1A
@@ -87,6 +90,9 @@ export class ClassService {
     };
   }
 
+  /**
+   * Tạo lớp học
+   */
   async create(data: CreateClassDto): Promise<ClassResponseDto> {
     const { classCode, majorId, formTeacherId } = data;
 
@@ -133,16 +139,23 @@ export class ClassService {
     }
   }
 
+  /**
+   * Lấy danh sách tất cả lớp học
+   */
   async findAll(): Promise<ClassResponseDto[]> {
     const classes = await this.prisma.class.findMany({
       include: {
         major: true,
+        batch: true,
         _count: { select: { courseOffers: true } },
       },
     });
-    return classes.map((c) => new ClassResponseDto(c));
+    return plainToInstance(ClassResponseDto, classes);
   }
 
+  /**
+   * Lấy thông tin một lớp học theo ID
+   */
   async findOne(id: number): Promise<ClassResponseDto> {
     const classItem = await this.prisma.class.findUnique({
       where: { id },
@@ -158,6 +171,9 @@ export class ClassService {
     return new ClassResponseDto(classItem);
   }
 
+  /**
+   * Cập nhật thông tin lớp học
+   */
   async update(id: number, data: UpdateClassDto): Promise<ClassResponseDto> {
     await this.findOne(id); // Kiểm tra tồn tại
 
@@ -181,14 +197,17 @@ export class ClassService {
     }
   }
 
+  /**
+   * Xóa 1 lớp học
+   */
   async remove(id: number) {
     await this.findOne(id);
     return this.prisma.class.delete({ where: { id } });
   }
 
-  // Get danh sacsh hocj sinh đủ điều kiện phân lớp
-
-  // Phân lớp
+  /**
+   * Phân lớp tự động cho sinh viên chính thức dựa trên Ngành, Khóa và sĩ số tối đa mỗi lớp
+   */
   async assignStudentsToClasses(body: AssignStudentsToClassesDto) {
     const { batchId, studentsPerClass = 40 } = body;
     const batch = await this.prisma.batch.findUnique({
@@ -311,33 +330,35 @@ export class ClassService {
     });
   }
 
-  // Lấy danh sách học sinh đủ điều kiện phân lớp: đã đóng học phí nhập học
+  /**
+   * Lấy danh sách sinh viên đủ điều kiện phân lớp
+   * Theo khóa đào tạo, ngành, học sinh phải đóng học phí rồi
+   */
   async getEligibleStudentsForAssignment(query: RequestEligibleStudents) {
     const { batchId } = query;
     const students = await this.prisma.student.findMany({
       where: {
-        status: StudentStatus.studying, // Đã đóng tiền và đang học,
-        classId: null, // Chưa có lớp
-        batchId: batchId ? batchId : undefined, // Lọc theo khóa nếu có
+        status: StudentStatus.studying,
+        classId: null,
+        batchId: batchId ? batchId : undefined,
       },
       include: {
         application: {
           include: {
-            admission: true, // Lấy thông tin đợt tuyển sinh từ quan hệ Application [cite: 78]
+            admission: true, // Lấy thông tin đợt tuyển sinh từ quan hệ Application
           },
         },
       },
-      orderBy: { fullName: "asc" }, // Sắp xếp theo tên sinh viên [cite: 10]
+      orderBy: { fullName: "asc" },
     });
 
     return {
       // Thống kê tổng số sinh viên đủ điều kiện
       totalEligible: students.length,
       students: students.map((s) => ({
-        id: s.id, // [cite: 3]
-        studentCode: s.studentCode, // [cite: 4]
-        fullName: s.fullName, // [cite: 10]
-        // Lấy tên đợt tuyển sinh từ thông tin Admission
+        id: s.id,
+        studentCode: s.studentCode,
+        fullName: s.fullName,
         admissionName: s.application?.admission?.name || "Không rõ đợt",
       })),
     };
