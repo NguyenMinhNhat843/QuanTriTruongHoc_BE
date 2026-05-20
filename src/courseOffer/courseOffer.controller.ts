@@ -2,11 +2,13 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
   Post,
   Query,
+  Res,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
@@ -19,6 +21,7 @@ import {
 } from "./courseOffer.dto";
 import { StudentResponseDto } from "../student/student.response";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
+import { Response } from "express";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
@@ -91,5 +94,41 @@ export class CourseOfferController {
     return await this.courseOfferService.getEligibleStudentsForCourseOffer(
       courseOfferId,
     );
+  }
+
+  @Get(":id/export-excel")
+  async exportExcel(
+    @Param("id", ParseIntPipe) id: number,
+    @Res() res: Response,
+  ) {
+    try {
+      // 1. Gọi service để xử lý và nhận về file dạng Buffer
+      // const { buffer: fileBuffer, fileName } =
+      //   await this.courseOfferService.exportToExcel(id);
+      const fileBuffer = await this.courseOfferService.exportToExcel(id);
+      const fileName = `bangdiem_lophocphan_${id}.xlsx`;
+
+      // 2. Thiết lập các HTTP Header cần thiết cho việc tải file mẫu Excel (.xlsx)
+      res.set({
+        "Content-Type":
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "Content-Disposition": `attachment; filename="${fileName}"`,
+        "Content-Length": fileBuffer.byteLength,
+        // Đảm bảo không bị lưu cache file cũ
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      });
+
+      // 3. Trả Buffer file trực tiếp về cho client qua stream response
+      res.end(fileBuffer);
+    } catch (error: any) {
+      // Xử lý lỗi nếu không tìm thấy đợt mở môn hoặc lỗi đọc file template
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message:
+          error.message || "Đã xảy ra lỗi trong quá trình xuất file Excel",
+      });
+    }
   }
 }

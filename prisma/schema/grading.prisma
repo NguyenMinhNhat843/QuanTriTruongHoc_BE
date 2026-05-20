@@ -27,15 +27,19 @@ model SubjectGradeWeight {
   weight           Float          // Trọng số - ví dụ: 1, 2, 3
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
+  position         Int?           // Thứ tự hiển thị
 
   @@unique([subjectId, gradeComponentId]) // Ràng buộc: Một môn học không thể cấu hình trùng 1 loại điểm 2 lần
   @@map("subject_grade_weights")
 }
 
+enum GradeSubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
 model GradeEntry {
   id                    Int                 @id @default(autoincrement())
-  gradeSubmissionId     Int?                // Thuộc về đơn submit nào
-  gradeSubmission       GradeSubmission?    @relation(fields: [gradeSubmissionId], references: [id], onDelete: Cascade)
   componentId           Int
   component             GradeComponent      @relation(fields: [componentId], references: [id])
   courseRegistrationId  Int?
@@ -43,27 +47,6 @@ model GradeEntry {
   score                 Float?
   status                GradeSubmissionStatus?
 
-  @@unique([componentId, courseRegistrationId, gradeSubmissionId]) // Một học sinh không thể có 2 điểm cùng loại trong 1 lớp
+  @@unique([componentId, courseRegistrationId]) // Một học sinh không thể có 2 điểm cùng loại trong 1 lớp
   @@map("grade_entries")
-}
-
-
-enum GradeSubmissionStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-model GradeSubmission {
-  id                Int                   @id @default(autoincrement())
-  courseOfferId     Int?
-  courseOffer       CourseOffer?           @relation(fields: [courseOfferId], references: [id])
-  status            GradeSubmissionStatus
-  submitedBy        Int
-  submitter         Staff                 @relation(fields: [submitedBy], references: [id])
-  approvedBy        Int?
-  createdAt         DateTime              @default(now())
-  updatedAt         DateTime?    
-  note              String?    
-
-  gradeEntries      GradeEntry[]
 }

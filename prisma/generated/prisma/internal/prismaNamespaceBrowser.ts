@@ -85,7 +85,6 @@ export const ModelName = {
   GradeComponent: 'GradeComponent',
   SubjectGradeWeight: 'SubjectGradeWeight',
   GradeEntry: 'GradeEntry',
-  GradeSubmission: 'GradeSubmission',
   Post: 'Post'
 } as const
 
@@ -564,7 +563,8 @@ export const SubjectGradeWeightScalarFieldEnum = {
   gradeComponentId: 'gradeComponentId',
   weight: 'weight',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  position: 'position'
 } as const
 
 export type SubjectGradeWeightScalarFieldEnum = (typeof SubjectGradeWeightScalarFieldEnum)[keyof typeof SubjectGradeWeightScalarFieldEnum]
@@ -572,7 +572,6 @@ export type SubjectGradeWeightScalarFieldEnum = (typeof SubjectGradeWeightScalar
 
 export const GradeEntryScalarFieldEnum = {
   id: 'id',
-  gradeSubmissionId: 'gradeSubmissionId',
   componentId: 'componentId',
   courseRegistrationId: 'courseRegistrationId',
   score: 'score',
@@ -580,20 +579,6 @@ export const GradeEntryScalarFieldEnum = {
 } as const
 
 export type GradeEntryScalarFieldEnum = (typeof GradeEntryScalarFieldEnum)[keyof typeof GradeEntryScalarFieldEnum]
-
-
-export const GradeSubmissionScalarFieldEnum = {
-  id: 'id',
-  courseOfferId: 'courseOfferId',
-  status: 'status',
-  submitedBy: 'submitedBy',
-  approvedBy: 'approvedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  note: 'note'
-} as const
-
-export type GradeSubmissionScalarFieldEnum = (typeof GradeSubmissionScalarFieldEnum)[keyof typeof GradeSubmissionScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {

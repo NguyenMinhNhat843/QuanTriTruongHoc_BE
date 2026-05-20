@@ -28,7 +28,6 @@ export type AggregateGradeEntry = {
 
 export type GradeEntryAvgAggregateOutputType = {
   id: number | null
-  gradeSubmissionId: number | null
   componentId: number | null
   courseRegistrationId: number | null
   score: number | null
@@ -36,7 +35,6 @@ export type GradeEntryAvgAggregateOutputType = {
 
 export type GradeEntrySumAggregateOutputType = {
   id: number | null
-  gradeSubmissionId: number | null
   componentId: number | null
   courseRegistrationId: number | null
   score: number | null
@@ -44,7 +42,6 @@ export type GradeEntrySumAggregateOutputType = {
 
 export type GradeEntryMinAggregateOutputType = {
   id: number | null
-  gradeSubmissionId: number | null
   componentId: number | null
   courseRegistrationId: number | null
   score: number | null
@@ -53,7 +50,6 @@ export type GradeEntryMinAggregateOutputType = {
 
 export type GradeEntryMaxAggregateOutputType = {
   id: number | null
-  gradeSubmissionId: number | null
   componentId: number | null
   courseRegistrationId: number | null
   score: number | null
@@ -62,7 +58,6 @@ export type GradeEntryMaxAggregateOutputType = {
 
 export type GradeEntryCountAggregateOutputType = {
   id: number
-  gradeSubmissionId: number
   componentId: number
   courseRegistrationId: number
   score: number
@@ -73,7 +68,6 @@ export type GradeEntryCountAggregateOutputType = {
 
 export type GradeEntryAvgAggregateInputType = {
   id?: true
-  gradeSubmissionId?: true
   componentId?: true
   courseRegistrationId?: true
   score?: true
@@ -81,7 +75,6 @@ export type GradeEntryAvgAggregateInputType = {
 
 export type GradeEntrySumAggregateInputType = {
   id?: true
-  gradeSubmissionId?: true
   componentId?: true
   courseRegistrationId?: true
   score?: true
@@ -89,7 +82,6 @@ export type GradeEntrySumAggregateInputType = {
 
 export type GradeEntryMinAggregateInputType = {
   id?: true
-  gradeSubmissionId?: true
   componentId?: true
   courseRegistrationId?: true
   score?: true
@@ -98,7 +90,6 @@ export type GradeEntryMinAggregateInputType = {
 
 export type GradeEntryMaxAggregateInputType = {
   id?: true
-  gradeSubmissionId?: true
   componentId?: true
   courseRegistrationId?: true
   score?: true
@@ -107,7 +98,6 @@ export type GradeEntryMaxAggregateInputType = {
 
 export type GradeEntryCountAggregateInputType = {
   id?: true
-  gradeSubmissionId?: true
   componentId?: true
   courseRegistrationId?: true
   score?: true
@@ -203,7 +193,6 @@ export type GradeEntryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type GradeEntryGroupByOutputType = {
   id: number
-  gradeSubmissionId: number | null
   componentId: number
   courseRegistrationId: number | null
   score: number | null
@@ -235,47 +224,40 @@ export type GradeEntryWhereInput = {
   OR?: Prisma.GradeEntryWhereInput[]
   NOT?: Prisma.GradeEntryWhereInput | Prisma.GradeEntryWhereInput[]
   id?: Prisma.IntFilter<"GradeEntry"> | number
-  gradeSubmissionId?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   componentId?: Prisma.IntFilter<"GradeEntry"> | number
   courseRegistrationId?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   score?: Prisma.FloatNullableFilter<"GradeEntry"> | number | null
   status?: Prisma.EnumGradeSubmissionStatusNullableFilter<"GradeEntry"> | $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.XOR<Prisma.GradeSubmissionNullableScalarRelationFilter, Prisma.GradeSubmissionWhereInput> | null
   component?: Prisma.XOR<Prisma.GradeComponentScalarRelationFilter, Prisma.GradeComponentWhereInput>
   CourseRegistration?: Prisma.XOR<Prisma.CourseRegistrationNullableScalarRelationFilter, Prisma.CourseRegistrationWhereInput> | null
 }
 
 export type GradeEntryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  gradeSubmissionId?: Prisma.SortOrderInput | Prisma.SortOrder
   componentId?: Prisma.SortOrder
   courseRegistrationId?: Prisma.SortOrderInput | Prisma.SortOrder
   score?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
-  gradeSubmission?: Prisma.GradeSubmissionOrderByWithRelationInput
   component?: Prisma.GradeComponentOrderByWithRelationInput
   CourseRegistration?: Prisma.CourseRegistrationOrderByWithRelationInput
 }
 
 export type GradeEntryWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  componentId_courseRegistrationId_gradeSubmissionId?: Prisma.GradeEntryComponentIdCourseRegistrationIdGradeSubmissionIdCompoundUniqueInput
+  componentId_courseRegistrationId?: Prisma.GradeEntryComponentIdCourseRegistrationIdCompoundUniqueInput
   AND?: Prisma.GradeEntryWhereInput | Prisma.GradeEntryWhereInput[]
   OR?: Prisma.GradeEntryWhereInput[]
   NOT?: Prisma.GradeEntryWhereInput | Prisma.GradeEntryWhereInput[]
-  gradeSubmissionId?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   componentId?: Prisma.IntFilter<"GradeEntry"> | number
   courseRegistrationId?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   score?: Prisma.FloatNullableFilter<"GradeEntry"> | number | null
   status?: Prisma.EnumGradeSubmissionStatusNullableFilter<"GradeEntry"> | $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.XOR<Prisma.GradeSubmissionNullableScalarRelationFilter, Prisma.GradeSubmissionWhereInput> | null
   component?: Prisma.XOR<Prisma.GradeComponentScalarRelationFilter, Prisma.GradeComponentWhereInput>
   CourseRegistration?: Prisma.XOR<Prisma.CourseRegistrationNullableScalarRelationFilter, Prisma.CourseRegistrationWhereInput> | null
-}, "id" | "componentId_courseRegistrationId_gradeSubmissionId">
+}, "id" | "componentId_courseRegistrationId">
 
 export type GradeEntryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  gradeSubmissionId?: Prisma.SortOrderInput | Prisma.SortOrder
   componentId?: Prisma.SortOrder
   courseRegistrationId?: Prisma.SortOrderInput | Prisma.SortOrder
   score?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -292,7 +274,6 @@ export type GradeEntryScalarWhereWithAggregatesInput = {
   OR?: Prisma.GradeEntryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.GradeEntryScalarWhereWithAggregatesInput | Prisma.GradeEntryScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"GradeEntry"> | number
-  gradeSubmissionId?: Prisma.IntNullableWithAggregatesFilter<"GradeEntry"> | number | null
   componentId?: Prisma.IntWithAggregatesFilter<"GradeEntry"> | number
   courseRegistrationId?: Prisma.IntNullableWithAggregatesFilter<"GradeEntry"> | number | null
   score?: Prisma.FloatNullableWithAggregatesFilter<"GradeEntry"> | number | null
@@ -302,14 +283,12 @@ export type GradeEntryScalarWhereWithAggregatesInput = {
 export type GradeEntryCreateInput = {
   score?: number | null
   status?: $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.GradeSubmissionCreateNestedOneWithoutGradeEntriesInput
   component: Prisma.GradeComponentCreateNestedOneWithoutGradeEntriesInput
   CourseRegistration?: Prisma.CourseRegistrationCreateNestedOneWithoutGradeEntriesInput
 }
 
 export type GradeEntryUncheckedCreateInput = {
   id?: number
-  gradeSubmissionId?: number | null
   componentId: number
   courseRegistrationId?: number | null
   score?: number | null
@@ -319,14 +298,12 @@ export type GradeEntryUncheckedCreateInput = {
 export type GradeEntryUpdateInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.GradeSubmissionUpdateOneWithoutGradeEntriesNestedInput
   component?: Prisma.GradeComponentUpdateOneRequiredWithoutGradeEntriesNestedInput
   CourseRegistration?: Prisma.CourseRegistrationUpdateOneWithoutGradeEntriesNestedInput
 }
 
 export type GradeEntryUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  gradeSubmissionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseRegistrationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -335,7 +312,6 @@ export type GradeEntryUncheckedUpdateInput = {
 
 export type GradeEntryCreateManyInput = {
   id?: number
-  gradeSubmissionId?: number | null
   componentId: number
   courseRegistrationId?: number | null
   score?: number | null
@@ -349,7 +325,6 @@ export type GradeEntryUpdateManyMutationInput = {
 
 export type GradeEntryUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  gradeSubmissionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseRegistrationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -366,15 +341,13 @@ export type GradeEntryOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type GradeEntryComponentIdCourseRegistrationIdGradeSubmissionIdCompoundUniqueInput = {
+export type GradeEntryComponentIdCourseRegistrationIdCompoundUniqueInput = {
   componentId: number
   courseRegistrationId: number
-  gradeSubmissionId: number
 }
 
 export type GradeEntryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  gradeSubmissionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
   courseRegistrationId?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -383,7 +356,6 @@ export type GradeEntryCountOrderByAggregateInput = {
 
 export type GradeEntryAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  gradeSubmissionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
   courseRegistrationId?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -391,7 +363,6 @@ export type GradeEntryAvgOrderByAggregateInput = {
 
 export type GradeEntryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  gradeSubmissionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
   courseRegistrationId?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -400,7 +371,6 @@ export type GradeEntryMaxOrderByAggregateInput = {
 
 export type GradeEntryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  gradeSubmissionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
   courseRegistrationId?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -409,7 +379,6 @@ export type GradeEntryMinOrderByAggregateInput = {
 
 export type GradeEntrySumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  gradeSubmissionId?: Prisma.SortOrder
   componentId?: Prisma.SortOrder
   courseRegistrationId?: Prisma.SortOrder
   score?: Prisma.SortOrder
@@ -503,58 +472,14 @@ export type NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput = {
   set?: $Enums.GradeSubmissionStatus | null
 }
 
-export type GradeEntryCreateNestedManyWithoutGradeSubmissionInput = {
-  create?: Prisma.XOR<Prisma.GradeEntryCreateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput> | Prisma.GradeEntryCreateWithoutGradeSubmissionInput[] | Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput[]
-  connectOrCreate?: Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput | Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput[]
-  createMany?: Prisma.GradeEntryCreateManyGradeSubmissionInputEnvelope
-  connect?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-}
-
-export type GradeEntryUncheckedCreateNestedManyWithoutGradeSubmissionInput = {
-  create?: Prisma.XOR<Prisma.GradeEntryCreateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput> | Prisma.GradeEntryCreateWithoutGradeSubmissionInput[] | Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput[]
-  connectOrCreate?: Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput | Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput[]
-  createMany?: Prisma.GradeEntryCreateManyGradeSubmissionInputEnvelope
-  connect?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-}
-
-export type GradeEntryUpdateManyWithoutGradeSubmissionNestedInput = {
-  create?: Prisma.XOR<Prisma.GradeEntryCreateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput> | Prisma.GradeEntryCreateWithoutGradeSubmissionInput[] | Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput[]
-  connectOrCreate?: Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput | Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput[]
-  upsert?: Prisma.GradeEntryUpsertWithWhereUniqueWithoutGradeSubmissionInput | Prisma.GradeEntryUpsertWithWhereUniqueWithoutGradeSubmissionInput[]
-  createMany?: Prisma.GradeEntryCreateManyGradeSubmissionInputEnvelope
-  set?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  disconnect?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  delete?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  connect?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  update?: Prisma.GradeEntryUpdateWithWhereUniqueWithoutGradeSubmissionInput | Prisma.GradeEntryUpdateWithWhereUniqueWithoutGradeSubmissionInput[]
-  updateMany?: Prisma.GradeEntryUpdateManyWithWhereWithoutGradeSubmissionInput | Prisma.GradeEntryUpdateManyWithWhereWithoutGradeSubmissionInput[]
-  deleteMany?: Prisma.GradeEntryScalarWhereInput | Prisma.GradeEntryScalarWhereInput[]
-}
-
-export type GradeEntryUncheckedUpdateManyWithoutGradeSubmissionNestedInput = {
-  create?: Prisma.XOR<Prisma.GradeEntryCreateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput> | Prisma.GradeEntryCreateWithoutGradeSubmissionInput[] | Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput[]
-  connectOrCreate?: Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput | Prisma.GradeEntryCreateOrConnectWithoutGradeSubmissionInput[]
-  upsert?: Prisma.GradeEntryUpsertWithWhereUniqueWithoutGradeSubmissionInput | Prisma.GradeEntryUpsertWithWhereUniqueWithoutGradeSubmissionInput[]
-  createMany?: Prisma.GradeEntryCreateManyGradeSubmissionInputEnvelope
-  set?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  disconnect?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  delete?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  connect?: Prisma.GradeEntryWhereUniqueInput | Prisma.GradeEntryWhereUniqueInput[]
-  update?: Prisma.GradeEntryUpdateWithWhereUniqueWithoutGradeSubmissionInput | Prisma.GradeEntryUpdateWithWhereUniqueWithoutGradeSubmissionInput[]
-  updateMany?: Prisma.GradeEntryUpdateManyWithWhereWithoutGradeSubmissionInput | Prisma.GradeEntryUpdateManyWithWhereWithoutGradeSubmissionInput[]
-  deleteMany?: Prisma.GradeEntryScalarWhereInput | Prisma.GradeEntryScalarWhereInput[]
-}
-
 export type GradeEntryCreateWithoutCourseRegistrationInput = {
   score?: number | null
   status?: $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.GradeSubmissionCreateNestedOneWithoutGradeEntriesInput
   component: Prisma.GradeComponentCreateNestedOneWithoutGradeEntriesInput
 }
 
 export type GradeEntryUncheckedCreateWithoutCourseRegistrationInput = {
   id?: number
-  gradeSubmissionId?: number | null
   componentId: number
   score?: number | null
   status?: $Enums.GradeSubmissionStatus | null
@@ -591,7 +516,6 @@ export type GradeEntryScalarWhereInput = {
   OR?: Prisma.GradeEntryScalarWhereInput[]
   NOT?: Prisma.GradeEntryScalarWhereInput | Prisma.GradeEntryScalarWhereInput[]
   id?: Prisma.IntFilter<"GradeEntry"> | number
-  gradeSubmissionId?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   componentId?: Prisma.IntFilter<"GradeEntry"> | number
   courseRegistrationId?: Prisma.IntNullableFilter<"GradeEntry"> | number | null
   score?: Prisma.FloatNullableFilter<"GradeEntry"> | number | null
@@ -601,13 +525,11 @@ export type GradeEntryScalarWhereInput = {
 export type GradeEntryCreateWithoutComponentInput = {
   score?: number | null
   status?: $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.GradeSubmissionCreateNestedOneWithoutGradeEntriesInput
   CourseRegistration?: Prisma.CourseRegistrationCreateNestedOneWithoutGradeEntriesInput
 }
 
 export type GradeEntryUncheckedCreateWithoutComponentInput = {
   id?: number
-  gradeSubmissionId?: number | null
   courseRegistrationId?: number | null
   score?: number | null
   status?: $Enums.GradeSubmissionStatus | null
@@ -639,50 +561,8 @@ export type GradeEntryUpdateManyWithWhereWithoutComponentInput = {
   data: Prisma.XOR<Prisma.GradeEntryUpdateManyMutationInput, Prisma.GradeEntryUncheckedUpdateManyWithoutComponentInput>
 }
 
-export type GradeEntryCreateWithoutGradeSubmissionInput = {
-  score?: number | null
-  status?: $Enums.GradeSubmissionStatus | null
-  component: Prisma.GradeComponentCreateNestedOneWithoutGradeEntriesInput
-  CourseRegistration?: Prisma.CourseRegistrationCreateNestedOneWithoutGradeEntriesInput
-}
-
-export type GradeEntryUncheckedCreateWithoutGradeSubmissionInput = {
-  id?: number
-  componentId: number
-  courseRegistrationId?: number | null
-  score?: number | null
-  status?: $Enums.GradeSubmissionStatus | null
-}
-
-export type GradeEntryCreateOrConnectWithoutGradeSubmissionInput = {
-  where: Prisma.GradeEntryWhereUniqueInput
-  create: Prisma.XOR<Prisma.GradeEntryCreateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput>
-}
-
-export type GradeEntryCreateManyGradeSubmissionInputEnvelope = {
-  data: Prisma.GradeEntryCreateManyGradeSubmissionInput | Prisma.GradeEntryCreateManyGradeSubmissionInput[]
-  skipDuplicates?: boolean
-}
-
-export type GradeEntryUpsertWithWhereUniqueWithoutGradeSubmissionInput = {
-  where: Prisma.GradeEntryWhereUniqueInput
-  update: Prisma.XOR<Prisma.GradeEntryUpdateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedUpdateWithoutGradeSubmissionInput>
-  create: Prisma.XOR<Prisma.GradeEntryCreateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedCreateWithoutGradeSubmissionInput>
-}
-
-export type GradeEntryUpdateWithWhereUniqueWithoutGradeSubmissionInput = {
-  where: Prisma.GradeEntryWhereUniqueInput
-  data: Prisma.XOR<Prisma.GradeEntryUpdateWithoutGradeSubmissionInput, Prisma.GradeEntryUncheckedUpdateWithoutGradeSubmissionInput>
-}
-
-export type GradeEntryUpdateManyWithWhereWithoutGradeSubmissionInput = {
-  where: Prisma.GradeEntryScalarWhereInput
-  data: Prisma.XOR<Prisma.GradeEntryUpdateManyMutationInput, Prisma.GradeEntryUncheckedUpdateManyWithoutGradeSubmissionInput>
-}
-
 export type GradeEntryCreateManyCourseRegistrationInput = {
   id?: number
-  gradeSubmissionId?: number | null
   componentId: number
   score?: number | null
   status?: $Enums.GradeSubmissionStatus | null
@@ -691,13 +571,11 @@ export type GradeEntryCreateManyCourseRegistrationInput = {
 export type GradeEntryUpdateWithoutCourseRegistrationInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.GradeSubmissionUpdateOneWithoutGradeEntriesNestedInput
   component?: Prisma.GradeComponentUpdateOneRequiredWithoutGradeEntriesNestedInput
 }
 
 export type GradeEntryUncheckedUpdateWithoutCourseRegistrationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  gradeSubmissionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
@@ -705,7 +583,6 @@ export type GradeEntryUncheckedUpdateWithoutCourseRegistrationInput = {
 
 export type GradeEntryUncheckedUpdateManyWithoutCourseRegistrationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  gradeSubmissionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   componentId?: Prisma.IntFieldUpdateOperationsInput | number
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
@@ -713,7 +590,6 @@ export type GradeEntryUncheckedUpdateManyWithoutCourseRegistrationInput = {
 
 export type GradeEntryCreateManyComponentInput = {
   id?: number
-  gradeSubmissionId?: number | null
   courseRegistrationId?: number | null
   score?: number | null
   status?: $Enums.GradeSubmissionStatus | null
@@ -722,13 +598,11 @@ export type GradeEntryCreateManyComponentInput = {
 export type GradeEntryUpdateWithoutComponentInput = {
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
-  gradeSubmission?: Prisma.GradeSubmissionUpdateOneWithoutGradeEntriesNestedInput
   CourseRegistration?: Prisma.CourseRegistrationUpdateOneWithoutGradeEntriesNestedInput
 }
 
 export type GradeEntryUncheckedUpdateWithoutComponentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  gradeSubmissionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   courseRegistrationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
@@ -736,38 +610,6 @@ export type GradeEntryUncheckedUpdateWithoutComponentInput = {
 
 export type GradeEntryUncheckedUpdateManyWithoutComponentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  gradeSubmissionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  courseRegistrationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
-}
-
-export type GradeEntryCreateManyGradeSubmissionInput = {
-  id?: number
-  componentId: number
-  courseRegistrationId?: number | null
-  score?: number | null
-  status?: $Enums.GradeSubmissionStatus | null
-}
-
-export type GradeEntryUpdateWithoutGradeSubmissionInput = {
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
-  component?: Prisma.GradeComponentUpdateOneRequiredWithoutGradeEntriesNestedInput
-  CourseRegistration?: Prisma.CourseRegistrationUpdateOneWithoutGradeEntriesNestedInput
-}
-
-export type GradeEntryUncheckedUpdateWithoutGradeSubmissionInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  componentId?: Prisma.IntFieldUpdateOperationsInput | number
-  courseRegistrationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
-}
-
-export type GradeEntryUncheckedUpdateManyWithoutGradeSubmissionInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  componentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseRegistrationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   score?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.NullableEnumGradeSubmissionStatusFieldUpdateOperationsInput | $Enums.GradeSubmissionStatus | null
@@ -777,62 +619,52 @@ export type GradeEntryUncheckedUpdateManyWithoutGradeSubmissionInput = {
 
 export type GradeEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  gradeSubmissionId?: boolean
   componentId?: boolean
   courseRegistrationId?: boolean
   score?: boolean
   status?: boolean
-  gradeSubmission?: boolean | Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs>
   component?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
   CourseRegistration?: boolean | Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs>
 }, ExtArgs["result"]["gradeEntry"]>
 
 export type GradeEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  gradeSubmissionId?: boolean
   componentId?: boolean
   courseRegistrationId?: boolean
   score?: boolean
   status?: boolean
-  gradeSubmission?: boolean | Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs>
   component?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
   CourseRegistration?: boolean | Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs>
 }, ExtArgs["result"]["gradeEntry"]>
 
 export type GradeEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  gradeSubmissionId?: boolean
   componentId?: boolean
   courseRegistrationId?: boolean
   score?: boolean
   status?: boolean
-  gradeSubmission?: boolean | Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs>
   component?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
   CourseRegistration?: boolean | Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs>
 }, ExtArgs["result"]["gradeEntry"]>
 
 export type GradeEntrySelectScalar = {
   id?: boolean
-  gradeSubmissionId?: boolean
   componentId?: boolean
   courseRegistrationId?: boolean
   score?: boolean
   status?: boolean
 }
 
-export type GradeEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gradeSubmissionId" | "componentId" | "courseRegistrationId" | "score" | "status", ExtArgs["result"]["gradeEntry"]>
+export type GradeEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "componentId" | "courseRegistrationId" | "score" | "status", ExtArgs["result"]["gradeEntry"]>
 export type GradeEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gradeSubmission?: boolean | Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs>
   component?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
   CourseRegistration?: boolean | Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs>
 }
 export type GradeEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gradeSubmission?: boolean | Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs>
   component?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
   CourseRegistration?: boolean | Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs>
 }
 export type GradeEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gradeSubmission?: boolean | Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs>
   component?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
   CourseRegistration?: boolean | Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs>
 }
@@ -840,13 +672,11 @@ export type GradeEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type $GradeEntryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GradeEntry"
   objects: {
-    gradeSubmission: Prisma.$GradeSubmissionPayload<ExtArgs> | null
     component: Prisma.$GradeComponentPayload<ExtArgs>
     CourseRegistration: Prisma.$CourseRegistrationPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    gradeSubmissionId: number | null
     componentId: number
     courseRegistrationId: number | null
     score: number | null
@@ -1245,7 +1075,6 @@ readonly fields: GradeEntryFieldRefs;
  */
 export interface Prisma__GradeEntryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  gradeSubmission<T extends Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeEntry$gradeSubmissionArgs<ExtArgs>>): Prisma.Prisma__GradeSubmissionClient<runtime.Types.Result.GetResult<Prisma.$GradeSubmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   component<T extends Prisma.GradeComponentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeComponentDefaultArgs<ExtArgs>>): Prisma.Prisma__GradeComponentClient<runtime.Types.Result.GetResult<Prisma.$GradeComponentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   CourseRegistration<T extends Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeEntry$CourseRegistrationArgs<ExtArgs>>): Prisma.Prisma__CourseRegistrationClient<runtime.Types.Result.GetResult<Prisma.$CourseRegistrationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1278,7 +1107,6 @@ export interface Prisma__GradeEntryClient<T, Null = never, ExtArgs extends runti
  */
 export interface GradeEntryFieldRefs {
   readonly id: Prisma.FieldRef<"GradeEntry", 'Int'>
-  readonly gradeSubmissionId: Prisma.FieldRef<"GradeEntry", 'Int'>
   readonly componentId: Prisma.FieldRef<"GradeEntry", 'Int'>
   readonly courseRegistrationId: Prisma.FieldRef<"GradeEntry", 'Int'>
   readonly score: Prisma.FieldRef<"GradeEntry", 'Float'>
@@ -1681,25 +1509,6 @@ export type GradeEntryDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many GradeEntries to delete.
    */
   limit?: number
-}
-
-/**
- * GradeEntry.gradeSubmission
- */
-export type GradeEntry$gradeSubmissionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the GradeSubmission
-   */
-  select?: Prisma.GradeSubmissionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the GradeSubmission
-   */
-  omit?: Prisma.GradeSubmissionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.GradeSubmissionInclude<ExtArgs> | null
-  where?: Prisma.GradeSubmissionWhereInput
 }
 
 /**

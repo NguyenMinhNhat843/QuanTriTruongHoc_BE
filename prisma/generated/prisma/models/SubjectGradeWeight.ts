@@ -31,6 +31,7 @@ export type SubjectGradeWeightAvgAggregateOutputType = {
   subjectId: number | null
   gradeComponentId: number | null
   weight: number | null
+  position: number | null
 }
 
 export type SubjectGradeWeightSumAggregateOutputType = {
@@ -38,6 +39,7 @@ export type SubjectGradeWeightSumAggregateOutputType = {
   subjectId: number | null
   gradeComponentId: number | null
   weight: number | null
+  position: number | null
 }
 
 export type SubjectGradeWeightMinAggregateOutputType = {
@@ -47,6 +49,7 @@ export type SubjectGradeWeightMinAggregateOutputType = {
   weight: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  position: number | null
 }
 
 export type SubjectGradeWeightMaxAggregateOutputType = {
@@ -56,6 +59,7 @@ export type SubjectGradeWeightMaxAggregateOutputType = {
   weight: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  position: number | null
 }
 
 export type SubjectGradeWeightCountAggregateOutputType = {
@@ -65,6 +69,7 @@ export type SubjectGradeWeightCountAggregateOutputType = {
   weight: number
   createdAt: number
   updatedAt: number
+  position: number
   _all: number
 }
 
@@ -74,6 +79,7 @@ export type SubjectGradeWeightAvgAggregateInputType = {
   subjectId?: true
   gradeComponentId?: true
   weight?: true
+  position?: true
 }
 
 export type SubjectGradeWeightSumAggregateInputType = {
@@ -81,6 +87,7 @@ export type SubjectGradeWeightSumAggregateInputType = {
   subjectId?: true
   gradeComponentId?: true
   weight?: true
+  position?: true
 }
 
 export type SubjectGradeWeightMinAggregateInputType = {
@@ -90,6 +97,7 @@ export type SubjectGradeWeightMinAggregateInputType = {
   weight?: true
   createdAt?: true
   updatedAt?: true
+  position?: true
 }
 
 export type SubjectGradeWeightMaxAggregateInputType = {
@@ -99,6 +107,7 @@ export type SubjectGradeWeightMaxAggregateInputType = {
   weight?: true
   createdAt?: true
   updatedAt?: true
+  position?: true
 }
 
 export type SubjectGradeWeightCountAggregateInputType = {
@@ -108,6 +117,7 @@ export type SubjectGradeWeightCountAggregateInputType = {
   weight?: true
   createdAt?: true
   updatedAt?: true
+  position?: true
   _all?: true
 }
 
@@ -204,6 +214,7 @@ export type SubjectGradeWeightGroupByOutputType = {
   weight: number
   createdAt: Date
   updatedAt: Date
+  position: number | null
   _count: SubjectGradeWeightCountAggregateOutputType | null
   _avg: SubjectGradeWeightAvgAggregateOutputType | null
   _sum: SubjectGradeWeightSumAggregateOutputType | null
@@ -236,6 +247,7 @@ export type SubjectGradeWeightWhereInput = {
   weight?: Prisma.FloatFilter<"SubjectGradeWeight"> | number
   createdAt?: Prisma.DateTimeFilter<"SubjectGradeWeight"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SubjectGradeWeight"> | Date | string
+  position?: Prisma.IntNullableFilter<"SubjectGradeWeight"> | number | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   gradeComponent?: Prisma.XOR<Prisma.GradeComponentScalarRelationFilter, Prisma.GradeComponentWhereInput>
 }
@@ -247,6 +259,7 @@ export type SubjectGradeWeightOrderByWithRelationInput = {
   weight?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  position?: Prisma.SortOrderInput | Prisma.SortOrder
   subject?: Prisma.SubjectOrderByWithRelationInput
   gradeComponent?: Prisma.GradeComponentOrderByWithRelationInput
 }
@@ -262,6 +275,7 @@ export type SubjectGradeWeightWhereUniqueInput = Prisma.AtLeast<{
   weight?: Prisma.FloatFilter<"SubjectGradeWeight"> | number
   createdAt?: Prisma.DateTimeFilter<"SubjectGradeWeight"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SubjectGradeWeight"> | Date | string
+  position?: Prisma.IntNullableFilter<"SubjectGradeWeight"> | number | null
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   gradeComponent?: Prisma.XOR<Prisma.GradeComponentScalarRelationFilter, Prisma.GradeComponentWhereInput>
 }, "id" | "subjectId_gradeComponentId">
@@ -273,6 +287,7 @@ export type SubjectGradeWeightOrderByWithAggregationInput = {
   weight?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  position?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SubjectGradeWeightCountOrderByAggregateInput
   _avg?: Prisma.SubjectGradeWeightAvgOrderByAggregateInput
   _max?: Prisma.SubjectGradeWeightMaxOrderByAggregateInput
@@ -290,12 +305,14 @@ export type SubjectGradeWeightScalarWhereWithAggregatesInput = {
   weight?: Prisma.FloatWithAggregatesFilter<"SubjectGradeWeight"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SubjectGradeWeight"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SubjectGradeWeight"> | Date | string
+  position?: Prisma.IntNullableWithAggregatesFilter<"SubjectGradeWeight"> | number | null
 }
 
 export type SubjectGradeWeightCreateInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
   subject: Prisma.SubjectCreateNestedOneWithoutSubjectGradesInput
   gradeComponent: Prisma.GradeComponentCreateNestedOneWithoutSubjectGradesInput
 }
@@ -307,12 +324,14 @@ export type SubjectGradeWeightUncheckedCreateInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
 }
 
 export type SubjectGradeWeightUpdateInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.SubjectUpdateOneRequiredWithoutSubjectGradesNestedInput
   gradeComponent?: Prisma.GradeComponentUpdateOneRequiredWithoutSubjectGradesNestedInput
 }
@@ -324,6 +343,7 @@ export type SubjectGradeWeightUncheckedUpdateInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SubjectGradeWeightCreateManyInput = {
@@ -333,12 +353,14 @@ export type SubjectGradeWeightCreateManyInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
 }
 
 export type SubjectGradeWeightUpdateManyMutationInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SubjectGradeWeightUncheckedUpdateManyInput = {
@@ -348,6 +370,7 @@ export type SubjectGradeWeightUncheckedUpdateManyInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SubjectGradeWeightListRelationFilter = {
@@ -372,6 +395,7 @@ export type SubjectGradeWeightCountOrderByAggregateInput = {
   weight?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  position?: Prisma.SortOrder
 }
 
 export type SubjectGradeWeightAvgOrderByAggregateInput = {
@@ -379,6 +403,7 @@ export type SubjectGradeWeightAvgOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   gradeComponentId?: Prisma.SortOrder
   weight?: Prisma.SortOrder
+  position?: Prisma.SortOrder
 }
 
 export type SubjectGradeWeightMaxOrderByAggregateInput = {
@@ -388,6 +413,7 @@ export type SubjectGradeWeightMaxOrderByAggregateInput = {
   weight?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  position?: Prisma.SortOrder
 }
 
 export type SubjectGradeWeightMinOrderByAggregateInput = {
@@ -397,6 +423,7 @@ export type SubjectGradeWeightMinOrderByAggregateInput = {
   weight?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  position?: Prisma.SortOrder
 }
 
 export type SubjectGradeWeightSumOrderByAggregateInput = {
@@ -404,6 +431,7 @@ export type SubjectGradeWeightSumOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   gradeComponentId?: Prisma.SortOrder
   weight?: Prisma.SortOrder
+  position?: Prisma.SortOrder
 }
 
 export type SubjectGradeWeightCreateNestedManyWithoutSubjectInput = {
@@ -494,6 +522,7 @@ export type SubjectGradeWeightCreateWithoutSubjectInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
   gradeComponent: Prisma.GradeComponentCreateNestedOneWithoutSubjectGradesInput
 }
 
@@ -503,6 +532,7 @@ export type SubjectGradeWeightUncheckedCreateWithoutSubjectInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
 }
 
 export type SubjectGradeWeightCreateOrConnectWithoutSubjectInput = {
@@ -541,12 +571,14 @@ export type SubjectGradeWeightScalarWhereInput = {
   weight?: Prisma.FloatFilter<"SubjectGradeWeight"> | number
   createdAt?: Prisma.DateTimeFilter<"SubjectGradeWeight"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SubjectGradeWeight"> | Date | string
+  position?: Prisma.IntNullableFilter<"SubjectGradeWeight"> | number | null
 }
 
 export type SubjectGradeWeightCreateWithoutGradeComponentInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
   subject: Prisma.SubjectCreateNestedOneWithoutSubjectGradesInput
 }
 
@@ -556,6 +588,7 @@ export type SubjectGradeWeightUncheckedCreateWithoutGradeComponentInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
 }
 
 export type SubjectGradeWeightCreateOrConnectWithoutGradeComponentInput = {
@@ -590,12 +623,14 @@ export type SubjectGradeWeightCreateManySubjectInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
 }
 
 export type SubjectGradeWeightUpdateWithoutSubjectInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   gradeComponent?: Prisma.GradeComponentUpdateOneRequiredWithoutSubjectGradesNestedInput
 }
 
@@ -605,6 +640,7 @@ export type SubjectGradeWeightUncheckedUpdateWithoutSubjectInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SubjectGradeWeightUncheckedUpdateManyWithoutSubjectInput = {
@@ -613,6 +649,7 @@ export type SubjectGradeWeightUncheckedUpdateManyWithoutSubjectInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SubjectGradeWeightCreateManyGradeComponentInput = {
@@ -621,12 +658,14 @@ export type SubjectGradeWeightCreateManyGradeComponentInput = {
   weight: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  position?: number | null
 }
 
 export type SubjectGradeWeightUpdateWithoutGradeComponentInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   subject?: Prisma.SubjectUpdateOneRequiredWithoutSubjectGradesNestedInput
 }
 
@@ -636,6 +675,7 @@ export type SubjectGradeWeightUncheckedUpdateWithoutGradeComponentInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type SubjectGradeWeightUncheckedUpdateManyWithoutGradeComponentInput = {
@@ -644,6 +684,7 @@ export type SubjectGradeWeightUncheckedUpdateManyWithoutGradeComponentInput = {
   weight?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  position?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 
@@ -655,6 +696,7 @@ export type SubjectGradeWeightSelect<ExtArgs extends runtime.Types.Extensions.In
   weight?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  position?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   gradeComponent?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectGradeWeight"]>
@@ -666,6 +708,7 @@ export type SubjectGradeWeightSelectCreateManyAndReturn<ExtArgs extends runtime.
   weight?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  position?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   gradeComponent?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectGradeWeight"]>
@@ -677,6 +720,7 @@ export type SubjectGradeWeightSelectUpdateManyAndReturn<ExtArgs extends runtime.
   weight?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  position?: boolean
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   gradeComponent?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectGradeWeight"]>
@@ -688,9 +732,10 @@ export type SubjectGradeWeightSelectScalar = {
   weight?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  position?: boolean
 }
 
-export type SubjectGradeWeightOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "gradeComponentId" | "weight" | "createdAt" | "updatedAt", ExtArgs["result"]["subjectGradeWeight"]>
+export type SubjectGradeWeightOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "gradeComponentId" | "weight" | "createdAt" | "updatedAt" | "position", ExtArgs["result"]["subjectGradeWeight"]>
 export type SubjectGradeWeightInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   gradeComponent?: boolean | Prisma.GradeComponentDefaultArgs<ExtArgs>
@@ -717,6 +762,7 @@ export type $SubjectGradeWeightPayload<ExtArgs extends runtime.Types.Extensions.
     weight: number
     createdAt: Date
     updatedAt: Date
+    position: number | null
   }, ExtArgs["result"]["subjectGradeWeight"]>
   composites: {}
 }
@@ -1148,6 +1194,7 @@ export interface SubjectGradeWeightFieldRefs {
   readonly weight: Prisma.FieldRef<"SubjectGradeWeight", 'Float'>
   readonly createdAt: Prisma.FieldRef<"SubjectGradeWeight", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SubjectGradeWeight", 'DateTime'>
+  readonly position: Prisma.FieldRef<"SubjectGradeWeight", 'Int'>
 }
     
 

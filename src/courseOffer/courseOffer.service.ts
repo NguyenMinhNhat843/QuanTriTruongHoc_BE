@@ -10,15 +10,17 @@ import {
   PreviewCourseOfferDto,
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
-import { SubjectService } from "../subject/subject.service";
 import { plainToInstance } from "class-transformer";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
+import * as ExcelJS from "exceljs";
+import * as path from "path";
+import { CourseOfferQuery } from "./courseOffer.query";
 
 @Injectable()
 export class CourseOfferService {
   constructor(
     private prisma: PrismaService,
-    private subjectService: SubjectService,
+    private courseOfferQuery: CourseOfferQuery,
   ) {}
 
   // get all lớp học phần
@@ -143,14 +145,14 @@ export class CourseOfferService {
     for (const subItem of subjectsInTerm) {
       for (const nClass of nominalClasses) {
         courseOffersToCreate.push({
-          // courseCode: Tự động sinh (MãMôn-TênHọcKỳ-TênLớp) [cite: 216]
+          // courseCode: Tự động sinh (MãMôn-TênHọcKỳ-TênLớp)
           courseCode: `${subItem.subject.subjectCode}-${semester.name}-${nClass.classCode}`,
-          subjectId: subItem.subjectId, // Lấy từ Bước 2 [cite: 217]
-          semesterId: semesterId, // Lấy từ Input [cite: 218]
-          classId: nClass.id, // Lấy từ Bước 3 [cite: 219]
+          subjectId: subItem.subjectId, // Lấy từ Bước 2
+          semesterId: semesterId, // Lấy từ Input
+          classId: nClass.id, // Lấy từ Bước 3
 
-          maxStudents: nClass.maxStudents || 40, // Lấy theo bảng Class [cite: 221, 52]
-          status: "planned", // Mặc định là planned [cite: 220]
+          maxStudents: nClass.maxStudents || 40, // Lấy theo bảng Class  52]
+          status: "planned", // Mặc định là planned
 
           // Thời gian đăng ký (nếu có truyền từ DTO)
           registrationStart: registrationStart
@@ -161,7 +163,7 @@ export class CourseOfferService {
       }
     }
 
-    // Thực hiện Create Bulk vào database [cite: 212]
+    // Thực hiện Create Bulk vào database
     // Sử dụng createMany để tối ưu hiệu năng
     const result = await this.prisma.courseOffer.createMany({
       data: courseOffersToCreate,
@@ -192,11 +194,11 @@ export class CourseOfferService {
     if (!batch || !semester)
       throw new NotFoundException("Dữ liệu không hợp lệ");
 
-    // Tính semesterNumber [cite: 200]
+    // Tính semesterNumber
     const semesterNumber =
       (semester.year! - batch.startYear) * 2 + semester.term!;
 
-    // Lấy môn học theo CTK [cite: 206]
+    // Lấy môn học theo CTK
     const curriculum = await this.prisma.curriculum.findFirst({
       where: { majorId, isActive: true },
       orderBy: { createdAt: "desc" },
@@ -212,7 +214,7 @@ export class CourseOfferService {
       include: { subject: true },
     });
 
-    // Lấy các lớp danh nghĩa [cite: 210]
+    // Lấy các lớp danh nghĩa
     const nominalClasses = await this.prisma.class.findMany({
       where: { majorId, batchId },
     });
@@ -336,7 +338,7 @@ export class CourseOfferService {
         };
       }
 
-      // Giả định danh sách khung giờ (Time Slots) mẫu [cite: 249]
+      // Giả định danh sách khung giờ (Time Slots) mẫu
       // Trong thực tế, bạn có thể lấy từ DB hoặc cấu hình hệ thống
       const availableTimeSlots = [
         { day: "MONDAY", start: "07:30:00", end: "11:30:00" },
@@ -344,13 +346,13 @@ export class CourseOfferService {
         // ... các khung giờ khác
       ];
 
-      // --- Bước 4: Duyệt từng giảng viên --- [cite: 244]
+      // --- Bước 4: Duyệt từng giảng viên ---
       for (const teacher of teachers) {
-        // --- Bước 5: Duyệt danh sách khung giờ --- [cite: 248]
+        // --- Bước 5: Duyệt danh sách khung giờ ---
         for (const slot of availableTimeSlots) {
-          // --- Bước 6: Kiểm tra xung đột (Validation) --- [cite: 252]
+          // --- Bước 6: Kiểm tra xung đột (Validation) ---
 
-          // 6.1 Kiểm tra trùng lịch giảng viên [cite: 254]
+          // 6.1 Kiểm tra trùng lịch giảng viên
           const teacherConflict = await tx.courseSchedule.findFirst({
             where: {
               courseOffer: {
@@ -369,8 +371,8 @@ export class CourseOfferService {
 
           if (teacherConflict) continue; // Nếu trùng lịch giảng viên, thử slot khác
 
-          // 6.2 Kiểm tra trùng lịch phòng học (Giả định lấy phòng mặc định hoặc trống) [cite: 261]
-          // Phần này có thể mở rộng để tìm phòng trống từ bảng Room [cite: 176]
+          // 6.2 Kiểm tra trùng lịch phòng học (Giả định lấy phòng mặc định hoặc trống)
+          // Phần này có thể mở rộng để tìm phòng trống từ bảng Room
           const roomId = 1; // Ví dụ phòng số 1
 
           const roomConflict = await tx.courseSchedule.findFirst({
@@ -388,19 +390,19 @@ export class CourseOfferService {
 
           if (roomConflict) continue; // Nếu trùng phòng, thử slot khác
 
-          // --- Bước 7: Gán giảng viên và tạo lịch học --- [cite: 268]
+          // --- Bước 7: Gán giảng viên và tạo lịch học ---
           // Nếu đến đây không có xung đột (Conflict)
           await tx.courseOffer.update({
             where: { id: courseOfferId },
             data: {
-              teacherId: teacher.id, // [cite: 271]
+              teacherId: teacher.id, //
               startDate: courseOffer.semester.startDate, // Bước 9: Đồng bộ thời gian
               endDate: courseOffer.semester.endDate,
             },
           });
 
           await tx.courseSchedule.create({
-            // [cite: 272]
+            //
             data: {
               courseOfferId: courseOfferId,
               dayOfWeek: slot.day as any,
@@ -418,7 +420,7 @@ export class CourseOfferService {
         }
       }
 
-      // --- Bước 8: Xử lý khi không tìm được --- [cite: 275]
+      // --- Bước 8: Xử lý khi không tìm được ---
       return {
         success: false,
         message: "Không tìm được giảng viên và khung giờ phù hợp",
@@ -485,6 +487,7 @@ export class CourseOfferService {
               select: {
                 componentId: true,
                 score: true,
+                status: true,
               },
             },
           },
@@ -597,5 +600,126 @@ export class CourseOfferService {
     });
 
     return students;
+  }
+
+  /**
+   * Xuất excel danh sách loại điểm
+   */
+  async exportToExcel(courseOfferId: number) {
+    // 1. Xác định đường dẫn file template (Sử dụng process.cwd() để an toàn cho cả dev và production)
+    const templatePath = path.join(
+      process.cwd(),
+      "dist",
+      "assets",
+      "bangdiem_template.xlsx",
+    );
+
+    // 2. Khởi tạo Workbook và đọc file template
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.readFile(templatePath);
+    const worksheet = workbook.worksheets[0];
+
+    const { keyValueData, gradeComponentsData, students } =
+      await this.courseOfferQuery.queryDataForExportExcel(courseOfferId);
+
+    // Đổ dữ liệu chung
+    let headerRowNumber = 6; // Mặc định hàng tiêu đề
+    let startGradeColumnIndex = 5; // Mặc định cột E (Cột số 5)
+
+    worksheet.eachRow((row, rowNumber) => {
+      row.eachCell((cell, colNumber) => {
+        if (cell.value && typeof cell.value === "string") {
+          let cellString = cell.value;
+
+          // Lưu lại tọa độ nếu tìm thấy biến đánh dấu cột điểm
+          if (cellString.includes("{{gradeColumns}}")) {
+            headerRowNumber = rowNumber;
+            startGradeColumnIndex = colNumber;
+          }
+
+          const matches = cellString.match(/{{(.*?)}}/g);
+          if (matches) {
+            matches.forEach((match) => {
+              const key = match.replace("{{", "").replace("}}", "").trim();
+              if (keyValueData[key] !== undefined) {
+                cellString = cellString.replace(match, keyValueData[key]);
+              }
+            });
+            cell.value = cellString;
+          }
+        }
+      });
+    });
+
+    // Đổ dữ liệu các cột điểm động vào hàng tiêu đề, bắt đầu từ cột đã xác định
+    const headerRow = worksheet.getRow(headerRowNumber);
+    const sampleStyleCell = headerRow.getCell(startGradeColumnIndex - 1); // Lấy style cột trước (Cột Ngày Sinh) để copy
+
+    gradeComponentsData.forEach((comp, index) => {
+      const currentCell = headerRow.getCell(startGradeColumnIndex + index);
+      currentCell.value = comp.componentName;
+
+      // Copy format từ ô mẫu sang để giữ nguyên font/màu nền tiêu đề
+      currentCell.style = { ...sampleStyleCell.style };
+      currentCell.alignment = {
+        horizontal: "center",
+        vertical: "middle",
+        wrapText: true,
+      };
+    });
+
+    // Đổ dữ liệu sinh viên và điểm số vào các hàng tiếp theo
+    const startDataRowNumber = headerRowNumber + 1; // Hàng bắt đầu chèn dữ liệu (Ví dụ hàng số 8)
+    const sampleDataRow = worksheet.getRow(startDataRowNumber); // Hàng mẫu để lấy border
+
+    students.forEach((student, sIndex) => {
+      const currentStyleRowNo = startDataRowNumber + sIndex;
+
+      // Chèn 1 dòng mới tinh để tránh đè lên phần chữ ký phía dưới của template
+      worksheet.insertRow(currentStyleRowNo, []);
+      const currentRow = worksheet.getRow(currentStyleRowNo);
+
+      // 1. Ghi các cột cố định
+      currentRow.getCell(1).value = sIndex + 1; // STT
+      currentRow.getCell(2).value = student.studentCode; // Mã SV
+      currentRow.getCell(3).value = student.fullName || ""; // Họ tên
+
+      if (student.dob) {
+        // Format ngày sinh về dạng ngày/tháng/năm
+        currentRow.getCell(4).value = new Date(student.dob).toLocaleDateString(
+          "vi-VN",
+        );
+      } else {
+        currentRow.getCell(4).value = "";
+      }
+
+      // 2. Ghi điểm tương ứng vào từng cột điểm động
+      gradeComponentsData.forEach((comp, cIndex) => {
+        const gradeCell = currentRow.getCell(startGradeColumnIndex + cIndex);
+
+        // Tìm xem sinh viên này có điểm của cột comp.componentName này không
+        const matchedGrade = student.grades.find(
+          (g) => g.column === comp.componentName,
+        );
+
+        // Nếu matchedGrade tồn tại và score không phải null thì điền score, ngược lại để trống
+        gradeCell.value =
+          matchedGrade && matchedGrade.score !== null ? matchedGrade.score : "";
+        gradeCell.alignment = { horizontal: "center" };
+      });
+
+      // 3. Đồng bộ Border và Font từ dòng mẫu sang để bảng có lưới đẹp mắt
+      currentRow.eachCell((cell, colNumber) => {
+        const sampleCell = sampleDataRow.getCell(colNumber);
+        cell.border = sampleCell.border;
+        cell.font = sampleCell.font;
+      });
+
+      currentRow.commit(); // Lưu thay đổi của hàng này
+    });
+
+    // 6. Trả file về dưới dạng Buffer
+    const buffer = await workbook.xlsx.writeBuffer();
+    return buffer;
   }
 }

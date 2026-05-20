@@ -1,8 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsNumber, IsOptional, IsNotEmpty } from "class-validator";
 import { Type } from "class-transformer";
+import {
+  GradeEntry,
+  GradeSubmissionStatus,
+} from "../../prisma/generated/prisma/client";
 
-export class GradeEntryResponseDto {
+export class GradeEntryResponseDto implements GradeEntry {
   @ApiProperty({
     example: 1,
     description: "ID tự tăng của bản ghi điểm số",
@@ -55,4 +59,12 @@ export class GradeEntryResponseDto {
   @IsOptional()
   @Type(() => Number)
   score: number | null;
+
+  @ApiPropertyOptional({
+    example: "APPROVED",
+    nullable: true,
+    enum: GradeSubmissionStatus,
+  })
+  @IsOptional()
+  status: GradeSubmissionStatus | null;
 }

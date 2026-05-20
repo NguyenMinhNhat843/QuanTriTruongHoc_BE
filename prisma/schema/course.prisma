@@ -55,12 +55,11 @@ model CourseOffer {
   endDate           DateTime? @db.Date
   
   createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  updatedAt         DateTime  @updatedAt  
 
   // Quan hệ 1-n
   registrations     CourseRegistration[]
   courseSchedules   CourseSchedule[]
-  gradeSubmission   GradeSubmission[]
 
   @@index([subjectId, semesterId])
   @@index([teacherId])

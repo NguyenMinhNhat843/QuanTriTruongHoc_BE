@@ -210,11 +210,6 @@ export type SubjectGradeWeight = Prisma.SubjectGradeWeightModel
  */
 export type GradeEntry = Prisma.GradeEntryModel
 /**
- * Model GradeSubmission
- * 
- */
-export type GradeSubmission = Prisma.GradeSubmissionModel
-/**
  * Model Post
  * 
  */

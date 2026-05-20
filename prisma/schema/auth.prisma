@@ -94,7 +94,6 @@ model Staff {
 
   courseOffers      CourseOffer[]
   teacherSubjects   TeacherSubject[]
-  submittedGrades   GradeSubmission[]
 
   @@map("staffs")
 }

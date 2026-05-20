@@ -40,22 +40,9 @@ export class CreateGradeEntryDto {
 }
 
 /**
- * Nộp duyệt điểm cho 1 lớp học phần
+ * Lưu nháp điểm
  */
 export class CreateManyGradeEntriesDto {
-  @ApiProperty({ example: 5, description: "ID của lớp học phần (CourseOffer)" })
-  @IsInt()
-  @IsNotEmpty()
-  courseOfferId: number;
-
-  @ApiProperty({
-    example: 5,
-    description: "ID của giảng viên thực hiện nhập điểm (Staff)",
-  })
-  @IsInt()
-  @IsNotEmpty()
-  createdBy: number;
-
   @ApiProperty({
     type: [CreateGradeEntryDto],
     description: "Danh sách mảng các đầu điểm chi tiết của từng học sinh",
@@ -68,19 +55,6 @@ export class CreateManyGradeEntriesDto {
 }
 
 /**
- * Phê duyệt điểm cho 1 lớp
+ * Chốt điểm cho 1 lớp học phần
  */
-export class ApproveGradeEntryDto {
-  @ApiProperty({
-    example: 1,
-    description: "ID của bản ghi nhập điểm (GradeEntry)",
-  })
-  @IsInt()
-  @IsNotEmpty()
-  gradeSubmissionId: number;
-
-  @ApiProperty()
-  @IsInt()
-  @IsNotEmpty()
-  approverId: number;
-}
+export class SaveGradeEntries extends CreateManyGradeEntriesDto {}
