@@ -8,6 +8,7 @@ import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
   PreviewCourseOfferDto,
+  SearchCourseOfferDto,
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { plainToInstance } from "class-transformer";
@@ -15,6 +16,7 @@ import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import * as ExcelJS from "exceljs";
 import * as path from "path";
 import { CourseOfferQuery } from "./courseOffer.query";
+import { Prisma } from "../../prisma/generated/prisma/client";
 
 @Injectable()
 export class CourseOfferService {
@@ -24,10 +26,52 @@ export class CourseOfferService {
   ) {}
 
   /**
-   * Lấy danh sách tất cả lớp học phần (có thể thêm phân trang sau này)
+   * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
    */
-  async getAllCourseOffers() {
+  async findAll(query: SearchCourseOfferDto) {
+    const { classId, semesterId, teacherId, status, search } = query;
+
+    // Khởi tạo điều kiện lọc động
+    const where: Prisma.CourseOfferWhereInput = {};
+
+    // 1. Lọc theo các ID trực tiếp trong schema
+    if (classId) {
+      where.classId = classId;
+    }
+
+    if (semesterId) {
+      where.semesterId = semesterId;
+    }
+
+    if (teacherId) {
+      where.teacherId = teacherId;
+    }
+
+    if (status) {
+      where.status = status;
+    }
+
+    // 3. Tìm kiếm theo từ khóa (Mã lớp hoặc Tên lớp)
+    if (search) {
+      where.OR = [
+        {
+          courseCode: {
+            contains: search,
+            mode: "insensitive", // Tìm kiếm không phân biệt hoa thường
+          },
+        },
+        {
+          courseName: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      ];
+    }
+
+    // Thực thi câu lệnh truy vấn dữ liệu kèm các quan hệ liên quan
     const result = await this.prisma.courseOffer.findMany({
+      where,
       include: {
         subject: true,
         semester: true,
@@ -35,11 +79,15 @@ export class CourseOfferService {
         teacher: true,
         _count: {
           select: {
-            registrations: true,
+            registrations: true, // Giữ nguyên đếm số lượng đăng ký thực tế giống hàm cũ
           },
         },
       },
+      orderBy: {
+        createdAt: "desc", // Sắp xếp lớp mới tạo lên đầu hàng
+      },
     });
+
     return result;
   }
 

@@ -19,33 +19,23 @@ import {
 } from "@nestjs/swagger";
 import { ClassService } from "./class.service";
 import {
-  AssignClassDto,
   AssignStudentsToClassesDto,
   CreateClassDto,
   EligibleStudentsResponseDto,
   RequestEligibleStudents,
+  SearchClassDto,
   UpdateClassDto,
 } from "./class.dto";
 import { ClassResponseDto } from "./class.response";
+import { ClassBusinessService } from "./class.business";
 
 @ApiTags("Classes")
 @Controller("classes")
 export class ClassController {
-  constructor(private readonly classService: ClassService) {}
-
-  /**
-   * Phân lớp tự động cho sinh viên
-   * THeo ngành, khóa, sĩ số tối đa
-   */
-  @Post("auto-assign")
-  @ApiOperation({ summary: "Tự động phân lớp cho sinh viên mới" })
-  async autoAssign(@Body() dto: AssignClassDto) {
-    return await this.classService.assignStudentsToClass(
-      dto.majorId,
-      dto.batchId,
-      dto.maxStudents,
-    );
-  }
+  constructor(
+    private readonly classService: ClassService,
+    private classBusinessService: ClassBusinessService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: "Tạo mới lớp học" })
@@ -57,11 +47,10 @@ export class ClassController {
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả lớp học" })
   @ApiOkResponse({ type: ClassResponseDto, isArray: true })
-  findAll() {
-    return this.classService.findAll();
+  findAll(@Query() query: SearchClassDto) {
+    return this.classService.findAll(query);
   }
 
-  // phân lớp
   @Post("/assign-classes")
   @ApiOperation({
     summary: "Tự động chia lớp danh nghĩa cho sinh viên chính thức",
@@ -73,8 +62,7 @@ export class ClassController {
     description: "Tự động xử lý phân phối lớp cho sinh viên thành công.",
   })
   async assignStudentsToClasses(@Body() body: AssignStudentsToClassesDto) {
-    // Nếu clients không truyền studentsPerClass, hệ thống sẽ tự dùng mặc định (ví dụ: 40) ở tầng Service
-    return await this.classService.assignStudentsToClasses(body);
+    return await this.classBusinessService.assignStudentsToClasses(body);
   }
 
   @Get("/eligible-for-assignment")
@@ -88,8 +76,9 @@ export class ClassController {
     type: EligibleStudentsResponseDto,
   })
   async getEligibleStudents(@Query() query: RequestEligibleStudents) {
-    // Lúc này batchId sẽ nằm trong object query
-    return await this.classService.getEligibleStudentsForAssignment(query);
+    return await this.classBusinessService.getEligibleStudentsForAssignment(
+      query,
+    );
   }
 
   @Get(":id")

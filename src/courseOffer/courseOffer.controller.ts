@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   HttpStatus,
   Param,
   ParseIntPipe,
@@ -18,6 +19,7 @@ import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
   PreviewCourseOfferDto,
+  SearchCourseOfferDto,
 } from "./courseOffer.dto";
 import { StudentResponseDto } from "../student/student.response";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
@@ -29,10 +31,19 @@ export class CourseOfferController {
   constructor(private readonly courseOfferService: CourseOfferService) {}
 
   @Get()
-  @ApiOperation({ summary: "Lấy danh sách tất cả lớp học phần" })
-  @ApiResponse({ status: 200, description: "Danh sách lớp học phần" })
-  async getAll() {
-    return this.courseOfferService.getAllCourseOffers();
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: "Lấy danh sách tất cả lớp học phần theo bộ lọc tìm kiếm",
+    description:
+      "Hỗ trợ tìm kiếm không phân trang theo từ khóa, ngành học, lớp hành chính, học kỳ, giảng viên và trạng thái.",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Tìm kiếm và lấy danh sách lớp học phần thành công.",
+  })
+  async getAll(@Query() query: SearchCourseOfferDto) {
+    // Truyền trực tiếp đối tượng query nhận từ client vào hàm xử lý findAll của Service
+    return this.courseOfferService.findAll(query);
   }
 
   @Get("preview")

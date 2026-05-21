@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import {
   ArrayMinSize,
   IsArray,
@@ -13,10 +13,72 @@ import {
   Min,
   ValidateNested,
 } from "class-validator";
-import { DayOfWeek } from "../../prisma/generated/prisma/enums";
+import {
+  CourseOfferStatus,
+  DayOfWeek,
+} from "../../prisma/generated/prisma/enums";
+
+/**
+ * Dto search lớp học phần
+ */
+export class SearchCourseOfferDto {
+  @ApiPropertyOptional({
+    description: "ID của lớp hành chính (Lớp danh nghĩa)",
+    example: 1,
+  })
+  @IsOptional()
+  @IsInt()
+  @Transform(({ value }) => Number(value))
+  classId?: number;
+
+  @ApiPropertyOptional({
+    description: "ID của ngành học",
+    example: 2,
+  })
+  @IsOptional()
+  @IsInt()
+  @Transform(({ value }) => Number(value))
+  majorId?: number;
+
+  @ApiPropertyOptional({
+    description: "ID của học kỳ",
+    example: 3,
+  })
+  @IsOptional()
+  @IsInt()
+  @Transform(({ value }) => Number(value))
+  semesterId?: number;
+
+  @ApiPropertyOptional({
+    description: "ID của giảng viên phụ trách",
+    example: 5,
+  })
+  @IsOptional()
+  @IsInt()
+  @Transform(({ value }) => Number(value))
+  teacherId?: number;
+
+  @ApiPropertyOptional({
+    description: "Tìm kiếm theo Mã hoặc Tên lớp học phần",
+    example: "OOP-2026",
+  })
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @ApiPropertyOptional({
+    description: "Trạng thái lớp học phần (planned, open, closed, cancelled)",
+    enum: CourseOfferStatus,
+    example: "open",
+  })
+  @IsOptional()
+  @IsEnum(CourseOfferStatus)
+  status?: CourseOfferStatus;
+}
 
 // ==========================================
-// XEM DANH SACH LỚP DỰ KIẾN: DTO để xem trước kế hoạch học tập của một học kỳ thực tế, ngành và khóa đào tạo cụ thể
+// XEM DANH SACH LỚP DỰ KIẾN: DTO để xem trước kế hoạch học tập của một học kỳ thực tế,
+// ngành và khóa đào tạo cụ thể
 // ==========================================
 export class PreviewCourseOfferDto {
   @ApiProperty({ example: 1 })

@@ -10,9 +10,26 @@ import {
   IsNumber,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
+import { Class } from "../../prisma/generated/prisma/client";
 
-export class CreateClassDto {
+export class SearchClassDto {
+  @ApiPropertyOptional({ description: "Mã lớp học (classCode)" })
+  @IsOptional()
+  @IsString()
+  classCode?: string;
+
+  @ApiPropertyOptional({ description: "ID ngành học" })
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => (value ? Number(value) : undefined))
+  majorId?: number;
+}
+
+export class CreateClassDto implements Omit<
+  Class,
+  "id" | "createdAt" | "updatedAt"
+> {
   @ApiProperty({ example: "CNTT17A", description: "Mã lớp học duy nhất" })
   @IsString()
   @IsNotEmpty({ message: "Mã lớp không được để trống" })
@@ -30,30 +47,41 @@ export class CreateClassDto {
   @IsNotEmpty()
   majorId: number;
 
-  @ApiProperty({ example: 2024, description: "Năm nhập học/Khóa" })
+  @ApiPropertyOptional({
+    type: Number,
+    description: "Số lượng sinh viên hiện tại trong lớp",
+  })
   @IsInt()
-  @Min(2000)
-  @IsNotEmpty()
-  courseYear: number;
+  @Min(0)
+  @IsOptional()
+  currentSize: number = 0;
 
   @ApiPropertyOptional({
-    example: 1,
-    description: "ID của giáo viên chủ nhiệm",
+    type: Number,
+    description: "ID giáo viên chủ nhiệm",
   })
   @IsInt()
   @IsOptional()
-  formTeacherId?: number;
+  formTeacherId: number | null;
 
-  @ApiPropertyOptional({ example: 40, default: 40 })
+  @ApiPropertyOptional({
+    type: Number,
+    description: "ID của Khóa đào tạo (batchID)",
+  })
+  @IsInt()
+  @IsOptional()
+  batchId: number | null;
+
+  @ApiPropertyOptional({ type: Number, example: 40, default: 40 })
   @IsInt()
   @Min(1)
   @IsOptional()
-  maxStudents?: number;
+  maxStudents: number = 40;
 
-  @ApiPropertyOptional({ example: "active", default: "active" })
+  @ApiPropertyOptional({ type: String, default: "active" })
   @IsString()
   @IsOptional()
-  status?: string;
+  status: string = "active";
 }
 
 export class UpdateClassDto extends PartialType(CreateClassDto) {}

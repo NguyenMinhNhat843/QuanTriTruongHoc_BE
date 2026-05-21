@@ -16,6 +16,9 @@ import { CurriculumResponseDto } from "./curriculum.response";
 export class CurriculumService {
   constructor(private prisma: PrismaService) {}
 
+  /**
+   * Tạo chương trình khung
+   */
   async create(data: CreateCurriculumDto): Promise<CurriculumResponseDto> {
     const {
       curriculumCode,
@@ -89,6 +92,9 @@ export class CurriculumService {
     }
   }
 
+  /**
+   * Lấy tất cả
+   */
   async findAll(query: SearchCurriculumDto): Promise<CurriculumResponseDto[]> {
     const list = await this.prisma.curriculum.findMany({
       where: {
@@ -103,6 +109,9 @@ export class CurriculumService {
     return list.map((item) => new CurriculumResponseDto(item));
   }
 
+  /**
+   * Lấy chi tiết một chương trình khung, bao gồm cả danh sách môn học thuộc chương trình đó
+   */
   async findOne(id: number): Promise<CurriculumResponseDto> {
     const curriculum = await this.prisma.curriculum.findUnique({
       where: { id },
@@ -123,7 +132,6 @@ export class CurriculumService {
       );
     }
     return new CurriculumResponseDto(curriculum);
-    // return curriculum;
   }
 
   async update(id: number, data: UpdateCurriculumDto) {

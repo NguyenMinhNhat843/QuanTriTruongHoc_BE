@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
+import { MajorResponseDto } from "../major/major.response";
 
 export class CurriculumResponseDto {
   @ApiProperty({ example: 1 })
@@ -36,8 +37,11 @@ export class CurriculumResponseDto {
   updatedAt: Date;
 
   // --- Dữ liệu quan hệ ---
-  @ApiPropertyOptional({ description: "Thông tin ngành đào tạo" })
-  major?: any;
+  @ApiPropertyOptional({
+    description: "Thông tin ngành đào tạo",
+    type: () => MajorResponseDto,
+  })
+  major?: MajorResponseDto;
 
   @ApiPropertyOptional({
     example: 40,
@@ -51,7 +55,8 @@ export class CurriculumResponseDto {
   })
   subjectList?: CurriculumSubjectResponseDto[];
 
-  constructor(partial: any) {
+  constructor(partial: any = {}) {
+    if (!partial) return;
     this.id = partial.id;
     this.curriculumCode = partial.curriculumCode;
     this.curriculumName = partial.curriculumName;
@@ -73,7 +78,7 @@ export class CurriculumResponseDto {
 
     // 2. Map quan hệ Major nếu có include
     if (partial.major) {
-      this.major = partial.major;
+      this.major = new MajorResponseDto(partial.major);
     }
 
     // 3. Map số lượng môn học từ Prisma _count
