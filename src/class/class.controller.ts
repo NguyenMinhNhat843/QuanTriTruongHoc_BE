@@ -103,4 +103,16 @@ export class ClassController {
   remove(@Param("id", ParseIntPipe) id: number) {
     return this.classService.remove(id);
   }
+
+  @Post(":classId/add-student") // Bỏ /:studentId ở đây
+  @ApiOperation({ summary: "Thêm một sinh viên vào lớp học" })
+  async addStudentToClass(
+    @Param("classId", ParseIntPipe) classId: number,
+    @Query("studentId", ParseIntPipe) studentId: number, // Chuyển từ @Param sang @Query
+  ) {
+    return await this.classBusinessService.addStudentToClass(
+      classId,
+      studentId,
+    );
+  }
 }

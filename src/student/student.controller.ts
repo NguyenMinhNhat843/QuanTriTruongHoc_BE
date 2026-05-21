@@ -86,4 +86,16 @@ export class StudentController {
   ): Promise<StudentResponseDto> {
     return this.studentService.approveStudent(id);
   }
+
+  @Get("search-by-code")
+  @ApiOperation({
+    summary: "Tìm sinh viên theo mã sinh viên",
+    operationId: "findStudentByStudentCode",
+  })
+  @ApiOkResponse({ type: StudentResponseDto })
+  async findByStudentCode(
+    @Query("studentCode") studentCode: string,
+  ): Promise<StudentResponseDto> {
+    return this.studentService.findStudentByStudentCode(studentCode);
+  }
 }

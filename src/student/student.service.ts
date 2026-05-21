@@ -57,6 +57,25 @@ export class StudentService {
   }
 
   /**
+   * Tìm sinh viên theo mã sinh viên
+   */
+  async findStudentByStudentCode(
+    studentCode: string,
+  ): Promise<StudentResponseDto> {
+    const student = await this.prisma.student.findUnique({
+      where: { studentCode },
+      include: {
+        user: true, // Include để map vào StudentResponseDto
+        batch: true, // Include để map vào BatchResponseDto trong StudentResponseDto
+      },
+    });
+    if (!student) {
+      throw new NotFoundException("Không tìm thấy sinh viên");
+    }
+    return new StudentResponseDto(student);
+  }
+
+  /**
    * Cập nhật thông tin sinh viên
    */
   async updateStudent(

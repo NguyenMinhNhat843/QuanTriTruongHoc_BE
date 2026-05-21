@@ -120,7 +120,7 @@ export class CourseOfferService {
   }
 
   /**
-   * Khởi tạo dữ liệu lớp học phần (Bulk Create)
+   * Sinh lớp học phần (Bulk Create)
    */
   async generateSections(dto: CreateBulkCourseOfferDto) {
     const {
@@ -146,7 +146,7 @@ export class CourseOfferService {
           classId: nClass.id,
 
           maxStudents: nClass.maxStudents || 40,
-          status: "planned",
+          status: "open",
 
           registrationStart: registrationStart
             ? new Date(registrationStart)
