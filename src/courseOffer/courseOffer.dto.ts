@@ -24,7 +24,6 @@ import {
 export class SearchCourseOfferDto {
   @ApiPropertyOptional({
     description: "ID của lớp hành chính (Lớp danh nghĩa)",
-    example: 1,
   })
   @IsOptional()
   @IsInt()
@@ -33,7 +32,6 @@ export class SearchCourseOfferDto {
 
   @ApiPropertyOptional({
     description: "ID của ngành học",
-    example: 2,
   })
   @IsOptional()
   @IsInt()
@@ -42,7 +40,6 @@ export class SearchCourseOfferDto {
 
   @ApiPropertyOptional({
     description: "ID của học kỳ",
-    example: 3,
   })
   @IsOptional()
   @IsInt()
@@ -51,7 +48,6 @@ export class SearchCourseOfferDto {
 
   @ApiPropertyOptional({
     description: "ID của giảng viên phụ trách",
-    example: 5,
   })
   @IsOptional()
   @IsInt()
@@ -60,7 +56,6 @@ export class SearchCourseOfferDto {
 
   @ApiPropertyOptional({
     description: "Tìm kiếm theo Mã hoặc Tên lớp học phần",
-    example: "OOP-2026",
   })
   @IsOptional()
   @IsString()
@@ -69,7 +64,6 @@ export class SearchCourseOfferDto {
   @ApiPropertyOptional({
     description: "Trạng thái lớp học phần (planned, open, closed, cancelled)",
     enum: CourseOfferStatus,
-    example: "open",
   })
   @IsOptional()
   @IsEnum(CourseOfferStatus)
@@ -134,6 +128,14 @@ export class CreateBulkCourseOfferDto {
   @IsDateString()
   @IsOptional()
   registrationEnd?: string;
+
+  @ApiPropertyOptional({ description: "Thời gian bắt đầu, format StringDate" })
+  @IsDateString()
+  startTime?: string;
+
+  @ApiPropertyOptional({ description: "Thời gian kết thúc, format StringDate" })
+  @IsDateString()
+  endTime?: string;
 
   @ApiPropertyOptional({
     example: 50,

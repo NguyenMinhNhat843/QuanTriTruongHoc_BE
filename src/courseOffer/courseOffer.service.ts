@@ -31,10 +31,8 @@ export class CourseOfferService {
   async findAll(query: SearchCourseOfferDto) {
     const { classId, semesterId, teacherId, status, search } = query;
 
-    // Khởi tạo điều kiện lọc động
     const where: Prisma.CourseOfferWhereInput = {};
 
-    // 1. Lọc theo các ID trực tiếp trong schema
     if (classId) {
       where.classId = classId;
     }
@@ -51,13 +49,12 @@ export class CourseOfferService {
       where.status = status;
     }
 
-    // 3. Tìm kiếm theo từ khóa (Mã lớp hoặc Tên lớp)
     if (search) {
       where.OR = [
         {
           courseCode: {
             contains: search,
-            mode: "insensitive", // Tìm kiếm không phân biệt hoa thường
+            mode: "insensitive",
           },
         },
         {
@@ -69,7 +66,6 @@ export class CourseOfferService {
       ];
     }
 
-    // Thực thi câu lệnh truy vấn dữ liệu kèm các quan hệ liên quan
     const result = await this.prisma.courseOffer.findMany({
       where,
       include: {
@@ -79,80 +75,26 @@ export class CourseOfferService {
         teacher: true,
         _count: {
           select: {
-            registrations: true, // Giữ nguyên đếm số lượng đăng ký thực tế giống hàm cũ
+            registrations: true,
           },
         },
       },
       orderBy: {
-        createdAt: "desc", // Sắp xếp lớp mới tạo lên đầu hàng
+        createdAt: "desc",
       },
     });
 
     return result;
   }
 
+  /**
+   * Khi Admin tạo các lớp học phần tự động cho học kỳ này sẽ gọi api này để xem trước
+   */
   async previewSections(dto: PreviewCourseOfferDto) {
     const { semesterId, majorId, batchId } = dto;
+    const { nominalClasses, semester, subjectsInTerm, semesterNumber } =
+      await this.getGenerationContext(semesterId, majorId, batchId);
 
-    // --- BƯỚC 1: Tính toán semesterNumber ---
-    const batch = await this.prisma.batch.findUnique({
-      where: { id: batchId },
-    });
-    const semester = await this.prisma.semester.findUnique({
-      where: { id: semesterId },
-    });
-
-    if (!batch || !semester) {
-      throw new NotFoundException("Không tìm thấy Khóa đào tạo hoặc Học kỳ");
-    }
-
-    const startYear = batch.startYear;
-    const currentYear =
-      semester.year || new Date(semester.startDate).getFullYear();
-    // Giả sử tên học kỳ chứa chuỗi "HK1" hoặc "HK2"
-    const semesterTerm = semester.term!;
-
-    const semesterNumber = (currentYear - startYear) * 2 + semesterTerm;
-    console.log("semester number: ", semesterNumber);
-
-    if (semesterNumber <= 0) {
-      throw new BadRequestException(
-        "Học kỳ được chọn diễn ra trước khi khóa này nhập học",
-      );
-    }
-
-    // --- BƯỚC 2: Truy vấn danh sách môn học theo Chương trình khung ---
-    // Tìm khung chương trình áp dụng cho ngành và khóa này
-    const curriculum = await this.prisma.curriculum.findFirst({
-      where: { majorId: majorId },
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (!curriculum) {
-      throw new NotFoundException(
-        "Không tìm thấy Chương trình khung cho ngành này",
-      );
-    }
-
-    const subjectsInTerm = await this.prisma.curriculumSubject.findMany({
-      where: {
-        curriculumId: curriculum.id,
-        semesterNumber: semesterNumber,
-      },
-      include: {
-        subject: true,
-      },
-    });
-
-    // --- BƯỚC 3: Xác định các lớp danh nghĩa (Nominal Classes) ---
-    const nominalClasses = await this.prisma.class.findMany({
-      where: {
-        majorId: majorId,
-        batchId: batchId,
-      },
-    });
-
-    // --- TỔNG HỢP KẾT QUẢ DỰ KIẾN ---
     const previewData: any = [];
     for (const subItem of subjectsInTerm) {
       for (const nClass of nominalClasses) {
@@ -181,43 +123,44 @@ export class CourseOfferService {
    * Khởi tạo dữ liệu lớp học phần (Bulk Create)
    */
   async generateSections(dto: CreateBulkCourseOfferDto) {
-    const { semesterId, majorId, batchId, registrationStart, registrationEnd } =
-      dto;
+    const {
+      semesterId,
+      majorId,
+      batchId,
+      registrationStart,
+      registrationEnd,
+      startTime,
+      endTime,
+    } = dto;
 
-    // 1. Tái sử dụng logic lấy thông tin cơ bản (Semester, Batch, Subjects, Classes)
-    // Để tối ưu, bạn có thể gọi lại logic tính toán semesterNumber từ Bước 1, 2, 3
     const { subjectsInTerm, nominalClasses, semester } =
       await this.getGenerationContext(semesterId, majorId, batchId);
 
-    // Chuẩn bị dữ liệu để insert hàng loạt
     const courseOffersToCreate: any = [];
-
     for (const subItem of subjectsInTerm) {
       for (const nClass of nominalClasses) {
         courseOffersToCreate.push({
-          // courseCode: Tự động sinh (MãMôn-TênHọcKỳ-TênLớp)
           courseCode: `${subItem.subject.subjectCode}-${semester.name}-${nClass.classCode}`,
-          subjectId: subItem.subjectId, // Lấy từ Bước 2
-          semesterId: semesterId, // Lấy từ Input
-          classId: nClass.id, // Lấy từ Bước 3
+          subjectId: subItem.subjectId,
+          semesterId: semesterId,
+          classId: nClass.id,
 
-          maxStudents: nClass.maxStudents || 40, // Lấy theo bảng Class  52]
-          status: "planned", // Mặc định là planned
+          maxStudents: nClass.maxStudents || 40,
+          status: "planned",
 
-          // Thời gian đăng ký (nếu có truyền từ DTO)
           registrationStart: registrationStart
             ? new Date(registrationStart)
             : null,
           registrationEnd: registrationEnd ? new Date(registrationEnd) : null,
+          startDate: startTime ? new Date(startTime) : null,
+          endDate: endTime ? new Date(endTime) : null,
         });
       }
     }
 
-    // Thực hiện Create Bulk vào database
-    // Sử dụng createMany để tối ưu hiệu năng
     const result = await this.prisma.courseOffer.createMany({
       data: courseOffersToCreate,
-      skipDuplicates: true, // Tránh lỗi nếu đã lỡ tạo rồi
+      skipDuplicates: true,
     });
 
     return {
@@ -226,9 +169,9 @@ export class CourseOfferService {
     };
   }
 
-  // =========================================
-  // Hàm tái sử dụng để lấy thông tin cơ bản cho cả preview và generate
-  // =========================================
+  /**
+   * Lấy ngữ cảnh cho việc khởi tạo lớp học phần
+   */
   private async getGenerationContext(
     semesterId: number,
     majorId: number,
@@ -259,6 +202,7 @@ export class CourseOfferService {
         "Không tìm thấy Chương trình khung cho ngành này",
       );
 
+    // Lấy danh sách môn học theo học kỳ trong chương trình khung
     const subjectsInTerm = await this.prisma.curriculumSubject.findMany({
       where: { curriculumId: curriculum.id, semesterNumber },
       include: { subject: true },
@@ -269,13 +213,18 @@ export class CourseOfferService {
       where: { majorId, batchId },
     });
 
-    return { subjectsInTerm, nominalClasses, semester };
+    return { subjectsInTerm, nominalClasses, semester, semesterNumber };
   }
 
-  // =========================================
-  // Hàm tạo lớp học phần tùy chọn (Optional Course Offer)
-  // =========================================
-  async createOptionalSection(dto: CreateOptionalCourseOfferDto) {
+  /**
+   * Tạo lớp học phần
+   */
+  async createOptionalSection(
+    dto: CreateOptionalCourseOfferDto,
+    tx?: Prisma.TransactionClient,
+  ) {
+    const prismaClient = tx || this.prisma;
+
     const {
       semesterId,
       subjectId,
@@ -288,49 +237,40 @@ export class CourseOfferService {
 
     // 1. Kiểm tra sự tồn tại của Môn học và Học kỳ
     const [subject, semester] = await Promise.all([
-      this.prisma.subject.findUnique({ where: { id: subjectId } }),
-      this.prisma.semester.findUnique({ where: { id: semesterId } }),
+      prismaClient.subject.findUnique({ where: { id: subjectId } }),
+      prismaClient.semester.findUnique({ where: { id: semesterId } }),
     ]);
 
     if (!subject || !semester) {
       throw new NotFoundException("Môn học hoặc Học kỳ không tồn tại");
     }
 
-    // 2. Sinh mã lớp học phần (Course Code) tùy chọn
-    // Định dạng: [MãMôn]-[TênHọcKỳ]-OPT-[SốNgẫuNhiên/ThứTự]
-    // Ví dụ: POL101-HK12026-OPT1
+    // 2. Sinh mã lớp học phần tùy chọn
     const timestamp = Date.now().toString().slice(-3);
     const generatedCode = `${subject.subjectCode}-${semester.name}-OPT${timestamp}`;
     const courseName = `${subject.subjectName} ${classId ? `(Lớp ${classId})` : "(Tùy chọn)"}`;
 
-    // 3. Tạo bản ghi mới
     try {
-      const newSection = await this.prisma.courseOffer.create({
+      const data = await prismaClient.courseOffer.create({
         data: {
           courseCode: generatedCode,
           subjectId: subjectId,
           semesterId: semesterId,
-          classId: classId || null, // Có thể không thuộc lớp danh nghĩa nào
+          classId: classId || null,
           maxStudents: maxStudents,
           courseName: courseName,
-          status: "open", // Mở luôn để sinh viên thấy và đăng ký
+          status: "open",
           registrationStart: registrationStart
             ? new Date(registrationStart)
             : null,
           registrationEnd: registrationEnd ? new Date(registrationEnd) : null,
           teacherId: teacherId || null,
-          // Nếu trong schema của bạn có trường lưu tên lớp hiển thị riêng:
-          // name: courseName
-        },
-        include: {
-          subject: true,
-          semester: true,
         },
       });
 
       return {
         message: "Mở lớp học phần tùy chọn thành công",
-        data: newSection,
+        data,
       };
     } catch (error: any) {
       console.error("Lỗi khi tạo lớp học phần tùy chọn: ", error);
@@ -339,7 +279,6 @@ export class CourseOfferService {
       );
     }
   }
-
   // ========================================
   // PHÂN BỐ LỊCH HỌC VÀ PHÒNG HỌC CHO LỚP HỌC PHẦN (Optional, có thể thêm sau)
   // ========================================

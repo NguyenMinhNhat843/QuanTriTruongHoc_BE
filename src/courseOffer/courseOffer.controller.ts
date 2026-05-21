@@ -42,7 +42,6 @@ export class CourseOfferController {
     description: "Tìm kiếm và lấy danh sách lớp học phần thành công.",
   })
   async getAll(@Query() query: SearchCourseOfferDto) {
-    // Truyền trực tiếp đối tượng query nhận từ client vào hàm xử lý findAll của Service
     return this.courseOfferService.findAll(query);
   }
 
@@ -76,14 +75,12 @@ export class CourseOfferController {
     return this.courseOfferService.createOptionalSection(dto);
   }
 
-  // Phê duyệt lớp học phần
   @Patch(":id/approve")
   @ApiOperation({ summary: "Chấp nhận mở lớp học phần" })
   async approve(@Param("id", ParseIntPipe) id: number) {
     return await this.courseOfferService.approveCourseOffer(id);
   }
 
-  // Lấy chi tiết
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết lớp học phần" })
   @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
@@ -91,7 +88,6 @@ export class CourseOfferController {
     return await this.courseOfferService.getCourseOfferDetail(id);
   }
 
-  // Lấy danh sách học sinh đủ điều kiện đăng ký vào lớp học phần
   @Get(":courseOfferId/eligible-students")
   @ApiOperation({
     summary: "Lấy danh sách học sinh đủ điều kiện đăng ký vào lớp học phần",
