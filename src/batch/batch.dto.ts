@@ -1,5 +1,12 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
-import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from "class-validator";
 
 export class CreateBatchDto {
   @ApiProperty({ example: "K1", description: "Mã khóa học viết tắt" })
@@ -53,4 +60,23 @@ export class CreateBatchDto {
 export class UpdateBatchDto extends PartialType(CreateBatchDto) {
   // Tất cả các trường từ CreateBatchDto giờ đều là Optional (?)
   // Bạn có thể ghi đè hoặc thêm logic riêng cho Update nếu cần
+}
+
+export class SearchBatchDto {
+  @ApiPropertyOptional({
+    example: "2",
+    description: "Từ khóa tìm kiếm mã hoặc tên khóa",
+  })
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  majorId?: number;
+
+  @ApiPropertyOptional({
+    example: "CNTT",
+    description: "Từ khóa tìm kiếm mã hoặc ngành",
+  })
+  @IsString()
+  @IsOptional()
+  majorCode?: string;
 }

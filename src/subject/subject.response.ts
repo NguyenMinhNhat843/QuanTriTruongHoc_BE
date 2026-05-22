@@ -23,6 +23,9 @@ export class SubjectResponseDto implements Subject {
   @ApiProperty({ example: 15 })
   practiceHours: number;
 
+  @ApiPropertyOptional({ type: Number, nullable: true, example: 15 })
+  testHours: number | null;
+
   @ApiProperty({ example: 1 })
   deptId: number;
 

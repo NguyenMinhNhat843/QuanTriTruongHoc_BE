@@ -31,6 +31,7 @@ export type SubjectAvgAggregateOutputType = {
   credits: number | null
   theoryHours: number | null
   practiceHours: number | null
+  testHours: number | null
 }
 
 export type SubjectSumAggregateOutputType = {
@@ -38,6 +39,7 @@ export type SubjectSumAggregateOutputType = {
   credits: number | null
   theoryHours: number | null
   practiceHours: number | null
+  testHours: number | null
 }
 
 export type SubjectMinAggregateOutputType = {
@@ -47,6 +49,7 @@ export type SubjectMinAggregateOutputType = {
   credits: number | null
   theoryHours: number | null
   practiceHours: number | null
+  testHours: number | null
   isMandatory: boolean | null
   description: string | null
   createdAt: Date | null
@@ -61,6 +64,7 @@ export type SubjectMaxAggregateOutputType = {
   credits: number | null
   theoryHours: number | null
   practiceHours: number | null
+  testHours: number | null
   isMandatory: boolean | null
   description: string | null
   createdAt: Date | null
@@ -75,6 +79,7 @@ export type SubjectCountAggregateOutputType = {
   credits: number
   theoryHours: number
   practiceHours: number
+  testHours: number
   isMandatory: number
   description: number
   createdAt: number
@@ -89,6 +94,7 @@ export type SubjectAvgAggregateInputType = {
   credits?: true
   theoryHours?: true
   practiceHours?: true
+  testHours?: true
 }
 
 export type SubjectSumAggregateInputType = {
@@ -96,6 +102,7 @@ export type SubjectSumAggregateInputType = {
   credits?: true
   theoryHours?: true
   practiceHours?: true
+  testHours?: true
 }
 
 export type SubjectMinAggregateInputType = {
@@ -105,6 +112,7 @@ export type SubjectMinAggregateInputType = {
   credits?: true
   theoryHours?: true
   practiceHours?: true
+  testHours?: true
   isMandatory?: true
   description?: true
   createdAt?: true
@@ -119,6 +127,7 @@ export type SubjectMaxAggregateInputType = {
   credits?: true
   theoryHours?: true
   practiceHours?: true
+  testHours?: true
   isMandatory?: true
   description?: true
   createdAt?: true
@@ -133,6 +142,7 @@ export type SubjectCountAggregateInputType = {
   credits?: true
   theoryHours?: true
   practiceHours?: true
+  testHours?: true
   isMandatory?: true
   description?: true
   createdAt?: true
@@ -234,6 +244,7 @@ export type SubjectGroupByOutputType = {
   credits: number
   theoryHours: number
   practiceHours: number
+  testHours: number | null
   isMandatory: boolean
   description: string | null
   createdAt: Date
@@ -271,6 +282,7 @@ export type SubjectWhereInput = {
   credits?: Prisma.IntFilter<"Subject"> | number
   theoryHours?: Prisma.IntFilter<"Subject"> | number
   practiceHours?: Prisma.IntFilter<"Subject"> | number
+  testHours?: Prisma.IntNullableFilter<"Subject"> | number | null
   isMandatory?: Prisma.BoolFilter<"Subject"> | boolean
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
@@ -289,6 +301,7 @@ export type SubjectOrderByWithRelationInput = {
   credits?: Prisma.SortOrder
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
+  testHours?: Prisma.SortOrderInput | Prisma.SortOrder
   isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -310,6 +323,7 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   credits?: Prisma.IntFilter<"Subject"> | number
   theoryHours?: Prisma.IntFilter<"Subject"> | number
   practiceHours?: Prisma.IntFilter<"Subject"> | number
+  testHours?: Prisma.IntNullableFilter<"Subject"> | number | null
   isMandatory?: Prisma.BoolFilter<"Subject"> | boolean
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
@@ -328,6 +342,7 @@ export type SubjectOrderByWithAggregationInput = {
   credits?: Prisma.SortOrder
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
+  testHours?: Prisma.SortOrderInput | Prisma.SortOrder
   isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -350,6 +365,7 @@ export type SubjectScalarWhereWithAggregatesInput = {
   credits?: Prisma.IntWithAggregatesFilter<"Subject"> | number
   theoryHours?: Prisma.IntWithAggregatesFilter<"Subject"> | number
   practiceHours?: Prisma.IntWithAggregatesFilter<"Subject"> | number
+  testHours?: Prisma.IntNullableWithAggregatesFilter<"Subject"> | number | null
   isMandatory?: Prisma.BoolWithAggregatesFilter<"Subject"> | boolean
   description?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
@@ -363,6 +379,7 @@ export type SubjectCreateInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -381,6 +398,7 @@ export type SubjectUncheckedCreateInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -398,6 +416,7 @@ export type SubjectUpdateInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -416,6 +435,7 @@ export type SubjectUncheckedUpdateInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -434,6 +454,7 @@ export type SubjectCreateManyInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -447,6 +468,7 @@ export type SubjectUpdateManyMutationInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -461,6 +483,7 @@ export type SubjectUncheckedUpdateManyInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -475,6 +498,7 @@ export type SubjectCountOrderByAggregateInput = {
   credits?: Prisma.SortOrder
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
+  testHours?: Prisma.SortOrder
   isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -487,6 +511,7 @@ export type SubjectAvgOrderByAggregateInput = {
   credits?: Prisma.SortOrder
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
+  testHours?: Prisma.SortOrder
 }
 
 export type SubjectMaxOrderByAggregateInput = {
@@ -496,6 +521,7 @@ export type SubjectMaxOrderByAggregateInput = {
   credits?: Prisma.SortOrder
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
+  testHours?: Prisma.SortOrder
   isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -510,6 +536,7 @@ export type SubjectMinOrderByAggregateInput = {
   credits?: Prisma.SortOrder
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
+  testHours?: Prisma.SortOrder
   isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -522,6 +549,7 @@ export type SubjectSumOrderByAggregateInput = {
   credits?: Prisma.SortOrder
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
+  testHours?: Prisma.SortOrder
 }
 
 export type SubjectScalarRelationFilter = {
@@ -595,6 +623,7 @@ export type SubjectCreateWithoutCurriculumnSubjectInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -612,6 +641,7 @@ export type SubjectUncheckedCreateWithoutCurriculumnSubjectInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -644,6 +674,7 @@ export type SubjectUpdateWithoutCurriculumnSubjectInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -661,6 +692,7 @@ export type SubjectUncheckedUpdateWithoutCurriculumnSubjectInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -677,6 +709,7 @@ export type SubjectCreateWithoutCourseOffersInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -694,6 +727,7 @@ export type SubjectUncheckedCreateWithoutCourseOffersInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -726,6 +760,7 @@ export type SubjectUpdateWithoutCourseOffersInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -743,6 +778,7 @@ export type SubjectUncheckedUpdateWithoutCourseOffersInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -759,6 +795,7 @@ export type SubjectCreateWithoutTeacherSubjectsInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -776,6 +813,7 @@ export type SubjectUncheckedCreateWithoutTeacherSubjectsInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -808,6 +846,7 @@ export type SubjectUpdateWithoutTeacherSubjectsInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -825,6 +864,7 @@ export type SubjectUncheckedUpdateWithoutTeacherSubjectsInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -841,6 +881,7 @@ export type SubjectCreateWithoutSubjectGradesInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -858,6 +899,7 @@ export type SubjectUncheckedCreateWithoutSubjectGradesInput = {
   credits?: number
   theoryHours?: number
   practiceHours?: number
+  testHours?: number | null
   isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
@@ -890,6 +932,7 @@ export type SubjectUpdateWithoutSubjectGradesInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -907,6 +950,7 @@ export type SubjectUncheckedUpdateWithoutSubjectGradesInput = {
   credits?: Prisma.IntFieldUpdateOperationsInput | number
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
+  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -982,6 +1026,7 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   credits?: boolean
   theoryHours?: boolean
   practiceHours?: boolean
+  testHours?: boolean
   isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
@@ -1001,6 +1046,7 @@ export type SubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   credits?: boolean
   theoryHours?: boolean
   practiceHours?: boolean
+  testHours?: boolean
   isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
@@ -1015,6 +1061,7 @@ export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   credits?: boolean
   theoryHours?: boolean
   practiceHours?: boolean
+  testHours?: boolean
   isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
@@ -1029,6 +1076,7 @@ export type SubjectSelectScalar = {
   credits?: boolean
   theoryHours?: boolean
   practiceHours?: boolean
+  testHours?: boolean
   isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
@@ -1036,7 +1084,7 @@ export type SubjectSelectScalar = {
   grade_components?: boolean
 }
 
-export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "credits" | "theoryHours" | "practiceHours" | "isMandatory" | "description" | "createdAt" | "updatedAt" | "grade_components", ExtArgs["result"]["subject"]>
+export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "credits" | "theoryHours" | "practiceHours" | "testHours" | "isMandatory" | "description" | "createdAt" | "updatedAt" | "grade_components", ExtArgs["result"]["subject"]>
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculumnSubject?: boolean | Prisma.Subject$curriculumnSubjectArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Subject$courseOffersArgs<ExtArgs>
@@ -1062,6 +1110,7 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     credits: number
     theoryHours: number
     practiceHours: number
+    testHours: number | null
     isMandatory: boolean
     description: string | null
     createdAt: Date
@@ -1500,6 +1549,7 @@ export interface SubjectFieldRefs {
   readonly credits: Prisma.FieldRef<"Subject", 'Int'>
   readonly theoryHours: Prisma.FieldRef<"Subject", 'Int'>
   readonly practiceHours: Prisma.FieldRef<"Subject", 'Int'>
+  readonly testHours: Prisma.FieldRef<"Subject", 'Int'>
   readonly isMandatory: Prisma.FieldRef<"Subject", 'Boolean'>
   readonly description: Prisma.FieldRef<"Subject", 'String'>
   readonly createdAt: Prisma.FieldRef<"Subject", 'DateTime'>

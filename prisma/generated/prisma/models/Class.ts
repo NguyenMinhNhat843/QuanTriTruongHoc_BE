@@ -377,7 +377,7 @@ export type ClassCreateInput = {
   major: Prisma.MajorCreateNestedOneWithoutClassesInput
   batch?: Prisma.BatchCreateNestedOneWithoutClassesInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutBaseClassInput
-  students?: Prisma.StudentCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateInput = {
@@ -393,7 +393,7 @@ export type ClassUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutBaseClassInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassUpdateInput = {
@@ -408,7 +408,7 @@ export type ClassUpdateInput = {
   major?: Prisma.MajorUpdateOneRequiredWithoutClassesNestedInput
   batch?: Prisma.BatchUpdateOneWithoutClassesNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutBaseClassNestedInput
-  students?: Prisma.StudentUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateInput = {
@@ -424,7 +424,7 @@ export type ClassUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutBaseClassNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateManyInput = {
@@ -668,7 +668,7 @@ export type ClassCreateWithoutMajorInput = {
   updatedAt?: Date | string
   batch?: Prisma.BatchCreateNestedOneWithoutClassesInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutBaseClassInput
-  students?: Prisma.StudentCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutMajorInput = {
@@ -683,7 +683,7 @@ export type ClassUncheckedCreateWithoutMajorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutBaseClassInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutMajorInput = {
@@ -740,7 +740,7 @@ export type ClassCreateWithoutBatchInput = {
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutClassesInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutBaseClassInput
-  students?: Prisma.StudentCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutBatchInput = {
@@ -755,7 +755,7 @@ export type ClassUncheckedCreateWithoutBatchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutBaseClassInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutBatchInput = {
@@ -869,7 +869,7 @@ export type ClassCreateWithoutCourseOffersInput = {
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutClassesInput
   batch?: Prisma.BatchCreateNestedOneWithoutClassesInput
-  students?: Prisma.StudentCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentCreateNestedManyWithoutClassInput
 }
 
 export type ClassUncheckedCreateWithoutCourseOffersInput = {
@@ -884,7 +884,7 @@ export type ClassUncheckedCreateWithoutCourseOffersInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassCodeInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassInput
 }
 
 export type ClassCreateOrConnectWithoutCourseOffersInput = {
@@ -914,7 +914,7 @@ export type ClassUpdateWithoutCourseOffersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutClassesNestedInput
   batch?: Prisma.BatchUpdateOneWithoutClassesNestedInput
-  students?: Prisma.StudentUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutCourseOffersInput = {
@@ -929,7 +929,7 @@ export type ClassUncheckedUpdateWithoutCourseOffersInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  students?: Prisma.StudentUncheckedUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassCreateManyMajorInput = {
@@ -956,7 +956,7 @@ export type ClassUpdateWithoutMajorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch?: Prisma.BatchUpdateOneWithoutClassesNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutBaseClassNestedInput
-  students?: Prisma.StudentUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutMajorInput = {
@@ -971,7 +971,7 @@ export type ClassUncheckedUpdateWithoutMajorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutBaseClassNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateManyWithoutMajorInput = {
@@ -1011,7 +1011,7 @@ export type ClassUpdateWithoutBatchInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutClassesNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutBaseClassNestedInput
-  students?: Prisma.StudentUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateWithoutBatchInput = {
@@ -1026,7 +1026,7 @@ export type ClassUncheckedUpdateWithoutBatchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutBaseClassNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutClassCodeNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutClassNestedInput
 }
 
 export type ClassUncheckedUpdateManyWithoutBatchInput = {

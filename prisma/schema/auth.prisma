@@ -35,6 +35,17 @@ enum StudentStatus {
 model Student {
   id              Int             @id @default(autoincrement())
   studentCode     String          @unique
+  batchId         Int?            // Khóa đào tạo
+  batch           Batch?          @relation(fields: [batchId], references: [id])
+  classId         Int?            // Lớp
+  class           Class?          @relation(fields: [classId], references: [id])
+  enrollmentDate  DateTime?       @db.Date
+  graduationDate  DateTime?       @db.Date
+  status          StudentStatus   @default(studying)
+  applicationId   Int?            @unique // Hồ sơ tuyển sinh
+  application     Application?    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  // Thông tin cá nhân
   userId          Int?            @unique
   user            User?           @relation(fields: [userId], references: [id])
   email           String?        
@@ -45,19 +56,31 @@ model Student {
   avatarUrl       String?
   address         String?
   identityNumber  String?         @unique // CCCD
-  batchId         Int?            // Khóa đào tạo
-  batch           Batch?          @relation(fields: [batchId], references: [id])
-  classId         Int?            // Lớp
-  classCode       Class?          @relation(fields: [classId], references: [id])
-  applicationId   Int?            @unique // Hồ sơ tuyển sinh
-  application     Application?    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
-  enrollmentDate  DateTime?       @db.Date
-  graduationDate  DateTime?       @db.Date
-  status          StudentStatus   @default(studying)
-  parentName      String?        
-  parentPhone     String?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+
+  // Thông tin cha
+  fatherName         String?
+  fatherPhone        String?
+  fatherCCCD         String?
+  fatherYearOfBirth  Int?
+  fatherJob          String?
+
+  // Thông tin mẹ
+  motherName         String?
+  motherPhone        String?
+  motherCCCD         String?
+  motherYearOfBirth  Int?
+  motherJob          String?
+
+  // Thông tin người giám hộ
+  guardianName        String?
+  guardianRelationship String?      // Ông, Bà, Cô, Chú, Anh, Chị,...
+  guardianPhone       String?
+  guardianCCCD        String?
+  guardianYearOfBirth Int?
+  guardianJob         String?
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   benefitApplications BenefitApplication[]
   benefitAwards       BenefitAward[]

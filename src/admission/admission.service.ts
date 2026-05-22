@@ -7,6 +7,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { ApproveAdmissionDto, CreateAdmissionDto } from "./admission.dto";
 import { generateId } from "../utils/generateId";
 import { StudentResponseDto } from "../student/student.response";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class AdmissionService {
@@ -199,7 +200,7 @@ export class AdmissionService {
           },
         });
 
-        createdStudents.push(new StudentResponseDto(newStudent));
+        createdStudents.push(plainToInstance(StudentResponseDto, newStudent));
       }
 
       return {

@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service"; // Đảm bảo đường dẫn đúng tới PrismaService
-import { CreateBatchDto, UpdateBatchDto } from "./batch.dto";
+import { CreateBatchDto, SearchBatchDto, UpdateBatchDto } from "./batch.dto";
 import { BatchResponseDto } from "./batch.response";
 
 @Injectable()
@@ -45,9 +45,26 @@ export class BatchService {
     });
   }
 
-  // 2. LẤY TẤT CẢ DANH SÁCH KHÓA ĐÀO TẠO
-  async findAll(): Promise<BatchResponseDto[]> {
+  /**
+   * Search Khóa đào tạo
+   */
+  async findAll(query: SearchBatchDto): Promise<BatchResponseDto[]> {
+    const { majorId, majorCode } = query;
+
     const data = await this.prisma.batch.findMany({
+      where: {
+        ...(majorId ? { majorId: Number(majorId) } : {}),
+        ...(majorCode
+          ? {
+              major: {
+                majorCode: {
+                  contains: majorCode,
+                  mode: "insensitive", // Tìm kiếm không phân biệt chữ hoa / chữ thường
+                },
+              },
+            }
+          : {}),
+      },
       include: {
         major: true,
       },

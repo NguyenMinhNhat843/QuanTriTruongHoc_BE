@@ -40,6 +40,16 @@ export class StudentController {
     return this.studentService.createStudent(createStudentDto);
   }
 
+  // Tạo nhiều sinh viên cùng lúc
+  @Post("/bulk")
+  @ApiOperation({
+    summary: "Tạo nhiều hồ sơ sinh viên cùng lúc",
+    operationId: "createManyStudents",
+  })
+  async createMany(@Body() createStudentDtos: CreateStudentDto[]) {
+    return this.studentService.createManyStudents(createStudentDtos);
+  }
+
   // delete student by id
   @Delete(":id")
   @ApiOperation({
