@@ -90,6 +90,7 @@ export class StudentService {
       include: {
         user: true,
         batch: true,
+        class: true,
       },
     });
     if (!student) {
