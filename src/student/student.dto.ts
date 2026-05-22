@@ -18,22 +18,24 @@ export type StudentDto = Student;
 
 export class CreateStudentDto implements Student {
   // --- THÔNG TIN HỆ THỐNG / HÀNH CHÍNH (BỔ SUNG MỚI) ---
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: Number,
     example: 1,
     description:
       "ID tự tăng của học sinh (Nếu tạo mới có thể bỏ qua hoặc truyền 0 tùy logic backend)",
   })
   @IsInt()
+  @IsOptional()
   id: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: String,
     example: "HS20260001",
     description: "Mã số học sinh duy nhất",
   })
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   studentCode: string;
 
   @ApiPropertyOptional({

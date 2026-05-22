@@ -14,6 +14,7 @@ import {
   ApiOperation,
   ApiOkResponse,
   ApiResponse,
+  ApiBody,
 } from "@nestjs/swagger";
 import { StudentService } from "./student.service.js";
 import {
@@ -45,6 +46,10 @@ export class StudentController {
   @ApiOperation({
     summary: "Tạo nhiều hồ sơ sinh viên cùng lúc",
     operationId: "createManyStudents",
+  })
+  @ApiBody({
+    type: [CreateStudentDto],
+    description: "Danh sách hồ sơ sinh viên cần tạo mới",
   })
   async createMany(@Body() createStudentDtos: CreateStudentDto[]) {
     return this.studentService.createManyStudents(createStudentDtos);
