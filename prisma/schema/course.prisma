@@ -21,7 +21,7 @@ enum DayOfWeek {
 // ==========================
 model CourseOffer {
   id                Int       @id @default(autoincrement())
-  courseCode        String    // VD: OOP-2026-HK1-01
+  courseCode        String    @unique   // VD: OOP-2026-HK1-01
   courseName        String?   
   
   // Giáo viên giảng dạy (Nối tới Staff)

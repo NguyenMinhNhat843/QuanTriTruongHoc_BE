@@ -24,6 +24,7 @@ import {
 import { StudentResponseDto } from "../student/student.response";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import { Response } from "express";
+import { ResponsePreviewGenerateSectionForClass } from "./courseOffer.response";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
@@ -81,6 +82,30 @@ export class CourseOfferController {
     return await this.courseOfferService.approveCourseOffer(id);
   }
 
+  /**
+   * API Xem trước danh sách lớp học phần sẽ sinh tự động
+   */
+  @Get("previewpreviewGenerateSectionForClass")
+  @ApiOperation({
+    summary: "Xem trước danh sách lớp học phần tự động",
+    description:
+      "Trả về danh sách các môn học kèm theo mã và tên lớp học phần dự kiến sẽ được sinh ra, kèm trạng thái đã tồn tại hay chưa.",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Lấy dữ liệu cấu trúc xem trước thành công.",
+    type: [ResponsePreviewGenerateSectionForClass], // Swagger sẽ lấy schema từ DTO này để hiển thị mẫu dữ liệu trả về
+  })
+  async previewGenerateSectionForClass(
+    @Query("classId", ParseIntPipe) classId: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return this.courseOfferService.previewGenerateSectionForClass(
+      classId,
+      semesterId,
+    );
+  }
+
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết lớp học phần" })
   @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
@@ -132,5 +157,21 @@ export class CourseOfferController {
           error.message || "Đã xảy ra lỗi trong quá trình xuất file Excel",
       });
     }
+  }
+
+  @Post("generate-sections-for-class")
+  @ApiOperation({
+    summary: "Tự động tạo lớp học phần cho một lớp hành chính",
+    description:
+      "Dựa trên danh sách môn học của lớp hành chính và học kỳ, hệ thống sẽ tự động tạo các lớp học phần tương ứng.",
+  })
+  async generateSectionsForClass(
+    @Query("classId", ParseIntPipe) classId: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return await this.courseOfferService.generateSectionForClass(
+      classId,
+      semesterId,
+    );
   }
 }

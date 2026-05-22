@@ -363,10 +363,10 @@ export type CourseOfferOrderByWithRelationInput = {
 
 export type CourseOfferWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  courseCode?: string
   AND?: Prisma.CourseOfferWhereInput | Prisma.CourseOfferWhereInput[]
   OR?: Prisma.CourseOfferWhereInput[]
   NOT?: Prisma.CourseOfferWhereInput | Prisma.CourseOfferWhereInput[]
-  courseCode?: Prisma.StringFilter<"CourseOffer"> | string
   courseName?: Prisma.StringNullableFilter<"CourseOffer"> | string | null
   teacherId?: Prisma.IntNullableFilter<"CourseOffer"> | number | null
   subjectId?: Prisma.IntFilter<"CourseOffer"> | number
@@ -387,7 +387,7 @@ export type CourseOfferWhereUniqueInput = Prisma.AtLeast<{
   semester?: Prisma.XOR<Prisma.SemesterScalarRelationFilter, Prisma.SemesterWhereInput>
   registrations?: Prisma.CourseRegistrationListRelationFilter
   courseSchedules?: Prisma.CourseScheduleListRelationFilter
-}, "id">
+}, "id" | "courseCode">
 
 export type CourseOfferOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

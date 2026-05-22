@@ -136,6 +136,7 @@ export class ClassService {
       where: { id },
       include: {
         major: true,
+        batch: true,
         _count: { select: { courseOffers: true } },
       },
     });

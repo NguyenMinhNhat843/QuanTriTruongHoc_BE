@@ -83,6 +83,11 @@ export class ClassResponseDto implements Class {
     this.status = partial.status;
     this.createdAt = partial.createdAt;
     this.updatedAt = partial.updatedAt;
+    this.batchId = partial.batchId;
+
+    if (partial.batch) {
+      this.batch = new BatchResponseDto(partial.batch);
+    }
 
     // Map quan hệ Major
     if (partial.major) {

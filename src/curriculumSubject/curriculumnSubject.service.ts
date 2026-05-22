@@ -3,6 +3,7 @@ import {
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  BadRequestException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import {
@@ -107,5 +108,58 @@ export class CurriculumSubjectService {
     if (!existing) throw new NotFoundException("Bản ghi không tồn tại");
 
     return this.prisma.curriculumSubject.delete({ where: { id } });
+  }
+
+  /**
+   * Lấy danh sách môn học theo 1 học kỳ nào đó
+   */
+  async findByCurriculumAndSemester(
+    semesterId: number,
+    classId: number,
+  ): Promise<CurriculumSubjectResponseDto[]> {
+    // Lấy chương trình khung từ classID
+    const classRes = await this.prisma.class.findUnique({
+      where: {
+        id: classId,
+      },
+      select: {
+        batch: {
+          select: {
+            curriculum: true,
+            startYear: true,
+          },
+        },
+      },
+    });
+    const curriculumId = classRes?.batch?.curriculum?.id;
+
+    // Laays semster
+    const semester = await this.prisma.semester.findUnique({
+      where: { id: semesterId },
+    });
+
+    // Tính toán học kỳ theo chương trình khung
+    // 5. Tính học kỳ hiện tại là học kỳ số mấy trong chương trình khung
+    const startYear = classRes?.batch?.startYear || 0;
+    const currentYear = semester?.year || 0;
+    const currentTerm = semester?.term || 0;
+
+    const semesterNo =
+      startYear > 0 && currentYear >= startYear
+        ? (currentYear - startYear) * 2 + currentTerm
+        : 0;
+
+    if (semesterNo === 0) {
+      throw new BadRequestException(
+        "Thời điểm hiện tại khóa học này đã hết môn rồi",
+      );
+    }
+
+    const list = await this.prisma.curriculumSubject.findMany({
+      where: { curriculumId, semesterNumber: semesterNo },
+      include: { subject: true },
+      orderBy: { id: "asc" },
+    });
+    return list.map((item) => new CurriculumSubjectResponseDto(item));
   }
 }

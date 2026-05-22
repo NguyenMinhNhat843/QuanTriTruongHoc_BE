@@ -15,6 +15,7 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiQuery,
+  ApiResponse,
 } from "@nestjs/swagger";
 import { CurriculumService } from "./curriculum.service";
 import {
@@ -23,11 +24,16 @@ import {
   UpdateCurriculumDto,
 } from "./curriculum.dto";
 import { CurriculumResponseDto } from "./curriculum.response";
+import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
+import { CurriculumSubjectService } from "../curriculumSubject/curriculumnSubject.service";
 
 @ApiTags("Curriculums")
 @Controller("curriculums")
 export class CurriculumController {
-  constructor(private readonly curriculumService: CurriculumService) {}
+  constructor(
+    private readonly curriculumService: CurriculumService,
+    private readonly curriculumSubjectService: CurriculumSubjectService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: "Tạo mới chương trình khung" })
@@ -46,6 +52,21 @@ export class CurriculumController {
     @Query() query: SearchCurriculumDto,
   ): Promise<CurriculumResponseDto[]> {
     return this.curriculumService.findAll(query);
+  }
+
+  @Get("subjects")
+  @ApiOperation({
+    summary: "Lấy danh sách môn học theo học kỳ của 1 chương trình khung",
+  })
+  @ApiResponse({ type: [CurriculumSubjectResponseDto] })
+  async getSubjectsBySemester(
+    @Query("classId", ParseIntPipe) classId: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ): Promise<CurriculumSubjectResponseDto[]> {
+    return this.curriculumSubjectService.findByCurriculumAndSemester(
+      semesterId,
+      classId,
+    );
   }
 
   @Get(":id")
