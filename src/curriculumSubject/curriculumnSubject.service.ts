@@ -150,9 +150,7 @@ export class CurriculumSubjectService {
         : 0;
 
     if (semesterNo === 0) {
-      throw new BadRequestException(
-        "Thời điểm hiện tại khóa học này đã hết môn rồi",
-      );
+      throw new BadRequestException("Học kỳ không hợp lệ");
     }
 
     const list = await this.prisma.curriculumSubject.findMany({

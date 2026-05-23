@@ -1,8 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
 import { MajorResponseDto } from "../major/major.response";
+import { Curriculum } from "../../prisma/generated/prisma/client";
 
-export class CurriculumResponseDto {
+export class CurriculumResponseDto implements Curriculum {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -21,11 +22,11 @@ export class CurriculumResponseDto {
   @ApiProperty({ example: 120 })
   totalCredits: number;
 
-  @ApiPropertyOptional({ example: "2023-09-01", nullable: true })
-  effectiveFrom?: Date;
+  @ApiPropertyOptional({ type: Date, example: "2023-09-01", nullable: true })
+  effectiveFrom: Date;
 
-  @ApiPropertyOptional({ example: "2027-09-01", nullable: true })
-  effectiveTo?: Date;
+  @ApiPropertyOptional({ type: Date, example: "2027-09-01", nullable: true })
+  effectiveTo: Date;
 
   @ApiProperty({ example: true })
   isActive: boolean;
@@ -53,7 +54,7 @@ export class CurriculumResponseDto {
     type: [CurriculumSubjectResponseDto],
     description: "Danh sách chi tiết các môn học trong chương trình",
   })
-  subjectList?: CurriculumSubjectResponseDto[];
+  curriculumSubjects?: CurriculumSubjectResponseDto[];
 
   constructor(partial: any = {}) {
     if (!partial) return;
@@ -71,7 +72,7 @@ export class CurriculumResponseDto {
 
     // 1. Map danh sách môn học nếu Prisma có include curriculumSubjects
     if (partial.curriculumSubjects) {
-      this.subjectList = partial.curriculumSubjects.map(
+      this.curriculumSubjects = partial.curriculumSubjects.map(
         (item: any) => new CurriculumSubjectResponseDto(item),
       );
     }

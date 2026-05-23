@@ -150,7 +150,7 @@ model Subject {
 // ==========================
 model Semester {
   id          Int      @id @default(autoincrement())
-  name        String   // Ví dụ: HK1-2026, HK2-2026
+  name        String   // Ví dụ: HK1 2026-2027, HK2 2026-2027
   term        Int?       // Kỳ, ví dụ: 1, 2 nghĩa là Học kỳ 1 2 dùng để truy vấn dễ hơn
   year        Int?      // Năm học nào
   schoolYear  String?   // Ví dụ: 2025-2026

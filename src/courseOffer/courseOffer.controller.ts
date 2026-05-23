@@ -10,21 +10,21 @@ import {
   Post,
   Query,
   Res,
-  UsePipes,
-  ValidationPipe,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { CourseOfferService } from "./courseOffer.service";
 import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
-  PreviewCourseOfferDto,
   SearchCourseOfferDto,
 } from "./courseOffer.dto";
 import { StudentResponseDto } from "../student/student.response";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import { Response } from "express";
-import { ResponsePreviewGenerateSectionForClass } from "./courseOffer.response";
+import {
+  CourseOfferDto,
+  ResponsePreviewGenerateSectionForClass,
+} from "./courseOffer.response";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
@@ -33,14 +33,10 @@ export class CourseOfferController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({
-    summary: "Lấy danh sách tất cả lớp học phần theo bộ lọc tìm kiếm",
-    description:
-      "Hỗ trợ tìm kiếm không phân trang theo từ khóa, ngành học, lớp hành chính, học kỳ, giảng viên và trạng thái.",
-  })
+  @ApiOperation({ summary: "Lấy danh sách lớp học phần" })
   @ApiResponse({
     status: 200,
-    description: "Tìm kiếm và lấy danh sách lớp học phần thành công.",
+    type: [CourseOfferDto],
   })
   async getAll(@Query() query: SearchCourseOfferDto) {
     return this.courseOfferService.findAll(query);
@@ -53,16 +49,15 @@ export class CourseOfferController {
       "Dựa trên Học kỳ, Ngành và Khóa để tính toán số lớp từ Chương trình khung",
   })
   @ApiResponse({ status: 200, description: "Danh sách dự kiến" })
-  @UsePipes(new ValidationPipe({ transform: true }))
-  preview(@Query() dto: PreviewCourseOfferDto) {
-    return this.courseOfferService.previewSections(dto);
+  preview(@Query() dto: CreateBulkCourseOfferDto) {
+    return this.courseOfferService.previewGenClassSubjects(dto);
   }
 
   @Post("generate")
   @ApiOperation({ summary: "Thực thi tạo lớp học phần hàng loạt" })
   @ApiResponse({ status: 201, description: "Khởi tạo thành công" })
   async generate(@Body() dto: CreateBulkCourseOfferDto) {
-    return this.courseOfferService.generateSections(dto);
+    return this.courseOfferService.genClassSubjects(dto);
   }
 
   @Post("optional")
@@ -101,6 +96,22 @@ export class CourseOfferController {
     @Query("semesterId", ParseIntPipe) semesterId: number,
   ) {
     return this.courseOfferService.previewGenerateSectionForClass(
+      classId,
+      semesterId,
+    );
+  }
+
+  @Post("generate-sections-for-class")
+  @ApiOperation({
+    summary: "Tự động tạo lớp học phần cho một lớp hành chính",
+    description:
+      "Dựa trên danh sách môn học của lớp hành chính và học kỳ, hệ thống sẽ tự động tạo các lớp học phần tương ứng.",
+  })
+  async generateSectionsForClass(
+    @Query("classId", ParseIntPipe) classId: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return await this.courseOfferService.generateSectionForClass(
       classId,
       semesterId,
     );
@@ -157,21 +168,5 @@ export class CourseOfferController {
           error.message || "Đã xảy ra lỗi trong quá trình xuất file Excel",
       });
     }
-  }
-
-  @Post("generate-sections-for-class")
-  @ApiOperation({
-    summary: "Tự động tạo lớp học phần cho một lớp hành chính",
-    description:
-      "Dựa trên danh sách môn học của lớp hành chính và học kỳ, hệ thống sẽ tự động tạo các lớp học phần tương ứng.",
-  })
-  async generateSectionsForClass(
-    @Query("classId", ParseIntPipe) classId: number,
-    @Query("semesterId", ParseIntPipe) semesterId: number,
-  ) {
-    return await this.courseOfferService.generateSectionForClass(
-      classId,
-      semesterId,
-    );
   }
 }

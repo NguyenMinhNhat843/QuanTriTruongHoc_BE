@@ -162,6 +162,11 @@ export class StaffService {
       },
       include: {
         user: true,
+        teacherSubjects: {
+          include: {
+            subject: true,
+          },
+        },
       },
     });
 

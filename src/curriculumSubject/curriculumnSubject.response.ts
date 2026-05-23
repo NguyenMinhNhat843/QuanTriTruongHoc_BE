@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { SubjectResponseDto } from "../subject/subject.response";
+import { CurriculumSubject } from "../../prisma/generated/prisma/client";
 
-export class CurriculumSubjectResponseDto {
+export class CurriculumSubjectResponseDto implements CurriculumSubject {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -30,7 +31,8 @@ export class CurriculumSubjectResponseDto {
   @ApiPropertyOptional({ description: "Thông tin chương trình khung" })
   curriculum?: any;
 
-  constructor(partial: any) {
+  constructor(partial: any = {}) {
+    if (!partial) return;
     this.id = partial.id;
     this.curriculumId = partial.curriculumId;
     this.subjectId = partial.subjectId;

@@ -11,6 +11,7 @@ import {
   UpdateCurriculumDto,
 } from "./curriculum.dto";
 import { CurriculumResponseDto } from "./curriculum.response";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class CurriculumService {
@@ -109,6 +110,36 @@ export class CurriculumService {
     return list.map((item) => new CurriculumResponseDto(item));
   }
 
+  async findFirst(
+    query: SearchCurriculumDto,
+  ): Promise<CurriculumResponseDto | null> {
+    const { batchId } = query;
+    console.log("batchs: ", batchId);
+    const batch = await this.prisma.batch.findUnique({
+      where: { id: batchId },
+    });
+    const curriculumId = batch?.curriculumId;
+    if (!curriculumId) {
+      return null;
+    }
+
+    const curriculum = await this.prisma.curriculum.findFirst({
+      where: {
+        id: curriculumId,
+      },
+      include: {
+        major: true,
+        curriculumSubjects: {
+          include: {
+            subject: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    return curriculum ? new CurriculumResponseDto(curriculum) : null;
+  }
+
   /**
    * Lấy chi tiết một chương trình khung, bao gồm cả danh sách môn học thuộc chương trình đó
    */
@@ -131,7 +162,7 @@ export class CurriculumService {
         `Không tìm thấy chương trình khung với ID ${id}`,
       );
     }
-    return new CurriculumResponseDto(curriculum);
+    return plainToInstance(CurriculumResponseDto, curriculum);
   }
 
   async update(id: number, data: UpdateCurriculumDto) {

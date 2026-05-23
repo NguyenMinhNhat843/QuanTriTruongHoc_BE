@@ -112,7 +112,6 @@ export class SubjectService {
     data: UpdateSubjectDto,
   ): Promise<SubjectResponseDto> {
     const { subjectCode, gradeComponents, ...subjectData } = data;
-    // 1. Kiểm tra môn học có tồn tại hay không
     const existingSubject = await this.prisma.subject.findUnique({
       where: { subjectCode },
     });
@@ -120,10 +119,8 @@ export class SubjectService {
       throw new ConflictException(`Mã môn học ${subjectCode} đã tồn tại`);
     }
 
-    // Chuẩn bị object data để update vào Prisma
     const updateData: any = { ...subjectData };
 
-    // 2. Nếu người dùng cập nhật mã môn học, kiểm tra trùng mã (trừ chính nó)
     if (subjectCode) {
       const existingSubject = await this.prisma.subject.findFirst({
         where: {

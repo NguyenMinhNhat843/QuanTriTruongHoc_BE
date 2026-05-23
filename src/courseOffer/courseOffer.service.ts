@@ -7,7 +7,6 @@ import { PrismaService } from "../prisma/prisma.service";
 import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
-  PreviewCourseOfferDto,
   SearchCourseOfferDto,
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
@@ -18,7 +17,10 @@ import * as path from "path";
 import { CourseOfferQuery } from "./courseOffer.query";
 import { Prisma } from "../../prisma/generated/prisma/client";
 import { CurriculumSubjectService } from "../curriculumSubject/curriculumnSubject.service";
-import { ResponsePreviewGenerateSectionForClass } from "./courseOffer.response";
+import {
+  CourseOfferDto,
+  ResponsePreviewGenerateSectionForClass,
+} from "./courseOffer.response";
 
 @Injectable()
 export class CourseOfferService {
@@ -87,16 +89,16 @@ export class CourseOfferService {
       },
     });
 
-    return result;
+    return plainToInstance(CourseOfferDto, result);
   }
 
   /**
    * Khi Admin tạo các lớp học phần tự động cho học kỳ này sẽ gọi api này để xem trước
    */
-  async previewSections(dto: PreviewCourseOfferDto) {
-    const { semesterId, majorId, batchId } = dto;
+  async previewGenClassSubjects(dto: CreateBulkCourseOfferDto) {
+    const { semesterId, batchId } = dto;
     const { nominalClasses, semester, subjectsInTerm, semesterNumber } =
-      await this.getGenerationContext(semesterId, majorId, batchId);
+      await this.getGenerationContext(semesterId, batchId);
 
     const previewData: any = [];
     for (const subItem of subjectsInTerm) {
@@ -125,19 +127,11 @@ export class CourseOfferService {
   /**
    * Sinh lớp học phần (Bulk Create)
    */
-  async generateSections(dto: CreateBulkCourseOfferDto) {
-    const {
-      semesterId,
-      majorId,
-      batchId,
-      registrationStart,
-      registrationEnd,
-      startTime,
-      endTime,
-    } = dto;
+  async genClassSubjects(dto: CreateBulkCourseOfferDto) {
+    const { semesterId, batchId, startTime, endTime } = dto;
 
     const { subjectsInTerm, nominalClasses, semester } =
-      await this.getGenerationContext(semesterId, majorId, batchId);
+      await this.getGenerationContext(semesterId, batchId);
 
     const courseOffersToCreate: any = [];
     for (const subItem of subjectsInTerm) {
@@ -151,10 +145,6 @@ export class CourseOfferService {
           maxStudents: nClass.maxStudents || 40,
           status: "open",
 
-          registrationStart: registrationStart
-            ? new Date(registrationStart)
-            : null,
-          registrationEnd: registrationEnd ? new Date(registrationEnd) : null,
           startDate: startTime ? new Date(startTime) : null,
           endDate: endTime ? new Date(endTime) : null,
         });
@@ -175,14 +165,21 @@ export class CourseOfferService {
   /**
    * Lấy ngữ cảnh cho việc khởi tạo lớp học phần
    */
-  private async getGenerationContext(
-    semesterId: number,
-    majorId: number,
-    batchId: number,
-  ) {
+  private async getGenerationContext(semesterId: number, batchId: number) {
     const batch = await this.prisma.batch.findUnique({
       where: { id: batchId },
+      include: {
+        major: true,
+        curriculum: {
+          include: {
+            curriculumSubjects: true,
+          },
+        },
+      },
     });
+    const majorId = batch?.majorId;
+    const curriculum = batch?.curriculum;
+
     const semester = await this.prisma.semester.findUnique({
       where: { id: semesterId },
     });
@@ -193,12 +190,6 @@ export class CourseOfferService {
     // Tính semesterNumber
     const semesterNumber =
       (semester.year! - batch.startYear) * 2 + semester.term!;
-
-    // Lấy môn học theo CTK
-    const curriculum = await this.prisma.curriculum.findFirst({
-      where: { majorId, isActive: true },
-      orderBy: { createdAt: "desc" },
-    });
 
     if (!curriculum)
       throw new NotFoundException(

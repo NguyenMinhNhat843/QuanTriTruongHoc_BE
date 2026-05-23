@@ -54,11 +54,23 @@ export class CurriculumController {
     return this.curriculumService.findAll(query);
   }
 
-  @Get("subjects")
+  @Get("first")
+  @ApiOperation({
+    summary: "Lấy chương trình khung đầu tiên khớp với điều kiện",
+  })
+  @ApiOkResponse({ type: CurriculumResponseDto, nullable: true })
+  findFirst(
+    @Query() query: SearchCurriculumDto,
+  ): Promise<CurriculumResponseDto | null> {
+    return this.curriculumService.findFirst(query);
+  }
+
+  @Get("curriculum-subjects/by-semester")
   @ApiOperation({
     summary: "Lấy danh sách môn học theo học kỳ của 1 chương trình khung",
+    operationId: "getSubjectsBySemester",
   })
-  @ApiResponse({ type: [CurriculumSubjectResponseDto] })
+  @ApiResponse({ type: [CurriculumSubjectResponseDto], status: 200 })
   async getSubjectsBySemester(
     @Query("classId", ParseIntPipe) classId: number,
     @Query("semesterId", ParseIntPipe) semesterId: number,

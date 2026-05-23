@@ -9,11 +9,17 @@ import {
   Min,
   IsNumber,
   IsBoolean,
+  IsDate,
 } from "class-validator";
 import {
   CourseOffer,
   CourseOfferStatus,
 } from "../../prisma/generated/prisma/client";
+import { StaffResponseDto } from "../staff/staff.response";
+import { SubjectResponseDto } from "../subject/subject.response";
+import { ClassResponseDto } from "../class/class.response";
+import { SemesterResponseDto } from "../semester/semester.response";
+import { Type } from "class-transformer";
 
 export class CourseOfferDto implements CourseOffer {
   @ApiProperty({ example: 1 })
@@ -43,55 +49,113 @@ export class CourseOfferDto implements CourseOffer {
   @IsEnum(CourseOfferStatus)
   status: CourseOfferStatus;
 
-  @ApiPropertyOptional({ example: "2026-09-01" })
+  @ApiPropertyOptional({ type: Date, example: "2026-09-01" })
   @IsDateString()
   @IsOptional()
   startDate: Date | null;
 
-  @ApiPropertyOptional({ example: "2026-12-31" })
+  @ApiPropertyOptional({ type: Date, example: "2026-12-31" })
   @IsDateString()
   @IsOptional()
   endDate: Date | null;
 
+  @ApiProperty({
+    description: "ID của lớp học",
+    example: 101,
+    nullable: true,
+    required: false,
+  })
+  @IsOptional()
+  @IsInt({ message: "classId phải là số nguyên" })
   classId: number | null;
+
+  @ApiProperty({
+    description: "Thời gian tạo bản ghi",
+    example: "2026-05-23T06:50:00.000Z",
+    type: String,
+    format: "date-time",
+  })
+  @IsNotEmpty({ message: "createdAt không được để trống" })
+  @IsDate({ message: "createdAt không đúng định dạng ngày tháng" })
+  @Type(() => Date)
   createdAt: Date;
+
+  @ApiProperty({
+    description: "Thời gian cập nhật bản ghi gần nhất",
+    example: "2026-05-23T07:15:00.000Z",
+    type: String,
+    format: "date-time",
+  })
+  @IsNotEmpty({ message: "updatedAt không được để trống" })
+  @IsDate({ message: "updatedAt không đúng định dạng ngày tháng" })
+  @Type(() => Date)
   updatedAt: Date;
+
+  @ApiProperty({
+    description: "Thời gian kết thúc đăng ký",
+    example: "2026-06-30T23:59:59.000Z",
+    type: String,
+    format: "date-time",
+    nullable: true,
+    required: false,
+  })
+  @IsOptional()
+  @IsDate({ message: "registrationEnd không đúng định dạng ngày tháng" })
+  @Type(() => Date)
   registrationEnd: Date | null;
+
+  @ApiProperty({
+    description: "Thời gian bắt đầu mở đăng ký",
+    example: "2026-06-01T00:00:00.000Z",
+    type: String,
+    format: "date-time",
+    nullable: true,
+    required: false,
+  })
+  @IsOptional()
+  @IsDate({ message: "registrationStart không đúng định dạng ngày tháng" })
+  @Type(() => Date)
   registrationStart: Date | null;
+
+  @ApiProperty({
+    description: "ID của giáo viên giảng dạy",
+    example: 12,
+    nullable: true,
+    required: false,
+  })
+  @IsOptional()
+  @IsInt({ message: "teacherId phải là số nguyên" })
   teacherId: number | null;
+
+  @ApiProperty({
+    description: "ID của học kỳ",
+    example: 3,
+  })
+  @IsNotEmpty({ message: "semesterId không được để trống" })
+  @IsInt({ message: "semesterId phải là số nguyên" })
   semesterId: number;
+
+  @ApiProperty({
+    description: "ID của môn học",
+    example: 45,
+  })
+  @IsNotEmpty({ message: "subjectId không được để trống" })
+  @IsInt({ message: "subjectId phải là số nguyên" })
   subjectId: number;
 
   // --- THÔNG TIN TỐI GIẢN TỪ CÁC QUAN HỆ ---
 
-  @ApiProperty({ description: "Thông tin giáo viên tối giản" })
-  teacher?: {
-    id: number;
-    staffCode: string;
-    fullName: string;
-  };
+  @ApiProperty({ type: StaffResponseDto })
+  teacher?: StaffResponseDto | null;
 
-  @ApiProperty({ description: "Thông tin môn học" })
-  subject: {
-    id: number;
-    subjectCode: string;
-    subjectName: string;
-    credits: number;
-  };
+  @ApiProperty({ type: SubjectResponseDto })
+  subject?: SubjectResponseDto;
 
-  @ApiPropertyOptional({ description: "Lớp hành chính liên quan" })
-  baseClass: {
-    id: number;
-    classCode: string;
-    className: string;
-  } | null;
+  @ApiPropertyOptional({ type: ClassResponseDto })
+  baseClass?: ClassResponseDto;
 
-  @ApiProperty({ description: "Học kỳ" })
-  semester: {
-    id: number;
-    name: string;
-    schoolYear: string;
-  };
+  @ApiProperty({ type: SemesterResponseDto })
+  semester?: SemesterResponseDto;
 
   constructor(partial: Partial<CourseOfferDto>) {
     Object.assign(this, partial);

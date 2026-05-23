@@ -34,11 +34,6 @@ export class GradeComponentService {
     const components = await this.prisma.gradeComponent.findMany({
       orderBy: { id: "asc" },
     });
-    console.log(
-      plainToInstance(GradeComponentDto, components, {
-        excludeExtraneousValues: true,
-      }),
-    );
 
     return plainToInstance(GradeComponentDto, components);
   }

@@ -87,5 +87,11 @@ export class SearchCurriculumDto {
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
+  batchId?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
   majorId?: number;
 }
