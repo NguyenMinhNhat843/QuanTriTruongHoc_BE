@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import {
   ArrayMinSize,
@@ -213,3 +213,7 @@ export class AssignScheduleDto {
   @Type(() => ScheduleItemDto)
   schedules: ScheduleItemDto[];
 }
+
+export class updateClassSubjectDto extends PartialType(
+  CreateOptionalCourseOfferDto,
+) {}

@@ -17,6 +17,7 @@ import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
   SearchCourseOfferDto,
+  updateClassSubjectDto,
 } from "./courseOffer.dto";
 import { StudentResponseDto } from "../student/student.response";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
@@ -40,6 +41,16 @@ export class CourseOfferController {
   })
   async getAll(@Query() query: SearchCourseOfferDto) {
     return this.courseOfferService.findAll(query);
+  }
+
+  @Patch(":id")
+  @ApiOperation({ summary: "Cập nhật thông tin lớp học phần" })
+  @ApiResponse({ status: 200, type: CourseOfferDto })
+  async updateClassSubject(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateData: updateClassSubjectDto,
+  ) {
+    return await this.courseOfferService.updateClassSubject(id, updateData);
   }
 
   @Get("preview")
@@ -69,12 +80,6 @@ export class CourseOfferController {
   @ApiResponse({ status: 201, description: "Tạo lớp thành công" })
   async createOptional(@Body() dto: CreateOptionalCourseOfferDto) {
     return this.courseOfferService.createOptionalSection(dto);
-  }
-
-  @Patch(":id/approve")
-  @ApiOperation({ summary: "Chấp nhận mở lớp học phần" })
-  async approve(@Param("id", ParseIntPipe) id: number) {
-    return await this.courseOfferService.approveCourseOffer(id);
   }
 
   /**

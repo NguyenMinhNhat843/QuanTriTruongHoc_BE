@@ -8,6 +8,7 @@ import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
   SearchCourseOfferDto,
+  updateClassSubjectDto,
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { plainToInstance } from "class-transformer";
@@ -90,6 +91,22 @@ export class CourseOfferService {
     });
 
     return plainToInstance(CourseOfferDto, result);
+  }
+
+  /**
+   * update classSubject
+   */
+  async updateClassSubject(id: number, updateData: updateClassSubjectDto) {
+    const { teacherId, maxStudents } = updateData;
+    const courseOffer = await this.prisma.courseOffer.update({
+      where: { id },
+      data: {
+        teacherId,
+        maxStudents,
+      },
+    });
+
+    return plainToInstance(CourseOfferDto, courseOffer);
   }
 
   /**
@@ -479,28 +496,6 @@ export class CourseOfferService {
       excludeExtraneousValues: false,
       // Đặt false để giữ lại các trường mặc định từ Prisma mà không cần phải viết @Expose() cho từng field trong DTO.
     });
-  }
-
-  /**
-   * Chấp nhận mở lớp học phần
-   */
-  async approveCourseOffer(courseOfferId: number) {
-    // Kiểm tra lớp học phần tồn tại và đang ở trạng thái "planned"
-    const courseOffer = await this.prisma.courseOffer.findUnique({
-      where: { id: courseOfferId },
-    });
-
-    // Cập nhật trạng thái sttaus là open
-    if (courseOffer) {
-      await this.prisma.courseOffer.update({
-        where: { id: courseOfferId },
-        data: { status: "open" },
-      });
-    }
-
-    return {
-      message: "Lớp học phần đã được phê duyệt và được phép giảng dạy",
-    };
   }
 
   /**
