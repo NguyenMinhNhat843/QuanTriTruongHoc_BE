@@ -513,10 +513,12 @@ export type UserCreateNestedOneWithoutStaffInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutStaffNestedInput = {
+export type UserUpdateOneWithoutStaffNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutStaffInput, Prisma.UserUncheckedCreateWithoutStaffInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutStaffInput
   upsert?: Prisma.UserUpsertWithoutStaffInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStaffInput, Prisma.UserUpdateWithoutStaffInput>, Prisma.UserUncheckedUpdateWithoutStaffInput>
 }

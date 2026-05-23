@@ -94,11 +94,16 @@ model Student {
 // ==========================
 // STAFFS
 // ==========================
+enum EmployeeRole {
+  STAFF
+  TEACHER
+}
+
 model Staff {
   id                Int         @id @default(autoincrement())
   staffCode         String      @unique
-  userId            Int         @unique
-  user              User        @relation(fields: [userId], references: [id])
+  userId            Int?        @unique
+  user              User?       @relation(fields: [userId], references: [id])
   email             String?     @unique
   fullName          String?
   gender            Boolean?    // true: male, false: female
@@ -114,6 +119,7 @@ model Staff {
   salaryCoefficient Float?      // Hệ số lương
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
+  EmployeeRole      EmployeeRole?
 
   courseOffers      CourseOffer[]
   teacherSubjects   TeacherSubject[]

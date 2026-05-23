@@ -45,4 +45,14 @@ export class StaffController {
   async findAll(@Query() query: SearchStaffDto) {
     return this.staffService.searchStaffs(query);
   }
+
+  @Get(":staffCode")
+  @ApiOperation({
+    summary:
+      "Lấy thông tin chi tiết nhân viên kèm thông tin tài khoản (nếu có)",
+  })
+  @ApiResponse({ status: 200, type: StaffResponseDto })
+  async getDetail(@Param("staffCode") staffCode: string) {
+    return this.staffService.getDetailStaff(staffCode);
+  }
 }

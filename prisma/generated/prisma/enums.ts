@@ -31,6 +31,14 @@ export const StudentStatus = {
 export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]
 
 
+export const EmployeeRole = {
+  STAFF: 'STAFF',
+  TEACHER: 'TEACHER'
+} as const
+
+export type EmployeeRole = (typeof EmployeeRole)[keyof typeof EmployeeRole]
+
+
 export const RoleType = {
   admin: 'admin',
   teacher: 'teacher',

@@ -372,7 +372,8 @@ export const StaffScalarFieldEnum = {
   contractType: 'contractType',
   salaryCoefficient: 'salaryCoefficient',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  EmployeeRole: 'EmployeeRole'
 } as const
 
 export type StaffScalarFieldEnum = (typeof StaffScalarFieldEnum)[keyof typeof StaffScalarFieldEnum]

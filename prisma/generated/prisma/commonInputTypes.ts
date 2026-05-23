@@ -388,6 +388,23 @@ export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolNullableFilter<$PrismaModel>
 }
 
+export type EnumEmployeeRoleNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.EmployeeRole | Prisma.EnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel> | $Enums.EmployeeRole | null
+}
+
+export type EnumEmployeeRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EmployeeRole | Prisma.EnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEmployeeRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.EmployeeRole | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel>
+}
+
 export type EnumCourseOfferStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.CourseOfferStatus | Prisma.EnumCourseOfferStatusFieldRefInput<$PrismaModel>
   in?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel>
@@ -826,6 +843,23 @@ export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedBoolNullableFilter<$PrismaModel>
   _max?: Prisma.NestedBoolNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumEmployeeRoleNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.EmployeeRole | Prisma.EnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel> | $Enums.EmployeeRole | null
+}
+
+export type NestedEnumEmployeeRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EmployeeRole | Prisma.EnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.EmployeeRole[] | Prisma.ListEnumEmployeeRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumEmployeeRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.EmployeeRole | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumCourseOfferStatusFilter<$PrismaModel = never> = {

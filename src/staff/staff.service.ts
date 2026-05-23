@@ -6,59 +6,29 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
-import * as bcrypt from "bcryptjs";
-import { RoleType } from "../../prisma/generated/prisma/enums.js";
 import { generateId } from "../utils/generateId.js";
 import { Prisma } from "../../prisma/generated/prisma/client.js";
 import { StaffResponseDto } from "./staff.response.js";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class StaffService {
   constructor(private prisma: PrismaService) {}
 
   async createStaff(data: CreateStaffDto): Promise<StaffResponseDto> {
-    const { username, password, fullName, dob, identityNumber, role } = data;
-
-    // 1. Kiểm tra trùng lặp
-    const existingUser = await this.prisma.user.findUnique({
-      where: { username },
-    });
-    if (existingUser) throw new ConflictException("Tên đăng nhập đã tồn tại");
-
-    // 2. Hash mật khẩu
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
-
     try {
       const staff = await this.prisma.$transaction(async (tx) => {
-        // 3. Tạo User trước
-        const user = await tx.user.create({
-          data: {
-            username,
-            passwordHash,
-            role: role || RoleType.staff,
-            userId: `U${generateId()}`,
-            isActive: true,
-          },
-        });
-
         // 4. Tạo Staff liên kết với User vừa tạo
         return await tx.staff.create({
           data: {
-            userId: user.id,
-            staffCode: `STF${generateId()}`,
-            fullName,
-            dob: new Date(dob),
-            email: data.email,
-            phone: data.phone,
-            gender: data.gender,
-            identityNumber: identityNumber,
+            ...data,
+            staffCode: `NV${generateId()}`,
           },
           include: { user: true },
         });
       });
 
-      return new StaffResponseDto(staff);
+      return plainToInstance(StaffResponseDto, staff);
     } catch (error) {
       console.log("Error creating staff:", error);
       throw new InternalServerErrorException("Lỗi hệ thống khi tạo nhân viên");
@@ -82,25 +52,18 @@ export class StaffService {
       throw new NotFoundException("Không tìm thấy thông tin nhân viên");
     }
 
-    const { role, isActive, username, password, ...staffData } = data;
+    const { isActive, ...staffData } = data;
 
     // 2. Chuẩn bị dữ liệu cập nhật cho User (nếu có)
     const userData: any = {};
-    if (role) userData.role = role;
     if (isActive !== undefined) userData.isActive = isActive;
-    if (username) userData.username = username;
-    if (password) {
-      const salt = await bcrypt.genSalt();
-      userData.passwordHash = await bcrypt.hash(password, salt);
-    }
 
-    // 3. Thực hiện cập nhật trong Transaction
     try {
       const staff = await this.prisma.$transaction(async (tx) => {
         // Cập nhật bảng User nếu có dữ liệu thay đổi
         if (Object.keys(userData).length > 0) {
           await tx.user.update({
-            where: { id: staff.userId },
+            where: { id: staff.userId !== null ? staff.userId : undefined },
             data: userData,
           });
         }
@@ -110,13 +73,12 @@ export class StaffService {
           where: { id },
           data: {
             ...staffData,
-            dob: staffData.dob ? new Date(staffData.dob) : undefined,
           },
           include: { user: true },
         });
       });
 
-      return new StaffResponseDto(staff);
+      return plainToInstance(StaffResponseDto, staff);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -132,17 +94,19 @@ export class StaffService {
     }
   }
 
+  /**
+   * Tìm giáo viên
+   */
   async searchStaffs(query: SearchStaffDto): Promise<StaffResponseDto[]> {
     const {
       page = 1,
       limit = 10,
       keyword,
-      role,
-      isActive,
       departmentId,
       position,
       sortBy = "createdAt",
       sortOrder = "desc",
+      employeeRole,
     } = query;
 
     const skip = (page - 1) * limit;
@@ -165,12 +129,11 @@ export class StaffService {
               ],
             }
           : {},
-        role ? { user: { role } } : {},
-        isActive !== undefined ? { user: { isActive } } : {},
         departmentId ? { departmentId } : {},
         position
           ? { position: { contains: position, mode: "insensitive" } }
           : {},
+        employeeRole ? { EmployeeRole: employeeRole } : {},
       ],
     };
 
@@ -186,6 +149,22 @@ export class StaffService {
     ]);
     console.log("Total staff found:", total);
 
-    return items.map((item) => new StaffResponseDto(item));
+    return plainToInstance(StaffResponseDto, items);
+  }
+
+  /**
+   * Lấy chi tiết 1 giáo viên
+   */
+  async getDetailStaff(staffCode: string) {
+    const staff = await this.prisma.staff.findUnique({
+      where: {
+        staffCode,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return plainToInstance(StaffResponseDto, staff);
   }
 }

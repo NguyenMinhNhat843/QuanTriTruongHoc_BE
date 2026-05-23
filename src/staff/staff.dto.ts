@@ -6,31 +6,18 @@ import {
   IsEmail,
   IsBoolean,
   IsDateString,
-  MinLength,
   IsEnum,
   IsInt,
   Min,
 } from "class-validator";
-import { RoleType } from "../../prisma/generated/prisma/enums";
-import { Type } from "class-transformer";
+import { EmployeeRole } from "../../prisma/generated/prisma/enums";
+import { Exclude, Type } from "class-transformer";
+import { Staff } from "../../prisma/generated/prisma/client";
 
-export class CreateStaffDto {
-  // --- Thông tin tài khoản (User) ---
-  @ApiProperty({ example: "staff01" })
-  @IsString()
-  @IsNotEmpty()
-  username!: string;
-
-  @ApiProperty({ example: "123456" })
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(6)
-  password!: string;
-
-  @ApiPropertyOptional({ enum: RoleType })
+export class CreateStaffDto implements Staff {
+  @ApiPropertyOptional()
   @IsOptional()
-  @IsEnum(RoleType)
-  role?: RoleType;
+  id: number;
 
   // --- Thông tin cá nhân (Staff) ---
   @ApiProperty({ example: "Nguyễn Văn C" })
@@ -41,26 +28,119 @@ export class CreateStaffDto {
   @ApiProperty({ example: "1990-01-01" })
   @IsDateString()
   @IsNotEmpty()
-  dob!: Date;
+  dob: Date;
 
-  @ApiPropertyOptional({ example: "staff@school.edu.vn" })
+  @ApiPropertyOptional({ enum: EmployeeRole })
+  @IsOptional()
+  @IsEnum(EmployeeRole)
+  EmployeeRole: EmployeeRole;
+
+  @ApiPropertyOptional({ type: String, example: "staff@school.edu.vn" })
   @IsEmail()
   @IsOptional()
-  email?: string;
+  email: string;
 
-  @ApiPropertyOptional({ example: "0901234567" })
+  @ApiPropertyOptional({ type: String, example: "0901234567" })
   @IsString()
   @IsOptional()
-  phone?: string;
+  phone: string;
 
-  @ApiPropertyOptional({ example: "0251369874" })
+  @ApiPropertyOptional({ type: String, example: "0251369874" })
   @IsString()
-  identityNumber!: string;
+  @IsOptional()
+  identityNumber: string | null;
 
-  @ApiPropertyOptional({ example: true, description: "true: Nam, false: Nữ" })
+  @ApiPropertyOptional({ type: Boolean, description: "true: Nam, false: Nữ" })
   @IsBoolean()
   @IsOptional()
-  gender?: boolean;
+  gender: boolean | null;
+
+  @ApiPropertyOptional({
+    description: "Mã số nhân viên (duy nhất)",
+  })
+  @IsOptional()
+  @IsString()
+  staffCode: string;
+
+  @ApiPropertyOptional({
+    type: Number,
+    nullable: true,
+  })
+  @IsInt()
+  @IsOptional()
+  userId: number | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+  })
+  @IsString()
+  @IsOptional()
+  position: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  address: string;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  avatarUrl: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  contractType: string | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    type: Number,
+  })
+  @IsInt()
+  @IsOptional()
+  departmentId: number | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    type: Boolean,
+  })
+  @IsBoolean()
+  @IsOptional()
+  isTeacher: boolean | null;
+
+  @ApiPropertyOptional({
+    nullable: true,
+    type: Number,
+  })
+  @IsOptional()
+  salaryCoefficient: number | null; // Hệ số lương
+
+  @ApiPropertyOptional({
+    nullable: true,
+    type: String,
+  })
+  @IsDateString()
+  @IsOptional()
+  hireDate: Date | null;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsDateString()
+  createdAt: Date;
+
+  @ApiPropertyOptional()
+  @IsDateString()
+  @IsOptional()
+  updatedAt: Date;
 }
 
 export class UpdateStaffDto extends PartialType(CreateStaffDto) {
@@ -100,16 +180,10 @@ export class SearchStaffDto {
   @IsString()
   keyword?: string;
 
-  @ApiPropertyOptional({ enum: RoleType })
+  @ApiPropertyOptional({ enum: EmployeeRole })
   @IsOptional()
-  @IsEnum(RoleType)
-  role?: RoleType;
-
-  @ApiPropertyOptional({ description: "Lọc theo trạng thái tài khoản" })
-  @IsOptional()
-  @Type(() => Boolean)
-  @IsBoolean()
-  isActive?: boolean;
+  @IsEnum(EmployeeRole)
+  employeeRole?: EmployeeRole;
 
   @ApiPropertyOptional({ description: "Lọc theo phòng ban" })
   @IsOptional()
