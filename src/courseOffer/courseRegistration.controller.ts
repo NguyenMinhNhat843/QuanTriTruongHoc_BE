@@ -7,10 +7,14 @@ import {
   ParseIntPipe,
   HttpStatus,
   HttpCode,
+  Patch,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
 import { CourseRegistrationService } from "./CourseRegistration.service";
-import { CreateCourseRegistrationDto } from "./CourseRegistration.dto";
+import {
+  CreateCourseRegistrationDto,
+  SaveGradesDto,
+} from "./CourseRegistration.dto";
 
 @ApiTags("Đăng ký học phần (Course Registration)")
 @Controller("course-registrations")
@@ -70,5 +74,11 @@ export class CourseRegistrationController {
   })
   async findOne(@Param("id", ParseIntPipe) id: number) {
     return await this.registrationService.getDetail(id);
+  }
+
+  @Patch("save-grades")
+  @ApiOperation({ summary: "Lưu bảng điểm cho một ClassSubject" })
+  async saveGrades(@Body() data: SaveGradesDto) {
+    return await this.registrationService.saveGradeTable(data);
   }
 }

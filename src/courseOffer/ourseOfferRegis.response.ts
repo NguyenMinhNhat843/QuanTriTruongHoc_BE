@@ -8,6 +8,9 @@ import {
   IsDate,
   IsEnum,
   ValidateNested,
+  IsNumber,
+  Min,
+  Max,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { StudentResponseDto } from "../student/student.response";
@@ -21,18 +24,110 @@ export enum RegistrationStatus {
 }
 
 export class CourseOfferRegisResponseDto implements CourseRegistration {
-  @ApiProperty({
-    example: 1,
-    description: "ID duy nhất của bản ghi đăng ký học phần",
-  })
+  @ApiProperty()
   @IsInt()
   @IsNotEmpty()
   id: number;
 
-  @ApiProperty({
-    example: 101,
-    description: "ID của lớp học phần được mở (CourseOffer)",
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  kttx1!: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  kttx2!: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  kttx3!: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  ktdk1!: number | null;
+
+  @ApiPropertyOptional({
+    type: Number,
   })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  ktdk2!: number | null;
+
+  @ApiPropertyOptional({
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  ktdk3!: number | null;
+
+  @ApiPropertyOptional({
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  ktdk4!: number | null;
+
+  @ApiPropertyOptional({
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber({})
+  @Min(0)
+  @Max(10)
+  diemKiemTra1!: number | null;
+
+  @ApiPropertyOptional({
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  diemKiemTra2!: number | null;
+
+  @ApiPropertyOptional({
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  diemTB!: number | null;
+
+  @ApiPropertyOptional({
+    type: Number,
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  diemTongKet1!: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  diemTongKet2!: number | null;
+
+  @ApiProperty()
   @IsInt()
   @IsNotEmpty()
   courseOfferId: number;

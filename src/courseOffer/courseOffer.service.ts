@@ -22,6 +22,8 @@ import {
   CourseOfferDto,
   ResponsePreviewGenerateSectionForClass,
 } from "./courseOffer.response";
+import { SemesterService } from "../semester/semester.service";
+import { CourseRegistrationService } from "./CourseRegistration.service";
 
 @Injectable()
 export class CourseOfferService {
@@ -29,6 +31,8 @@ export class CourseOfferService {
     private prisma: PrismaService,
     private courseOfferQuery: CourseOfferQuery,
     private curriculumSubjectService: CurriculumSubjectService,
+    private semesterService: SemesterService,
+    private courseRegisteationService: CourseRegistrationService,
   ) {}
 
   /**
@@ -142,7 +146,7 @@ export class CourseOfferService {
   }
 
   /**
-   * Sinh lớp học phần (Bulk Create)
+   * Sinh ClassSubject (Bulk Create)
    */
   async genClassSubjects(dto: CreateBulkCourseOfferDto) {
     const { semesterId, batchId, startTime, endTime } = dto;
@@ -444,7 +448,7 @@ export class CourseOfferService {
       where: { id: courseOfferId },
       include: {
         registrations: {
-          include: {
+          select: {
             student: {
               select: {
                 id: true, // Nên lấy thêm ID để khớp hoàn toàn với DTO
@@ -459,6 +463,18 @@ export class CourseOfferService {
                 status: true,
               },
             },
+            kttx1: true,
+            kttx2: true,
+            kttx3: true,
+            ktdk1: true,
+            ktdk2: true,
+            ktdk3: true,
+            ktdk4: true,
+            diemTB: true,
+            diemKiemTra1: true,
+            diemKiemTra2: true,
+            diemTongKet1: true,
+            diemTongKet2: true,
           },
         },
         teacher: {
@@ -671,154 +687,120 @@ export class CourseOfferService {
   }
 
   /**
-   * Sinh lớp học phần theo học kỳ cho 1 lớp, tự gán học sinh
+   * Tạo dữ liệu nhập điểm cho classSubject
    */
   async generateSectionForClass(classId: number, semesterId: number) {
     return await this.prisma.$transaction(async (tx) => {
-      // 1. Lấy dữ liệu Học kỳ
-      const semester = await tx.semester.findUnique({
-        where: { id: semesterId },
-      });
-      if (!semester) {
-        throw new NotFoundException(
-          `Không tìm thấy học kỳ với ID ${semesterId}`,
-        );
-      }
-
-      // 2. Tìm thông tin Lớp học
-      const classDto = await tx.class.findUnique({
+      const classData = await tx.class.findUnique({
         where: { id: classId },
-      });
-      if (!classDto) {
-        throw new NotFoundException(`Không tìm thấy lớp học với ID ${classId}`);
-      }
-
-      // 3. Lấy khung chương trình (Curriculum) thuộc khóa học của lớp này
-      const curriculum = await tx.curriculum.findFirst({
-        where: {
+        include: {
           batch: {
-            classes: {
-              some: { id: classId },
-            },
+            include: { curriculum: true },
           },
         },
       });
-      if (!curriculum) {
+
+      if (!classData)
+        throw new NotFoundException(`Không tìm thấy lớp học với ID ${classId}`);
+      const batch = classData.batch;
+      if (!batch?.curriculum)
         throw new BadRequestException(
           "Lớp học chưa được gắn khung chương trình đào tạo!",
         );
-      }
 
-      // 4. Tìm khóa học (Batch) của lớp để lấy năm bắt đầu
-      const batch = await tx.batch.findFirst({
-        where: {
-          classes: {
-            some: { id: classId },
-          },
-        },
+      const semester = await tx.semester.findUnique({
+        where: { id: semesterId },
       });
+      if (!semester)
+        throw new NotFoundException(
+          `Không tìm thấy học kỳ với ID ${semesterId}`,
+        );
 
-      // 5. Tính học kỳ hiện tại là học kỳ số mấy trong chương trình khung
-      const startYear = batch?.startYear || 0;
-      const currentYear = semester?.year || 0;
-      const currentTerm = semester?.term || 0;
+      // 2. Tính toán số học kỳ (Semester Number) ngắn gọn
+      const startYear = batch.startYear || 0;
+      const currentYear = semester.year || 0;
+      const currentTerm = semester.term || 0;
 
       const semesterNo =
         startYear > 0 && currentYear >= startYear
           ? (currentYear - startYear) * 2 + currentTerm
           : 0;
 
-      if (semesterNo === 0) {
+      if (semesterNo === 0)
         throw new BadRequestException(
           "Tính toán số học kỳ chương trình khung không hợp lệ!",
         );
-      }
 
-      // 6. Lấy danh sách môn học ở học kỳ này
+      // 3. Lấy danh sách môn học thuộc học kỳ này kèm thông tin mã/tên môn học
       const curriculumSubjects = await tx.curriculumSubject.findMany({
         where: {
-          curriculumId: curriculum?.id,
+          curriculumId: batch.curriculum.id,
           semesterNumber: semesterNo,
         },
-        include: {
-          subject: true,
-        },
+        include: { subject: true },
       });
 
-      if (curriculumSubjects.length === 0) {
+      if (!curriculumSubjects.length) {
         return {
-          message: `Học kỳ này (HK ${semesterNo}) trong khung chương trình không có môn học nào được chỉ định định sẵn.`,
+          message: `Học kỳ này (HK ${semesterNo}) trong khung chương trình không có môn học nào.`,
           generatedCoursesCount: 0,
         };
       }
 
-      // 7. Sinh lớp học phần cho từng môn học và lưu lại danh sách ID lớp học phần vừa tạo
-      const generatedCourseOffers: any[] = [];
-
-      for (const cs of curriculumSubjects) {
-        const generatedCode = `${cs.subject.subjectCode}-${classDto?.classCode}-${semester.name}`;
-        const courseName = `${cs.subject.subjectName} (Lớp ${classDto?.className || classId})`;
-
-        const existingCourseOffer = await tx.courseOffer.findUnique({
-          where: { courseCode: generatedCode },
-        });
-
-        if (existingCourseOffer) {
-          continue;
-        }
-
-        const courseOffer = await tx.courseOffer.create({
-          data: {
-            courseCode: generatedCode,
-            subjectId: cs.subjectId,
-            semesterId: semesterId,
-            classId: classId || null,
-            maxStudents: classDto?.maxStudents || 40,
-            courseName: courseName,
-            status: "open",
-          },
-        });
-
-        generatedCourseOffers.push(courseOffer);
-      }
-
-      // 8. Tìm toàn bộ danh sách học sinh thuộc lớp học này
       const studentsInClass = await tx.student.findMany({
-        where: { classId: classId },
+        where: { classId },
         select: { id: true },
       });
 
-      // 9. Tự động chuẩn bị data đăng ký cho tất cả học sinh vào các lớp học phần vừa tạo
-      if (studentsInClass.length > 0 && generatedCourseOffers.length > 0) {
-        const courseRegistrationsToCreate: any[] = [];
+      // 5. Chuẩn bị dữ liệu để Bulk Insert (Tạo nhiều lớp học phần cùng lúc)
+      const courseOffersData = curriculumSubjects.map((cs) => ({
+        courseCode: `${cs.subject.subjectCode}-${classData.classCode}-${semester.name}`,
+        courseName: `${cs.subject.subjectName} (Lớp ${classData.className})`,
+        subjectId: cs.subjectId,
+        semesterId,
+        classId,
+        maxStudents: classData.maxStudents || 40,
+        status: "open" as const,
+      }));
 
-        for (const student of studentsInClass) {
-          for (const course of generatedCourseOffers) {
-            courseRegistrationsToCreate.push({
-              studentId: student.id,
-              courseOfferId: course.id,
-              status: "registered",
-            });
-          }
-        }
+      await tx.courseOffer.createMany({
+        data: courseOffersData,
+        skipDuplicates: true,
+      });
 
-        // 10. Tiến hành ghi hàng loạt (Bulk Insert) vào database
-        await tx.courseRegistration.createMany({
+      // Fetch lại các lớp học phần thực tế đang có ở học kỳ này để lấy ID chính xác (bao gồm cả các lớp đã tồn tại từ trước)
+      const activeCourseCodes = courseOffersData.map((c) => c.courseCode);
+      const validCourseOffers = await tx.courseOffer.findMany({
+        where: { courseCode: { in: activeCourseCodes } },
+        select: { id: true },
+      });
+
+      // 6. Tự động chuẩn bị data đăng ký học phần cho học sinh
+      let totalRegistrations = 0;
+      if (studentsInClass.length > 0 && validCourseOffers.length > 0) {
+        const courseRegistrationsToCreate = studentsInClass.flatMap((student) =>
+          validCourseOffers.map((course) => ({
+            studentId: student.id,
+            courseOfferId: course.id,
+            status: "registered",
+          })),
+        );
+
+        const result = await tx.courseRegistration.createMany({
           data: courseRegistrationsToCreate,
-          skipDuplicates: true, // Bỏ qua nếu bản ghi đã tồn tại nhằm tránh lỗi Unique Constraint
+          skipDuplicates: true,
         });
+        totalRegistrations = result.count;
       }
 
       return {
         success: true,
-        message: `Sinh dữ liệu thành công cho lớp ${classDto.className}. Có ${generatedCourseOffers.length} 
-        lớp học phần được tạo`,
+        message: `Sinh dữ liệu thành công cho lớp ${classData.className}.`,
         details: {
           semesterNumber: semesterNo,
-          coursesCreated: generatedCourseOffers.length,
+          coursesCreated: validCourseOffers.length,
           studentsRegistered: studentsInClass.length,
-          totalRegistrations:
-            studentsInClass.length * generatedCourseOffers.length,
+          totalRegistrations,
         },
       };
     });

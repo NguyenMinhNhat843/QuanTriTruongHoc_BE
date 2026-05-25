@@ -6,9 +6,10 @@ import { CourseRegistrationService } from "./CourseRegistration.service";
 import { SubjectModule } from "../subject/subject.module";
 import { CourseOfferQuery } from "./courseOffer.query";
 import { CurriculumSubjectModule } from "../curriculumSubject/curriculumnSubject.module";
+import { SemesterModule } from "../semester/semester.module";
 
 @Module({
-  imports: [SubjectModule, CurriculumSubjectModule],
+  imports: [SubjectModule, CurriculumSubjectModule, SemesterModule],
   controllers: [CourseOfferController, CourseRegistrationController],
   providers: [CourseOfferService, CourseRegistrationService, CourseOfferQuery],
   exports: [CourseOfferService, CourseOfferQuery], // Nếu bạn muốn sử dụng CourseOfferService ở module khác

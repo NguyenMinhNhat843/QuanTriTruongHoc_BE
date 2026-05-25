@@ -30,14 +30,36 @@ export type CourseRegistrationAvgAggregateOutputType = {
   id: number | null
   studentId: number | null
   courseOfferId: number | null
-  finalGrade: number | null
+  kttx1: number | null
+  kttx2: number | null
+  kttx3: number | null
+  ktdk1: number | null
+  ktdk2: number | null
+  ktdk3: number | null
+  ktdk4: number | null
+  diemTB: number | null
+  diemKiemTra1: number | null
+  diemKiemTra2: number | null
+  diemTongKet1: number | null
+  diemTongKet2: number | null
 }
 
 export type CourseRegistrationSumAggregateOutputType = {
   id: number | null
   studentId: number | null
   courseOfferId: number | null
-  finalGrade: number | null
+  kttx1: number | null
+  kttx2: number | null
+  kttx3: number | null
+  ktdk1: number | null
+  ktdk2: number | null
+  ktdk3: number | null
+  ktdk4: number | null
+  diemTB: number | null
+  diemKiemTra1: number | null
+  diemKiemTra2: number | null
+  diemTongKet1: number | null
+  diemTongKet2: number | null
 }
 
 export type CourseRegistrationMinAggregateOutputType = {
@@ -47,7 +69,18 @@ export type CourseRegistrationMinAggregateOutputType = {
   status: string | null
   registeredAt: Date | null
   approvedAt: Date | null
-  finalGrade: number | null
+  kttx1: number | null
+  kttx2: number | null
+  kttx3: number | null
+  ktdk1: number | null
+  ktdk2: number | null
+  ktdk3: number | null
+  ktdk4: number | null
+  diemTB: number | null
+  diemKiemTra1: number | null
+  diemKiemTra2: number | null
+  diemTongKet1: number | null
+  diemTongKet2: number | null
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -60,7 +93,18 @@ export type CourseRegistrationMaxAggregateOutputType = {
   status: string | null
   registeredAt: Date | null
   approvedAt: Date | null
-  finalGrade: number | null
+  kttx1: number | null
+  kttx2: number | null
+  kttx3: number | null
+  ktdk1: number | null
+  ktdk2: number | null
+  ktdk3: number | null
+  ktdk4: number | null
+  diemTB: number | null
+  diemKiemTra1: number | null
+  diemKiemTra2: number | null
+  diemTongKet1: number | null
+  diemTongKet2: number | null
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -73,7 +117,18 @@ export type CourseRegistrationCountAggregateOutputType = {
   status: number
   registeredAt: number
   approvedAt: number
-  finalGrade: number
+  kttx1: number
+  kttx2: number
+  kttx3: number
+  ktdk1: number
+  ktdk2: number
+  ktdk3: number
+  ktdk4: number
+  diemTB: number
+  diemKiemTra1: number
+  diemKiemTra2: number
+  diemTongKet1: number
+  diemTongKet2: number
   note: number
   createdAt: number
   updatedAt: number
@@ -85,14 +140,36 @@ export type CourseRegistrationAvgAggregateInputType = {
   id?: true
   studentId?: true
   courseOfferId?: true
-  finalGrade?: true
+  kttx1?: true
+  kttx2?: true
+  kttx3?: true
+  ktdk1?: true
+  ktdk2?: true
+  ktdk3?: true
+  ktdk4?: true
+  diemTB?: true
+  diemKiemTra1?: true
+  diemKiemTra2?: true
+  diemTongKet1?: true
+  diemTongKet2?: true
 }
 
 export type CourseRegistrationSumAggregateInputType = {
   id?: true
   studentId?: true
   courseOfferId?: true
-  finalGrade?: true
+  kttx1?: true
+  kttx2?: true
+  kttx3?: true
+  ktdk1?: true
+  ktdk2?: true
+  ktdk3?: true
+  ktdk4?: true
+  diemTB?: true
+  diemKiemTra1?: true
+  diemKiemTra2?: true
+  diemTongKet1?: true
+  diemTongKet2?: true
 }
 
 export type CourseRegistrationMinAggregateInputType = {
@@ -102,7 +179,18 @@ export type CourseRegistrationMinAggregateInputType = {
   status?: true
   registeredAt?: true
   approvedAt?: true
-  finalGrade?: true
+  kttx1?: true
+  kttx2?: true
+  kttx3?: true
+  ktdk1?: true
+  ktdk2?: true
+  ktdk3?: true
+  ktdk4?: true
+  diemTB?: true
+  diemKiemTra1?: true
+  diemKiemTra2?: true
+  diemTongKet1?: true
+  diemTongKet2?: true
   note?: true
   createdAt?: true
   updatedAt?: true
@@ -115,7 +203,18 @@ export type CourseRegistrationMaxAggregateInputType = {
   status?: true
   registeredAt?: true
   approvedAt?: true
-  finalGrade?: true
+  kttx1?: true
+  kttx2?: true
+  kttx3?: true
+  ktdk1?: true
+  ktdk2?: true
+  ktdk3?: true
+  ktdk4?: true
+  diemTB?: true
+  diemKiemTra1?: true
+  diemKiemTra2?: true
+  diemTongKet1?: true
+  diemTongKet2?: true
   note?: true
   createdAt?: true
   updatedAt?: true
@@ -128,7 +227,18 @@ export type CourseRegistrationCountAggregateInputType = {
   status?: true
   registeredAt?: true
   approvedAt?: true
-  finalGrade?: true
+  kttx1?: true
+  kttx2?: true
+  kttx3?: true
+  ktdk1?: true
+  ktdk2?: true
+  ktdk3?: true
+  ktdk4?: true
+  diemTB?: true
+  diemKiemTra1?: true
+  diemKiemTra2?: true
+  diemTongKet1?: true
+  diemTongKet2?: true
   note?: true
   createdAt?: true
   updatedAt?: true
@@ -228,7 +338,18 @@ export type CourseRegistrationGroupByOutputType = {
   status: string
   registeredAt: Date
   approvedAt: Date | null
-  finalGrade: number | null
+  kttx1: number | null
+  kttx2: number | null
+  kttx3: number | null
+  ktdk1: number | null
+  ktdk2: number | null
+  ktdk3: number | null
+  ktdk4: number | null
+  diemTB: number | null
+  diemKiemTra1: number | null
+  diemKiemTra2: number | null
+  diemTongKet1: number | null
+  diemTongKet2: number | null
   note: string | null
   createdAt: Date
   updatedAt: Date
@@ -264,7 +385,18 @@ export type CourseRegistrationWhereInput = {
   status?: Prisma.StringFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
-  finalGrade?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk4?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTB?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemKiemTra1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemKiemTra2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTongKet1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTongKet2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   note?: Prisma.StringNullableFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
@@ -280,7 +412,18 @@ export type CourseRegistrationOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  finalGrade?: Prisma.SortOrderInput | Prisma.SortOrder
+  kttx1?: Prisma.SortOrderInput | Prisma.SortOrder
+  kttx2?: Prisma.SortOrderInput | Prisma.SortOrder
+  kttx3?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk1?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk2?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk3?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk4?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemTB?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemKiemTra1?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemKiemTra2?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemTongKet1?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemTongKet2?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -300,7 +443,18 @@ export type CourseRegistrationWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
-  finalGrade?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk4?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTB?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemKiemTra1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemKiemTra2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTongKet1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTongKet2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   note?: Prisma.StringNullableFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
@@ -316,7 +470,18 @@ export type CourseRegistrationOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  finalGrade?: Prisma.SortOrderInput | Prisma.SortOrder
+  kttx1?: Prisma.SortOrderInput | Prisma.SortOrder
+  kttx2?: Prisma.SortOrderInput | Prisma.SortOrder
+  kttx3?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk1?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk2?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk3?: Prisma.SortOrderInput | Prisma.SortOrder
+  ktdk4?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemTB?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemKiemTra1?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemKiemTra2?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemTongKet1?: Prisma.SortOrderInput | Prisma.SortOrder
+  diemTongKet2?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -337,7 +502,18 @@ export type CourseRegistrationScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeWithAggregatesFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CourseRegistration"> | Date | string | null
-  finalGrade?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  kttx1?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  kttx2?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  kttx3?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  ktdk1?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  ktdk2?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  ktdk3?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  ktdk4?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  diemTB?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  diemKiemTra1?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  diemKiemTra2?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  diemTongKet1?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
+  diemTongKet2?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
   note?: Prisma.StringNullableWithAggregatesFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CourseRegistration"> | Date | string
@@ -347,7 +523,18 @@ export type CourseRegistrationCreateInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -363,7 +550,18 @@ export type CourseRegistrationUncheckedCreateInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -374,7 +572,18 @@ export type CourseRegistrationUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -390,7 +599,18 @@ export type CourseRegistrationUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -404,7 +624,18 @@ export type CourseRegistrationCreateManyInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -414,7 +645,18 @@ export type CourseRegistrationUpdateManyMutationInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -427,7 +669,18 @@ export type CourseRegistrationUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -455,7 +708,18 @@ export type CourseRegistrationCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
-  finalGrade?: Prisma.SortOrder
+  kttx1?: Prisma.SortOrder
+  kttx2?: Prisma.SortOrder
+  kttx3?: Prisma.SortOrder
+  ktdk1?: Prisma.SortOrder
+  ktdk2?: Prisma.SortOrder
+  ktdk3?: Prisma.SortOrder
+  ktdk4?: Prisma.SortOrder
+  diemTB?: Prisma.SortOrder
+  diemKiemTra1?: Prisma.SortOrder
+  diemKiemTra2?: Prisma.SortOrder
+  diemTongKet1?: Prisma.SortOrder
+  diemTongKet2?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -465,7 +729,18 @@ export type CourseRegistrationAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   courseOfferId?: Prisma.SortOrder
-  finalGrade?: Prisma.SortOrder
+  kttx1?: Prisma.SortOrder
+  kttx2?: Prisma.SortOrder
+  kttx3?: Prisma.SortOrder
+  ktdk1?: Prisma.SortOrder
+  ktdk2?: Prisma.SortOrder
+  ktdk3?: Prisma.SortOrder
+  ktdk4?: Prisma.SortOrder
+  diemTB?: Prisma.SortOrder
+  diemKiemTra1?: Prisma.SortOrder
+  diemKiemTra2?: Prisma.SortOrder
+  diemTongKet1?: Prisma.SortOrder
+  diemTongKet2?: Prisma.SortOrder
 }
 
 export type CourseRegistrationMaxOrderByAggregateInput = {
@@ -475,7 +750,18 @@ export type CourseRegistrationMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
-  finalGrade?: Prisma.SortOrder
+  kttx1?: Prisma.SortOrder
+  kttx2?: Prisma.SortOrder
+  kttx3?: Prisma.SortOrder
+  ktdk1?: Prisma.SortOrder
+  ktdk2?: Prisma.SortOrder
+  ktdk3?: Prisma.SortOrder
+  ktdk4?: Prisma.SortOrder
+  diemTB?: Prisma.SortOrder
+  diemKiemTra1?: Prisma.SortOrder
+  diemKiemTra2?: Prisma.SortOrder
+  diemTongKet1?: Prisma.SortOrder
+  diemTongKet2?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -488,7 +774,18 @@ export type CourseRegistrationMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   registeredAt?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
-  finalGrade?: Prisma.SortOrder
+  kttx1?: Prisma.SortOrder
+  kttx2?: Prisma.SortOrder
+  kttx3?: Prisma.SortOrder
+  ktdk1?: Prisma.SortOrder
+  ktdk2?: Prisma.SortOrder
+  ktdk3?: Prisma.SortOrder
+  ktdk4?: Prisma.SortOrder
+  diemTB?: Prisma.SortOrder
+  diemKiemTra1?: Prisma.SortOrder
+  diemKiemTra2?: Prisma.SortOrder
+  diemTongKet1?: Prisma.SortOrder
+  diemTongKet2?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -498,7 +795,18 @@ export type CourseRegistrationSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   courseOfferId?: Prisma.SortOrder
-  finalGrade?: Prisma.SortOrder
+  kttx1?: Prisma.SortOrder
+  kttx2?: Prisma.SortOrder
+  kttx3?: Prisma.SortOrder
+  ktdk1?: Prisma.SortOrder
+  ktdk2?: Prisma.SortOrder
+  ktdk3?: Prisma.SortOrder
+  ktdk4?: Prisma.SortOrder
+  diemTB?: Prisma.SortOrder
+  diemKiemTra1?: Prisma.SortOrder
+  diemKiemTra2?: Prisma.SortOrder
+  diemTongKet1?: Prisma.SortOrder
+  diemTongKet2?: Prisma.SortOrder
 }
 
 export type CourseRegistrationNullableScalarRelationFilter = {
@@ -610,7 +918,18 @@ export type CourseRegistrationCreateWithoutStudentInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -624,7 +943,18 @@ export type CourseRegistrationUncheckedCreateWithoutStudentInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -667,7 +997,18 @@ export type CourseRegistrationScalarWhereInput = {
   status?: Prisma.StringFilter<"CourseRegistration"> | string
   registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
-  finalGrade?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  kttx3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  ktdk4?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTB?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemKiemTra1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemKiemTra2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTongKet1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
+  diemTongKet2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   note?: Prisma.StringNullableFilter<"CourseRegistration"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
@@ -677,7 +1018,18 @@ export type CourseRegistrationCreateWithoutCourseOfferInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -691,7 +1043,18 @@ export type CourseRegistrationUncheckedCreateWithoutCourseOfferInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -728,7 +1091,18 @@ export type CourseRegistrationCreateWithoutGradeEntriesInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -743,7 +1117,18 @@ export type CourseRegistrationUncheckedCreateWithoutGradeEntriesInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -769,7 +1154,18 @@ export type CourseRegistrationUpdateWithoutGradeEntriesInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,7 +1180,18 @@ export type CourseRegistrationUncheckedUpdateWithoutGradeEntriesInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -796,7 +1203,18 @@ export type CourseRegistrationCreateManyStudentInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -806,7 +1224,18 @@ export type CourseRegistrationUpdateWithoutStudentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -820,7 +1249,18 @@ export type CourseRegistrationUncheckedUpdateWithoutStudentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -833,7 +1273,18 @@ export type CourseRegistrationUncheckedUpdateManyWithoutStudentInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -845,7 +1296,18 @@ export type CourseRegistrationCreateManyCourseOfferInput = {
   status?: string
   registeredAt?: Date | string
   approvedAt?: Date | string | null
-  finalGrade?: number | null
+  kttx1?: number | null
+  kttx2?: number | null
+  kttx3?: number | null
+  ktdk1?: number | null
+  ktdk2?: number | null
+  ktdk3?: number | null
+  ktdk4?: number | null
+  diemTB?: number | null
+  diemKiemTra1?: number | null
+  diemKiemTra2?: number | null
+  diemTongKet1?: number | null
+  diemTongKet2?: number | null
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -855,7 +1317,18 @@ export type CourseRegistrationUpdateWithoutCourseOfferInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -869,7 +1342,18 @@ export type CourseRegistrationUncheckedUpdateWithoutCourseOfferInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -882,7 +1366,18 @@ export type CourseRegistrationUncheckedUpdateManyWithoutCourseOfferInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  finalGrade?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ktdk4?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTB?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemKiemTra2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  diemTongKet2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -926,7 +1421,18 @@ export type CourseRegistrationSelect<ExtArgs extends runtime.Types.Extensions.In
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  finalGrade?: boolean
+  kttx1?: boolean
+  kttx2?: boolean
+  kttx3?: boolean
+  ktdk1?: boolean
+  ktdk2?: boolean
+  ktdk3?: boolean
+  ktdk4?: boolean
+  diemTB?: boolean
+  diemKiemTra1?: boolean
+  diemKiemTra2?: boolean
+  diemTongKet1?: boolean
+  diemTongKet2?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -943,7 +1449,18 @@ export type CourseRegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  finalGrade?: boolean
+  kttx1?: boolean
+  kttx2?: boolean
+  kttx3?: boolean
+  ktdk1?: boolean
+  ktdk2?: boolean
+  ktdk3?: boolean
+  ktdk4?: boolean
+  diemTB?: boolean
+  diemKiemTra1?: boolean
+  diemKiemTra2?: boolean
+  diemTongKet1?: boolean
+  diemTongKet2?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -958,7 +1475,18 @@ export type CourseRegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  finalGrade?: boolean
+  kttx1?: boolean
+  kttx2?: boolean
+  kttx3?: boolean
+  ktdk1?: boolean
+  ktdk2?: boolean
+  ktdk3?: boolean
+  ktdk4?: boolean
+  diemTB?: boolean
+  diemKiemTra1?: boolean
+  diemKiemTra2?: boolean
+  diemTongKet1?: boolean
+  diemTongKet2?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -973,13 +1501,24 @@ export type CourseRegistrationSelectScalar = {
   status?: boolean
   registeredAt?: boolean
   approvedAt?: boolean
-  finalGrade?: boolean
+  kttx1?: boolean
+  kttx2?: boolean
+  kttx3?: boolean
+  ktdk1?: boolean
+  ktdk2?: boolean
+  ktdk3?: boolean
+  ktdk4?: boolean
+  diemTB?: boolean
+  diemKiemTra1?: boolean
+  diemKiemTra2?: boolean
+  diemTongKet1?: boolean
+  diemTongKet2?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CourseRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseOfferId" | "status" | "registeredAt" | "approvedAt" | "finalGrade" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["courseRegistration"]>
+export type CourseRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseOfferId" | "status" | "registeredAt" | "approvedAt" | "kttx1" | "kttx2" | "kttx3" | "ktdk1" | "ktdk2" | "ktdk3" | "ktdk4" | "diemTB" | "diemKiemTra1" | "diemKiemTra2" | "diemTongKet1" | "diemTongKet2" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["courseRegistration"]>
 export type CourseRegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
@@ -1009,7 +1548,18 @@ export type $CourseRegistrationPayload<ExtArgs extends runtime.Types.Extensions.
     status: string
     registeredAt: Date
     approvedAt: Date | null
-    finalGrade: number | null
+    kttx1: number | null
+    kttx2: number | null
+    kttx3: number | null
+    ktdk1: number | null
+    ktdk2: number | null
+    ktdk3: number | null
+    ktdk4: number | null
+    diemTB: number | null
+    diemKiemTra1: number | null
+    diemKiemTra2: number | null
+    diemTongKet1: number | null
+    diemTongKet2: number | null
     note: string | null
     createdAt: Date
     updatedAt: Date
@@ -1445,7 +1995,18 @@ export interface CourseRegistrationFieldRefs {
   readonly status: Prisma.FieldRef<"CourseRegistration", 'String'>
   readonly registeredAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
   readonly approvedAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
-  readonly finalGrade: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly kttx1: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly kttx2: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly kttx3: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly ktdk1: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly ktdk2: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly ktdk3: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly ktdk4: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly diemTB: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly diemKiemTra1: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly diemKiemTra2: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly diemTongKet1: Prisma.FieldRef<"CourseRegistration", 'Float'>
+  readonly diemTongKet2: Prisma.FieldRef<"CourseRegistration", 'Float'>
   readonly note: Prisma.FieldRef<"CourseRegistration", 'String'>
   readonly createdAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>

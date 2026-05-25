@@ -161,17 +161,9 @@ export class GradeEntryService {
           );
 
           if (isCompleted) {
-            // SỬ DỤNG HÀM TÁCH: Tính toán số điểm tổng kết cuối cùng
-            const finalGrade = this.calculateFinalGrade(
-              registration.gradeEntries,
-              gradeComponentConfigs,
-            );
-
-            // Cập nhật kết quả vào DB
             await tx.courseRegistration.update({
               where: { id: registrationId },
               data: {
-                finalGrade: finalGrade,
                 status: "completed",
               },
             });

@@ -106,7 +106,7 @@ export class CourseOfferController {
     );
   }
 
-  @Post("generate-sections-for-class")
+  @Post("gen-classSubject-grades")
   @ApiOperation({
     summary: "Tự động tạo lớp học phần cho một lớp hành chính",
     description:

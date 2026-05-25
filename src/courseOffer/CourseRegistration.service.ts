@@ -1,96 +1,27 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service"; // Thay đổi đường dẫn tùy dự án của bạn
-import { CreateCourseRegistrationDto } from "./CourseRegistration.dto";
+import {
+  CreateCourseRegistrationDto,
+  SaveGradesDto,
+} from "./CourseRegistration.dto";
+import { Prisma } from "../../prisma/generated/prisma/client";
 
 @Injectable()
 export class CourseRegistrationService {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
-   * 1. Đăng ký lớp học phần (Create với Transaction an toàn sĩ số)
+   * 1. Tạo 1 ClassSubject mới
    */
-  async create(dto: CreateCourseRegistrationDto) {
-    const { studentId, courseOfferId, note } = dto;
+  async create(
+    dto: CreateCourseRegistrationDto,
+    tx?: Prisma.TransactionClient,
+  ) {
+    const client = tx || this.prisma;
 
-    // Sử dụng transaction để xử lý đồng thời (Race Condition) và bảo toàn dữ liệu sĩ số
-    return await this.prisma.$transaction(async (tx) => {
-      // Kiểm tra lớp học phần có tồn tại hay không
-      const courseOffer = await tx.courseOffer.findUnique({
-        where: { id: courseOfferId },
-      });
-
-      if (!courseOffer) {
-        throw new NotFoundException(
-          `Lớp học phần với ID ${courseOfferId} không tồn tại.`,
-        );
-      }
-
-      // Kiểm tra trạng thái lớp học phần (Chỉ cho phép đăng ký khi trạng thái là 'open')
-      if (courseOffer.status !== "open") {
-        throw new BadRequestException(
-          `Không thể đăng ký. Lớp học phần đang ở trạng thái: ${courseOffer.status}.`,
-        );
-      }
-
-      // Kiểm tra thời gian đăng ký (Nếu hệ thống có cấu hình ngày bắt đầu và kết thúc)
-      const now = new Date();
-      if (
-        courseOffer.registrationStart &&
-        now < courseOffer.registrationStart
-      ) {
-        throw new BadRequestException(
-          "Chưa đến thời gian mở đăng ký cho lớp học phần này.",
-        );
-      }
-      // if (courseOffer.registrationEnd && now > courseOffer.registrationEnd) {
-      //   throw new BadRequestException(
-      //     "Hạn đăng ký lớp học phần này đã kết thúc.",
-      //   );
-      // }
-
-      // Kiểm tra sĩ số lớp hiện tại xem đã đầy chưa
-      if (courseOffer.currentStudents >= courseOffer.maxStudents) {
-        throw new BadRequestException(
-          `Lớp học phần này đã đạt giới hạn sĩ số tối đa (${courseOffer.maxStudents}).`,
-        );
-      }
-
-      // Kiểm tra xem sinh viên này đã đăng ký học phần này từ trước chưa (Tránh dính lỗi trùng @@unique)
-      const existingRegistration = await tx.courseRegistration.findUnique({
-        where: {
-          studentId_courseOfferId: { studentId, courseOfferId },
-        },
-      });
-
-      if (existingRegistration) {
-        throw new ConflictException(
-          "Sinh viên này đã đăng ký lớp học phần này trước đó.",
-        );
-      }
-
-      // Thực hiện tạo bản ghi Đăng ký học phần
+    return await client.$transaction(async (tx) => {
       const registration = await tx.courseRegistration.create({
-        data: {
-          studentId,
-          courseOfferId,
-          note,
-          status: "registered", // Giá trị mặc định ban đầu
-        },
-      });
-
-      // Cập nhật tăng sĩ số lớp học phần lên 1 đơn vị
-      await tx.courseOffer.update({
-        where: { id: courseOfferId },
-        data: {
-          currentStudents: {
-            increment: 1,
-          },
-        },
+        data: dto,
       });
 
       return registration;
@@ -148,5 +79,48 @@ export class CourseRegistrationService {
     }
 
     return registration;
+  }
+
+  /**
+   * Lưu bảng điểm
+   */
+  async saveGradeTable(data: SaveGradesDto) {
+    const { classSubjectId, grades } = data;
+
+    if (!grades || grades.length === 0) {
+      return { success: true, count: 0 };
+    }
+
+    const updatePromises = grades.map((grade) => {
+      return this.prisma.courseRegistration.updateMany({
+        where: {
+          courseOfferId: classSubjectId,
+          studentId: grade.studentId,
+        },
+        data: {
+          kttx1: grade.kttx1,
+          kttx2: grade.kttx2,
+          kttx3: grade.kttx3,
+          ktdk1: grade.ktdk1,
+          ktdk2: grade.ktdk2,
+          ktdk3: grade.ktdk3,
+          ktdk4: grade.ktdk4,
+          diemKiemTra1: grade.diemKiemTra1,
+          diemKiemTra2: grade.diemKiemTra2,
+          diemTB: grade.diemTB,
+          diemTongKet1: grade.diemTongKet1,
+          diemTongKet2: grade.diemTongKet2,
+          note: grade.note,
+        },
+      });
+    });
+
+    // 3. Thực thi đồng loạt tất cả các lệnh update
+    const results = await Promise.all(updatePromises);
+
+    return {
+      success: true,
+      message: `Đã cập nhật điểm thành công cho ${results.length} học sinh.`,
+    };
   }
 }

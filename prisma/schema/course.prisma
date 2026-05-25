@@ -61,6 +61,7 @@ model CourseOffer {
   registrations     CourseRegistration[]
   courseSchedules   CourseSchedule[]
 
+  @@unique([subjectId, classId])
   @@index([subjectId, semesterId])
   @@index([teacherId])
   @@index([semesterId])
@@ -86,14 +87,25 @@ model CourseRegistration {
   registeredAt   DateTime    @default(now())
   approvedAt     DateTime?
 
-  finalGrade     Float?   // Điểm tổng kết tính từ các cột điểm
-  
+  kttx1           Float?
+  kttx2           Float?
+  kttx3           Float?
+  ktdk1           Float?
+  ktdk2           Float?
+  ktdk3           Float?
+  ktdk4           Float?
+  diemTB          Float?
+  diemKiemTra1    Float?
+  diemKiemTra2    Float?
+  diemTongKet1    Float?
+  diemTongKet2    Float?
+
   note           String?     @db.Text
   
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
-  @@unique([studentId, courseOfferId]) // Đảm bảo 1 sinh viên không đăng ký 1 lớp học phần 2 lần
+  @@unique([studentId, courseOfferId])
   @@map("course_registrations")
 
   gradeEntries    GradeEntry[]
