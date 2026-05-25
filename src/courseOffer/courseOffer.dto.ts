@@ -17,7 +17,6 @@ import {
   CourseOfferStatus,
   DayOfWeek,
 } from "../../prisma/generated/prisma/enums";
-import { CourseOfferRegisResponseDto } from "./ourseOfferRegis.response";
 
 /**
  * Dto search lớp học phần

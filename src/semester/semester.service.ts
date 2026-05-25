@@ -6,14 +6,20 @@ import {
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateSemesterDto, UpdateSemesterDto } from "./semester.dto";
 import { SemesterResponseDto } from "./semester.response";
+import { Prisma } from "../../prisma/generated/prisma/client";
 
 @Injectable()
 export class SemesterService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateSemesterDto): Promise<SemesterResponseDto> {
+  async create(
+    data: CreateSemesterDto,
+    tx?: Prisma.TransactionClient,
+  ): Promise<SemesterResponseDto> {
+    const client = tx || this.prisma;
+
     try {
-      return await this.prisma.$transaction(async (tx) => {
+      return await client.$transaction(async (tx) => {
         // Nếu học kỳ mới là Current, bỏ đánh dấu các học kỳ cũ
         if (data.isCurrent) {
           await tx.semester.updateMany({

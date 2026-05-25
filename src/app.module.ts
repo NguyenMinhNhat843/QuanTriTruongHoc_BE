@@ -23,6 +23,7 @@ import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
 import { GradeComponentModule } from "./grade/grade.module.js";
+import { AcademyModule } from "./academy/academy.module.js";
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { GradeComponentModule } from "./grade/grade.module.js";
     PostModule,
     CourseOfferModule,
     GradeComponentModule,
+    AcademyModule, // module tổng hợp
   ],
 })
 export class AppModule {}

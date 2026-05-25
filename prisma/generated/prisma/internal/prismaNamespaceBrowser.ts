@@ -190,6 +190,7 @@ export const SemesterScalarFieldEnum = {
   schoolYear: 'schoolYear',
   startDate: 'startDate',
   endDate: 'endDate',
+  status: 'status',
   isCurrent: 'isCurrent',
   createdAt: 'createdAt'
 } as const

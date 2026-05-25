@@ -374,7 +374,7 @@ export type BatchCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
-  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
+  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchesInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
@@ -407,7 +407,7 @@ export type BatchUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
-  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
+  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchesNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
@@ -600,36 +600,46 @@ export type BatchUpdateOneWithoutClassesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BatchUpdateToOneWithWhereWithoutClassesInput, Prisma.BatchUpdateWithoutClassesInput>, Prisma.BatchUncheckedUpdateWithoutClassesInput>
 }
 
-export type BatchCreateNestedOneWithoutCurriculumInput = {
-  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput>
-  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput
-  connect?: Prisma.BatchWhereUniqueInput
+export type BatchCreateNestedManyWithoutCurriculumInput = {
+  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput> | Prisma.BatchCreateWithoutCurriculumInput[] | Prisma.BatchUncheckedCreateWithoutCurriculumInput[]
+  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput | Prisma.BatchCreateOrConnectWithoutCurriculumInput[]
+  createMany?: Prisma.BatchCreateManyCurriculumInputEnvelope
+  connect?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
 }
 
-export type BatchUncheckedCreateNestedOneWithoutCurriculumInput = {
-  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput>
-  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput
-  connect?: Prisma.BatchWhereUniqueInput
+export type BatchUncheckedCreateNestedManyWithoutCurriculumInput = {
+  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput> | Prisma.BatchCreateWithoutCurriculumInput[] | Prisma.BatchUncheckedCreateWithoutCurriculumInput[]
+  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput | Prisma.BatchCreateOrConnectWithoutCurriculumInput[]
+  createMany?: Prisma.BatchCreateManyCurriculumInputEnvelope
+  connect?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
 }
 
-export type BatchUpdateOneWithoutCurriculumNestedInput = {
-  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput>
-  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput
-  upsert?: Prisma.BatchUpsertWithoutCurriculumInput
-  disconnect?: Prisma.BatchWhereInput | boolean
-  delete?: Prisma.BatchWhereInput | boolean
-  connect?: Prisma.BatchWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.BatchUpdateToOneWithWhereWithoutCurriculumInput, Prisma.BatchUpdateWithoutCurriculumInput>, Prisma.BatchUncheckedUpdateWithoutCurriculumInput>
+export type BatchUpdateManyWithoutCurriculumNestedInput = {
+  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput> | Prisma.BatchCreateWithoutCurriculumInput[] | Prisma.BatchUncheckedCreateWithoutCurriculumInput[]
+  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput | Prisma.BatchCreateOrConnectWithoutCurriculumInput[]
+  upsert?: Prisma.BatchUpsertWithWhereUniqueWithoutCurriculumInput | Prisma.BatchUpsertWithWhereUniqueWithoutCurriculumInput[]
+  createMany?: Prisma.BatchCreateManyCurriculumInputEnvelope
+  set?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  disconnect?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  delete?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  connect?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  update?: Prisma.BatchUpdateWithWhereUniqueWithoutCurriculumInput | Prisma.BatchUpdateWithWhereUniqueWithoutCurriculumInput[]
+  updateMany?: Prisma.BatchUpdateManyWithWhereWithoutCurriculumInput | Prisma.BatchUpdateManyWithWhereWithoutCurriculumInput[]
+  deleteMany?: Prisma.BatchScalarWhereInput | Prisma.BatchScalarWhereInput[]
 }
 
-export type BatchUncheckedUpdateOneWithoutCurriculumNestedInput = {
-  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput>
-  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput
-  upsert?: Prisma.BatchUpsertWithoutCurriculumInput
-  disconnect?: Prisma.BatchWhereInput | boolean
-  delete?: Prisma.BatchWhereInput | boolean
-  connect?: Prisma.BatchWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.BatchUpdateToOneWithWhereWithoutCurriculumInput, Prisma.BatchUpdateWithoutCurriculumInput>, Prisma.BatchUncheckedUpdateWithoutCurriculumInput>
+export type BatchUncheckedUpdateManyWithoutCurriculumNestedInput = {
+  create?: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput> | Prisma.BatchCreateWithoutCurriculumInput[] | Prisma.BatchUncheckedCreateWithoutCurriculumInput[]
+  connectOrCreate?: Prisma.BatchCreateOrConnectWithoutCurriculumInput | Prisma.BatchCreateOrConnectWithoutCurriculumInput[]
+  upsert?: Prisma.BatchUpsertWithWhereUniqueWithoutCurriculumInput | Prisma.BatchUpsertWithWhereUniqueWithoutCurriculumInput[]
+  createMany?: Prisma.BatchCreateManyCurriculumInputEnvelope
+  set?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  disconnect?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  delete?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  connect?: Prisma.BatchWhereUniqueInput | Prisma.BatchWhereUniqueInput[]
+  update?: Prisma.BatchUpdateWithWhereUniqueWithoutCurriculumInput | Prisma.BatchUpdateWithWhereUniqueWithoutCurriculumInput[]
+  updateMany?: Prisma.BatchUpdateManyWithWhereWithoutCurriculumInput | Prisma.BatchUpdateManyWithWhereWithoutCurriculumInput[]
+  deleteMany?: Prisma.BatchScalarWhereInput | Prisma.BatchScalarWhereInput[]
 }
 
 export type BatchCreateNestedOneWithoutStudentsInput = {
@@ -673,7 +683,7 @@ export type BatchCreateWithoutMajorInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
+  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchesInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
@@ -748,7 +758,7 @@ export type BatchCreateWithoutClassesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
-  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
+  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchesInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
 }
@@ -795,7 +805,7 @@ export type BatchUpdateWithoutClassesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
-  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
+  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchesNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
 }
@@ -852,46 +862,25 @@ export type BatchCreateOrConnectWithoutCurriculumInput = {
   create: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput>
 }
 
-export type BatchUpsertWithoutCurriculumInput = {
-  update: Prisma.XOR<Prisma.BatchUpdateWithoutCurriculumInput, Prisma.BatchUncheckedUpdateWithoutCurriculumInput>
-  create: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput>
-  where?: Prisma.BatchWhereInput
+export type BatchCreateManyCurriculumInputEnvelope = {
+  data: Prisma.BatchCreateManyCurriculumInput | Prisma.BatchCreateManyCurriculumInput[]
+  skipDuplicates?: boolean
 }
 
-export type BatchUpdateToOneWithWhereWithoutCurriculumInput = {
-  where?: Prisma.BatchWhereInput
+export type BatchUpsertWithWhereUniqueWithoutCurriculumInput = {
+  where: Prisma.BatchWhereUniqueInput
+  update: Prisma.XOR<Prisma.BatchUpdateWithoutCurriculumInput, Prisma.BatchUncheckedUpdateWithoutCurriculumInput>
+  create: Prisma.XOR<Prisma.BatchCreateWithoutCurriculumInput, Prisma.BatchUncheckedCreateWithoutCurriculumInput>
+}
+
+export type BatchUpdateWithWhereUniqueWithoutCurriculumInput = {
+  where: Prisma.BatchWhereUniqueInput
   data: Prisma.XOR<Prisma.BatchUpdateWithoutCurriculumInput, Prisma.BatchUncheckedUpdateWithoutCurriculumInput>
 }
 
-export type BatchUpdateWithoutCurriculumInput = {
-  batchCode?: Prisma.StringFieldUpdateOperationsInput | string
-  batchName?: Prisma.StringFieldUpdateOperationsInput | string
-  startYear?: Prisma.IntFieldUpdateOperationsInput | number
-  endYear?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
-  classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
-  students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
-  creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
-}
-
-export type BatchUncheckedUpdateWithoutCurriculumInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  batchCode?: Prisma.StringFieldUpdateOperationsInput | string
-  batchName?: Prisma.StringFieldUpdateOperationsInput | string
-  startYear?: Prisma.IntFieldUpdateOperationsInput | number
-  endYear?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
-  creditPrices?: Prisma.CreditPriceUncheckedUpdateManyWithoutBatchNestedInput
+export type BatchUpdateManyWithWhereWithoutCurriculumInput = {
+  where: Prisma.BatchScalarWhereInput
+  data: Prisma.XOR<Prisma.BatchUpdateManyMutationInput, Prisma.BatchUncheckedUpdateManyWithoutCurriculumInput>
 }
 
 export type BatchCreateWithoutStudentsInput = {
@@ -904,7 +893,7 @@ export type BatchCreateWithoutStudentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
-  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
+  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchesInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   creditPrices?: Prisma.CreditPriceCreateNestedManyWithoutBatchInput
 }
@@ -951,7 +940,7 @@ export type BatchUpdateWithoutStudentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
-  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
+  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchesNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
 }
@@ -982,7 +971,7 @@ export type BatchCreateWithoutCreditPricesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
-  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchInput
+  curriculum?: Prisma.CurriculumCreateNestedOneWithoutBatchesInput
   classes?: Prisma.ClassCreateNestedManyWithoutBatchInput
   students?: Prisma.StudentCreateNestedManyWithoutBatchInput
 }
@@ -1029,7 +1018,7 @@ export type BatchUpdateWithoutCreditPricesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
-  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
+  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchesNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
 }
@@ -1072,7 +1061,7 @@ export type BatchUpdateWithoutMajorInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchNestedInput
+  curriculum?: Prisma.CurriculumUpdateOneWithoutBatchesNestedInput
   classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
   students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
   creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
@@ -1102,6 +1091,63 @@ export type BatchUncheckedUpdateManyWithoutMajorInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BatchCreateManyCurriculumInput = {
+  id?: number
+  batchCode: string
+  batchName: string
+  startYear: number
+  endYear: number
+  description?: string | null
+  majorId: number
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type BatchUpdateWithoutCurriculumInput = {
+  batchCode?: Prisma.StringFieldUpdateOperationsInput | string
+  batchName?: Prisma.StringFieldUpdateOperationsInput | string
+  startYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutBatchNestedInput
+  students?: Prisma.StudentUpdateManyWithoutBatchNestedInput
+  creditPrices?: Prisma.CreditPriceUpdateManyWithoutBatchNestedInput
+}
+
+export type BatchUncheckedUpdateWithoutCurriculumInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  batchCode?: Prisma.StringFieldUpdateOperationsInput | string
+  batchName?: Prisma.StringFieldUpdateOperationsInput | string
+  startYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
+  creditPrices?: Prisma.CreditPriceUncheckedUpdateManyWithoutBatchNestedInput
+}
+
+export type BatchUncheckedUpdateManyWithoutCurriculumInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  batchCode?: Prisma.StringFieldUpdateOperationsInput | string
+  batchName?: Prisma.StringFieldUpdateOperationsInput | string
+  startYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  majorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string

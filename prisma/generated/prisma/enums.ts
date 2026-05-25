@@ -9,6 +9,16 @@
 * 🟢 You can import this file directly.
 */
 
+export const SemesterStatus = {
+  CLOSE: 'CLOSE',
+  ACTIVE: 'ACTIVE',
+  UPCOMING: 'UPCOMING',
+  DRAFT: 'DRAFT'
+} as const
+
+export type SemesterStatus = (typeof SemesterStatus)[keyof typeof SemesterStatus]
+
+
 export const ApplycationAdmissionStatus = {
   PENDING: 'PENDING',
   QUALIFIED: 'QUALIFIED',

@@ -22,8 +22,6 @@ import {
   CourseOfferDto,
   ResponsePreviewGenerateSectionForClass,
 } from "./courseOffer.response";
-import { SemesterService } from "../semester/semester.service";
-import { CourseRegistrationService } from "./CourseRegistration.service";
 
 @Injectable()
 export class CourseOfferService {
@@ -31,8 +29,6 @@ export class CourseOfferService {
     private prisma: PrismaService,
     private courseOfferQuery: CourseOfferQuery,
     private curriculumSubjectService: CurriculumSubjectService,
-    private semesterService: SemesterService,
-    private courseRegisteationService: CourseRegistrationService,
   ) {}
 
   /**
@@ -114,7 +110,7 @@ export class CourseOfferService {
   }
 
   /**
-   * Khi Admin tạo các lớp học phần tự động cho học kỳ này sẽ gọi api này để xem trước
+   * Khi Admin tạo các classSubject tự động cho học kỳ này sẽ gọi api này để xem trước
    */
   async previewGenClassSubjects(dto: CreateBulkCourseOfferDto) {
     const { semesterId, batchId } = dto;
@@ -294,6 +290,7 @@ export class CourseOfferService {
       );
     }
   }
+
   // ========================================
   // PHÂN BỐ LỊCH HỌC VÀ PHÒNG HỌC CHO LỚP HỌC PHẦN (Optional, có thể thêm sau)
   // ========================================
@@ -454,6 +451,7 @@ export class CourseOfferService {
                 id: true, // Nên lấy thêm ID để khớp hoàn toàn với DTO
                 fullName: true,
                 studentCode: true,
+                dob: true,
               },
             },
             gradeEntries: {
@@ -515,60 +513,12 @@ export class CourseOfferService {
   }
 
   /**
-   * Lấy danh sách học sinh đủ điều kiện đăng ký học phần
-   * Học sinh đó có trạng thái là đang học và ngành phải khớp với lớp học phần
-   */
-  async getEligibleStudentsForCourseOffer(courseOfferId: number) {
-    // 1. Lấy thông tin lớp học phần (CourseOffer) cùng với ngành học (majorId) liên quan
-    // Giả sử majorId nằm trong bảng Subject (Môn học) hoặc trực tiếp trong CourseOffer
-    const courseOffer = await this.prisma.courseOffer.findUnique({
-      where: { id: courseOfferId },
-      include: {
-        baseClass: true,
-      },
-    });
-
-    if (!courseOffer) {
-      throw new NotFoundException(
-        `Không tìm thấy lớp học phần với ID ${courseOfferId}`,
-      );
-    }
-
-    // Xác định majorId mục tiêu của lớp học phần này
-    // (Bạn điều chỉnh lại dòng này nếu majorId nằm ở vị trí khác, ví dụ: courseOffer.majorId)
-    const targetMajorId = courseOffer.baseClass?.majorId;
-
-    if (!targetMajorId) {
-      throw new BadRequestException(
-        `Lớp học phần này chưa được cấu hình ngành học (majorId)`,
-      );
-    }
-
-    // 2. Tìm kiếm sinh viên đi xuyên qua bảng batch để lọc theo majorId
-    const students = await this.prisma.student.findMany({
-      where: {
-        status: "studying", // Điều kiện 1: Trạng thái đang học
-
-        // Điều kiện 2: Đi qua quan hệ 'batch' để kiểm tra 'majorId'
-        batch: {
-          majorId: targetMajorId,
-        },
-      },
-      include: {
-        batch: true, // Include thêm thông tin khóa đào tạo nếu cần hiển thị ở UI
-      },
-    });
-
-    return students;
-  }
-
-  /**
    * Xuất excel danh sách điểm của lớp học phần
    * File excel sẽ được tạo dựa trên template có sẵn trong thư mục assets của project
    * Template này đã được thiết kế sẵn với phần header và định dạng cơ bản
    * Phần dữ liệu điểm sẽ được chèn động vào template dựa trên cấu trúc đã định nghĩa
    */
-  async exportToExcel(courseOfferId: number) {
+  async exportToExcel(classSubjectId: number) {
     // 1. Xác định đường dẫn file template (Sử dụng process.cwd() để an toàn cho cả dev và production)
     const templatePath = path.join(
       process.cwd(),
@@ -582,23 +532,15 @@ export class CourseOfferService {
     await workbook.xlsx.readFile(templatePath);
     const worksheet = workbook.worksheets[0];
 
-    const { keyValueData, gradeComponentsData, students } =
-      await this.courseOfferQuery.queryDataForExportExcel(courseOfferId);
+    const { keyValueData, gradeTable } =
+      await this.courseOfferQuery.queryDataForExportExcel(classSubjectId);
 
-    // Đổ dữ liệu chung
-    let headerRowNumber = 6; // Mặc định hàng tiêu đề
-    let startGradeColumnIndex = 5; // Mặc định cột E (Cột số 5)
+    const startGradeColumnIndex = 8;
 
-    worksheet.eachRow((row, rowNumber) => {
-      row.eachCell((cell, colNumber) => {
+    worksheet.eachRow((row) => {
+      row.eachCell((cell) => {
         if (cell.value && typeof cell.value === "string") {
           let cellString = cell.value;
-
-          // Lưu lại tọa độ nếu tìm thấy biến đánh dấu cột điểm
-          if (cellString.includes("{{gradeColumns}}")) {
-            headerRowNumber = rowNumber;
-            startGradeColumnIndex = colNumber;
-          }
 
           const matches = cellString.match(/{{(.*?)}}/g);
           if (matches) {
@@ -614,196 +556,225 @@ export class CourseOfferService {
       });
     });
 
-    // Đổ dữ liệu các cột điểm động vào hàng tiêu đề, bắt đầu từ cột đã xác định
-    const headerRow = worksheet.getRow(headerRowNumber);
-    const sampleStyleCell = headerRow.getCell(startGradeColumnIndex - 1); // Lấy style cột trước (Cột Ngày Sinh) để copy
+    gradeTable.forEach((item, index) => {
+      const currentRowNum = startGradeColumnIndex + index;
+      const row = worksheet.getRow(currentRowNum);
 
-    gradeComponentsData.forEach((comp, index) => {
-      const currentCell = headerRow.getCell(startGradeColumnIndex + index);
-      currentCell.value = comp.componentName;
+      // Điền dữ liệu vào từng cột tương ứng theo template hình ảnh
+      row.getCell("A").value = index + 1; // STT
+      row.getCell("B").value = item.student.studentCode; // MSSV
+      row.getCell("C").value = item.student.fullName; // Họ tên
 
-      // Copy format từ ô mẫu sang để giữ nguyên font/màu nền tiêu đề
-      currentCell.style = { ...sampleStyleCell.style };
-      currentCell.alignment = {
-        horizontal: "center",
-        vertical: "middle",
-        wrapText: true,
-      };
-    });
-
-    // Đổ dữ liệu sinh viên và điểm số vào các hàng tiếp theo
-    const startDataRowNumber = headerRowNumber + 1; // Hàng bắt đầu chèn dữ liệu (Ví dụ hàng số 8)
-    const sampleDataRow = worksheet.getRow(startDataRowNumber); // Hàng mẫu để lấy border
-
-    students.forEach((student, sIndex) => {
-      const currentStyleRowNo = startDataRowNumber + sIndex;
-
-      // Chèn 1 dòng mới tinh để tránh đè lên phần chữ ký phía dưới của template
-      worksheet.insertRow(currentStyleRowNo, []);
-      const currentRow = worksheet.getRow(currentStyleRowNo);
-
-      // 1. Ghi các cột cố định
-      currentRow.getCell(1).value = sIndex + 1; // STT
-      currentRow.getCell(2).value = student.studentCode; // Mã SV
-      currentRow.getCell(3).value = student.fullName || ""; // Họ tên
-
-      if (student.dob) {
-        // Format ngày sinh về dạng ngày/tháng/năm
-        currentRow.getCell(4).value = new Date(student.dob).toLocaleDateString(
-          "vi-VN",
-        );
+      // Format Ngày sinh (nếu có)
+      if (item.student.dob) {
+        const dobDate = new Date(item.student.dob);
+        row.getCell("D").value = dobDate;
+        row.getCell("D").numFmt = "dd/mm/yyyy"; // Định dạng ngày tháng trong Excel
       } else {
-        currentRow.getCell(4).value = "";
+        row.getCell("D").value = "";
       }
 
-      // 2. Ghi điểm tương ứng vào từng cột điểm động
-      gradeComponentsData.forEach((comp, cIndex) => {
-        const gradeCell = currentRow.getCell(startGradeColumnIndex + cIndex);
+      // Điểm Thường Xuyên (KTTX)
+      row.getCell("E").value = item.kttx1; // KTTX Lần 1
+      row.getCell("F").value = item.kttx2; // KTTX Lần 2
+      row.getCell("G").value = item.kttx3; // KTTX Lần 3
 
-        // Tìm xem sinh viên này có điểm của cột comp.componentName này không
-        const matchedGrade = student.grades.find(
-          (g) => g.column === comp.componentName,
-        );
+      // Kiểm tra định kỳ
+      row.getCell("H").value = item.ktdk1; // Định kỳ Lần 1
+      row.getCell("I").value = item.ktdk2; // Định kỳ Lần 2
+      row.getCell("J").value = item.ktdk3; // Định kỳ Lần 3
+      row.getCell("K").value = item.ktdk4; // Định kỳ Lần 4
 
-        // Nếu matchedGrade tồn tại và score không phải null thì điền score, ngược lại để trống
-        gradeCell.value =
-          matchedGrade && matchedGrade.score !== null ? matchedGrade.score : "";
-        gradeCell.alignment = { horizontal: "center" };
-      });
+      // Trung bình & Điểm kiểm tra
+      row.getCell("L").value = item.diemTB; // Trung bình
+      row.getCell("M").value = item.diemKiemTra1; // Điểm kiểm tra Lần 1
+      row.getCell("N").value = item.diemKiemTra2; // Điểm kiểm tra Lần 2
 
-      // 3. Đồng bộ Border và Font từ dòng mẫu sang để bảng có lưới đẹp mắt
-      currentRow.eachCell((cell, colNumber) => {
-        const sampleCell = sampleDataRow.getCell(colNumber);
-        cell.border = sampleCell.border;
-        cell.font = sampleCell.font;
-      });
+      // Tổng kết & Ghi chú
+      row.getCell("O").value = item.diemTongKet1; // Tổng kết lần 1
+      row.getCell("P").value = item.diemTongKet2; // Tổng kết lần 2
+      row.getCell("Q").value = item.note; // Ghi chú
 
-      currentRow.commit(); // Lưu thay đổi của hàng này
+      row.commit();
     });
 
-    // 6. Trả file về dưới dạng Buffer
     const buffer = await workbook.xlsx.writeBuffer();
     return buffer;
   }
 
   /**
-   * Tạo dữ liệu nhập điểm cho classSubject
+   * Gen bảng điểm và classSubject cho 1 batch
    */
-  async generateSectionForClass(classId: number, semesterId: number) {
-    return await this.prisma.$transaction(async (tx) => {
-      const classData = await tx.class.findUnique({
-        where: { id: classId },
-        include: {
-          batch: {
-            include: { curriculum: true },
-          },
-        },
-      });
+  async getClassesByBatch(batchId: number) {
+    const classes = await this.prisma.class.findMany({
+      where: {
+        batchId: batchId,
+      },
+    });
 
-      if (!classData)
-        throw new NotFoundException(`Không tìm thấy lớp học với ID ${classId}`);
-      const batch = classData.batch;
-      if (!batch?.curriculum)
-        throw new BadRequestException(
-          "Lớp học chưa được gắn khung chương trình đào tạo!",
-        );
+    return classes;
+  }
 
-      const semester = await tx.semester.findUnique({
-        where: { id: semesterId },
-      });
-      if (!semester)
-        throw new NotFoundException(
-          `Không tìm thấy học kỳ với ID ${semesterId}`,
-        );
+  /**
+   * Hàm tạo danh sách ClassSubject dựa theo khung chương trình
+   */
+  async createClassSubject(
+    classData: any,
+    semester: any,
+    curriculumSubjects: any[],
+    tx?: any,
+  ) {
+    const prismaClient = tx || this.prisma;
 
-      // 2. Tính toán số học kỳ (Semester Number) ngắn gọn
-      const startYear = batch.startYear || 0;
-      const currentYear = semester.year || 0;
-      const currentTerm = semester.term || 0;
+    // Chuẩn bị dữ liệu để Bulk Insert
+    const courseOffersData = curriculumSubjects.map((cs) => ({
+      subjectId: cs.subjectId,
+      semesterId: semester.id,
+      classId: classData.id,
+      maxStudents: classData.maxStudents || 40,
+      status: "open" as const,
+    }));
 
-      const semesterNo =
-        startYear > 0 && currentYear >= startYear
-          ? (currentYear - startYear) * 2 + currentTerm
-          : 0;
+    // Tạo hàng loạt lớp học phần
+    await prismaClient.courseOffer.createMany({
+      data: courseOffersData,
+      skipDuplicates: true,
+    });
 
-      if (semesterNo === 0)
-        throw new BadRequestException(
-          "Tính toán số học kỳ chương trình khung không hợp lệ!",
-        );
+    return await prismaClient.courseOffer.findMany({
+      where: {
+        classId: classData.id,
+        semesterId: semester.id,
+        subjectId: { in: curriculumSubjects.map((cs) => cs.subjectId) },
+      },
+    });
+  }
 
-      // 3. Lấy danh sách môn học thuộc học kỳ này kèm thông tin mã/tên môn học
-      const curriculumSubjects = await tx.curriculumSubject.findMany({
-        where: {
-          curriculumId: batch.curriculum.id,
-          semesterNumber: semesterNo,
-        },
-        include: { subject: true },
-      });
+  /**
+   * 2. Hàm tự động đăng ký học phần và khởi tạo bảng điểm cho sinh viên trong lớp
+   */
+  async registerStudentsToCourses(
+    studentsInClass: { id: number }[],
+    validCourseOffers: { id: number }[],
+    tx?: any,
+  ) {
+    const prismaClient = tx || this.prisma;
+    let totalRegistrations = 0;
 
-      if (!curriculumSubjects.length) {
-        return {
-          message: `Học kỳ này (HK ${semesterNo}) trong khung chương trình không có môn học nào.`,
-          generatedCoursesCount: 0,
-        };
-      }
+    // Chỉ thực hiện nếu lớp có học sinh và có lớp học phần được mở
+    if (studentsInClass.length > 0 && validCourseOffers.length > 0) {
+      const courseRegistrationsToCreate = studentsInClass.flatMap((student) =>
+        validCourseOffers.map((course) => ({
+          studentId: student.id,
+          courseOfferId: course.id,
+          status: "registered",
+        })),
+      );
 
-      const studentsInClass = await tx.student.findMany({
-        where: { classId },
-        select: { id: true },
-      });
-
-      // 5. Chuẩn bị dữ liệu để Bulk Insert (Tạo nhiều lớp học phần cùng lúc)
-      const courseOffersData = curriculumSubjects.map((cs) => ({
-        courseCode: `${cs.subject.subjectCode}-${classData.classCode}-${semester.name}`,
-        courseName: `${cs.subject.subjectName} (Lớp ${classData.className})`,
-        subjectId: cs.subjectId,
-        semesterId,
-        classId,
-        maxStudents: classData.maxStudents || 40,
-        status: "open" as const,
-      }));
-
-      await tx.courseOffer.createMany({
-        data: courseOffersData,
+      const result = await prismaClient.courseRegistration.createMany({
+        data: courseRegistrationsToCreate,
         skipDuplicates: true,
       });
+      totalRegistrations = result.count;
+    }
 
-      // Fetch lại các lớp học phần thực tế đang có ở học kỳ này để lấy ID chính xác (bao gồm cả các lớp đã tồn tại từ trước)
-      const activeCourseCodes = courseOffersData.map((c) => c.courseCode);
-      const validCourseOffers = await tx.courseOffer.findMany({
-        where: { courseCode: { in: activeCourseCodes } },
-        select: { id: true },
-      });
+    return totalRegistrations;
+  }
 
-      // 6. Tự động chuẩn bị data đăng ký học phần cho học sinh
-      let totalRegistrations = 0;
-      if (studentsInClass.length > 0 && validCourseOffers.length > 0) {
-        const courseRegistrationsToCreate = studentsInClass.flatMap((student) =>
-          validCourseOffers.map((course) => ({
-            studentId: student.id,
-            courseOfferId: course.id,
-            status: "registered",
-          })),
-        );
+  /**
+   * 3. Hàm gốc dùng để điều phối luồng sinh dữ liệu học phần và đăng ký cho một lớp
+   */
+  async generateSectionForClass(classId: number, semesterId: number, tx?: any) {
+    const prismaClient = tx || this.prisma;
 
-        const result = await tx.courseRegistration.createMany({
-          data: courseRegistrationsToCreate,
-          skipDuplicates: true,
-        });
-        totalRegistrations = result.count;
-      }
-
-      return {
-        success: true,
-        message: `Sinh dữ liệu thành công cho lớp ${classData.className}.`,
-        details: {
-          semesterNumber: semesterNo,
-          coursesCreated: validCourseOffers.length,
-          studentsRegistered: studentsInClass.length,
-          totalRegistrations,
-        },
-      };
+    // Bước 1: Tìm kiếm và xác thực thông tin Lớp học, Khóa học và Học kỳ  22]
+    const classData = await prismaClient.class.findUnique({
+      where: { id: classId },
+      include: {
+        batch: { include: { curriculum: true } },
+      },
     });
+
+    if (!classData) {
+      throw new NotFoundException(`Không tìm thấy lớp học với ID ${classId}`);
+    }
+    const batch = classData.batch;
+    if (!batch?.curriculum) {
+      throw new BadRequestException(
+        "Lớp học chưa được gắn khung chương trình đào tạo!",
+      );
+    }
+
+    const semester = await prismaClient.semester.findUnique({
+      where: { id: semesterId },
+    });
+    if (!semester) {
+      throw new NotFoundException(`Không tìm thấy học kỳ với ID ${semesterId}`);
+    }
+
+    // Bước 2: Tính toán số học kỳ hiện tại dựa theo mốc bắt đầu của Khóa học
+    const startYear = batch.startYear || 0;
+    const currentYear = semester.year || 0;
+    const currentTerm = semester.term || 0;
+
+    const semesterNo =
+      startYear > 0 && currentYear >= startYear
+        ? (currentYear - startYear) * 2 + currentTerm
+        : 0;
+
+    if (semesterNo === 0) {
+      throw new BadRequestException(
+        "Tính toán số học kỳ chương trình khung không hợp lệ!",
+      );
+    }
+
+    // Bước 3: Lấy danh sách các môn học phân bổ cho học kỳ này
+    const curriculumSubjects = await prismaClient.curriculumSubject.findMany({
+      where: {
+        curriculumId: batch.curriculum.id,
+        semesterNumber: semesterNo,
+      },
+      include: { subject: true },
+    });
+
+    if (!curriculumSubjects.length) {
+      return {
+        message: `Học kỳ này (HK ${semesterNo}) trong khung chương trình không có môn học nào.`,
+        generatedCoursesCount: 0,
+      };
+    }
+
+    // Lấy danh sách học sinh thuộc lớp này
+    const studentsInClass = await prismaClient.student.findMany({
+      where: { classId },
+      select: { id: true },
+    });
+
+    // 🌟 Thực thi hàm nhỏ 1: Tạo các lớp học phần (courseOffer)
+    const validCourseOffers = await this.createClassSubject(
+      classData,
+      semester,
+      curriculumSubjects,
+      tx,
+    );
+
+    // 🌟 Thực thi hàm nhỏ 2: Đăng ký học phần (Khởi tạo bảng điểm) cho sinh viên
+    const totalRegistrations = await this.registerStudentsToCourses(
+      studentsInClass,
+      validCourseOffers,
+      tx,
+    );
+
+    return {
+      success: true,
+      message: `Sinh dữ liệu thành công cho lớp ${classData.className}.`,
+      details: {
+        semesterNumber: semesterNo,
+        coursesCreated: validCourseOffers.length,
+        studentsRegistered: studentsInClass.length,
+        totalRegistrations,
+      },
+    };
   }
 
   /**

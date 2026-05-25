@@ -94,6 +94,26 @@ export class CurriculumService {
   }
 
   /**
+   * Thống kê curriculum
+   */
+  async analystCurriculum(curriculumId: number) {
+    if (!curriculumId) {
+      return { maxSemesterNumber: 0 };
+    }
+
+    const aggregate = await this.prisma.curriculumSubject.aggregate({
+      where: { curriculumId },
+      _max: {
+        semesterNumber: true,
+      },
+    });
+
+    return {
+      maxSemesterNumber: aggregate._max.semesterNumber ?? 0,
+    };
+  }
+
+  /**
    * Lấy tất cả
    */
   async findAll(query: SearchCurriculumDto): Promise<CurriculumResponseDto[]> {

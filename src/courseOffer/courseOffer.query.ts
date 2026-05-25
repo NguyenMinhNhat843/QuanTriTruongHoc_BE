@@ -5,9 +5,9 @@ import { PrismaService } from "../prisma/prisma.service";
 export class CourseOfferQuery {
   constructor(private prisma: PrismaService) {}
 
-  async queryDataForExportExcel(courseOfferId: number) {
+  async queryDataForExportExcel(classSubjectId: number) {
     const courseOffer = await this.prisma.courseOffer.findUnique({
-      where: { id: courseOfferId },
+      where: { id: classSubjectId },
       include: {
         teacher: true,
         registrations: {
@@ -17,17 +17,6 @@ export class CourseOfferQuery {
                 fullName: true,
                 studentCode: true,
                 dob: true,
-              },
-            },
-            gradeEntries: {
-              select: {
-                score: true,
-                component: {
-                  select: {
-                    name: true,
-                    weight: true,
-                  },
-                },
               },
             },
           },
@@ -57,7 +46,7 @@ export class CourseOfferQuery {
 
     if (!courseOffer) {
       throw new NotFoundException(
-        `Không tìm thấy đợt mở môn với ID #${courseOfferId}`,
+        `Không tìm thấy đợt mở môn với ID #${classSubjectId}`,
       );
     }
 
@@ -71,39 +60,24 @@ export class CourseOfferQuery {
       batchCode: courseOffer.baseClass?.batch?.batchCode || "",
     };
 
-    // Lấy danh sách thành phần điểm  79]
-    const gradeComponents = await this.prisma.gradeComponent.findMany({
+    const gradeTable = await this.prisma.courseRegistration.findMany({
       where: {
-        subjectGrades: {
-          some: {
-            subject: {
-              courseOffers: {
-                some: { id: courseOfferId },
-              },
-            },
+        courseOfferId: classSubjectId,
+      },
+      include: {
+        student: {
+          select: {
+            fullName: true,
+            studentCode: true,
+            dob: true,
           },
         },
       },
-      orderBy: { id: "asc" },
     });
-
-    const gradeComponentsData = gradeComponents.map((comp) => ({
-      componentName: comp.name + ` (${comp.weight}%)`,
-    }));
-
-    // Parse danh sách sinh viên và điểm số
-    const students = courseOffer.registrations.map((reg) => ({
-      ...reg.student,
-      grades: reg.gradeEntries.map((entry) => ({
-        score: entry.score,
-        column: entry.component.name + ` (${entry.component.weight}%)`,
-      })),
-    }));
 
     return {
       keyValueData,
-      gradeComponentsData,
-      students,
+      gradeTable,
     };
   }
 }

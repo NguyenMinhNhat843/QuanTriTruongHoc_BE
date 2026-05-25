@@ -21,7 +21,7 @@ enum DayOfWeek {
 // ==========================
 model CourseOffer {
   id                Int       @id @default(autoincrement())
-  courseCode        String    @unique   // VD: OOP-2026-HK1-01
+  courseCode        String?    @unique   // VD: OOP-2026-HK1-01
   courseName        String?   
   
   // Giáo viên giảng dạy (Nối tới Staff)
@@ -40,11 +40,11 @@ model CourseOffer {
   semesterId        Int
   semester          Semester  @relation(fields: [semesterId], references: [id])
   
-  maxStudents       Int       @default(40)
-  currentStudents   Int       @default(0) // Cần logic update khi có sinh viên đăng ký thành công
+  maxStudents       Int?       @default(40)
+  currentStudents   Int?       @default(0) // Cần logic update khi có sinh viên đăng ký thành công
   
   // planned, open, closed, cancelled
-  status            CourseOfferStatus @default(planned)
+  status            CourseOfferStatus? @default(planned)
   
   // Thời gian đăng ký học phần
   registrationStart DateTime?

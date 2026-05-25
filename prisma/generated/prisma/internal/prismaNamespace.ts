@@ -3153,6 +3153,7 @@ export const SemesterScalarFieldEnum = {
   schoolYear: 'schoolYear',
   startDate: 'startDate',
   endDate: 'endDate',
+  status: 'status',
   isCurrent: 'isCurrent',
   createdAt: 'createdAt'
 } as const
@@ -3682,6 +3683,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'SemesterStatus'
+ */
+export type EnumSemesterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SemesterStatus[]'
+ */
+export type ListEnumSemesterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterStatus[]'>
     
 
 

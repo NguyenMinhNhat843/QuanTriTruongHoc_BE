@@ -19,7 +19,6 @@ import {
   SearchCourseOfferDto,
   updateClassSubjectDto,
 } from "./courseOffer.dto";
-import { StudentResponseDto } from "../student/student.response";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import { Response } from "express";
 import {
@@ -127,21 +126,6 @@ export class CourseOfferController {
   @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
   async getDetail(@Param("id", ParseIntPipe) id: number) {
     return await this.courseOfferService.getCourseOfferDetail(id);
-  }
-
-  @Get(":courseOfferId/eligible-students")
-  @ApiOperation({
-    summary: "Lấy danh sách học sinh đủ điều kiện đăng ký vào lớp học phần",
-  })
-  @ApiResponse({
-    type: StudentResponseDto,
-  })
-  async getEligibleStudents(
-    @Param("courseOfferId", ParseIntPipe) courseOfferId: number,
-  ) {
-    return await this.courseOfferService.getEligibleStudentsForCourseOffer(
-      courseOfferId,
-    );
   }
 
   @Get(":id/export-excel")
