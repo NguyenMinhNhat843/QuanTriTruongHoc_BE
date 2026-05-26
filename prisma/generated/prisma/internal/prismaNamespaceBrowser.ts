@@ -82,9 +82,6 @@ export const ModelName = {
   Fee: 'Fee',
   FeeCatalog: 'FeeCatalog',
   CreditPrice: 'CreditPrice',
-  GradeComponent: 'GradeComponent',
-  SubjectGradeWeight: 'SubjectGradeWeight',
-  GradeEntry: 'GradeEntry',
   Post: 'Post'
 } as const
 
@@ -172,11 +169,9 @@ export const SubjectScalarFieldEnum = {
   theoryHours: 'theoryHours',
   practiceHours: 'practiceHours',
   testHours: 'testHours',
-  isMandatory: 'isMandatory',
   description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  grade_components: 'grade_components'
+  updatedAt: 'updatedAt'
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
@@ -574,39 +569,6 @@ export const CreditPriceScalarFieldEnum = {
 } as const
 
 export type CreditPriceScalarFieldEnum = (typeof CreditPriceScalarFieldEnum)[keyof typeof CreditPriceScalarFieldEnum]
-
-
-export const GradeComponentScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  weight: 'weight'
-} as const
-
-export type GradeComponentScalarFieldEnum = (typeof GradeComponentScalarFieldEnum)[keyof typeof GradeComponentScalarFieldEnum]
-
-
-export const SubjectGradeWeightScalarFieldEnum = {
-  id: 'id',
-  subjectId: 'subjectId',
-  gradeComponentId: 'gradeComponentId',
-  weight: 'weight',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  position: 'position'
-} as const
-
-export type SubjectGradeWeightScalarFieldEnum = (typeof SubjectGradeWeightScalarFieldEnum)[keyof typeof SubjectGradeWeightScalarFieldEnum]
-
-
-export const GradeEntryScalarFieldEnum = {
-  id: 'id',
-  componentId: 'componentId',
-  courseRegistrationId: 'courseRegistrationId',
-  score: 'score',
-  status: 'status'
-} as const
-
-export type GradeEntryScalarFieldEnum = (typeof GradeEntryScalarFieldEnum)[keyof typeof GradeEntryScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {

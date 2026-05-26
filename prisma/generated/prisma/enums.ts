@@ -101,15 +101,6 @@ export const DayOfWeek = {
 export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
 
 
-export const GradeSubmissionStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
-} as const
-
-export type GradeSubmissionStatus = (typeof GradeSubmissionStatus)[keyof typeof GradeSubmissionStatus]
-
-
 export const PostType = {
   NEWS: 'NEWS',
   ADMISSION: 'ADMISSION',

@@ -18,6 +18,6 @@ import { BatchModule } from "../batch/batch.module";
   ],
   controllers: [CourseOfferController, CourseRegistrationController],
   providers: [CourseOfferService, CourseRegistrationService, CourseOfferQuery],
-  exports: [CourseOfferService, CourseOfferQuery], // Nếu bạn muốn sử dụng CourseOfferService ở module khác
+  exports: [CourseOfferService, CourseOfferQuery],
 })
 export class CourseOfferModule {}

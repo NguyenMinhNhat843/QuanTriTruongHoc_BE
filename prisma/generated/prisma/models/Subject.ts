@@ -50,11 +50,9 @@ export type SubjectMinAggregateOutputType = {
   theoryHours: number | null
   practiceHours: number | null
   testHours: number | null
-  isMandatory: boolean | null
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  grade_components: string | null
 }
 
 export type SubjectMaxAggregateOutputType = {
@@ -65,11 +63,9 @@ export type SubjectMaxAggregateOutputType = {
   theoryHours: number | null
   practiceHours: number | null
   testHours: number | null
-  isMandatory: boolean | null
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  grade_components: string | null
 }
 
 export type SubjectCountAggregateOutputType = {
@@ -80,11 +76,9 @@ export type SubjectCountAggregateOutputType = {
   theoryHours: number
   practiceHours: number
   testHours: number
-  isMandatory: number
   description: number
   createdAt: number
   updatedAt: number
-  grade_components: number
   _all: number
 }
 
@@ -113,11 +107,9 @@ export type SubjectMinAggregateInputType = {
   theoryHours?: true
   practiceHours?: true
   testHours?: true
-  isMandatory?: true
   description?: true
   createdAt?: true
   updatedAt?: true
-  grade_components?: true
 }
 
 export type SubjectMaxAggregateInputType = {
@@ -128,11 +120,9 @@ export type SubjectMaxAggregateInputType = {
   theoryHours?: true
   practiceHours?: true
   testHours?: true
-  isMandatory?: true
   description?: true
   createdAt?: true
   updatedAt?: true
-  grade_components?: true
 }
 
 export type SubjectCountAggregateInputType = {
@@ -143,11 +133,9 @@ export type SubjectCountAggregateInputType = {
   theoryHours?: true
   practiceHours?: true
   testHours?: true
-  isMandatory?: true
   description?: true
   createdAt?: true
   updatedAt?: true
-  grade_components?: true
   _all?: true
 }
 
@@ -245,11 +233,9 @@ export type SubjectGroupByOutputType = {
   theoryHours: number
   practiceHours: number
   testHours: number | null
-  isMandatory: boolean
   description: string | null
   createdAt: Date
   updatedAt: Date
-  grade_components: string | null
   _count: SubjectCountAggregateOutputType | null
   _avg: SubjectAvgAggregateOutputType | null
   _sum: SubjectSumAggregateOutputType | null
@@ -283,15 +269,12 @@ export type SubjectWhereInput = {
   theoryHours?: Prisma.IntFilter<"Subject"> | number
   practiceHours?: Prisma.IntFilter<"Subject"> | number
   testHours?: Prisma.IntNullableFilter<"Subject"> | number | null
-  isMandatory?: Prisma.BoolFilter<"Subject"> | boolean
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
-  grade_components?: Prisma.StringNullableFilter<"Subject"> | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
   teacherSubjects?: Prisma.TeacherSubjectListRelationFilter
-  subjectGrades?: Prisma.SubjectGradeWeightListRelationFilter
 }
 
 export type SubjectOrderByWithRelationInput = {
@@ -302,15 +285,12 @@ export type SubjectOrderByWithRelationInput = {
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrderInput | Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  grade_components?: Prisma.SortOrderInput | Prisma.SortOrder
   curriculumnSubject?: Prisma.CurriculumSubjectOrderByRelationAggregateInput
   courseOffers?: Prisma.CourseOfferOrderByRelationAggregateInput
   teacherSubjects?: Prisma.TeacherSubjectOrderByRelationAggregateInput
-  subjectGrades?: Prisma.SubjectGradeWeightOrderByRelationAggregateInput
 }
 
 export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -324,15 +304,12 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   theoryHours?: Prisma.IntFilter<"Subject"> | number
   practiceHours?: Prisma.IntFilter<"Subject"> | number
   testHours?: Prisma.IntNullableFilter<"Subject"> | number | null
-  isMandatory?: Prisma.BoolFilter<"Subject"> | boolean
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
-  grade_components?: Prisma.StringNullableFilter<"Subject"> | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
   teacherSubjects?: Prisma.TeacherSubjectListRelationFilter
-  subjectGrades?: Prisma.SubjectGradeWeightListRelationFilter
 }, "id" | "subjectCode">
 
 export type SubjectOrderByWithAggregationInput = {
@@ -343,11 +320,9 @@ export type SubjectOrderByWithAggregationInput = {
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrderInput | Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  grade_components?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SubjectCountOrderByAggregateInput
   _avg?: Prisma.SubjectAvgOrderByAggregateInput
   _max?: Prisma.SubjectMaxOrderByAggregateInput
@@ -366,11 +341,9 @@ export type SubjectScalarWhereWithAggregatesInput = {
   theoryHours?: Prisma.IntWithAggregatesFilter<"Subject"> | number
   practiceHours?: Prisma.IntWithAggregatesFilter<"Subject"> | number
   testHours?: Prisma.IntNullableWithAggregatesFilter<"Subject"> | number | null
-  isMandatory?: Prisma.BoolWithAggregatesFilter<"Subject"> | boolean
   description?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
-  grade_components?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
 }
 
 export type SubjectCreateInput = {
@@ -380,15 +353,12 @@ export type SubjectCreateInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateInput = {
@@ -399,15 +369,12 @@ export type SubjectUncheckedCreateInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUpdateInput = {
@@ -417,15 +384,12 @@ export type SubjectUpdateInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateInput = {
@@ -436,15 +400,12 @@ export type SubjectUncheckedUpdateInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateManyInput = {
@@ -455,11 +416,9 @@ export type SubjectCreateManyInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
 }
 
 export type SubjectUpdateManyMutationInput = {
@@ -469,11 +428,9 @@ export type SubjectUpdateManyMutationInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SubjectUncheckedUpdateManyInput = {
@@ -484,11 +441,9 @@ export type SubjectUncheckedUpdateManyInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type SubjectCountOrderByAggregateInput = {
@@ -499,11 +454,9 @@ export type SubjectCountOrderByAggregateInput = {
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  grade_components?: Prisma.SortOrder
 }
 
 export type SubjectAvgOrderByAggregateInput = {
@@ -522,11 +475,9 @@ export type SubjectMaxOrderByAggregateInput = {
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  grade_components?: Prisma.SortOrder
 }
 
 export type SubjectMinOrderByAggregateInput = {
@@ -537,11 +488,9 @@ export type SubjectMinOrderByAggregateInput = {
   theoryHours?: Prisma.SortOrder
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  grade_components?: Prisma.SortOrder
 }
 
 export type SubjectSumOrderByAggregateInput = {
@@ -555,10 +504,6 @@ export type SubjectSumOrderByAggregateInput = {
 export type SubjectScalarRelationFilter = {
   is?: Prisma.SubjectWhereInput
   isNot?: Prisma.SubjectWhereInput
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type SubjectCreateNestedOneWithoutCurriculumnSubjectInput = {
@@ -603,20 +548,6 @@ export type SubjectUpdateOneRequiredWithoutTeacherSubjectsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectUpdateToOneWithWhereWithoutTeacherSubjectsInput, Prisma.SubjectUpdateWithoutTeacherSubjectsInput>, Prisma.SubjectUncheckedUpdateWithoutTeacherSubjectsInput>
 }
 
-export type SubjectCreateNestedOneWithoutSubjectGradesInput = {
-  create?: Prisma.XOR<Prisma.SubjectCreateWithoutSubjectGradesInput, Prisma.SubjectUncheckedCreateWithoutSubjectGradesInput>
-  connectOrCreate?: Prisma.SubjectCreateOrConnectWithoutSubjectGradesInput
-  connect?: Prisma.SubjectWhereUniqueInput
-}
-
-export type SubjectUpdateOneRequiredWithoutSubjectGradesNestedInput = {
-  create?: Prisma.XOR<Prisma.SubjectCreateWithoutSubjectGradesInput, Prisma.SubjectUncheckedCreateWithoutSubjectGradesInput>
-  connectOrCreate?: Prisma.SubjectCreateOrConnectWithoutSubjectGradesInput
-  upsert?: Prisma.SubjectUpsertWithoutSubjectGradesInput
-  connect?: Prisma.SubjectWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectUpdateToOneWithWhereWithoutSubjectGradesInput, Prisma.SubjectUpdateWithoutSubjectGradesInput>, Prisma.SubjectUncheckedUpdateWithoutSubjectGradesInput>
-}
-
 export type SubjectCreateWithoutCurriculumnSubjectInput = {
   subjectCode: string
   subjectName: string
@@ -624,14 +555,11 @@ export type SubjectCreateWithoutCurriculumnSubjectInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutCurriculumnSubjectInput = {
@@ -642,14 +570,11 @@ export type SubjectUncheckedCreateWithoutCurriculumnSubjectInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutCurriculumnSubjectInput = {
@@ -675,14 +600,11 @@ export type SubjectUpdateWithoutCurriculumnSubjectInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutCurriculumnSubjectInput = {
@@ -693,14 +615,11 @@ export type SubjectUncheckedUpdateWithoutCurriculumnSubjectInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateWithoutCourseOffersInput = {
@@ -710,14 +629,11 @@ export type SubjectCreateWithoutCourseOffersInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutCourseOffersInput = {
@@ -728,14 +644,11 @@ export type SubjectUncheckedCreateWithoutCourseOffersInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutSubjectInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutCourseOffersInput = {
@@ -761,14 +674,11 @@ export type SubjectUpdateWithoutCourseOffersInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutCourseOffersInput = {
@@ -779,14 +689,11 @@ export type SubjectUncheckedUpdateWithoutCourseOffersInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutSubjectNestedInput
   teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectCreateWithoutTeacherSubjectsInput = {
@@ -796,14 +703,11 @@ export type SubjectCreateWithoutTeacherSubjectsInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectUncheckedCreateWithoutTeacherSubjectsInput = {
@@ -814,14 +718,11 @@ export type SubjectUncheckedCreateWithoutTeacherSubjectsInput = {
   theoryHours?: number
   practiceHours?: number
   testHours?: number | null
-  isMandatory?: boolean
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade_components?: string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutSubjectInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSubjectInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedCreateNestedManyWithoutSubjectInput
 }
 
 export type SubjectCreateOrConnectWithoutTeacherSubjectsInput = {
@@ -847,14 +748,11 @@ export type SubjectUpdateWithoutTeacherSubjectsInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUpdateManyWithoutSubjectNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutTeacherSubjectsInput = {
@@ -865,100 +763,11 @@ export type SubjectUncheckedUpdateWithoutTeacherSubjectsInput = {
   theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumnSubject?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutSubjectNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSubjectNestedInput
-  subjectGrades?: Prisma.SubjectGradeWeightUncheckedUpdateManyWithoutSubjectNestedInput
-}
-
-export type SubjectCreateWithoutSubjectGradesInput = {
-  subjectCode: string
-  subjectName: string
-  credits?: number
-  theoryHours?: number
-  practiceHours?: number
-  testHours?: number | null
-  isMandatory?: boolean
-  description?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  grade_components?: string | null
-  curriculumnSubject?: Prisma.CurriculumSubjectCreateNestedManyWithoutSubjectInput
-  courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSubjectInput
-  teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutSubjectInput
-}
-
-export type SubjectUncheckedCreateWithoutSubjectGradesInput = {
-  id?: number
-  subjectCode: string
-  subjectName: string
-  credits?: number
-  theoryHours?: number
-  practiceHours?: number
-  testHours?: number | null
-  isMandatory?: boolean
-  description?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  grade_components?: string | null
-  curriculumnSubject?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutSubjectInput
-  courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSubjectInput
-  teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutSubjectInput
-}
-
-export type SubjectCreateOrConnectWithoutSubjectGradesInput = {
-  where: Prisma.SubjectWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubjectCreateWithoutSubjectGradesInput, Prisma.SubjectUncheckedCreateWithoutSubjectGradesInput>
-}
-
-export type SubjectUpsertWithoutSubjectGradesInput = {
-  update: Prisma.XOR<Prisma.SubjectUpdateWithoutSubjectGradesInput, Prisma.SubjectUncheckedUpdateWithoutSubjectGradesInput>
-  create: Prisma.XOR<Prisma.SubjectCreateWithoutSubjectGradesInput, Prisma.SubjectUncheckedCreateWithoutSubjectGradesInput>
-  where?: Prisma.SubjectWhereInput
-}
-
-export type SubjectUpdateToOneWithWhereWithoutSubjectGradesInput = {
-  where?: Prisma.SubjectWhereInput
-  data: Prisma.XOR<Prisma.SubjectUpdateWithoutSubjectGradesInput, Prisma.SubjectUncheckedUpdateWithoutSubjectGradesInput>
-}
-
-export type SubjectUpdateWithoutSubjectGradesInput = {
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
-  theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
-  practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
-  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  curriculumnSubject?: Prisma.CurriculumSubjectUpdateManyWithoutSubjectNestedInput
-  courseOffers?: Prisma.CourseOfferUpdateManyWithoutSubjectNestedInput
-  teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutSubjectNestedInput
-}
-
-export type SubjectUncheckedUpdateWithoutSubjectGradesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
-  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
-  credits?: Prisma.IntFieldUpdateOperationsInput | number
-  theoryHours?: Prisma.IntFieldUpdateOperationsInput | number
-  practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
-  testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade_components?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  curriculumnSubject?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutSubjectNestedInput
-  courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSubjectNestedInput
-  teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutSubjectNestedInput
 }
 
 
@@ -970,14 +779,12 @@ export type SubjectCountOutputType = {
   curriculumnSubject: number
   courseOffers: number
   teacherSubjects: number
-  subjectGrades: number
 }
 
 export type SubjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculumnSubject?: boolean | SubjectCountOutputTypeCountCurriculumnSubjectArgs
   courseOffers?: boolean | SubjectCountOutputTypeCountCourseOffersArgs
   teacherSubjects?: boolean | SubjectCountOutputTypeCountTeacherSubjectsArgs
-  subjectGrades?: boolean | SubjectCountOutputTypeCountSubjectGradesArgs
 }
 
 /**
@@ -1011,13 +818,6 @@ export type SubjectCountOutputTypeCountTeacherSubjectsArgs<ExtArgs extends runti
   where?: Prisma.TeacherSubjectWhereInput
 }
 
-/**
- * SubjectCountOutputType without action
- */
-export type SubjectCountOutputTypeCountSubjectGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubjectGradeWeightWhereInput
-}
-
 
 export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1027,15 +827,12 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   theoryHours?: boolean
   practiceHours?: boolean
   testHours?: boolean
-  isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  grade_components?: boolean
   curriculumnSubject?: boolean | Prisma.Subject$curriculumnSubjectArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Subject$courseOffersArgs<ExtArgs>
   teacherSubjects?: boolean | Prisma.Subject$teacherSubjectsArgs<ExtArgs>
-  subjectGrades?: boolean | Prisma.Subject$subjectGradesArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
@@ -1047,11 +844,9 @@ export type SubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   theoryHours?: boolean
   practiceHours?: boolean
   testHours?: boolean
-  isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  grade_components?: boolean
 }, ExtArgs["result"]["subject"]>
 
 export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1062,11 +857,9 @@ export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   theoryHours?: boolean
   practiceHours?: boolean
   testHours?: boolean
-  isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  grade_components?: boolean
 }, ExtArgs["result"]["subject"]>
 
 export type SubjectSelectScalar = {
@@ -1077,19 +870,16 @@ export type SubjectSelectScalar = {
   theoryHours?: boolean
   practiceHours?: boolean
   testHours?: boolean
-  isMandatory?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  grade_components?: boolean
 }
 
-export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "credits" | "theoryHours" | "practiceHours" | "testHours" | "isMandatory" | "description" | "createdAt" | "updatedAt" | "grade_components", ExtArgs["result"]["subject"]>
+export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "credits" | "theoryHours" | "practiceHours" | "testHours" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculumnSubject?: boolean | Prisma.Subject$curriculumnSubjectArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Subject$courseOffersArgs<ExtArgs>
   teacherSubjects?: boolean | Prisma.Subject$teacherSubjectsArgs<ExtArgs>
-  subjectGrades?: boolean | Prisma.Subject$subjectGradesArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1101,7 +891,6 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     curriculumnSubject: Prisma.$CurriculumSubjectPayload<ExtArgs>[]
     courseOffers: Prisma.$CourseOfferPayload<ExtArgs>[]
     teacherSubjects: Prisma.$TeacherSubjectPayload<ExtArgs>[]
-    subjectGrades: Prisma.$SubjectGradeWeightPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1111,11 +900,9 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     theoryHours: number
     practiceHours: number
     testHours: number | null
-    isMandatory: boolean
     description: string | null
     createdAt: Date
     updatedAt: Date
-    grade_components: string | null
   }, ExtArgs["result"]["subject"]>
   composites: {}
 }
@@ -1513,7 +1300,6 @@ export interface Prisma__SubjectClient<T, Null = never, ExtArgs extends runtime.
   curriculumnSubject<T extends Prisma.Subject$curriculumnSubjectArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$curriculumnSubjectArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CurriculumSubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courseOffers<T extends Prisma.Subject$courseOffersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$courseOffersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CourseOfferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   teacherSubjects<T extends Prisma.Subject$teacherSubjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$teacherSubjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherSubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  subjectGrades<T extends Prisma.Subject$subjectGradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$subjectGradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectGradeWeightPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1550,11 +1336,9 @@ export interface SubjectFieldRefs {
   readonly theoryHours: Prisma.FieldRef<"Subject", 'Int'>
   readonly practiceHours: Prisma.FieldRef<"Subject", 'Int'>
   readonly testHours: Prisma.FieldRef<"Subject", 'Int'>
-  readonly isMandatory: Prisma.FieldRef<"Subject", 'Boolean'>
   readonly description: Prisma.FieldRef<"Subject", 'String'>
   readonly createdAt: Prisma.FieldRef<"Subject", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Subject", 'DateTime'>
-  readonly grade_components: Prisma.FieldRef<"Subject", 'String'>
 }
     
 
@@ -2017,30 +1801,6 @@ export type Subject$teacherSubjectsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.TeacherSubjectScalarFieldEnum | Prisma.TeacherSubjectScalarFieldEnum[]
-}
-
-/**
- * Subject.subjectGrades
- */
-export type Subject$subjectGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SubjectGradeWeight
-   */
-  select?: Prisma.SubjectGradeWeightSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SubjectGradeWeight
-   */
-  omit?: Prisma.SubjectGradeWeightOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubjectGradeWeightInclude<ExtArgs> | null
-  where?: Prisma.SubjectGradeWeightWhereInput
-  orderBy?: Prisma.SubjectGradeWeightOrderByWithRelationInput | Prisma.SubjectGradeWeightOrderByWithRelationInput[]
-  cursor?: Prisma.SubjectGradeWeightWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubjectGradeWeightScalarFieldEnum | Prisma.SubjectGradeWeightScalarFieldEnum[]
 }
 
 /**

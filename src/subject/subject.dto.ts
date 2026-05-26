@@ -6,13 +6,8 @@ import {
   IsInt,
   MaxLength,
   Min,
-  IsBoolean,
-  IsArray,
-  ValidateNested,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
-import { SubjectGradeDto } from "../grade/gradeSubject.dto";
-import { Type } from "class-transformer";
 
 export class CreateSubjectDto {
   @ApiProperty({ example: "BAS1201", description: "Mã môn học duy nhất" })
@@ -42,25 +37,10 @@ export class CreateSubjectDto {
   @Min(0)
   practiceHours: number;
 
-  @ApiPropertyOptional({ example: true, default: true })
-  @IsBoolean()
-  @IsOptional()
-  isMandatory?: boolean;
-
   @ApiPropertyOptional({ example: "Học về Java hoặc C++" })
   @IsString()
   @IsOptional()
   description?: string;
-
-  @ApiProperty({
-    description: "Mảng các ID điểm thành phần",
-    type: [SubjectGradeDto],
-  })
-  @IsArray({ message: "gradeComponentIds phải là một mảng" })
-  @IsNotEmpty({ message: "Vui lòng chọn các điểm thành phần cho môn học" })
-  @ValidateNested({ each: true })
-  @Type(() => SubjectGradeDto)
-  gradeComponents: SubjectGradeDto[];
 }
 
 export class UpdateSubjectDto extends PartialType(CreateSubjectDto) {}

@@ -8,7 +8,6 @@ import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
   SearchCourseOfferDto,
-  updateClassSubjectDto,
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { plainToInstance } from "class-transformer";
@@ -91,22 +90,6 @@ export class CourseOfferService {
     });
 
     return plainToInstance(CourseOfferDto, result);
-  }
-
-  /**
-   * update classSubject
-   */
-  async updateClassSubject(id: number, updateData: updateClassSubjectDto) {
-    const { teacherId, maxStudents } = updateData;
-    const courseOffer = await this.prisma.courseOffer.update({
-      where: { id },
-      data: {
-        teacherId,
-        maxStudents,
-      },
-    });
-
-    return plainToInstance(CourseOfferDto, courseOffer);
   }
 
   /**
@@ -439,7 +422,15 @@ export class CourseOfferService {
    */
   async getCourseOfferDetail(
     courseOfferId: number,
-  ): Promise<CourseOfferDetailResponseDto> {
+  ): Promise<CourseOfferDetailResponseDto | null> {
+    const grades = await this.prisma.courseRegistration.findMany({
+      where: {
+        courseOfferId,
+      },
+    });
+
+    if (!grades) return null;
+
     // 1. Query dữ liệu từ Database thông qua Prisma
     const courseOffer = await this.prisma.courseOffer.findUnique({
       where: { id: courseOfferId },
@@ -452,13 +443,6 @@ export class CourseOfferService {
                 fullName: true,
                 studentCode: true,
                 dob: true,
-              },
-            },
-            gradeEntries: {
-              select: {
-                componentId: true,
-                score: true,
-                status: true,
               },
             },
             kttx1: true,
@@ -477,20 +461,12 @@ export class CourseOfferService {
         },
         teacher: {
           select: {
-            id: true, // Nên lấy thêm ID để khớp hoàn toàn với DTO
+            id: true,
             fullName: true,
             departmentId: true,
           },
         },
-        subject: {
-          include: {
-            subjectGrades: {
-              include: {
-                gradeComponent: true,
-              },
-            },
-          },
-        },
+        subject: true,
         baseClass: {
           select: {
             id: true,
@@ -505,10 +481,8 @@ export class CourseOfferService {
       throw new NotFoundException("Không tìm thấy lớp học phần");
     }
 
-    // 4. Chuyển đổi object thô sang Instance của DTO bằng class-transformer
     return plainToInstance(CourseOfferDetailResponseDto, courseOffer, {
       excludeExtraneousValues: false,
-      // Đặt false để giữ lại các trường mặc định từ Prisma mà không cần phải viết @Expose() cho từng field trong DTO.
     });
   }
 
@@ -750,7 +724,6 @@ export class CourseOfferService {
       select: { id: true },
     });
 
-    // 🌟 Thực thi hàm nhỏ 1: Tạo các lớp học phần (courseOffer)
     const validCourseOffers = await this.createClassSubject(
       classData,
       semester,
@@ -758,7 +731,6 @@ export class CourseOfferService {
       tx,
     );
 
-    // 🌟 Thực thi hàm nhỏ 2: Đăng ký học phần (Khởi tạo bảng điểm) cho sinh viên
     const totalRegistrations = await this.registerStudentsToCourses(
       studentsInClass,
       validCourseOffers,

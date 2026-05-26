@@ -22,7 +22,6 @@ import { CreditPriceModule } from "./creaditPrice/creditPrice.module.js";
 import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
-import { GradeComponentModule } from "./grade/grade.module.js";
 import { AcademyModule } from "./academy/academy.module.js";
 
 @Module({
@@ -53,7 +52,6 @@ import { AcademyModule } from "./academy/academy.module.js";
     CreditPriceModule,
     PostModule,
     CourseOfferModule,
-    GradeComponentModule,
     AcademyModule, // module tổng hợp
   ],
 })

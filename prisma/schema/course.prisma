@@ -107,8 +107,6 @@ model CourseRegistration {
 
   @@unique([studentId, courseOfferId])
   @@map("course_registrations")
-
-  gradeEntries    GradeEntry[]
 }
 
 // ==========================

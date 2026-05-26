@@ -195,21 +195,6 @@ export type FeeCatalog = Prisma.FeeCatalogModel
  */
 export type CreditPrice = Prisma.CreditPriceModel
 /**
- * Model GradeComponent
- * 
- */
-export type GradeComponent = Prisma.GradeComponentModel
-/**
- * Model SubjectGradeWeight
- * 
- */
-export type SubjectGradeWeight = Prisma.SubjectGradeWeightModel
-/**
- * Model GradeEntry
- * 
- */
-export type GradeEntry = Prisma.GradeEntryModel
-/**
  * Model Post
  * 
  */

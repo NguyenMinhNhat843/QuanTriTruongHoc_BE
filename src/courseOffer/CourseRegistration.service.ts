@@ -1,9 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service"; // Thay đổi đường dẫn tùy dự án của bạn
-import {
-  CreateCourseRegistrationDto,
-  SaveGradesDto,
-} from "./CourseRegistration.dto";
+import { SaveGradesDto } from "./CourseRegistration.dto";
 import { Prisma } from "../../prisma/generated/prisma/client";
 
 @Injectable()
@@ -11,21 +8,32 @@ export class CourseRegistrationService {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
-   * 1. Tạo 1 ClassSubject mới
+   * Tạo mới toàn bộ bảng điểm cho 1 classSubject
    */
-  async create(
-    dto: CreateCourseRegistrationDto,
+  async createGradeTable(
+    classId: number,
+    classSubjectId: number,
     tx?: Prisma.TransactionClient,
   ) {
     const client = tx || this.prisma;
 
-    return await client.$transaction(async (tx) => {
-      const registration = await tx.courseRegistration.create({
-        data: dto,
-      });
-
-      return registration;
+    // Lấy danh sách sinh viên trong class
+    const students = await client.student.findMany({
+      where: {
+        classId,
+      },
     });
+
+    // Tạo điểm cho từng sinh viên
+    const createGrades = await client.courseRegistration.createMany({
+      data: students.map((s) => ({
+        studentId: s.id,
+        courseOfferId: classSubjectId,
+      })),
+      skipDuplicates: true,
+    });
+
+    return createGrades;
   }
 
   /**

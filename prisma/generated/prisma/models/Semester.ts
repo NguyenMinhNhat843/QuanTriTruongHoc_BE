@@ -516,6 +516,10 @@ export type NullableEnumSemesterStatusFieldUpdateOperationsInput = {
   set?: $Enums.SemesterStatus | null
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type SemesterCreateNestedOneWithoutBenefitProgramsInput = {
   create?: Prisma.XOR<Prisma.SemesterCreateWithoutBenefitProgramsInput, Prisma.SemesterUncheckedCreateWithoutBenefitProgramsInput>
   connectOrCreate?: Prisma.SemesterCreateOrConnectWithoutBenefitProgramsInput
