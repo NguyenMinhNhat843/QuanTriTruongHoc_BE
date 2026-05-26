@@ -250,8 +250,13 @@ export class StudentService {
       this.prisma.student.findMany({
         where,
         include: {
-          user: true, // Quan trọng: include để StudentResponseDto có dữ liệu map
-          batch: true, // Include batch để map vào BatchResponseDto trong StudentResponseDto
+          user: true,
+          batch: true,
+          class: {
+            select: {
+              classCode: true,
+            },
+          },
         },
         skip,
         take: limit,
