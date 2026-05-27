@@ -10,7 +10,6 @@ import {
   Min,
   ValidateNested,
 } from "class-validator";
-import { CourseOfferRegisResponseDto } from "./courseOfferRegis.response";
 import { StaffResponseDto } from "../staff/staff.response";
 import { SemesterResponseDto } from "../semester/semester.response";
 import { SubjectResponseDto } from "../subject/subject.response";
@@ -18,6 +17,7 @@ import { ClassResponseDto } from "../class/class.response";
 import { Type } from "class-transformer";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { CourseOffer } from "../../prisma/generated/prisma/client";
+import { CourseOfferRegisResponseDto } from "./courseOfferRegis.response";
 
 export class CourseOfferDetailResponseDto implements CourseOffer {
   @ApiProperty({ example: 1, description: "ID duy nhất của lớp học phần" })
