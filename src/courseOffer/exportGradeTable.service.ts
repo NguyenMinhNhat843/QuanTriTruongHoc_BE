@@ -75,11 +75,7 @@ export class ExportGradeTableService {
     summarySheet: ExcelJS.Worksheet,
     allSubjectsData: any[],
   ) {
-    // 1. Thay thế placeholder {{semesterName}} trên sheet Tổng kết có sẵn
-    const firstSubject = allSubjectsData[0];
-    const semesterName =
-      firstSubject?.keyValueData?.["semesterName"] || "Học kỳ";
-
+    console.log(console.log(JSON.stringify(allSubjectsData[0], null, 2)));
     // Định nghĩa border chuẩn cho tất cả các ô dữ liệu
     const cellBorder: Partial<ExcelJS.Borders> = {
       top: { style: "thin", color: { argb: "FF000000" } },
@@ -102,6 +98,8 @@ export class ExportGradeTableService {
       horizontal: "center",
     };
 
+    // Ghi semesterName
+    const semesterName = allSubjectsData[0]?.keyValueData?.semesterName;
     summarySheet.eachRow((row) => {
       row.eachCell((cell) => {
         if (cell.value && typeof cell.value === "string") {
@@ -112,190 +110,131 @@ export class ExportGradeTableService {
       });
     });
 
-    // =========================================================================
-    // Xác định placeholder {{subjectName}} để chèn điểm tổng kết từng môn
-    // =========================================================================
-    let startSubjectColIdx = -1;
-    let headerRowIndex = -1;
+    // Lấy danh sách môn học để tạo cột điểm tổng kết từng môn
+    const subjectsName = allSubjectsData?.map((s) => {
+      return s.keyValueData?.subjectName;
+    });
 
-    for (let r = 1; r <= 10; r++) {
-      const row = summarySheet.getRow(r);
-      for (let c = 1; c <= row.cellCount; c++) {
-        const cellValue = row.getCell(c).value;
+    // Chèn cột điểm từng môn
+    // Tìm placeholder {{subjectName}}
+    let rowForSubjects = -1;
+    let columForSubjects = -1;
+    for (let i = 1; i < 10; ++i) {
+      const row = summarySheet.getRow(i);
+      for (let j = 1; j <= row.cellCount; ++j) {
+        const cellValue = row.getCell(j).value;
         if (
           cellValue &&
           typeof cellValue === "string" &&
           cellValue.includes("{{subjectName}}")
         ) {
-          startSubjectColIdx = c;
-          headerRowIndex = r;
+          rowForSubjects = i;
+          columForSubjects = j;
           break;
         }
       }
-      if (startSubjectColIdx !== -1) break;
     }
 
-    if (startSubjectColIdx === -1) {
-      startSubjectColIdx = 11; // Mặc định cột K
-      headerRowIndex = 3;
+    // Chèn cột subjects
+    if (columForSubjects === -1) {
+      columForSubjects = 11; // Mặc định cột K
+      rowForSubjects = 3;
     }
-
-    const headerRow = summarySheet.getRow(headerRowIndex);
-    const baseHeaderStyle = JSON.parse(
-      JSON.stringify(headerRow.getCell(startSubjectColIdx).style || {}),
+    const headerSubjectColumnStyles = JSON.parse(
+      JSON.stringify(
+        summarySheet.getRow(rowForSubjects).getCell(columForSubjects).style,
+      ),
     );
-
-    // Chèn thêm cột nếu có nhiều hơn 1 môn học
-    if (allSubjectsData.length > 1) {
-      const columnsToInsert = allSubjectsData.length - 1;
-      const emptyCols = Array(columnsToInsert).fill([]);
-      summarySheet.spliceColumns(startSubjectColIdx + 1, 0, ...emptyCols);
+    if (subjectsName.length > 1) {
+      summarySheet.spliceColumns(
+        columForSubjects + 1,
+        0,
+        ...Array(subjectsName.length - 1).fill([]),
+      );
     }
 
-    // Cập nhật độ rộng cột & điền tiêu đề môn học
-    allSubjectsData.forEach((subject, subIdx) => {
-      const currentColIdx = startSubjectColIdx + subIdx;
-      summarySheet.getColumn(currentColIdx).width = 15;
-
-      const cell = headerRow.getCell(currentColIdx);
-      cell.value =
-        subject.keyValueData?.["subjectName"] ||
-        subject.subjectName ||
-        `Môn ${subIdx + 1}`;
-      cell.style = baseHeaderStyle;
+    // Ghi tên môn học vào cột
+    subjectsName?.forEach((name, index) => {
+      const cell = summarySheet
+        .getRow(rowForSubjects)
+        .getCell(columForSubjects + index);
+      summarySheet.mergeCells(
+        rowForSubjects,
+        columForSubjects + index,
+        rowForSubjects + 1,
+        columForSubjects + index,
+      );
       cell.border = cellBorder as ExcelJS.Borders;
+      cell.value = name;
+      cell.style = headerSubjectColumnStyles;
     });
-    headerRow.commit();
 
-    // =========================================================================
-    // BƯỚC 3: GOM DỮ LIỆU ĐIỂM TỔNG KẾT (HỆ 10)
-    // =========================================================================
-    const studentMap = new Map<string, any>();
-
-    allSubjectsData.forEach((subject) => {
-      const classSubjectId = subject.classSubjectId;
-      const gradeTable = subject.gradeTable || [];
-
-      gradeTable.forEach((item: any) => {
-        if (!item.student || !item.student.studentCode) return;
-        const studentCode = item.student.studentCode;
-
+    // Xử lý dữ liệu điểm của từng sinh viên cho từng môn học
+    const mainData = allSubjectsData[0]?.gradeTable?.map((student, index) => {
+      const diemTongKetTungMon = allSubjectsData?.map((subject) => {
+        const grade = subject?.gradeTable?.filter(
+          (g) => g.student.studentCode === student.student.studentCode,
+        )[0];
         const rawDiem =
-          item.diemTongKet2 !== null &&
-          item.diemTongKet2 !== undefined &&
-          item.diemTongKet2 !== ""
-            ? item.diemTongKet2
-            : item.diemTongKet1;
-
-        if (!studentMap.has(studentCode)) {
-          studentMap.set(studentCode, {
-            studentCode: studentCode,
-            fullName: item.student.fullName,
-            dob: item.student.dob,
-            totalScores: 0,
-            subjectCount: 0,
-            subjectScores: {},
-          });
-        }
-
-        const studentData = studentMap.get(studentCode)!;
-        if (rawDiem !== null && rawDiem !== undefined && rawDiem !== "") {
-          const diemTongKet10 = Number(rawDiem);
-          studentData.totalScores += diemTongKet10;
-          studentData.subjectCount += 1;
-          studentData.subjectScores[classSubjectId] = diemTongKet10;
-        } else {
-          studentData.subjectScores[classSubjectId] = "";
-        }
+          grade?.diemTongKet2 !== null &&
+          grade?.diemTongKet2 !== undefined &&
+          grade?.diemTongKet2 !== ""
+            ? grade.diemTongKet2
+            : grade?.diemTongKet1;
+        return rawDiem !== null && rawDiem !== undefined && rawDiem !== ""
+          ? Number(rawDiem)
+          : "";
       });
+      // 1. Lọc ra danh sách các điểm hợp lệ (kiểu number)
+      const cacDiemHopLe = diemTongKetTungMon.filter(
+        (val): val is number => typeof val === "number",
+      );
+
+      // 2. Tính điểm trung bình nếu có điểm, nếu không thì trả về chuỗi rỗng
+      const diemTBHe10 =
+        cacDiemHopLe.length > 0
+          ? cacDiemHopLe.reduce((acc, val) => acc + val, 0) /
+            cacDiemHopLe.length
+          : "";
+
+      const diemTBHe4 = this.convertHe10ToHe4(Number(diemTBHe10));
+      const diemChu = this.convertHe4ToDiemChu(Number(diemTBHe4));
+
+      return {
+        stt: index + 1,
+        msv: student?.student?.studentCode,
+        hoVaTen: student?.student?.fullName,
+        ngaySinh: student?.student?.dob,
+        diemTBHe10: diemTBHe10,
+        diemTBHe4: diemTBHe4,
+        diemChu: diemChu,
+        xepLoaiHL: "",
+        xepLoaiRLChu: "",
+        xepLoaiRLDiem: "",
+        diemTongKetTungMon: diemTongKetTungMon,
+      };
     });
 
-    // =========================================================================
-    // Đổ dữ liệu điểm tổng kết từng học sinh
-    // =========================================================================
-    const startSummaryRowIndex = 5;
-    let index = 0;
-    const sampleDataRow = summarySheet.getRow(5);
-    const baseRowHeight = sampleDataRow.height || 20;
-
-    studentMap.forEach((student) => {
-      const currentRowNum = startSummaryRowIndex + index;
+    // Đổ dữ liệu
+    const startDataRowIndex = 5;
+    mainData.forEach((student, index) => {
+      const currentRowNum = startDataRowIndex + index;
       const row = summarySheet.getRow(currentRowNum);
-
-      row.height = baseRowHeight;
-
-      // 4.1 Điền thông tin chung (A -> G) + Thiết lập giao diện chuẩn văn bản
-      const colsMapping = [
-        { col: "A", val: index + 1, align: centerAlignment },
-        { col: "B", val: student.studentCode, align: centerAlignment },
-        {
-          col: "C",
-          val: student.fullName,
-          align: { vertical: "middle", horizontal: "left" },
-        },
-      ];
-
-      colsMapping.forEach((item) => {
-        const cell = row.getCell(item.col);
-        cell.value = item.val;
-        cell.border = cellBorder as ExcelJS.Borders;
-        cell.alignment = item.align as ExcelJS.Alignment;
-        cell.font = regularFont as ExcelJS.Font; // Ép font không in đậm ở đây
+      row.getCell(1).value = student.stt;
+      row.getCell(2).value = student.msv;
+      row.getCell(3).value = student.hoVaTen;
+      row.getCell(4).value = student.ngaySinh ? new Date(student.ngaySinh) : "";
+      row.getCell(4).numFmt = "dd/mm/yyyy";
+      row.getCell(5).value = student.diemTBHe10;
+      row.getCell(6).value = student.diemTBHe4;
+      row.getCell(7).value = student.diemChu;
+      row.getCell(8).value = student.xepLoaiHL;
+      row.getCell(9).value = student.xepLoaiRLChu;
+      row.getCell(10).value = student.xepLoaiRLDiem;
+      student.diemTongKetTungMon.forEach((grade, subIndex) => {
+        row.getCell(columForSubjects + subIndex).value = grade;
       });
-
-      // Xử lý Ngày sinh (Cột D)
-      const cellD = row.getCell("D");
-      if (student.dob) {
-        cellD.value = new Date(student.dob);
-        cellD.numFmt = "dd/mm/yyyy";
-      } else {
-        cellD.value = "";
-      }
-      cellD.border = cellBorder as ExcelJS.Borders;
-      cellD.alignment = centerAlignment as ExcelJS.Alignment;
-      cellD.font = regularFont as ExcelJS.Font;
-
-      // Tính điểm trung bình học kỳ
-      let avgHe10: any = "",
-        avgHe4: any = "",
-        diemChu = "";
-      if (student.subjectCount >= allSubjectsData.length) {
-        avgHe10 = Number(
-          (student.totalScores / student.subjectCount).toFixed(2),
-        );
-        avgHe4 = this.convertHe10ToHe4(avgHe10);
-        diemChu = this.convertHe4ToDiemChu(avgHe4);
-      }
-
-      const scoreCols = [
-        { col: "E", val: avgHe10 },
-        { col: "F", val: avgHe4 },
-        { col: "G", val: diemChu },
-      ];
-
-      scoreCols.forEach((item) => {
-        const cell = row.getCell(item.col);
-        cell.value = item.val;
-        cell.border = cellBorder as ExcelJS.Borders;
-        cell.alignment = centerAlignment as ExcelJS.Alignment;
-        cell.font = regularFont as ExcelJS.Font;
-      });
-
-      // 4.2 Duyệt điền điểm các môn học (Chèn border, căn giữa và xoá in đậm)
-      allSubjectsData.forEach((subject, subIdx) => {
-        const currentColIdx = startSubjectColIdx + subIdx;
-        const cell = row.getCell(currentColIdx);
-        const score = student.subjectScores[subject.classSubjectId];
-
-        cell.value = score !== undefined && score !== "" ? Number(score) : "";
-
-        cell.border = cellBorder as ExcelJS.Borders;
-        cell.alignment = centerAlignment as ExcelJS.Alignment;
-        cell.font = regularFont as ExcelJS.Font; // Đảm bảo các cột điểm động không bị đậm
-      });
-
       row.commit();
-      index++;
     });
   }
 
