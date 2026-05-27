@@ -44,8 +44,11 @@ export class ClassController {
     return this.classService.create(createClassDto);
   }
 
+  /**
+   * Search Lớp học
+   */
   @Get()
-  @ApiOperation({ summary: "Lấy danh sách tất cả lớp học" })
+  @ApiOperation({})
   @ApiOkResponse({ type: ClassResponseDto, isArray: true })
   findAll(@Query() query: SearchClassDto) {
     return this.classService.findAll(query);

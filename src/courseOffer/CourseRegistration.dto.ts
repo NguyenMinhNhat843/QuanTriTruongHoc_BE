@@ -1,4 +1,3 @@
-// create-course-registration.dto.ts
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import {
   IsArray,

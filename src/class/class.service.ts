@@ -87,30 +87,51 @@ export class ClassService {
    * Lấy danh sách tất cả lớp học
    */
   async findAll(query: SearchClassDto): Promise<ClassResponseDto[]> {
-    const { classCode, majorId } = query;
+    const { classCode, majorId, formTeacherId, batchId, search } = query;
     const where: Prisma.ClassWhereInput = {};
 
+    // Tìm kiếm theo Ngành học
     if (majorId) {
       where.majorId = majorId;
     }
 
+    // Tìm kiếm theo Khóa học (Batc
+    if (batchId) {
+      where.batchId = batchId;
+    }
+
+    // Tìm kiếm theo Giáo viên chủ nhi
+    if (formTeacherId) {
+      where.formTeacherId = formTeacherId;
+    }
+
+    // Tìm kiếm chính xác hoặc gần đúng theo Mã lớp (nếu truyền riên
     if (classCode) {
+      where.classCode = {
+        contains: classCode,
+        mode: "insensitive",
+      };
+    }
+
+    // Ô tìm kiếm tổng hợp (Search): Quét cả mã lớp lẫn tên l
+    if (search) {
       where.OR = [
         {
           classCode: {
-            contains: classCode,
+            contains: search,
             mode: "insensitive",
           },
         },
         {
           className: {
-            contains: classCode,
+            contains: search,
             mode: "insensitive",
           },
         },
       ];
     }
 
+    // Thực hiện truy vấn dữ liệu từ
     const classes = await this.prisma.class.findMany({
       where,
       include: {

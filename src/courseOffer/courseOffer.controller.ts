@@ -63,7 +63,7 @@ export class CourseOfferController {
   }
 
   /**
-   * API Xem trước danh sách lớp học phần sẽ sinh tự động
+   * Xem trước danh sách ClassSubject sẽ sinh trong 1 học kỳ theo chương trình khung của 1 Class
    */
   @Get("previewpreviewGenerateSectionForClass")
   @ApiOperation({
@@ -72,7 +72,7 @@ export class CourseOfferController {
   @ApiResponse({
     status: 200,
     description: "Lấy dữ liệu cấu trúc xem trước thành công.",
-    type: [ResponsePreviewGenerateSectionForClass], // Swagger sẽ lấy schema từ DTO này để hiển thị mẫu dữ liệu trả về
+    type: [ResponsePreviewGenerateSectionForClass],
   })
   async previewGenerateSectionForClass(
     @Query("classId", ParseIntPipe) classId: number,
@@ -84,11 +84,12 @@ export class CourseOfferController {
     );
   }
 
+  /**
+   * Tạo danh sách classSubject cho 1 class trong 1 semester
+   */
   @Post("gen-classSubject-grades")
   @ApiOperation({
     summary: "Tự động tạo lớp học phần cho một lớp hành chính",
-    description:
-      "Dựa trên danh sách môn học của lớp hành chính và học kỳ, hệ thống sẽ tự động tạo các lớp học phần tương ứng.",
   })
   async generateSectionsForClass(
     @Query("classId", ParseIntPipe) classId: number,
@@ -100,6 +101,9 @@ export class CourseOfferController {
     );
   }
 
+  /**
+   * Lấy chi tiết classSubject
+   */
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết lớp học phần" })
   @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })

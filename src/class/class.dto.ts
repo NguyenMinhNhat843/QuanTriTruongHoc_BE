@@ -10,7 +10,7 @@ import {
   IsNumber,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
-import { Transform, Type } from "class-transformer";
+import { Type } from "class-transformer";
 import { Class } from "../../prisma/generated/prisma/client";
 
 export class SearchClassDto {
@@ -21,9 +21,26 @@ export class SearchClassDto {
 
   @ApiPropertyOptional({ description: "ID ngành học" })
   @IsOptional()
-  @IsString()
-  @Transform(({ value }) => (value ? Number(value) : undefined))
+  @IsNumber()
+  @Type(() => Number)
   majorId?: number;
+
+  @ApiPropertyOptional({ description: "ID khóa đào tạo (batchId)" })
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  batchId?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
+  formTeacherId?: number;
 }
 
 export class CreateClassDto implements Omit<
