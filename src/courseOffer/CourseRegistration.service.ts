@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service"; // Thay đổi đường dẫn tùy dự án của bạn
+import { PrismaService } from "../prisma/prisma.service";
 import { SaveGradesDto } from "./CourseRegistration.dto";
 import { Prisma } from "../../prisma/generated/prisma/client";
 
