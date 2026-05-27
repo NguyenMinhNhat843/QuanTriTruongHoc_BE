@@ -16,6 +16,7 @@ model Department {
 
   // Quan hệ
   majors              Major[]
+  subjects            Subject[]
 
   @@map("departments")
 }
@@ -120,6 +121,8 @@ model Subject {
   id            Int        @id @default(autoincrement())
   subjectCode   String     @unique
   subjectName   String
+  departmentId  Int?
+  department    Department?   @relation(fields: [departmentId], references: [id])
   
   credits       Int        @default(0)
   

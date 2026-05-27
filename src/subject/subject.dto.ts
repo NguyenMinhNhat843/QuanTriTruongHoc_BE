@@ -8,8 +8,12 @@ import {
   Min,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
+import { Subject } from "../../prisma/generated/prisma/client";
 
-export class CreateSubjectDto {
+export class CreateSubjectDto implements Omit<
+  Subject,
+  "id" | "createdAt" | "updatedAt"
+> {
   @ApiProperty({ example: "BAS1201", description: "Mã môn học duy nhất" })
   @IsString()
   @IsNotEmpty({ message: "Mã môn học không được để trống" })
@@ -37,10 +41,20 @@ export class CreateSubjectDto {
   @Min(0)
   practiceHours: number;
 
-  @ApiPropertyOptional({ example: "Học về Java hoặc C++" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
-  description?: string;
+  description: string | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @IsInt()
+  @IsOptional()
+  testHours: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @IsOptional()
+  @IsInt()
+  departmentId: number | null;
 }
 
 export class UpdateSubjectDto extends PartialType(CreateSubjectDto) {}

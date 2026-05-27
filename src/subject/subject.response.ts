@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Subject } from "../../prisma/generated/prisma/client";
+import { IsOptional } from "class-validator";
 
 export class SubjectResponseDto implements Subject {
   @ApiProperty({ example: 1 })
@@ -48,4 +49,8 @@ export class SubjectResponseDto implements Subject {
     description: "Số lượng chương trình đào tạo có môn này",
   })
   curriculumCount?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  departmentId: number | null;
 }

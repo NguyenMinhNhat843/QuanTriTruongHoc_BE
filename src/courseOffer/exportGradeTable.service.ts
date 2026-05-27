@@ -79,6 +79,13 @@ export class ExportGradeTableService {
     const firstSubject = allSubjectsData[0];
     const semesterName =
       firstSubject?.keyValueData?.["semesterName"] || "Học kỳ";
+    const cellBorder: Partial<ExcelJS.Borders> = {
+      top: { style: "thin", color: { argb: "#000000" } },
+      left: { style: "thin", color: { argb: "#000000" } },
+      bottom: { style: "thin", color: { argb: "#000000" } },
+      right: { style: "thin", color: { argb: "#000000" } },
+      diagonal: { up: false, down: false, color: { argb: "" } },
+    };
 
     summarySheet.eachRow((row) => {
       row.eachCell((cell) => {
@@ -91,7 +98,7 @@ export class ExportGradeTableService {
     });
 
     // =========================================================================
-    // BƯỚC 1: XÁC ĐỊNH VỊ TRÍ PLACEHOLDER {{subjectName}} ĐỂ CHÈN CỘT ĐỘNG
+    // Xác định placeholder {{subjectName}} để chèn điểm tổng kết từng môn cho mỗi học sinh
     // =========================================================================
     let startSubjectColIdx = -1;
     let headerRowIndex = -1;
@@ -114,14 +121,13 @@ export class ExportGradeTableService {
       if (startSubjectColIdx !== -1) break;
     }
 
-    // Nếu không tìm thấy placeholder, mặc định chọn cột K (cột 11) dòng 5 theo mô tả của bạn
+    // Nếu không tìm thấy placeholder, mặc định chọn cột K (cột 11) dòng 5
     if (startSubjectColIdx === -1) {
       startSubjectColIdx = 11; // Cột K
-      headerRowIndex = 5;
+      headerRowIndex = 3;
     }
 
     const headerRow = summarySheet.getRow(headerRowIndex);
-    const sampleDataRow = summarySheet.getRow(7); // Dòng mẫu số 7 dùng để lấy style viền/font cho dữ liệu điểm
 
     // Lấy style gốc của ô chứa placeholder để áp dụng cho các tiêu đề môn học mới
     const baseHeaderStyle = JSON.parse(
@@ -129,9 +135,11 @@ export class ExportGradeTableService {
     );
 
     // =========================================================================
-    // BƯỚC 2: TẠO THÊM CÁC CỘT TƯƠNG ỨNG VỚI SỐ LƯỢNG MÔN HỌC (CHÈN ĐỘNG)
+    // Sau khi xác định được cột bắt đầu để chèn
+    // Thêm các cột tương ứng các môn học phía sau
     // =========================================================================
     // Vì môn đầu tiên sẽ thay thế chính ô {{subjectName}}, chúng ta cần chèn thêm (N - 1) cột vào kế tiếp
+    // Nghĩa là: CÓ 5 môn, có sẵn 1 cột {{subjectName}} rồi, thì chỉ cần chèn thêm 4 cột nữa để đủ cho 5 môn
     if (allSubjectsData.length > 1) {
       const columnsToInsert = allSubjectsData.length - 1;
       // Khởi tạo mảng rỗng để splice chèn cột trống, đẩy cột "Ghi chú" ra sau
@@ -155,6 +163,7 @@ export class ExportGradeTableService {
         subject.subjectName ||
         `Môn ${subIdx + 1}`;
       cell.style = baseHeaderStyle;
+      cell.border = cellBorder as ExcelJS.Borders;
     });
     headerRow.commit();
 
@@ -219,10 +228,11 @@ export class ExportGradeTableService {
     });
 
     // =========================================================================
-    // BƯỚC 4: ĐỔ DỮ LIỆU ĐIỂM CHI TIẾT VÀ TỔNG HỢP VÀO SHEET
+    // Đổ dữ liệu điểm tổng kết tất cả môn của từng học sinh
     // =========================================================================
-    const startSummaryRowIndex = 7;
+    const startSummaryRowIndex = 5;
     let index = 0;
+    const sampleDataRow = summarySheet.getRow(5);
 
     studentMap.forEach((student) => {
       const currentRowNum = startSummaryRowIndex + index;
@@ -269,22 +279,23 @@ export class ExportGradeTableService {
 
         // Điền điểm tổng kết hệ 10 (Nếu có điểm thì ép kiểu Number, không thì bỏ trống)
         cell.value = score !== undefined && score !== "" ? Number(score) : "";
+        // cell.border = cellBorder as ExcelJS.Borders;
       });
 
       // 4.3 Áp style cho các cột còn lại ở phía sau môn học (Ví dụ cột Ghi chú bị đẩy ra sau)
-      const totalColumns = summarySheet.columnCount;
-      for (
-        let colIdx = startSubjectColIdx + allSubjectsData.length;
-        colIdx <= totalColumns;
-        colIdx++
-      ) {
-        const cell = row.getCell(colIdx);
-        // Lấy style từ cột gốc tương ứng bằng cách trừ đi lượng số cột môn học được chèn thêm
-        const originalColIdx = colIdx - (allSubjectsData.length - 1);
-        cell.style = JSON.parse(
-          JSON.stringify(sampleDataRow.getCell(originalColIdx).style || {}),
-        );
-      }
+      // const totalColumns = summarySheet.columnCount;
+      // for (
+      //   let colIdx = startSubjectColIdx + allSubjectsData.length;
+      //   colIdx <= totalColumns;
+      //   colIdx++
+      // ) {
+      //   const cell = row.getCell(colIdx);
+      //   // Lấy style từ cột gốc tương ứng bằng cách trừ đi lượng số cột môn học được chèn thêm
+      //   const originalColIdx = colIdx - (allSubjectsData.length - 1);
+      //   cell.style = JSON.parse(
+      //     JSON.stringify(sampleDataRow.getCell(originalColIdx).style || {}),
+      //   );
+      // }
 
       row.commit();
       index++;
