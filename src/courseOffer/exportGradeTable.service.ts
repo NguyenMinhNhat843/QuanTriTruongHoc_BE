@@ -90,7 +90,77 @@ export class ExportGradeTableService {
       });
     });
 
-    // 2. Gom và cộng dồn điểm từ tất cả các môn học phần
+    // =========================================================================
+    // BƯỚC 1: XÁC ĐỊNH VỊ TRÍ PLACEHOLDER {{subjectName}} ĐỂ CHÈN CỘT ĐỘNG
+    // =========================================================================
+    let startSubjectColIdx = -1;
+    let headerRowIndex = -1;
+
+    // Quét qua các dòng đầu bảng để tìm ô chứa {{subjectName}}
+    for (let r = 1; r <= 10; r++) {
+      const row = summarySheet.getRow(r);
+      for (let c = 1; c <= row.cellCount; c++) {
+        const cellValue = row.getCell(c).value;
+        if (
+          cellValue &&
+          typeof cellValue === "string" &&
+          cellValue.includes("{{subjectName}}")
+        ) {
+          startSubjectColIdx = c;
+          headerRowIndex = r;
+          break;
+        }
+      }
+      if (startSubjectColIdx !== -1) break;
+    }
+
+    // Nếu không tìm thấy placeholder, mặc định chọn cột K (cột 11) dòng 5 theo mô tả của bạn
+    if (startSubjectColIdx === -1) {
+      startSubjectColIdx = 11; // Cột K
+      headerRowIndex = 5;
+    }
+
+    const headerRow = summarySheet.getRow(headerRowIndex);
+    const sampleDataRow = summarySheet.getRow(7); // Dòng mẫu số 7 dùng để lấy style viền/font cho dữ liệu điểm
+
+    // Lấy style gốc của ô chứa placeholder để áp dụng cho các tiêu đề môn học mới
+    const baseHeaderStyle = JSON.parse(
+      JSON.stringify(headerRow.getCell(startSubjectColIdx).style || {}),
+    );
+
+    // =========================================================================
+    // BƯỚC 2: TẠO THÊM CÁC CỘT TƯƠNG ỨNG VỚI SỐ LƯỢNG MÔN HỌC (CHÈN ĐỘNG)
+    // =========================================================================
+    // Vì môn đầu tiên sẽ thay thế chính ô {{subjectName}}, chúng ta cần chèn thêm (N - 1) cột vào kế tiếp
+    if (allSubjectsData.length > 1) {
+      const columnsToInsert = allSubjectsData.length - 1;
+      // Khởi tạo mảng rỗng để splice chèn cột trống, đẩy cột "Ghi chú" ra sau
+      const emptyCols = Array(columnsToInsert).fill([]);
+      summarySheet.spliceColumns(startSubjectColIdx + 1, 0, ...emptyCols);
+    }
+
+    // Cập nhật lại độ rộng cột cho các cột môn học vừa tạo (ví dụ width = 15)
+    allSubjectsData.forEach((_, subIdx) => {
+      summarySheet.getColumn(startSubjectColIdx + subIdx).width = 15;
+    });
+
+    // Điền tiêu đề tên môn học vào dòng tiêu đề chính
+    allSubjectsData.forEach((subject, subIdx) => {
+      const currentColIdx = startSubjectColIdx + subIdx;
+      const cell = headerRow.getCell(currentColIdx);
+
+      // Ghi tên môn học vào dòng tiêu đề
+      cell.value =
+        subject.keyValueData?.["subjectName"] ||
+        subject.subjectName ||
+        `Môn ${subIdx + 1}`;
+      cell.style = baseHeaderStyle;
+    });
+    headerRow.commit();
+
+    // =========================================================================
+    // BƯỚC 3: GOM DỮ LIỆU ĐIỂM TỔNG KẾT (HỆ 10) CỦA TỪNG HỌC SINH THEO MÔN
+    // =========================================================================
     const studentMap = new Map<
       string,
       {
@@ -99,79 +169,73 @@ export class ExportGradeTableService {
         dob: any;
         totalScores: number;
         subjectCount: number;
+        // Map lưu điểm theo môn học: { [classSubjectId]: diem_tong_ket }
+        subjectScores: Record<number, number | string>;
       }
     >();
 
     allSubjectsData.forEach((subject) => {
+      const classSubjectId = subject.classSubjectId;
       const gradeTable = subject.gradeTable || [];
+
       gradeTable.forEach((item: any) => {
         if (!item.student || !item.student.studentCode) return;
 
         const studentCode = item.student.studentCode;
 
+        // Lấy điểm tổng kết hệ 10 (Ưu tiên điểm tổng kết lần 2, không có thì lấy lần 1)
         const rawDiem =
-          item.diemTongKet2 !== null && item.diemTongKet2 !== undefined
+          item.diemTongKet2 !== null &&
+          item.diemTongKet2 !== undefined &&
+          item.diemTongKet2 !== ""
             ? item.diemTongKet2
             : item.diemTongKet1;
 
-        if (rawDiem === null || rawDiem === undefined || rawDiem === "") {
-          if (!studentMap.has(studentCode)) {
-            studentMap.set(studentCode, {
-              studentCode: studentCode,
-              fullName: item.student.fullName,
-              dob: item.student.dob,
-              totalScores: 0,
-              subjectCount: 0,
-            });
-          }
-          return;
-        }
-
-        // Lấy điểm tổng kết (ưu tiên lần 2, ko có thì lấy lần 1)
-        const diemTongKet10 = Number(rawDiem);
-
+        // Khởi tạo học sinh trong map nếu chưa tồn tại
         if (!studentMap.has(studentCode)) {
           studentMap.set(studentCode, {
             studentCode: studentCode,
             fullName: item.student.fullName,
             dob: item.student.dob,
-            totalScores: diemTongKet10,
-            subjectCount: 1,
+            totalScores: 0,
+            subjectCount: 0,
+            subjectScores: {},
           });
+        }
+
+        const studentData = studentMap.get(studentCode)!;
+
+        // Nếu có điểm tổng kết hợp lệ -> Lưu lại điểm hệ 10
+        if (rawDiem !== null && rawDiem !== undefined && rawDiem !== "") {
+          const diemTongKet10 = Number(rawDiem);
+
+          studentData.totalScores += diemTongKet10;
+          studentData.subjectCount += 1;
+          studentData.subjectScores[classSubjectId] = diemTongKet10; // Đánh dấu điểm theo mã ID của đợt mở môn
         } else {
-          const currentData = studentMap.get(studentCode)!;
-          currentData.totalScores += diemTongKet10;
-          currentData.subjectCount += 1;
+          studentData.subjectScores[classSubjectId] = ""; // Không có điểm hoặc vắng thi
         }
       });
     });
 
-    // 3. Đổ dữ liệu tổng hợp vào sheet Tổng kết có sẵn từ dòng số 7
+    // =========================================================================
+    // BƯỚC 4: ĐỔ DỮ LIỆU ĐIỂM CHI TIẾT VÀ TỔNG HỢP VÀO SHEET
+    // =========================================================================
     const startSummaryRowIndex = 7;
-
     let index = 0;
+
     studentMap.forEach((student) => {
       const currentRowNum = startSummaryRowIndex + index;
       const row = summarySheet.getRow(currentRowNum);
 
-      // Lấy dòng số 9 của template gốc (dòng chứa format điểm chuẩn) để kế thừa style
-      const sampleRow = summarySheet.getRow(7);
-      row.height = sampleRow.height;
+      // Thiết lập độ cao dòng đồng bộ với template
+      row.height = sampleDataRow.height;
 
-      // Kế thừa style và set border cho 7 cột (Từ A đến G)
-      for (let colIdx = 1; colIdx <= 7; colIdx++) {
-        const cell = row.getCell(colIdx);
-        cell.style = JSON.parse(
-          JSON.stringify(sampleRow.getCell(colIdx).style),
-        );
-      }
-
-      // Điền data vào từng ô theo đúng thứ tự bạn yêu cầu
+      // 4.1 Điền dữ liệu cố định ở các cột thông tin chung ban đầu (A -> G)
       row.getCell("A").value = index + 1; // STT
       row.getCell("B").value = student.studentCode; // MSV
       row.getCell("C").value = student.fullName; // Họ tên
 
-      // Xử lý Ngày sinh
       if (student.dob) {
         row.getCell("D").value = new Date(student.dob);
         row.getCell("D").numFmt = "dd/mm/yyyy";
@@ -179,22 +243,47 @@ export class ExportGradeTableService {
         row.getCell("D").value = "";
       }
 
-      if (student.subjectCount === 0) {
-        // Nếu học sinh này không có bất kỳ môn nào vào điểm -> Để trống hoàn toàn ô Excel
-        row.getCell("E").value = ""; // Hệ 10 trống
-        row.getCell("F").value = ""; // Hệ 4 trống
-        row.getCell("G").value = ""; // Điểm chữ trống
+      // Tính điểm trung bình học kỳ (ĐTB cộng dồn từ các môn thực tế học sinh đó có điểm)
+      if (student.subjectCount < allSubjectsData.length) {
+        row.getCell("E").value = "";
+        row.getCell("F").value = "";
+        row.getCell("G").value = "";
       } else {
-        // Nếu có ít nhất 1 môn có điểm -> Tính trung bình trên các môn thực tế đó
         const avgHe10 = Number(
           (student.totalScores / student.subjectCount).toFixed(2),
         );
         const avgHe4 = this.convertHe10ToHe4(avgHe10);
         const diemChu = this.convertHe4ToDiemChu(avgHe4);
 
-        row.getCell("E").value = avgHe10; // Điền ĐTB Hệ 10
-        row.getCell("F").value = avgHe4; // Điền ĐTB Hệ 4
-        row.getCell("G").value = diemChu; // Điền Điểm chữ
+        row.getCell("E").value = avgHe10; // ĐTB Hệ 10
+        row.getCell("F").value = avgHe4; // ĐTB Hệ 4
+        row.getCell("G").value = diemChu; // Điểm chữ
+      }
+
+      // 4.2 Duyệt qua danh sách môn học để điền điểm tổng kết vào đúng cột môn học tương ứng
+      allSubjectsData.forEach((subject, subIdx) => {
+        const currentColIdx = startSubjectColIdx + subIdx;
+        const cell = row.getCell(currentColIdx);
+
+        const score = student.subjectScores[subject.classSubjectId];
+
+        // Điền điểm tổng kết hệ 10 (Nếu có điểm thì ép kiểu Number, không thì bỏ trống)
+        cell.value = score !== undefined && score !== "" ? Number(score) : "";
+      });
+
+      // 4.3 Áp style cho các cột còn lại ở phía sau môn học (Ví dụ cột Ghi chú bị đẩy ra sau)
+      const totalColumns = summarySheet.columnCount;
+      for (
+        let colIdx = startSubjectColIdx + allSubjectsData.length;
+        colIdx <= totalColumns;
+        colIdx++
+      ) {
+        const cell = row.getCell(colIdx);
+        // Lấy style từ cột gốc tương ứng bằng cách trừ đi lượng số cột môn học được chèn thêm
+        const originalColIdx = colIdx - (allSubjectsData.length - 1);
+        cell.style = JSON.parse(
+          JSON.stringify(sampleDataRow.getCell(originalColIdx).style || {}),
+        );
       }
 
       row.commit();
