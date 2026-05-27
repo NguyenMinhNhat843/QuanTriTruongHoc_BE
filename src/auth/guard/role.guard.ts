@@ -19,7 +19,7 @@ export class RolesGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
-    // Nếu API không định nghĩa @Roles, cho phép truy cập (hoặc tùy bạn cấu hình)
+    // Nếu API không định nghĩa @Roles, cho phép truy cập
     if (!requiredRoles) {
       return true;
     }

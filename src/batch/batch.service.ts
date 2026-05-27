@@ -2,29 +2,25 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
-  Inject,
-  forwardRef,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service"; // Đảm bảo đường dẫn đúng tới PrismaService
 import { CreateBatchDto, SearchBatchDto, UpdateBatchDto } from "./batch.dto";
 import { BatchResponseDto } from "./batch.response";
 import { CurriculumService } from "../curriculumn/curriculum.service";
-import { SemesterService } from "../semester/semester.service";
 import { SemesterResponseDto } from "../semester/semester.response";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class BatchService {
   constructor(
     private prisma: PrismaService,
     private curriculumService: CurriculumService,
-
-    @Inject(forwardRef(() => SemesterService))
-    private semesterService: SemesterService,
   ) {}
 
-  // 1. TẠO MỚI KHÓA ĐÀO TẠO
+  /**
+   * Tạo batch
+   */
   async create(createBatchDto: CreateBatchDto) {
-    // Kiểm tra logic năm học
     if (createBatchDto.endYear < createBatchDto.startYear) {
       throw new BadRequestException(
         "Năm kết thúc phải lớn hơn hoặc bằng năm bắt đầu",
@@ -39,11 +35,28 @@ export class BatchService {
       throw new BadRequestException("batchCode đã tồn tại");
     }
 
-    const { majorId, curriculumId, ...rest } = createBatchDto;
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    const { id, majorId, curriculumId, ...rest } = createBatchDto;
+
+    // Thời gian kết thúc của 1 khóa đào tạo phụ thuộc vào chương trình khung của nó có mấy kỳ
+    // Vis duj: start - 2026, gắn với chương trình có 3 kỳ thì end Year sẽ là 2027 (HK1 - 2027)
+    const soKyTheoChuongTrinhKhung =
+      await this.prisma.curriculumSubject.aggregate({
+        where: {
+          id: curriculumId,
+        },
+        _max: {
+          semesterNumber: true,
+        },
+      });
+    const time = (soKyTheoChuongTrinhKhung?._max.semesterNumber || 0) - 2;
+
+    const endYear = rest.startYear + time / 2 + (time % 2 === 1 ? 1 : 0);
 
     return this.prisma.batch.create({
       data: {
         ...rest,
+        endYear,
         ...(curriculumId && {
           curriculum: {
             connect: { id: curriculumId },
@@ -89,15 +102,17 @@ export class BatchService {
   /**
    * Lấy kỳ bắt đầu và kết thúc của 1 khóa đào tạo
    */
-  async getBatchYears(batchId: number) {
-    const batch = await this.prisma.batch.findUnique({
-      where: {
-        id: batchId,
-      },
-      include: {
-        curriculum: true,
-      },
-    });
+  async getBatchYears(batchId: number, batchData?: BatchResponseDto) {
+    const batch = batchId
+      ? await this.prisma.batch.findUnique({
+          where: {
+            id: batchId,
+          },
+          include: {
+            curriculum: true,
+          },
+        })
+      : batchData;
 
     if (!batch || !batch.curriculumId) return null;
 
@@ -132,8 +147,6 @@ export class BatchService {
     const batchStartYear = batch?.startYear;
     const { term, year } = semester;
     const semesterNo = (year - batchStartYear!) * 2 + (term === 1 ? 1 : 2);
-    console.log("batchStartYear: ", batchStartYear);
-    console.log("semesterNo: ", semesterNo);
 
     const curriculum = await this.prisma.curriculum.findFirst({
       where: {
@@ -186,12 +199,13 @@ export class BatchService {
       },
     });
 
-    return data.map((item) => new BatchResponseDto(item));
+    return plainToInstance(BatchResponseDto, data);
   }
 
-  // 3. CẬP NHẬT THÔNG TIN KHÓA
+  /**
+   * Cập nhật khóa đào tạo
+   */
   async update(id: number, updateBatchDto: UpdateBatchDto) {
-    // Kiểm tra xem khóa có tồn tại không trước khi update
     const existingBatch = await this.prisma.batch.findUnique({
       where: { id },
     });
@@ -200,7 +214,6 @@ export class BatchService {
       throw new NotFoundException(`Không tìm thấy khóa đào tạo với ID #${id}`);
     }
 
-    // Nếu cập nhật năm, kiểm tra lại logic năm học
     const startYear = updateBatchDto.startYear ?? existingBatch.startYear;
     const endYear = updateBatchDto.endYear ?? existingBatch.endYear;
 
@@ -216,12 +229,14 @@ export class BatchService {
     });
   }
 
-  // 4. LẤY CHI TIẾT 1 KHÓA (Bổ sung để dễ quản lý)
+  /**
+   * Lấy chi tiết 1 khóa
+   */
   async findOne(id: number) {
     const batch = await this.prisma.batch.findUnique({
       where: { id },
       include: {
-        classes: true, // Để xem khóa này có những lớp nào
+        classes: true,
       },
     });
 

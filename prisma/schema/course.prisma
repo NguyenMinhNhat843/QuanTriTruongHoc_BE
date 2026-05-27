@@ -17,47 +17,28 @@ enum DayOfWeek {
 }
 
 // ==========================
-// 8. COURSE_OFFERS (LỚP HỌC PHẦN)
+// 8. ClassSubject (Bảng trung gian giữa môn học và lớp học --> để phân giáo viên)
 // ==========================
 model CourseOffer {
   id                Int       @id @default(autoincrement())
-  courseCode        String?    @unique   // VD: OOP-2026-HK1-01
-  courseName        String?   
-  
-  // Giáo viên giảng dạy (Nối tới Staff)
   teacherId         Int?
   teacher           Staff?    @relation(fields: [teacherId], references: [id])
-  
-  // Môn học
   subjectId         Int
   subject           Subject   @relation(fields: [subjectId], references: [id])
-  
-  // Lớp hành chính chính thức (Có thể null nếu là lớp mở tự do cho nhiều lớp cùng học)
   classId           Int?
   baseClass         Class?    @relation(fields: [classId], references: [id])
-  
-  // Học kỳ
   semesterId        Int
   semester          Semester  @relation(fields: [semesterId], references: [id])
-  
   maxStudents       Int?       @default(40)
   currentStudents   Int?       @default(0) // Cần logic update khi có sinh viên đăng ký thành công
   
   // planned, open, closed, cancelled
   status            CourseOfferStatus? @default(planned)
   
-  // Thời gian đăng ký học phần
-  registrationStart DateTime?
-  registrationEnd   DateTime?
-  
-  // Thời gian bắt đầu và kết thúc khóa học
-  startDate         DateTime? @db.Date
-  endDate           DateTime? @db.Date
-  
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt  
 
-  // Quan hệ 1-n
+  // Quan hệ
   registrations     CourseRegistration[]
   courseSchedules   CourseSchedule[]
 
@@ -70,7 +51,7 @@ model CourseOffer {
 }
 
 // ==========================
-// 9. COURSE_REGISTRATIONS (ĐĂNG KÝ HỌC PHẦN)
+// 9. COURSE_REGISTRATIONS (Điểm học sinh của 1 ClassSubject)
 // ==========================
 model CourseRegistration {
   id             Int         @id @default(autoincrement())
@@ -81,12 +62,6 @@ model CourseRegistration {
   courseOfferId  Int
   courseOffer    CourseOffer @relation(fields: [courseOfferId], references: [id])
   
-  // registered, cancelled, completed, dropped
-  status         String      @default("registered")
-  
-  registeredAt   DateTime    @default(now())
-  approvedAt     DateTime?
-
   kttx1           Float?
   kttx2           Float?
   kttx3           Float?

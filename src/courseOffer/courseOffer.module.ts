@@ -1,4 +1,4 @@
-import { forwardRef, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { CourseOfferController } from "./courseOffer.controller";
 import { CourseOfferService } from "./courseOffer.service";
 import { CourseRegistrationController } from "./courseRegistration.controller";
@@ -6,16 +6,10 @@ import { CourseRegistrationService } from "./CourseRegistration.service";
 import { SubjectModule } from "../subject/subject.module";
 import { CourseOfferQuery } from "./courseOffer.query";
 import { CurriculumSubjectModule } from "../curriculumSubject/curriculumnSubject.module";
-import { SemesterModule } from "../semester/semester.module";
 import { BatchModule } from "../batch/batch.module";
 
 @Module({
-  imports: [
-    SubjectModule,
-    CurriculumSubjectModule,
-    forwardRef(() => SemesterModule),
-    BatchModule,
-  ],
+  imports: [SubjectModule, CurriculumSubjectModule, BatchModule],
   controllers: [CourseOfferController, CourseRegistrationController],
   providers: [CourseOfferService, CourseRegistrationService, CourseOfferQuery],
   exports: [CourseOfferService, CourseOfferQuery],

@@ -10,7 +10,7 @@ import {
   Min,
   ValidateNested,
 } from "class-validator";
-import { CourseOfferRegisResponseDto } from "./ourseOfferRegis.response";
+import { CourseOfferRegisResponseDto } from "./courseOfferRegis.response";
 import { StaffResponseDto } from "../staff/staff.response";
 import { SemesterResponseDto } from "../semester/semester.response";
 import { SubjectResponseDto } from "../subject/subject.response";

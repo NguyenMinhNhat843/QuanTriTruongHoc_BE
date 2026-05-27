@@ -31,6 +31,7 @@ export class SemesterService {
         const semester = await tx.semester.create({
           data: {
             ...data,
+            status: "UPCOMING",
             startDate: new Date(data.startDate),
             endDate: new Date(data.endDate),
           },
@@ -46,7 +47,7 @@ export class SemesterService {
 
   async findAll(): Promise<SemesterResponseDto[]> {
     const semesters = await this.prisma.semester.findMany({
-      orderBy: { startDate: "desc" },
+      orderBy: [{ year: "asc" }, { term: "asc" }],
       include: {
         _count: { select: { courseOffers: true, feeInvoices: true } },
       },

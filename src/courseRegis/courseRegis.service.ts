@@ -131,8 +131,6 @@ export class CourseRegisService {
           data: {
             studentId,
             courseOfferId: selectedCourse.id,
-            registeredAt: new Date(),
-            status: "confirmed",
           },
         });
 

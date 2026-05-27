@@ -28,16 +28,21 @@ export type AggregateUser = {
 
 export type UserAvgAggregateOutputType = {
   id: number | null
+  staffId: number | null
+  studentId: number | null
 }
 
 export type UserSumAggregateOutputType = {
   id: number | null
+  staffId: number | null
+  studentId: number | null
 }
 
 export type UserMinAggregateOutputType = {
   id: number | null
-  userId: string | null
   username: string | null
+  staffId: number | null
+  studentId: number | null
   passwordHash: string | null
   lastLoginAt: Date | null
   role: $Enums.RoleType | null
@@ -49,8 +54,9 @@ export type UserMinAggregateOutputType = {
 
 export type UserMaxAggregateOutputType = {
   id: number | null
-  userId: string | null
   username: string | null
+  staffId: number | null
+  studentId: number | null
   passwordHash: string | null
   lastLoginAt: Date | null
   role: $Enums.RoleType | null
@@ -62,8 +68,9 @@ export type UserMaxAggregateOutputType = {
 
 export type UserCountAggregateOutputType = {
   id: number
-  userId: number
   username: number
+  staffId: number
+  studentId: number
   passwordHash: number
   lastLoginAt: number
   role: number
@@ -77,16 +84,21 @@ export type UserCountAggregateOutputType = {
 
 export type UserAvgAggregateInputType = {
   id?: true
+  staffId?: true
+  studentId?: true
 }
 
 export type UserSumAggregateInputType = {
   id?: true
+  staffId?: true
+  studentId?: true
 }
 
 export type UserMinAggregateInputType = {
   id?: true
-  userId?: true
   username?: true
+  staffId?: true
+  studentId?: true
   passwordHash?: true
   lastLoginAt?: true
   role?: true
@@ -98,8 +110,9 @@ export type UserMinAggregateInputType = {
 
 export type UserMaxAggregateInputType = {
   id?: true
-  userId?: true
   username?: true
+  staffId?: true
+  studentId?: true
   passwordHash?: true
   lastLoginAt?: true
   role?: true
@@ -111,8 +124,9 @@ export type UserMaxAggregateInputType = {
 
 export type UserCountAggregateInputType = {
   id?: true
-  userId?: true
   username?: true
+  staffId?: true
+  studentId?: true
   passwordHash?: true
   lastLoginAt?: true
   role?: true
@@ -211,8 +225,9 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: number
-  userId: string
   username: string
+  staffId: number | null
+  studentId: number | null
   passwordHash: string
   lastLoginAt: Date | null
   role: $Enums.RoleType
@@ -247,8 +262,9 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.IntFilter<"User"> | number
-  userId?: Prisma.StringFilter<"User"> | string
   username?: Prisma.StringFilter<"User"> | string
+  staffId?: Prisma.IntNullableFilter<"User"> | number | null
+  studentId?: Prisma.IntNullableFilter<"User"> | number | null
   passwordHash?: Prisma.StringFilter<"User"> | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleTypeFilter<"User"> | $Enums.RoleType
@@ -263,8 +279,9 @@ export type UserWhereInput = {
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   username?: Prisma.SortOrder
+  staffId?: Prisma.SortOrderInput | Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -279,8 +296,9 @@ export type UserOrderByWithRelationInput = {
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  userId?: string
   username?: string
+  staffId?: number
+  studentId?: number
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -294,12 +312,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   staff?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
   posts?: Prisma.PostListRelationFilter
-}, "id" | "userId" | "username">
+}, "id" | "username" | "staffId" | "studentId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   username?: Prisma.SortOrder
+  staffId?: Prisma.SortOrderInput | Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -319,8 +338,9 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"User"> | number
-  userId?: Prisma.StringWithAggregatesFilter<"User"> | string
   username?: Prisma.StringWithAggregatesFilter<"User"> | string
+  staffId?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
+  studentId?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
   passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   role?: Prisma.EnumRoleTypeWithAggregatesFilter<"User"> | $Enums.RoleType
@@ -331,8 +351,9 @@ export type UserScalarWhereWithAggregatesInput = {
 }
 
 export type UserCreateInput = {
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -347,8 +368,9 @@ export type UserCreateInput = {
 
 export type UserUncheckedCreateInput = {
   id?: number
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -362,8 +384,9 @@ export type UserUncheckedCreateInput = {
 }
 
 export type UserUpdateInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -378,8 +401,9 @@ export type UserUpdateInput = {
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -394,8 +418,9 @@ export type UserUncheckedUpdateInput = {
 
 export type UserCreateManyInput = {
   id?: number
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -406,8 +431,9 @@ export type UserCreateManyInput = {
 }
 
 export type UserUpdateManyMutationInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -419,8 +445,9 @@ export type UserUpdateManyMutationInput = {
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -432,8 +459,9 @@ export type UserUncheckedUpdateManyInput = {
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   username?: Prisma.SortOrder
+  staffId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -445,12 +473,15 @@ export type UserCountOrderByAggregateInput = {
 
 export type UserAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  staffId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   username?: Prisma.SortOrder
+  staffId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -462,8 +493,9 @@ export type UserMaxOrderByAggregateInput = {
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   username?: Prisma.SortOrder
+  staffId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -475,6 +507,8 @@ export type UserMinOrderByAggregateInput = {
 
 export type UserSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  staffId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -538,8 +572,9 @@ export type UserUpdateOneRequiredWithoutPostsNestedInput = {
 }
 
 export type UserCreateWithoutStudentInput = {
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -553,8 +588,9 @@ export type UserCreateWithoutStudentInput = {
 
 export type UserUncheckedCreateWithoutStudentInput = {
   id?: number
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -583,8 +619,9 @@ export type UserUpdateToOneWithWhereWithoutStudentInput = {
 }
 
 export type UserUpdateWithoutStudentInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -598,8 +635,9 @@ export type UserUpdateWithoutStudentInput = {
 
 export type UserUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -612,8 +650,9 @@ export type UserUncheckedUpdateWithoutStudentInput = {
 }
 
 export type UserCreateWithoutStaffInput = {
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -627,8 +666,9 @@ export type UserCreateWithoutStaffInput = {
 
 export type UserUncheckedCreateWithoutStaffInput = {
   id?: number
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -657,8 +697,9 @@ export type UserUpdateToOneWithWhereWithoutStaffInput = {
 }
 
 export type UserUpdateWithoutStaffInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -672,8 +713,9 @@ export type UserUpdateWithoutStaffInput = {
 
 export type UserUncheckedUpdateWithoutStaffInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -686,8 +728,9 @@ export type UserUncheckedUpdateWithoutStaffInput = {
 }
 
 export type UserCreateWithoutPostsInput = {
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -701,8 +744,9 @@ export type UserCreateWithoutPostsInput = {
 
 export type UserUncheckedCreateWithoutPostsInput = {
   id?: number
-  userId: string
   username: string
+  staffId?: number | null
+  studentId?: number | null
   passwordHash: string
   lastLoginAt?: Date | string | null
   role: $Enums.RoleType
@@ -731,8 +775,9 @@ export type UserUpdateToOneWithWhereWithoutPostsInput = {
 }
 
 export type UserUpdateWithoutPostsInput = {
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -746,8 +791,9 @@ export type UserUpdateWithoutPostsInput = {
 
 export type UserUncheckedUpdateWithoutPostsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
@@ -792,8 +838,9 @@ export type UserCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Exte
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   username?: boolean
+  staffId?: boolean
+  studentId?: boolean
   passwordHash?: boolean
   lastLoginAt?: boolean
   role?: boolean
@@ -809,8 +856,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   username?: boolean
+  staffId?: boolean
+  studentId?: boolean
   passwordHash?: boolean
   lastLoginAt?: boolean
   role?: boolean
@@ -822,8 +870,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  userId?: boolean
   username?: boolean
+  staffId?: boolean
+  studentId?: boolean
   passwordHash?: boolean
   lastLoginAt?: boolean
   role?: boolean
@@ -835,8 +884,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 
 export type UserSelectScalar = {
   id?: boolean
-  userId?: boolean
   username?: boolean
+  staffId?: boolean
+  studentId?: boolean
   passwordHash?: boolean
   lastLoginAt?: boolean
   role?: boolean
@@ -846,7 +896,7 @@ export type UserSelectScalar = {
   deletedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "username" | "passwordHash" | "lastLoginAt" | "role" | "isActive" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "staffId" | "studentId" | "passwordHash" | "lastLoginAt" | "role" | "isActive" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   staff?: boolean | Prisma.User$staffArgs<ExtArgs>
@@ -865,8 +915,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    userId: string
     username: string
+    staffId: number | null
+    studentId: number | null
     passwordHash: string
     lastLoginAt: Date | null
     role: $Enums.RoleType
@@ -1301,8 +1352,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'Int'>
-  readonly userId: Prisma.FieldRef<"User", 'String'>
   readonly username: Prisma.FieldRef<"User", 'String'>
+  readonly staffId: Prisma.FieldRef<"User", 'Int'>
+  readonly studentId: Prisma.FieldRef<"User", 'Int'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly role: Prisma.FieldRef<"User", 'RoleType'>

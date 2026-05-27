@@ -8,7 +8,7 @@ import {
   IsString,
   ValidateNested,
 } from "class-validator";
-import { CourseOfferRegisResponseDto } from "./ourseOfferRegis.response";
+import { CourseOfferRegisResponseDto } from "./courseOfferRegis.response";
 import { Type } from "class-transformer";
 
 export class CreateCourseRegistrationDto {

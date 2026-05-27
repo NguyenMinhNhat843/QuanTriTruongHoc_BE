@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   Res,
@@ -19,7 +20,7 @@ import {
   // CourseOfferDto,
   ResponsePreviewGenerateSectionForClass,
 } from "./courseOffer.response";
-import { SearchCourseOfferDto } from "./courseOffer.dto";
+import { SearchCourseOfferDto, updateClassSubjectDto } from "./courseOffer.dto";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
@@ -34,6 +35,24 @@ export class CourseOfferController {
   })
   async getAll(@Query() query: SearchCourseOfferDto) {
     return this.courseOfferService.findAll(query);
+  }
+
+  /**
+   * Cập nhật ClassSubject
+   */
+  @Patch(":id")
+  @ApiOperation({ summary: "Cập nhật thông tin lớp học phần" })
+  @ApiResponse({
+    type: CourseOfferDto,
+  })
+  async updateClassSubject(
+    @Param("id", ParseIntPipe) classSubjectId: number,
+    @Body() updateData: updateClassSubjectDto,
+  ) {
+    return await this.courseOfferService.updateClassSubject(
+      classSubjectId,
+      updateData,
+    );
   }
 
   /**

@@ -30,12 +30,14 @@ export type SemesterAvgAggregateOutputType = {
   id: number | null
   term: number | null
   year: number | null
+  teachingWeeks: number | null
 }
 
 export type SemesterSumAggregateOutputType = {
   id: number | null
   term: number | null
   year: number | null
+  teachingWeeks: number | null
 }
 
 export type SemesterMinAggregateOutputType = {
@@ -48,6 +50,7 @@ export type SemesterMinAggregateOutputType = {
   endDate: Date | null
   status: $Enums.SemesterStatus | null
   isCurrent: boolean | null
+  teachingWeeks: number | null
   createdAt: Date | null
 }
 
@@ -61,6 +64,7 @@ export type SemesterMaxAggregateOutputType = {
   endDate: Date | null
   status: $Enums.SemesterStatus | null
   isCurrent: boolean | null
+  teachingWeeks: number | null
   createdAt: Date | null
 }
 
@@ -74,6 +78,7 @@ export type SemesterCountAggregateOutputType = {
   endDate: number
   status: number
   isCurrent: number
+  teachingWeeks: number
   createdAt: number
   _all: number
 }
@@ -83,12 +88,14 @@ export type SemesterAvgAggregateInputType = {
   id?: true
   term?: true
   year?: true
+  teachingWeeks?: true
 }
 
 export type SemesterSumAggregateInputType = {
   id?: true
   term?: true
   year?: true
+  teachingWeeks?: true
 }
 
 export type SemesterMinAggregateInputType = {
@@ -101,6 +108,7 @@ export type SemesterMinAggregateInputType = {
   endDate?: true
   status?: true
   isCurrent?: true
+  teachingWeeks?: true
   createdAt?: true
 }
 
@@ -114,6 +122,7 @@ export type SemesterMaxAggregateInputType = {
   endDate?: true
   status?: true
   isCurrent?: true
+  teachingWeeks?: true
   createdAt?: true
 }
 
@@ -127,6 +136,7 @@ export type SemesterCountAggregateInputType = {
   endDate?: true
   status?: true
   isCurrent?: true
+  teachingWeeks?: true
   createdAt?: true
   _all?: true
 }
@@ -227,6 +237,7 @@ export type SemesterGroupByOutputType = {
   endDate: Date
   status: $Enums.SemesterStatus | null
   isCurrent: boolean
+  teachingWeeks: number | null
   createdAt: Date
   _count: SemesterCountAggregateOutputType | null
   _avg: SemesterAvgAggregateOutputType | null
@@ -263,6 +274,7 @@ export type SemesterWhereInput = {
   endDate?: Prisma.DateTimeFilter<"Semester"> | Date | string
   status?: Prisma.EnumSemesterStatusNullableFilter<"Semester"> | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFilter<"Semester"> | boolean
+  teachingWeeks?: Prisma.IntNullableFilter<"Semester"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Semester"> | Date | string
   benefitPrograms?: Prisma.BenefitProgramListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
@@ -280,6 +292,7 @@ export type SemesterOrderByWithRelationInput = {
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  teachingWeeks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   benefitPrograms?: Prisma.BenefitProgramOrderByRelationAggregateInput
   courseOffers?: Prisma.CourseOfferOrderByRelationAggregateInput
@@ -301,6 +314,7 @@ export type SemesterWhereUniqueInput = Prisma.AtLeast<{
   endDate?: Prisma.DateTimeFilter<"Semester"> | Date | string
   status?: Prisma.EnumSemesterStatusNullableFilter<"Semester"> | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFilter<"Semester"> | boolean
+  teachingWeeks?: Prisma.IntNullableFilter<"Semester"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Semester"> | Date | string
   benefitPrograms?: Prisma.BenefitProgramListRelationFilter
   courseOffers?: Prisma.CourseOfferListRelationFilter
@@ -318,6 +332,7 @@ export type SemesterOrderByWithAggregationInput = {
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  teachingWeeks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.SemesterCountOrderByAggregateInput
   _avg?: Prisma.SemesterAvgOrderByAggregateInput
@@ -339,6 +354,7 @@ export type SemesterScalarWhereWithAggregatesInput = {
   endDate?: Prisma.DateTimeWithAggregatesFilter<"Semester"> | Date | string
   status?: Prisma.EnumSemesterStatusNullableWithAggregatesFilter<"Semester"> | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolWithAggregatesFilter<"Semester"> | boolean
+  teachingWeeks?: Prisma.IntNullableWithAggregatesFilter<"Semester"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Semester"> | Date | string
 }
 
@@ -351,6 +367,7 @@ export type SemesterCreateInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
@@ -368,6 +385,7 @@ export type SemesterUncheckedCreateInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
@@ -384,6 +402,7 @@ export type SemesterUpdateInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
@@ -401,6 +420,7 @@ export type SemesterUncheckedUpdateInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
@@ -418,6 +438,7 @@ export type SemesterCreateManyInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
 }
 
@@ -430,6 +451,7 @@ export type SemesterUpdateManyMutationInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -443,6 +465,7 @@ export type SemesterUncheckedUpdateManyInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -461,6 +484,7 @@ export type SemesterCountOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  teachingWeeks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -468,6 +492,7 @@ export type SemesterAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   term?: Prisma.SortOrder
   year?: Prisma.SortOrder
+  teachingWeeks?: Prisma.SortOrder
 }
 
 export type SemesterMaxOrderByAggregateInput = {
@@ -480,6 +505,7 @@ export type SemesterMaxOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  teachingWeeks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -493,6 +519,7 @@ export type SemesterMinOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isCurrent?: Prisma.SortOrder
+  teachingWeeks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -500,6 +527,7 @@ export type SemesterSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   term?: Prisma.SortOrder
   year?: Prisma.SortOrder
+  teachingWeeks?: Prisma.SortOrder
 }
 
 export type SemesterScalarRelationFilter = {
@@ -587,6 +615,7 @@ export type SemesterCreateWithoutBenefitProgramsInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceCreateNestedManyWithoutSemesterInput
@@ -603,6 +632,7 @@ export type SemesterUncheckedCreateWithoutBenefitProgramsInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedCreateNestedManyWithoutSemesterInput
@@ -634,6 +664,7 @@ export type SemesterUpdateWithoutBenefitProgramsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUpdateManyWithoutSemesterNestedInput
@@ -650,6 +681,7 @@ export type SemesterUncheckedUpdateWithoutBenefitProgramsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedUpdateManyWithoutSemesterNestedInput
@@ -665,6 +697,7 @@ export type SemesterCreateWithoutCourseOffersInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceCreateNestedManyWithoutSemesterInput
@@ -681,6 +714,7 @@ export type SemesterUncheckedCreateWithoutCourseOffersInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedCreateNestedManyWithoutSemesterInput
@@ -712,6 +746,7 @@ export type SemesterUpdateWithoutCourseOffersInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUpdateManyWithoutSemesterNestedInput
@@ -728,6 +763,7 @@ export type SemesterUncheckedUpdateWithoutCourseOffersInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
   feeInvoices?: Prisma.FeeInvoiceUncheckedUpdateManyWithoutSemesterNestedInput
@@ -743,6 +779,7 @@ export type SemesterCreateWithoutFeeInvoicesInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
@@ -759,6 +796,7 @@ export type SemesterUncheckedCreateWithoutFeeInvoicesInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
@@ -790,6 +828,7 @@ export type SemesterUpdateWithoutFeeInvoicesInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
@@ -806,6 +845,7 @@ export type SemesterUncheckedUpdateWithoutFeeInvoicesInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
@@ -821,6 +861,7 @@ export type SemesterCreateWithoutFeeInvoiceItemsInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferCreateNestedManyWithoutSemesterInput
@@ -837,6 +878,7 @@ export type SemesterUncheckedCreateWithoutFeeInvoiceItemsInput = {
   endDate: Date | string
   status?: $Enums.SemesterStatus | null
   isCurrent?: boolean
+  teachingWeeks?: number | null
   createdAt?: Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedCreateNestedManyWithoutSemesterInput
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutSemesterInput
@@ -868,6 +910,7 @@ export type SemesterUpdateWithoutFeeInvoiceItemsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUpdateManyWithoutSemesterNestedInput
@@ -884,6 +927,7 @@ export type SemesterUncheckedUpdateWithoutFeeInvoiceItemsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.NullableEnumSemesterStatusFieldUpdateOperationsInput | $Enums.SemesterStatus | null
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  teachingWeeks?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   benefitPrograms?: Prisma.BenefitProgramUncheckedUpdateManyWithoutSemesterNestedInput
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutSemesterNestedInput
@@ -958,6 +1002,7 @@ export type SemesterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   endDate?: boolean
   status?: boolean
   isCurrent?: boolean
+  teachingWeeks?: boolean
   createdAt?: boolean
   benefitPrograms?: boolean | Prisma.Semester$benefitProgramsArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Semester$courseOffersArgs<ExtArgs>
@@ -976,6 +1021,7 @@ export type SemesterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   endDate?: boolean
   status?: boolean
   isCurrent?: boolean
+  teachingWeeks?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["semester"]>
 
@@ -989,6 +1035,7 @@ export type SemesterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   endDate?: boolean
   status?: boolean
   isCurrent?: boolean
+  teachingWeeks?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["semester"]>
 
@@ -1002,10 +1049,11 @@ export type SemesterSelectScalar = {
   endDate?: boolean
   status?: boolean
   isCurrent?: boolean
+  teachingWeeks?: boolean
   createdAt?: boolean
 }
 
-export type SemesterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "term" | "year" | "schoolYear" | "startDate" | "endDate" | "status" | "isCurrent" | "createdAt", ExtArgs["result"]["semester"]>
+export type SemesterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "term" | "year" | "schoolYear" | "startDate" | "endDate" | "status" | "isCurrent" | "teachingWeeks" | "createdAt", ExtArgs["result"]["semester"]>
 export type SemesterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   benefitPrograms?: boolean | Prisma.Semester$benefitProgramsArgs<ExtArgs>
   courseOffers?: boolean | Prisma.Semester$courseOffersArgs<ExtArgs>
@@ -1034,6 +1082,7 @@ export type $SemesterPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     endDate: Date
     status: $Enums.SemesterStatus | null
     isCurrent: boolean
+    teachingWeeks: number | null
     createdAt: Date
   }, ExtArgs["result"]["semester"]>
   composites: {}
@@ -1471,6 +1520,7 @@ export interface SemesterFieldRefs {
   readonly endDate: Prisma.FieldRef<"Semester", 'DateTime'>
   readonly status: Prisma.FieldRef<"Semester", 'SemesterStatus'>
   readonly isCurrent: Prisma.FieldRef<"Semester", 'Boolean'>
+  readonly teachingWeeks: Prisma.FieldRef<"Semester", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Semester", 'DateTime'>
 }
     

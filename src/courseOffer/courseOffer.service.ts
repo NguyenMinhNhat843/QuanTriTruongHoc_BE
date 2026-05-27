@@ -8,6 +8,7 @@ import {
   CreateBulkCourseOfferDto,
   CreateOptionalCourseOfferDto,
   SearchCourseOfferDto,
+  updateClassSubjectDto,
 } from "./courseOffer.dto";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { plainToInstance } from "class-transformer";
@@ -34,7 +35,7 @@ export class CourseOfferService {
    * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
    */
   async findAll(query: SearchCourseOfferDto) {
-    const { classId, semesterId, teacherId, status, search } = query;
+    const { classId, semesterId, teacherId, status } = query;
 
     const where: Prisma.CourseOfferWhereInput = {};
 
@@ -54,23 +55,6 @@ export class CourseOfferService {
       where.status = status;
     }
 
-    if (search) {
-      where.OR = [
-        {
-          courseCode: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-        {
-          courseName: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-      ];
-    }
-
     const result = await this.prisma.courseOffer.findMany({
       where,
       include: {
@@ -85,11 +69,30 @@ export class CourseOfferService {
         },
       },
       orderBy: {
-        createdAt: "desc",
+        subject: {
+          subjectName: "asc",
+        },
       },
     });
 
     return plainToInstance(CourseOfferDto, result);
+  }
+
+  /**
+   * Cập nhật classSubject
+   */
+  async updateClassSubject(
+    classSubjectId: number,
+    data: updateClassSubjectDto,
+  ) {
+    const result = await this.prisma.courseOffer.update({
+      where: {
+        id: classSubjectId,
+      },
+      data,
+    });
+
+    return result;
   }
 
   /**
@@ -219,15 +222,7 @@ export class CourseOfferService {
   ) {
     const prismaClient = tx || this.prisma;
 
-    const {
-      semesterId,
-      subjectId,
-      classId,
-      maxStudents,
-      registrationStart,
-      registrationEnd,
-      teacherId,
-    } = dto;
+    const { semesterId, subjectId, classId, maxStudents, teacherId } = dto;
 
     // 1. Kiểm tra sự tồn tại của Môn học và Học kỳ
     const [subject, semester] = await Promise.all([
@@ -240,24 +235,14 @@ export class CourseOfferService {
     }
 
     // 2. Sinh mã lớp học phần tùy chọn
-    const timestamp = Date.now().toString().slice(-3);
-    const generatedCode = `${subject.subjectCode}-${semester.name}-OPT${timestamp}`;
-    const courseName = `${subject.subjectName} ${classId ? `(Lớp ${classId})` : "(Tùy chọn)"}`;
-
     try {
       const data = await prismaClient.courseOffer.create({
         data: {
-          courseCode: generatedCode,
           subjectId: subjectId,
           semesterId: semesterId,
           classId: classId || null,
           maxStudents: maxStudents,
-          courseName: courseName,
           status: "open",
-          registrationStart: registrationStart
-            ? new Date(registrationStart)
-            : null,
-          registrationEnd: registrationEnd ? new Date(registrationEnd) : null,
           teacherId: teacherId || null,
         },
       });
@@ -375,18 +360,14 @@ export class CourseOfferService {
           if (roomConflict) continue; // Nếu trùng phòng, thử slot khác
 
           // --- Bước 7: Gán giảng viên và tạo lịch học ---
-          // Nếu đến đây không có xung đột (Conflict)
           await tx.courseOffer.update({
             where: { id: courseOfferId },
             data: {
-              teacherId: teacher.id, //
-              startDate: courseOffer.semester.startDate, // Bước 9: Đồng bộ thời gian
-              endDate: courseOffer.semester.endDate,
+              teacherId: teacher.id,
             },
           });
 
           await tx.courseSchedule.create({
-            //
             data: {
               courseOfferId: courseOfferId,
               dayOfWeek: slot.day as any,
@@ -641,7 +622,6 @@ export class CourseOfferService {
         validCourseOffers.map((course) => ({
           studentId: student.id,
           courseOfferId: course.id,
-          status: "registered",
         })),
       );
 
@@ -750,7 +730,7 @@ export class CourseOfferService {
   }
 
   /**
-   * Xem trước khi sinh lớp học phần
+   * Xem trước khi sinh classSubject
    */
   async previewGenerateSectionForClass(classId: number, semesterId: number) {
     const semester = await this.prisma.semester.findUnique({
@@ -777,13 +757,14 @@ export class CourseOfferService {
     const previewList: ResponsePreviewGenerateSectionForClass[] = [];
 
     for (const cs of curriculumSubjects) {
-      // Công thức ghép mã và tên lớp học phần lấy chính xác từ hàm sinh thực tế của bạn
-      const expectedCourseCode = `${cs?.subject?.subjectCode}-${classDto?.classCode}-${semester.name}`;
-      const expectedCourseName = `${cs?.subject?.subjectName} (Lớp ${classDto?.className || classId})`;
-
       // Kiểm tra xem lớp học phần này đã được sinh ra trong hệ thống từ trước chưa
       const existingCourseOffer = await this.prisma.courseOffer.findUnique({
-        where: { courseCode: expectedCourseCode },
+        where: {
+          subjectId_classId: {
+            subjectId: cs.subjectId,
+            classId: classId,
+          },
+        },
       });
 
       previewList.push({
@@ -791,8 +772,6 @@ export class CourseOfferService {
         subjectCode: cs?.subject?.subjectCode || "Không xác định",
         subjectName: cs?.subject?.subjectName || "Không xác định",
         credits: cs?.subject?.credits || 0,
-        expectedCourseCode: expectedCourseCode,
-        expectedCourseName: expectedCourseName,
         isExisted: !!existingCourseOffer,
       });
     }

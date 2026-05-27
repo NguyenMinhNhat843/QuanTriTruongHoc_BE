@@ -13,7 +13,6 @@ import {
   TuitionPreviewResponseDto,
 } from "./tuitionFee.response";
 import * as bcrypt from "bcryptjs";
-import { generateId } from "../utils/generateId";
 
 @Injectable()
 export class TuitionFeeService {
@@ -395,10 +394,10 @@ export class TuitionFeeService {
           // Tạo tài khoản User mới
           const newUser = await tx.user.create({
             data: {
-              userId: generateId(), // Sinh mã định danh ngoại duy nhất
               username: username,
               passwordHash: passwordHash,
-              role: RoleType.student, // Enum Role của bạn (Ví dụ: STUDENT hoặc đặt theo hệ thống của bạn)
+              studentId: numericStudentId,
+              role: RoleType.student,
               isActive: true,
             },
           });

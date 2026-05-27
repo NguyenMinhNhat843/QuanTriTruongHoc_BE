@@ -63,7 +63,6 @@ export class ClassService {
     const client = tx || this.prisma;
     const { classCode, majorId, formTeacherId } = data;
 
-    // Tái sử dụng các hàm helper chung
     await this.checkExistingClassCode(classCode);
     await this.validateMajorExist(majorId);
     if (formTeacherId) {
@@ -74,7 +73,6 @@ export class ClassService {
       const newClass = await client.class.create({
         data,
         include: {
-          major: true,
           _count: { select: { courseOffers: true } },
         },
       });

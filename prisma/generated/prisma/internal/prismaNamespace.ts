@@ -2928,6 +2928,7 @@ export const SemesterScalarFieldEnum = {
   endDate: 'endDate',
   status: 'status',
   isCurrent: 'isCurrent',
+  teachingWeeks: 'teachingWeeks',
   createdAt: 'createdAt'
 } as const
 
@@ -3036,8 +3037,9 @@ export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[key
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   username: 'username',
+  staffId: 'staffId',
+  studentId: 'studentId',
   passwordHash: 'passwordHash',
   lastLoginAt: 'lastLoginAt',
   role: 'role',
@@ -3155,8 +3157,6 @@ export type BenefitAwardScalarFieldEnum = (typeof BenefitAwardScalarFieldEnum)[k
 
 export const CourseOfferScalarFieldEnum = {
   id: 'id',
-  courseCode: 'courseCode',
-  courseName: 'courseName',
   teacherId: 'teacherId',
   subjectId: 'subjectId',
   classId: 'classId',
@@ -3164,10 +3164,6 @@ export const CourseOfferScalarFieldEnum = {
   maxStudents: 'maxStudents',
   currentStudents: 'currentStudents',
   status: 'status',
-  registrationStart: 'registrationStart',
-  registrationEnd: 'registrationEnd',
-  startDate: 'startDate',
-  endDate: 'endDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3179,9 +3175,6 @@ export const CourseRegistrationScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
   courseOfferId: 'courseOfferId',
-  status: 'status',
-  registeredAt: 'registeredAt',
-  approvedAt: 'approvedAt',
   kttx1: 'kttx1',
   kttx2: 'kttx2',
   kttx3: 'kttx3',

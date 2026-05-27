@@ -104,7 +104,7 @@ export class ClassController {
     return this.classService.remove(id);
   }
 
-  @Post(":classId/add-student") // Bỏ /:studentId ở đây
+  @Post(":classId/add-student")
   @ApiOperation({ summary: "Thêm một sinh viên vào lớp học" })
   async addStudentToClass(
     @Param("classId", ParseIntPipe) classId: number,

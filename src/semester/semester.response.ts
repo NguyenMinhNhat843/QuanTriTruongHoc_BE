@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Semester, SemesterStatus } from "../../prisma/generated/prisma/client";
 
-export class SemesterResponseDto {
+export class SemesterResponseDto implements Semester {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -27,6 +28,14 @@ export class SemesterResponseDto {
 
   @ApiProperty({ example: "2024-04-25T10:00:00Z" })
   createdAt: Date;
+
+  @ApiPropertyOptional({
+    type: () => SemesterStatus,
+  })
+  status: SemesterStatus | null;
+
+  @ApiPropertyOptional({ type: Number })
+  teachingWeeks: number | null;
 
   // --- Dữ liệu thống kê quan hệ ---
   @ApiPropertyOptional({

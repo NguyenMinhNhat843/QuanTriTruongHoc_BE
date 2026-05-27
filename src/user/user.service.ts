@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateUserDto } from "./user.dto.js";
 import { UserResponseDto } from "./user.response.js";
-import { generateId } from "../utils/generateId.js";
 
 @Injectable()
 export class UserService {
@@ -12,7 +11,6 @@ export class UserService {
     const user = await this.prisma.user.create({
       data: {
         ...data,
-        userId: `U${generateId()}`,
       },
     });
     return new UserResponseDto(user);

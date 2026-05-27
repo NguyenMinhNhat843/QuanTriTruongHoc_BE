@@ -155,7 +155,7 @@ export class StudentService {
             username: student.studentCode,
             passwordHash: passwordHash,
             role: RoleType.student,
-            userId: `U${generateId()}`,
+            studentId: student.id,
             isActive: true,
           },
         });

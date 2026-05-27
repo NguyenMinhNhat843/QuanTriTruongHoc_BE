@@ -52,7 +52,6 @@ export class CourseOfferQuery {
 
     // Gom dữ liệu vào object để map thông tin chung
     const keyValueData = {
-      courseOfferName: courseOffer.courseName || "",
       teacherName: courseOffer.teacher?.fullName || "",
       majorName: courseOffer.baseClass?.major?.majorName || "",
       semesterTerm: courseOffer.semester?.term || "",

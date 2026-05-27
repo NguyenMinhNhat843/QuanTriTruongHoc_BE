@@ -166,7 +166,7 @@ export class ResponseGetDetailCourseOffer extends CourseOfferDto {}
 
 /**
  * Response api previewGenerateSectionForClass
- * Xem trước danh sách các lớp sẽ sinh ra cho 1 lớp hành chính và học kỳ nhất định
+ * Xem trước danh sách các classSubject
  */
 export class ResponsePreviewGenerateSectionForClass {
   @ApiProperty({
@@ -196,20 +196,6 @@ export class ResponsePreviewGenerateSectionForClass {
   })
   @IsNumber()
   credits: number;
-
-  @ApiProperty({
-    description: "Mã lớp học phần dự kiến sẽ được sinh ra",
-    example: "CO1023-22DTH01-HK2-2025-2026",
-  })
-  @IsString()
-  expectedCourseCode: string;
-
-  @ApiProperty({
-    description: "Tên lớp học phần dự kiến hiển thị cho sinh viên",
-    example: "Cấu trúc dữ liệu và giải thuật (Lớp Công nghệ thông tin 1)",
-  })
-  @IsString()
-  expectedCourseName: string;
 
   @ApiProperty({
     description:

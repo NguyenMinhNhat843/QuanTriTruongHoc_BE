@@ -160,6 +160,7 @@ model Semester {
   endDate     DateTime @db.Date
   status      SemesterStatus?
   isCurrent   Boolean  @default(false) // Đánh dấu học kỳ hiện tại để hệ thống lấy mặc định
+  teachingWeeks Int?  
   createdAt   DateTime @default(now())
 
   // quan hệ

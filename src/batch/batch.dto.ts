@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
-import { Type } from "class-transformer";
+import { Exclude, Type } from "class-transformer";
 import {
   IsInt,
   IsNotEmpty,
@@ -7,8 +7,9 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
+import { BatchResponseDto } from "./batch.response";
 
-export class CreateBatchDto {
+export class BatchDto implements BatchResponseDto {
   @ApiProperty({ example: "K1", description: "Mã khóa học viết tắt" })
   @IsString()
   @IsNotEmpty()
@@ -32,7 +33,7 @@ export class CreateBatchDto {
   @ApiPropertyOptional({ example: "Khóa đào tạo kỹ sư CNTT" })
   @IsString()
   @IsOptional()
-  description?: string;
+  description: string;
 
   @ApiProperty({ example: 1, description: "ID ngành học mà khóa này thuộc về" })
   @IsInt()
@@ -45,7 +46,7 @@ export class CreateBatchDto {
   })
   @IsInt()
   @IsOptional()
-  curriculumId?: number; // Thêm trường curriculumId nếu cần thiết
+  curriculumId: number; // Thêm trường curriculumId nếu cần thiết
 
   @ApiPropertyOptional({
     example: "ADMISSION",
@@ -54,13 +55,25 @@ export class CreateBatchDto {
   })
   @IsString()
   @IsOptional()
-  status?: string = "ACTIVE";
+  status: string = "ACTIVE";
+
+  // Các filed không trả về
+  @ApiPropertyOptional()
+  @IsOptional()
+  createdAt?: Date;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  id?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  updatedAt?: Date;
 }
 
-export class UpdateBatchDto extends PartialType(CreateBatchDto) {
-  // Tất cả các trường từ CreateBatchDto giờ đều là Optional (?)
-  // Bạn có thể ghi đè hoặc thêm logic riêng cho Update nếu cần
-}
+export class CreateBatchDto extends BatchDto {}
+
+export class UpdateBatchDto extends PartialType(CreateBatchDto) {}
 
 export class SearchBatchDto {
   @ApiPropertyOptional({

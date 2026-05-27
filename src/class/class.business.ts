@@ -24,48 +24,46 @@ export class ClassBusinessService {
   async assignStudentsToClasses(body: AssignStudentsToClassesDto) {
     const { batchId, studentsPerClass = 40 } = body;
 
-    // Kiểm tra khóa đào tạo [cite: 292]
     const batch = await this.prisma.batch.findUnique({
-      where: { id: batchId }, // [cite: 294]
+      where: { id: batchId },
     });
     if (!batch) {
       throw new NotFoundException(
         `Không tìm thấy thông tin Khóa đào tạo với ID ${batchId}`,
-      ); // [cite: 297, 298]
+      );
     }
-    const majorId = batch.majorId; // [cite: 301]
+    const majorId = batch.majorId;
 
-    // 1. Lấy danh sách học sinh CHƯA CÓ LỚP (classId: null) [cite: 302]
+    // 1. Lấy danh sách học sinh CHƯA CÓ LỚP (classId: null)
     const newStudents = await this.prisma.student.findMany({
       where: {
-        batchId, // [cite: 305]
-        classId: null, // Only new students [cite: 306]
-        status: StudentStatus.studying, // [cite: 307]
-        batch: { curriculum: { majorId } }, // [cite: 308]
+        batchId,
+        classId: null,
+        status: StudentStatus.studying,
+        batch: { curriculum: { majorId } },
       },
-      orderBy: { fullName: "asc" }, // [cite: 310]
+      orderBy: { fullName: "asc" },
     });
 
     if (newStudents.length === 0) {
-      throw new BadRequestException("Không có sinh viên mới nào cần phân lớp."); // [cite: 313]
+      throw new BadRequestException("Không có sinh viên mới nào cần phân lớp.");
     }
 
-    // Đảm bảo thông tin ngành tồn tại [cite: 315]
-    await this.classService.validateMajorExist(majorId); // [cite: 316]
+    // Đảm bảo thông tin ngành tồn tại
+    await this.classService.validateMajorExist(majorId);
 
-    // 2. Lấy danh sách các lớp ĐÃ TỒN TẠI của khóa này [cite: 317]
+    // 2. Lấy danh sách các lớp ĐÃ TỒN TẠI của khóa này
     const existingClasses = await this.prisma.class.findMany({
       where: {
-        batchId, // [cite: 320]
-        status: "ACTIVE", // [cite: 321]
+        batchId,
+        status: "ACTIVE",
       },
-      orderBy: { classCode: "asc" }, // [cite: 323]
+      orderBy: { classCode: "asc" },
     });
 
     const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
 
     return await this.prisma.$transaction(async (tx) => {
-      // Cấu trúc quản lý danh sách lớp trong bộ nhớ tạm để rải đều dữ liệu
       const classRooms: Array<{
         id?: number;
         classCode: string;
@@ -77,7 +75,6 @@ export class ClassBusinessService {
         studentIds: number[];
       }> = [];
 
-      // --- BƯỚC 3: ĐỌC THÔNG TIN VÀ TÍNH CHỖ TRỐNG CÁC LỚP CŨ ---
       let totalAvailableSlots = 0;
 
       for (const cls of existingClasses) {
@@ -86,7 +83,7 @@ export class ClassBusinessService {
           where: { classId: cls.id },
         });
 
-        // 🌟 ĐÃ XỬ LÝ: Nếu lớp có sẵn lấy field maxStudents, ngược lại lấy biến studentsPerClass
+        // Nếu lớp có sẵn lấy field maxStudents, ngược lại lấy biến studentsPerClass
         const maxLimit = cls.maxStudents || studentsPerClass;
         const availableSlots = maxLimit - actualCurrentCount;
 
@@ -106,10 +103,11 @@ export class ClassBusinessService {
         });
       }
 
-      // --- BƯỚC 4: TÍNH TOÁN VÀ KHỞI TẠO TRƯỚC CÁC LỚP MỚI NẾU THIẾU CHỖ ---
+      // TÍNH TOÁN VÀ KHỞI TẠO TRƯỚC CÁC LỚP MỚI NẾU THIẾU CHỖ
       let remainingStudentsCount = newStudents.length - totalAvailableSlots;
 
-      // Tìm hậu tố chữ cái lớn nhất của lớp cũ để tăng tiến [cite: 375]
+      // Tìm hậu tố chữ cái lớn nhất của lớp cũ để tăng tiến
+      // Ví dụ hiện ại đã có lớp A, B rồi thì lớp tiếp theo phải là C
       let maxLetterIdx = -1;
       existingClasses.forEach((cls) => {
         const lastChar = cls.classCode.slice(-1).toUpperCase();
@@ -128,10 +126,10 @@ export class ClassBusinessService {
           const suffix = letters[classCounter] || `Lớp-${classCounter + 1}`;
           classCode = `${batch.batchCode}${suffix}`
             .toUpperCase()
-            .replace(/\s+/g, ""); // [cite: 377, 379]
-          className = `${batch.batchCode} ${suffix}`; // [cite: 380]
+            .replace(/\s+/g, "");
+          className = `${batch.batchCode} ${suffix}`;
 
-          // Check unique thực tế trong DB [cite: 382]
+          // Check unique thực tế trong DB
           const duplicateCheck = await tx.class.findUnique({
             where: { classCode },
           });
@@ -162,7 +160,7 @@ export class ClassBusinessService {
         classCounter++;
       }
 
-      // --- BƯỚC 5: THUẬT TOÁN ROUND-ROBIN (RẢI ĐỀU SINH VIÊN VÀO CÁC LỚP CHƯA ĐẦY) ---
+      // THUẬT TOÁN ROUND-ROBIN (RẢI ĐỀU SINH VIÊN VÀO CÁC LỚP CHƯA ĐẦY)
       let roomIndex = 0;
 
       for (const student of newStudents) {
@@ -185,7 +183,7 @@ export class ClassBusinessService {
         roomIndex = (roomIndex + 1) % classRooms.length;
       }
 
-      // --- BƯỚC 6: LƯU DỮ LIỆU THỰC TẾ VÀO DATABASE ---
+      // LƯU DỮ LIỆU THỰC TẾ VÀO DATABASE ---
       const resultDetails: any = [];
 
       for (const room of classRooms) {
@@ -195,19 +193,19 @@ export class ClassBusinessService {
         let targetClassId = room.id;
 
         if (room.isNew) {
-          // Thực hiện tạo lớp mới trong DB [cite: 382]
+          // Thực hiện tạo lớp mới trong DB
           const newClass = await this.classService.create(
             {
-              classCode: room.classCode, // [cite: 384]
-              className: room.className, // [cite: 385]
-              majorId, // [cite: 386]
-              batchId: batch.id, // [cite: 387]
-              maxStudents: room.maxLimit, //
-              currentSize: room.studentIds.length, // Sĩ số thực tế được rải đều [cite: 389]
-              status: "active", // [cite: 390]
-              formTeacherId: null, // [cite: 391]
+              classCode: room.classCode,
+              className: room.className,
+              majorId,
+              batchId: batch.id,
+              maxStudents: room.maxLimit,
+              currentSize: room.studentIds.length,
+              status: "active",
+              formTeacherId: null,
             },
-            tx, // [cite: 393]
+            tx,
           );
           targetClassId = newClass.id;
         } else {
@@ -220,8 +218,8 @@ export class ClassBusinessService {
 
         // Cập nhật classId hàng loạt cho các học sinh thuộc lớp này [cite: 346, 396]
         await tx.student.updateMany({
-          where: { id: { in: room.studentIds } }, // [cite: 347, 397]
-          data: { classId: targetClassId }, // [cite: 348, 398]
+          where: { id: { in: room.studentIds } },
+          data: { classId: targetClassId },
         });
 
         resultDetails.push({
@@ -235,8 +233,8 @@ export class ClassBusinessService {
       }
 
       return {
-        message: `Phân lớp hoàn tất. Đã xử lý rải đều thêm ${newStudents.length} sinh viên mới vào các lớp.`, // [cite: 410]
-        details: resultDetails, // [cite: 411]
+        message: `Phân lớp hoàn tất. Đã xử lý rải đều thêm ${newStudents.length} sinh viên mới vào các lớp.`,
+        details: resultDetails,
       };
     });
   }
@@ -318,6 +316,20 @@ export class ClassBusinessService {
           fullName: updateStudent.fullName,
         },
       };
+    });
+  }
+
+  /**
+   * Đổi lớp cho sinh viên
+   */
+  async switchClassForStudent(studentId: number, newClassId: number) {
+    await this.prisma.student.update({
+      where: {
+        id: studentId,
+      },
+      data: {
+        classId: newClassId,
+      },
     });
   }
 }

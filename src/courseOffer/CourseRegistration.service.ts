@@ -45,20 +45,17 @@ export class CourseRegistrationService {
         student: {
           select: {
             id: true,
-            // Thêm các trường tối giản của Student bạn muốn hiện ở đây, ví dụ: studentCode, fullName
           },
         },
         courseOffer: {
           select: {
             id: true,
-            courseCode: true,
-            courseName: true,
             status: true,
           },
         },
       },
       orderBy: {
-        registeredAt: "desc", // Sắp xếp lượt đăng ký mới nhất lên đầu
+        createdAt: "desc",
       },
     });
   }
@@ -70,11 +67,11 @@ export class CourseRegistrationService {
     const registration = await this.prisma.courseRegistration.findUnique({
       where: { id },
       include: {
-        student: true, // Lấy toàn bộ thông tin sinh viên
+        student: true,
         courseOffer: {
           include: {
-            subject: true, // Đi kèm thông tin môn học
-            semester: true, // Đi kèm thông tin học kỳ
+            subject: true,
+            semester: true,
           },
         },
       },

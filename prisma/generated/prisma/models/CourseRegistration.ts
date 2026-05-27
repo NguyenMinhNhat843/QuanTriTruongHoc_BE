@@ -66,9 +66,6 @@ export type CourseRegistrationMinAggregateOutputType = {
   id: number | null
   studentId: number | null
   courseOfferId: number | null
-  status: string | null
-  registeredAt: Date | null
-  approvedAt: Date | null
   kttx1: number | null
   kttx2: number | null
   kttx3: number | null
@@ -90,9 +87,6 @@ export type CourseRegistrationMaxAggregateOutputType = {
   id: number | null
   studentId: number | null
   courseOfferId: number | null
-  status: string | null
-  registeredAt: Date | null
-  approvedAt: Date | null
   kttx1: number | null
   kttx2: number | null
   kttx3: number | null
@@ -114,9 +108,6 @@ export type CourseRegistrationCountAggregateOutputType = {
   id: number
   studentId: number
   courseOfferId: number
-  status: number
-  registeredAt: number
-  approvedAt: number
   kttx1: number
   kttx2: number
   kttx3: number
@@ -176,9 +167,6 @@ export type CourseRegistrationMinAggregateInputType = {
   id?: true
   studentId?: true
   courseOfferId?: true
-  status?: true
-  registeredAt?: true
-  approvedAt?: true
   kttx1?: true
   kttx2?: true
   kttx3?: true
@@ -200,9 +188,6 @@ export type CourseRegistrationMaxAggregateInputType = {
   id?: true
   studentId?: true
   courseOfferId?: true
-  status?: true
-  registeredAt?: true
-  approvedAt?: true
   kttx1?: true
   kttx2?: true
   kttx3?: true
@@ -224,9 +209,6 @@ export type CourseRegistrationCountAggregateInputType = {
   id?: true
   studentId?: true
   courseOfferId?: true
-  status?: true
-  registeredAt?: true
-  approvedAt?: true
   kttx1?: true
   kttx2?: true
   kttx3?: true
@@ -335,9 +317,6 @@ export type CourseRegistrationGroupByOutputType = {
   id: number
   studentId: number
   courseOfferId: number
-  status: string
-  registeredAt: Date
-  approvedAt: Date | null
   kttx1: number | null
   kttx2: number | null
   kttx3: number | null
@@ -382,9 +361,6 @@ export type CourseRegistrationWhereInput = {
   id?: Prisma.IntFilter<"CourseRegistration"> | number
   studentId?: Prisma.IntFilter<"CourseRegistration"> | number
   courseOfferId?: Prisma.IntFilter<"CourseRegistration"> | number
-  status?: Prisma.StringFilter<"CourseRegistration"> | string
-  registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
-  approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
   kttx1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   kttx2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   kttx3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
@@ -408,9 +384,6 @@ export type CourseRegistrationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   courseOfferId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  registeredAt?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   kttx1?: Prisma.SortOrderInput | Prisma.SortOrder
   kttx2?: Prisma.SortOrderInput | Prisma.SortOrder
   kttx3?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -438,9 +411,6 @@ export type CourseRegistrationWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CourseRegistrationWhereInput | Prisma.CourseRegistrationWhereInput[]
   studentId?: Prisma.IntFilter<"CourseRegistration"> | number
   courseOfferId?: Prisma.IntFilter<"CourseRegistration"> | number
-  status?: Prisma.StringFilter<"CourseRegistration"> | string
-  registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
-  approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
   kttx1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   kttx2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   kttx3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
@@ -464,9 +434,6 @@ export type CourseRegistrationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   courseOfferId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  registeredAt?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   kttx1?: Prisma.SortOrderInput | Prisma.SortOrder
   kttx2?: Prisma.SortOrderInput | Prisma.SortOrder
   kttx3?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -496,9 +463,6 @@ export type CourseRegistrationScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"CourseRegistration"> | number
   studentId?: Prisma.IntWithAggregatesFilter<"CourseRegistration"> | number
   courseOfferId?: Prisma.IntWithAggregatesFilter<"CourseRegistration"> | number
-  status?: Prisma.StringWithAggregatesFilter<"CourseRegistration"> | string
-  registeredAt?: Prisma.DateTimeWithAggregatesFilter<"CourseRegistration"> | Date | string
-  approvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CourseRegistration"> | Date | string | null
   kttx1?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
   kttx2?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
   kttx3?: Prisma.FloatNullableWithAggregatesFilter<"CourseRegistration"> | number | null
@@ -517,9 +481,6 @@ export type CourseRegistrationScalarWhereWithAggregatesInput = {
 }
 
 export type CourseRegistrationCreateInput = {
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -543,9 +504,6 @@ export type CourseRegistrationUncheckedCreateInput = {
   id?: number
   studentId: number
   courseOfferId: number
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -564,9 +522,6 @@ export type CourseRegistrationUncheckedCreateInput = {
 }
 
 export type CourseRegistrationUpdateInput = {
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -590,9 +545,6 @@ export type CourseRegistrationUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -614,9 +566,6 @@ export type CourseRegistrationCreateManyInput = {
   id?: number
   studentId: number
   courseOfferId: number
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -635,9 +584,6 @@ export type CourseRegistrationCreateManyInput = {
 }
 
 export type CourseRegistrationUpdateManyMutationInput = {
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -659,9 +605,6 @@ export type CourseRegistrationUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -698,9 +641,6 @@ export type CourseRegistrationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   courseOfferId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  registeredAt?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
   kttx1?: Prisma.SortOrder
   kttx2?: Prisma.SortOrder
   kttx3?: Prisma.SortOrder
@@ -740,9 +680,6 @@ export type CourseRegistrationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   courseOfferId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  registeredAt?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
   kttx1?: Prisma.SortOrder
   kttx2?: Prisma.SortOrder
   kttx3?: Prisma.SortOrder
@@ -764,9 +701,6 @@ export type CourseRegistrationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   courseOfferId?: Prisma.SortOrder
-  status?: Prisma.SortOrder
-  registeredAt?: Prisma.SortOrder
-  approvedAt?: Prisma.SortOrder
   kttx1?: Prisma.SortOrder
   kttx2?: Prisma.SortOrder
   kttx3?: Prisma.SortOrder
@@ -887,9 +821,6 @@ export type CourseRegistrationUncheckedUpdateManyWithoutCourseOfferNestedInput =
 }
 
 export type CourseRegistrationCreateWithoutStudentInput = {
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -911,9 +842,6 @@ export type CourseRegistrationCreateWithoutStudentInput = {
 export type CourseRegistrationUncheckedCreateWithoutStudentInput = {
   id?: number
   courseOfferId: number
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -964,9 +892,6 @@ export type CourseRegistrationScalarWhereInput = {
   id?: Prisma.IntFilter<"CourseRegistration"> | number
   studentId?: Prisma.IntFilter<"CourseRegistration"> | number
   courseOfferId?: Prisma.IntFilter<"CourseRegistration"> | number
-  status?: Prisma.StringFilter<"CourseRegistration"> | string
-  registeredAt?: Prisma.DateTimeFilter<"CourseRegistration"> | Date | string
-  approvedAt?: Prisma.DateTimeNullableFilter<"CourseRegistration"> | Date | string | null
   kttx1?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   kttx2?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
   kttx3?: Prisma.FloatNullableFilter<"CourseRegistration"> | number | null
@@ -985,9 +910,6 @@ export type CourseRegistrationScalarWhereInput = {
 }
 
 export type CourseRegistrationCreateWithoutCourseOfferInput = {
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -1009,9 +931,6 @@ export type CourseRegistrationCreateWithoutCourseOfferInput = {
 export type CourseRegistrationUncheckedCreateWithoutCourseOfferInput = {
   id?: number
   studentId: number
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -1058,9 +977,6 @@ export type CourseRegistrationUpdateManyWithWhereWithoutCourseOfferInput = {
 export type CourseRegistrationCreateManyStudentInput = {
   id?: number
   courseOfferId: number
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -1079,9 +995,6 @@ export type CourseRegistrationCreateManyStudentInput = {
 }
 
 export type CourseRegistrationUpdateWithoutStudentInput = {
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1103,9 +1016,6 @@ export type CourseRegistrationUpdateWithoutStudentInput = {
 export type CourseRegistrationUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1126,9 +1036,6 @@ export type CourseRegistrationUncheckedUpdateWithoutStudentInput = {
 export type CourseRegistrationUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   courseOfferId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1149,9 +1056,6 @@ export type CourseRegistrationUncheckedUpdateManyWithoutStudentInput = {
 export type CourseRegistrationCreateManyCourseOfferInput = {
   id?: number
   studentId: number
-  status?: string
-  registeredAt?: Date | string
-  approvedAt?: Date | string | null
   kttx1?: number | null
   kttx2?: number | null
   kttx3?: number | null
@@ -1170,9 +1074,6 @@ export type CourseRegistrationCreateManyCourseOfferInput = {
 }
 
 export type CourseRegistrationUpdateWithoutCourseOfferInput = {
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1194,9 +1095,6 @@ export type CourseRegistrationUpdateWithoutCourseOfferInput = {
 export type CourseRegistrationUncheckedUpdateWithoutCourseOfferInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1217,9 +1115,6 @@ export type CourseRegistrationUncheckedUpdateWithoutCourseOfferInput = {
 export type CourseRegistrationUncheckedUpdateManyWithoutCourseOfferInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
-  registeredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   kttx1?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx2?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   kttx3?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1243,9 +1138,6 @@ export type CourseRegistrationSelect<ExtArgs extends runtime.Types.Extensions.In
   id?: boolean
   studentId?: boolean
   courseOfferId?: boolean
-  status?: boolean
-  registeredAt?: boolean
-  approvedAt?: boolean
   kttx1?: boolean
   kttx2?: boolean
   kttx3?: boolean
@@ -1269,9 +1161,6 @@ export type CourseRegistrationSelectCreateManyAndReturn<ExtArgs extends runtime.
   id?: boolean
   studentId?: boolean
   courseOfferId?: boolean
-  status?: boolean
-  registeredAt?: boolean
-  approvedAt?: boolean
   kttx1?: boolean
   kttx2?: boolean
   kttx3?: boolean
@@ -1295,9 +1184,6 @@ export type CourseRegistrationSelectUpdateManyAndReturn<ExtArgs extends runtime.
   id?: boolean
   studentId?: boolean
   courseOfferId?: boolean
-  status?: boolean
-  registeredAt?: boolean
-  approvedAt?: boolean
   kttx1?: boolean
   kttx2?: boolean
   kttx3?: boolean
@@ -1321,9 +1207,6 @@ export type CourseRegistrationSelectScalar = {
   id?: boolean
   studentId?: boolean
   courseOfferId?: boolean
-  status?: boolean
-  registeredAt?: boolean
-  approvedAt?: boolean
   kttx1?: boolean
   kttx2?: boolean
   kttx3?: boolean
@@ -1341,7 +1224,7 @@ export type CourseRegistrationSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CourseRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseOfferId" | "status" | "registeredAt" | "approvedAt" | "kttx1" | "kttx2" | "kttx3" | "ktdk1" | "ktdk2" | "ktdk3" | "ktdk4" | "diemTB" | "diemKiemTra1" | "diemKiemTra2" | "diemTongKet1" | "diemTongKet2" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["courseRegistration"]>
+export type CourseRegistrationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "courseOfferId" | "kttx1" | "kttx2" | "kttx3" | "ktdk1" | "ktdk2" | "ktdk3" | "ktdk4" | "diemTB" | "diemKiemTra1" | "diemKiemTra2" | "diemTongKet1" | "diemTongKet2" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["courseRegistration"]>
 export type CourseRegistrationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   courseOffer?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
@@ -1365,9 +1248,6 @@ export type $CourseRegistrationPayload<ExtArgs extends runtime.Types.Extensions.
     id: number
     studentId: number
     courseOfferId: number
-    status: string
-    registeredAt: Date
-    approvedAt: Date | null
     kttx1: number | null
     kttx2: number | null
     kttx3: number | null
@@ -1811,9 +1691,6 @@ export interface CourseRegistrationFieldRefs {
   readonly id: Prisma.FieldRef<"CourseRegistration", 'Int'>
   readonly studentId: Prisma.FieldRef<"CourseRegistration", 'Int'>
   readonly courseOfferId: Prisma.FieldRef<"CourseRegistration", 'Int'>
-  readonly status: Prisma.FieldRef<"CourseRegistration", 'String'>
-  readonly registeredAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
-  readonly approvedAt: Prisma.FieldRef<"CourseRegistration", 'DateTime'>
   readonly kttx1: Prisma.FieldRef<"CourseRegistration", 'Float'>
   readonly kttx2: Prisma.FieldRef<"CourseRegistration", 'Float'>
   readonly kttx3: Prisma.FieldRef<"CourseRegistration", 'Float'>

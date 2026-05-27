@@ -55,13 +55,6 @@ export class SearchCourseOfferDto {
   teacherId?: number;
 
   @ApiPropertyOptional({
-    description: "Tìm kiếm theo Mã hoặc Tên lớp học phần",
-  })
-  @IsOptional()
-  @IsString()
-  search?: string;
-
-  @ApiPropertyOptional({
     description: "Trạng thái lớp học phần (planned, open, closed, cancelled)",
     enum: CourseOfferStatus,
   })
@@ -136,16 +129,6 @@ export class CreateOptionalCourseOfferDto {
   @IsInt()
   @Min(1)
   maxStudents: number;
-
-  @ApiPropertyOptional({ example: "2026-05-01T00:00:00Z" })
-  @IsDateString()
-  @IsOptional()
-  registrationStart?: string;
-
-  @ApiPropertyOptional({ example: "2026-05-15T23:59:59Z" })
-  @IsDateString()
-  @IsOptional()
-  registrationEnd?: string;
 }
 
 export class ScheduleItemDto {

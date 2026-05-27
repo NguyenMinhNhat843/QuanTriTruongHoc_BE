@@ -3,8 +3,9 @@
 // ==========================
 model User {
   id            Int       @id @default(autoincrement())
-  userId        String    @unique // Mã định danh ngoại (UUID hoặc NanoID)
   username      String    @unique
+  staffId       Int?      @unique
+  studentId     Int?      @unique
   passwordHash  String
   lastLoginAt   DateTime?
   role          RoleType
