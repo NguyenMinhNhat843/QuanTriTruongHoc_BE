@@ -83,6 +83,13 @@ export class CourseOfferRegisResponseDto implements CourseRegistration {
   ktdk4!: number | null;
 
   @ApiPropertyOptional({
+    type: String,
+  })
+  @IsOptional()
+  @IsString()
+  rating: string | null;
+
+  @ApiPropertyOptional({
     type: Number,
   })
   @IsOptional()

@@ -3,6 +3,7 @@ import { Transform, Type } from "class-transformer";
 import {
   ArrayMinSize,
   IsArray,
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsInt,
@@ -200,3 +201,31 @@ export class AssignScheduleDto {
 export class updateClassSubjectDto extends PartialType(
   CreateOptionalCourseOfferDto,
 ) {}
+
+export class ExportGradeTableDto {
+  @ApiProperty({
+    type: [Number],
+    required: true,
+  })
+  @IsNotEmpty({ message: "Danh sách classSubjectIds không được để trống" })
+  @IsArray({ message: "classSubjectIds phải là một mảng" })
+  @ArrayMinSize(1, {
+    message: "Cần cung cấp ít nhất 1 classSubjectId để xuất Excel",
+  })
+  @IsInt({
+    each: true,
+    message: "Mỗi classSubjectId trong mảng phải là số nguyên",
+  })
+  @Transform(({ value }) => {
+    if (!Array.isArray(value)) {
+      return [Number(value)];
+    }
+    return value.map((v) => Number(v));
+  })
+  classSubjectIds: number[];
+
+  @ApiPropertyOptional({})
+  @IsOptional()
+  @IsBoolean()
+  haveTongKetSheet?: boolean;
+}

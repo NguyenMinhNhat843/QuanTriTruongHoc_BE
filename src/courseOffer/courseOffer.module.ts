@@ -7,11 +7,17 @@ import { SubjectModule } from "../subject/subject.module";
 import { CourseOfferQuery } from "./courseOffer.query";
 import { CurriculumSubjectModule } from "../curriculumSubject/curriculumnSubject.module";
 import { BatchModule } from "../batch/batch.module";
+import { ExportGradeTableService } from "./exportGradeTable.service";
 
 @Module({
   imports: [SubjectModule, CurriculumSubjectModule, BatchModule],
   controllers: [CourseOfferController, CourseRegistrationController],
-  providers: [CourseOfferService, CourseRegistrationService, CourseOfferQuery],
-  exports: [CourseOfferService, CourseOfferQuery],
+  providers: [
+    CourseOfferService,
+    CourseRegistrationService,
+    CourseOfferQuery,
+    ExportGradeTableService,
+  ],
+  exports: [CourseOfferService, CourseOfferQuery, ExportGradeTableService],
 })
 export class CourseOfferModule {}

@@ -3187,6 +3187,7 @@ export const CourseRegistrationScalarFieldEnum = {
   diemKiemTra2: 'diemKiemTra2',
   diemTongKet1: 'diemTongKet1',
   diemTongKet2: 'diemTongKet2',
+  rating: 'rating',
   note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

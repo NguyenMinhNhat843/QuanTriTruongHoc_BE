@@ -28,6 +28,7 @@ export class CourseOfferQuery {
                 majorName: true,
               },
             },
+            className: true,
             batch: {
               select: {
                 batchCode: true,
@@ -35,10 +36,17 @@ export class CourseOfferQuery {
             },
           },
         },
+        subject: {
+          select: {
+            subjectName: true,
+            subjectCode: true,
+          },
+        },
         semester: {
           select: {
             term: true,
             year: true,
+            name: true,
           },
         },
       },
@@ -56,7 +64,11 @@ export class CourseOfferQuery {
       majorName: courseOffer.baseClass?.major?.majorName || "",
       semesterTerm: courseOffer.semester?.term || "",
       semesterYear: courseOffer.semester?.year || "",
+      semesterName: courseOffer.semester?.name || "",
       batchCode: courseOffer.baseClass?.batch?.batchCode || "",
+      subjectName: courseOffer.subject?.subjectName || "",
+      subjectCode: courseOffer.subject?.subjectCode || "",
+      className: courseOffer.baseClass?.className || "",
     };
 
     const gradeTable = await this.prisma.courseRegistration.findMany({

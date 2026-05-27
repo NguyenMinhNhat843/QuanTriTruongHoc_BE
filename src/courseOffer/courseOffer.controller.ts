@@ -17,15 +17,22 @@ import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import { Response } from "express";
 import {
   CourseOfferDto,
-  // CourseOfferDto,
   ResponsePreviewGenerateSectionForClass,
 } from "./courseOffer.response";
-import { SearchCourseOfferDto, updateClassSubjectDto } from "./courseOffer.dto";
+import {
+  ExportGradeTableDto,
+  SearchCourseOfferDto,
+  updateClassSubjectDto,
+} from "./courseOffer.dto";
+import { ExportGradeTableService } from "./exportGradeTable.service";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
 export class CourseOfferController {
-  constructor(private readonly courseOfferService: CourseOfferService) {}
+  constructor(
+    private readonly courseOfferService: CourseOfferService,
+    private exportGradeTableService: ExportGradeTableService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách lớp học phần" })
@@ -100,17 +107,19 @@ export class CourseOfferController {
     return await this.courseOfferService.getCourseOfferDetail(id);
   }
 
-  @Get(":id/export-excel")
-  async exportExcel(
-    @Param("id", ParseIntPipe) id: number,
-    @Res() res: Response,
-  ) {
+  /**
+   * Xuất file excel bảng điểm
+   */
+  @Post("/export-excel")
+  async exportExcel(@Body() body: ExportGradeTableDto, @Res() res: Response) {
     try {
-      // 1. Gọi service để xử lý và nhận về file dạng Buffer
-      const fileBuffer = await this.courseOfferService.exportToExcel(id);
-      const fileName = `bangdiem_lophocphan_${id}.xlsx`;
+      const fileBuffer =
+        await this.exportGradeTableService.exportMultipleSubjectsToExcel(
+          body.classSubjectIds,
+          body.haveTongKetSheet,
+        );
+      const fileName = `bangdiem_lophocphan.xlsx`;
 
-      // 2. Thiết lập các HTTP Header cần thiết cho việc tải file mẫu Excel (.xlsx)
       res.set({
         "Content-Type":
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

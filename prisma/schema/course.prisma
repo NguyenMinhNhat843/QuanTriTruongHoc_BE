@@ -51,7 +51,7 @@ model CourseOffer {
 }
 
 // ==========================
-// 9. COURSE_REGISTRATIONS (Điểm học sinh của 1 ClassSubject)
+// Điểm của 1 học sinh của 1 classSubject
 // ==========================
 model CourseRegistration {
   id             Int         @id @default(autoincrement())
@@ -74,6 +74,7 @@ model CourseRegistration {
   diemKiemTra2    Float?
   diemTongKet1    Float?
   diemTongKet2    Float?
+  rating          String?
 
   note           String?     @db.Text
   

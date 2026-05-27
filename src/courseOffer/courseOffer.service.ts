@@ -13,9 +13,6 @@ import {
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { plainToInstance } from "class-transformer";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
-import * as ExcelJS from "exceljs";
-import * as path from "path";
-import { CourseOfferQuery } from "./courseOffer.query";
 import { Prisma } from "../../prisma/generated/prisma/client";
 import { CurriculumSubjectService } from "../curriculumSubject/curriculumnSubject.service";
 import {
@@ -27,7 +24,6 @@ import {
 export class CourseOfferService {
   constructor(
     private prisma: PrismaService,
-    private courseOfferQuery: CourseOfferQuery,
     private curriculumSubjectService: CurriculumSubjectService,
   ) {}
 
@@ -465,96 +461,6 @@ export class CourseOfferService {
     return plainToInstance(CourseOfferDetailResponseDto, courseOffer, {
       excludeExtraneousValues: false,
     });
-  }
-
-  /**
-   * Xuất excel danh sách điểm của lớp học phần
-   * File excel sẽ được tạo dựa trên template có sẵn trong thư mục assets của project
-   * Template này đã được thiết kế sẵn với phần header và định dạng cơ bản
-   * Phần dữ liệu điểm sẽ được chèn động vào template dựa trên cấu trúc đã định nghĩa
-   */
-  async exportToExcel(classSubjectId: number) {
-    // 1. Xác định đường dẫn file template (Sử dụng process.cwd() để an toàn cho cả dev và production)
-    const templatePath = path.join(
-      process.cwd(),
-      "dist",
-      "assets",
-      "bangdiem_template.xlsx",
-    );
-
-    // 2. Khởi tạo Workbook và đọc file template
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.readFile(templatePath);
-    const worksheet = workbook.worksheets[0];
-
-    const { keyValueData, gradeTable } =
-      await this.courseOfferQuery.queryDataForExportExcel(classSubjectId);
-
-    const startGradeColumnIndex = 8;
-
-    worksheet.eachRow((row) => {
-      row.eachCell((cell) => {
-        if (cell.value && typeof cell.value === "string") {
-          let cellString = cell.value;
-
-          const matches = cellString.match(/{{(.*?)}}/g);
-          if (matches) {
-            matches.forEach((match) => {
-              const key = match.replace("{{", "").replace("}}", "").trim();
-              if (keyValueData[key] !== undefined) {
-                cellString = cellString.replace(match, keyValueData[key]);
-              }
-            });
-            cell.value = cellString;
-          }
-        }
-      });
-    });
-
-    gradeTable.forEach((item, index) => {
-      const currentRowNum = startGradeColumnIndex + index;
-      const row = worksheet.getRow(currentRowNum);
-
-      // Điền dữ liệu vào từng cột tương ứng theo template hình ảnh
-      row.getCell("A").value = index + 1; // STT
-      row.getCell("B").value = item.student.studentCode; // MSSV
-      row.getCell("C").value = item.student.fullName; // Họ tên
-
-      // Format Ngày sinh (nếu có)
-      if (item.student.dob) {
-        const dobDate = new Date(item.student.dob);
-        row.getCell("D").value = dobDate;
-        row.getCell("D").numFmt = "dd/mm/yyyy"; // Định dạng ngày tháng trong Excel
-      } else {
-        row.getCell("D").value = "";
-      }
-
-      // Điểm Thường Xuyên (KTTX)
-      row.getCell("E").value = item.kttx1; // KTTX Lần 1
-      row.getCell("F").value = item.kttx2; // KTTX Lần 2
-      row.getCell("G").value = item.kttx3; // KTTX Lần 3
-
-      // Kiểm tra định kỳ
-      row.getCell("H").value = item.ktdk1; // Định kỳ Lần 1
-      row.getCell("I").value = item.ktdk2; // Định kỳ Lần 2
-      row.getCell("J").value = item.ktdk3; // Định kỳ Lần 3
-      row.getCell("K").value = item.ktdk4; // Định kỳ Lần 4
-
-      // Trung bình & Điểm kiểm tra
-      row.getCell("L").value = item.diemTB; // Trung bình
-      row.getCell("M").value = item.diemKiemTra1; // Điểm kiểm tra Lần 1
-      row.getCell("N").value = item.diemKiemTra2; // Điểm kiểm tra Lần 2
-
-      // Tổng kết & Ghi chú
-      row.getCell("O").value = item.diemTongKet1; // Tổng kết lần 1
-      row.getCell("P").value = item.diemTongKet2; // Tổng kết lần 2
-      row.getCell("Q").value = item.note; // Ghi chú
-
-      row.commit();
-    });
-
-    const buffer = await workbook.xlsx.writeBuffer();
-    return buffer;
   }
 
   /**

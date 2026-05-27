@@ -87,6 +87,21 @@ export class CourseRegistrationService {
   }
 
   /**
+   * Hàm helper quy đổi điểm hệ 10 sang điểm chữ theo tiêu chuẩn chung
+   */
+  private calculateRatingGrade(
+    diemTK: number | null | undefined,
+  ): string | null {
+    if (diemTK === null || diemTK === undefined) return null;
+
+    if (diemTK >= 8.5) return "A";
+    if (diemTK >= 7.0) return "B";
+    if (diemTK >= 5.5) return "C";
+    if (diemTK >= 4.0) return "D";
+    return "F";
+  }
+
+  /**
    * Lưu bảng điểm
    */
   async saveGradeTable(data: SaveGradesDto) {
@@ -115,6 +130,7 @@ export class CourseRegistrationService {
           diemTB: grade.diemTB,
           diemTongKet1: grade.diemTongKet1,
           diemTongKet2: grade.diemTongKet2,
+          rating: this.calculateRatingGrade(grade.diemTongKet2),
           note: grade.note,
         },
       });
