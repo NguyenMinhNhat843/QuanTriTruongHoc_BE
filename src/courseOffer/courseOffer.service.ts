@@ -431,4 +431,40 @@ export class CourseOfferService {
     // 5. Trả về kết quả tổng quan
     return plainToInstance(ResponsePreviewGenerateSectionForClass, previewList);
   }
+
+  /**
+   * Phân công giảng dạy
+   */
+  async assignTeacher(body: SearchCourseOfferDto) {
+    const classSubjects = await this.findAll(body);
+
+    const teachers = await this.prisma.staff.findMany({
+      where: {
+        EmployeeRole: "TEACHER",
+      },
+      include: {
+        teacherSubjects: true,
+      },
+    });
+
+    for (const classSubject of classSubjects) {
+      if (classSubject.teacherId) continue; // Nếu môn này có giáo viên rồi thì bỏ qua
+
+      // Tìm giáo viên phù hợp
+      const suitableTeacher = teachers.find((t) =>
+        t.teacherSubjects.some((ts) => ts.subjectId === classSubject.subjectId),
+      );
+
+      if (suitableTeacher) {
+        await this.prisma.courseOffer.update({
+          where: {
+            id: classSubject.id,
+          },
+          data: {
+            teacherId: suitableTeacher.id,
+          },
+        });
+      }
+    }
+  }
 }

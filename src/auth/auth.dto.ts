@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, MinLength } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { RoleType } from "../../prisma/generated/prisma/enums";
 
 export class LoginDto {
   @ApiProperty({ example: "admin" })
@@ -10,6 +11,30 @@ export class LoginDto {
   @ApiProperty({ example: "123456" })
   @IsString()
   @IsNotEmpty()
-  @MinLength(6)
   password!: string;
+}
+
+export class SearchAccountDto {
+  @ApiPropertyOptional({ enum: RoleType })
+  @IsOptional()
+  @IsEnum(RoleType, {
+    message: "role phải là admin, teacher, staff, student",
+  })
+  role?: RoleType;
+}
+
+export class RegisterDto {
+  @ApiProperty({ example: "newuser" })
+  @IsString()
+  @IsNotEmpty()
+  username!: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+
+  @ApiProperty({ enum: RoleType })
+  @IsEnum(RoleType)
+  role: RoleType;
 }

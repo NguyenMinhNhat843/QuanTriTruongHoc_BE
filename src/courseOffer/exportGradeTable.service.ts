@@ -85,18 +85,18 @@ export class ExportGradeTableService {
     };
 
     // Định nghĩa định dạng font chữ chuẩn (Không in đậm)
-    const regularFont: Partial<ExcelJS.Font> = {
-      name: "Arial",
-      size: 11,
-      bold: false,
-      color: { argb: "FF000000" },
-    };
+    // const regularFont: Partial<ExcelJS.Font> = {
+    //   name: "Arial",
+    //   size: 11,
+    //   bold: false,
+    //   color: { argb: "FF000000" },
+    // };
 
     // Định nghĩa định dạng căn giữa
-    const centerAlignment: Partial<ExcelJS.Alignment> = {
-      vertical: "middle",
-      horizontal: "center",
-    };
+    // const centerAlignment: Partial<ExcelJS.Alignment> = {
+    //   vertical: "middle",
+    //   horizontal: "center",
+    // };
 
     // Ghi semesterName
     const semesterName = allSubjectsData[0]?.keyValueData?.semesterName;

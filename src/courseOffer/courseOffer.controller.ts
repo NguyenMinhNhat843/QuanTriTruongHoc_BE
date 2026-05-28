@@ -35,7 +35,7 @@ export class CourseOfferController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: "Lấy danh sách lớp học phần" })
+  @ApiOperation({ summary: "Lấy danh sách ClassSubject" })
   @ApiResponse({
     status: 200,
     type: [CourseOfferDto],
@@ -99,6 +99,18 @@ export class CourseOfferController {
       classId,
       semesterId,
     );
+  }
+
+  /**
+   * Phân công giáo viên giảng dạy cho từng lớp
+   */
+  @Post("assign-teacher")
+  @ApiOperation({ summary: "Phân công giáo viên giảng dạy cho từng lớp" })
+  @ApiResponse({
+    status: 200,
+  })
+  async assignTeacher(@Body() body: SearchCourseOfferDto) {
+    return await this.courseOfferService.assignTeacher(body);
   }
 
   /**

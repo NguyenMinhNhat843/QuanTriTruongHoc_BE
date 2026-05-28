@@ -118,10 +118,7 @@ export class CourseOfferDto implements CourseOffer {
   registrationStart: Date | null;
 
   @ApiProperty({
-    description: "ID của giáo viên giảng dạy",
-    example: 12,
-    nullable: true,
-    required: false,
+    type: Number,
   })
   @IsOptional()
   @IsInt({ message: "teacherId phải là số nguyên" })
@@ -143,8 +140,7 @@ export class CourseOfferDto implements CourseOffer {
   @IsInt({ message: "subjectId phải là số nguyên" })
   subjectId: number;
 
-  // --- THÔNG TIN TỐI GIẢN TỪ CÁC QUAN HỆ ---
-
+  // QUAN HỆ
   @ApiProperty({ type: StaffResponseDto })
   teacher?: StaffResponseDto | null;
 

@@ -1,8 +1,10 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service.js";
-import { LoginDto } from "./auth.dto.js";
+import { LoginDto, RegisterDto, SearchAccountDto } from "./auth.dto.js";
 import * as bcrypt from "bcryptjs";
+import { plainToInstance } from "class-transformer";
+import { AccountResponseDto } from "./auth.resposne.js";
 
 @Injectable()
 export class AuthService {
@@ -10,6 +12,28 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
+
+  async register(body: RegisterDto) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { username: body.username },
+    });
+
+    if (existingUser) {
+      throw new UnauthorizedException("Tên người dùng đã tồn tại");
+    }
+
+    // 1. Tạo người dùng mới
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+    const newUser = await this.prisma.user.create({
+      data: {
+        username: body.username,
+        passwordHash: hashedPassword,
+        role: body.role,
+      },
+    });
+
+    return newUser;
+  }
 
   async login(data: LoginDto) {
     // 1. Tìm user theo username
@@ -27,7 +51,7 @@ export class AuthService {
       throw new UnauthorizedException("Mật khẩu không chính xác");
     }
 
-    // 3. Tạo Pay   load và ký JWT
+    // 3. Tạo Payload và ký JWT
     const payload = {
       sub: user.id,
       username: user.username,
@@ -44,14 +68,17 @@ export class AuthService {
     };
   }
 
-  async getAllAccount() {
-    return this.prisma.user.findMany({
-      select: {
-        id: true,
-        username: true,
-        role: true,
-        isActive: true,
-      },
+  async getAllAccount(query: SearchAccountDto) {
+    const whereClause: any = {};
+
+    if (query.role) {
+      whereClause.role = query.role;
+    }
+
+    const result = await this.prisma.user.findMany({
+      where: whereClause,
     });
+
+    return plainToInstance(AccountResponseDto, result);
   }
 }
