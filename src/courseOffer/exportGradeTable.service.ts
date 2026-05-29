@@ -57,6 +57,22 @@ export class ExportGradeTableService {
     return 0.0;
   }
 
+  private convertHe10ToDiemChu(diemHe10: number): string {
+    if (diemHe10 >= 8.5) return "A";
+    if (diemHe10 >= 7.0) return "B";
+    if (diemHe10 >= 5.5) return "C";
+    if (diemHe10 >= 4.0) return "D";
+    return "F";
+  }
+
+  private convertDiemChuToHe4(diemChu: string): number {
+    if (diemChu === "A") return 4.0;
+    if (diemChu === "B") return 3.0;
+    if (diemChu === "C") return 2.0;
+    if (diemChu === "D") return 1.0;
+    return 0.0;
+  }
+
   /**
    * Hàm helper quy đổi Điểm Hệ 4 sang Điểm Chữ
    */
@@ -68,6 +84,14 @@ export class ExportGradeTableService {
     return "F";
   }
 
+  private convertDiem4ToXepLoai(diemHe4: number): string {
+    if (diemHe4 >= 3.5) return "Xuất sắc";
+    if (diemHe4 >= 3) return "Giỏi";
+    if (diemHe4 >= 2.5) return "Khá";
+    if (diemHe4 >= 2.0) return "Trung bình";
+    return "Yếu";
+  }
+
   /**
    * Hàm xử lý tính toán và dựng cấu trúc dữ liệu cho Sheet Tổng Kết
    */
@@ -75,7 +99,6 @@ export class ExportGradeTableService {
     summarySheet: ExcelJS.Worksheet,
     allSubjectsData: any[],
   ) {
-    console.log(console.log(JSON.stringify(allSubjectsData[0], null, 2)));
     // Định nghĩa border chuẩn cho tất cả các ô dữ liệu
     const cellBorder: Partial<ExcelJS.Borders> = {
       top: { style: "thin", color: { argb: "FF000000" } },
@@ -90,12 +113,6 @@ export class ExportGradeTableService {
     //   size: 11,
     //   bold: false,
     //   color: { argb: "FF000000" },
-    // };
-
-    // Định nghĩa định dạng căn giữa
-    // const centerAlignment: Partial<ExcelJS.Alignment> = {
-    //   vertical: "middle",
-    //   horizontal: "center",
     // };
 
     // Ghi semesterName
@@ -138,7 +155,7 @@ export class ExportGradeTableService {
     // Chèn cột subjects
     if (columForSubjects === -1) {
       columForSubjects = 11; // Mặc định cột K
-      rowForSubjects = 3;
+      rowForSubjects = 4;
     }
     const headerSubjectColumnStyles = JSON.parse(
       JSON.stringify(
@@ -147,9 +164,9 @@ export class ExportGradeTableService {
     );
     if (subjectsName.length > 1) {
       summarySheet.spliceColumns(
-        columForSubjects + 1,
+        columForSubjects + 2,
         0,
-        ...Array(subjectsName.length - 1).fill([]),
+        ...Array((subjectsName.length - 1) * 2).fill([]),
       );
     }
 
@@ -157,20 +174,52 @@ export class ExportGradeTableService {
     subjectsName?.forEach((name, index) => {
       const cell = summarySheet
         .getRow(rowForSubjects)
-        .getCell(columForSubjects + index);
-      summarySheet.mergeCells(
-        rowForSubjects,
-        columForSubjects + index,
-        rowForSubjects + 1,
-        columForSubjects + index,
-      );
+        .getCell(columForSubjects + index * 2);
+      cell.style = headerSubjectColumnStyles;
       cell.border = cellBorder as ExcelJS.Borders;
       cell.value = name;
-      cell.style = headerSubjectColumnStyles;
+      cell.alignment = {
+        ...cell.alignment,
+        vertical: "middle",
+        horizontal: "center",
+        wrapText: true,
+      };
+
+      const cellDiemChu = summarySheet
+        .getRow(rowForSubjects)
+        .getCell(columForSubjects + index * 2 + 1);
+      cellDiemChu.style = headerSubjectColumnStyles;
+      cellDiemChu.border = cellBorder as ExcelJS.Borders;
+      cellDiemChu.value = "";
+      cellDiemChu.alignment = {
+        ...cellDiemChu.alignment,
+        vertical: "middle",
+        horizontal: "center",
+      };
     });
+
+    summarySheet.mergeCells(
+      rowForSubjects - 1,
+      columForSubjects,
+      rowForSubjects - 1,
+      columForSubjects + subjectsName.length * 2 - 1,
+    );
+    const mergedCell = summarySheet
+      .getRow(rowForSubjects - 1)
+      .getCell(columForSubjects);
+
+    mergedCell.alignment = {
+      ...mergedCell.alignment,
+      vertical: "middle",
+      horizontal: "center",
+    };
 
     // Xử lý dữ liệu điểm của từng sinh viên cho từng môn học
     const mainData = allSubjectsData[0]?.gradeTable?.map((student, index) => {
+      let tongDiemHe10 = 0;
+      let tongDiemHe4 = 0;
+      let tongTinChi = 0;
+
       const diemTongKetTungMon = allSubjectsData?.map((subject) => {
         const grade = subject?.gradeTable?.filter(
           (g) => g.student.studentCode === student.student.studentCode,
@@ -180,25 +229,24 @@ export class ExportGradeTableService {
           grade?.diemTongKet2 !== undefined &&
           grade?.diemTongKet2 !== ""
             ? grade.diemTongKet2
-            : grade?.diemTongKet1;
+            : grade?.diemTongKet1; // ƯU tiên lấy điểm tổng kết 2
+
+        tongDiemHe10 += Number(rawDiem) * subject?.keyValueData?.credits;
+        tongDiemHe4 +=
+          this.convertDiemChuToHe4(this.convertHe10ToDiemChu(Number(rawDiem))) *
+          subject?.keyValueData?.credits;
+        tongTinChi += subject?.keyValueData?.credits || 0;
         return rawDiem !== null && rawDiem !== undefined && rawDiem !== ""
           ? Number(rawDiem)
           : "";
       });
-      // 1. Lọc ra danh sách các điểm hợp lệ (kiểu number)
-      const cacDiemHopLe = diemTongKetTungMon.filter(
-        (val): val is number => typeof val === "number",
-      );
 
-      // 2. Tính điểm trung bình nếu có điểm, nếu không thì trả về chuỗi rỗng
-      const diemTBHe10 =
-        cacDiemHopLe.length > 0
-          ? cacDiemHopLe.reduce((acc, val) => acc + val, 0) /
-            cacDiemHopLe.length
-          : "";
+      const diemTBRaw = tongDiemHe10 / tongTinChi;
+      const diemTBHe10 = tongTinChi > 0 ? Math.round(diemTBRaw * 10) / 10 : 0;
 
-      const diemTBHe4 = this.convertHe10ToHe4(Number(diemTBHe10));
-      const diemChu = this.convertHe4ToDiemChu(Number(diemTBHe4));
+      const diemTBHe4 =
+        tongTinChi > 0 ? Math.round((tongDiemHe4 / tongTinChi) * 100) / 100 : 0;
+      const diemChu = this.convertHe10ToDiemChu(diemTBHe10);
 
       return {
         stt: index + 1,
@@ -208,10 +256,13 @@ export class ExportGradeTableService {
         diemTBHe10: diemTBHe10,
         diemTBHe4: diemTBHe4,
         diemChu: diemChu,
-        xepLoaiHL: "",
+        xepLoaiHL: this.convertDiem4ToXepLoai(diemTBHe4),
         xepLoaiRLChu: "",
         xepLoaiRLDiem: "",
-        diemTongKetTungMon: diemTongKetTungMon,
+        diemTongKetTungMon: diemTongKetTungMon.flatMap((diem) => [
+          diem,
+          this.convertHe10ToDiemChu(Number(diem)),
+        ]),
       };
     });
 
@@ -251,7 +302,6 @@ export class ExportGradeTableService {
       "assets",
       "bangdiem_template.xlsx",
     );
-
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.readFile(templatePath);
 

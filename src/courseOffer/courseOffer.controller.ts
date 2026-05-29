@@ -25,12 +25,14 @@ import {
   updateClassSubjectDto,
 } from "./courseOffer.dto";
 import { ExportGradeTableService } from "./exportGradeTable.service";
+import { CourseOfferGenerateService } from "./courseOfferGenerate.service";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
 export class CourseOfferController {
   constructor(
     private readonly courseOfferService: CourseOfferService,
+    private readonly courseOfferGenerateService: CourseOfferGenerateService,
     private exportGradeTableService: ExportGradeTableService,
   ) {}
 
@@ -80,6 +82,21 @@ export class CourseOfferController {
   ) {
     return this.courseOfferService.previewGenerateSectionForClass(
       classId,
+      semesterId,
+    );
+  }
+
+  /**
+   * Tạo danh sách classSUbject cho toàn bộ lớp học trong 1 học kỳ dựa trên chương trình khung
+   */
+  @Post("gen-classSubject")
+  @ApiOperation({
+    summary: "Tự động tạo lớp học phần cho toàn bộ lớp hành chính",
+  })
+  async generateClassSubject(
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return await this.courseOfferGenerateService.generateClassSubjectBySemester(
       semesterId,
     );
   }

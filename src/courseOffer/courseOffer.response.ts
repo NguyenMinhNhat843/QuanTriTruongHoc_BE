@@ -201,3 +201,5 @@ export class ResponsePreviewGenerateSectionForClass {
   @IsBoolean()
   isExisted: boolean;
 }
+
+export class ResponseCourseDataForExportExcel {}

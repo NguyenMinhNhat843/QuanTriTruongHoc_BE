@@ -6,8 +6,11 @@ import {
   IsOptional,
   IsDateString,
   IsInt,
+  IsEnum,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
+import { SemesterStatus } from "../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
 
 export class CreateSemesterDto {
   @ApiProperty({ example: "HK1-2026", description: "Tên học kỳ" })
@@ -37,6 +40,29 @@ export class CreateSemesterDto {
   @IsDateString()
   @IsNotEmpty()
   endDate: string;
+
+  @ApiPropertyOptional({
+    type: Number,
+    example: 18,
+    description: "Số tuần học chính thức trong học kỳ (không bắt buộc)",
+  })
+  @Type(() => Number)
+  @IsInt()
+  @IsOptional()
+  teachingWeeks: number | null;
+
+  @ApiPropertyOptional({
+    type: String,
+  })
+  @IsOptional()
+  schoolYear: string | null;
+
+  @ApiPropertyOptional({
+    enum: SemesterStatus,
+  })
+  @IsEnum(SemesterStatus)
+  @IsOptional()
+  status: SemesterStatus | null;
 
   @ApiPropertyOptional({
     example: false,

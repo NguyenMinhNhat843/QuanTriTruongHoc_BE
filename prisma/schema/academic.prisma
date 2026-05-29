@@ -56,8 +56,9 @@ model Batch {
   batchCode   String   @unique // Ví dụ: K1, K26, 2026
   batchName   String   // Ví dụ: Khóa 1, Khóa 2026
   
-  startYear   Int      // Năm bắt đầu (2026)
-  endYear     Int      // Năm kết thúc dự kiến (2030)
+  startYear   Int      // Năm bắt đầu - mặc định là kỳ 1 
+  endYear     Int      // Năm kết thúc dự kiến 
+  endTerm     Int?    // Kỳ kết thúc
 
   description String?
 

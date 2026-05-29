@@ -29,11 +29,9 @@ model CourseOffer {
   baseClass         Class?    @relation(fields: [classId], references: [id])
   semesterId        Int
   semester          Semester  @relation(fields: [semesterId], references: [id])
-  maxStudents       Int?       @default(40)
-  currentStudents   Int?       @default(0) // Cần logic update khi có sinh viên đăng ký thành công
   
   // planned, open, closed, cancelled
-  status            CourseOfferStatus? @default(planned)
+  // status            CourseOfferStatus? @default(planned)
   
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt  

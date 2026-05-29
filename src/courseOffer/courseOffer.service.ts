@@ -159,10 +159,11 @@ export class CourseOfferService {
       where: { id: courseOfferId },
       include: {
         registrations: {
+          // Điểm của sinh viên trong ClassSubject này
           select: {
             student: {
               select: {
-                id: true, // Nên lấy thêm ID để khớp hoàn toàn với DTO
+                id: true,
                 fullName: true,
                 studentCode: true,
                 dob: true,
@@ -199,6 +200,30 @@ export class CourseOfferService {
         },
       },
     });
+
+    // Xếp điểm học sinh theo thứ tự bảng chữ cái
+    const getLastName = (fullName: string) => {
+      if (!fullName) return "";
+      const parts = fullName.trim().split(/\s+/);
+      return parts[parts.length - 1];
+    };
+    if (courseOffer && courseOffer.registrations) {
+      courseOffer.registrations.sort((a, b) => {
+        const nameA = getLastName(a.student?.fullName || "");
+        const nameB = getLastName(b.student?.fullName || "");
+
+        // So sánh Tên trước, nếu Tên trùng nhau thì so sánh toàn bộ Họ Tên (fullName)
+        const compareName = nameA.localeCompare(nameB, "vi", {
+          sensitivity: "base",
+        });
+        if (compareName !== 0) return compareName;
+
+        return (a.student?.fullName || "").localeCompare(
+          b.student?.fullName || "",
+          "vi",
+        );
+      });
+    }
 
     if (!courseOffer) {
       throw new NotFoundException("Không tìm thấy lớp học phần");

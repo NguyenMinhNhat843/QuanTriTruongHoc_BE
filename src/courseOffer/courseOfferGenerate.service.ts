@@ -7,6 +7,81 @@ export class CourseOfferGenerateService {
   constructor(private prisma: PrismaService) {}
 
   /**
+   * TÍnh năng tạo hàng loạt classSubject trong 1 học kỳ
+   */
+  async generateClassSubjectBySemester(semesterId: number) {
+    const semester = await this.prisma.semester.findUnique({
+      where: { id: semesterId },
+    });
+
+    if (!semester || !semester.year || !semester.term) {
+      throw new NotFoundException("Học kỳ không hợp lệ");
+    }
+
+    const { year, term } = semester;
+
+    const batches = await this.prisma.batch.findMany({
+      include: {
+        classes: true,
+        curriculum: {
+          include: {
+            curriculumSubjects: true,
+          },
+        },
+      },
+    });
+
+    const classSubjectsToCreate: any[] = [];
+
+    for (const batch of batches) {
+      const subjects = batch.curriculum?.curriculumSubjects || [];
+      if (subjects.length === 0) continue;
+
+      const maxSemesterNum = Math.max(...subjects.map((s) => s.semesterNumber));
+      const startTerm = 1;
+      const startYear = batch.startYear;
+
+      const semesterCurrentInCurriculum = (year - startYear) * 2 + term;
+
+      if (
+        semesterCurrentInCurriculum >= startTerm &&
+        semesterCurrentInCurriculum <= maxSemesterNum
+      ) {
+        const subjectsInCurriculum = subjects.filter(
+          (s) => s.semesterNumber === semesterCurrentInCurriculum,
+        );
+
+        const classes = batch.classes;
+
+        for (const subject of subjectsInCurriculum) {
+          for (const cls of classes) {
+            classSubjectsToCreate.push({
+              subjectId: subject.subjectId,
+              semesterId: semesterId,
+              classId: cls.id,
+            });
+          }
+        }
+      }
+    }
+
+    let totalCreated = 0;
+    if (classSubjectsToCreate.length > 0) {
+      const result = await this.prisma.courseOffer.createMany({
+        data: classSubjectsToCreate,
+        skipDuplicates: true,
+      });
+      totalCreated = result.count;
+    }
+
+    return {
+      message: `Đã khởi tạo lớp học phần cho học kỳ ${semester.name}`,
+      totalBatches: batches.length,
+      totalCourseOffersCreated: totalCreated,
+    };
+  }
+
+  /**
    * Khi Admin tạo các classSubject tự động cho học kỳ này sẽ gọi api này để xem trước
    */
   async previewGenClassSubjects(dto: CreateBulkCourseOfferDto) {

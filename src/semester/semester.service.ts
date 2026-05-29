@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   InternalServerErrorException,
+  ConflictException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateSemesterDto, UpdateSemesterDto } from "./semester.dto";
@@ -19,32 +20,48 @@ export class SemesterService {
     const client = tx || this.prisma;
 
     try {
-      return await client.$transaction(async (tx) => {
-        // Nếu học kỳ mới là Current, bỏ đánh dấu các học kỳ cũ
-        if (data.isCurrent) {
-          await tx.semester.updateMany({
-            where: { isCurrent: true },
-            data: { isCurrent: false },
-          });
-        }
+      const status = data.isCurrent
+        ? ("ACTIVE" as any)
+        : data.status || ("UPCOMING" as any);
 
-        const semester = await tx.semester.create({
+      if (data.isCurrent) {
+        await client.semester.updateMany({
+          where: { isCurrent: true },
           data: {
-            ...data,
-            status: "UPCOMING",
-            startDate: new Date(data.startDate),
-            endDate: new Date(data.endDate),
+            isCurrent: false,
           },
         });
+      }
 
-        return new SemesterResponseDto(semester);
+      const semester = await client.semester.create({
+        data: {
+          name: data.name,
+          term: data.term,
+          year: data.year,
+          schoolYear: data.schoolYear,
+          teachingWeeks: data.teachingWeeks,
+          isCurrent: data.isCurrent ?? false,
+          status: status,
+          startDate: new Date(data.startDate),
+          endDate: new Date(data.endDate),
+        },
       });
+
+      return new SemesterResponseDto(semester);
     } catch (error) {
-      console.log("Lỗi khi tạo học kỳ:", error);
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        throw new ConflictException(
+          `Học kỳ ${data.term} năm ${data.year} đã tồn tại trong hệ thống`,
+        );
+      }
+
+      console.error("Lỗi khi tạo học kỳ:", error);
       throw new InternalServerErrorException("Lỗi hệ thống khi tạo học kỳ");
     }
   }
-
   async findAll(): Promise<SemesterResponseDto[]> {
     const semesters = await this.prisma.semester.findMany({
       orderBy: [{ year: "asc" }, { term: "asc" }],
