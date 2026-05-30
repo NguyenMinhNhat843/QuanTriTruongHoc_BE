@@ -19,6 +19,15 @@ export const SemesterStatus = {
 export type SemesterStatus = (typeof SemesterStatus)[keyof typeof SemesterStatus]
 
 
+export const ShiftType = {
+  SANG: 'SANG',
+  CHIEU: 'CHIEU',
+  TOI: 'TOI'
+} as const
+
+export type ShiftType = (typeof ShiftType)[keyof typeof ShiftType]
+
+
 export const ApplycationAdmissionStatus = {
   PENDING: 'PENDING',
   QUALIFIED: 'QUALIFIED',

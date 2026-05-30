@@ -37,8 +37,8 @@ model CourseOffer {
   updatedAt         DateTime  @updatedAt  
 
   // Quan hệ
-  registrations     CourseRegistration[]
-  courseSchedules   CourseSchedule[]
+  registrations          CourseRegistration[]
+  classSubjectSchedule   ClassSubjectSchedule[]
 
   @@unique([subjectId, classId])
   @@index([subjectId, semesterId])
@@ -86,23 +86,20 @@ model CourseRegistration {
 // ==========================
 // 10. COURSE_SCHEDULES (THỜI KHÓA BIỂU CHI TIẾT)
 // ==========================
-model CourseSchedule {
-  id            Int         @id @default(autoincrement())
+model ClassSubjectSchedule {
+  id              Int         @id @default(autoincrement())
+  classSubjectId  Int
+  classSubject    CourseOffer @relation(fields: [classSubjectId], references: [id])
+  dayOfWeek       DayOfWeek   // 2 -> 8 (Thứ 2 đến Chủ Nhật)
   
-  courseOfferId Int
-  courseOffer   CourseOffer @relation(fields: [courseOfferId], references: [id])
-  
-  dayOfWeek     DayOfWeek   // 2 -> 8 (Thứ 2 đến Chủ Nhật)
-  
-  startTime     DateTime    @db.Time
-  endTime       DateTime    @db.Time
+  shift           String      // S - C - T , sáng chiều tối
+  startPeriod     Int    // Tiết bắt đầu: 2
+  endPeriod       Int    // Tiết kết thúc: 4
   
   roomId        Int?     // Có thể ghi đè phòng học nếu buổi đó học phòng khác
   room          Room?       @relation(fields: [roomId], references: [id])
 
-  createdAt     DateTime    @default(now())
-
-  @@unique([courseOfferId, dayOfWeek, startTime])
+  @@unique([classSubjectId, dayOfWeek])
   @@map("course_schedules")
 }
 

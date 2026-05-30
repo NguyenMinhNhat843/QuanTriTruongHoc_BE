@@ -23,6 +23,7 @@ import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
 import { AcademyModule } from "./academy/academy.module.js";
+import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { AcademyModule } from "./academy/academy.module.js";
     FeeModule,
     FeeCatalogModule,
     CreditPriceModule,
+    StudyScheduleModule,
     PostModule,
     CourseOfferModule,
     AcademyModule, // module tổng hợp

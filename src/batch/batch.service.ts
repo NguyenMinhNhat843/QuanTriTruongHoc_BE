@@ -9,6 +9,7 @@ import { BatchResponseDto } from "./batch.response";
 import { CurriculumService } from "../curriculumn/curriculum.service";
 import { SemesterResponseDto } from "../semester/semester.response";
 import { plainToInstance } from "class-transformer";
+import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
 
 @Injectable()
 export class BatchService {
@@ -145,7 +146,10 @@ export class BatchService {
     });
 
     const batchStartYear = batch?.startYear;
-    const { term, year } = semester;
+    const { term, year } = semester || {};
+    if (!year || !term || !batchStartYear) {
+      throw new BadRequestException("Thiếu thông tin học kỳ hoặc khóa đào tạo");
+    }
     const semesterNo = (year - batchStartYear!) * 2 + (term === 1 ? 1 : 2);
 
     const curriculum = await this.prisma.curriculum.findFirst({
@@ -168,7 +172,25 @@ export class BatchService {
       },
     });
 
-    return subjects;
+    return plainToInstance(CurriculumSubjectResponseDto, subjects);
+  }
+
+  /**
+   * Lấy thông tin hiển thị cho màn hình bảng Tiến độ đào tạo
+   * Gồm thông tin môn học của 1 batch tại 1 học kỳ, thông tin giáo viên giảng dạy cho môn đó
+   * Thông tin phòng học, giờ học, và các tuần trong kỳ
+   */
+  async getBatchSubjectsBySemesterId(batchId: number, semesterId: number) {
+    const semester = await this.prisma.semester.findUnique({
+      where: {
+        id: semesterId,
+      },
+    });
+
+    return await this.getBatchSubjectsBySemester(
+      batchId,
+      semester as SemesterResponseDto,
+    );
   }
 
   /**

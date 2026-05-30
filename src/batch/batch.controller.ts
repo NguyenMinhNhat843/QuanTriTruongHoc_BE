@@ -18,6 +18,7 @@ import {
 import { BatchService } from "./batch.service";
 import { CreateBatchDto, SearchBatchDto, UpdateBatchDto } from "./batch.dto";
 import { BatchResponseDto } from "./batch.response";
+import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
 
 @ApiTags("Batches (Khóa đào tạo)") // Phân nhóm trong Swagger
 @Controller("batches")
@@ -37,6 +38,24 @@ export class BatchController {
   @ApiOkResponse({ type: [BatchResponseDto] })
   findAll(@Query() query: SearchBatchDto) {
     return this.batchService.findAll(query);
+  }
+
+  /**
+   * Lấy danh sách môn học của một khóa đào tạo theo học kỳ
+   */
+  @Get(":id/subjects")
+  @ApiOperation({
+    summary: "Lấy danh sách môn học của một khóa đào tạo theo học kỳ",
+  })
+  @ApiResponse({
+    status: 200,
+    type: [CurriculumSubjectResponseDto],
+  })
+  async getBatchSubjectsBySemester(
+    @Param("id", ParseIntPipe) id: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return await this.batchService.getBatchSubjectsBySemesterId(id, semesterId);
   }
 
   @Get(":id")

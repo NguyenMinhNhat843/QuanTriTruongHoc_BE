@@ -73,7 +73,7 @@ export const ModelName = {
   BenefitAward: 'BenefitAward',
   CourseOffer: 'CourseOffer',
   CourseRegistration: 'CourseRegistration',
-  CourseSchedule: 'CourseSchedule',
+  ClassSubjectSchedule: 'ClassSubjectSchedule',
   TeacherSubject: 'TeacherSubject',
   FeeInvoice: 'FeeInvoice',
   FeeInvoiceItem: 'FeeInvoiceItem',
@@ -133,6 +133,7 @@ export const BatchScalarFieldEnum = {
   batchName: 'batchName',
   startYear: 'startYear',
   endYear: 'endYear',
+  endTerm: 'endTerm',
   description: 'description',
   majorId: 'majorId',
   curriculumId: 'curriculumId',
@@ -421,9 +422,6 @@ export const CourseOfferScalarFieldEnum = {
   subjectId: 'subjectId',
   classId: 'classId',
   semesterId: 'semesterId',
-  maxStudents: 'maxStudents',
-  currentStudents: 'currentStudents',
-  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -456,17 +454,17 @@ export const CourseRegistrationScalarFieldEnum = {
 export type CourseRegistrationScalarFieldEnum = (typeof CourseRegistrationScalarFieldEnum)[keyof typeof CourseRegistrationScalarFieldEnum]
 
 
-export const CourseScheduleScalarFieldEnum = {
+export const ClassSubjectScheduleScalarFieldEnum = {
   id: 'id',
-  courseOfferId: 'courseOfferId',
+  classSubjectId: 'classSubjectId',
   dayOfWeek: 'dayOfWeek',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  roomId: 'roomId',
-  createdAt: 'createdAt'
+  shift: 'shift',
+  startPeriod: 'startPeriod',
+  endPeriod: 'endPeriod',
+  roomId: 'roomId'
 } as const
 
-export type CourseScheduleScalarFieldEnum = (typeof CourseScheduleScalarFieldEnum)[keyof typeof CourseScheduleScalarFieldEnum]
+export type ClassSubjectScheduleScalarFieldEnum = (typeof ClassSubjectScheduleScalarFieldEnum)[keyof typeof ClassSubjectScheduleScalarFieldEnum]
 
 
 export const TeacherSubjectScalarFieldEnum = {

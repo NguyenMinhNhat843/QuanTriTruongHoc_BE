@@ -29,7 +29,7 @@ export class CourseOfferService {
    * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
    */
   async findAll(query: SearchCourseOfferDto) {
-    const { classId, semesterId, teacherId, status } = query;
+    const { classId, semesterId, teacherId } = query;
 
     const where: Prisma.CourseOfferWhereInput = {};
 
@@ -43,10 +43,6 @@ export class CourseOfferService {
 
     if (teacherId) {
       where.teacherId = teacherId;
-    }
-
-    if (status) {
-      where.status = status;
     }
 
     const result = await this.prisma.courseOffer.findMany({
@@ -98,7 +94,7 @@ export class CourseOfferService {
   ) {
     const prismaClient = tx || this.prisma;
 
-    const { semesterId, subjectId, classId, maxStudents, teacherId } = dto;
+    const { semesterId, subjectId, classId, teacherId } = dto;
 
     // 1. Kiểm tra sự tồn tại của Môn học và Học kỳ
     const [subject, semester] = await Promise.all([
@@ -117,8 +113,6 @@ export class CourseOfferService {
           subjectId: subjectId,
           semesterId: semesterId,
           classId: classId || null,
-          maxStudents: maxStudents,
-          status: "open",
           teacherId: teacherId || null,
         },
       });

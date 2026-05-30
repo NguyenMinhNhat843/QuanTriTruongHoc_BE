@@ -30,6 +30,7 @@ export type BatchAvgAggregateOutputType = {
   id: number | null
   startYear: number | null
   endYear: number | null
+  endTerm: number | null
   majorId: number | null
   curriculumId: number | null
 }
@@ -38,6 +39,7 @@ export type BatchSumAggregateOutputType = {
   id: number | null
   startYear: number | null
   endYear: number | null
+  endTerm: number | null
   majorId: number | null
   curriculumId: number | null
 }
@@ -48,6 +50,7 @@ export type BatchMinAggregateOutputType = {
   batchName: string | null
   startYear: number | null
   endYear: number | null
+  endTerm: number | null
   description: string | null
   majorId: number | null
   curriculumId: number | null
@@ -62,6 +65,7 @@ export type BatchMaxAggregateOutputType = {
   batchName: string | null
   startYear: number | null
   endYear: number | null
+  endTerm: number | null
   description: string | null
   majorId: number | null
   curriculumId: number | null
@@ -76,6 +80,7 @@ export type BatchCountAggregateOutputType = {
   batchName: number
   startYear: number
   endYear: number
+  endTerm: number
   description: number
   majorId: number
   curriculumId: number
@@ -90,6 +95,7 @@ export type BatchAvgAggregateInputType = {
   id?: true
   startYear?: true
   endYear?: true
+  endTerm?: true
   majorId?: true
   curriculumId?: true
 }
@@ -98,6 +104,7 @@ export type BatchSumAggregateInputType = {
   id?: true
   startYear?: true
   endYear?: true
+  endTerm?: true
   majorId?: true
   curriculumId?: true
 }
@@ -108,6 +115,7 @@ export type BatchMinAggregateInputType = {
   batchName?: true
   startYear?: true
   endYear?: true
+  endTerm?: true
   description?: true
   majorId?: true
   curriculumId?: true
@@ -122,6 +130,7 @@ export type BatchMaxAggregateInputType = {
   batchName?: true
   startYear?: true
   endYear?: true
+  endTerm?: true
   description?: true
   majorId?: true
   curriculumId?: true
@@ -136,6 +145,7 @@ export type BatchCountAggregateInputType = {
   batchName?: true
   startYear?: true
   endYear?: true
+  endTerm?: true
   description?: true
   majorId?: true
   curriculumId?: true
@@ -237,6 +247,7 @@ export type BatchGroupByOutputType = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm: number | null
   description: string | null
   majorId: number
   curriculumId: number | null
@@ -274,6 +285,7 @@ export type BatchWhereInput = {
   batchName?: Prisma.StringFilter<"Batch"> | string
   startYear?: Prisma.IntFilter<"Batch"> | number
   endYear?: Prisma.IntFilter<"Batch"> | number
+  endTerm?: Prisma.IntNullableFilter<"Batch"> | number | null
   description?: Prisma.StringNullableFilter<"Batch"> | string | null
   majorId?: Prisma.IntFilter<"Batch"> | number
   curriculumId?: Prisma.IntNullableFilter<"Batch"> | number | null
@@ -293,6 +305,7 @@ export type BatchOrderByWithRelationInput = {
   batchName?: Prisma.SortOrder
   startYear?: Prisma.SortOrder
   endYear?: Prisma.SortOrder
+  endTerm?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   majorId?: Prisma.SortOrder
   curriculumId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -316,6 +329,7 @@ export type BatchWhereUniqueInput = Prisma.AtLeast<{
   batchName?: Prisma.StringFilter<"Batch"> | string
   startYear?: Prisma.IntFilter<"Batch"> | number
   endYear?: Prisma.IntFilter<"Batch"> | number
+  endTerm?: Prisma.IntNullableFilter<"Batch"> | number | null
   description?: Prisma.StringNullableFilter<"Batch"> | string | null
   majorId?: Prisma.IntFilter<"Batch"> | number
   status?: Prisma.StringFilter<"Batch"> | string
@@ -334,6 +348,7 @@ export type BatchOrderByWithAggregationInput = {
   batchName?: Prisma.SortOrder
   startYear?: Prisma.SortOrder
   endYear?: Prisma.SortOrder
+  endTerm?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   majorId?: Prisma.SortOrder
   curriculumId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -356,6 +371,7 @@ export type BatchScalarWhereWithAggregatesInput = {
   batchName?: Prisma.StringWithAggregatesFilter<"Batch"> | string
   startYear?: Prisma.IntWithAggregatesFilter<"Batch"> | number
   endYear?: Prisma.IntWithAggregatesFilter<"Batch"> | number
+  endTerm?: Prisma.IntNullableWithAggregatesFilter<"Batch"> | number | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Batch"> | string | null
   majorId?: Prisma.IntWithAggregatesFilter<"Batch"> | number
   curriculumId?: Prisma.IntNullableWithAggregatesFilter<"Batch"> | number | null
@@ -369,6 +385,7 @@ export type BatchCreateInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   status?: string
   createdAt?: Date | string
@@ -386,6 +403,7 @@ export type BatchUncheckedCreateInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   majorId: number
   curriculumId?: number | null
@@ -402,6 +420,7 @@ export type BatchUpdateInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -419,6 +438,7 @@ export type BatchUncheckedUpdateInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -436,6 +456,7 @@ export type BatchCreateManyInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   majorId: number
   curriculumId?: number | null
@@ -449,6 +470,7 @@ export type BatchUpdateManyMutationInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -461,6 +483,7 @@ export type BatchUncheckedUpdateManyInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -485,6 +508,7 @@ export type BatchCountOrderByAggregateInput = {
   batchName?: Prisma.SortOrder
   startYear?: Prisma.SortOrder
   endYear?: Prisma.SortOrder
+  endTerm?: Prisma.SortOrder
   description?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
   curriculumId?: Prisma.SortOrder
@@ -497,6 +521,7 @@ export type BatchAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   startYear?: Prisma.SortOrder
   endYear?: Prisma.SortOrder
+  endTerm?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
   curriculumId?: Prisma.SortOrder
 }
@@ -507,6 +532,7 @@ export type BatchMaxOrderByAggregateInput = {
   batchName?: Prisma.SortOrder
   startYear?: Prisma.SortOrder
   endYear?: Prisma.SortOrder
+  endTerm?: Prisma.SortOrder
   description?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
   curriculumId?: Prisma.SortOrder
@@ -521,6 +547,7 @@ export type BatchMinOrderByAggregateInput = {
   batchName?: Prisma.SortOrder
   startYear?: Prisma.SortOrder
   endYear?: Prisma.SortOrder
+  endTerm?: Prisma.SortOrder
   description?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
   curriculumId?: Prisma.SortOrder
@@ -533,6 +560,7 @@ export type BatchSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   startYear?: Prisma.SortOrder
   endYear?: Prisma.SortOrder
+  endTerm?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
   curriculumId?: Prisma.SortOrder
 }
@@ -679,6 +707,7 @@ export type BatchCreateWithoutMajorInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   status?: string
   createdAt?: Date | string
@@ -695,6 +724,7 @@ export type BatchUncheckedCreateWithoutMajorInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   curriculumId?: number | null
   status?: string
@@ -740,6 +770,7 @@ export type BatchScalarWhereInput = {
   batchName?: Prisma.StringFilter<"Batch"> | string
   startYear?: Prisma.IntFilter<"Batch"> | number
   endYear?: Prisma.IntFilter<"Batch"> | number
+  endTerm?: Prisma.IntNullableFilter<"Batch"> | number | null
   description?: Prisma.StringNullableFilter<"Batch"> | string | null
   majorId?: Prisma.IntFilter<"Batch"> | number
   curriculumId?: Prisma.IntNullableFilter<"Batch"> | number | null
@@ -753,6 +784,7 @@ export type BatchCreateWithoutClassesInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   status?: string
   createdAt?: Date | string
@@ -769,6 +801,7 @@ export type BatchUncheckedCreateWithoutClassesInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   majorId: number
   curriculumId?: number | null
@@ -800,6 +833,7 @@ export type BatchUpdateWithoutClassesInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -816,6 +850,7 @@ export type BatchUncheckedUpdateWithoutClassesInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -831,6 +866,7 @@ export type BatchCreateWithoutCurriculumInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   status?: string
   createdAt?: Date | string
@@ -847,6 +883,7 @@ export type BatchUncheckedCreateWithoutCurriculumInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   majorId: number
   status?: string
@@ -888,6 +925,7 @@ export type BatchCreateWithoutStudentsInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   status?: string
   createdAt?: Date | string
@@ -904,6 +942,7 @@ export type BatchUncheckedCreateWithoutStudentsInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   majorId: number
   curriculumId?: number | null
@@ -935,6 +974,7 @@ export type BatchUpdateWithoutStudentsInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -951,6 +991,7 @@ export type BatchUncheckedUpdateWithoutStudentsInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -966,6 +1007,7 @@ export type BatchCreateWithoutCreditPricesInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   status?: string
   createdAt?: Date | string
@@ -982,6 +1024,7 @@ export type BatchUncheckedCreateWithoutCreditPricesInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   majorId: number
   curriculumId?: number | null
@@ -1013,6 +1056,7 @@ export type BatchUpdateWithoutCreditPricesInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1029,6 +1073,7 @@ export type BatchUncheckedUpdateWithoutCreditPricesInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1045,6 +1090,7 @@ export type BatchCreateManyMajorInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   curriculumId?: number | null
   status?: string
@@ -1057,6 +1103,7 @@ export type BatchUpdateWithoutMajorInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1073,6 +1120,7 @@ export type BatchUncheckedUpdateWithoutMajorInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1089,6 +1137,7 @@ export type BatchUncheckedUpdateManyWithoutMajorInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1102,6 +1151,7 @@ export type BatchCreateManyCurriculumInput = {
   batchName: string
   startYear: number
   endYear: number
+  endTerm?: number | null
   description?: string | null
   majorId: number
   status?: string
@@ -1114,6 +1164,7 @@ export type BatchUpdateWithoutCurriculumInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1130,6 +1181,7 @@ export type BatchUncheckedUpdateWithoutCurriculumInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1146,6 +1198,7 @@ export type BatchUncheckedUpdateManyWithoutCurriculumInput = {
   batchName?: Prisma.StringFieldUpdateOperationsInput | string
   startYear?: Prisma.IntFieldUpdateOperationsInput | number
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
+  endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1208,6 +1261,7 @@ export type BatchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   batchName?: boolean
   startYear?: boolean
   endYear?: boolean
+  endTerm?: boolean
   description?: boolean
   majorId?: boolean
   curriculumId?: boolean
@@ -1228,6 +1282,7 @@ export type BatchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   batchName?: boolean
   startYear?: boolean
   endYear?: boolean
+  endTerm?: boolean
   description?: boolean
   majorId?: boolean
   curriculumId?: boolean
@@ -1244,6 +1299,7 @@ export type BatchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   batchName?: boolean
   startYear?: boolean
   endYear?: boolean
+  endTerm?: boolean
   description?: boolean
   majorId?: boolean
   curriculumId?: boolean
@@ -1260,6 +1316,7 @@ export type BatchSelectScalar = {
   batchName?: boolean
   startYear?: boolean
   endYear?: boolean
+  endTerm?: boolean
   description?: boolean
   majorId?: boolean
   curriculumId?: boolean
@@ -1268,7 +1325,7 @@ export type BatchSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "batchCode" | "batchName" | "startYear" | "endYear" | "description" | "majorId" | "curriculumId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["batch"]>
+export type BatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "batchCode" | "batchName" | "startYear" | "endYear" | "endTerm" | "description" | "majorId" | "curriculumId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["batch"]>
 export type BatchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
   curriculum?: boolean | Prisma.Batch$curriculumArgs<ExtArgs>
@@ -1301,6 +1358,7 @@ export type $BatchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     batchName: string
     startYear: number
     endYear: number
+    endTerm: number | null
     description: string | null
     majorId: number
     curriculumId: number | null
@@ -1740,6 +1798,7 @@ export interface BatchFieldRefs {
   readonly batchName: Prisma.FieldRef<"Batch", 'String'>
   readonly startYear: Prisma.FieldRef<"Batch", 'Int'>
   readonly endYear: Prisma.FieldRef<"Batch", 'Int'>
+  readonly endTerm: Prisma.FieldRef<"Batch", 'Int'>
   readonly description: Prisma.FieldRef<"Batch", 'String'>
   readonly majorId: Prisma.FieldRef<"Batch", 'Int'>
   readonly curriculumId: Prisma.FieldRef<"Batch", 'Int'>

@@ -11,13 +11,9 @@ import {
   IsOptional,
   IsString,
   Matches,
-  Min,
   ValidateNested,
 } from "class-validator";
-import {
-  CourseOfferStatus,
-  DayOfWeek,
-} from "../../prisma/generated/prisma/enums";
+import { DayOfWeek } from "../../prisma/generated/prisma/enums";
 
 /**
  * Dto search lớp học phần
@@ -54,14 +50,6 @@ export class SearchCourseOfferDto {
   @IsInt()
   @Transform(({ value }) => Number(value))
   teacherId?: number;
-
-  @ApiPropertyOptional({
-    description: "Trạng thái lớp học phần (planned, open, closed, cancelled)",
-    enum: CourseOfferStatus,
-  })
-  @IsOptional()
-  @IsEnum(CourseOfferStatus)
-  status?: CourseOfferStatus;
 }
 
 export class CreateBulkCourseOfferDto {
@@ -125,11 +113,6 @@ export class CreateOptionalCourseOfferDto {
   @IsInt()
   @IsOptional()
   teacherId?: number;
-
-  @ApiProperty({ example: 50, description: "Sĩ số tối đa" })
-  @IsInt()
-  @Min(1)
-  maxStudents: number;
 }
 
 export class ScheduleItemDto {

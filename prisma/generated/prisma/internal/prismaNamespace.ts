@@ -406,7 +406,7 @@ export const ModelName = {
   BenefitAward: 'BenefitAward',
   CourseOffer: 'CourseOffer',
   CourseRegistration: 'CourseRegistration',
-  CourseSchedule: 'CourseSchedule',
+  ClassSubjectSchedule: 'ClassSubjectSchedule',
   TeacherSubject: 'TeacherSubject',
   FeeInvoice: 'FeeInvoice',
   FeeInvoiceItem: 'FeeInvoiceItem',
@@ -431,7 +431,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "criterion" | "admissionItemCriterion" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "courseSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "criterion" | "admissionItemCriterion" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "classSubjectSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2063,77 +2063,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    CourseSchedule: {
-      payload: Prisma.$CourseSchedulePayload<ExtArgs>
-      fields: Prisma.CourseScheduleFieldRefs
+    ClassSubjectSchedule: {
+      payload: Prisma.$ClassSubjectSchedulePayload<ExtArgs>
+      fields: Prisma.ClassSubjectScheduleFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.CourseScheduleFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload> | null
+          args: Prisma.ClassSubjectScheduleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.CourseScheduleFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>
+          args: Prisma.ClassSubjectScheduleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>
         }
         findFirst: {
-          args: Prisma.CourseScheduleFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload> | null
+          args: Prisma.ClassSubjectScheduleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.CourseScheduleFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>
+          args: Prisma.ClassSubjectScheduleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>
         }
         findMany: {
-          args: Prisma.CourseScheduleFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>[]
+          args: Prisma.ClassSubjectScheduleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>[]
         }
         create: {
-          args: Prisma.CourseScheduleCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>
+          args: Prisma.ClassSubjectScheduleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>
         }
         createMany: {
-          args: Prisma.CourseScheduleCreateManyArgs<ExtArgs>
+          args: Prisma.ClassSubjectScheduleCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.CourseScheduleCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>[]
+          args: Prisma.ClassSubjectScheduleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>[]
         }
         delete: {
-          args: Prisma.CourseScheduleDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>
+          args: Prisma.ClassSubjectScheduleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>
         }
         update: {
-          args: Prisma.CourseScheduleUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>
+          args: Prisma.ClassSubjectScheduleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>
         }
         deleteMany: {
-          args: Prisma.CourseScheduleDeleteManyArgs<ExtArgs>
+          args: Prisma.ClassSubjectScheduleDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.CourseScheduleUpdateManyArgs<ExtArgs>
+          args: Prisma.ClassSubjectScheduleUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.CourseScheduleUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>[]
+          args: Prisma.ClassSubjectScheduleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>[]
         }
         upsert: {
-          args: Prisma.CourseScheduleUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseSchedulePayload>
+          args: Prisma.ClassSubjectScheduleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectSchedulePayload>
         }
         aggregate: {
-          args: Prisma.CourseScheduleAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCourseSchedule>
+          args: Prisma.ClassSubjectScheduleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClassSubjectSchedule>
         }
         groupBy: {
-          args: Prisma.CourseScheduleGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseScheduleGroupByOutputType>[]
+          args: Prisma.ClassSubjectScheduleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClassSubjectScheduleGroupByOutputType>[]
         }
         count: {
-          args: Prisma.CourseScheduleCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseScheduleCountAggregateOutputType> | number
+          args: Prisma.ClassSubjectScheduleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClassSubjectScheduleCountAggregateOutputType> | number
         }
       }
     }
@@ -2874,6 +2874,7 @@ export const BatchScalarFieldEnum = {
   batchName: 'batchName',
   startYear: 'startYear',
   endYear: 'endYear',
+  endTerm: 'endTerm',
   description: 'description',
   majorId: 'majorId',
   curriculumId: 'curriculumId',
@@ -3162,9 +3163,6 @@ export const CourseOfferScalarFieldEnum = {
   subjectId: 'subjectId',
   classId: 'classId',
   semesterId: 'semesterId',
-  maxStudents: 'maxStudents',
-  currentStudents: 'currentStudents',
-  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3197,17 +3195,17 @@ export const CourseRegistrationScalarFieldEnum = {
 export type CourseRegistrationScalarFieldEnum = (typeof CourseRegistrationScalarFieldEnum)[keyof typeof CourseRegistrationScalarFieldEnum]
 
 
-export const CourseScheduleScalarFieldEnum = {
+export const ClassSubjectScheduleScalarFieldEnum = {
   id: 'id',
-  courseOfferId: 'courseOfferId',
+  classSubjectId: 'classSubjectId',
   dayOfWeek: 'dayOfWeek',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  roomId: 'roomId',
-  createdAt: 'createdAt'
+  shift: 'shift',
+  startPeriod: 'startPeriod',
+  endPeriod: 'endPeriod',
+  roomId: 'roomId'
 } as const
 
-export type CourseScheduleScalarFieldEnum = (typeof CourseScheduleScalarFieldEnum)[keyof typeof CourseScheduleScalarFieldEnum]
+export type ClassSubjectScheduleScalarFieldEnum = (typeof ClassSubjectScheduleScalarFieldEnum)[keyof typeof ClassSubjectScheduleScalarFieldEnum]
 
 
 export const TeacherSubjectScalarFieldEnum = {
@@ -3534,20 +3532,6 @@ export type ListEnumEmployeeRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
- * Reference to a field of type 'CourseOfferStatus'
- */
-export type EnumCourseOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseOfferStatus'>
-    
-
-
-/**
- * Reference to a field of type 'CourseOfferStatus[]'
- */
-export type ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CourseOfferStatus[]'>
-    
-
-
-/**
  * Reference to a field of type 'DayOfWeek'
  */
 export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
@@ -3719,7 +3703,7 @@ export type GlobalOmitConfig = {
   benefitAward?: Prisma.BenefitAwardOmit
   courseOffer?: Prisma.CourseOfferOmit
   courseRegistration?: Prisma.CourseRegistrationOmit
-  courseSchedule?: Prisma.CourseScheduleOmit
+  classSubjectSchedule?: Prisma.ClassSubjectScheduleOmit
   teacherSubject?: Prisma.TeacherSubjectOmit
   feeInvoice?: Prisma.FeeInvoiceOmit
   feeInvoiceItem?: Prisma.FeeInvoiceItemOmit

@@ -50,7 +50,6 @@ export class CourseRegistrationService {
         courseOffer: {
           select: {
             id: true,
-            status: true,
           },
         },
       },

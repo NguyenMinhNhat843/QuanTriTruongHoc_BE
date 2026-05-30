@@ -34,20 +34,13 @@ export class RoomService {
   }
 
   async findAll(): Promise<RoomResponseDto[]> {
-    const rooms = await this.prisma.room.findMany({
-      include: {
-        _count: { select: { courseSchedules: true } },
-      },
-    });
+    const rooms = await this.prisma.room.findMany({});
     return rooms.map((room) => new RoomResponseDto(room));
   }
 
   async findOne(id: number): Promise<RoomResponseDto> {
     const room = await this.prisma.room.findUnique({
       where: { id },
-      include: {
-        _count: { select: { courseSchedules: true } },
-      },
     });
 
     if (!room) {

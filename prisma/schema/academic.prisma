@@ -192,7 +192,7 @@ model Room {
   createdAt DateTime @default(now())
 
   // Quan hệ
-  courseSchedules CourseSchedule[]
+  classSubjectSchedules ClassSubjectSchedule[]
 
   @@map("rooms")
 }
@@ -248,4 +248,9 @@ model CurriculumSubject {
 
   @@unique([curriculumId, subjectId]) // Một môn học không xuất hiện 2 lần trong 1 chương trình
   @@map("curriculum_subjects")
+}
+enum ShiftType {
+  SANG
+  CHIEU
+  TOI
 }

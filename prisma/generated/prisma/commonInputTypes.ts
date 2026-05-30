@@ -422,23 +422,6 @@ export type EnumEmployeeRoleNullableWithAggregatesFilter<$PrismaModel = never> =
   _max?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel>
 }
 
-export type EnumCourseOfferStatusNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.CourseOfferStatus | Prisma.EnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumCourseOfferStatusNullableFilter<$PrismaModel> | $Enums.CourseOfferStatus | null
-}
-
-export type EnumCourseOfferStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.CourseOfferStatus | Prisma.EnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumCourseOfferStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.CourseOfferStatus | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumCourseOfferStatusNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumCourseOfferStatusNullableFilter<$PrismaModel>
-}
-
 export type EnumDayOfWeekFilter<$PrismaModel = never> = {
   equals?: $Enums.DayOfWeek | Prisma.EnumDayOfWeekFieldRefInput<$PrismaModel>
   in?: $Enums.DayOfWeek[] | Prisma.ListEnumDayOfWeekFieldRefInput<$PrismaModel>
@@ -877,23 +860,6 @@ export type NestedEnumEmployeeRoleNullableWithAggregatesFilter<$PrismaModel = ne
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEmployeeRoleNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumCourseOfferStatusNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.CourseOfferStatus | Prisma.EnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumCourseOfferStatusNullableFilter<$PrismaModel> | $Enums.CourseOfferStatus | null
-}
-
-export type NestedEnumCourseOfferStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.CourseOfferStatus | Prisma.EnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  in?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.CourseOfferStatus[] | Prisma.ListEnumCourseOfferStatusFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumCourseOfferStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.CourseOfferStatus | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumCourseOfferStatusNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumCourseOfferStatusNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumDayOfWeekFilter<$PrismaModel = never> = {

@@ -150,10 +150,10 @@ export type CourseOffer = Prisma.CourseOfferModel
  */
 export type CourseRegistration = Prisma.CourseRegistrationModel
 /**
- * Model CourseSchedule
+ * Model ClassSubjectSchedule
  * 
  */
-export type CourseSchedule = Prisma.CourseScheduleModel
+export type ClassSubjectSchedule = Prisma.ClassSubjectScheduleModel
 /**
  * Model TeacherSubject
  * 

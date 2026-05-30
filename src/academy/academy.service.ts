@@ -67,7 +67,7 @@ export class AcademyService {
       for (const cls of classes) {
         // Chuẩn bị mảng dữ liệu chuẩn của CourseOffer
         const courseOffersData = subjects.map((sub) => ({
-          courseName: `${sub.subject.subjectName} (Lớp ${cls.className})`,
+          courseName: `${sub?.subject?.subjectName} (Lớp ${cls.className})`,
           classId: cls.id,
           subjectId: sub.subjectId, // Hãy đảm bảo trường này đúng tên ở DB (sub.id hoặc sub.subjectId)
           semesterId: targetSemester.id,
