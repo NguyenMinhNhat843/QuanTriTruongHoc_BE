@@ -1,6 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreateStudyScheduleDto } from "./studySchedule.dto";
+import {
+  CreateStudyScheduleDto,
+  SearchStudyScheduleDto,
+} from "./studySchedule.dto";
 
 @Injectable()
 export class ScheduleService {
@@ -12,10 +15,34 @@ export class ScheduleService {
   async generateScheduleForAClass(data: CreateStudyScheduleDto[]) {
     await this.prisma.classSubjectSchedule.createMany({
       data,
+      skipDuplicates: true,
     });
 
     return {
       message: "Tạo tiến độ đào tạo thành công",
     };
+  }
+
+  /**
+   * Load study schedule của 1 lớp trong 1 kỳ
+   */
+  async loadStudySchedule(query: SearchStudyScheduleDto) {
+    const { classId, semesterId } = query;
+
+    return this.prisma.classSubjectSchedule.findMany({
+      where: {
+        classSubject: {
+          classId: classId ? Number(classId) : undefined,
+          semesterId: semesterId ? Number(semesterId) : undefined,
+        },
+      },
+      include: {
+        classSubject: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
   }
 }

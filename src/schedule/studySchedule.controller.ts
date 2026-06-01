@@ -1,11 +1,22 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ScheduleService } from "./studySchedule.service";
-import { CreateStudyScheduleDto } from "./studySchedule.dto";
+import {
+  CreateStudyScheduleDto,
+  SearchStudyScheduleDto,
+  StudyScheduleResponseDto,
+} from "./studySchedule.dto";
 import { ApiBody, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
 @Controller("schedule")
 export class ScheduleController {
   constructor(private scheduleService: ScheduleService) {}
+
+  @Get()
+  @ApiOperation({ summary: "Load study schedule của 1 lớp trong 1 kỳ" })
+  @ApiResponse({ status: 200, type: [StudyScheduleResponseDto] })
+  async loadStudySchedule(@Query() query: SearchStudyScheduleDto) {
+    return await this.scheduleService.loadStudySchedule(query);
+  }
 
   @Post("generate-schedule")
   @ApiOperation({ summary: "Tạo lịch học cho 1 lớp, 1 học kỳ" })

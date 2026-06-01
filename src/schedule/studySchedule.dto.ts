@@ -1,4 +1,4 @@
-import { ApiProperty, OmitType } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, OmitType } from "@nestjs/swagger";
 import {
   ClassSubjectSchedule,
   DayOfWeek,
@@ -10,6 +10,8 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
+import { Type } from "class-transformer";
+import { CourseOfferDto } from "../courseOffer/courseOffer.response";
 
 export class ScheduleDto implements ClassSubjectSchedule {
   @ApiProperty()
@@ -30,6 +32,11 @@ export class ScheduleDto implements ClassSubjectSchedule {
   @ApiProperty()
   @IsInt()
   @IsNotEmpty()
+  weekNumber: number;
+
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
   endPeriod: number;
 
   @ApiProperty({ type: Number, nullable: true })
@@ -46,6 +53,28 @@ export class ScheduleDto implements ClassSubjectSchedule {
   @IsInt()
   @IsNotEmpty()
   startPeriod: number;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @IsInt()
+  @IsOptional()
+  countPeriod: number | null;
+}
+export class StudyScheduleResponseDto extends ScheduleDto {
+  @ApiPropertyOptional({ type: CourseOfferDto })
+  classSubject?: CourseOfferDto;
 }
 
 export class CreateStudyScheduleDto extends OmitType(ScheduleDto, ["id"]) {}
+export class SearchStudyScheduleDto {
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  classId?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  semesterId?: number;
+}

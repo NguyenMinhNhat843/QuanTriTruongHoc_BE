@@ -91,16 +91,18 @@ model ClassSubjectSchedule {
   classSubjectId  Int
   classSubject    CourseOffer @relation(fields: [classSubjectId], references: [id])
   dayOfWeek       DayOfWeek   // 2 -> 8 (Thứ 2 đến Chủ Nhật)
+  weekNumber      Int
   
   shift           String      // S - C - T , sáng chiều tối
   startPeriod     Int    // Tiết bắt đầu: 2
   endPeriod       Int    // Tiết kết thúc: 4
+  countPeriod     Int?   // số tiết: 4 - 2 + 1 = 3
   
   roomId        Int?     // Có thể ghi đè phòng học nếu buổi đó học phòng khác
   room          Room?       @relation(fields: [roomId], references: [id])
 
-  @@unique([classSubjectId, dayOfWeek])
-  @@map("course_schedules")
+  @@unique([classSubjectId, dayOfWeek, shift, startPeriod, endPeriod, weekNumber])
+  @@map("class_schedule")
 }
 
 model TeacherSubject {

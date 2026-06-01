@@ -29,16 +29,20 @@ export type AggregateClassSubjectSchedule = {
 export type ClassSubjectScheduleAvgAggregateOutputType = {
   id: number | null
   classSubjectId: number | null
+  weekNumber: number | null
   startPeriod: number | null
   endPeriod: number | null
+  countPeriod: number | null
   roomId: number | null
 }
 
 export type ClassSubjectScheduleSumAggregateOutputType = {
   id: number | null
   classSubjectId: number | null
+  weekNumber: number | null
   startPeriod: number | null
   endPeriod: number | null
+  countPeriod: number | null
   roomId: number | null
 }
 
@@ -46,9 +50,11 @@ export type ClassSubjectScheduleMinAggregateOutputType = {
   id: number | null
   classSubjectId: number | null
   dayOfWeek: $Enums.DayOfWeek | null
+  weekNumber: number | null
   shift: string | null
   startPeriod: number | null
   endPeriod: number | null
+  countPeriod: number | null
   roomId: number | null
 }
 
@@ -56,9 +62,11 @@ export type ClassSubjectScheduleMaxAggregateOutputType = {
   id: number | null
   classSubjectId: number | null
   dayOfWeek: $Enums.DayOfWeek | null
+  weekNumber: number | null
   shift: string | null
   startPeriod: number | null
   endPeriod: number | null
+  countPeriod: number | null
   roomId: number | null
 }
 
@@ -66,9 +74,11 @@ export type ClassSubjectScheduleCountAggregateOutputType = {
   id: number
   classSubjectId: number
   dayOfWeek: number
+  weekNumber: number
   shift: number
   startPeriod: number
   endPeriod: number
+  countPeriod: number
   roomId: number
   _all: number
 }
@@ -77,16 +87,20 @@ export type ClassSubjectScheduleCountAggregateOutputType = {
 export type ClassSubjectScheduleAvgAggregateInputType = {
   id?: true
   classSubjectId?: true
+  weekNumber?: true
   startPeriod?: true
   endPeriod?: true
+  countPeriod?: true
   roomId?: true
 }
 
 export type ClassSubjectScheduleSumAggregateInputType = {
   id?: true
   classSubjectId?: true
+  weekNumber?: true
   startPeriod?: true
   endPeriod?: true
+  countPeriod?: true
   roomId?: true
 }
 
@@ -94,9 +108,11 @@ export type ClassSubjectScheduleMinAggregateInputType = {
   id?: true
   classSubjectId?: true
   dayOfWeek?: true
+  weekNumber?: true
   shift?: true
   startPeriod?: true
   endPeriod?: true
+  countPeriod?: true
   roomId?: true
 }
 
@@ -104,9 +120,11 @@ export type ClassSubjectScheduleMaxAggregateInputType = {
   id?: true
   classSubjectId?: true
   dayOfWeek?: true
+  weekNumber?: true
   shift?: true
   startPeriod?: true
   endPeriod?: true
+  countPeriod?: true
   roomId?: true
 }
 
@@ -114,9 +132,11 @@ export type ClassSubjectScheduleCountAggregateInputType = {
   id?: true
   classSubjectId?: true
   dayOfWeek?: true
+  weekNumber?: true
   shift?: true
   startPeriod?: true
   endPeriod?: true
+  countPeriod?: true
   roomId?: true
   _all?: true
 }
@@ -211,9 +231,11 @@ export type ClassSubjectScheduleGroupByOutputType = {
   id: number
   classSubjectId: number
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod: number | null
   roomId: number | null
   _count: ClassSubjectScheduleCountAggregateOutputType | null
   _avg: ClassSubjectScheduleAvgAggregateOutputType | null
@@ -244,9 +266,11 @@ export type ClassSubjectScheduleWhereInput = {
   id?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   classSubjectId?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekFilter<"ClassSubjectSchedule"> | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   shift?: Prisma.StringFilter<"ClassSubjectSchedule"> | string
   startPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
+  countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
   classSubject?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
   room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
@@ -256,9 +280,11 @@ export type ClassSubjectScheduleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
+  weekNumber?: Prisma.SortOrder
   shift?: Prisma.SortOrder
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
+  countPeriod?: Prisma.SortOrderInput | Prisma.SortOrder
   roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   classSubject?: Prisma.CourseOfferOrderByWithRelationInput
   room?: Prisma.RoomOrderByWithRelationInput
@@ -266,27 +292,31 @@ export type ClassSubjectScheduleOrderByWithRelationInput = {
 
 export type ClassSubjectScheduleWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  classSubjectId_dayOfWeek?: Prisma.ClassSubjectScheduleClassSubjectIdDayOfWeekCompoundUniqueInput
+  classSubjectId_dayOfWeek_shift_startPeriod_endPeriod_weekNumber?: Prisma.ClassSubjectScheduleClassSubjectIdDayOfWeekShiftStartPeriodEndPeriodWeekNumberCompoundUniqueInput
   AND?: Prisma.ClassSubjectScheduleWhereInput | Prisma.ClassSubjectScheduleWhereInput[]
   OR?: Prisma.ClassSubjectScheduleWhereInput[]
   NOT?: Prisma.ClassSubjectScheduleWhereInput | Prisma.ClassSubjectScheduleWhereInput[]
   classSubjectId?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekFilter<"ClassSubjectSchedule"> | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   shift?: Prisma.StringFilter<"ClassSubjectSchedule"> | string
   startPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
+  countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
   classSubject?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
   room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
-}, "id" | "classSubjectId_dayOfWeek">
+}, "id" | "classSubjectId_dayOfWeek_shift_startPeriod_endPeriod_weekNumber">
 
 export type ClassSubjectScheduleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
+  weekNumber?: Prisma.SortOrder
   shift?: Prisma.SortOrder
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
+  countPeriod?: Prisma.SortOrderInput | Prisma.SortOrder
   roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ClassSubjectScheduleCountOrderByAggregateInput
   _avg?: Prisma.ClassSubjectScheduleAvgOrderByAggregateInput
@@ -302,17 +332,21 @@ export type ClassSubjectScheduleScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"ClassSubjectSchedule"> | number
   classSubjectId?: Prisma.IntWithAggregatesFilter<"ClassSubjectSchedule"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekWithAggregatesFilter<"ClassSubjectSchedule"> | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntWithAggregatesFilter<"ClassSubjectSchedule"> | number
   shift?: Prisma.StringWithAggregatesFilter<"ClassSubjectSchedule"> | string
   startPeriod?: Prisma.IntWithAggregatesFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntWithAggregatesFilter<"ClassSubjectSchedule"> | number
+  countPeriod?: Prisma.IntNullableWithAggregatesFilter<"ClassSubjectSchedule"> | number | null
   roomId?: Prisma.IntNullableWithAggregatesFilter<"ClassSubjectSchedule"> | number | null
 }
 
 export type ClassSubjectScheduleCreateInput = {
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
   classSubject: Prisma.CourseOfferCreateNestedOneWithoutClassSubjectScheduleInput
   room?: Prisma.RoomCreateNestedOneWithoutClassSubjectSchedulesInput
 }
@@ -321,17 +355,21 @@ export type ClassSubjectScheduleUncheckedCreateInput = {
   id?: number
   classSubjectId: number
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
   roomId?: number | null
 }
 
 export type ClassSubjectScheduleUpdateInput = {
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   classSubject?: Prisma.CourseOfferUpdateOneRequiredWithoutClassSubjectScheduleNestedInput
   room?: Prisma.RoomUpdateOneWithoutClassSubjectSchedulesNestedInput
 }
@@ -340,9 +378,11 @@ export type ClassSubjectScheduleUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -350,26 +390,32 @@ export type ClassSubjectScheduleCreateManyInput = {
   id?: number
   classSubjectId: number
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
   roomId?: number | null
 }
 
 export type ClassSubjectScheduleUpdateManyMutationInput = {
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ClassSubjectScheduleUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -383,26 +429,34 @@ export type ClassSubjectScheduleOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ClassSubjectScheduleClassSubjectIdDayOfWeekCompoundUniqueInput = {
+export type ClassSubjectScheduleClassSubjectIdDayOfWeekShiftStartPeriodEndPeriodWeekNumberCompoundUniqueInput = {
   classSubjectId: number
   dayOfWeek: $Enums.DayOfWeek
+  shift: string
+  startPeriod: number
+  endPeriod: number
+  weekNumber: number
 }
 
 export type ClassSubjectScheduleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
+  weekNumber?: Prisma.SortOrder
   shift?: Prisma.SortOrder
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
+  countPeriod?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
 export type ClassSubjectScheduleAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
+  weekNumber?: Prisma.SortOrder
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
+  countPeriod?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
@@ -410,9 +464,11 @@ export type ClassSubjectScheduleMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
+  weekNumber?: Prisma.SortOrder
   shift?: Prisma.SortOrder
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
+  countPeriod?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
@@ -420,17 +476,21 @@ export type ClassSubjectScheduleMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   dayOfWeek?: Prisma.SortOrder
+  weekNumber?: Prisma.SortOrder
   shift?: Prisma.SortOrder
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
+  countPeriod?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
 export type ClassSubjectScheduleSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
+  weekNumber?: Prisma.SortOrder
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
+  countPeriod?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
@@ -524,9 +584,11 @@ export type EnumDayOfWeekFieldUpdateOperationsInput = {
 
 export type ClassSubjectScheduleCreateWithoutRoomInput = {
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
   classSubject: Prisma.CourseOfferCreateNestedOneWithoutClassSubjectScheduleInput
 }
 
@@ -534,9 +596,11 @@ export type ClassSubjectScheduleUncheckedCreateWithoutRoomInput = {
   id?: number
   classSubjectId: number
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
 }
 
 export type ClassSubjectScheduleCreateOrConnectWithoutRoomInput = {
@@ -572,26 +636,32 @@ export type ClassSubjectScheduleScalarWhereInput = {
   id?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   classSubjectId?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   dayOfWeek?: Prisma.EnumDayOfWeekFilter<"ClassSubjectSchedule"> | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   shift?: Prisma.StringFilter<"ClassSubjectSchedule"> | string
   startPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
+  countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
 }
 
 export type ClassSubjectScheduleCreateWithoutClassSubjectInput = {
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
   room?: Prisma.RoomCreateNestedOneWithoutClassSubjectSchedulesInput
 }
 
 export type ClassSubjectScheduleUncheckedCreateWithoutClassSubjectInput = {
   id?: number
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
   roomId?: number | null
 }
 
@@ -625,16 +695,20 @@ export type ClassSubjectScheduleCreateManyRoomInput = {
   id?: number
   classSubjectId: number
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
 }
 
 export type ClassSubjectScheduleUpdateWithoutRoomInput = {
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   classSubject?: Prisma.CourseOfferUpdateOneRequiredWithoutClassSubjectScheduleNestedInput
 }
 
@@ -642,52 +716,64 @@ export type ClassSubjectScheduleUncheckedUpdateWithoutRoomInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ClassSubjectScheduleUncheckedUpdateManyWithoutRoomInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ClassSubjectScheduleCreateManyClassSubjectInput = {
   id?: number
   dayOfWeek: $Enums.DayOfWeek
+  weekNumber: number
   shift: string
   startPeriod: number
   endPeriod: number
+  countPeriod?: number | null
   roomId?: number | null
 }
 
 export type ClassSubjectScheduleUpdateWithoutClassSubjectInput = {
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   room?: Prisma.RoomUpdateOneWithoutClassSubjectSchedulesNestedInput
 }
 
 export type ClassSubjectScheduleUncheckedUpdateWithoutClassSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ClassSubjectScheduleUncheckedUpdateManyWithoutClassSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
+  weekNumber?: Prisma.IntFieldUpdateOperationsInput | number
   shift?: Prisma.StringFieldUpdateOperationsInput | string
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
+  countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -697,9 +783,11 @@ export type ClassSubjectScheduleSelect<ExtArgs extends runtime.Types.Extensions.
   id?: boolean
   classSubjectId?: boolean
   dayOfWeek?: boolean
+  weekNumber?: boolean
   shift?: boolean
   startPeriod?: boolean
   endPeriod?: boolean
+  countPeriod?: boolean
   roomId?: boolean
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -709,9 +797,11 @@ export type ClassSubjectScheduleSelectCreateManyAndReturn<ExtArgs extends runtim
   id?: boolean
   classSubjectId?: boolean
   dayOfWeek?: boolean
+  weekNumber?: boolean
   shift?: boolean
   startPeriod?: boolean
   endPeriod?: boolean
+  countPeriod?: boolean
   roomId?: boolean
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -721,9 +811,11 @@ export type ClassSubjectScheduleSelectUpdateManyAndReturn<ExtArgs extends runtim
   id?: boolean
   classSubjectId?: boolean
   dayOfWeek?: boolean
+  weekNumber?: boolean
   shift?: boolean
   startPeriod?: boolean
   endPeriod?: boolean
+  countPeriod?: boolean
   roomId?: boolean
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -733,13 +825,15 @@ export type ClassSubjectScheduleSelectScalar = {
   id?: boolean
   classSubjectId?: boolean
   dayOfWeek?: boolean
+  weekNumber?: boolean
   shift?: boolean
   startPeriod?: boolean
   endPeriod?: boolean
+  countPeriod?: boolean
   roomId?: boolean
 }
 
-export type ClassSubjectScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classSubjectId" | "dayOfWeek" | "shift" | "startPeriod" | "endPeriod" | "roomId", ExtArgs["result"]["classSubjectSchedule"]>
+export type ClassSubjectScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classSubjectId" | "dayOfWeek" | "weekNumber" | "shift" | "startPeriod" | "endPeriod" | "countPeriod" | "roomId", ExtArgs["result"]["classSubjectSchedule"]>
 export type ClassSubjectScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -763,9 +857,11 @@ export type $ClassSubjectSchedulePayload<ExtArgs extends runtime.Types.Extension
     id: number
     classSubjectId: number
     dayOfWeek: $Enums.DayOfWeek
+    weekNumber: number
     shift: string
     startPeriod: number
     endPeriod: number
+    countPeriod: number | null
     roomId: number | null
   }, ExtArgs["result"]["classSubjectSchedule"]>
   composites: {}
@@ -1195,9 +1291,11 @@ export interface ClassSubjectScheduleFieldRefs {
   readonly id: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
   readonly classSubjectId: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
   readonly dayOfWeek: Prisma.FieldRef<"ClassSubjectSchedule", 'DayOfWeek'>
+  readonly weekNumber: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
   readonly shift: Prisma.FieldRef<"ClassSubjectSchedule", 'String'>
   readonly startPeriod: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
   readonly endPeriod: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
+  readonly countPeriod: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
   readonly roomId: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
 }
     

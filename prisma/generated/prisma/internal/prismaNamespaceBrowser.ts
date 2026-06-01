@@ -458,9 +458,11 @@ export const ClassSubjectScheduleScalarFieldEnum = {
   id: 'id',
   classSubjectId: 'classSubjectId',
   dayOfWeek: 'dayOfWeek',
+  weekNumber: 'weekNumber',
   shift: 'shift',
   startPeriod: 'startPeriod',
   endPeriod: 'endPeriod',
+  countPeriod: 'countPeriod',
   roomId: 'roomId'
 } as const
 

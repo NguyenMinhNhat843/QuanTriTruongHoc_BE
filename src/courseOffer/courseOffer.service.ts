@@ -257,8 +257,6 @@ export class CourseOfferService {
       subjectId: cs.subjectId,
       semesterId: semester.id,
       classId: classData.id,
-      maxStudents: classData.maxStudents || 40,
-      status: "open" as const,
     }));
 
     // Tạo hàng loạt lớp học phần

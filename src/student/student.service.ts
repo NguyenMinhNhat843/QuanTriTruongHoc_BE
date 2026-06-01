@@ -61,12 +61,29 @@ export class StudentService {
   async createManyStudents(data: CreateStudentDto[]) {
     const timestampPart = Date.now().toString().slice(-7);
 
+    // Hàm helper để chuẩn hóa chuỗi ngày tháng về múi giờ VN (+07:00)
+    const formatToVnTimezone = (dateInput: any) => {
+      if (!dateInput) return null;
+
+      // Nếu là chuỗi, lấy 10 ký tự đầu (YYYY-MM-DD)
+      const dateStr =
+        typeof dateInput === "string" ? dateInput.split("T")[0] : dateInput;
+
+      // Ép về định dạng ISO chuẩn múi giờ +07:00
+      return new Date(`${dateStr}T00:00:00.000+07:00`);
+    };
+
     const createdStudents = await this.prisma.student.createMany({
       data: data.map((item, i) => {
         const randomPart = Math.floor(10 + Math.random() * 90).toString();
 
         return {
           ...item,
+          // Ép kiểu Date chính xác cho ngày sinh và các ngày liên quan
+          dob: formatToVnTimezone(item.dob),
+          enrollmentDate: formatToVnTimezone(item.enrollmentDate),
+          graduationDate: formatToVnTimezone(item.graduationDate),
+
           studentCode: `S${timestampPart}${randomPart}${i}`,
         };
       }),
