@@ -97,6 +97,7 @@ model ClassSubjectSchedule {
   startPeriod     Int    // Tiết bắt đầu: 2
   endPeriod       Int    // Tiết kết thúc: 4
   countPeriod     Int?   // số tiết: 4 - 2 + 1 = 3
+  studyDate       DateTime?  @db.Date() // Cụ thể là ngày mấy
   
   roomId        Int?     // Có thể ghi đè phòng học nếu buổi đó học phòng khác
   room          Room?       @relation(fields: [roomId], references: [id])

@@ -13,8 +13,13 @@ export class ScheduleService {
    * Hàm tạo lịch học cho 1 lớp, 1 học kỳ
    */
   async generateScheduleForAClass(data: CreateStudyScheduleDto[]) {
+    const formattedData = data.map((item) => ({
+      ...item,
+      studyDate: item.studyDate ? new Date(item.studyDate) : null,
+    }));
+
     await this.prisma.classSubjectSchedule.createMany({
-      data,
+      data: formattedData,
       skipDuplicates: true,
     });
 

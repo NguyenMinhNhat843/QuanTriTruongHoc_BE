@@ -58,6 +58,11 @@ export class ScheduleDto implements ClassSubjectSchedule {
   @IsInt()
   @IsOptional()
   countPeriod: number | null;
+
+  @ApiPropertyOptional({ type: Date, nullable: true })
+  @Type(() => Date)
+  @IsOptional()
+  studyDate: Date | null;
 }
 export class StudyScheduleResponseDto extends ScheduleDto {
   @ApiPropertyOptional({ type: CourseOfferDto })
@@ -77,4 +82,15 @@ export class SearchStudyScheduleDto {
   @IsOptional()
   @IsInt()
   semesterId?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  weekNumber?: number;
+
+  @ApiPropertyOptional({ type: Date })
+  @Type(() => Date)
+  @IsOptional()
+  startDate?: Date;
 }

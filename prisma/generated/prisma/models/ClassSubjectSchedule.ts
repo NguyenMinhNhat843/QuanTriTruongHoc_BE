@@ -55,6 +55,7 @@ export type ClassSubjectScheduleMinAggregateOutputType = {
   startPeriod: number | null
   endPeriod: number | null
   countPeriod: number | null
+  studyDate: Date | null
   roomId: number | null
 }
 
@@ -67,6 +68,7 @@ export type ClassSubjectScheduleMaxAggregateOutputType = {
   startPeriod: number | null
   endPeriod: number | null
   countPeriod: number | null
+  studyDate: Date | null
   roomId: number | null
 }
 
@@ -79,6 +81,7 @@ export type ClassSubjectScheduleCountAggregateOutputType = {
   startPeriod: number
   endPeriod: number
   countPeriod: number
+  studyDate: number
   roomId: number
   _all: number
 }
@@ -113,6 +116,7 @@ export type ClassSubjectScheduleMinAggregateInputType = {
   startPeriod?: true
   endPeriod?: true
   countPeriod?: true
+  studyDate?: true
   roomId?: true
 }
 
@@ -125,6 +129,7 @@ export type ClassSubjectScheduleMaxAggregateInputType = {
   startPeriod?: true
   endPeriod?: true
   countPeriod?: true
+  studyDate?: true
   roomId?: true
 }
 
@@ -137,6 +142,7 @@ export type ClassSubjectScheduleCountAggregateInputType = {
   startPeriod?: true
   endPeriod?: true
   countPeriod?: true
+  studyDate?: true
   roomId?: true
   _all?: true
 }
@@ -236,6 +242,7 @@ export type ClassSubjectScheduleGroupByOutputType = {
   startPeriod: number
   endPeriod: number
   countPeriod: number | null
+  studyDate: Date | null
   roomId: number | null
   _count: ClassSubjectScheduleCountAggregateOutputType | null
   _avg: ClassSubjectScheduleAvgAggregateOutputType | null
@@ -271,6 +278,7 @@ export type ClassSubjectScheduleWhereInput = {
   startPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
+  studyDate?: Prisma.DateTimeNullableFilter<"ClassSubjectSchedule"> | Date | string | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
   classSubject?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
   room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
@@ -285,6 +293,7 @@ export type ClassSubjectScheduleOrderByWithRelationInput = {
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
   countPeriod?: Prisma.SortOrderInput | Prisma.SortOrder
+  studyDate?: Prisma.SortOrderInput | Prisma.SortOrder
   roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   classSubject?: Prisma.CourseOfferOrderByWithRelationInput
   room?: Prisma.RoomOrderByWithRelationInput
@@ -303,6 +312,7 @@ export type ClassSubjectScheduleWhereUniqueInput = Prisma.AtLeast<{
   startPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
+  studyDate?: Prisma.DateTimeNullableFilter<"ClassSubjectSchedule"> | Date | string | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
   classSubject?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
   room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
@@ -317,6 +327,7 @@ export type ClassSubjectScheduleOrderByWithAggregationInput = {
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
   countPeriod?: Prisma.SortOrderInput | Prisma.SortOrder
+  studyDate?: Prisma.SortOrderInput | Prisma.SortOrder
   roomId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ClassSubjectScheduleCountOrderByAggregateInput
   _avg?: Prisma.ClassSubjectScheduleAvgOrderByAggregateInput
@@ -337,6 +348,7 @@ export type ClassSubjectScheduleScalarWhereWithAggregatesInput = {
   startPeriod?: Prisma.IntWithAggregatesFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntWithAggregatesFilter<"ClassSubjectSchedule"> | number
   countPeriod?: Prisma.IntNullableWithAggregatesFilter<"ClassSubjectSchedule"> | number | null
+  studyDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ClassSubjectSchedule"> | Date | string | null
   roomId?: Prisma.IntNullableWithAggregatesFilter<"ClassSubjectSchedule"> | number | null
 }
 
@@ -347,6 +359,7 @@ export type ClassSubjectScheduleCreateInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
   classSubject: Prisma.CourseOfferCreateNestedOneWithoutClassSubjectScheduleInput
   room?: Prisma.RoomCreateNestedOneWithoutClassSubjectSchedulesInput
 }
@@ -360,6 +373,7 @@ export type ClassSubjectScheduleUncheckedCreateInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
   roomId?: number | null
 }
 
@@ -370,6 +384,7 @@ export type ClassSubjectScheduleUpdateInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   classSubject?: Prisma.CourseOfferUpdateOneRequiredWithoutClassSubjectScheduleNestedInput
   room?: Prisma.RoomUpdateOneWithoutClassSubjectSchedulesNestedInput
 }
@@ -383,6 +398,7 @@ export type ClassSubjectScheduleUncheckedUpdateInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -395,6 +411,7 @@ export type ClassSubjectScheduleCreateManyInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
   roomId?: number | null
 }
 
@@ -405,6 +422,7 @@ export type ClassSubjectScheduleUpdateManyMutationInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSubjectScheduleUncheckedUpdateManyInput = {
@@ -416,6 +434,7 @@ export type ClassSubjectScheduleUncheckedUpdateManyInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -447,6 +466,7 @@ export type ClassSubjectScheduleCountOrderByAggregateInput = {
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
   countPeriod?: Prisma.SortOrder
+  studyDate?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
@@ -469,6 +489,7 @@ export type ClassSubjectScheduleMaxOrderByAggregateInput = {
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
   countPeriod?: Prisma.SortOrder
+  studyDate?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
@@ -481,6 +502,7 @@ export type ClassSubjectScheduleMinOrderByAggregateInput = {
   startPeriod?: Prisma.SortOrder
   endPeriod?: Prisma.SortOrder
   countPeriod?: Prisma.SortOrder
+  studyDate?: Prisma.SortOrder
   roomId?: Prisma.SortOrder
 }
 
@@ -589,6 +611,7 @@ export type ClassSubjectScheduleCreateWithoutRoomInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
   classSubject: Prisma.CourseOfferCreateNestedOneWithoutClassSubjectScheduleInput
 }
 
@@ -601,6 +624,7 @@ export type ClassSubjectScheduleUncheckedCreateWithoutRoomInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
 }
 
 export type ClassSubjectScheduleCreateOrConnectWithoutRoomInput = {
@@ -641,6 +665,7 @@ export type ClassSubjectScheduleScalarWhereInput = {
   startPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   endPeriod?: Prisma.IntFilter<"ClassSubjectSchedule"> | number
   countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
+  studyDate?: Prisma.DateTimeNullableFilter<"ClassSubjectSchedule"> | Date | string | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSchedule"> | number | null
 }
 
@@ -651,6 +676,7 @@ export type ClassSubjectScheduleCreateWithoutClassSubjectInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
   room?: Prisma.RoomCreateNestedOneWithoutClassSubjectSchedulesInput
 }
 
@@ -662,6 +688,7 @@ export type ClassSubjectScheduleUncheckedCreateWithoutClassSubjectInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
   roomId?: number | null
 }
 
@@ -700,6 +727,7 @@ export type ClassSubjectScheduleCreateManyRoomInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
 }
 
 export type ClassSubjectScheduleUpdateWithoutRoomInput = {
@@ -709,6 +737,7 @@ export type ClassSubjectScheduleUpdateWithoutRoomInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   classSubject?: Prisma.CourseOfferUpdateOneRequiredWithoutClassSubjectScheduleNestedInput
 }
 
@@ -721,6 +750,7 @@ export type ClassSubjectScheduleUncheckedUpdateWithoutRoomInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSubjectScheduleUncheckedUpdateManyWithoutRoomInput = {
@@ -732,6 +762,7 @@ export type ClassSubjectScheduleUncheckedUpdateManyWithoutRoomInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ClassSubjectScheduleCreateManyClassSubjectInput = {
@@ -742,6 +773,7 @@ export type ClassSubjectScheduleCreateManyClassSubjectInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
+  studyDate?: Date | string | null
   roomId?: number | null
 }
 
@@ -752,6 +784,7 @@ export type ClassSubjectScheduleUpdateWithoutClassSubjectInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   room?: Prisma.RoomUpdateOneWithoutClassSubjectSchedulesNestedInput
 }
 
@@ -763,6 +796,7 @@ export type ClassSubjectScheduleUncheckedUpdateWithoutClassSubjectInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -774,6 +808,7 @@ export type ClassSubjectScheduleUncheckedUpdateManyWithoutClassSubjectInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studyDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   roomId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -788,6 +823,7 @@ export type ClassSubjectScheduleSelect<ExtArgs extends runtime.Types.Extensions.
   startPeriod?: boolean
   endPeriod?: boolean
   countPeriod?: boolean
+  studyDate?: boolean
   roomId?: boolean
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -802,6 +838,7 @@ export type ClassSubjectScheduleSelectCreateManyAndReturn<ExtArgs extends runtim
   startPeriod?: boolean
   endPeriod?: boolean
   countPeriod?: boolean
+  studyDate?: boolean
   roomId?: boolean
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -816,6 +853,7 @@ export type ClassSubjectScheduleSelectUpdateManyAndReturn<ExtArgs extends runtim
   startPeriod?: boolean
   endPeriod?: boolean
   countPeriod?: boolean
+  studyDate?: boolean
   roomId?: boolean
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -830,10 +868,11 @@ export type ClassSubjectScheduleSelectScalar = {
   startPeriod?: boolean
   endPeriod?: boolean
   countPeriod?: boolean
+  studyDate?: boolean
   roomId?: boolean
 }
 
-export type ClassSubjectScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classSubjectId" | "dayOfWeek" | "weekNumber" | "shift" | "startPeriod" | "endPeriod" | "countPeriod" | "roomId", ExtArgs["result"]["classSubjectSchedule"]>
+export type ClassSubjectScheduleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classSubjectId" | "dayOfWeek" | "weekNumber" | "shift" | "startPeriod" | "endPeriod" | "countPeriod" | "studyDate" | "roomId", ExtArgs["result"]["classSubjectSchedule"]>
 export type ClassSubjectScheduleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSchedule$roomArgs<ExtArgs>
@@ -862,6 +901,7 @@ export type $ClassSubjectSchedulePayload<ExtArgs extends runtime.Types.Extension
     startPeriod: number
     endPeriod: number
     countPeriod: number | null
+    studyDate: Date | null
     roomId: number | null
   }, ExtArgs["result"]["classSubjectSchedule"]>
   composites: {}
@@ -1296,6 +1336,7 @@ export interface ClassSubjectScheduleFieldRefs {
   readonly startPeriod: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
   readonly endPeriod: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
   readonly countPeriod: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
+  readonly studyDate: Prisma.FieldRef<"ClassSubjectSchedule", 'DateTime'>
   readonly roomId: Prisma.FieldRef<"ClassSubjectSchedule", 'Int'>
 }
     
