@@ -3,6 +3,7 @@ import {
   ApiPropertyOptional,
   OmitType,
   PartialType,
+  PickType,
 } from "@nestjs/swagger";
 import {
   IsEnum,
@@ -15,6 +16,7 @@ import {
 import { PostStatus, PostType } from "../../prisma/generated/prisma/enums";
 import { Post } from "../../prisma/generated/prisma/client";
 import { Type } from "class-transformer";
+import { StaffResponseDto } from "../staff/staff.response";
 
 export class PostDto implements Post {
   @ApiPropertyOptional({ type: Number })
@@ -81,7 +83,29 @@ export class PostDto implements Post {
   updatedAt: Date;
 }
 
-export class PostResponseDto extends PostDto {}
+export class PostResponseDto extends PostDto {
+  // quan hệ
+  @ApiProperty({ type: () => StaffResponseDto })
+  author: StaffResponseDto;
+}
+
+class PaginationMetaDto {
+  @ApiProperty()
+  total: number;
+}
+
+export class PostResponseDtoPagination {
+  @ApiProperty({
+    type: [PostResponseDto],
+  })
+  data: PostResponseDto[];
+
+  @ApiProperty({
+    type: PaginationMetaDto,
+  })
+  meta: PaginationMetaDto;
+}
+
 export class CreatePostDto extends OmitType(PostDto, [
   "id",
   "createdAt",
@@ -92,4 +116,16 @@ export class CreatePostDto extends OmitType(PostDto, [
   @ApiPropertyOptional({ type: "string", format: "binary" })
   coverImage?: any;
 }
+
 export class UpdatePostDto extends PartialType(CreatePostDto) {}
+export class SearchPostDto extends PartialType(
+  PickType(PostDto, ["type", "status", "createdAt", "title"]),
+) {
+  @ApiPropertyOptional({ type: Number })
+  @IsNumber()
+  limit: number = 10;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsNumber()
+  page: number = 1;
+}

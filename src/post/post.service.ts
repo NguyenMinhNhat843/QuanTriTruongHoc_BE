@@ -6,7 +6,12 @@ import {
 } from "@nestjs/common";
 import slugify from "slugify";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreatePostDto, PostResponseDto, UpdatePostDto } from "./post.dto";
+import {
+  CreatePostDto,
+  PostResponseDto,
+  SearchPostDto,
+  UpdatePostDto,
+} from "./post.dto";
 import { PostStatus } from "../../prisma/generated/prisma/enums";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { CloudinaryService } from "../cloundinary/cloundinary.service";
@@ -36,12 +41,10 @@ export class PostService {
       where: { slug: finalSlug },
     });
 
-    console.log(file);
-    console.log("Uploading image to Cloudinary...");
     if (file) {
       const image = await this.cloudinaryService.uploadImage(
         file,
-        "QuanTriTruongHoc",
+        "quantritruonghoc/posts",
       );
       data.coverImage = image.imageUrl;
     }
@@ -65,9 +68,48 @@ export class PostService {
   }
 
   /**
+   * Thống kê đơn giản
+   */
+  async getStats() {
+    const [totalPosts, rawStatusCounts, rawTypeCounts] = await Promise.all([
+      this.prisma.post.count(),
+      this.prisma.post.groupBy({
+        by: ["status"],
+        _count: { status: true },
+      }),
+      this.prisma.post.groupBy({
+        by: ["type"],
+        _count: { type: true },
+      }),
+    ]);
+
+    const statusCounts = rawStatusCounts.reduce(
+      (acc, curr) => {
+        acc[curr.status] = curr._count.status;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
+    const typeCounts = rawTypeCounts.reduce(
+      (acc, curr) => {
+        acc[curr.type] = curr._count.type;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
+    return {
+      totalPosts,
+      draftPosts: statusCounts["DRAFT"] || 0,
+      typeCounts,
+    };
+  }
+
+  /**
    * Lấy danh sách bài viết (Có phân trang và lọc)
    */
-  async findAll(query: { page?: number; limit?: number; status?: PostStatus }) {
+  async findAll(query: SearchPostDto) {
     const { page = 1, limit = 10, status } = query;
     const skip = (page - 1) * limit;
 
@@ -90,8 +132,6 @@ export class PostService {
       data: items,
       meta: {
         total,
-        page,
-        lastPage: Math.ceil(total / limit),
       },
     };
   }

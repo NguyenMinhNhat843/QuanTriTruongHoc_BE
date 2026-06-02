@@ -14,12 +14,16 @@ import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiQuery,
   ApiConsumes,
 } from "@nestjs/swagger";
 import { PostService } from "./post.service";
-import { CreatePostDto, PostResponseDto, UpdatePostDto } from "./post.dto";
-import { PostStatus } from "../../prisma/generated/prisma/enums";
+import {
+  CreatePostDto,
+  PostResponseDto,
+  PostResponseDtoPagination,
+  SearchPostDto,
+  UpdatePostDto,
+} from "./post.dto";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
 
 @ApiTags("Post (Quản trị bài viết)") // Nhóm các API này lại trong Swagger
@@ -39,21 +43,21 @@ export class PostController {
     return this.postService.create(createPostDto, file);
   }
 
+  /**
+   * Thống kê đơn giản
+   */
+  @Get("stats")
+  @ApiOperation({ summary: "Lấy thống kê bài viết" })
+  @ApiResponse({ status: 200, description: "Thống kê bài viết." })
+  async getStats() {
+    return this.postService.getStats();
+  }
+
   @Get()
   @ApiOperation({ summary: "Lấy danh sách bài viết" })
-  @ApiQuery({ name: "page", required: false, example: 1 })
-  @ApiQuery({ name: "limit", required: false, example: 10 })
-  @ApiQuery({ name: "status", enum: PostStatus, required: false })
-  findAll(
-    @Query("page") page?: string,
-    @Query("limit") limit?: string,
-    @Query("status") status?: PostStatus,
-  ) {
-    return this.postService.findAll({
-      page: page ? +page : 1,
-      limit: limit ? +limit : 10,
-      status,
-    });
+  @ApiResponse({ status: 200, type: PostResponseDtoPagination })
+  findAll(@Query() query: SearchPostDto) {
+    return this.postService.findAll(query);
   }
 
   @Patch(":id")
