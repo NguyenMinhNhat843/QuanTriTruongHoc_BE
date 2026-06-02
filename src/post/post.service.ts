@@ -68,6 +68,17 @@ export class PostService {
   }
 
   /**
+   * Lấy chi tiết bài viết
+   */
+  async findOne(id: number) {
+    const post = await this.prisma.post.findUnique({
+      where: { id },
+    });
+
+    return post ? plainToInstance(PostResponseDto, post) : null;
+  }
+
+  /**
    * Thống kê đơn giản
    */
   async getStats() {
@@ -139,7 +150,12 @@ export class PostService {
   /**
    * Cập nhật bài viết
    */
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(
+    id: number,
+    updatePostDto: UpdatePostDto,
+    file: Express.Multer.File,
+  ) {
+    console.log("Updating post with ID:", updatePostDto);
     // Kiểm tra bài viết tồn tại
     const post = await this.prisma.post.findUnique({ where: { id } });
     if (!post)
@@ -166,6 +182,14 @@ export class PostService {
       });
       if (existingSlug)
         throw new ConflictException("Slug đã tồn tại ở một bài viết khác");
+    }
+
+    if (file) {
+      const image = await this.cloudinaryService.uploadImage(
+        file,
+        "quantritruonghoc/posts",
+      );
+      data.coverImage = image.imageUrl;
     }
 
     return this.prisma.post.update({

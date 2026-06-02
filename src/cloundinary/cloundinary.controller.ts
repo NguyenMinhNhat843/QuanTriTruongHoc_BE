@@ -9,6 +9,8 @@ import {
 } from "@nestjs/common";
 import { CloudinaryService } from "./cloundinary.service";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiBody, ApiConsumes, ApiResponse } from "@nestjs/swagger";
+import { FireStoreResponse } from "./fireStore.response";
 
 @Controller("fileStore")
 export class FileStoreController {
@@ -16,6 +18,19 @@ export class FileStoreController {
 
   @Post("upload")
   @HttpCode(HttpStatus.OK)
+  @ApiConsumes("multipart/form-data")
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        file: {
+          type: "string",
+          format: "binary",
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 200, type: FireStoreResponse })
   @UseInterceptors(FileInterceptor("file"))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     if (!file) {

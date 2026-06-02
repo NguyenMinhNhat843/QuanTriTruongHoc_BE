@@ -45,7 +45,6 @@ export class CloudinaryService {
         Readable.from(file.buffer).pipe(uploadStream);
       },
     );
-    console.log(cloundinaryResult);
 
     const savedFile = await this.prisma.fileStore.create({
       data: {
