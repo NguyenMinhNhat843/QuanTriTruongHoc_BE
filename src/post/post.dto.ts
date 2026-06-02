@@ -1,83 +1,95 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  OmitType,
+  PartialType,
+} from "@nestjs/swagger";
 import {
   IsEnum,
-  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUrl,
-  IsDateString,
+  IsDate,
+  IsNumber,
 } from "class-validator";
 import { PostStatus, PostType } from "../../prisma/generated/prisma/enums";
+import { Post } from "../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
 
-export class CreatePostDto {
-  @ApiProperty({
-    example: "Thông báo tuyển sinh năm học 2026",
-    description: "Tiêu đề của bài viết",
-  })
-  @IsString()
+export class PostDto implements Post {
+  @ApiPropertyOptional({ type: Number })
+  @IsNumber()
+  @IsOptional()
+  id: number;
+
+  @ApiProperty()
+  @IsNumber()
   @IsNotEmpty()
-  title: string;
+  @Type(() => Number)
+  authorId: number;
 
-  @ApiPropertyOptional({
-    example: "thong-bao-tuyen-sinh-2026",
-    description:
-      "Đường dẫn định danh (Slug), nếu để trống sẽ tự tạo theo title",
-  })
-  @IsString()
-  @IsOptional()
-  slug?: string;
-
-  @ApiPropertyOptional({
-    example: "https://example.com/images/cover.jpg",
-    description: "URL ảnh bìa bài viết",
-  })
-  @IsString()
-  @IsOptional()
-  @IsUrl()
-  coverImage?: string;
-
-  @ApiProperty({
-    example: "<h1>Nội dung bài viết...</h1>",
-    description: "Nội dung bài viết (có thể chứa mã HTML)",
-  })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   content: string;
 
-  @ApiProperty({
-    enum: PostType,
-    default: PostType.NEWS,
-    description: "Phân loại bài viết",
-  })
-  @IsEnum(PostType)
+  @ApiPropertyOptional({ type: String, format: "binary" })
   @IsOptional()
-  type?: PostType;
+  coverImage: string | null;
 
-  @ApiProperty({
-    enum: PostStatus,
-    default: PostStatus.DRAFT,
-    description: "Trạng thái bài viết",
-  })
+  @ApiPropertyOptional({ type: Date })
+  @IsDate()
+  @IsOptional()
+  @Type(() => Date)
+  publishedAt: Date | null;
+
+  @ApiPropertyOptional({ type: String })
+  @IsString()
+  @IsOptional()
+  slug: string;
+
+  @ApiProperty({ enum: PostStatus })
   @IsEnum(PostStatus)
-  @IsOptional()
-  status?: PostStatus;
-
-  @ApiPropertyOptional({
-    example: "2026-05-01T08:00:00Z",
-    description: "Thời điểm hẹn giờ đăng bài (ISO 8601)",
-  })
-  @IsDateString()
-  @IsOptional()
-  publishedAt?: string;
-
-  @ApiProperty({
-    example: 1,
-    description: "ID của người tạo bài viết",
-  })
-  @IsInt()
   @IsNotEmpty()
-  authorId: number;
+  status: PostStatus;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+
+  @ApiProperty({ enum: PostType })
+  @IsEnum(PostType)
+  @IsNotEmpty()
+  type: PostType;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  viewCount: number;
+
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  @Type(() => Date)
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  @Type(() => Date)
+  updatedAt: Date;
 }
 
+export class PostResponseDto extends PostDto {}
+export class CreatePostDto extends OmitType(PostDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+  "viewCount",
+  "coverImage",
+] as const) {
+  @ApiPropertyOptional({ type: "string", format: "binary" })
+  coverImage?: any;
+}
 export class UpdatePostDto extends PartialType(CreatePostDto) {}

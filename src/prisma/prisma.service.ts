@@ -15,13 +15,19 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
     // Sử dụng URL object để parse các thành phần của Aiven URL
     const url = new URL(dbUrl);
+    const connectionLimit = parseInt(
+      url.searchParams.get("connection_limit") || "2",
+      10,
+    );
 
     const pool = new Pool({
       user: url.username,
-      password: decodeURIComponent(url.password), // Giải mã nếu password có ký tự đặc biệt
+      password: decodeURIComponent(url.password),
       host: url.hostname,
       port: parseInt(url.port),
       database: url.pathname.substring(1),
+      max: connectionLimit,
+      idleTimeoutMillis: 30000,
       ssl: {
         rejectUnauthorized: false, // Bắt buộc cho Aiven
       },

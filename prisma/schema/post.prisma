@@ -40,3 +40,11 @@ model Post {
 
   @@index([status, type, publishedAt]) // Optimize cho việc truy vấn bài viết theo trạng thái và thời gian
 }
+
+model FileStore {
+  id        String   @id @default(uuid())
+  imageUrl  String
+  publicId  String   @unique          // ID dùng để cronjob xóa các ảnh thừa
+  isUsed    Boolean  @default(false) // Mặc định là false: ảnh tạm
+  createdAt DateTime @default(now())
+}

@@ -45,6 +45,25 @@ export class ScheduleService {
         classSubject: {
           select: {
             id: true,
+            teacher: {
+              select: {
+                fullName: true,
+                id: true,
+              },
+            },
+            subject: {
+              select: {
+                subjectName: true,
+                subjectCode: true,
+                id: true,
+              },
+            },
+          },
+        },
+        room: {
+          select: {
+            id: true,
+            roomCode: true,
           },
         },
       },

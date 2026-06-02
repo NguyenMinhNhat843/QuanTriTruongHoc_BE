@@ -82,7 +82,8 @@ export const ModelName = {
   Fee: 'Fee',
   FeeCatalog: 'FeeCatalog',
   CreditPrice: 'CreditPrice',
-  Post: 'Post'
+  Post: 'Post',
+  FileStore: 'FileStore'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -583,6 +584,17 @@ export const PostScalarFieldEnum = {
 } as const
 
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+export const FileStoreScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  publicId: 'publicId',
+  isUsed: 'isUsed',
+  createdAt: 'createdAt'
+} as const
+
+export type FileStoreScalarFieldEnum = (typeof FileStoreScalarFieldEnum)[keyof typeof FileStoreScalarFieldEnum]
 
 
 export const SortOrder = {

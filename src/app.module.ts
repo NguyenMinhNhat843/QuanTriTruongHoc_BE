@@ -24,6 +24,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
 import { AcademyModule } from "./academy/academy.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
+import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
     PostModule,
     CourseOfferModule,
     AcademyModule, // module tổng hợp
+    CloudinaryModule,
   ],
 })
 export class AppModule {}

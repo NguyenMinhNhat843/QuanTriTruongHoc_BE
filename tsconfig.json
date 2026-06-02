@@ -14,7 +14,8 @@
     "sourceMap": true,
     "incremental": true,
     "noImplicitAny": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "types": ["node", "multer"]
 
     // Alias cấu hình ở đây
     // "ignoreDeprecations": "6.0"

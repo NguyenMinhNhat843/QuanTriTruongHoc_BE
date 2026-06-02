@@ -6,19 +6,24 @@ import {
 } from "@nestjs/common";
 import slugify from "slugify";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreatePostDto, UpdatePostDto } from "./post.dto";
+import { CreatePostDto, PostResponseDto, UpdatePostDto } from "./post.dto";
 import { PostStatus } from "../../prisma/generated/prisma/enums";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { CloudinaryService } from "../cloundinary/cloundinary.service";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class PostService {
   private readonly logger = new Logger(PostService.name);
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   /**
    * Tạo bài viết mới
    */
-  async create(createPostDto: CreatePostDto) {
+  async create(createPostDto: CreatePostDto, file: Express.Multer.File) {
     const { title, slug, ...data } = createPostDto;
 
     // Nếu không có slug, tự động tạo từ title
@@ -31,11 +36,21 @@ export class PostService {
       where: { slug: finalSlug },
     });
 
+    console.log(file);
+    console.log("Uploading image to Cloudinary...");
+    if (file) {
+      const image = await this.cloudinaryService.uploadImage(
+        file,
+        "QuanTriTruongHoc",
+      );
+      data.coverImage = image.imageUrl;
+    }
+
     if (existingPost) {
       throw new ConflictException("Slug hoặc tiêu đề này đã tồn tại");
     }
 
-    return this.prisma.post.create({
+    const result = await this.prisma.post.create({
       data: {
         ...data,
         title,
@@ -45,6 +60,8 @@ export class PostService {
         author: true,
       },
     });
+
+    return plainToInstance(PostResponseDto, result);
   }
 
   /**

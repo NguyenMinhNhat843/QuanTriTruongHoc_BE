@@ -177,3 +177,8 @@ export type CreditPrice = Prisma.CreditPriceModel
  * 
  */
 export type Post = Prisma.PostModel
+/**
+ * Model FileStore
+ * 
+ */
+export type FileStore = Prisma.FileStoreModel

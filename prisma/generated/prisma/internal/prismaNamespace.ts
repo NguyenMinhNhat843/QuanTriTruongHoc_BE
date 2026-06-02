@@ -415,7 +415,8 @@ export const ModelName = {
   Fee: 'Fee',
   FeeCatalog: 'FeeCatalog',
   CreditPrice: 'CreditPrice',
-  Post: 'Post'
+  Post: 'Post',
+  FileStore: 'FileStore'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -431,7 +432,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "criterion" | "admissionItemCriterion" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "classSubjectSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "criterion" | "admissionItemCriterion" | "application" | "user" | "student" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "classSubjectSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post" | "fileStore"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2803,6 +2804,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FileStore: {
+      payload: Prisma.$FileStorePayload<ExtArgs>
+      fields: Prisma.FileStoreFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FileStoreFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FileStoreFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>
+        }
+        findFirst: {
+          args: Prisma.FileStoreFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FileStoreFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>
+        }
+        findMany: {
+          args: Prisma.FileStoreFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>[]
+        }
+        create: {
+          args: Prisma.FileStoreCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>
+        }
+        createMany: {
+          args: Prisma.FileStoreCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FileStoreCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>[]
+        }
+        delete: {
+          args: Prisma.FileStoreDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>
+        }
+        update: {
+          args: Prisma.FileStoreUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>
+        }
+        deleteMany: {
+          args: Prisma.FileStoreDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FileStoreUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FileStoreUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>[]
+        }
+        upsert: {
+          args: Prisma.FileStoreUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileStorePayload>
+        }
+        aggregate: {
+          args: Prisma.FileStoreAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFileStore>
+        }
+        groupBy: {
+          args: Prisma.FileStoreGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FileStoreGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FileStoreCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FileStoreCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3326,6 +3401,17 @@ export const PostScalarFieldEnum = {
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
+export const FileStoreScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  publicId: 'publicId',
+  isUsed: 'isUsed',
+  createdAt: 'createdAt'
+} as const
+
+export type FileStoreScalarFieldEnum = (typeof FileStoreScalarFieldEnum)[keyof typeof FileStoreScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3716,6 +3802,7 @@ export type GlobalOmitConfig = {
   feeCatalog?: Prisma.FeeCatalogOmit
   creditPrice?: Prisma.CreditPriceOmit
   post?: Prisma.PostOmit
+  fileStore?: Prisma.FileStoreOmit
 }
 
 /* Types for Logging */

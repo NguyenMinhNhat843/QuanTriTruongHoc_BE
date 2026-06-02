@@ -7,11 +7,20 @@ import {
   Param,
   Query,
   ParseIntPipe,
+  UseInterceptors,
+  UploadedFile,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiConsumes,
+} from "@nestjs/swagger";
 import { PostService } from "./post.service";
-import { CreatePostDto, UpdatePostDto } from "./post.dto";
+import { CreatePostDto, PostResponseDto, UpdatePostDto } from "./post.dto";
 import { PostStatus } from "../../prisma/generated/prisma/enums";
+import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
 
 @ApiTags("Post (Quản trị bài viết)") // Nhóm các API này lại trong Swagger
 @Controller("posts")
@@ -19,11 +28,15 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post()
+  @ApiConsumes("multipart/form-data")
+  @UseInterceptors(FileInterceptor("coverImage"))
   @ApiOperation({ summary: "Tạo bài viết mới" })
-  @ApiResponse({ status: 201, description: "Bài viết đã được tạo thành công." })
-  @ApiResponse({ status: 409, description: "Slug hoặc tiêu đề đã tồn tại." })
-  create(@Body() createPostDto: CreatePostDto) {
-    return this.postService.create(createPostDto);
+  @ApiResponse({ status: 201, type: PostResponseDto })
+  create(
+    @Body() createPostDto: CreatePostDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.postService.create(createPostDto, file);
   }
 
   @Get()
