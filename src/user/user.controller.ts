@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Param, Patch } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger"; // Thêm dòng này
 import { CreateUserDto } from "./user.dto.js";
 import { UserService } from "./user.service.js";
@@ -8,17 +8,6 @@ import { UserResponseDto } from "./user.response.js";
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @Post()
-  @ApiOperation({ summary: "Tạo người dùng mới" })
-  @ApiResponse({
-    status: 201,
-    description: "Tạo thành công",
-    type: UserResponseDto,
-  })
-  async createUser(@Body() body: CreateUserDto): Promise<UserResponseDto> {
-    return await this.userService.createUser(body);
-  }
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật thông tin người dùng" })

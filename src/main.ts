@@ -13,7 +13,10 @@ async function bootstrap() {
     .addBearerAuth() // nếu dùng JWT
     .build();
 
-  app.enableCors();
+  app.enableCors({
+    origin: ["http://localhost:5173", "https://website-truong-tdn.vercel.app"],
+    credentials: true,
+  });
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document);

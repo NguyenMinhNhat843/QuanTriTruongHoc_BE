@@ -5,6 +5,7 @@ import { LoginDto, RegisterDto, SearchAccountDto } from "./auth.dto.js";
 import * as bcrypt from "bcryptjs";
 import { plainToInstance } from "class-transformer";
 import { AccountResponseDto } from "./auth.resposne.js";
+import { Response } from "express";
 
 @Injectable()
 export class AuthService {
@@ -24,6 +25,7 @@ export class AuthService {
 
     // 1. Tạo người dùng mới
     const hashedPassword = await bcrypt.hash(body.password, 10);
+
     const newUser = await this.prisma.user.create({
       data: {
         username: body.username,
@@ -35,7 +37,7 @@ export class AuthService {
     return newUser;
   }
 
-  async login(data: LoginDto) {
+  async login(data: LoginDto, res: Response) {
     // 1. Tìm user theo username
     const user = await this.prisma.user.findUnique({
       where: { username: data.username },
@@ -58,14 +60,53 @@ export class AuthService {
       role: user.role,
     };
 
-    return {
-      access_token: await this.jwtService.signAsync(payload),
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, { expiresIn: "1h" }),
+      this.jwtService.signAsync(payload, { expiresIn: "7d" }),
+    ]);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/auth/refresh",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
+    });
+
+    return res.status(200).json({
+      access_token: accessToken,
+
       user: {
         id: user.id,
         username: user.username,
         role: user.role,
       },
-    };
+    });
+  }
+
+  async refreshToken(refreshToken: string, res: Response) {
+    if (!refreshToken)
+      throw new UnauthorizedException("Refresh token không được cung cấp");
+
+    try {
+      const payload = await this.jwtService.verifyAsync(refreshToken);
+
+      const newPayload = {
+        sub: payload.sub,
+        username: payload.username,
+        role: payload.role,
+      };
+      const newAccessToken = await this.jwtService.signAsync(newPayload, {
+        expiresIn: "1h",
+      });
+
+      return res.status(200).json({
+        access_token: newAccessToken,
+      });
+    } catch (err) {
+      console.log("Lỗi khi xác minh refresh token:", err);
+      throw new UnauthorizedException("Refresh token không hợp lệ");
+    }
   }
 
   async getAllAccount(query: SearchAccountDto) {

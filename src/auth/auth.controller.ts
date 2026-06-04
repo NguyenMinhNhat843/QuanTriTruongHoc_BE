@@ -6,11 +6,13 @@ import {
   HttpStatus,
   Get,
   Query,
+  Res,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service.js";
 import { LoginDto, RegisterDto, SearchAccountDto } from "./auth.dto.js";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { AccountResponseDto } from "./auth.resposne.js";
+import { Response } from "express";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -26,8 +28,29 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Đăng nhập vào hệ thống" })
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Res() res: Response) {
+    return this.authService.login(loginDto, res);
+  }
+
+  @Post("refresh")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Làm mới token" })
+  async refreshToken(
+    @Body("refreshToken") refreshToken: string,
+    @Res() res: Response,
+  ) {
+    return this.authService.refreshToken(refreshToken, res);
+  }
+
+  @Post("logout")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Đăng xuất khỏi hệ thống" })
+  async logout(@Res() res: Response) {
+    res.clearCookie("refreshToken", {
+      path: "/auth/refresh",
+    });
+
+    return res.status(200).json({ message: "Đăng xuất thành công" });
   }
 
   @Get("accounts")
