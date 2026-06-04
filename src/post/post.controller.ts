@@ -79,13 +79,6 @@ export class PostController {
     @Body() updatePostDto: UpdatePostDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(
-      "Received update for post ID:",
-      id,
-      "with data:",
-      updatePostDto,
-    );
-
     return this.postService.update(id, updatePostDto, file);
   }
 }

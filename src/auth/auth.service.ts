@@ -23,18 +23,37 @@ export class AuthService {
       throw new UnauthorizedException("Tên người dùng đã tồn tại");
     }
 
-    // 1. Tạo người dùng mới
     const hashedPassword = await bcrypt.hash(body.password, 10);
 
-    const newUser = await this.prisma.user.create({
-      data: {
-        username: body.username,
-        passwordHash: hashedPassword,
-        role: body.role,
-      },
-    });
+    return await this.prisma.$transaction(async (tx) => {
+      const newUser = await tx.user.create({
+        data: {
+          username: body.username,
+          passwordHash: hashedPassword,
+          role: body.role,
+          studentId: body.studentId,
+          staffId: body.staffId,
+        },
+      });
 
-    return newUser;
+      if (body.staffId) {
+        await tx.staff.update({
+          where: { id: body.staffId },
+          data: {
+            userId: newUser.id,
+          },
+        });
+      } else if (body.studentId) {
+        await tx.student.update({
+          where: { id: body.studentId },
+          data: {
+            userId: newUser.id,
+          },
+        });
+      }
+
+      return newUser;
+    });
   }
 
   async login(data: LoginDto, res: Response) {
@@ -45,6 +64,20 @@ export class AuthService {
 
     if (!user || !user.isActive) {
       throw new UnauthorizedException("Tài khoản không tồn tại hoặc bị khóa");
+    }
+
+    let profile: any = null;
+    if (user.staffId) {
+      profile = await this.prisma.staff.findUnique({
+        where: { id: user.staffId! },
+        include: {
+          department: true,
+        },
+      });
+    } else if (user.studentId) {
+      profile = await this.prisma.student.findUnique({
+        where: { id: user.studentId! },
+      });
     }
 
     // 2. Kiểm tra password
@@ -80,6 +113,7 @@ export class AuthService {
         id: user.id,
         username: user.username,
         role: user.role,
+        profile: profile || undefined,
       },
     });
   }

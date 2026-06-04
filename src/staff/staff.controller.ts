@@ -11,7 +11,10 @@ import {
 import { StaffService } from "./staff.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { StaffResponseDto } from "./staff.response.js";
+import {
+  StaffResponseDto,
+  TeacherDashboardStatsResponseDto,
+} from "./staff.response.js";
 import { Roles } from "../common/decorators/role.decorator.js";
 import { RoleType } from "../../prisma/generated/prisma/enums.js";
 
@@ -28,6 +31,15 @@ export class StaffController {
     @Body() createStaffDto: CreateStaffDto,
   ): Promise<StaffResponseDto> {
     return this.staffService.createStaff(createStaffDto);
+  }
+
+  @Get(":teacherId/dashboardstats")
+  @ApiResponse({ status: 200, type: TeacherDashboardStatsResponseDto })
+  async getTeacherDashboardStats(
+    @Param("teacherId", ParseIntPipe) teacherId: number,
+    @Query("semesterId", ParseIntPipe) semesterId?: number,
+  ) {
+    return this.staffService.getTeacherDasboardStats(teacherId, semesterId);
   }
 
   @Patch(":id")

@@ -134,7 +134,6 @@ export class CurriculumService {
     query: SearchCurriculumDto,
   ): Promise<CurriculumResponseDto | null> {
     const { batchId } = query;
-    console.log("batchs: ", batchId);
     const batch = await this.prisma.batch.findUnique({
       where: { id: batchId },
     });

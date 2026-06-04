@@ -114,6 +114,7 @@ model Staff {
   address           String?
   identityNumber    String?     @unique // CCCD
   departmentId      Int?
+  department        Department? @relation(fields: [departmentId], references: [id])
   position          String?     // Ví dụ: Nhân viên kế toán, hiệu trưởng...
   hireDate          DateTime?   @db.Date
   contractType      String?     // full-time, part-time

@@ -60,7 +60,6 @@ export class AdmissionService {
       });
     } catch (error) {
       console.log("Lỗi khi tạo đợt tuyển sinh:", error);
-      // Xử lý lỗi Prisma (ví dụ: sai ID ngành, sai ID tiêu chí mẫu)
       throw new BadRequestException(
         "Không thể tạo đợt tuyển sinh. Vui lòng kiểm tra lại dữ liệu đầu vào.",
       );

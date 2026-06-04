@@ -8,20 +8,29 @@ import {
   ParseIntPipe,
   Delete,
   Query,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiOkResponse,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import { BatchService } from "./batch.service";
 import { CreateBatchDto, SearchBatchDto, UpdateBatchDto } from "./batch.dto";
 import { BatchResponseDto } from "./batch.response";
 import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
+import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
+import { RolesGuard } from "../auth/guard/role.guard";
+import { Roles } from "../common/decorators/role.decorator";
+import { RoleType } from "../../prisma/generated/prisma/enums";
 
-@ApiTags("Batches (Khóa đào tạo)") // Phân nhóm trong Swagger
+@ApiTags("Batches (Khóa đào tạo)")
 @Controller("batches")
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(RoleType.admin)
 export class BatchController {
   constructor(private readonly batchService: BatchService) {}
 

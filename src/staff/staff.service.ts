@@ -9,7 +9,10 @@ import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
 import { generateId } from "../utils/generateId.js";
 import { Prisma } from "../../prisma/generated/prisma/client.js";
-import { StaffResponseDto } from "./staff.response.js";
+import {
+  StaffResponseDto,
+  TeacherDashboardStatsResponseDto,
+} from "./staff.response.js";
 import { plainToInstance } from "class-transformer";
 
 @Injectable()
@@ -202,6 +205,42 @@ export class StaffService {
   }
 
   /**
-   * Cấp tài khoản cho nhiều giáo viên
+   * Lấy thống kê cho trang home của giáo viên
    */
+  async getTeacherDasboardStats(
+    teacherId: number,
+    semesterId?: number,
+  ): Promise<TeacherDashboardStatsResponseDto> {
+    const profile = await this.prisma.staff.findUnique({
+      where: { id: teacherId },
+      include: {
+        department: true,
+      },
+    });
+
+    const lopHocDangChuNhiem = await this.prisma.class.findMany({
+      where: {
+        formTeacherId: teacherId,
+      },
+    });
+    const soLuongLopHocChuNhiem = lopHocDangChuNhiem.length;
+
+    const monHocDangGiangDay = await this.prisma.courseOffer.findMany({
+      where: {
+        teacherId,
+        semesterId: semesterId || undefined,
+      },
+    });
+    const soLuongMonHocDangGiangDay = monHocDangGiangDay.length;
+
+    return plainToInstance(TeacherDashboardStatsResponseDto, {
+      id: teacherId,
+      name: profile?.fullName,
+      role: profile?.EmployeeRole,
+      maGiaoVien: profile?.staffCode,
+      department: profile?.department?.deptName,
+      totalClasses: soLuongLopHocChuNhiem,
+      totalSubjects: soLuongMonHocDangGiangDay,
+    });
+  }
 }

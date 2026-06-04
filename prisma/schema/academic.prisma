@@ -17,6 +17,7 @@ model Department {
   // Quan hệ
   majors              Major[]
   subjects            Subject[]
+  staffs              Staff[]
 
   @@map("departments")
 }

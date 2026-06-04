@@ -29,19 +29,11 @@ export class AcademyService {
     });
 
     if (existedSemester) {
-      // Trường hợp 1: Đã có kỳ này rồi -> Lấy luôn học kỳ cũ để dùng
       targetSemester = existedSemester;
-      console.log(
-        `[Hệ thống] Học kỳ đã tồn tại. Tiến hành sinh/cập nhật CourseOffer cho kì: ${targetSemester.name}`,
-      );
     } else {
-      // Trường hợp 2: Chưa có -> Chạy transaction ngắn để tạo mới học kỳ an toàn
       targetSemester = await this.prisma.$transaction(async (tx) => {
         return await this.semesterService.create(body, tx);
       });
-      console.log(
-        `[Hệ thống] Đã tạo thành công học kỳ mới: ${targetSemester.name}`,
-      );
     }
 
     // 2. Lấy danh sách khóa học (batch) còn hiệu lực trong học kỳ này
@@ -73,18 +65,10 @@ export class AcademyService {
           semesterId: targetSemester.id,
         }));
 
-        // Chạy lệnh createMany trực tiếp qua this.prisma (không cần tx)
-        // Nhờ có `skipDuplicates: true`, những lớp học phần nào đã tạo trước đó sẽ không bị ghi đè hay lỗi trùng lặp.
-        const result = await this.prisma.courseOffer.createMany({
+        await this.prisma.courseOffer.createMany({
           data: courseOffersData,
           skipDuplicates: true,
         });
-
-        if (result.count > 0) {
-          console.log(
-            `[CourseOffer] Đã sinh thêm ${result.count} lớp học phần mới cho lớp ${cls.className}`,
-          );
-        }
       }
     }
 
