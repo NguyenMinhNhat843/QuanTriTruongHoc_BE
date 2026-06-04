@@ -14,15 +14,17 @@ import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import { Prisma } from "../../prisma/generated/prisma/client";
 import { CurriculumSubjectService } from "../curriculumSubject/curriculumnSubject.service";
 import {
-  CourseOfferDto,
+  ClassSubjectResponseDto,
   ResponsePreviewGenerateSectionForClass,
 } from "./courseOffer.response";
+import { CourseRegistrationService } from "./CourseRegistration.service";
 
 @Injectable()
 export class CourseOfferService {
   constructor(
     private prisma: PrismaService,
     private curriculumSubjectService: CurriculumSubjectService,
+    private gradeService: CourseRegistrationService,
   ) {}
 
   /**
@@ -48,13 +50,29 @@ export class CourseOfferService {
     const result = await this.prisma.courseOffer.findMany({
       where,
       include: {
-        subject: true,
-        semester: true,
-        baseClass: true,
-        teacher: true,
-        _count: {
+        subject: {
           select: {
-            registrations: true,
+            subjectName: true,
+            subjectCode: true,
+          },
+        },
+        semester: {
+          select: {
+            name: true,
+            term: true,
+            year: true,
+          },
+        },
+        baseClass: {
+          select: {
+            className: true,
+            classCode: true,
+          },
+        },
+        teacher: {
+          select: {
+            fullName: true,
+            staffCode: true,
           },
         },
       },
@@ -65,7 +83,7 @@ export class CourseOfferService {
       },
     });
 
-    return plainToInstance(CourseOfferDto, result);
+    return plainToInstance(ClassSubjectResponseDto, result);
   }
 
   /**
@@ -138,22 +156,36 @@ export class CourseOfferService {
    * Chi tiết lớp học phần
    */
   async getCourseOfferDetail(
-    courseOfferId: number,
+    classSubjectId: number,
   ): Promise<CourseOfferDetailResponseDto | null> {
     const grades = await this.prisma.courseRegistration.findMany({
       where: {
-        courseOfferId,
+        courseOfferId: classSubjectId,
       },
     });
 
-    if (!grades) return null;
+    const classSubject = await this.prisma.courseOffer.findUnique({
+      where: {
+        id: classSubjectId,
+      },
+      select: {
+        classId: true,
+      },
+    });
+    const classId = classSubject?.classId;
+    if (!classId) {
+      throw new NotFoundException("Không tìm thấy lớp học");
+    }
 
-    // 1. Query dữ liệu từ Database thông qua Prisma
+    // Chưa có bảng điểm nào được tạo cho lớp học phần này, tiến hành tạo mới
+    if (!grades) {
+      await this.gradeService.createGradeTable(classId, classSubjectId);
+    }
+
     const courseOffer = await this.prisma.courseOffer.findUnique({
-      where: { id: courseOfferId },
+      where: { id: classSubjectId },
       include: {
         registrations: {
-          // Điểm của sinh viên trong ClassSubject này
           select: {
             student: {
               select: {
@@ -206,7 +238,6 @@ export class CourseOfferService {
         const nameA = getLastName(a.student?.fullName || "");
         const nameB = getLastName(b.student?.fullName || "");
 
-        // So sánh Tên trước, nếu Tên trùng nhau thì so sánh toàn bộ Họ Tên (fullName)
         const compareName = nameA.localeCompare(nameB, "vi", {
           sensitivity: "base",
         });

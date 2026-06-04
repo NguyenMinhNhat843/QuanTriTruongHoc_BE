@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module.js";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ValidationPipe } from "@nestjs/common";
+import cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,6 +13,8 @@ async function bootstrap() {
     .setVersion("1.0")
     .addBearerAuth() // nếu dùng JWT
     .build();
+
+  app.use(cookieParser());
 
   app.enableCors({
     origin: ["http://localhost:5173", "https://website-truong-tdn.vercel.app"],

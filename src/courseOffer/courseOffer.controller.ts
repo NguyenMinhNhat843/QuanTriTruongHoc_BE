@@ -16,6 +16,7 @@ import { CourseOfferService } from "./courseOffer.service";
 import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import { Response } from "express";
 import {
+  ClassSubjectResponseDto,
   CourseOfferDto,
   ResponsePreviewGenerateSectionForClass,
 } from "./courseOffer.response";
@@ -40,7 +41,7 @@ export class CourseOfferController {
   @ApiOperation({ summary: "Lấy danh sách ClassSubject" })
   @ApiResponse({
     status: 200,
-    type: [CourseOfferDto],
+    type: [ClassSubjectResponseDto],
   })
   async getAll(@Query() query: SearchCourseOfferDto) {
     return this.courseOfferService.findAll(query);
@@ -131,7 +132,7 @@ export class CourseOfferController {
   }
 
   /**
-   * Lấy chi tiết classSubject
+   * Lấy chi tiết classSubject, bao gồm bảng điểm của lớp đó
    */
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết lớp học phần" })

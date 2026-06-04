@@ -24,6 +24,9 @@ import { RoleType } from "../../prisma/generated/prisma/enums.js";
 export class StaffController {
   constructor(private readonly staffService: StaffService) {}
 
+  /**
+   * Tạo nhân viên (Có thể là teacher hoặc staff bình thường)
+   */
   @Post()
   @ApiOperation({ summary: "Tạo nhân viên kèm tài khoản đăng nhập" })
   @Roles(RoleType.admin)
@@ -33,6 +36,9 @@ export class StaffController {
     return this.staffService.createStaff(createStaffDto);
   }
 
+  /**
+   * Lấy stat cho trang dashboard của gioa diện teacher
+   */
   @Get(":teacherId/dashboardstats")
   @ApiResponse({ status: 200, type: TeacherDashboardStatsResponseDto })
   async getTeacherDashboardStats(

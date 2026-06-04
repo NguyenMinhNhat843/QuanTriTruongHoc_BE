@@ -1,161 +1,68 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
-  IsEnum,
   IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsDateString,
-  Min,
   IsNumber,
   IsBoolean,
   IsDate,
 } from "class-validator";
-import {
-  CourseOffer,
-  CourseOfferStatus,
-} from "../../prisma/generated/prisma/client";
-import { StaffResponseDto } from "../staff/staff.response";
-import { SubjectResponseDto } from "../subject/subject.response";
+import { CourseOffer } from "../../prisma/generated/prisma/client";
 import { ClassResponseDto } from "../class/class.response";
+import { StaffResponseDto } from "../staff/staff.response";
 import { SemesterResponseDto } from "../semester/semester.response";
-import { Type } from "class-transformer";
+import { SubjectResponseDto } from "../subject/subject.response";
 
 export class CourseOfferDto implements CourseOffer {
-  @ApiProperty({ example: 1 })
+  @ApiProperty()
   @IsInt()
+  @IsNotEmpty()
   id: number;
 
-  @ApiProperty({ example: "OOP-2026-HK1-01", description: "Mã lớp học phần" })
-  @IsString()
-  @IsNotEmpty()
-  courseCode: string;
-
-  @ApiPropertyOptional({ example: "Lập trình hướng đối tượng - Nhóm 01" })
-  @IsString()
-  @IsOptional()
-  courseName: string | null;
-
-  @ApiProperty({ example: 40 })
+  @ApiProperty({ type: Number, nullable: true })
   @IsInt()
-  @Min(0)
-  maxStudents: number;
-
-  @ApiProperty({ example: 0 })
-  @IsInt()
-  currentStudents: number;
-
-  @ApiProperty({ enum: CourseOfferStatus, default: CourseOfferStatus.planned })
-  @IsEnum(CourseOfferStatus)
-  status: CourseOfferStatus;
-
-  @ApiPropertyOptional({ type: Date, example: "2026-09-01" })
-  @IsDateString()
   @IsOptional()
-  startDate: Date | null;
-
-  @ApiPropertyOptional({ type: Date, example: "2026-12-31" })
-  @IsDateString()
-  @IsOptional()
-  endDate: Date | null;
-
-  @ApiProperty({
-    description: "ID của lớp học",
-    example: 101,
-    nullable: true,
-    required: false,
-  })
-  @IsOptional()
-  @IsInt({ message: "classId phải là số nguyên" })
-  classId: number | null;
-
-  @ApiProperty({
-    description: "Thời gian tạo bản ghi",
-    example: "2026-05-23T06:50:00.000Z",
-    type: String,
-    format: "date-time",
-  })
-  @IsNotEmpty({ message: "createdAt không được để trống" })
-  @IsDate({ message: "createdAt không đúng định dạng ngày tháng" })
-  @Type(() => Date)
-  createdAt: Date;
-
-  @ApiProperty({
-    description: "Thời gian cập nhật bản ghi gần nhất",
-    example: "2026-05-23T07:15:00.000Z",
-    type: String,
-    format: "date-time",
-  })
-  @IsNotEmpty({ message: "updatedAt không được để trống" })
-  @IsDate({ message: "updatedAt không đúng định dạng ngày tháng" })
-  @Type(() => Date)
-  updatedAt: Date;
-
-  @ApiProperty({
-    description: "Thời gian kết thúc đăng ký",
-    example: "2026-06-30T23:59:59.000Z",
-    type: String,
-    format: "date-time",
-    nullable: true,
-    required: false,
-  })
-  @IsOptional()
-  @IsDate({ message: "registrationEnd không đúng định dạng ngày tháng" })
-  @Type(() => Date)
-  registrationEnd: Date | null;
-
-  @ApiProperty({
-    description: "Thời gian bắt đầu mở đăng ký",
-    example: "2026-06-01T00:00:00.000Z",
-    type: String,
-    format: "date-time",
-    nullable: true,
-    required: false,
-  })
-  @IsOptional()
-  @IsDate({ message: "registrationStart không đúng định dạng ngày tháng" })
-  @Type(() => Date)
-  registrationStart: Date | null;
-
-  @ApiProperty({
-    type: Number,
-  })
-  @IsOptional()
-  @IsInt({ message: "teacherId phải là số nguyên" })
   teacherId: number | null;
 
-  @ApiProperty({
-    description: "ID của học kỳ",
-    example: 3,
-  })
-  @IsNotEmpty({ message: "semesterId không được để trống" })
-  @IsInt({ message: "semesterId phải là số nguyên" })
+  @ApiProperty({ type: Number, nullable: true })
+  @IsInt()
+  @IsOptional()
+  classId: number | null;
+
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
   semesterId: number;
 
-  @ApiProperty({
-    description: "ID của môn học",
-    example: 45,
-  })
-  @IsNotEmpty({ message: "subjectId không được để trống" })
-  @IsInt({ message: "subjectId phải là số nguyên" })
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
   subjectId: number;
 
-  // QUAN HỆ
-  @ApiProperty({ type: StaffResponseDto })
-  teacher?: StaffResponseDto | null;
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  createdAt: Date;
 
-  @ApiProperty({ type: SubjectResponseDto })
-  subject?: SubjectResponseDto;
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  updatedAt: Date;
+}
 
-  @ApiPropertyOptional({ type: ClassResponseDto })
+export class ClassSubjectResponseDto extends CourseOfferDto {
+  @ApiPropertyOptional({ type: () => ClassResponseDto })
   baseClass?: ClassResponseDto;
 
-  @ApiProperty({ type: SemesterResponseDto })
+  @ApiPropertyOptional({ type: () => StaffResponseDto })
+  teacher?: StaffResponseDto;
+
+  @ApiPropertyOptional({ type: () => SemesterResponseDto })
   semester?: SemesterResponseDto;
 
-  constructor(partial: Partial<CourseOfferDto>) {
-    Object.assign(this, partial);
-  }
+  @ApiPropertyOptional({ type: () => SubjectResponseDto })
+  subject?: SubjectResponseDto;
 }
 
 export class ResponseGetDetailCourseOffer extends CourseOfferDto {}
@@ -165,39 +72,23 @@ export class ResponseGetDetailCourseOffer extends CourseOfferDto {}
  * Xem trước danh sách các classSubject
  */
 export class ResponsePreviewGenerateSectionForClass {
-  @ApiProperty({
-    description: "ID của môn học trong hệ thống",
-    example: 12,
-  })
+  @ApiProperty()
   @IsNumber()
   subjectId: number;
 
-  @ApiProperty({
-    description: "Mã viết tắt của môn học",
-    example: "CO1023",
-  })
+  @ApiProperty()
   @IsString()
   subjectCode: string;
 
-  @ApiProperty({
-    description: "Tên đầy đủ của môn học",
-    example: "Cấu trúc dữ liệu và giải thuật",
-  })
+  @ApiProperty()
   @IsString()
   subjectName: string;
 
-  @ApiProperty({
-    description: "Số tín chỉ của môn học",
-    example: 3,
-  })
+  @ApiProperty()
   @IsNumber()
   credits: number;
 
-  @ApiProperty({
-    description:
-      "Trạng thái lớp học phần này đã tồn tại trong hệ thống hay chưa",
-    example: false,
-  })
+  @ApiProperty()
   @IsBoolean()
   isExisted: boolean;
 }
