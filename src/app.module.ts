@@ -25,6 +25,7 @@ import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
 import { AcademyModule } from "./academy/academy.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
+import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
     CourseOfferModule,
     AcademyModule, // module tổng hợp
     CloudinaryModule,
+    DocumentProfileModule,
   ],
 })
 export class AppModule {}

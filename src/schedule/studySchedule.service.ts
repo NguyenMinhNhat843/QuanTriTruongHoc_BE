@@ -32,13 +32,14 @@ export class ScheduleService {
    * Load study schedule của 1 lớp trong 1 kỳ
    */
   async loadStudySchedule(query: SearchStudyScheduleDto) {
-    const { classId, semesterId } = query;
+    const { classId, semesterId, teacherId } = query;
 
     return this.prisma.classSubjectSchedule.findMany({
       where: {
         classSubject: {
           classId: classId ? Number(classId) : undefined,
           semesterId: semesterId ? Number(semesterId) : undefined,
+          teacherId: teacherId ? Number(teacherId) : undefined,
         },
       },
       include: {
@@ -56,6 +57,12 @@ export class ScheduleService {
                 subjectName: true,
                 subjectCode: true,
                 id: true,
+              },
+            },
+            baseClass: {
+              select: {
+                id: true,
+                className: true,
               },
             },
           },

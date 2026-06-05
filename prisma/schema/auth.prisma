@@ -88,8 +88,41 @@ model Student {
   courseRegistrations CourseRegistration[] 
   feeInvoices         FeeInvoice[]
   payments            Payment[]
+  student_documents   StudentDocument[]
 
   @@map("students")
+}
+
+
+model DocumentConfig {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  items DocumentConfigItem[]
+}
+
+model DocumentConfigItem {
+  id               Int    @id @default(autoincrement())
+  documentConfigId Int
+  name             String
+  required         Boolean? @default(true)
+  sortOrder        Int?
+
+  documentConfig   DocumentConfig @relation(fields: [documentConfigId], references: [id])
+  studentDocuments StudentDocument[]
+}
+
+model StudentDocument {
+  id                   Int      @id @default(autoincrement())
+  studentId            Int
+  documentConfigItemId Int
+  fileUrl              String
+  fileName             String
+  fileSize             Int
+  uploadedAt           DateTime @default(now())
+
+  student            Student            @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  documentConfigItem DocumentConfigItem @relation(fields: [documentConfigItemId], references: [id])
 }
 
 // ==========================

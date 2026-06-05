@@ -11,7 +11,7 @@ import {
   IsString,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { CourseOfferDto } from "../courseOffer/courseOffer.response";
+import { ClassSubjectResponseDto } from "../courseOffer/courseOffer.response";
 
 export class ScheduleDto implements ClassSubjectSchedule {
   @ApiProperty()
@@ -65,8 +65,8 @@ export class ScheduleDto implements ClassSubjectSchedule {
   studyDate: Date | null;
 }
 export class StudyScheduleResponseDto extends ScheduleDto {
-  @ApiPropertyOptional({ type: CourseOfferDto })
-  classSubject?: CourseOfferDto;
+  @ApiPropertyOptional({ type: ClassSubjectResponseDto })
+  classSubject?: ClassSubjectResponseDto;
 }
 
 export class CreateStudyScheduleDto extends OmitType(ScheduleDto, ["id"]) {}
@@ -76,6 +76,12 @@ export class SearchStudyScheduleDto {
   @IsOptional()
   @IsInt()
   classId?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  teacherId?: number;
 
   @ApiPropertyOptional({ type: Number })
   @Type(() => Number)

@@ -98,6 +98,21 @@ export type User = Prisma.UserModel
  */
 export type Student = Prisma.StudentModel
 /**
+ * Model DocumentConfig
+ * 
+ */
+export type DocumentConfig = Prisma.DocumentConfigModel
+/**
+ * Model DocumentConfigItem
+ * 
+ */
+export type DocumentConfigItem = Prisma.DocumentConfigItemModel
+/**
+ * Model StudentDocument
+ * 
+ */
+export type StudentDocument = Prisma.StudentDocumentModel
+/**
  * Model Staff
  * 
  */

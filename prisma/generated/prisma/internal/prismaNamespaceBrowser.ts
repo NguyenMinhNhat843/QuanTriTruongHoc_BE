@@ -67,6 +67,9 @@ export const ModelName = {
   Application: 'Application',
   User: 'User',
   Student: 'Student',
+  DocumentConfig: 'DocumentConfig',
+  DocumentConfigItem: 'DocumentConfigItem',
+  StudentDocument: 'StudentDocument',
   Staff: 'Staff',
   BenefitProgram: 'BenefitProgram',
   BenefitApplication: 'BenefitApplication',
@@ -353,6 +356,38 @@ export const StudentScalarFieldEnum = {
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
+
+
+export const DocumentConfigScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type DocumentConfigScalarFieldEnum = (typeof DocumentConfigScalarFieldEnum)[keyof typeof DocumentConfigScalarFieldEnum]
+
+
+export const DocumentConfigItemScalarFieldEnum = {
+  id: 'id',
+  documentConfigId: 'documentConfigId',
+  name: 'name',
+  required: 'required',
+  sortOrder: 'sortOrder'
+} as const
+
+export type DocumentConfigItemScalarFieldEnum = (typeof DocumentConfigItemScalarFieldEnum)[keyof typeof DocumentConfigItemScalarFieldEnum]
+
+
+export const StudentDocumentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  documentConfigItemId: 'documentConfigItemId',
+  fileUrl: 'fileUrl',
+  fileName: 'fileName',
+  fileSize: 'fileSize',
+  uploadedAt: 'uploadedAt'
+} as const
+
+export type StudentDocumentScalarFieldEnum = (typeof StudentDocumentScalarFieldEnum)[keyof typeof StudentDocumentScalarFieldEnum]
 
 
 export const StaffScalarFieldEnum = {
