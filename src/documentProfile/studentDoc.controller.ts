@@ -7,14 +7,25 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  Query,
+  UseInterceptors,
+  UploadedFiles,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiConsumes,
+} from "@nestjs/swagger";
 import {
   CreateStudentDocumentDto,
   UpdateStudentDocumentDto,
   StudentDocumentResponseDto,
+  SearchStudentDocDto,
+  CreateManyStudentDocumentDto,
 } from "./studentDoc.dto";
 import { StudentDocumentService } from "./studentDoc.service";
+import { FilesInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("Student Document")
 @Controller("student-documents")
@@ -32,11 +43,25 @@ export class StudentDocumentController {
     return this.studentDocumentService.create(dto);
   }
 
+  @Post("bulk")
+  @ApiConsumes("multipart/form-data")
+  @UseInterceptors(FilesInterceptor("files"))
+  @ApiOperation({ summary: "Tạo nhiều tài liệu sinh viên cùng lúc" })
+  @ApiResponse({ status: 201 })
+  async createMany(
+    @Body() dto: CreateManyStudentDocumentDto,
+    @UploadedFiles() files: Express.Multer.File[],
+  ) {
+    return this.studentDocumentService.createMany(dto, files);
+  }
+
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả tài liệu sinh viên" })
   @ApiResponse({ status: 200, type: [StudentDocumentResponseDto] })
-  async findAll(): Promise<StudentDocumentResponseDto[]> {
-    return this.studentDocumentService.findAll();
+  async findAll(
+    @Query() query: SearchStudentDocDto,
+  ): Promise<StudentDocumentResponseDto[]> {
+    return this.studentDocumentService.findAll(query);
   }
 
   @Get(":id")

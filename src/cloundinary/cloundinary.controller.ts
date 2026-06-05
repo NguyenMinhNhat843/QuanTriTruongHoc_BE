@@ -36,6 +36,6 @@ export class FileStoreController {
     if (!file) {
       throw new BadRequestException("Vui lòng chọn file hình ảnh để upload");
     }
-    return await this.cloudinaryService.uploadImage(file);
+    return await this.cloudinaryService.uploadImageAndSaveDb(file);
   }
 }

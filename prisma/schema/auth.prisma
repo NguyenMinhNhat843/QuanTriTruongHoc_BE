@@ -123,6 +123,8 @@ model StudentDocument {
 
   student            Student            @relation(fields: [studentId], references: [id], onDelete: Cascade)
   documentConfigItem DocumentConfigItem @relation(fields: [documentConfigItemId], references: [id])
+
+  @unique([studentId, documentConfigItemId])
 }
 
 // ==========================

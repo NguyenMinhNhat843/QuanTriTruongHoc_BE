@@ -37,7 +37,7 @@ export class DocumentConfigItemDto implements DocumentConfigItem {
 }
 
 export class DocumentConfigItemResponseDto extends DocumentConfigItemDto {
-  @ApiProperty({ type: DocumentConfigResponseDto })
+  @ApiProperty({ type: () => DocumentConfigResponseDto })
   documentConfig: DocumentConfigResponseDto;
 }
 export class CreateDocumentConfigItemDto extends OmitType(

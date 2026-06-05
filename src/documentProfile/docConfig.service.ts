@@ -4,6 +4,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import {
   CreateDocumentConfigDto,
   DocumentConfigResponseDto,
+  DocumentConfigWithItemsResponseDto,
 } from "./docConfig.dto";
 
 @Injectable()
@@ -26,15 +27,16 @@ export class DocumentConfigService {
     return plainToInstance(DocumentConfigResponseDto, configs);
   }
 
-  async findOne(id: number): Promise<DocumentConfigResponseDto> {
+  async findOne(id: number): Promise<DocumentConfigWithItemsResponseDto> {
     const config = await this.prisma.documentConfig.findUnique({
       where: { id },
+      include: { items: true },
     });
 
     if (!config) {
       throw new NotFoundException(`DocumentConfig với ID ${id} không tồn tại`);
     }
 
-    return plainToInstance(DocumentConfigResponseDto, config);
+    return plainToInstance(DocumentConfigWithItemsResponseDto, config);
   }
 }

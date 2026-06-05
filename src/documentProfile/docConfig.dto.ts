@@ -1,6 +1,14 @@
 import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
 import { DocumentConfig } from "../../prisma/generated/prisma/client";
-import { IsInt, IsNotEmpty, IsString } from "class-validator";
+import {
+  IsArray,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  ValidateNested,
+} from "class-validator";
+import { DocumentConfigItemDto } from "./docConfigItem.dto";
+import { Type } from "class-transformer";
 
 export class DocumentConfigDto implements DocumentConfig {
   @ApiProperty({ type: Number })
@@ -14,6 +22,13 @@ export class DocumentConfigDto implements DocumentConfig {
 }
 
 export class DocumentConfigResponseDto extends DocumentConfigDto {}
+export class DocumentConfigWithItemsResponseDto extends DocumentConfigDto {
+  @ApiProperty({ type: () => [DocumentConfigItemDto] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => DocumentConfigItemDto)
+  items: DocumentConfigItemDto[];
+}
 
 export class CreateDocumentConfigDto extends OmitType(DocumentConfigDto, [
   "id",

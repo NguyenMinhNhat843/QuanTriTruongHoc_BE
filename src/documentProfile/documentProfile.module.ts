@@ -5,8 +5,10 @@ import { StudentDocumentService } from "./studentDoc.service";
 import { StudentDocumentController } from "./studentDoc.controller";
 import { DocumentConfigItemController } from "./docConfigItem.controller";
 import { DocumentConfigController } from "./docConfig.controller";
+import { CloudinaryModule } from "../cloundinary/cloundinary.module";
 
 @Module({
+  imports: [CloudinaryModule],
   providers: [
     DocumentConfigService,
     DocumentConfigItemService,

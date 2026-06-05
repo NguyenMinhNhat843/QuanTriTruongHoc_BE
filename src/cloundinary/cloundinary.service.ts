@@ -11,12 +11,50 @@ import { PrismaService } from "../prisma/prisma.service";
 @Injectable()
 export class CloudinaryService {
   constructor(private prisma: PrismaService) {}
+  async uploadFile(
+    file: Express.Multer.File,
+    folder: string = "quantritruonghoc",
+  ): Promise<{ fileUrl: string; publicId: string }> {
+    if (!file) {
+      throw new BadRequestException("File không hợp lệ hoặc không tồn tại");
+    }
+
+    const cloundinaryResult = await new Promise<UploadApiResponse>(
+      (resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: folder, resource_type: "auto" },
+          (error?: UploadApiErrorResponse, result?: UploadApiResponse) => {
+            if (error)
+              return reject(
+                new BadRequestException(`Upload thất bại: ${error.message}`),
+              );
+            if (!result)
+              return reject(
+                new BadRequestException(
+                  "Upload thất bại: Không nhận được phản hồi từ Cloudinary",
+                ),
+              );
+
+            resolve(result);
+          },
+        );
+
+        Readable.from(file.buffer).pipe(uploadStream);
+      },
+    );
+
+    return {
+      fileUrl: cloundinaryResult.secure_url,
+      publicId: cloundinaryResult.public_id,
+    };
+  }
+
   /**
    * 1. Upload ảnh bằng Buffer sử dụng Node.js Native Stream
    */
-  async uploadImage(
+  async uploadImageAndSaveDb(
     file: Express.Multer.File,
-    folder: string = "Home/QuanTriTruongHoc",
+    folder: string = "quantritruonghoc",
   ): Promise<{ id: string; imageUrl: string; publicId: string }> {
     if (!file) {
       throw new BadRequestException("File không hợp lệ hoặc không tồn tại");

@@ -1,15 +1,25 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import {
+  CreateManyStudentDocumentDto,
   CreateStudentDocumentDto,
+  SearchStudentDocDto,
   StudentDocumentResponseDto,
   UpdateStudentDocumentDto,
 } from "./studentDoc.dto";
 import { PrismaService } from "../prisma/prisma.service";
+import { CloudinaryService } from "../cloundinary/cloundinary.service";
 
 @Injectable()
 export class StudentDocumentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   private readonly commonInclude = {
     student: true,
@@ -27,8 +37,55 @@ export class StudentDocumentService {
     return plainToInstance(StudentDocumentResponseDto, newDoc);
   }
 
-  async findAll(): Promise<StudentDocumentResponseDto[]> {
+  async createMany(
+    dto: CreateManyStudentDocumentDto,
+    files: Express.Multer.File[],
+  ) {
+    const { studentId, documentConfigItemIds } = dto;
+
+    // 1. Kiểm tra tính hợp lệ về số lượng file và số lượng ID danh mục truyền lên
+    if (files.length !== documentConfigItemIds.length) {
+      throw new BadRequestException(
+        "Số lượng tệp tin và danh mục cấu hình tài liệu không khớp nhau",
+      );
+    }
+
+    // Upload ảnh lên cloundinary
+    const uploadedFiles = await Promise.all(
+      files.map((file) =>
+        this.cloudinaryService.uploadFile(
+          file,
+          "quantritruonghoc/student-documents",
+        ),
+      ),
+    );
+
+    // Map file với documentIds
+    const dataToInsert = files.map((file, index) => {
+      return {
+        studentId: studentId,
+        documentConfigItemId: Number(documentConfigItemIds[index]),
+        fileName: file.originalname,
+        fileSize: file.size,
+        fileUrl: uploadedFiles[index].fileUrl,
+      };
+    });
+
+    await this.prisma.studentDocument.createMany({
+      data: dataToInsert,
+      skipDuplicates: true,
+    });
+
+    return {
+      message: `Upload thành công`,
+    };
+  }
+
+  async findAll(
+    searchDto?: SearchStudentDocDto,
+  ): Promise<StudentDocumentResponseDto[]> {
     const docs = await this.prisma.studentDocument.findMany({
+      where: searchDto,
       include: this.commonInclude,
     });
 

@@ -10,6 +10,7 @@ import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import {
   CreateDocumentConfigDto,
   DocumentConfigResponseDto,
+  DocumentConfigWithItemsResponseDto,
 } from "./docConfig.dto";
 import { DocumentConfigService } from "./docConfig.service";
 
@@ -36,11 +37,11 @@ export class DocumentConfigController {
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết cấu hình tài liệu theo ID" })
-  @ApiResponse({ status: 200, type: DocumentConfigResponseDto })
+  @ApiResponse({ status: 200, type: DocumentConfigWithItemsResponseDto })
   @ApiResponse({ status: 404 })
   async findOne(
     @Param("id", ParseIntPipe) id: number,
-  ): Promise<DocumentConfigResponseDto> {
+  ): Promise<DocumentConfigWithItemsResponseDto> {
     return this.documentConfigService.findOne(id);
   }
 }

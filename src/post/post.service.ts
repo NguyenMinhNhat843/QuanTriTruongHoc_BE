@@ -42,7 +42,7 @@ export class PostService {
     });
 
     if (file) {
-      const image = await this.cloudinaryService.uploadImage(
+      const image = await this.cloudinaryService.uploadImageAndSaveDb(
         file,
         "quantritruonghoc/posts",
       );
@@ -185,7 +185,7 @@ export class PostService {
     }
 
     if (file) {
-      const image = await this.cloudinaryService.uploadImage(
+      const image = await this.cloudinaryService.uploadImageAndSaveDb(
         file,
         "quantritruonghoc/posts",
       );
