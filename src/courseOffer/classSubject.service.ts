@@ -8,16 +8,16 @@ import {
   CreateOptionalCourseOfferDto,
   SearchCourseOfferDto,
   updateClassSubjectDto,
-} from "./courseOffer.dto";
+} from "./classSubject.dto";
 import { plainToInstance } from "class-transformer";
-import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
+import { CourseOfferDetailResponseDto } from "./classSubjectDetail.response";
 import { Prisma } from "../../prisma/generated/prisma/client";
 import { CurriculumSubjectService } from "../curriculumSubject/curriculumnSubject.service";
 import {
   ClassSubjectResponseDto,
   ResponsePreviewGenerateSectionForClass,
-} from "./courseOffer.response";
-import { CourseRegistrationService } from "./CourseRegistration.service";
+} from "./classSubject.response";
+import { CourseRegistrationService } from "./grades.service";
 
 @Injectable()
 export class CourseOfferService {
@@ -50,12 +50,7 @@ export class CourseOfferService {
     const result = await this.prisma.courseOffer.findMany({
       where,
       include: {
-        subject: {
-          select: {
-            subjectName: true,
-            subjectCode: true,
-          },
-        },
+        subject: true,
         semester: {
           select: {
             name: true,
@@ -69,12 +64,7 @@ export class CourseOfferService {
             classCode: true,
           },
         },
-        teacher: {
-          select: {
-            fullName: true,
-            staffCode: true,
-          },
-        },
+        teacher: true,
       },
       orderBy: {
         subject: {

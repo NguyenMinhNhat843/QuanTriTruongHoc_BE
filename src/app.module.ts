@@ -21,7 +21,7 @@ import { FeeCatalogModule } from "./FeeCatalog/feeCatalog.module.js";
 import { CreditPriceModule } from "./creaditPrice/creditPrice.module.js";
 import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
-import { CourseOfferModule } from "./courseOffer/courseOffer.module.js";
+import { CourseOfferModule } from "./courseOffer/classSubject.module.js";
 import { AcademyModule } from "./academy/academy.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";

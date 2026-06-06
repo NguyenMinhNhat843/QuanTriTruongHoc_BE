@@ -11,7 +11,7 @@ import {
   IsString,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { ClassSubjectResponseDto } from "../courseOffer/courseOffer.response";
+import { ClassSubjectResponseDto } from "../courseOffer/classSubject.response";
 
 export class ScheduleDto implements ClassSubjectSchedule {
   @ApiProperty()

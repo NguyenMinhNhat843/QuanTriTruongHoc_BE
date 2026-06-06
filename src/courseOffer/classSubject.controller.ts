@@ -11,22 +11,22 @@ import {
   Res,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { CourseOfferService } from "./courseOffer.service";
+import { CourseOfferService } from "./classSubject.service";
 
-import { CourseOfferDetailResponseDto } from "./courseOfferDetail.response";
 import { Response } from "express";
 import {
   ClassSubjectResponseDto,
   CourseOfferDto,
   ResponsePreviewGenerateSectionForClass,
-} from "./courseOffer.response";
+} from "./classSubject.response";
 import {
   ExportGradeTableDto,
   SearchCourseOfferDto,
   updateClassSubjectDto,
-} from "./courseOffer.dto";
-import { ExportGradeTableService } from "./exportGradeTable.service";
-import { CourseOfferGenerateService } from "./courseOfferGenerate.service";
+} from "./classSubject.dto";
+import { ExportGradeTableService } from "./exportGrades.service";
+import { CourseOfferGenerateService } from "./classSubjectGenerate.service";
+import { CourseOfferDetailResponseDto } from "./classSubjectDetail.response";
 
 @ApiTags("CourseOffer - Lớp học phần")
 @Controller("course-offers")
@@ -135,7 +135,7 @@ export class CourseOfferController {
    * Lấy chi tiết classSubject, bao gồm bảng điểm của lớp đó
    */
   @Get(":id")
-  @ApiOperation({ summary: "Lấy chi tiết lớp học phần" })
+  @ApiOperation({ summary: "Lấy chi tiết môn học trong lớp học" })
   @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
   async getDetail(@Param("id", ParseIntPipe) id: number) {
     return await this.courseOfferService.getCourseOfferDetail(id);
@@ -172,5 +172,18 @@ export class CourseOfferController {
           error.message || "Đã xảy ra lỗi trong quá trình xuất file Excel",
       });
     }
+  }
+
+  /**
+   * Xuất bảng điểm 1 học sinh
+   */
+  @Get("/export-excel-student/:studentId")
+  @ApiOperation({ summary: "Xuất file excel bảng điểm của một học sinh" })
+  async exportExcelStudent(
+    @Param("studentId", ParseIntPipe) studentId: number,
+  ) {
+    return await this.exportGradeTableService.exportExcelGradeForOneStudent(
+      studentId,
+    );
   }
 }

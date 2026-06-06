@@ -28,9 +28,22 @@ export class StudentDocumentService {
 
   async create(
     dto: CreateStudentDocumentDto,
+    file: Express.Multer.File,
   ): Promise<StudentDocumentResponseDto> {
+    // upload file
+    const result = await this.cloudinaryService.uploadFile(
+      file,
+      "quantritruonghoc/student-documents",
+    );
+
     const newDoc = await this.prisma.studentDocument.create({
-      data: dto,
+      data: {
+        fileName: file.originalname,
+        fileSize: file.size,
+        fileUrl: result.fileUrl,
+        documentConfigItemId: dto.documentConfigItemId,
+        studentId: dto.studentId,
+      },
       include: this.commonInclude,
     });
 

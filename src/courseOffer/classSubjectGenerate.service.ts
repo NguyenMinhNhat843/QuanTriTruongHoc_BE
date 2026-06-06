@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateBulkCourseOfferDto } from "./courseOffer.dto";
+import { CreateBulkCourseOfferDto } from "./classSubject.dto";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()

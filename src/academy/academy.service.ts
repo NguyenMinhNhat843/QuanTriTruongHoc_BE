@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { SemesterService } from "../semester/semester.service";
 import { BatchService } from "../batch/batch.service";
-import { CourseOfferService } from "../courseOffer/courseOffer.service";
+import { CourseOfferService } from "../courseOffer/classSubject.service";
 import { CreateSemesterDto } from "../semester/semester.dto";
 
 @Injectable()

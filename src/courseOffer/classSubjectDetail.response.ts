@@ -17,7 +17,7 @@ import { ClassResponseDto } from "../class/class.response";
 import { Type } from "class-transformer";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { CourseOffer } from "../../prisma/generated/prisma/client";
-import { CourseOfferRegisResponseDto } from "./courseOfferRegis.response";
+import { CourseOfferRegisResponseDto } from "./grades.response";
 
 export class CourseOfferDetailResponseDto implements CourseOffer {
   @ApiProperty({ example: 1, description: "ID duy nhất của lớp học phần" })

@@ -1,11 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import * as ExcelJS from "exceljs";
 import * as path from "path";
-import { CourseOfferQuery } from "./courseOffer.query";
+import { CourseOfferQuery } from "./classSubject.query";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class ExportGradeTableService {
-  constructor(private courseOfferQuery: CourseOfferQuery) {}
+  constructor(
+    private courseOfferQuery: CourseOfferQuery,
+    private prisma: PrismaService,
+  ) {}
   /**
    * Hàm helper dùng để sao chép dữ liệu, định dạng, merge cells từ sheet mẫu sang sheet mới
    */
@@ -414,5 +418,37 @@ export class ExportGradeTableService {
 
     const buffer = Buffer.from(await workbook.xlsx.writeBuffer());
     return buffer;
+  }
+
+  /**
+   * Hàm xuất điểm của 1 học sinh
+   */
+  async exportExcelGradeForOneStudent(studentId: number) {
+    const student = await this.prisma.student.findUnique({
+      where: { id: studentId },
+    });
+
+    if (!student?.classId) return null;
+
+    // Lấy tất cả môn học của lớp này tính tới học kỳ hiện tại
+    const classSubjects = await this.prisma.courseOffer.findMany({
+      where: {
+        classId: student.classId,
+      },
+    });
+
+    // Lấy điểm
+    const studentGrades = await this.prisma.courseRegistration.findMany({
+      where: {
+        studentId: studentId,
+        courseOffer: {
+          id: {
+            in: classSubjects.map((cs) => cs.id),
+          },
+        },
+      },
+    });
+
+    console.log("asldjasdas: ", studentGrades);
   }
 }

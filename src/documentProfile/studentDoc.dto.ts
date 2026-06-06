@@ -1,9 +1,4 @@
-import {
-  ApiProperty,
-  ApiPropertyOptional,
-  OmitType,
-  PartialType,
-} from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import { StudentDocument } from "../../prisma/generated/prisma/client";
 import {
   IsDate,
@@ -62,10 +57,17 @@ export class StudentDocumentResponseDto extends StudentDocumentDto {
   @ApiPropertyOptional({ type: DocumentConfigItemResponseDto })
   documentConfigItem?: DocumentConfigItemResponseDto;
 }
-export class CreateStudentDocumentDto extends OmitType(StudentDocumentDto, [
-  "id",
-  "uploadedAt",
-]) {}
+export class CreateStudentDocumentDto {
+  @ApiProperty({ type: Number })
+  @Type(() => Number)
+  @IsNumber()
+  documentConfigItemId: number;
+
+  @ApiProperty({ type: Number })
+  @Type(() => Number)
+  @IsNumber()
+  studentId: number;
+}
 export class CreateManyStudentDocumentDto {
   @ApiProperty({ type: Number })
   @Type(() => Number)

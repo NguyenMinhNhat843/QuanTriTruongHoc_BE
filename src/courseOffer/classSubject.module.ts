@@ -1,14 +1,14 @@
 import { Module } from "@nestjs/common";
-import { CourseOfferController } from "./courseOffer.controller";
-import { CourseOfferService } from "./courseOffer.service";
-import { CourseRegistrationController } from "./courseRegistration.controller";
-import { CourseRegistrationService } from "./CourseRegistration.service";
+import { CourseOfferController } from "./classSubject.controller";
+import { CourseOfferService } from "./classSubject.service";
+import { CourseRegistrationController } from "./grades.controller";
+import { CourseRegistrationService } from "./grades.service";
 import { SubjectModule } from "../subject/subject.module";
-import { CourseOfferQuery } from "./courseOffer.query";
+import { CourseOfferQuery } from "./classSubject.query";
 import { CurriculumSubjectModule } from "../curriculumSubject/curriculumnSubject.module";
 import { BatchModule } from "../batch/batch.module";
-import { ExportGradeTableService } from "./exportGradeTable.service";
-import { CourseOfferGenerateService } from "./courseOfferGenerate.service";
+import { ExportGradeTableService } from "./exportGrades.service";
+import { CourseOfferGenerateService } from "./classSubjectGenerate.service";
 
 @Module({
   imports: [SubjectModule, CurriculumSubjectModule, BatchModule],

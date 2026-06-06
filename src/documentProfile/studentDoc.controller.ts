@@ -10,6 +10,7 @@ import {
   Query,
   UseInterceptors,
   UploadedFiles,
+  UploadedFile,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -25,7 +26,7 @@ import {
   CreateManyStudentDocumentDto,
 } from "./studentDoc.dto";
 import { StudentDocumentService } from "./studentDoc.service";
-import { FilesInterceptor } from "@nestjs/platform-express";
+import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("Student Document")
 @Controller("student-documents")
@@ -35,12 +36,15 @@ export class StudentDocumentController {
   ) {}
 
   @Post()
+  @ApiConsumes("multipart/form-data")
+  @UseInterceptors(FileInterceptor("file"))
   @ApiOperation({ summary: "Tạo mới tài liệu sinh viên" })
   @ApiResponse({ status: 201, type: StudentDocumentResponseDto })
   async create(
     @Body() dto: CreateStudentDocumentDto,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<StudentDocumentResponseDto> {
-    return this.studentDocumentService.create(dto);
+    return this.studentDocumentService.create(dto, file);
   }
 
   @Post("bulk")
