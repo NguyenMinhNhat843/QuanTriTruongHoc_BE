@@ -213,6 +213,8 @@ export class StudentService {
       keyword,
       status,
       classId,
+      batchId, // <--- Bổ sung lọc theo Khóa đào tạo
+      majorId, // <--- Bổ sung lọc theo Ngành học
       fromDate,
       toDate,
       sortBy = "createdAt",
@@ -252,6 +254,19 @@ export class StudentService {
           : {},
         status ? { status } : {},
         classId ? { classId } : {},
+
+        // Lọc theo Khóa học (Batch)
+        batchId ? { batchId: Number(batchId) } : {},
+
+        // Lọc theo Ngành (Major) thông qua quan hệ với bảng Batch
+        majorId
+          ? {
+              batch: {
+                majorId: Number(majorId),
+              },
+            }
+          : {},
+
         fromDate || toDate
           ? {
               enrollmentDate: {

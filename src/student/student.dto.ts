@@ -337,6 +337,18 @@ export class SearchStudentDto {
   @IsDateString()
   toDate?: string;
 
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  majorId?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  batchId?: number;
+
   // --- SẮP XẾP ---
   @ApiPropertyOptional({ default: "createdAt" })
   @IsOptional()
