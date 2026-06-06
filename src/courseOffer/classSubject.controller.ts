@@ -145,18 +145,22 @@ export class ClassSubjectController {
   }
 
   /**
-   * Xuất file excel bảng điểm
+   * Xuất file excel bảng điểm chuẩn Giáo dục (Tự sinh layout linh hoạt)
    */
   @Post("/export-excel")
   async exportExcel(@Body() body: ExportGradeTableDto, @Res() res: Response) {
     try {
+      // Gọi service xử lý sinh file động thông qua Buffer
       const fileBuffer =
         await this.exportGradeTableService.exportMultipleSubjectsToExcel(
           body.classSubjectIds,
           body.haveTongKetSheet,
         );
+
+      // Tên file mặc định khi tải xuống
       const fileName = `bangdiem_lophocphan.xlsx`;
 
+      // Cấu hình các Header HTTP truyền tải file nhị phân (Binary Stream) về Browser
       res.set({
         "Content-Type":
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -167,12 +171,17 @@ export class ClassSubjectController {
         Expires: "0",
       });
 
-      res.end(fileBuffer);
+      // Trả luồng dữ liệu buffer và đóng kết nối thành công
+      return res.end(fileBuffer);
     } catch (error: any) {
+      // Log lỗi chi tiết ở server để bạn dễ debug khi cần thiết
+      console.error("Error exporting excel grade table:", error);
+
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         message:
-          error.message || "Đã xảy ra lỗi trong quá trình xuất file Excel",
+          error.message ||
+          "Đã xảy ra lỗi trong quá trình tự động khởi tạo file Excel",
       });
     }
   }

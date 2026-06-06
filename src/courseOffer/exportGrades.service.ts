@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import * as ExcelJS from "exceljs";
-import * as path from "path";
 import { CourseOfferQuery } from "./classSubject.query";
 import { PrismaService } from "../prisma/prisma.service";
 
@@ -11,47 +10,36 @@ export class ExportGradeTableService {
     private prisma: PrismaService,
   ) {}
   /**
-   * Hàm helper dùng để sao chép dữ liệu, định dạng, merge cells từ sheet mẫu sang sheet mới
+   * Bộ style chuẩn Giáo dục định nghĩa sẵn để tái sử dụng
    */
-  private cloneWorksheet(
-    sourceSheet: ExcelJS.Worksheet,
-    targetSheet: ExcelJS.Worksheet,
-  ) {
-    // 1. Sao chép độ rộng của các cột
-    sourceSheet.columns.forEach((col, idx) => {
-      if (col.width) {
-        targetSheet.getColumn(idx + 1).width = col.width;
-      }
-    });
+  private readonly DEFAULT_FONT = { name: "Times New Roman", size: 11 };
+  private readonly BOLD_FONT = {
+    name: "Times New Roman",
+    size: 11,
+    bold: true,
+  };
+  private readonly TITLE_FONT = {
+    name: "Times New Roman",
+    size: 16,
+    bold: true,
+  };
 
-    // 2. Sao chép dữ liệu và định dạng từng ô
-    sourceSheet.eachRow({ includeEmpty: true }, (row, rowNum) => {
-      const newRow = targetSheet.getRow(rowNum);
-      newRow.height = row.height;
+  private readonly CELL_BORDER: ExcelJS.Borders = {
+    top: { style: "thin", color: { argb: "FF000000" } },
+    left: { style: "thin", color: { argb: "FF000000" } },
+    bottom: { style: "thin", color: { argb: "FF000000" } },
+    right: { style: "thin", color: { argb: "FF000000" } },
+    diagonal: { style: "thin", color: { argb: "FF000000" } },
+  };
 
-      row.eachCell({ includeEmpty: true }, (cell, colNum) => {
-        const newCell = newRow.getCell(colNum);
-        newCell.value = cell.value;
-        newCell.style = JSON.parse(JSON.stringify(cell.style)); // Clone deep style (font, border, fill, alignment)
-      });
-    });
-
-    // 3. Sao chép các ô bị gộp (Merged Cells)
-    // Chuyển đổi qua chuỗi định dạng vì ExcelJS trả về cấu trúc đặc thù
-    const mergedRanges = Object.keys((sourceSheet as any)._merges || {}).map(
-      (key) => (sourceSheet as any)._merges[key].model,
-    );
-    mergedRanges.forEach((range) => {
-      try {
-        targetSheet.mergeCells(range);
-      } catch (err: any) {
-        console.log(err);
-      }
-    });
-  }
+  private readonly CENTER_ALIGNMENT: Partial<ExcelJS.Alignment> = {
+    vertical: "middle",
+    horizontal: "center",
+    wrapText: true,
+  };
 
   /**
-   * Hàm helper quy đổi Điểm Hệ 10 sang Điểm Hệ 4
+   * Các hàm helper quy đổi điểm giữ nguyên logic cũ
    */
   private convertHe10ToHe4(diemHe10: number): number {
     if (diemHe10 >= 8.5) return 4.0;
@@ -77,9 +65,6 @@ export class ExportGradeTableService {
     return 0.0;
   }
 
-  /**
-   * Hàm helper quy đổi Điểm Hệ 4 sang Điểm Chữ
-   */
   private convertHe4ToDiemChu(diemHe4: number): string {
     if (diemHe4 === 4.0) return "A";
     if (diemHe4 === 3.0) return "B";
@@ -97,120 +82,219 @@ export class ExportGradeTableService {
   }
 
   /**
+   * Định dạng độ rộng cột mặc định cho Sheet môn học
+   */
+  private setSubjectSheetColumnWidths(sheet: ExcelJS.Worksheet) {
+    const widths = [6, 15, 25, 12, 8, 8, 8, 8, 8, 8, 8, 10, 12, 12, 14, 14, 15]; // Cột A -> Q
+    widths.forEach((w, i) => {
+      sheet.getColumn(i + 1).width = w;
+    });
+  }
+
+  /**
+   * Hàm helper tự động tạo cấu trúc Header chuẩn cho sheet Môn học
+   */
+  private drawSubjectHeader(sheet: ExcelJS.Worksheet, keyValueData: any) {
+    this.setSubjectSheetColumnWidths(sheet);
+
+    // Dòng 1: Tiêu đề lớn
+    sheet.mergeCells("A1:Q1");
+    const titleCell = sheet.getCell("A1");
+    titleCell.value = "KẾT QUẢ HỌC TẬP MÔN HỌC/MÔ ĐUN";
+    titleCell.font = this.TITLE_FONT;
+    titleCell.alignment = this.CENTER_ALIGNMENT;
+    sheet.getRow(1).height = 30;
+
+    // Dòng 2: Học kỳ (Góc phải)
+    sheet.mergeCells("O2:Q2");
+    const semesterCell = sheet.getCell("O2");
+    semesterCell.value = keyValueData?.semesterName || "";
+    semesterCell.font = this.BOLD_FONT;
+    semesterCell.alignment = { vertical: "middle", horizontal: "right" };
+
+    // Dòng 3: Thông tin Meta của môn học
+    sheet.getRow(3).height = 22;
+    sheet.getCell("A3").value =
+      `Môn học/Mô đun: ${keyValueData?.subjectName || ""}`;
+    sheet.getCell("A3").font = this.BOLD_FONT;
+    sheet.mergeCells("A3:E3");
+
+    sheet.getCell("F3").value = `Số TC/DVHT: ${keyValueData?.credits || ""}`;
+    sheet.getCell("F3").font = this.BOLD_FONT;
+    sheet.mergeCells("F3:I3");
+
+    sheet.getCell("J3").value = `Lớp: ${keyValueData?.className || ""}`;
+    sheet.getCell("J3").font = this.BOLD_FONT;
+    sheet.mergeCells("J3:M3");
+
+    sheet.getCell("N3").value = `Giáo viên: ${keyValueData?.teacherName || ""}`;
+    sheet.getCell("N3").font = this.BOLD_FONT;
+    sheet.mergeCells("N3:Q3");
+
+    // Dòng 4 - 8: Tạo bảng tiêu đề cột (Header của table điểm)
+    sheet.getRow(4).height = 40;
+    sheet.getRow(5).height = 20;
+    sheet.getRow(6).height = 20;
+    sheet.getRow(7).height = 20;
+    sheet.getRow(8).height = 20;
+
+    // Định nghĩa cấu trúc merge chuẩn xác - KHÔNG trùng lặp ô
+    const headers = [
+      { cell: "A4", merge: "A4:A8", val: "STT" },
+      { cell: "B4", merge: "B4:B8", val: "Mã SV/HS" },
+      { cell: "C4", merge: "C4:C8", val: "Họ và tên học sinh" },
+      { cell: "D4", merge: "D4:D8", val: "Ngày sinh" },
+      { cell: "E4", merge: "E4:G4", val: "Kiểm tra thường xuyên\n(Hệ số 1)" },
+      { cell: "E5", merge: "E5:E8", val: "TX1" },
+      { cell: "F5", merge: "F5:F8", val: "TX2" },
+      { cell: "G5", merge: "G5:G8", val: "TX3" },
+      { cell: "H4", merge: "H4:K4", val: "Kiểm tra định kỳ\n(Hệ số 2)" },
+      { cell: "H5", merge: "H5:H8", val: "ĐK1" },
+      { cell: "I5", merge: "I5:I8", val: "ĐK2" },
+      { cell: "J5", merge: "J5:J8", val: "ĐK3" },
+      { cell: "K5", merge: "K5:K8", val: "ĐK4" },
+      { cell: "L4", merge: "L4:L8", val: "Điểm TB\n(Hệ 10)" },
+      { cell: "M4", merge: "M4:N4", val: "Điểm kiểm tra\n(Hệ số 3)" },
+      { cell: "M5", merge: "M5:M8", val: "Lần 1" },
+      { cell: "N5", merge: "N5:N8", val: "Lần 2" },
+      { cell: "O4", merge: "O4:P4", val: "Điểm tổng kết môn" }, // Đã xóa ô rác gây trùng lặp
+      { cell: "O5", merge: "O5:O8", val: "Lần 1" },
+      { cell: "P5", merge: "P5:P8", val: "Lần 2" },
+      { cell: "Q4", merge: "Q4:Q8", val: "Ghi chú" },
+    ];
+
+    headers.forEach((h) => {
+      try {
+        sheet.mergeCells(h.merge);
+        const c = sheet.getCell(h.cell);
+        c.value = h.val;
+      } catch (err) {
+        console.error(`Lỗi tại ô merge: ${h.merge}`, err);
+      }
+    });
+
+    // Style toàn bộ khối Header Table từ dòng 4 đến dòng 8
+    for (let r = 4; r <= 8; r++) {
+      for (let c = 1; c <= 17; c++) {
+        const cell = sheet.getCell(r, c);
+        cell.font = this.BOLD_FONT;
+        cell.alignment = this.CENTER_ALIGNMENT;
+        cell.border = this.CELL_BORDER;
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "F2F2F2" },
+        };
+      }
+    }
+  }
+
+  /**
    * Hàm xử lý tính toán và dựng cấu trúc dữ liệu cho Sheet Tổng Kết
    */
   private buildSummarySheet(
     summarySheet: ExcelJS.Worksheet,
     allSubjectsData: any[],
   ) {
-    // Định nghĩa border chuẩn cho tất cả các ô dữ liệu
-    const cellBorder: Partial<ExcelJS.Borders> = {
-      top: { style: "thin", color: { argb: "FF000000" } },
-      left: { style: "thin", color: { argb: "FF000000" } },
-      bottom: { style: "thin", color: { argb: "FF000000" } },
-      right: { style: "thin", color: { argb: "FF000000" } },
+    // 1. DỰNG LAYOUT HEADER CHO SHEET TỔNG KẾT (Bám sát theo ảnh đính kèm)
+    summarySheet.mergeCells("A1:J1");
+    const titleCell = summarySheet.getCell("A1");
+    titleCell.value = "KẾT QUẢ HỌC TẬP MÔN HỌC/MÔ ĐUN";
+    titleCell.font = this.TITLE_FONT;
+    titleCell.alignment = this.CENTER_ALIGNMENT;
+    summarySheet.getRow(1).height = 30;
+
+    const semesterName = allSubjectsData[0]?.keyValueData?.semesterName || "";
+    summarySheet.getCell("K2").value = semesterName;
+    summarySheet.getCell("K2").font = this.BOLD_FONT;
+    summarySheet.getCell("K2").alignment = {
+      vertical: "middle",
+      horizontal: "right",
     };
 
-    // Ghi semesterName
-    const semesterName = allSubjectsData[0]?.keyValueData?.semesterName;
-    summarySheet.eachRow((row) => {
-      row.eachCell((cell) => {
-        if (cell.value && typeof cell.value === "string") {
-          if (cell.value.includes("{{semesterName}}")) {
-            cell.value = cell.value.replace("{{semesterName}}", semesterName);
-          }
-        }
-      });
+    // Thiết lập độ rộng cơ bản cố định cho các cột thông tin gốc (Cột 1 đến 10)
+    const baseWidths = [6, 25, 15, 12, 12, 12, 10, 12, 12, 12]; // STT, Họ Tên, Ngày Sinh, Điểm TB,...
+    baseWidths.forEach((w, idx) => {
+      summarySheet.getColumn(idx + 1).width = w;
     });
 
-    // Lấy danh sách môn học để tạo cột điểm tổng kết từng môn
-    const subjectsName = allSubjectsData?.map((s) => {
-      return s.keyValueData?.subjectName;
+    // Định nghĩa Header cố định từ cột A đến J bám chuẩn theo cấu trúc ảnh của bạn
+    // Vì hàng môn học chiếm từ dòng 3 đến dòng 4 nên gom nhóm merge hợp lý
+    const baseHeaders = [
+      { cell: "A3", merge: "A3:A4", val: "STT" },
+      { cell: "B3", merge: "B3:B4", val: "Họ và tên học sinh" },
+      { cell: "C3", merge: "C3:C4", val: "Ngày sinh" },
+      { cell: "D3", merge: "D3:D4", val: "Điểm TB\n(hệ 10)" },
+      { cell: "E3", merge: "E3:E4", val: "Điểm TB\n(hệ 4)" },
+      { cell: "F3", merge: "F3:F4", val: "Điểm\nchữ" },
+      { cell: "G3", merge: "G3:G4", val: "Xếp\nloại HL" },
+      { cell: "H3", merge: "H3:H4", val: "Xếp\nloại RL" },
+      { cell: "I3", merge: "I3:I4", val: "Xếp\nloại RL\n(điểm)" },
+      { cell: "J3", merge: "J3:J4", val: "Ghi\nchú" },
+    ];
+
+    baseHeaders.forEach((h) => {
+      summarySheet.mergeCells(h.merge);
+      const cell = summarySheet.getCell(h.cell);
+      cell.value = h.val;
     });
 
-    // Chèn cột điểm từng môn
-    // Tìm placeholder {{subjectName}}
-    let rowForSubjects = -1;
-    let columForSubjects = -1;
-    for (let i = 1; i < 10; ++i) {
-      const row = summarySheet.getRow(i);
-      for (let j = 1; j <= row.cellCount; ++j) {
-        const cellValue = row.getCell(j).value;
-        if (
-          cellValue &&
-          typeof cellValue === "string" &&
-          cellValue.includes("{{subjectName}}")
-        ) {
-          rowForSubjects = i;
-          columForSubjects = j;
-          break;
-        }
+    // Lấy danh sách tên môn học phần động [cite: 104]
+    const subjectsName =
+      allSubjectsData?.map((s) => s.keyValueData?.subjectName) || [];
+    const columnForSubjects = 11; // Bắt đầu chèn từ cột K (Cột số 11) [cite: 128]
+    const totalSubjectColumns = subjectsName.length * 2;
+
+    // Vẽ khối Group tiêu đề lớn "Tên Module / Môn học" nằm tại dòng 3 [cite: 170-173]
+    if (subjectsName.length > 0) {
+      const startColLetter = summarySheet.getColumn(columnForSubjects).letter;
+      const endColLetter = summarySheet.getColumn(
+        columnForSubjects + totalSubjectColumns - 1,
+      ).letter;
+      summarySheet.mergeCells(`${startColLetter}3:${endColLetter}3`);
+
+      const mainSubjectHeaderCell = summarySheet.getCell(`${startColLetter}3`);
+      mainSubjectHeaderCell.value = "Tên Module / Môn học";
+      mainSubjectHeaderCell.font = this.BOLD_FONT;
+      mainSubjectHeaderCell.alignment = this.CENTER_ALIGNMENT;
+    }
+
+    // Điền chi tiết từng tên môn học vào dòng 4 [cite: 144, 146, 170]
+    subjectsName.forEach((name, index) => {
+      const subColIdx = columnForSubjects + index * 2;
+
+      // Đặt độ rộng cho 2 cột nhỏ của môn học đó (Cột Điểm và Cột Chữ)
+      summarySheet.getColumn(subColIdx).width = 14;
+      summarySheet.getColumn(subColIdx + 1).width = 6;
+
+      // Merge 2 ô tại dòng 4 lại để ghi tên môn học trải rộng ra mắt nhìn cân đối hơn
+      const cellSubNameStart = summarySheet.getColumn(subColIdx).letter + "4";
+      const cellSubNameEnd = summarySheet.getColumn(subColIdx + 1).letter + "4";
+      summarySheet.mergeCells(`${cellSubNameStart}:${cellSubNameEnd}`);
+
+      const subCell = summarySheet.getCell(cellSubNameStart);
+      subCell.value = name;
+      subCell.font = this.BOLD_FONT;
+      subCell.alignment = this.CENTER_ALIGNMENT;
+    });
+
+    // Style bọc nền và viền cho toàn bộ vùng Header (Dòng 3 & Dòng 4, từ cột 1 đến hết cột môn học)
+    const totalColumnsCount = 10 + totalSubjectColumns;
+    for (let r = 3; r <= 4; r++) {
+      for (let c = 1; c <= totalColumnsCount; c++) {
+        const cell = summarySheet.getCell(r, c);
+        cell.font = this.BOLD_FONT;
+        cell.alignment = this.CENTER_ALIGNMENT;
+        cell.border = this.CELL_BORDER;
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "F2F2F2" },
+        };
       }
     }
 
-    // Chèn cột subjects
-    if (columForSubjects === -1) {
-      columForSubjects = 11; // Mặc định cột K
-      rowForSubjects = 4;
-    }
-    const headerSubjectColumnStyles = JSON.parse(
-      JSON.stringify(
-        summarySheet.getRow(rowForSubjects).getCell(columForSubjects).style,
-      ),
-    );
-    if (subjectsName.length > 1) {
-      summarySheet.spliceColumns(
-        columForSubjects + 2,
-        0,
-        ...Array((subjectsName.length - 1) * 2).fill([]),
-      );
-    }
-
-    // Ghi tên môn học vào cột
-    subjectsName?.forEach((name, index) => {
-      const cell = summarySheet
-        .getRow(rowForSubjects)
-        .getCell(columForSubjects + index * 2);
-      cell.style = headerSubjectColumnStyles;
-      cell.border = cellBorder as ExcelJS.Borders;
-      cell.value = name;
-      cell.alignment = {
-        ...cell.alignment,
-        vertical: "middle",
-        horizontal: "center",
-        wrapText: true,
-      };
-
-      const cellDiemChu = summarySheet
-        .getRow(rowForSubjects)
-        .getCell(columForSubjects + index * 2 + 1);
-      cellDiemChu.style = headerSubjectColumnStyles;
-      cellDiemChu.border = cellBorder as ExcelJS.Borders;
-      cellDiemChu.value = "";
-      cellDiemChu.alignment = {
-        ...cellDiemChu.alignment,
-        vertical: "middle",
-        horizontal: "center",
-      };
-    });
-
-    summarySheet.mergeCells(
-      rowForSubjects - 1,
-      columForSubjects,
-      rowForSubjects - 1,
-      columForSubjects + subjectsName.length * 2 - 1,
-    );
-    const mergedCell = summarySheet
-      .getRow(rowForSubjects - 1)
-      .getCell(columForSubjects);
-
-    mergedCell.alignment = {
-      ...mergedCell.alignment,
-      vertical: "middle",
-      horizontal: "center",
-    };
-
-    // Xử lý dữ liệu điểm của từng sinh viên cho từng môn học
+    // 2. XỬ LÝ DỮ LIỆU ĐIỂM & TÍNH TOÁN (Giữ nguyên logic gốc của bạn) [cite: 183-184]
     const mainData = allSubjectsData[0]?.gradeTable?.map((student, index) => {
       let tongDiemHe10 = 0;
       let tongDiemHe4 = 0;
@@ -225,13 +309,15 @@ export class ExportGradeTableService {
           grade?.diemTongKet2 !== undefined &&
           grade?.diemTongKet2 !== ""
             ? grade.diemTongKet2
-            : grade?.diemTongKet1; // ƯU tiên lấy điểm tổng kết 2
+            : grade?.diemTongKet1; // Ưu tiên lấy điểm tổng kết 2 [cite: 192-197]
 
         tongDiemHe10 += Number(rawDiem) * subject?.keyValueData?.credits;
+        // Thực hiện đổi sang Điểm chữ trước rồi mới từ Điểm chữ đổi sang Hệ 4 đúng như bạn mong muốn [cite: 199-201]
         tongDiemHe4 +=
           this.convertDiemChuToHe4(this.convertHe10ToDiemChu(Number(rawDiem))) *
           subject?.keyValueData?.credits;
         tongTinChi += subject?.keyValueData?.credits || 0;
+
         return rawDiem !== null && rawDiem !== undefined && rawDiem !== ""
           ? Number(rawDiem)
           : "";
@@ -239,7 +325,6 @@ export class ExportGradeTableService {
 
       const diemTBRaw = tongDiemHe10 / tongTinChi;
       const diemTBHe10 = tongTinChi > 0 ? Math.round(diemTBRaw * 10) / 10 : 0;
-
       const diemTBHe4 =
         tongTinChi > 0 ? Math.round((tongDiemHe4 / tongTinChi) * 100) / 100 : 0;
       const diemChu = this.convertHe10ToDiemChu(diemTBHe10);
@@ -255,57 +340,85 @@ export class ExportGradeTableService {
         xepLoaiHL: this.convertDiem4ToXepLoai(diemTBHe4),
         xepLoaiRLChu: "",
         xepLoaiRLDiem: "",
-        diemTongKetTungMon: diemTongKetTungMon.flatMap((diem) => [
-          diem,
-          this.convertHe10ToDiemChu(Number(diem)),
-        ]),
+        diemTongKetTungMon: diemTongKetTungMon.flatMap((diem) => {
+          if (diem === "") return ["", ""];
+          return [diem, this.convertHe10ToDiemChu(Number(diem))];
+        }),
       };
     });
 
-    // Đổ dữ liệu
+    // 3. ĐỔ DỮ LIỆU VÀO SHEET TỔNG KẾT (Bắt đầu từ dòng số 5) [cite: 230]
     const startDataRowIndex = 5;
-    mainData.forEach((student, index) => {
+    mainData?.forEach((student, index) => {
       const currentRowNum = startDataRowIndex + index;
       const row = summarySheet.getRow(currentRowNum);
+      row.height = 22; // Chiều cao hàng dữ liệu hợp lý nhìn thông thoáng
+
       row.getCell(1).value = student.stt;
-      row.getCell(2).value = student.msv;
-      row.getCell(3).value = student.hoVaTen;
-      row.getCell(4).value = student.ngaySinh ? new Date(student.ngaySinh) : "";
-      row.getCell(4).numFmt = "dd/mm/yyyy";
-      row.getCell(5).value = student.diemTBHe10;
-      row.getCell(6).value = student.diemTBHe4;
-      row.getCell(7).value = student.diemChu;
-      row.getCell(8).value = student.xepLoaiHL;
-      row.getCell(9).value = student.xepLoaiRLChu;
-      row.getCell(10).value = student.xepLoaiRLDiem;
+      row.getCell(2).value = student.hoVaTen; // Map đúng vị trí cột giao diện mới
+
+      if (student.ngaySinh) {
+        row.getCell(3).value = new Date(student.ngaySinh);
+        row.getCell(3).numFmt = "dd/mm/yyyy";
+      } else {
+        row.getCell(3).value = "";
+      }
+
+      row.getCell(4).value = student.diemTBHe10;
+      row.getCell(4).numFmt = "0.0"; // Ép hiển thị 1 chữ số thập phân chuẩn giáo dục
+
+      row.getCell(5).value = student.diemTBHe4;
+      row.getCell(5).numFmt = "0.00"; // Hệ 4 ép hiển thị 2 chữ số thập phân
+
+      row.getCell(6).value = student.diemChu;
+      row.getCell(7).value = student.xepLoaiHL;
+      row.getCell(8).value = student.xepLoaiRLChu;
+      row.getCell(9).value = student.xepLoaiRLDiem;
+      row.getCell(10).value = ""; // Ghi chú trống
+
+      // Đổ điểm môn học phần động (Bắt đầu từ cột K tương ứng) [cite: 245-246]
       student.diemTongKetTungMon.forEach((grade, subIndex) => {
-        row.getCell(columForSubjects + subIndex).value = grade;
+        const cell = row.getCell(columnForSubjects + subIndex);
+        cell.value = grade;
+        // Nếu là cột điểm số, định dạng format hiển thị số đẹp
+        if (typeof grade === "number" && subIndex % 2 === 0) {
+          cell.numFmt = "0.0";
+        }
       });
+
+      // Format font, lề, border đồng bộ cho toàn bộ hàng dữ liệu hiện tại
+      for (let c = 1; c <= totalColumnsCount; c++) {
+        const cell = row.getCell(c);
+        cell.font = this.DEFAULT_FONT;
+        cell.border = this.CELL_BORDER;
+
+        // Riêng cột họ và tên thì căn lề Trái (Left), còn lại căn Giữa (Center)
+        if (c === 2) {
+          cell.alignment = {
+            vertical: "middle",
+            horizontal: "left",
+            indent: 1,
+          };
+        } else {
+          cell.alignment = this.CENTER_ALIGNMENT;
+        }
+      }
       row.commit();
     });
   }
 
   /**
    * Hàm xuất chính tập hợp nhiều môn và đính kèm sheet Tổng kết học kỳ
+   * Bỏ hoàn toàn Template File, tự dựng form từ đầu
    */
   async exportMultipleSubjectsToExcel(
     classSubjectIds: number[],
     haveTongKetSheet: boolean = false,
   ): Promise<Buffer> {
-    const templatePath = path.join(
-      process.cwd(),
-      "dist",
-      "assets",
-      "bangdiem_template.xlsx",
-    );
+    // Khởi tạo Workbook trắng mới tinh, không đọc file template nữa [cite: 264-265]
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.readFile(templatePath);
 
-    // CHÚ Ý VỊ TRÍ SHEET TRONG TEMPLATE CỦA BẠN:
-    const templateSheet = workbook.worksheets[0]; // Sheet 1: Khuôn mẫu môn học
-    const summarySheet = workbook.worksheets[1]; // Sheet 2: Sheet Tổng kết có sẵn của bạn
-
-    // Tải dữ liệu bất đồng bộ toàn bộ môn học phần
+    // Tải dữ liệu bất đồng bộ toàn bộ môn học phần [cite: 269-270]
     const allSubjectsData = await Promise.all(
       classSubjectIds.map(async (id) => {
         const data = await this.courseOfferQuery.queryDataForExportExcel(id);
@@ -313,72 +426,39 @@ export class ExportGradeTableService {
       }),
     );
 
-    const startGradeColumnIndex = 9; // Dòng bắt đầu đổ điểm học sinh ở sheet môn học
-    const cellBorder: Partial<ExcelJS.Borders> = {
-      top: { style: "thin", color: { argb: "#000000" } },
-      left: { style: "thin", color: { argb: "#000000" } },
-      bottom: { style: "thin", color: { argb: "#000000" } },
-      right: { style: "thin", color: { argb: "#000000" } },
-      diagonal: { up: false, down: false, color: { argb: "" } },
-    };
+    const startGradeColumnIndex = 9; // Dòng bắt đầu đổ điểm học sinh ở sheet môn học [cite: 276]
 
-    // Luồng tuần tự tạo các sheet môn học
+    // Luồng tạo tuần tự các sheet môn học [cite: 284]
     allSubjectsData.forEach((subjectData, subIndex) => {
       const { keyValueData, gradeTable } = subjectData;
 
       let sheetName = `${subIndex + 1}-${keyValueData["subjectName"] || "MonHoc"}`;
-      sheetName = sheetName.replace(/[/\\?*:[\]]/g, "").substring(0, 31);
+      sheetName = sheetName.replace(/[/\\?*:[\]]/g, "").substring(0, 31); // Tránh lỗi ký tự đặc biệt [cite: 288]
 
       const newWorksheet = workbook.addWorksheet(sheetName);
-      this.cloneWorksheet(templateSheet, newWorksheet);
 
-      // Điền placeholder thông tin môn học
-      newWorksheet.eachRow((row) => {
-        row.eachCell((cell) => {
-          if (cell.value && typeof cell.value === "string") {
-            let cellString = cell.value;
-            const matches = cellString.match(/{{(.*?)}}/g);
-            if (matches) {
-              matches.forEach((match) => {
-                const key = match.replace("{{", "").replace("}}", "").trim();
-                if (keyValueData[key] !== undefined) {
-                  cellString = cellString.replace(match, keyValueData[key]);
-                }
-              });
-              cell.value = cellString;
-            }
-          }
-        });
-      });
+      // Tự dựng Header cho sheet môn học thay vì clone từ template trống [cite: 290]
+      this.drawSubjectHeader(newWorksheet, keyValueData);
 
-      // Đổ dữ liệu chi tiết điểm của từng môn
+      // Đổ dữ liệu chi tiết điểm của môn học hiện hành [cite: 309]
       gradeTable.forEach((item: any, index: number) => {
         const currentRowNum = startGradeColumnIndex + index;
         const row = newWorksheet.getRow(currentRowNum);
+        row.height = 22; // Chiều cao dòng chuẩn, thoáng mắt
 
-        const sampleRow = templateSheet.getRow(startGradeColumnIndex);
-        row.height = sampleRow.height;
-
-        for (let colIdx = 1; colIdx <= 17; colIdx++) {
-          const cell = row.getCell(colIdx);
-          cell.style = JSON.parse(
-            JSON.stringify(sampleRow.getCell(colIdx).style),
-          );
-          cell.border = cellBorder as ExcelJS.Borders;
-        }
-
+        // Điền các ô dữ liệu cơ bản [cite: 322-324]
         row.getCell("A").value = index + 1;
         row.getCell("B").value = item.student.studentCode;
         row.getCell("C").value = item.student.fullName;
 
         if (item.student.dob) {
-          const dobDate = new Date(item.student.dob);
-          row.getCell("D").value = dobDate;
-          row.getCell("D").numFmt = "dd/mm/yyyy";
+          row.getCell("D").value = new Date(item.student.dob);
+          row.getCell("D").numFmt = "dd/mm/yyyy"; // Định dạng hiển thị ngày sinh [cite: 328]
         } else {
           row.getCell("D").value = "";
         }
 
+        // Điền các cột điểm [cite: 332-344]
         row.getCell("E").value = item.kttx1;
         row.getCell("F").value = item.kttx2;
         row.getCell("G").value = item.kttx3;
@@ -391,24 +471,60 @@ export class ExportGradeTableService {
         row.getCell("N").value = item.diemKiemTra2;
         row.getCell("O").value = item.diemTongKet1;
         row.getCell("P").value = item.diemTongKet2;
-        row.getCell("Q").value = item.note;
+        row.getCell("Q").value = item.note || "";
+
+        // Định dạng số (Decimal Format) cho toàn bộ các ô chứa điểm số [cite: 332-343]
+        const scoreCols = [
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+        ];
+        scoreCols.forEach((col) => {
+          const cell = row.getCell(col);
+          if (typeof cell.value === "number") {
+            cell.numFmt = "0.0";
+          }
+        });
+
+        // Áp dụng Style đồng loạt (Font, Border, Alignment) cho hàng dữ liệu này [cite: 317-320]
+        for (let colIdx = 1; colIdx <= 17; colIdx++) {
+          const cell = row.getCell(colIdx);
+          cell.font = this.DEFAULT_FONT;
+          cell.border = this.CELL_BORDER;
+
+          if (colIdx === 3) {
+            // Tên học sinh căn lề trái cho dễ đọc [cite: 324]
+            cell.alignment = {
+              vertical: "middle",
+              horizontal: "left",
+              indent: 1,
+            };
+          } else {
+            // Các dữ liệu khác căn giữa toàn bộ [cite: 322-323, 325-344]
+            cell.alignment = this.CENTER_ALIGNMENT;
+          }
+        }
 
         row.commit();
       });
     });
 
-    // 4. GỌI HÀM RIÊNG ĐỂ ĐIỀN DỮ LIỆU VÀO SHEET TỔNG KẾT CÓ SẴN
+    // Tạo sheet tổng kết nếu tham số yêu cầu bật lên [cite: 349]
     if (haveTongKetSheet) {
+      const summarySheet = workbook.addWorksheet("TongKetHocKy");
       this.buildSummarySheet(summarySheet, allSubjectsData);
-    } else {
-      // Nếu không cần sheet Tổng kết, xóa sheet này đi để tránh bị thừa
-      workbook.removeWorksheet(summarySheet.id);
     }
 
-    // 5. Xóa sheet 1 khuôn mẫu trống ban đầu đi
-    workbook.removeWorksheet(templateSheet.id);
-
-    const buffer = Buffer.from(await workbook.xlsx.writeBuffer());
+    const buffer = Buffer.from(await workbook.xlsx.writeBuffer()); // Ghi đè buffer sạch ra ngoài [cite: 357]
     return buffer;
   }
 

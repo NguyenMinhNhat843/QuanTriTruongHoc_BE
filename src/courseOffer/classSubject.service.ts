@@ -153,6 +153,7 @@ export class ClassSubjectService {
         courseOfferId: classSubjectId,
       },
     });
+    console.log("Grades for classSubjectId", classSubjectId, ": ", grades);
 
     const classSubject = await this.prisma.courseOffer.findUnique({
       where: {
@@ -168,7 +169,7 @@ export class ClassSubjectService {
     }
 
     // Chưa có bảng điểm nào được tạo cho lớp học phần này, tiến hành tạo mới
-    if (!grades) {
+    if (!grades || grades.length === 0) {
       await this.gradeService.createGradeTable(classId, classSubjectId);
     }
 
