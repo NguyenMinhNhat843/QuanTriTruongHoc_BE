@@ -222,10 +222,23 @@ export class StudentService {
 
     const skip = (page - 1) * limit;
 
-    // 1. Xây dựng điều kiện lọc (Where Clause)
+    // 1. Lấy cấu hình hồ sơ mẫu (id = 1) làm mốc đối chiếu mẫu
+    const docConfig = await this.prisma.documentConfig.findUnique({
+      where: { id: 1 },
+      include: {
+        items: {
+          orderBy: { sortOrder: "asc" }, // Sắp xếp theo thứ tự hiển thị nếu có
+        },
+      },
+    });
+
+    // Nếu không tìm thấy cấu hình mẫu, tạo mảng trống để tránh crash code
+    const totalConfigItems = docConfig?.items || [];
+    const totalRequiredDocs = totalConfigItems.length;
+
+    // 2. Xây dựng điều kiện lọc (Where Clause)
     const where: Prisma.StudentWhereInput = {
       AND: [
-        // Lọc theo keyword (tìm trong mã SV, số CCCD của Student hoặc tên, email của User)
         keyword
           ? {
               OR: [
@@ -237,14 +250,8 @@ export class StudentService {
               ],
             }
           : {},
-
-        // Lọc theo trạng thái học tập
         status ? { status } : {},
-
-        // Lọc theo lớp
         classId ? { classId } : {},
-
-        // Lọc theo khoảng ngày nhập học (enrollmentDate)
         fromDate || toDate
           ? {
               enrollmentDate: {
@@ -253,16 +260,14 @@ export class StudentService {
               },
             }
           : {},
-
-        // Lọc theo mã sinh viên
         studentCode
           ? { studentCode: { contains: studentCode, mode: "insensitive" } }
           : {},
       ],
     };
 
-    // 2. Thực thi truy vấn đồng thời để tối ưu hiệu suất
-    const [total, items] = await Promise.all([
+    // 3. Thực thi truy vấn đồng thời, lấy kèm danh sách StudentDocument hiện có
+    const [, items] = await Promise.all([
       this.prisma.student.count({ where }),
       this.prisma.student.findMany({
         where,
@@ -274,6 +279,11 @@ export class StudentService {
               classCode: true,
             },
           },
+          student_documents: {
+            select: {
+              documentConfigItemId: true,
+            },
+          },
         },
         skip,
         take: limit,
@@ -282,12 +292,30 @@ export class StudentService {
           : { [sortBy]: sortOrder },
       }),
     ]);
-    console.log(
-      "🚀 ~ file: student.service.ts:263 ~ StudentService ~ searchStudents ~ items:",
-      total,
-    );
 
-    // 3. Trả về kết quả theo format chung
-    return items.map((item) => plainToInstance(StudentResponseDto, item));
+    // 4. Map dữ liệu để tính toán thực tế hồ sơ hiện có và các hồ sơ còn thiếu
+    const formattedItems = items.map((item) => {
+      // Tập hợp ID các tài liệu mà học sinh này ĐÃ nộp
+      const submittedItemIds = new Set(
+        item.student_documents.map((doc) => doc.documentConfigItemId),
+      );
+
+      // Đếm số lượng hồ sơ đã nộp nằm trong danh mục cấu hình id: 1
+      const currentDocsCount = totalConfigItems.filter((configItem) =>
+        submittedItemIds.has(configItem.id),
+      ).length;
+
+      return {
+        ...item,
+        documentProgress: {
+          current: currentDocsCount,
+          total: totalRequiredDocs,
+        },
+      };
+    });
+
+    return formattedItems.map((item) =>
+      plainToInstance(StudentResponseDto, item),
+    );
   }
 }

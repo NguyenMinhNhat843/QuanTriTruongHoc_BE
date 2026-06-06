@@ -32,7 +32,7 @@ export class StudentController {
   @Post()
   @ApiOperation({
     summary: "Tạo mới hồ sơ sinh viên",
-    operationId: "createStudent", // Orval sẽ gen ra: createStudent()
+    operationId: "createStudent",
   })
   @ApiOkResponse({ type: StudentResponseDto })
   async create(
@@ -55,11 +55,23 @@ export class StudentController {
     return this.studentService.createManyStudents(createStudentDtos);
   }
 
+  @Post(":id/approve")
+  @ApiOperation({
+    summary: "Duyệt hồ sơ và cấp tài khoản đăng nhập",
+    operationId: "approveStudent",
+  })
+  @ApiOkResponse({ type: StudentResponseDto })
+  async approve(
+    @Param("id", ParseIntPipe) id: number,
+  ): Promise<StudentResponseDto> {
+    return this.studentService.approveStudent(id);
+  }
+
   // delete student by id
   @Delete(":id")
   @ApiOperation({
     summary: "Xóa hồ sơ sinh viên",
-    operationId: "deleteStudent", // Orval sẽ gen ra: deleteStudent()
+    operationId: "deleteStudent",
   })
   @ApiOkResponse({ description: "Hồ sơ sinh viên đã được xóa" })
   async deleteStudentById(@Param("id", ParseIntPipe) id: number) {
@@ -69,37 +81,11 @@ export class StudentController {
   @Get()
   @ApiOperation({
     summary: "Tìm kiếm và phân trang danh sách sinh viên",
-    operationId: "searchStudents", // Orval sẽ gen ra: searchStudents()
+    operationId: "searchStudents",
   })
   @ApiResponse({ status: 200, type: [StudentResponseDto] })
-  // @ApiOkResponsePaginated(StudentResponseDto)
   async searchStudent(@Query() query: SearchStudentDto) {
     return this.studentService.searchStudents(query);
-  }
-
-  @Patch(":id")
-  @ApiOperation({
-    summary: "Cập nhật thông tin hồ sơ sinh viên",
-    operationId: "updateStudent", // Orval sẽ gen ra: updateStudent()
-  })
-  @ApiOkResponse({ type: StudentResponseDto })
-  async update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() updateStudentDto: UpdateStudentDto,
-  ): Promise<StudentResponseDto> {
-    return this.studentService.updateStudent(id, updateStudentDto);
-  }
-
-  @Post(":id/approve")
-  @ApiOperation({
-    summary: "Duyệt hồ sơ và cấp tài khoản đăng nhập",
-    operationId: "approveStudent", // Orval sẽ gen ra: approveStudent()
-  })
-  @ApiOkResponse({ type: StudentResponseDto })
-  async approve(
-    @Param("id", ParseIntPipe) id: number,
-  ): Promise<StudentResponseDto> {
-    return this.studentService.approveStudent(id);
   }
 
   @Get("search-by-code")
@@ -112,5 +98,18 @@ export class StudentController {
     @Query("studentCode") studentCode: string,
   ): Promise<StudentResponseDto> {
     return this.studentService.findStudentByStudentCode(studentCode);
+  }
+
+  @Patch(":id")
+  @ApiOperation({
+    summary: "Cập nhật thông tin hồ sơ sinh viên",
+    operationId: "updateStudent",
+  })
+  @ApiOkResponse({ type: StudentResponseDto })
+  async update(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() updateStudentDto: UpdateStudentDto,
+  ): Promise<StudentResponseDto> {
+    return this.studentService.updateStudent(id, updateStudentDto);
   }
 }
