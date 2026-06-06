@@ -18,7 +18,7 @@ import { DayOfWeek } from "../../prisma/generated/prisma/enums";
 /**
  * Dto search lớp học phần
  */
-export class SearchCourseOfferDto {
+export class SearchClassSubjectDto {
   @ApiPropertyOptional({
     description: "ID của lớp hành chính (Lớp danh nghĩa)",
   })
@@ -52,7 +52,7 @@ export class SearchCourseOfferDto {
   teacherId?: number;
 }
 
-export class CreateBulkCourseOfferDto {
+export class CreateBulkClassSubjectDto {
   @ApiProperty({ example: 1 })
   @IsInt()
   @IsNotEmpty()
@@ -87,7 +87,7 @@ export class CreateBulkCourseOfferDto {
 }
 
 // Tạo lớp học phần tùy chọn
-export class CreateOptionalCourseOfferDto {
+export class CreateClassSubjectDto {
   @ApiProperty({ example: 1, description: "ID học kỳ muốn mở lớp" })
   @IsInt()
   @IsNotEmpty()
@@ -181,9 +181,7 @@ export class AssignScheduleDto {
   schedules: ScheduleItemDto[];
 }
 
-export class updateClassSubjectDto extends PartialType(
-  CreateOptionalCourseOfferDto,
-) {}
+export class updateClassSubjectDto extends PartialType(CreateClassSubjectDto) {}
 
 export class ExportGradeTableDto {
   @ApiProperty({

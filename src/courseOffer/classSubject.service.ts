@@ -5,8 +5,8 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import {
-  CreateOptionalCourseOfferDto,
-  SearchCourseOfferDto,
+  CreateClassSubjectDto,
+  SearchClassSubjectDto,
   updateClassSubjectDto,
 } from "./classSubject.dto";
 import { plainToInstance } from "class-transformer";
@@ -20,7 +20,7 @@ import {
 import { CourseRegistrationService } from "./grades.service";
 
 @Injectable()
-export class CourseOfferService {
+export class ClassSubjectService {
   constructor(
     private prisma: PrismaService,
     private curriculumSubjectService: CurriculumSubjectService,
@@ -30,7 +30,7 @@ export class CourseOfferService {
   /**
    * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
    */
-  async findAll(query: SearchCourseOfferDto) {
+  async findAll(query: SearchClassSubjectDto) {
     const { classId, semesterId, teacherId } = query;
 
     const where: Prisma.CourseOfferWhereInput = {};
@@ -97,7 +97,7 @@ export class CourseOfferService {
    * Tạo lớp học phần
    */
   async createOptionalSection(
-    dto: CreateOptionalCourseOfferDto,
+    dto: CreateClassSubjectDto,
     tx?: Prisma.TransactionClient,
   ) {
     const prismaClient = tx || this.prisma;
@@ -473,7 +473,7 @@ export class CourseOfferService {
   /**
    * Phân công giảng dạy
    */
-  async assignTeacher(body: SearchCourseOfferDto) {
+  async assignTeacher(body: SearchClassSubjectDto) {
     const classSubjects = await this.findAll(body);
 
     const teachers = await this.prisma.staff.findMany({

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import * as ExcelJS from "exceljs";
 import * as path from "path";
 import { CourseOfferQuery } from "./classSubject.query";
@@ -110,14 +110,6 @@ export class ExportGradeTableService {
       bottom: { style: "thin", color: { argb: "FF000000" } },
       right: { style: "thin", color: { argb: "FF000000" } },
     };
-
-    // Định nghĩa định dạng font chữ chuẩn (Không in đậm)
-    // const regularFont: Partial<ExcelJS.Font> = {
-    //   name: "Arial",
-    //   size: 11,
-    //   bold: false,
-    //   color: { argb: "FF000000" },
-    // };
 
     // Ghi semesterName
     const semesterName = allSubjectsData[0]?.keyValueData?.semesterName;
@@ -423,32 +415,292 @@ export class ExportGradeTableService {
   /**
    * Hàm xuất điểm của 1 học sinh
    */
-  async exportExcelGradeForOneStudent(studentId: number) {
-    const student = await this.prisma.student.findUnique({
+  async exportExcelGradeForOneStudent(studentId: number): Promise<Buffer> {
+    const studentTranscript = await this.prisma.student.findUnique({
       where: { id: studentId },
-    });
-
-    if (!student?.classId) return null;
-
-    // Lấy tất cả môn học của lớp này tính tới học kỳ hiện tại
-    const classSubjects = await this.prisma.courseOffer.findMany({
-      where: {
-        classId: student.classId,
-      },
-    });
-
-    // Lấy điểm
-    const studentGrades = await this.prisma.courseRegistration.findMany({
-      where: {
-        studentId: studentId,
-        courseOffer: {
-          id: {
-            in: classSubjects.map((cs) => cs.id),
+      select: {
+        id: true,
+        studentCode: true,
+        fullName: true,
+        class: {
+          select: {
+            classCode: true,
+            className: true,
+          },
+        },
+        courseRegistrations: {
+          select: {
+            id: true,
+            kttx1: true,
+            kttx2: true,
+            kttx3: true,
+            ktdk1: true,
+            ktdk2: true,
+            ktdk3: true,
+            ktdk4: true,
+            diemTB: true,
+            diemKiemTra1: true,
+            diemKiemTra2: true,
+            diemTongKet1: true,
+            diemTongKet2: true,
+            rating: true,
+            note: true,
+            courseOffer: {
+              select: {
+                subject: {
+                  select: {
+                    subjectCode: true,
+                    subjectName: true,
+                    credits: true,
+                  },
+                },
+                semester: {
+                  select: {
+                    id: true,
+                    name: true,
+                    schoolYear: true,
+                    term: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
 
-    console.log("asldjasdas: ", studentGrades);
+    if (!studentTranscript) {
+      throw new NotFoundException(
+        `Không tìm thấy học sinh có ID:  ${studentId}`,
+      );
+    }
+
+    // ==========================================
+    // STEP 1: XỬ LÝ DỮ LIỆU SẠCH (GOM NHÓM THEO HỌC KỲ)
+    // ==========================================
+    const semesterMap = new Map<number, any>();
+
+    studentTranscript.courseRegistrations.forEach((reg) => {
+      const courseOffer = reg.courseOffer;
+      if (!courseOffer || !courseOffer.semester) return;
+
+      const semester = courseOffer.semester;
+      const semesterId = semester.id;
+
+      if (!semesterMap.has(semesterId)) {
+        semesterMap.set(semesterId, {
+          semesterId: semester.id,
+          semesterName: semester.name,
+          schoolYear: semester.schoolYear,
+          term: semester.term,
+          grades: [],
+        });
+      }
+
+      const subjectInfo = courseOffer.subject;
+
+      // Giữ nguyên giá trị điểm gốc, nếu null thì hiển thị dấu "-"
+      semesterMap.get(semesterId).grades.push({
+        subjectCode: subjectInfo?.subjectCode || "",
+        subjectName: subjectInfo?.subjectName || "",
+        credits: subjectInfo?.credits || 0,
+        kttx1: reg.kttx1 ?? "-",
+        kttx2: reg.kttx2 ?? "-",
+        kttx3: reg.kttx3 ?? "-",
+        ktdk1: reg.ktdk1 ?? "-",
+        ktdk2: reg.ktdk2 ?? "-",
+        ktdk3: reg.ktdk3 ?? "-",
+        ktdk4: reg.ktdk4 ?? "-",
+        diemTB: reg.diemTB ?? "-",
+        diemKiemTra1: reg.diemKiemTra1 ?? "-",
+        diemKiemTra2: reg.diemKiemTra2 ?? "-",
+        diemTongKet1: reg.diemTongKet1 ?? "-",
+        diemTongKet2: reg.diemTongKet2 ?? "-",
+        rating: reg.rating || "",
+        note: reg.note || "",
+      });
+    });
+
+    // Sắp xếp các học kỳ theo dòng thời gian (Năm học -> Học kỳ)
+    const dataResult = Array.from(semesterMap.values()).sort((a, b) => {
+      if (a.schoolYear !== b.schoolYear) {
+        return a.schoolYear.localeCompare(b.schoolYear);
+      }
+      return a.term - b.term;
+    });
+
+    // ==========================================
+    // STEP 2: KHỞI TẠO FILE EXCEL VÀ STYLE
+    // ==========================================
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Bảng điểm cá nhân");
+
+    // Cấu hình lại độ rộng cho tổng cộng 15 cột mới
+    worksheet.columns = [
+      { width: 6 }, // STT
+      { width: 12 }, // Mã môn
+      { width: 25 }, // Tên môn học
+      { width: 8 }, // Số TC
+      { width: 10 }, // KTTX 1
+      { width: 10 }, // KTTX 2
+      { width: 10 }, // KTTX 3
+      { width: 10 }, // KTĐK 1
+      { width: 10 }, // KTĐK 2
+      { width: 10 }, // KTĐK 3
+      { width: 10 }, // KTĐK 4
+      { width: 10 }, // Điểm TB
+      { width: 12 }, // Tổng kết 1
+      { width: 12 }, // Tổng kết 2
+      { width: 12 }, // Đánh giá
+      { width: 18 }, // Ghi chú
+    ];
+
+    // --- 1. Tiêu đề chính của file Excel ---
+    worksheet.mergeCells("A1:P1"); // Mở rộng merge vùng cell từ A đến P
+    const titleCell = worksheet.getCell("A1");
+    titleCell.value = "BẢNG ĐIỂM TỔNG HỢP HỌC SINH";
+    titleCell.font = {
+      name: "Arial",
+      size: 16,
+      bold: true,
+      color: { argb: "FF1F497D" },
+    };
+    titleCell.alignment = { horizontal: "center", vertical: "middle" };
+    worksheet.getRow(1).height = 35;
+
+    // --- 2. Thông tin học sinh ở góc trên ---
+    worksheet.getCell("A3").value = "Mã học sinh:";
+    worksheet.getCell("A3").font = { bold: true };
+    worksheet.getCell("B3").value = studentTranscript.studentCode;
+
+    worksheet.getCell("D3").value = "Họ và tên:";
+    worksheet.getCell("D3").font = { bold: true };
+    worksheet.getCell("E3").value = studentTranscript.fullName;
+
+    worksheet.getCell("H3").value = "Lớp học:";
+    worksheet.getCell("H3").font = { bold: true };
+    worksheet.getCell("I3").value =
+      studentTranscript.class?.className || "Chưa xếp lớp";
+
+    let currentRow = 5;
+
+    // ==========================================
+    // STEP 3: VÒNG LẶP RENDER DỮ LIỆU TỪNG HỌC KỲ
+    // ==========================================
+    dataResult.forEach((semester) => {
+      // Dòng tiêu đề Học kỳ
+      worksheet.mergeCells(`A${currentRow}:P` + currentRow); // Merge sang cột P
+      const semCell = worksheet.getCell(`A${currentRow}`);
+      semCell.value = `${semester.semesterName.toUpperCase()} (NĂM HỌC: ${semester.schoolYear})`;
+      semCell.font = {
+        name: "Arial",
+        size: 12,
+        bold: true,
+        color: { argb: "FFFFFFFF" },
+      };
+      semCell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "FF366092" },
+      };
+      semCell.alignment = { vertical: "middle", indent: 1 };
+      worksheet.getRow(currentRow).height = 25;
+      currentRow++;
+
+      // Header của Table Điểm (Tách rõ ràng toàn bộ các cột điểm)
+      const headers = [
+        "STT",
+        "Mã môn",
+        "Tên môn học",
+        "Số TC",
+        "KTTX 1",
+        "KTTX 2",
+        "KTTX 3",
+        "KTĐK 1",
+        "KTĐK 2",
+        "KTĐK 3",
+        "KTĐK 4",
+        "Điểm TB",
+        "Tổng kết 1",
+        "Tổng kết 2",
+        "Đánh giá",
+        "Ghi chú",
+      ];
+      const headerRow = worksheet.getRow(currentRow);
+      headerRow.values = headers;
+      headerRow.height = 22;
+
+      // Style cho Header Table (Chạy đến cột 16 tương đương với P)
+      for (let col = 1; col <= 16; col++) {
+        const cell = headerRow.getCell(col);
+        cell.font = { name: "Arial", size: 10, bold: true };
+        cell.fill = {
+          type: "pattern",
+          pattern: "solid",
+          fgColor: { argb: "FFE9EDF4" },
+        };
+        cell.alignment = { horizontal: "center", vertical: "middle" };
+        cell.border = {
+          top: { style: "thin" },
+          left: { style: "thin" },
+          bottom: { style: "thin" },
+          right: { style: "thin" },
+        };
+      }
+      currentRow++;
+
+      // Điền danh sách môn học và điểm số chi tiết
+      semester.grades.forEach((grade, index) => {
+        const rowData = [
+          index + 1,
+          grade.subjectCode,
+          grade.subjectName,
+          grade.credits,
+          grade.kttx1,
+          grade.kttx2,
+          grade.kttx3,
+          grade.ktdk1,
+          grade.ktdk2,
+          grade.ktdk3,
+          grade.ktdk4,
+          grade.diemTB,
+          grade.diemTongKet1,
+          grade.diemTongKet2,
+          grade.rating,
+          grade.note,
+        ];
+
+        const row = worksheet.getRow(currentRow);
+        row.values = rowData;
+        row.height = 20;
+
+        // Căn chỉnh vị trí chữ và thêm border cho 16 cột dữ liệu
+        for (let col = 1; col <= 16; col++) {
+          const cell = row.getCell(col);
+          cell.font = { name: "Arial", size: 10 };
+          cell.border = {
+            top: { style: "thin", color: { argb: "FFD9D9D9" } },
+            left: { style: "thin", color: { argb: "FFD9D9D9" } },
+            bottom: { style: "thin", color: { argb: "FFD9D9D9" } },
+            right: { style: "thin", color: { argb: "FFD9D9D9" } },
+          };
+
+          // Định dạng căn lề: Tên môn học (3) và Ghi chú (16) căn trái, còn lại căn giữa
+          if (col === 3 || col === 16) {
+            cell.alignment = { horizontal: "left", vertical: "middle" };
+          } else {
+            cell.alignment = { horizontal: "center", vertical: "middle" };
+          }
+        }
+        currentRow++;
+      });
+
+      // Tạo một dòng trống nhỏ giữa các học kỳ
+      currentRow += 1;
+    });
+
+    // Xuất workbook ra Buffer
+    const buffer = (await workbook.xlsx.writeBuffer()) as unknown as Buffer;
+    return buffer;
   }
 }

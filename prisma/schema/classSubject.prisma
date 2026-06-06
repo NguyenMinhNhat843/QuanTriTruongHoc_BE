@@ -50,6 +50,7 @@ model CourseOffer {
 
 // ==========================
 // Điểm của 1 học sinh của 1 classSubject
+// Bảng này là: Grades
 // ==========================
 model CourseRegistration {
   id             Int         @id @default(autoincrement())

@@ -11,7 +11,7 @@ import {
   Res,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { CourseOfferService } from "./classSubject.service";
+import { ClassSubjectService } from "./classSubject.service";
 
 import { Response } from "express";
 import {
@@ -21,37 +21,40 @@ import {
 } from "./classSubject.response";
 import {
   ExportGradeTableDto,
-  SearchCourseOfferDto,
+  SearchClassSubjectDto,
   updateClassSubjectDto,
 } from "./classSubject.dto";
 import { ExportGradeTableService } from "./exportGrades.service";
-import { CourseOfferGenerateService } from "./classSubjectGenerate.service";
+import { ClassSubjectGenerateService } from "./classSubjectGenerate.service";
 import { CourseOfferDetailResponseDto } from "./classSubjectDetail.response";
 
-@ApiTags("CourseOffer - Lớp học phần")
+@ApiTags("ClassSubject - Môn học trong lớp học")
 @Controller("course-offers")
-export class CourseOfferController {
+export class ClassSubjectController {
   constructor(
-    private readonly courseOfferService: CourseOfferService,
-    private readonly courseOfferGenerateService: CourseOfferGenerateService,
+    private readonly classSubjectService: ClassSubjectService,
+    private readonly classSubjectGenerateService: ClassSubjectGenerateService,
     private exportGradeTableService: ExportGradeTableService,
   ) {}
 
+  /**
+   * Lấy danh sách môn học trong lớp học
+   */
   @Get()
-  @ApiOperation({ summary: "Lấy danh sách ClassSubject" })
+  @ApiOperation({ summary: "Lấy danh sách Môn học trong lớp học" })
   @ApiResponse({
     status: 200,
     type: [ClassSubjectResponseDto],
   })
-  async getAll(@Query() query: SearchCourseOfferDto) {
-    return this.courseOfferService.findAll(query);
+  async getAll(@Query() query: SearchClassSubjectDto) {
+    return this.classSubjectService.findAll(query);
   }
 
   /**
-   * Cập nhật ClassSubject
+   * Cập nhật môn học trong lớp học
    */
   @Patch(":id")
-  @ApiOperation({ summary: "Cập nhật thông tin lớp học phần" })
+  @ApiOperation({ summary: "Cập nhật môn học trong lớp học" })
   @ApiResponse({
     type: CourseOfferDto,
   })
@@ -59,7 +62,7 @@ export class CourseOfferController {
     @Param("id", ParseIntPipe) classSubjectId: number,
     @Body() updateData: updateClassSubjectDto,
   ) {
-    return await this.courseOfferService.updateClassSubject(
+    return await this.classSubjectService.updateClassSubject(
       classSubjectId,
       updateData,
     );
@@ -81,7 +84,7 @@ export class CourseOfferController {
     @Query("classId", ParseIntPipe) classId: number,
     @Query("semesterId", ParseIntPipe) semesterId: number,
   ) {
-    return this.courseOfferService.previewGenerateSectionForClass(
+    return this.classSubjectService.previewGenerateSectionForClass(
       classId,
       semesterId,
     );
@@ -92,12 +95,12 @@ export class CourseOfferController {
    */
   @Post("gen-classSubject")
   @ApiOperation({
-    summary: "Tự động tạo lớp học phần cho toàn bộ lớp hành chính",
+    summary: "Tự động tạo classSubject cho toàn bộ lớp học",
   })
   async generateClassSubject(
     @Query("semesterId", ParseIntPipe) semesterId: number,
   ) {
-    return await this.courseOfferGenerateService.generateClassSubjectBySemester(
+    return await this.classSubjectGenerateService.generateClassSubjectBySemester(
       semesterId,
     );
   }
@@ -107,13 +110,13 @@ export class CourseOfferController {
    */
   @Post("gen-classSubject-grades")
   @ApiOperation({
-    summary: "Tự động tạo lớp học phần cho một lớp hành chính",
+    summary: "Tự động tạo classSubject cho một lớp hành chính",
   })
   async generateSectionsForClass(
     @Query("classId", ParseIntPipe) classId: number,
     @Query("semesterId", ParseIntPipe) semesterId: number,
   ) {
-    return await this.courseOfferService.generateSectionForClass(
+    return await this.classSubjectService.generateSectionForClass(
       classId,
       semesterId,
     );
@@ -127,8 +130,8 @@ export class CourseOfferController {
   @ApiResponse({
     status: 200,
   })
-  async assignTeacher(@Body() body: SearchCourseOfferDto) {
-    return await this.courseOfferService.assignTeacher(body);
+  async assignTeacher(@Body() body: SearchClassSubjectDto) {
+    return await this.classSubjectService.assignTeacher(body);
   }
 
   /**
@@ -138,7 +141,7 @@ export class CourseOfferController {
   @ApiOperation({ summary: "Lấy chi tiết môn học trong lớp học" })
   @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
   async getDetail(@Param("id", ParseIntPipe) id: number) {
-    return await this.courseOfferService.getCourseOfferDetail(id);
+    return await this.classSubjectService.getCourseOfferDetail(id);
   }
 
   /**
@@ -175,15 +178,41 @@ export class CourseOfferController {
   }
 
   /**
-   * Xuất bảng điểm 1 học sinh
+   * API xuất bảng điểm Excel cho một học sinh từ đầu kỳ tới giờ
+   * @route GET /grades/student/:id/export-excel
    */
-  @Get("/export-excel-student/:studentId")
-  @ApiOperation({ summary: "Xuất file excel bảng điểm của một học sinh" })
-  async exportExcelStudent(
-    @Param("studentId", ParseIntPipe) studentId: number,
+  @Get("student/:id/export-excel")
+  async exportExcelGradeForOneStudent(
+    @Param("id", ParseIntPipe) studentId: number,
+    @Res() res: Response,
   ) {
-    return await this.exportGradeTableService.exportExcelGradeForOneStudent(
-      studentId,
-    );
+    try {
+      const buffer =
+        await this.exportGradeTableService.exportExcelGradeForOneStudent(
+          studentId,
+        );
+
+      res.status(HttpStatus.OK).set({
+        "Content-Type":
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "Content-Disposition": `attachment; filename=Bang_Diem_Hoc_Sinh_${studentId}.xlsx`,
+        "Content-Length": buffer.length,
+      });
+
+      res.end(buffer);
+    } catch (error: any) {
+      if (error.status === HttpStatus.NOT_FOUND) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          statusCode: HttpStatus.NOT_FOUND,
+          message: error.message || "Không tìm thấy dữ liệu học sinh",
+        });
+      }
+
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: "Đã xảy ra lỗi hệ thống khi xuất file Excel",
+        error: error.message,
+      });
+    }
   }
 }

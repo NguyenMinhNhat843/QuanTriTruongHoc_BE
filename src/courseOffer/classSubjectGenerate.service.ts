@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateBulkCourseOfferDto } from "./classSubject.dto";
+import { CreateBulkClassSubjectDto } from "./classSubject.dto";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
-export class CourseOfferGenerateService {
+export class ClassSubjectGenerateService {
   constructor(private prisma: PrismaService) {}
 
   /**
@@ -84,7 +84,7 @@ export class CourseOfferGenerateService {
   /**
    * Khi Admin tạo các classSubject tự động cho học kỳ này sẽ gọi api này để xem trước
    */
-  async previewGenClassSubjects(dto: CreateBulkCourseOfferDto) {
+  async previewGenClassSubjects(dto: CreateBulkClassSubjectDto) {
     const { semesterId, batchId } = dto;
     const { nominalClasses, semester, subjectsInTerm, semesterNumber } =
       await this.getGenerationContext(semesterId, batchId);
@@ -116,7 +116,7 @@ export class CourseOfferGenerateService {
   /**
    * Sinh ClassSubject (Bulk Create)
    */
-  async genClassSubjects(dto: CreateBulkCourseOfferDto) {
+  async genClassSubjects(dto: CreateBulkClassSubjectDto) {
     const { semesterId, batchId, startTime, endTime } = dto;
 
     const { subjectsInTerm, nominalClasses, semester } =
