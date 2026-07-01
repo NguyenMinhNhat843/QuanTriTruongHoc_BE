@@ -17,7 +17,7 @@ import {
 } from "class-validator";
 import { StudentStatus } from "../../../prisma/generated/prisma/enums.js";
 import { Student } from "../../../prisma/generated/prisma/client.js";
-import { Exclude, Type } from "class-transformer";
+import { Exclude, Transform, Type } from "class-transformer";
 import { CreateAdmissionProfileDto } from "../../admission-profile/dto/admission-profile.dto.js";
 
 export class StudentDto implements Student {
@@ -296,6 +296,18 @@ export class SearchStudentDto {
   @IsOptional()
   @IsEnum(StudentStatus)
   status?: StudentStatus;
+
+  @ApiPropertyOptional({
+    description:
+      "nếu true: Lọc theo fiel status, nếu false: lọc theo không phải status",
+  })
+  @IsOptional()
+  @Transform(
+    ({ value }) =>
+      value === "true" || value === true || value === 1 || value === "1",
+  )
+  @IsBoolean()
+  excludeStatus?: boolean;
 
   @ApiPropertyOptional({ type: Number, nullable: true })
   @IsOptional()

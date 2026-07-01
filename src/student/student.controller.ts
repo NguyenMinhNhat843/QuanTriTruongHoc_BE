@@ -22,7 +22,10 @@ import {
   SearchStudentDto,
   UpdateStudentDto,
 } from "./dto/student.dto.js";
-import { StudentResponseDto } from "./dto/student.response.js";
+import {
+  ResponseStudentPaginationDto,
+  StudentResponseDto,
+} from "./dto/student.response.js";
 import {
   GetEligibleStudentsDtoForAssignment,
   GetEligibleStudentsDtoForAssignmentResponse,
@@ -87,11 +90,13 @@ export class StudentController {
     summary: "Tìm kiếm và phân trang danh sách sinh viên",
     operationId: "searchStudents",
   })
-  @ApiResponse({ status: 200, type: [StudentResponseDto] })
+  @ApiResponse({ status: 200, type: ResponseStudentPaginationDto })
   async searchStudent(@Query() query: SearchStudentDto) {
+    console.log("query: ", query);
     return this.studentService.searchStudents(query);
   }
 
+  @Get("/")
   @Get("search-by-code")
   @ApiOperation({
     summary: "Tìm sinh viên theo mã sinh viên",
@@ -119,7 +124,7 @@ export class StudentController {
       classId: null,
       batchId: batchId,
     });
-    const resultFormat = result.map((student) => {
+    const resultFormat = result.students.map((student) => {
       return {
         student: {
           id: student.id,

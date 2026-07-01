@@ -24,3 +24,18 @@ export class StudentResponseDto extends CreateStudentDto {
   })
   documentProgress: DocumentProgressDto;
 }
+
+export class QualifiedStudentResponseDto extends StudentResponseDto {
+  @ApiProperty({
+    type: Boolean,
+    description: "Học sinh có đủ điều kiện xét tuyển ko",
+  })
+  isQualified: boolean;
+}
+export class ResponseStudentPaginationDto {
+  @ApiProperty({ type: [QualifiedStudentResponseDto] })
+  students: QualifiedStudentResponseDto[];
+
+  @ApiProperty()
+  total: number;
+}

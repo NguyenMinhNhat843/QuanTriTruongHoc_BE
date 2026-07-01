@@ -11,7 +11,11 @@ import {
   SearchStudentDto,
   UpdateStudentDto,
 } from "./dto/student.dto.js";
-import { StudentResponseDto } from "./dto/student.response.js";
+import {
+  QualifiedStudentResponseDto,
+  ResponseStudentPaginationDto,
+  StudentResponseDto,
+} from "./dto/student.response.js";
 import {
   Prisma,
   RoleType,
@@ -40,7 +44,7 @@ export class StudentService {
 
       if (existingStudent) {
         throw new ConflictException(
-          "Chứng minh thư này đã tồn tại trên hệ thống",
+          "Căn cước công dân này đã tồn tại trên hệ thống",
         );
       }
 
@@ -228,12 +232,15 @@ export class StudentService {
   /**
    * Search student theo tham số truyền vào
    */
-  async searchStudents(query: SearchStudentDto) {
+  async searchStudents(
+    query: SearchStudentDto,
+  ): Promise<ResponseStudentPaginationDto> {
     const {
       page = 1,
       limit = 1000,
       keyword,
       status,
+      excludeStatus,
       classId,
       batchId,
       majorId,
@@ -243,6 +250,7 @@ export class StudentService {
       sortOrder = "desc",
       studentCode,
     } = query;
+    console.log("status: ", status, "excludeStatus: ", excludeStatus);
 
     const skip = (page - 1) * limit;
 
@@ -251,12 +259,11 @@ export class StudentService {
       where: { id: 1 },
       include: {
         items: {
-          orderBy: { sortOrder: "asc" }, // Sắp xếp theo thứ tự hiển thị nếu có
+          orderBy: { sortOrder: "asc" },
         },
       },
     });
 
-    // Nếu không tìm thấy cấu hình mẫu, tạo mảng trống để tránh crash code
     const totalConfigItems = docConfig?.items || [];
     const totalRequiredDocs = totalConfigItems.length;
 
@@ -274,13 +281,13 @@ export class StudentService {
               ],
             }
           : {},
-        status ? { status } : {},
+        status
+          ? excludeStatus
+            ? { status: { not: status } } // NOT pending
+            : { status } // pending
+          : {},
         classId ? { classId } : {},
-
-        // Lọc theo Khóa học (Batch)
         batchId ? { batchId: Number(batchId) } : {},
-
-        // Lọc theo Ngành (Major) thông qua quan hệ với bảng Batch
         majorId
           ? {
               batch: {
@@ -288,7 +295,6 @@ export class StudentService {
               },
             }
           : {},
-
         fromDate || toDate
           ? {
               enrollmentDate: {
@@ -303,8 +309,8 @@ export class StudentService {
       ],
     };
 
-    // 3. Thực thi truy vấn đồng thời, lấy kèm danh sách StudentDocument hiện có
-    const [, items] = await Promise.all([
+    // 3. Thực thi truy vấn đồng thời - ĐÃ HỨNG BIẾN total ĐỂ LÀM PHÂN TRANG
+    const [total, items] = await Promise.all([
       this.prisma.student.count({ where }),
       this.prisma.student.findMany({
         where,
@@ -316,6 +322,7 @@ export class StudentService {
               classCode: true,
             },
           },
+          admissionProfile: true,
           student_documents: {
             select: {
               documentConfigItemId: true,
@@ -330,17 +337,32 @@ export class StudentService {
       }),
     ]);
 
-    // 4. Map dữ liệu để tính toán thực tế hồ sơ hiện có và các hồ sơ còn thiếu
+    // 4. Map dữ liệu để tính toán thực tế hồ sơ hiện có và check tiêu chí đạt
     const formattedItems = items.map((item) => {
-      // Tập hợp ID các tài liệu mà học sinh này ĐÃ nộp
       const submittedItemIds = new Set(
         item.student_documents.map((doc) => doc.documentConfigItemId),
       );
 
-      // Đếm số lượng hồ sơ đã nộp nằm trong danh mục cấu hình id: 1
       const currentDocsCount = totalConfigItems.filter((configItem) =>
         submittedItemIds.has(configItem.id),
       ).length;
+
+      // Tính toán điều kiện xét tuyển (isQualified)
+      let isQualified = false;
+      const profile = item.admissionProfile;
+
+      if (profile) {
+        const avgGpa =
+          (profile.gpa6 + profile.gpa7 + profile.gpa8 + profile.gpa9) / 4;
+        const validConducts = ["KHA", "TOT"];
+        const isConductPassed =
+          validConducts.includes(profile.conduct6) &&
+          validConducts.includes(profile.conduct7) &&
+          validConducts.includes(profile.conduct8) &&
+          validConducts.includes(profile.conduct9);
+
+        isQualified = avgGpa > 5 && isConductPassed;
+      }
 
       return {
         ...item,
@@ -348,11 +370,19 @@ export class StudentService {
           current: currentDocsCount,
           total: totalRequiredDocs,
         },
+        isQualified,
       };
     });
 
-    return formattedItems.map((item) =>
-      plainToInstance(StudentResponseDto, item),
+    // Khúc biến đổi danh sách bằng plainToInstance theo DTO QualifiedStudentResponseDto
+    const students = formattedItems.map((item) =>
+      plainToInstance(QualifiedStudentResponseDto, item),
     );
+
+    // 5. Trả về đúng cấu trúc ResponseStudentPaginationDto
+    return {
+      students,
+      total,
+    };
   }
 }
