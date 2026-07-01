@@ -29,19 +29,19 @@ export type AggregateAdmissionProfile = {
 export type AdmissionProfileAvgAggregateOutputType = {
   id: number | null
   studentId: number | null
-  gpa6: runtime.Decimal | null
-  gpa7: runtime.Decimal | null
-  gpa8: runtime.Decimal | null
-  gpa9: runtime.Decimal | null
+  gpa6: number | null
+  gpa7: number | null
+  gpa8: number | null
+  gpa9: number | null
 }
 
 export type AdmissionProfileSumAggregateOutputType = {
   id: number | null
   studentId: number | null
-  gpa6: runtime.Decimal | null
-  gpa7: runtime.Decimal | null
-  gpa8: runtime.Decimal | null
-  gpa9: runtime.Decimal | null
+  gpa6: number | null
+  gpa7: number | null
+  gpa8: number | null
+  gpa9: number | null
 }
 
 export type AdmissionProfileMinAggregateOutputType = {
@@ -49,10 +49,10 @@ export type AdmissionProfileMinAggregateOutputType = {
   studentId: number | null
   createdAt: Date | null
   updatedAt: Date | null
-  gpa6: runtime.Decimal | null
-  gpa7: runtime.Decimal | null
-  gpa8: runtime.Decimal | null
-  gpa9: runtime.Decimal | null
+  gpa6: number | null
+  gpa7: number | null
+  gpa8: number | null
+  gpa9: number | null
   conduct6: $Enums.Conduct | null
   conduct7: $Enums.Conduct | null
   conduct8: $Enums.Conduct | null
@@ -64,10 +64,10 @@ export type AdmissionProfileMaxAggregateOutputType = {
   studentId: number | null
   createdAt: Date | null
   updatedAt: Date | null
-  gpa6: runtime.Decimal | null
-  gpa7: runtime.Decimal | null
-  gpa8: runtime.Decimal | null
-  gpa9: runtime.Decimal | null
+  gpa6: number | null
+  gpa7: number | null
+  gpa8: number | null
+  gpa9: number | null
   conduct6: $Enums.Conduct | null
   conduct7: $Enums.Conduct | null
   conduct8: $Enums.Conduct | null
@@ -246,10 +246,10 @@ export type AdmissionProfileGroupByOutputType = {
   studentId: number
   createdAt: Date
   updatedAt: Date
-  gpa6: runtime.Decimal
-  gpa7: runtime.Decimal
-  gpa8: runtime.Decimal
-  gpa9: runtime.Decimal
+  gpa6: number
+  gpa7: number
+  gpa8: number
+  gpa9: number
   conduct6: $Enums.Conduct
   conduct7: $Enums.Conduct
   conduct8: $Enums.Conduct
@@ -284,10 +284,10 @@ export type AdmissionProfileWhereInput = {
   studentId?: Prisma.IntFilter<"AdmissionProfile"> | number
   createdAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
-  gpa6?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFilter<"AdmissionProfile"> | number
+  gpa7?: Prisma.FloatFilter<"AdmissionProfile"> | number
+  gpa8?: Prisma.FloatFilter<"AdmissionProfile"> | number
+  gpa9?: Prisma.FloatFilter<"AdmissionProfile"> | number
   conduct6?: Prisma.EnumConductFilter<"AdmissionProfile"> | $Enums.Conduct
   conduct7?: Prisma.EnumConductFilter<"AdmissionProfile"> | $Enums.Conduct
   conduct8?: Prisma.EnumConductFilter<"AdmissionProfile"> | $Enums.Conduct
@@ -319,10 +319,10 @@ export type AdmissionProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AdmissionProfileWhereInput | Prisma.AdmissionProfileWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
-  gpa6?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFilter<"AdmissionProfile"> | number
+  gpa7?: Prisma.FloatFilter<"AdmissionProfile"> | number
+  gpa8?: Prisma.FloatFilter<"AdmissionProfile"> | number
+  gpa9?: Prisma.FloatFilter<"AdmissionProfile"> | number
   conduct6?: Prisma.EnumConductFilter<"AdmissionProfile"> | $Enums.Conduct
   conduct7?: Prisma.EnumConductFilter<"AdmissionProfile"> | $Enums.Conduct
   conduct8?: Prisma.EnumConductFilter<"AdmissionProfile"> | $Enums.Conduct
@@ -358,10 +358,10 @@ export type AdmissionProfileScalarWhereWithAggregatesInput = {
   studentId?: Prisma.IntWithAggregatesFilter<"AdmissionProfile"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AdmissionProfile"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AdmissionProfile"> | Date | string
-  gpa6?: Prisma.DecimalWithAggregatesFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalWithAggregatesFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalWithAggregatesFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalWithAggregatesFilter<"AdmissionProfile"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatWithAggregatesFilter<"AdmissionProfile"> | number
+  gpa7?: Prisma.FloatWithAggregatesFilter<"AdmissionProfile"> | number
+  gpa8?: Prisma.FloatWithAggregatesFilter<"AdmissionProfile"> | number
+  gpa9?: Prisma.FloatWithAggregatesFilter<"AdmissionProfile"> | number
   conduct6?: Prisma.EnumConductWithAggregatesFilter<"AdmissionProfile"> | $Enums.Conduct
   conduct7?: Prisma.EnumConductWithAggregatesFilter<"AdmissionProfile"> | $Enums.Conduct
   conduct8?: Prisma.EnumConductWithAggregatesFilter<"AdmissionProfile"> | $Enums.Conduct
@@ -371,10 +371,10 @@ export type AdmissionProfileScalarWhereWithAggregatesInput = {
 export type AdmissionProfileCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
-  gpa6: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6: number
+  gpa7: number
+  gpa8: number
+  gpa9: number
   conduct6: $Enums.Conduct
   conduct7: $Enums.Conduct
   conduct8: $Enums.Conduct
@@ -387,10 +387,10 @@ export type AdmissionProfileUncheckedCreateInput = {
   studentId: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  gpa6: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6: number
+  gpa7: number
+  gpa8: number
+  gpa9: number
   conduct6: $Enums.Conduct
   conduct7: $Enums.Conduct
   conduct8: $Enums.Conduct
@@ -400,10 +400,10 @@ export type AdmissionProfileUncheckedCreateInput = {
 export type AdmissionProfileUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gpa6?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa7?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa8?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa9?: Prisma.FloatFieldUpdateOperationsInput | number
   conduct6?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct7?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct8?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
@@ -416,10 +416,10 @@ export type AdmissionProfileUncheckedUpdateInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gpa6?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa7?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa8?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa9?: Prisma.FloatFieldUpdateOperationsInput | number
   conduct6?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct7?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct8?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
@@ -431,10 +431,10 @@ export type AdmissionProfileCreateManyInput = {
   studentId: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  gpa6: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6: number
+  gpa7: number
+  gpa8: number
+  gpa9: number
   conduct6: $Enums.Conduct
   conduct7: $Enums.Conduct
   conduct8: $Enums.Conduct
@@ -444,10 +444,10 @@ export type AdmissionProfileCreateManyInput = {
 export type AdmissionProfileUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gpa6?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa7?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa8?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa9?: Prisma.FloatFieldUpdateOperationsInput | number
   conduct6?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct7?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct8?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
@@ -459,10 +459,10 @@ export type AdmissionProfileUncheckedUpdateManyInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gpa6?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa7?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa8?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa9?: Prisma.FloatFieldUpdateOperationsInput | number
   conduct6?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct7?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct8?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
@@ -569,14 +569,6 @@ export type AdmissionProfileUncheckedUpdateOneWithoutStudentNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionProfileUpdateToOneWithWhereWithoutStudentInput, Prisma.AdmissionProfileUpdateWithoutStudentInput>, Prisma.AdmissionProfileUncheckedUpdateWithoutStudentInput>
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type EnumConductFieldUpdateOperationsInput = {
   set?: $Enums.Conduct
 }
@@ -584,10 +576,10 @@ export type EnumConductFieldUpdateOperationsInput = {
 export type AdmissionProfileCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
-  gpa6: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6: number
+  gpa7: number
+  gpa8: number
+  gpa9: number
   conduct6: $Enums.Conduct
   conduct7: $Enums.Conduct
   conduct8: $Enums.Conduct
@@ -598,10 +590,10 @@ export type AdmissionProfileUncheckedCreateWithoutStudentInput = {
   id?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  gpa6: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8: runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9: runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6: number
+  gpa7: number
+  gpa8: number
+  gpa9: number
   conduct6: $Enums.Conduct
   conduct7: $Enums.Conduct
   conduct8: $Enums.Conduct
@@ -627,10 +619,10 @@ export type AdmissionProfileUpdateToOneWithWhereWithoutStudentInput = {
 export type AdmissionProfileUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gpa6?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa7?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa8?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa9?: Prisma.FloatFieldUpdateOperationsInput | number
   conduct6?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct7?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct8?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
@@ -641,10 +633,10 @@ export type AdmissionProfileUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gpa6?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa7?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa8?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  gpa9?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  gpa6?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa7?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa8?: Prisma.FloatFieldUpdateOperationsInput | number
+  gpa9?: Prisma.FloatFieldUpdateOperationsInput | number
   conduct6?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct7?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
   conduct8?: Prisma.EnumConductFieldUpdateOperationsInput | $Enums.Conduct
@@ -737,10 +729,10 @@ export type $AdmissionProfilePayload<ExtArgs extends runtime.Types.Extensions.In
     studentId: number
     createdAt: Date
     updatedAt: Date
-    gpa6: runtime.Decimal
-    gpa7: runtime.Decimal
-    gpa8: runtime.Decimal
-    gpa9: runtime.Decimal
+    gpa6: number
+    gpa7: number
+    gpa8: number
+    gpa9: number
     conduct6: $Enums.Conduct
     conduct7: $Enums.Conduct
     conduct8: $Enums.Conduct
@@ -1173,10 +1165,10 @@ export interface AdmissionProfileFieldRefs {
   readonly studentId: Prisma.FieldRef<"AdmissionProfile", 'Int'>
   readonly createdAt: Prisma.FieldRef<"AdmissionProfile", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AdmissionProfile", 'DateTime'>
-  readonly gpa6: Prisma.FieldRef<"AdmissionProfile", 'Decimal'>
-  readonly gpa7: Prisma.FieldRef<"AdmissionProfile", 'Decimal'>
-  readonly gpa8: Prisma.FieldRef<"AdmissionProfile", 'Decimal'>
-  readonly gpa9: Prisma.FieldRef<"AdmissionProfile", 'Decimal'>
+  readonly gpa6: Prisma.FieldRef<"AdmissionProfile", 'Float'>
+  readonly gpa7: Prisma.FieldRef<"AdmissionProfile", 'Float'>
+  readonly gpa8: Prisma.FieldRef<"AdmissionProfile", 'Float'>
+  readonly gpa9: Prisma.FieldRef<"AdmissionProfile", 'Float'>
   readonly conduct6: Prisma.FieldRef<"AdmissionProfile", 'Conduct'>
   readonly conduct7: Prisma.FieldRef<"AdmissionProfile", 'Conduct'>
   readonly conduct8: Prisma.FieldRef<"AdmissionProfile", 'Conduct'>

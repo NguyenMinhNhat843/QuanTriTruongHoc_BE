@@ -1,4 +1,9 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  OmitType,
+  PartialType,
+} from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsString,
@@ -13,6 +18,7 @@ import {
 import { StudentStatus } from "../../../prisma/generated/prisma/enums.js";
 import { Student } from "../../../prisma/generated/prisma/client.js";
 import { Exclude, Type } from "class-transformer";
+import { CreateAdmissionProfileDto } from "../../admission-profile/dto/admission-profile.dto.js";
 
 export class StudentDto implements Student {
   @ApiPropertyOptional({
@@ -254,8 +260,15 @@ export class StudentDto implements Student {
   status: StudentStatus;
 }
 
-export class CreateStudentDto extends StudentDto {}
-export class UpdateStudentDto extends PartialType(CreateStudentDto) {}
+export class CreateStudentDto extends StudentDto {
+  @ApiProperty({ type: CreateAdmissionProfileDto })
+  @Type(() => CreateAdmissionProfileDto)
+  @IsNotEmpty()
+  admissionProfile: CreateAdmissionProfileDto;
+}
+export class UpdateStudentDto extends PartialType(
+  OmitType(StudentDto, ["id", "createdAt", "updatedAt"]),
+) {}
 
 export class SearchStudentDto {
   // --- PHÂN TRANG ---

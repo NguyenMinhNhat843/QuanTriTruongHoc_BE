@@ -6,9 +6,12 @@ import {
 import { PrismaService } from "../prisma/prisma.service";
 import {
   CreateAdmissionProfileDto,
+  ResponseAdmissionProfilePaginationDto,
+  SearchAdmissionProfileDto,
   UpdateAdmissionProfileDto,
 } from "./dto/admission-profile.dto";
 import { Prisma } from "../../prisma/generated/prisma/client";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class AdmissionProfileService {
@@ -20,11 +23,7 @@ export class AdmissionProfileService {
       // Chuyển đổi string gpa sang Prisma.Decimal để map đúng kiểu dữ liệu DB
       const data: Prisma.AdmissionProfileCreateInput = {
         ...createDto,
-        student: { connect: { id: createDto.studentId } }, // Nếu schema cấu trúc quan hệ với model Student
-        gpa6: new Prisma.Decimal(createDto.gpa6),
-        gpa7: new Prisma.Decimal(createDto.gpa7),
-        gpa8: new Prisma.Decimal(createDto.gpa8),
-        gpa9: new Prisma.Decimal(createDto.gpa9),
+        student: { connect: { id: createDto.studentId } },
       };
 
       // Xóa bớt thuộc tính studentId dạng nguyên bản cũ vì đã map vào connect nested write ở trên
@@ -38,26 +37,33 @@ export class AdmissionProfileService {
   }
 
   // 2. READ ALL (Có phân trang cơ bản)
-  async findAll(page = 1, limit = 10) {
+  async findAll(query: SearchAdmissionProfileDto) {
+    const { page = 1, limit = 10, studentId } = query;
+
     const skip = (page - 1) * limit;
+
+    const where: Prisma.AdmissionProfileWhereInput = {};
+
+    if (studentId) {
+      where.studentId = Number(studentId);
+    }
+
     const [items, total] = await this.prisma.$transaction([
       this.prisma.admissionProfile.findMany({
+        where,
         skip,
         take: limit,
         orderBy: { createdAt: "desc" },
       }),
-      this.prisma.admissionProfile.count(),
+      this.prisma.admissionProfile.count({
+        where,
+      }),
     ]);
 
-    return {
+    return plainToInstance(ResponseAdmissionProfilePaginationDto, {
       items,
-      meta: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
-    };
+      total,
+    });
   }
 
   // 3. READ ONE
@@ -80,19 +86,9 @@ export class AdmissionProfileService {
     // Kiểm tra xem bản ghi có tồn tại không trước khi update
     await this.findOne(id);
 
-    const updateData: Prisma.AdmissionProfileUpdateInput = {
-      ...updateDto,
-    } as any;
-
-    // Convert ngược các trường gpa nếu Client có truyền lên để cập nhật
-    if (updateDto.gpa6) updateData.gpa6 = new Prisma.Decimal(updateDto.gpa6);
-    if (updateDto.gpa7) updateData.gpa7 = new Prisma.Decimal(updateDto.gpa7);
-    if (updateDto.gpa8) updateData.gpa8 = new Prisma.Decimal(updateDto.gpa8);
-    if (updateDto.gpa9) updateData.gpa9 = new Prisma.Decimal(updateDto.gpa9);
-
     return await this.prisma.admissionProfile.update({
       where: { id },
-      data: updateData,
+      data: updateDto,
     });
   }
 

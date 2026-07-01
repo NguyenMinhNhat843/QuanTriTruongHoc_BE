@@ -111,11 +111,10 @@ model AdmissionProfile {
   updatedAt DateTime        @updatedAt
 
   // --- PHẦN ĐIỂM SỐ 4 NĂM THCS ---
-  // Dùng kiểu Decimal để tránh lỗi làm tròn số khi cộng/chia điểm
-  gpa6      Decimal         @db.Decimal(4, 2)
-  gpa7      Decimal         @db.Decimal(4, 2)
-  gpa8      Decimal         @db.Decimal(4, 2)
-  gpa9      Decimal         @db.Decimal(4, 2)
+  gpa6      Float
+  gpa7      Float
+  gpa8      Float
+  gpa9      Float
 
   // --- PHẦN HẠNH KIỂM 4 NĂM THCS ---
   conduct6  Conduct

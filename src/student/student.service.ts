@@ -29,21 +29,40 @@ export class StudentService {
    * Tạo mới một sinh viên
    */
   async createStudent(data: CreateStudentDto): Promise<StudentResponseDto> {
-    const existingStudent = await this.prisma.student.findFirst({
-      where: { identityNumber: data.identityNumber },
-    });
-    if (existingStudent) {
-      throw new ConflictException(
-        "Chứng minh thư này đã tồn tại trên hệ thống",
-      );
-    }
+    const { admissionProfile, ...studentProfile } = data;
 
-    const student = await this.prisma.student.create({
-      data: {
-        ...data,
-        studentCode: `S${generateId()}`,
-        dob: data.dob ? new Date(data.dob) : null,
-      },
+    // Sử dụng $transaction để bọc toàn bộ logic tạo mới
+    const student = await this.prisma.$transaction(async (tx) => {
+      // 1. Kiểm tra xem CMND/CCCD đã tồn tại chưa (Sử dụng 'tx' thay vì 'this.prisma')
+      const existingStudent = await tx.student.findFirst({
+        where: { identityNumber: data.identityNumber },
+      });
+
+      if (existingStudent) {
+        throw new ConflictException(
+          "Chứng minh thư này đã tồn tại trên hệ thống",
+        );
+      }
+
+      // 2. Tạo Student
+      const newStudent = await tx.student.create({
+        data: {
+          ...studentProfile,
+          studentCode: `S${generateId()}`,
+          dob: data.dob ? new Date(data.dob) : null,
+        },
+      });
+
+      // 3. Tạo AdmissionProfile (Lưu ý: Có cần nối studentId sang không?)
+      await tx.admissionProfile.create({
+        data: {
+          ...admissionProfile,
+          // Giả sử có trường studentId để map 2 bảng với nhau:
+          studentId: newStudent.id,
+        },
+      });
+
+      return newStudent;
     });
 
     return plainToInstance(StudentResponseDto, student);

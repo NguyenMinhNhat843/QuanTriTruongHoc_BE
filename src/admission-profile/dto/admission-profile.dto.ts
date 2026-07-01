@@ -3,14 +3,8 @@ import {
   AdmissionProfile,
   Conduct,
 } from "../../../prisma/generated/prisma/client";
-import {
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-  IsNumberString,
-  IsOptional,
-} from "class-validator";
-import { Decimal } from "../../../prisma/generated/prisma/internal/prismaNamespace";
+import { IsEnum, IsInt, IsNotEmpty, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
 
 export class AdmissionProfileDto implements AdmissionProfile {
   @ApiProperty()
@@ -21,6 +15,7 @@ export class AdmissionProfileDto implements AdmissionProfile {
   @ApiProperty()
   @IsInt()
   @IsNotEmpty()
+  @Type(() => Number)
   studentId: number;
 
   @ApiProperty({ enum: Conduct })
@@ -43,25 +38,17 @@ export class AdmissionProfileDto implements AdmissionProfile {
   @IsNotEmpty()
   conduct9: Conduct;
 
-  @ApiProperty({ type: String })
-  @IsNumberString()
-  @IsNotEmpty()
-  gpa6: Decimal;
+  @ApiProperty({ type: Number })
+  gpa6: number;
 
-  @ApiProperty({ type: String })
-  @IsNumberString()
-  @IsNotEmpty()
-  gpa7: Decimal;
+  @ApiProperty({ type: Number })
+  gpa7: number;
 
-  @ApiProperty({ type: String })
-  @IsNumberString()
-  @IsNotEmpty()
-  gpa8: Decimal;
+  @ApiProperty({ type: Number })
+  gpa8: number;
 
-  @ApiProperty({ type: String })
-  @IsNumberString()
-  @IsNotEmpty()
-  gpa9: Decimal;
+  @ApiProperty({ type: Number })
+  gpa9: number;
 
   @ApiProperty()
   @IsOptional()
@@ -72,6 +59,14 @@ export class AdmissionProfileDto implements AdmissionProfile {
   updatedAt: Date;
 }
 
+export class ResponseAdmissionProfilePaginationDto {
+  @ApiProperty({ type: [AdmissionProfileDto] })
+  items: AdmissionProfileDto[];
+
+  @ApiProperty()
+  total: number;
+}
+
 export class CreateAdmissionProfileDto extends OmitType(AdmissionProfileDto, [
   "id",
   "createdAt",
@@ -80,3 +75,13 @@ export class CreateAdmissionProfileDto extends OmitType(AdmissionProfileDto, [
 export class UpdateAdmissionProfileDto extends PartialType(
   CreateAdmissionProfileDto,
 ) {}
+
+export class SearchAdmissionProfileDto extends PartialType(
+  AdmissionProfileDto,
+) {
+  @ApiProperty({ required: false })
+  limit?: number;
+
+  @ApiProperty({ required: false })
+  page?: number;
+}

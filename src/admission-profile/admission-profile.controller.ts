@@ -9,11 +9,13 @@ import {
   Query,
   ParseIntPipe,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiQuery, ApiResponse } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { AdmissionProfileService } from "./admission-profile.service";
 import {
   AdmissionProfileDto,
   CreateAdmissionProfileDto,
+  ResponseAdmissionProfilePaginationDto,
+  SearchAdmissionProfileDto,
   UpdateAdmissionProfileDto,
 } from "./dto/admission-profile.dto";
 
@@ -33,13 +35,9 @@ export class AdmissionProfileController {
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách hồ sơ tuyển sinh (Phân trang)" })
-  @ApiQuery({ name: "page", required: false, type: Number })
-  @ApiQuery({ name: "limit", required: false, type: Number })
-  findAll(
-    @Query("page", new ParseIntPipe({ optional: true })) page?: number,
-    @Query("limit", new ParseIntPipe({ optional: true })) limit?: number,
-  ) {
-    return this.admissionProfileService.findAll(page, limit);
+  @ApiResponse({ type: ResponseAdmissionProfilePaginationDto, status: 200 })
+  findAll(@Query() query: SearchAdmissionProfileDto) {
+    return this.admissionProfileService.findAll(query);
   }
 
   @Get(":id")
