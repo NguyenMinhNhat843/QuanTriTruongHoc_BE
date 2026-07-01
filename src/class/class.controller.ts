@@ -21,8 +21,6 @@ import { ClassService } from "./class.service";
 import {
   AssignStudentsToClassesDto,
   CreateClassDto,
-  EligibleStudentsResponseDto,
-  RequestEligibleStudents,
   SearchClassDto,
   UpdateClassDto,
 } from "./class.dto";
@@ -66,22 +64,6 @@ export class ClassController {
   })
   async assignStudentsToClasses(@Body() body: AssignStudentsToClassesDto) {
     return await this.classBusinessService.assignStudentsToClasses(body);
-  }
-
-  @Get("/eligible-for-assignment")
-  @ApiOperation({
-    summary: "Lấy danh sách sinh viên đủ điều kiện phân lớp",
-    description:
-      'Danh sách sinh viên có trạng thái "studying" nhưng chưa có classId.',
-  })
-  @ApiResponse({
-    status: 200,
-    type: EligibleStudentsResponseDto,
-  })
-  async getEligibleStudents(@Query() query: RequestEligibleStudents) {
-    return await this.classBusinessService.getEligibleStudentsForAssignment(
-      query,
-    );
   }
 
   @Get(":id")

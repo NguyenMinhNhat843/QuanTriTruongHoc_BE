@@ -26,6 +26,7 @@ import { AcademyModule } from "./academy/academy.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
 import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
+import { AdmissionProfileModule } from "./admission-profile/admission-profile.module.js";
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { DocumentProfileModule } from "./documentProfile/documentProfile.module.
     AcademyModule, // module tổng hợp
     CloudinaryModule,
     DocumentProfileModule,
+    AdmissionProfileModule,
   ],
 })
 export class AppModule {}

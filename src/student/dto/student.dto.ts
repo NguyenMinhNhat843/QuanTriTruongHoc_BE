@@ -10,19 +10,13 @@ import {
   IsEmail,
   IsBoolean,
 } from "class-validator";
-import { StudentStatus } from "../../prisma/generated/prisma/enums.js";
-import { Student } from "../../prisma/generated/prisma/client.js";
+import { StudentStatus } from "../../../prisma/generated/prisma/enums.js";
+import { Student } from "../../../prisma/generated/prisma/client.js";
 import { Exclude, Type } from "class-transformer";
 
-export type StudentDto = Student;
-
-export class CreateStudentDto implements Student {
-  // --- THÔNG TIN HỆ THỐNG / HÀNH CHÍNH (BỔ SUNG MỚI) ---
+export class StudentDto implements Student {
   @ApiPropertyOptional({
     type: Number,
-    example: 1,
-    description:
-      "ID tự tăng của học sinh (Nếu tạo mới có thể bỏ qua hoặc truyền 0 tùy logic backend)",
   })
   @IsInt()
   @IsOptional()
@@ -30,8 +24,6 @@ export class CreateStudentDto implements Student {
 
   @ApiPropertyOptional({
     type: String,
-    example: "HS20260001",
-    description: "Mã số học sinh duy nhất",
   })
   @IsString()
   @IsNotEmpty()
@@ -41,8 +33,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "2026-09-05",
-    description: "Ngày nhập học (Định dạng YYYY-MM-DD)",
   })
   @IsDateString()
   @IsOptional()
@@ -51,8 +41,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "2029-06-15",
-    description: "Ngày tốt nghiệp dự kiến/thực tế (Định dạng YYYY-MM-DD)",
   })
   @IsDateString()
   @IsOptional()
@@ -61,8 +49,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: Number,
     nullable: true,
-    example: 42,
-    description: "ID Hồ sơ tuyển sinh liên kết",
   })
   @IsInt()
   @IsOptional()
@@ -71,8 +57,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "https://storage.googleapis.com/bucket/avatar.jpg",
-    description: "Đường dẫn ảnh đại diện học sinh",
   })
   @IsString()
   @IsOptional()
@@ -81,8 +65,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: Number,
     nullable: true,
-    example: 102,
-    description: "ID tài khoản liên kết trong bảng User",
   })
   @IsInt()
   @IsOptional()
@@ -90,8 +72,6 @@ export class CreateStudentDto implements Student {
 
   @ApiPropertyOptional({
     type: String,
-    example: "2026-05-22T07:10:00.000Z",
-    description: "Thời gian khởi tạo bản ghi",
   })
   @IsOptional()
   @IsDateString()
@@ -100,8 +80,6 @@ export class CreateStudentDto implements Student {
 
   @ApiPropertyOptional({
     type: String,
-    example: "2026-05-22T07:10:00.000Z",
-    description: "Thời gian cập nhật bản ghi gần nhất",
   })
   @IsDateString()
   @IsOptional()
@@ -111,8 +89,6 @@ export class CreateStudentDto implements Student {
   // --- THÔNG TIN CÁ NHÂN BẮT BUỘC ---
   @ApiProperty({
     type: String,
-    example: "Nguyễn Văn A",
-    description: "Họ và tên đầy đủ của học sinh",
   })
   @IsString()
   @IsNotEmpty()
@@ -122,7 +98,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "nguyenvana@gmail.com",
   })
   @IsEmail()
   @IsOptional()
@@ -131,19 +106,17 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: Boolean,
     nullable: true,
-    example: true,
-    description: "true: Nam, false: Nữ",
   })
   @IsBoolean()
   @IsOptional()
   gender: boolean | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "2008-05-20" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsDateString()
   @IsOptional()
   dob: Date | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "0987654321" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   phone: string | null;
@@ -151,7 +124,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "123 Đường ABC, Nha Trang",
   })
   @IsString()
   @IsOptional()
@@ -160,7 +132,6 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "056205001234",
   })
   @IsString()
   @IsOptional()
@@ -170,13 +141,12 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "Nguyễn Văn B",
   })
   @IsString()
   @IsOptional()
   fatherName: string | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "0912345678" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   fatherPhone: string | null;
@@ -184,28 +154,27 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "056201001234",
   })
   @IsString()
   @IsOptional()
   fatherCCCD: string | null;
 
-  @ApiPropertyOptional({ type: Number, nullable: true, example: 1975 })
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsInt()
   @IsOptional()
   fatherYearOfBirth: number | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "Kỹ sư" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   fatherJob: string | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "Trần Thị C" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   motherName: string | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "0923456789" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   motherPhone: string | null;
@@ -213,18 +182,17 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "056202001234",
   })
   @IsString()
   @IsOptional()
   motherCCCD: string | null;
 
-  @ApiPropertyOptional({ type: Number, nullable: true, example: 1978 })
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsInt()
   @IsOptional()
   motherYearOfBirth: number | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "Giáo viên" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   motherJob: string | null;
@@ -232,18 +200,17 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "Nguyễn Văn D",
   })
   @IsString()
   @IsOptional()
   guardianName: string | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "Ông nội" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   guardianRelationship: string | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "0934567890" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   guardianPhone: string | null;
@@ -251,29 +218,28 @@ export class CreateStudentDto implements Student {
   @ApiPropertyOptional({
     type: String,
     nullable: true,
-    example: "056200001234",
   })
   @IsString()
   @IsOptional()
   guardianCCCD: string | null;
 
-  @ApiPropertyOptional({ type: Number, nullable: true, example: 1950 })
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsInt()
   @IsOptional()
   guardianYearOfBirth: number | null;
 
-  @ApiPropertyOptional({ type: String, nullable: true, example: "Hưu trí" })
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   guardianJob: string | null;
 
   // --- THÔNG TIN ĐÀO TẠO ---
-  @ApiPropertyOptional({ type: Number, nullable: true, example: 1 })
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsInt()
   @IsOptional()
   batchId: number | null;
 
-  @ApiPropertyOptional({ type: Number, nullable: true, example: 3 })
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsInt()
   @IsOptional()
   classId: number | null;
@@ -288,6 +254,7 @@ export class CreateStudentDto implements Student {
   status: StudentStatus;
 }
 
+export class CreateStudentDto extends StudentDto {}
 export class UpdateStudentDto extends PartialType(CreateStudentDto) {}
 
 export class SearchStudentDto {
@@ -317,11 +284,11 @@ export class SearchStudentDto {
   @IsEnum(StudentStatus)
   status?: StudentStatus;
 
-  @ApiPropertyOptional({ description: "Lọc theo ID lớp học" })
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  classId?: number;
+  classId?: number | null;
 
   @ApiPropertyOptional({
     description: "Lọc theo ngày nhập học từ (YYYY-MM-DD)",

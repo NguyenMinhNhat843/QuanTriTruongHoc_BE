@@ -156,10 +156,8 @@ export class EligibleStudentsResponseDto {
 
 export class RequestEligibleStudents {
   @ApiProperty({
-    example: 1,
-    description: "ID của Khóa đào tạo cần phân lớp",
     type: Number,
-    required: false, // Thêm cái này để Swagger hiểu là không bắt buộc
+    required: false,
   })
   @IsOptional()
   @Type(() => Number)

@@ -25,6 +25,7 @@ model User {
 **  Student: Hồ sơ học sinh
 */
 enum StudentStatus {
+  pending    // Đang đợi xét tuyển
   approved   // Đã xác nhận nhập học, đợi đóng học phí nhập học
   studying   // Đã có tài khoản và đang theo học chính thức
   suspended  // Đang bảo lưu kết quả học tập hoặc bị đình chỉ tạm thời
@@ -89,10 +90,42 @@ model Student {
   feeInvoices         FeeInvoice[]
   payments            Payment[]
   student_documents   StudentDocument[]
+  admissionProfile    AdmissionProfile?
 
   @@map("students")
 }
 
+/** 
+  AdmissionProfile: Bảng hồ sơ xét tuyển chứa điểm và hạnh kiểm 4 năm cấp 2
+*/
+enum Conduct {
+  TOT
+  KHA
+  TB
+  YEU
+}
+model AdmissionProfile {
+  id        Int             @id @default(autoincrement())
+  studentId Int             @unique // Đảm bảo mỗi học sinh chỉ có 1 hồ sơ
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  // --- PHẦN ĐIỂM SỐ 4 NĂM THCS ---
+  // Dùng kiểu Decimal để tránh lỗi làm tròn số khi cộng/chia điểm
+  gpa6      Decimal         @db.Decimal(4, 2)
+  gpa7      Decimal         @db.Decimal(4, 2)
+  gpa8      Decimal         @db.Decimal(4, 2)
+  gpa9      Decimal         @db.Decimal(4, 2)
+
+  // --- PHẦN HẠNH KIỂM 4 NĂM THCS ---
+  conduct6  Conduct
+  conduct7  Conduct
+  conduct8  Conduct
+  conduct9  Conduct
+
+  // Thiết lập mối quan hệ với bảng Student
+  student   Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
 
 model DocumentConfig {
   id    Int    @id @default(autoincrement())
@@ -124,7 +157,7 @@ model StudentDocument {
   student            Student            @relation(fields: [studentId], references: [id], onDelete: Cascade)
   documentConfigItem DocumentConfigItem @relation(fields: [documentConfigItemId], references: [id])
 
-  @unique([studentId, documentConfigItemId])
+  // @@unique([studentId, documentConfigItemId])
 }
 
 // ==========================

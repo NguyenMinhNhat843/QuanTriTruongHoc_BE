@@ -21,8 +21,13 @@ import {
   CreateStudentDto,
   SearchStudentDto,
   UpdateStudentDto,
-} from "./student.dto.js";
-import { StudentResponseDto } from "./student.response.js";
+} from "./dto/student.dto.js";
+import { StudentResponseDto } from "./dto/student.response.js";
+import {
+  GetEligibleStudentsDtoForAssignment,
+  GetEligibleStudentsDtoForAssignmentResponse,
+} from "./dto/get-eligible-students.dto.js";
+import { plainToInstance } from "class-transformer";
 
 @ApiTags("Students")
 @Controller("students")
@@ -49,7 +54,6 @@ export class StudentController {
   })
   @ApiBody({
     type: [CreateStudentDto],
-    description: "Danh sách hồ sơ sinh viên cần tạo mới",
   })
   async createMany(@Body() createStudentDtos: CreateStudentDto[]) {
     return this.studentService.createManyStudents(createStudentDtos);
@@ -98,6 +102,41 @@ export class StudentController {
     @Query("studentCode") studentCode: string,
   ): Promise<StudentResponseDto> {
     return this.studentService.findStudentByStudentCode(studentCode);
+  }
+
+  @Get("eligible-for-assignment")
+  @ApiOperation({
+    summary: "Lấy danh sách sinh viên đủ điều kiện phân lớp",
+    operationId: "getEligibleStudentsForAssignment",
+  })
+  @ApiOkResponse({ type: [GetEligibleStudentsDtoForAssignmentResponse] })
+  async getEligibleStudentsForAssignment(
+    @Query() query: GetEligibleStudentsDtoForAssignment,
+  ) {
+    const { batchId } = query;
+    const result = await this.studentService.searchStudents({
+      status: "studying",
+      classId: null,
+      batchId: batchId,
+    });
+    const resultFormat = result.map((student) => {
+      return {
+        student: {
+          id: student.id,
+          studentCode: student.studentCode,
+          fullName: student.fullName,
+        },
+        batch: {
+          id: student.batch?.id,
+          batchCode: student.batch?.batchCode,
+          batchName: student.batch?.batchName,
+        },
+      };
+    });
+    return plainToInstance(
+      GetEligibleStudentsDtoForAssignmentResponse,
+      resultFormat,
+    );
   }
 
   @Patch(":id")

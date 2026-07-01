@@ -5,10 +5,7 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { StudentStatus } from "../../prisma/generated/prisma/client";
-import {
-  AssignStudentsToClassesDto,
-  RequestEligibleStudents,
-} from "./class.dto";
+import { AssignStudentsToClassesDto } from "./class.dto";
 import { ClassService } from "./class.service";
 
 @Injectable()
@@ -237,37 +234,6 @@ export class ClassBusinessService {
         details: resultDetails,
       };
     });
-  }
-
-  /**
-   * Lấy danh sách sinh viên đủ điều kiện phân lớp
-   */
-  async getEligibleStudentsForAssignment(query: RequestEligibleStudents) {
-    const { batchId } = query;
-
-    const students = await this.prisma.student.findMany({
-      where: {
-        status: StudentStatus.studying,
-        classId: null,
-        batchId: batchId || undefined,
-      },
-      include: {
-        application: {
-          include: { admission: true },
-        },
-      },
-      orderBy: { fullName: "asc" },
-    });
-
-    return {
-      totalEligible: students.length,
-      students: students.map((s) => ({
-        id: s.id,
-        studentCode: s.studentCode,
-        fullName: s.fullName,
-        admissionName: s.application?.admission?.name || "Không rõ đợt",
-      })),
-    };
   }
 
   /**

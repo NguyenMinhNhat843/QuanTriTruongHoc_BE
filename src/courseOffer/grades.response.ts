@@ -12,7 +12,7 @@ import {
   Max,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { StudentResponseDto } from "../student/student.response";
+import { StudentResponseDto } from "../student/dto/student.response";
 
 // Giả sử bạn có Enum cho trạng thái đăng ký, nếu không có bạn có thể bỏ IsEnum và dùng IsString
 export enum RegistrationStatus {

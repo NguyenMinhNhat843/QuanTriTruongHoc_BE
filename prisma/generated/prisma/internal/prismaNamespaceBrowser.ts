@@ -67,6 +67,7 @@ export const ModelName = {
   Application: 'Application',
   User: 'User',
   Student: 'Student',
+  AdmissionProfile: 'AdmissionProfile',
   DocumentConfig: 'DocumentConfig',
   DocumentConfigItem: 'DocumentConfigItem',
   StudentDocument: 'StudentDocument',
@@ -356,6 +357,24 @@ export const StudentScalarFieldEnum = {
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
+
+
+export const AdmissionProfileScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  gpa6: 'gpa6',
+  gpa7: 'gpa7',
+  gpa8: 'gpa8',
+  gpa9: 'gpa9',
+  conduct6: 'conduct6',
+  conduct7: 'conduct7',
+  conduct8: 'conduct8',
+  conduct9: 'conduct9'
+} as const
+
+export type AdmissionProfileScalarFieldEnum = (typeof AdmissionProfileScalarFieldEnum)[keyof typeof AdmissionProfileScalarFieldEnum]
 
 
 export const DocumentConfigScalarFieldEnum = {

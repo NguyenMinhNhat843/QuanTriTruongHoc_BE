@@ -39,6 +39,7 @@ export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[key
 
 
 export const StudentStatus = {
+  pending: 'pending',
   approved: 'approved',
   studying: 'studying',
   suspended: 'suspended',
@@ -48,6 +49,16 @@ export const StudentStatus = {
 } as const
 
 export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]
+
+
+export const Conduct = {
+  TOT: 'TOT',
+  KHA: 'KHA',
+  TB: 'TB',
+  YEU: 'YEU'
+} as const
+
+export type Conduct = (typeof Conduct)[keyof typeof Conduct]
 
 
 export const EmployeeRole = {

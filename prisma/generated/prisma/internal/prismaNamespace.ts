@@ -400,6 +400,7 @@ export const ModelName = {
   Application: 'Application',
   User: 'User',
   Student: 'Student',
+  AdmissionProfile: 'AdmissionProfile',
   DocumentConfig: 'DocumentConfig',
   DocumentConfigItem: 'DocumentConfigItem',
   StudentDocument: 'StudentDocument',
@@ -435,7 +436,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "criterion" | "admissionItemCriterion" | "application" | "user" | "student" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "classSubjectSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post" | "fileStore"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "admission" | "admissionItem" | "criterion" | "admissionItemCriterion" | "application" | "user" | "student" | "admissionProfile" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "classSubjectSchedule" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post" | "fileStore"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1620,6 +1621,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.StudentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.StudentCountAggregateOutputType> | number
+        }
+      }
+    }
+    AdmissionProfile: {
+      payload: Prisma.$AdmissionProfilePayload<ExtArgs>
+      fields: Prisma.AdmissionProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdmissionProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdmissionProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.AdmissionProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdmissionProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>
+        }
+        findMany: {
+          args: Prisma.AdmissionProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>[]
+        }
+        create: {
+          args: Prisma.AdmissionProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>
+        }
+        createMany: {
+          args: Prisma.AdmissionProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AdmissionProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>[]
+        }
+        delete: {
+          args: Prisma.AdmissionProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>
+        }
+        update: {
+          args: Prisma.AdmissionProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.AdmissionProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdmissionProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AdmissionProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>[]
+        }
+        upsert: {
+          args: Prisma.AdmissionProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdmissionProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.AdmissionProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdmissionProfile>
+        }
+        groupBy: {
+          args: Prisma.AdmissionProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdmissionProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdmissionProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdmissionProfileCountAggregateOutputType> | number
         }
       }
     }
@@ -3395,6 +3470,24 @@ export const StudentScalarFieldEnum = {
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
 
 
+export const AdmissionProfileScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  gpa6: 'gpa6',
+  gpa7: 'gpa7',
+  gpa8: 'gpa8',
+  gpa9: 'gpa9',
+  conduct6: 'conduct6',
+  conduct7: 'conduct7',
+  conduct8: 'conduct8',
+  conduct9: 'conduct9'
+} as const
+
+export type AdmissionProfileScalarFieldEnum = (typeof AdmissionProfileScalarFieldEnum)[keyof typeof AdmissionProfileScalarFieldEnum]
+
+
 export const DocumentConfigScalarFieldEnum = {
   id: 'id',
   name: 'name'
@@ -3864,6 +3957,34 @@ export type ListEnumStudentStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Conduct'
+ */
+export type EnumConductFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Conduct'>
+    
+
+
+/**
+ * Reference to a field of type 'Conduct[]'
+ */
+export type ListEnumConductFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Conduct[]'>
+    
+
+
+/**
  * Reference to a field of type 'EmployeeRole'
  */
 export type EnumEmployeeRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EmployeeRole'>
@@ -4043,6 +4164,7 @@ export type GlobalOmitConfig = {
   application?: Prisma.ApplicationOmit
   user?: Prisma.UserOmit
   student?: Prisma.StudentOmit
+  admissionProfile?: Prisma.AdmissionProfileOmit
   documentConfig?: Prisma.DocumentConfigOmit
   documentConfigItem?: Prisma.DocumentConfigItemOmit
   studentDocument?: Prisma.StudentDocumentOmit

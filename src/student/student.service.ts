@@ -10,8 +10,8 @@ import {
   CreateStudentDto,
   SearchStudentDto,
   UpdateStudentDto,
-} from "./student.dto.js";
-import { StudentResponseDto } from "./student.response.js";
+} from "./dto/student.dto.js";
+import { StudentResponseDto } from "./dto/student.response.js";
 import {
   Prisma,
   RoleType,
@@ -206,6 +206,9 @@ export class StudentService {
     }
   }
 
+  /**
+   * Search student theo tham số truyền vào
+   */
   async searchStudents(query: SearchStudentDto) {
     const {
       page = 1,
@@ -213,8 +216,8 @@ export class StudentService {
       keyword,
       status,
       classId,
-      batchId, // <--- Bổ sung lọc theo Khóa đào tạo
-      majorId, // <--- Bổ sung lọc theo Ngành học
+      batchId,
+      majorId,
       fromDate,
       toDate,
       sortBy = "createdAt",

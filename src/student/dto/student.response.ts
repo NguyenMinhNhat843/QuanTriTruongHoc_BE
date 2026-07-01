@@ -1,19 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { BatchResponseDto } from "../batch/batch.response.js";
-import { ClassResponseDto } from "../class/class.response.js";
+import { BatchResponseDto } from "../../batch/batch.response.js";
+import { ClassResponseDto } from "../../class/class.response.js";
 import { CreateStudentDto } from "./student.dto.js";
 
 class DocumentProgressDto {
-  @ApiProperty({
-    example: 3,
-    description: "Số lượng hồ sơ học sinh hiện đã nộp",
-  })
+  @ApiProperty()
   current: number;
 
-  @ApiProperty({
-    example: 5,
-    description: "Tổng số lượng hồ sơ cần có theo cấu hình",
-  })
+  @ApiProperty()
   total: number;
 }
 

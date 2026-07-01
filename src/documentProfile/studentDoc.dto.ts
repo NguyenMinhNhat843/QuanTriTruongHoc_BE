@@ -9,7 +9,7 @@ import {
   IsString,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { StudentResponseDto } from "../student/student.response";
+import { StudentResponseDto } from "../student/dto/student.response";
 import { DocumentConfigItemResponseDto } from "./docConfigItem.dto";
 
 export class StudentDocumentDto implements StudentDocument {

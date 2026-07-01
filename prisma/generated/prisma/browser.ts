@@ -98,6 +98,11 @@ export type User = Prisma.UserModel
  */
 export type Student = Prisma.StudentModel
 /**
+ * Model AdmissionProfile
+ * 
+ */
+export type AdmissionProfile = Prisma.AdmissionProfileModel
+/**
  * Model DocumentConfig
  * 
  */
