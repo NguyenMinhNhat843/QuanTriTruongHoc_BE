@@ -100,3 +100,17 @@ export class SearchStudyScheduleDto {
   @IsOptional()
   startDate?: Date;
 }
+
+export class ExportStudyScheduleDto {
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  classId?: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @Type(() => Number)
+  @IsOptional()
+  @IsInt()
+  semesterId?: number;
+}
