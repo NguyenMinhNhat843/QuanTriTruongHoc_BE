@@ -14,6 +14,7 @@ import {
   Min,
   IsEmail,
   IsBoolean,
+  IsNumber,
 } from "class-validator";
 import { StudentStatus } from "../../../prisma/generated/prisma/enums.js";
 import { Student } from "../../../prisma/generated/prisma/client.js";
@@ -269,6 +270,14 @@ export class CreateStudentDto extends StudentDto {
 export class UpdateStudentDto extends PartialType(
   OmitType(StudentDto, ["id", "createdAt", "updatedAt"]),
 ) {}
+
+// Cho các học sinh này đậu xét tuyển
+export class ApprovedStudentDto {
+  @ApiProperty({ type: Number, required: false })
+  @IsNumber()
+  @IsOptional()
+  quote?: number;
+}
 
 export class SearchStudentDto {
   // --- PHÂN TRANG ---

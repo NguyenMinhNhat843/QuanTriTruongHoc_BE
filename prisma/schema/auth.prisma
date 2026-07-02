@@ -26,6 +26,7 @@ model User {
 */
 enum StudentStatus {
   pending    // Đang đợi xét tuyển
+  failed     // Đã rớt
   approved   // Đã xác nhận nhập học, đợi đóng học phí nhập học
   studying   // Đã có tài khoản và đang theo học chính thức
   suspended  // Đang bảo lưu kết quả học tập hoặc bị đình chỉ tạm thời

@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   ParseIntPipe,
-  HttpStatus,
   Query,
 } from "@nestjs/common";
 import {
@@ -15,15 +14,9 @@ import {
   ApiOperation,
   ApiCreatedResponse,
   ApiOkResponse,
-  ApiResponse,
 } from "@nestjs/swagger";
 import { ClassService } from "./class.service";
-import {
-  AssignStudentsToClassesDto,
-  CreateClassDto,
-  SearchClassDto,
-  UpdateClassDto,
-} from "./class.dto";
+import { CreateClassDto, SearchClassDto, UpdateClassDto } from "./class.dto";
 import { ClassResponseDto } from "./class.response";
 import { ClassBusinessService } from "./class.business";
 
@@ -50,20 +43,6 @@ export class ClassController {
   @ApiOkResponse({ type: ClassResponseDto, isArray: true })
   findAll(@Query() query: SearchClassDto) {
     return this.classService.findAll(query);
-  }
-
-  @Post("/assign-classes")
-  @ApiOperation({
-    summary: "Tự động chia lớp danh nghĩa cho sinh viên chính thức",
-    description:
-      'Gom các sinh viên có trạng thái "studying" chưa có lớp thuộc Ngành và Khóa học được chỉ định để thực hiện thuật toán chia đều lớp dựa trên sĩ số tối đa.',
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: "Tự động xử lý phân phối lớp cho sinh viên thành công.",
-  })
-  async assignStudentsToClasses(@Body() body: AssignStudentsToClassesDto) {
-    return await this.classBusinessService.assignStudentsToClasses(body);
   }
 
   @Get(":id")

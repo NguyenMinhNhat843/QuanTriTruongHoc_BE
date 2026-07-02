@@ -18,6 +18,7 @@ import {
 } from "@nestjs/swagger";
 import { StudentService } from "./student.service.js";
 import {
+  ApprovedStudentDto,
   CreateStudentDto,
   SearchStudentDto,
   UpdateStudentDto,
@@ -27,6 +28,7 @@ import {
   StudentResponseDto,
 } from "./dto/student.response.js";
 import {
+  AssignStudentsToClassesDto,
   GetEligibleStudentsDtoForAssignment,
   GetEligibleStudentsDtoForAssignmentResponse,
 } from "./dto/get-eligible-students.dto.js";
@@ -62,18 +64,6 @@ export class StudentController {
     return this.studentService.createManyStudents(createStudentDtos);
   }
 
-  @Post(":id/approve")
-  @ApiOperation({
-    summary: "Duyệt hồ sơ và cấp tài khoản đăng nhập",
-    operationId: "approveStudent",
-  })
-  @ApiOkResponse({ type: StudentResponseDto })
-  async approve(
-    @Param("id", ParseIntPipe) id: number,
-  ): Promise<StudentResponseDto> {
-    return this.studentService.approveStudent(id);
-  }
-
   // delete student by id
   @Delete(":id")
   @ApiOperation({
@@ -85,7 +75,7 @@ export class StudentController {
     return this.studentService.deleteStudentById(id);
   }
 
-  @Get()
+  @Get("/")
   @ApiOperation({
     summary: "Tìm kiếm và phân trang danh sách sinh viên",
     operationId: "searchStudents",
@@ -96,7 +86,6 @@ export class StudentController {
     return this.studentService.searchStudents(query);
   }
 
-  @Get("/")
   @Get("search-by-code")
   @ApiOperation({
     summary: "Tìm sinh viên theo mã sinh viên",
@@ -119,11 +108,9 @@ export class StudentController {
     @Query() query: GetEligibleStudentsDtoForAssignment,
   ) {
     const { batchId } = query;
-    const result = await this.studentService.searchStudents({
-      status: "studying",
-      classId: null,
-      batchId: batchId,
-    });
+    if (!batchId) return [];
+    const result =
+      await this.studentService.getEligibleStudentsForAssignment(batchId);
     const resultFormat = result.students.map((student) => {
       return {
         student: {
@@ -142,6 +129,24 @@ export class StudentController {
       GetEligibleStudentsDtoForAssignmentResponse,
       resultFormat,
     );
+  }
+
+  @Patch("approve")
+  @ApiOperation({
+    summary: "Duyệt hồ sơ sinh viên",
+    operationId: "approveStudent",
+  })
+  async approveStudents(@Body() body: ApprovedStudentDto) {
+    return this.studentService.approveStudent(body);
+  }
+
+  @Patch("assign-classes")
+  @ApiOperation({
+    summary: "Phân lớp cho sinh viên",
+    operationId: "assignStudentsToClasses",
+  })
+  async assignStudentsToClasses(@Body() body: AssignStudentsToClassesDto) {
+    return this.studentService.assignStudentsToClasses(body);
   }
 
   @Patch(":id")

@@ -1,4 +1,4 @@
-import { ApiProperty, PickType } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PickType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNumber, IsOptional } from "class-validator";
 import { StudentResponseDto } from "./student.response";
@@ -34,4 +34,16 @@ export class GetEligibleStudentsDtoForAssignmentResponse {
 
   @ApiProperty({ type: BatchSimpleDto })
   batch: BatchSimpleDto;
+}
+
+export class AssignStudentsToClassesDto {
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  batchId?: number;
+
+  @ApiPropertyOptional({ type: Number, default: 40 })
+  @IsOptional()
+  @IsNumber()
+  studentsPerClass?: number;
 }
