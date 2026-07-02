@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { SubjectResponseDto } from "../subject/subject.response";
 import { CurriculumSubject } from "../../prisma/generated/prisma/client";
+import { ResponseSubjectDto } from "../subject/subject.dto";
 
 export class CurriculumSubjectResponseDto implements CurriculumSubject {
   @ApiProperty({ example: 1 })
@@ -26,7 +26,7 @@ export class CurriculumSubjectResponseDto implements CurriculumSubject {
 
   // --- Dữ liệu quan hệ (Thường dùng nhất là thông tin môn học) ---
   @ApiPropertyOptional({ description: "Thông tin chi tiết môn học" })
-  subject?: SubjectResponseDto;
+  subject?: ResponseSubjectDto;
 
   @ApiPropertyOptional({ description: "Thông tin chương trình khung" })
   curriculum?: any;

@@ -1,3 +1,7 @@
+import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
+import { PrismaService } from "../prisma/prisma.service";
+import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+
 export class AcademicUtils {
   /**
    * Tính toán chỉ số học kỳ (Semester Index) của sinh viên
@@ -41,4 +45,50 @@ export class AcademicUtils {
       b.startTime < a.endTime
     );
   };
+}
+
+export async function resolveCurriculumSemesterNumber(
+  prisma: PrismaService, // Truyền prisma instance từ nơi gọi vào đây
+  classId: number,
+  semesterId: number,
+): Promise<number> {
+  const classInfo = await prisma.class.findUnique({
+    where: { id: classId },
+    include: { batch: true },
+  });
+
+  if (!classInfo) {
+    throw new NotFoundException(`Không tìm thấy lớp học có ID ${classId}`);
+  }
+
+  if (!classInfo.batch || !classInfo.batch.curriculumId) {
+    throw new BadRequestException(
+      "Lớp học chưa được gán Khóa đào tạo hoặc Chương trình khung.",
+    );
+  }
+
+  const semester = await prisma.semester.findUnique({
+    where: { id: semesterId },
+  });
+
+  if (!semester) {
+    throw new NotFoundException(`Không tìm thấy học kỳ có ID ${semesterId}`);
+  }
+
+  if (!semester.year || !semester.term) {
+    throw new BadRequestException(
+      "Học kỳ thực tế thiếu dữ liệu năm học (year) hoặc kỳ học (term).",
+    );
+  }
+
+  const yearDiff = semester.year - classInfo.batch.startYear;
+  const semesterNumber = yearDiff * 2 + semester.term;
+
+  if (semesterNumber <= 0) {
+    throw new BadRequestException(
+      "Học kỳ truyền vào diễn ra trước khi Khóa học bắt đầu.",
+    );
+  }
+
+  return semesterNumber;
 }

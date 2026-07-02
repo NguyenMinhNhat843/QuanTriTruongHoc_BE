@@ -12,12 +12,12 @@ import {
 } from "class-validator";
 import { StaffResponseDto } from "../staff/staff.response";
 import { SemesterResponseDto } from "../semester/semester.response";
-import { SubjectResponseDto } from "../subject/subject.response";
 import { ClassResponseDto } from "../class/class.response";
 import { Type } from "class-transformer";
 import { CourseOfferStatus } from "../../prisma/generated/prisma/enums";
 import { CourseOffer } from "../../prisma/generated/prisma/client";
 import { CourseOfferRegisResponseDto } from "./grades.response";
+import { ResponseSubjectDto } from "../subject/subject.dto";
 
 export class CourseOfferDetailResponseDto implements CourseOffer {
   @ApiProperty({ example: 1, description: "ID duy nhất của lớp học phần" })
@@ -171,14 +171,14 @@ export class CourseOfferDetailResponseDto implements CourseOffer {
   baseClass: ClassResponseDto | null;
 
   @ApiPropertyOptional({
-    type: () => SubjectResponseDto,
+    type: () => ResponseSubjectDto,
     nullable: true,
     description: "Thông tin chi tiết của môn học",
   })
   @IsOptional()
   @ValidateNested()
-  @Type(() => SubjectResponseDto)
-  subject: SubjectResponseDto | null;
+  @Type(() => ResponseSubjectDto)
+  subject: ResponseSubjectDto | null;
 
   @ApiPropertyOptional({
     type: () => SemesterResponseDto,

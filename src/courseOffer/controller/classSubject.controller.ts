@@ -11,22 +11,23 @@ import {
   Res,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { ClassSubjectService } from "./classSubject.service";
 
 import { Response } from "express";
 import {
   ClassSubjectResponseDto,
-  CourseOfferDto,
+  ClassSubjectDto,
   ResponsePreviewGenerateSectionForClass,
-} from "./classSubject.response";
+} from "../classSubject.response";
 import {
   ExportGradeTableDto,
   SearchClassSubjectDto,
   updateClassSubjectDto,
-} from "./classSubject.dto";
-import { ExportGradeTableService } from "./exportGrades.service";
-import { ClassSubjectGenerateService } from "./classSubjectGenerate.service";
-import { CourseOfferDetailResponseDto } from "./classSubjectDetail.response";
+} from "../dto/classSubject.dto";
+import { ExportGradeTableService } from "../exportGrades.service";
+import { ClassSubjectGenerateService } from "../classSubjectGenerate.service";
+import { CourseOfferDetailResponseDto } from "../classSubjectDetail.response";
+import { ClassSubjectService } from "../service/classSubject.service";
+import { ResponseTrainingProgressDto } from "../dto/trainingProgress.dto";
 
 @ApiTags("ClassSubject - Môn học trong lớp học")
 @Controller("course-offers")
@@ -38,25 +39,12 @@ export class ClassSubjectController {
   ) {}
 
   /**
-   * Lấy danh sách môn học trong lớp học
-   */
-  @Get()
-  @ApiOperation({ summary: "Lấy danh sách Môn học trong lớp học" })
-  @ApiResponse({
-    status: 200,
-    type: [ClassSubjectResponseDto],
-  })
-  async getAll(@Query() query: SearchClassSubjectDto) {
-    return this.classSubjectService.findAll(query);
-  }
-
-  /**
    * Cập nhật môn học trong lớp học
    */
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật môn học trong lớp học" })
   @ApiResponse({
-    type: CourseOfferDto,
+    type: ClassSubjectDto,
   })
   async updateClassSubject(
     @Param("id", ParseIntPipe) classSubjectId: number,
@@ -65,28 +53,6 @@ export class ClassSubjectController {
     return await this.classSubjectService.updateClassSubject(
       classSubjectId,
       updateData,
-    );
-  }
-
-  /**
-   * Xem trước danh sách ClassSubject sẽ sinh trong 1 học kỳ theo chương trình khung của 1 Class
-   */
-  @Get("previewpreviewGenerateSectionForClass")
-  @ApiOperation({
-    summary: "Xem trước danh sách lớp học phần tự động",
-  })
-  @ApiResponse({
-    status: 200,
-    description: "Lấy dữ liệu cấu trúc xem trước thành công.",
-    type: [ResponsePreviewGenerateSectionForClass],
-  })
-  async previewGenerateSectionForClass(
-    @Query("classId", ParseIntPipe) classId: number,
-    @Query("semesterId", ParseIntPipe) semesterId: number,
-  ) {
-    return this.classSubjectService.previewGenerateSectionForClass(
-      classId,
-      semesterId,
     );
   }
 
@@ -135,16 +101,6 @@ export class ClassSubjectController {
   }
 
   /**
-   * Lấy chi tiết classSubject, bao gồm bảng điểm của lớp đó
-   */
-  @Get(":id")
-  @ApiOperation({ summary: "Lấy chi tiết môn học trong lớp học" })
-  @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
-  async getDetail(@Param("id", ParseIntPipe) id: number) {
-    return await this.classSubjectService.getCourseOfferDetail(id);
-  }
-
-  /**
    * Xuất file excel bảng điểm chuẩn Giáo dục (Tự sinh layout linh hoạt)
    */
   @Post("/export-excel")
@@ -187,6 +143,41 @@ export class ClassSubjectController {
   }
 
   /**
+   * Lấy danh sách môn học trong lớp học
+   */
+  @Get()
+  @ApiOperation({ summary: "Lấy danh sách Môn học trong lớp học" })
+  @ApiResponse({
+    status: 200,
+    type: [ClassSubjectResponseDto],
+  })
+  async getAll(@Query() query: SearchClassSubjectDto) {
+    return this.classSubjectService.findAll(query);
+  }
+
+  /**
+   * Xem trước danh sách ClassSubject sẽ sinh trong 1 học kỳ theo chương trình khung của 1 Class
+   */
+  @Get("previewpreviewGenerateSectionForClass")
+  @ApiOperation({
+    summary: "Xem trước danh sách lớp học phần tự động",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Lấy dữ liệu cấu trúc xem trước thành công.",
+    type: [ResponsePreviewGenerateSectionForClass],
+  })
+  async previewGenerateSectionForClass(
+    @Query("classId", ParseIntPipe) classId: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return this.classSubjectService.previewGenerateSectionForClass(
+      classId,
+      semesterId,
+    );
+  }
+
+  /**
    * API xuất bảng điểm Excel cho một học sinh từ đầu kỳ tới giờ
    * @route GET /grades/student/:id/export-excel
    */
@@ -223,5 +214,28 @@ export class ClassSubjectController {
         error: error.message,
       });
     }
+  }
+
+  /**
+   * Lấy Bảng tiến độ đào tạo
+   */
+  @Get("training-progress/:classId/:semesterId")
+  @ApiOperation({ summary: "Lấy Bảng tiến độ đào tạo" })
+  @ApiResponse({ status: 200, type: ResponseTrainingProgressDto })
+  async getTrainingProgress(
+    @Param("classId", ParseIntPipe) classId: number,
+    @Param("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return await this.classSubjectService.getStudySchedule(classId, semesterId);
+  }
+
+  /**
+   * Lấy chi tiết classSubject, bao gồm bảng điểm của lớp đó
+   */
+  @Get(":id")
+  @ApiOperation({ summary: "Lấy chi tiết môn học trong lớp học" })
+  @ApiResponse({ status: 200, type: CourseOfferDetailResponseDto })
+  async getDetail(@Param("id", ParseIntPipe) id: number) {
+    return await this.classSubjectService.getCourseOfferDetail(id);
   }
 }

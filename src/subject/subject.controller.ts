@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -15,8 +16,11 @@ import {
   ApiOkResponse,
 } from "@nestjs/swagger";
 import { SubjectService } from "./subject.service";
-import { CreateSubjectDto, UpdateSubjectDto } from "./subject.dto";
-import { SubjectResponseDto } from "./subject.response";
+import {
+  CreateSubjectDto,
+  ResponseSubjectDto,
+  UpdateSubjectDto,
+} from "./subject.dto";
 
 @ApiTags("Subjects")
 @Controller("subjects")
@@ -25,28 +29,41 @@ export class SubjectController {
 
   @Post()
   @ApiOperation({ summary: "Tạo mới môn học" })
-  @ApiCreatedResponse({ type: SubjectResponseDto })
+  @ApiCreatedResponse({ type: ResponseSubjectDto })
   create(@Body() createSubjectDto: CreateSubjectDto) {
     return this.subjectService.create(createSubjectDto);
   }
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả môn học" })
-  @ApiOkResponse({ type: SubjectResponseDto, isArray: true })
+  @ApiOkResponse({ type: ResponseSubjectDto, isArray: true })
   findAll() {
     return this.subjectService.findAll();
   }
 
+  @Get("subjects-by-class-and-semester")
+  @ApiOperation({ summary: "Lấy danh sách môn học theo lớp và học kỳ" })
+  @ApiOkResponse({ type: ResponseSubjectDto, isArray: true })
+  getSubjectsByClassAndSemester(
+    @Query("classId", ParseIntPipe) classId: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+  ) {
+    return this.subjectService.getSubjectsByClassAndSemester(
+      classId,
+      semesterId,
+    );
+  }
+
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết môn học theo ID" })
-  @ApiOkResponse({ type: SubjectResponseDto })
+  @ApiOkResponse({ type: ResponseSubjectDto })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.subjectService.findOne(id);
   }
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật thông tin môn học" })
-  @ApiOkResponse({ type: SubjectResponseDto })
+  @ApiOkResponse({ type: ResponseSubjectDto })
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateSubjectDto: UpdateSubjectDto,

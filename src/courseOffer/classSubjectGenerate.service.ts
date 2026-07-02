@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateBulkClassSubjectDto } from "./classSubject.dto";
+import { CreateBulkClassSubjectDto } from "./dto/classSubject.dto";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()

@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
-import { ClassSubjectController } from "./classSubject.controller";
-import { ClassSubjectService } from "./classSubject.service";
+import { ClassSubjectController } from "./controller/classSubject.controller";
 import { CourseRegistrationController } from "./grades.controller";
 import { CourseRegistrationService } from "./grades.service";
 import { SubjectModule } from "../subject/subject.module";
@@ -9,6 +8,7 @@ import { CurriculumSubjectModule } from "../curriculumSubject/curriculumnSubject
 import { BatchModule } from "../batch/batch.module";
 import { ExportGradeTableService } from "./exportGrades.service";
 import { ClassSubjectGenerateService } from "./classSubjectGenerate.service";
+import { ClassSubjectService } from "./service/classSubject.service";
 
 @Module({
   imports: [SubjectModule, CurriculumSubjectModule, BatchModule],

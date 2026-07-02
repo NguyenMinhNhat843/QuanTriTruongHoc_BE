@@ -27,6 +27,7 @@ import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
 import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
 import { AdmissionProfileModule } from "./admission-profile/admission-profile.module.js";
+import { TrainingProgressModule } from "./training-progress/training-progress.module.js";
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { AdmissionProfileModule } from "./admission-profile/admission-profile.mo
     CloudinaryModule,
     DocumentProfileModule,
     AdmissionProfileModule,
+    TrainingProgressModule,
   ],
 })
 export class AppModule {}

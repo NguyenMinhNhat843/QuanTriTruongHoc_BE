@@ -1,60 +1,89 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, OmitType, PickType } from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsOptional,
   IsString,
   IsInt,
-  MaxLength,
-  Min,
+  IsDate,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 import { Subject } from "../../prisma/generated/prisma/client";
 
-export class CreateSubjectDto implements Omit<
-  Subject,
-  "id" | "createdAt" | "updatedAt"
-> {
-  @ApiProperty({ example: "BAS1201", description: "Mã môn học duy nhất" })
+export class SubjectDto implements Subject {
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  id: number;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @IsInt()
+  @IsOptional()
+  departmentId: number | null;
+
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty({ message: "Mã môn học không được để trống" })
-  @MaxLength(20)
+  @IsNotEmpty()
   subjectCode: string;
 
-  @ApiProperty({ example: "Lập trình hướng đối tượng" })
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty({ message: "Tên môn học không được để trống" })
-  @MaxLength(255)
+  @IsNotEmpty()
   subjectName: string;
 
-  @ApiProperty({ example: 3, default: 0 })
+  @ApiProperty()
   @IsInt()
-  @Min(0)
+  @IsNotEmpty()
   credits: number;
 
-  @ApiProperty({ example: 30, default: 0 })
-  @IsInt()
-  @Min(0)
-  theoryHours: number;
-
-  @ApiProperty({ example: 15, default: 0 })
-  @IsInt()
-  @Min(0)
-  practiceHours: number;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   @IsString()
   @IsOptional()
   description: string | null;
 
-  @ApiPropertyOptional({ type: Number, nullable: true })
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  practiceHours: number;
+
+  @ApiProperty({ type: Number, nullable: true })
   @IsInt()
   @IsOptional()
   testHours: number | null;
 
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @IsOptional()
+  @ApiProperty()
   @IsInt()
-  departmentId: number | null;
+  @IsNotEmpty()
+  theoryHours: number;
+
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  updatedAt: Date;
 }
 
+export class CreateSubjectDto extends OmitType(SubjectDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+] as const) {}
+
 export class UpdateSubjectDto extends PartialType(CreateSubjectDto) {}
+
+export class SearchSubjectDto extends PartialType(
+  PickType(SubjectDto, [
+    "id",
+    "departmentId",
+    "subjectCode",
+    "subjectName",
+  ] as const),
+) {
+  @ApiProperty({ type: String, required: false })
+  keuword?: string;
+}
+
+export class ResponseSubjectDto extends SubjectDto {}

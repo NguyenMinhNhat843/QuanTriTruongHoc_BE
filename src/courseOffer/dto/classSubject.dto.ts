@@ -1,9 +1,15 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  OmitType,
+  PartialType,
+} from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import {
   ArrayMinSize,
   IsArray,
   IsBoolean,
+  IsDate,
   IsDateString,
   IsEnum,
   IsInt,
@@ -13,43 +19,63 @@ import {
   Matches,
   ValidateNested,
 } from "class-validator";
-import { DayOfWeek } from "../../prisma/generated/prisma/enums";
+import { DayOfWeek } from "../../../prisma/generated/prisma/enums";
+import { ClassSubjectDto } from "../classSubject.response";
 
-/**
- * Dto search lớp học phần
- */
-export class SearchClassSubjectDto {
-  @ApiPropertyOptional({
-    description: "ID của lớp hành chính (Lớp danh nghĩa)",
-  })
-  @IsOptional()
+export class ClassSubject implements ClassSubjectDto {
+  @ApiProperty()
   @IsInt()
-  @Transform(({ value }) => Number(value))
-  classId?: number;
+  @IsNotEmpty()
+  id: number;
 
-  @ApiPropertyOptional({
-    description: "ID của ngành học",
-  })
+  @ApiProperty({ type: Number, nullable: true })
+  @IsInt()
+  @IsOptional()
+  @Type(() => Number)
+  teacherId: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @IsInt()
+  @IsOptional()
+  @Type(() => Number)
+  classId: number | null;
+
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  @Type(() => Number)
+  semesterId: number;
+
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  subjectId: number;
+
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDate()
+  @IsNotEmpty()
+  updatedAt: Date;
+}
+
+export class CreateClassSubjectDto extends OmitType(ClassSubject, [
+  "id",
+  "createdAt",
+  "updatedAt",
+] as const) {}
+
+export class UpdateClassSubjectDto extends PartialType(CreateClassSubjectDto) {}
+
+export class SearchClassSubjectDto extends PartialType(ClassSubject) {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsInt()
   @Transform(({ value }) => Number(value))
   majorId?: number;
-
-  @ApiPropertyOptional({
-    description: "ID của học kỳ",
-  })
-  @IsOptional()
-  @IsInt()
-  @Transform(({ value }) => Number(value))
-  semesterId?: number;
-
-  @ApiPropertyOptional({
-    description: "ID của giảng viên phụ trách",
-  })
-  @IsOptional()
-  @IsInt()
-  @Transform(({ value }) => Number(value))
-  teacherId?: number;
 }
 
 export class CreateBulkClassSubjectDto {
@@ -77,42 +103,12 @@ export class CreateBulkClassSubjectDto {
 
   @ApiPropertyOptional({
     example: 50,
-    description:
-      "Số lượng sinh viên tối đa mặc định nếu lớp danh nghĩa không có dữ liệu",
+    description: "Số lượng sinh viên tối đa mặc định nếu lớp không có dữ liệu",
   })
   @IsInt()
   @IsOptional()
   @Type(() => Number)
   defaultMaxStudents?: number;
-}
-
-// Tạo lớp học phần tùy chọn
-export class CreateClassSubjectDto {
-  @ApiProperty({ example: 1, description: "ID học kỳ muốn mở lớp" })
-  @IsInt()
-  @IsNotEmpty()
-  semesterId: number;
-
-  @ApiProperty({ example: 10, description: "ID môn học" })
-  @IsInt()
-  @IsNotEmpty()
-  subjectId: number;
-
-  @ApiPropertyOptional({
-    example: 5,
-    description: "ID lớp danh nghĩa nòng cốt (nếu có)",
-  })
-  @IsInt()
-  @IsOptional()
-  classId?: number;
-
-  @ApiPropertyOptional({
-    example: 15,
-    description: "ID giảng viên phụ trách (nếu muốn chỉ định ngay)",
-  })
-  @IsInt()
-  @IsOptional()
-  teacherId?: number;
 }
 
 export class ScheduleItemDto {

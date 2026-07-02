@@ -12,9 +12,9 @@ import { CourseOffer } from "../../prisma/generated/prisma/client";
 import { ClassResponseDto } from "../class/class.response";
 import { StaffResponseDto } from "../staff/staff.response";
 import { SemesterResponseDto } from "../semester/semester.response";
-import { SubjectResponseDto } from "../subject/subject.response";
+import { ResponseSubjectDto } from "../subject/subject.dto";
 
-export class CourseOfferDto implements CourseOffer {
+export class ClassSubjectDto implements CourseOffer {
   @ApiProperty()
   @IsInt()
   @IsNotEmpty()
@@ -51,7 +51,7 @@ export class CourseOfferDto implements CourseOffer {
   updatedAt: Date;
 }
 
-export class ClassSubjectResponseDto extends CourseOfferDto {
+export class ClassSubjectResponseDto extends ClassSubjectDto {
   @ApiPropertyOptional({ type: () => ClassResponseDto })
   baseClass?: ClassResponseDto;
 
@@ -61,11 +61,11 @@ export class ClassSubjectResponseDto extends CourseOfferDto {
   @ApiPropertyOptional({ type: () => SemesterResponseDto })
   semester?: SemesterResponseDto;
 
-  @ApiPropertyOptional({ type: () => SubjectResponseDto })
-  subject?: SubjectResponseDto;
+  @ApiPropertyOptional({ type: () => ResponseSubjectDto })
+  subject?: ResponseSubjectDto;
 }
 
-export class ResponseGetDetailCourseOffer extends CourseOfferDto {}
+export class ResponseGetDetailCourseOffer extends ClassSubjectDto {}
 
 /**
  * Response api previewGenerateSectionForClass
