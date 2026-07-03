@@ -40,6 +40,7 @@ export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[key
 
 export const StudentStatus = {
   pending: 'pending',
+  failed: 'failed',
   approved: 'approved',
   studying: 'studying',
   suspended: 'suspended',

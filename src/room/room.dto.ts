@@ -1,41 +1,28 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import {
-  IsNotEmpty,
-  IsString,
-  IsInt,
-  IsOptional,
-  Min,
-  MaxLength,
-} from "class-validator";
+import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { PartialType } from "@nestjs/swagger";
+import { Room } from "../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
+export class RoomDto implements Room {
+  @ApiProperty()
+  id: number;
 
-export class CreateRoomDto {
-  @ApiProperty({ example: "A1.102", description: "Mã phòng học duy nhất" })
-  @IsString()
-  @IsNotEmpty({ message: "Mã phòng học không được để trống" })
-  @MaxLength(20)
+  @ApiProperty()
+  building: string | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  capacity: number | null;
+
+  @ApiProperty()
   roomCode: string;
 
-  @ApiProperty({
-    example: "theory",
-    description:
-      "Loại phòng: theory (lý thuyết), practice (thực hành), hall (hội trường)",
-  })
-  @IsString()
-  @IsNotEmpty({ message: "Loại phòng không được để trống" })
+  @ApiProperty()
   type: string;
 
-  @ApiPropertyOptional({ example: 45, description: "Sức chứa của phòng" })
-  @IsInt()
-  @Min(1)
-  @IsOptional()
-  capacity?: number;
-
-  @ApiPropertyOptional({ example: "Tòa A", description: "Tòa nhà" })
-  @IsString()
-  @IsOptional()
-  @MaxLength(50)
-  building?: string;
+  @ApiProperty()
+  @Type(() => Date)
+  createdAt: Date;
 }
 
+export class CreateRoomDto extends OmitType(RoomDto, ["id", "createdAt"]) {}
 export class UpdateRoomDto extends PartialType(CreateRoomDto) {}

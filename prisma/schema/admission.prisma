@@ -1,0 +1,109 @@
+// ======================================
+// 1. ĐỢT TUYỂN SINH TỔNG THỂ
+// ======================================
+model Admission {
+  id        Int      @id @default(autoincrement())
+  name      String   // Ví dụ: Tuyển sinh Đợt 1 - 2026
+  startDate DateTime
+  endDate   DateTime
+  status    AdmissionStatus   @default(OPEN) // OPEN, CLOSED, ARCHIVED
+
+  items     AdmissionItem[]
+  applications  Application[]
+
+  @@map("admissions")
+}
+
+// ===================================================
+// 2. CHI TIẾT TUYỂN SINH THEO NGÀNH (Mục tiêu & Khóa)
+// ===================================================
+model AdmissionItem {
+  id          Int      @id @default(autoincrement())
+  
+  admissionId Int
+  admission   Admission @relation(fields: [admissionId], references: [id], onDelete: Cascade)
+
+  majorId     Int
+  major       Major     @relation(fields: [majorId], references: [id])
+
+  batchName   String    // Ví dụ: "K18" - Tự động tính toán từ Major.currentBatch + 1
+  quota       Int       // Chỉ tiêu số lượng sinh viên
+
+  // Quan hệ
+  criteria     AdmissionItemCriterion[] // Các điều kiện để trúng tuyển ngành này
+  applications Application[]
+
+  @@map("admission_items")
+}
+
+// ===================================================
+// 3. DANH MỤC TIÊU CHÍ (Bảng định nghĩa các tiêu chí mẫu)
+// ===================================================
+model Criterion {
+  id            Int      @id @default(autoincrement())
+  criterionName String   // Ví dụ: "Điểm Toán", "IELTS", "Điểm Học bạ"
+  type          String   // Ví dụ: "NUMBER", "STRING", "BOOLEAN" để dễ quản lý dữ liệu đầu vào
+  description   String?
+
+  // Quan hệ ngược lại
+  admissionItems AdmissionItemCriterion[]
+
+  @@map("criteria")
+}
+
+// ===================================================
+// 4. BẢNG TRUNG GIAN (Nối Chi tiết tuyển sinh và Tiêu chí)
+// ===================================================
+model AdmissionItemCriterion {
+  admissionItemId Int
+  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id], onDelete: Cascade)
+
+  criterionId     Int
+  criterion       Criterion     @relation(fields: [criterionId], references: [id])
+
+  // Dữ liệu đặc thù cho từng ngành (Ví dụ: Ngành IT yêu cầu Toán > 8, nhưng Kinh tế chỉ cần > 7)
+  minValue        Float?   
+  isRequired      Boolean  @default(true)
+  weight          Float?   // Trọng số (nếu có, ví dụ Toán hệ số 2)
+
+  @@id([admissionItemId, criterionId]) // Khóa chính tổ hợp
+  @@map("admission_item_criteria")
+}
+
+// ===================================================
+// 4. ĐƠN ỨNG TUYỂN (Dữ liệu từ thí sinh)
+// ===================================================
+enum ApplycationAdmissionStatus {
+  PENDING
+  QUALIFIED
+  ADMITTED
+  REJECTED
+   }
+
+model Application {
+  id              Int      @id @default(autoincrement())
+  fullName        String
+  email           String
+  phone           String
+  
+  // Dữ liệu xét tuyển (Lưu dưới dạng JSON để linh hoạt các loại điểm/chứng chỉ)
+  rawdata         Json?    // Ví dụ: { "math_score": 8.5, "ielts": 6.0, "highschool_graduated": true }
+
+  admissionId     Int?
+  admission       Admission?  @relation(fields: [admissionId], references: [id], onDelete: Cascade)
+
+  admissionItemId Int
+  admissionItem   AdmissionItem @relation(fields: [admissionItemId], references: [id], onDelete: Cascade)
+
+  status          ApplycationAdmissionStatus   @default(PENDING) 
+  // PENDING: Chờ xét
+  // QUALIFIED: Đủ điều kiện (vượt qua vòng điểm số)
+  // ADMITTED: Đã trúng tuyển (nằm trong danh sách chỉ tiêu)
+  // REJECTED: Đã loại
+
+  createdAt       DateTime @default(now())
+
+  @@map("applications")
+
+  student     Student?
+}

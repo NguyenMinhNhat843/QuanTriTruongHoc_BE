@@ -27,7 +27,6 @@ import { ExportGradeTableService } from "../exportGrades.service";
 import { ClassSubjectGenerateService } from "../classSubjectGenerate.service";
 import { CourseOfferDetailResponseDto } from "../classSubjectDetail.response";
 import { ClassSubjectService } from "../service/classSubject.service";
-import { ResponseTrainingProgressDto } from "../dto/trainingProgress.dto";
 
 @ApiTags("ClassSubject - Môn học trong lớp học")
 @Controller("course-offers")
@@ -214,19 +213,6 @@ export class ClassSubjectController {
         error: error.message,
       });
     }
-  }
-
-  /**
-   * Lấy Bảng tiến độ đào tạo
-   */
-  @Get("training-progress/:classId/:semesterId")
-  @ApiOperation({ summary: "Lấy Bảng tiến độ đào tạo" })
-  @ApiResponse({ status: 200, type: ResponseTrainingProgressDto })
-  async getTrainingProgress(
-    @Param("classId", ParseIntPipe) classId: number,
-    @Param("semesterId", ParseIntPipe) semesterId: number,
-  ) {
-    return await this.classSubjectService.getStudySchedule(classId, semesterId);
   }
 
   /**

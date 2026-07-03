@@ -228,7 +228,8 @@ export type RoomWhereInput = {
   capacity?: Prisma.IntNullableFilter<"Room"> | number | null
   building?: Prisma.StringNullableFilter<"Room"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
-  classSubjectSchedules?: Prisma.ClassSubjectScheduleListRelationFilter
+  classSubjectSessions?: Prisma.ClassSubjectSessionListRelationFilter
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailListRelationFilter
 }
 
 export type RoomOrderByWithRelationInput = {
@@ -238,7 +239,8 @@ export type RoomOrderByWithRelationInput = {
   capacity?: Prisma.SortOrderInput | Prisma.SortOrder
   building?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  classSubjectSchedules?: Prisma.ClassSubjectScheduleOrderByRelationAggregateInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionOrderByRelationAggregateInput
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailOrderByRelationAggregateInput
 }
 
 export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -251,7 +253,8 @@ export type RoomWhereUniqueInput = Prisma.AtLeast<{
   capacity?: Prisma.IntNullableFilter<"Room"> | number | null
   building?: Prisma.StringNullableFilter<"Room"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
-  classSubjectSchedules?: Prisma.ClassSubjectScheduleListRelationFilter
+  classSubjectSessions?: Prisma.ClassSubjectSessionListRelationFilter
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailListRelationFilter
 }, "id" | "roomCode">
 
 export type RoomOrderByWithAggregationInput = {
@@ -286,7 +289,8 @@ export type RoomCreateInput = {
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
-  classSubjectSchedules?: Prisma.ClassSubjectScheduleCreateNestedManyWithoutRoomInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutRoomInput
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateInput = {
@@ -296,7 +300,8 @@ export type RoomUncheckedCreateInput = {
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
-  classSubjectSchedules?: Prisma.ClassSubjectScheduleUncheckedCreateNestedManyWithoutRoomInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutRoomInput
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUpdateInput = {
@@ -305,7 +310,8 @@ export type RoomUpdateInput = {
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classSubjectSchedules?: Prisma.ClassSubjectScheduleUpdateManyWithoutRoomNestedInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutRoomNestedInput
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateInput = {
@@ -315,7 +321,8 @@ export type RoomUncheckedUpdateInput = {
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classSubjectSchedules?: Prisma.ClassSubjectScheduleUncheckedUpdateManyWithoutRoomNestedInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutRoomNestedInput
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateManyInput = {
@@ -386,6 +393,22 @@ export type RoomNullableScalarRelationFilter = {
   isNot?: Prisma.RoomWhereInput | null
 }
 
+export type RoomCreateNestedOneWithoutClassSubjectSessionsInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutClassSubjectSessionsInput, Prisma.RoomUncheckedCreateWithoutClassSubjectSessionsInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutClassSubjectSessionsInput
+  connect?: Prisma.RoomWhereUniqueInput
+}
+
+export type RoomUpdateOneWithoutClassSubjectSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.RoomCreateWithoutClassSubjectSessionsInput, Prisma.RoomUncheckedCreateWithoutClassSubjectSessionsInput>
+  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutClassSubjectSessionsInput
+  upsert?: Prisma.RoomUpsertWithoutClassSubjectSessionsInput
+  disconnect?: Prisma.RoomWhereInput | boolean
+  delete?: Prisma.RoomWhereInput | boolean
+  connect?: Prisma.RoomWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutClassSubjectSessionsInput, Prisma.RoomUpdateWithoutClassSubjectSessionsInput>, Prisma.RoomUncheckedUpdateWithoutClassSubjectSessionsInput>
+}
+
 export type RoomCreateNestedOneWithoutClassSubjectSchedulesInput = {
   create?: Prisma.XOR<Prisma.RoomCreateWithoutClassSubjectSchedulesInput, Prisma.RoomUncheckedCreateWithoutClassSubjectSchedulesInput>
   connectOrCreate?: Prisma.RoomCreateOrConnectWithoutClassSubjectSchedulesInput
@@ -402,12 +425,67 @@ export type RoomUpdateOneWithoutClassSubjectSchedulesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutClassSubjectSchedulesInput, Prisma.RoomUpdateWithoutClassSubjectSchedulesInput>, Prisma.RoomUncheckedUpdateWithoutClassSubjectSchedulesInput>
 }
 
+export type RoomCreateWithoutClassSubjectSessionsInput = {
+  roomCode: string
+  type: string
+  capacity?: number | null
+  building?: string | null
+  createdAt?: Date | string
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailCreateNestedManyWithoutRoomInput
+}
+
+export type RoomUncheckedCreateWithoutClassSubjectSessionsInput = {
+  id?: number
+  roomCode: string
+  type: string
+  capacity?: number | null
+  building?: string | null
+  createdAt?: Date | string
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailUncheckedCreateNestedManyWithoutRoomInput
+}
+
+export type RoomCreateOrConnectWithoutClassSubjectSessionsInput = {
+  where: Prisma.RoomWhereUniqueInput
+  create: Prisma.XOR<Prisma.RoomCreateWithoutClassSubjectSessionsInput, Prisma.RoomUncheckedCreateWithoutClassSubjectSessionsInput>
+}
+
+export type RoomUpsertWithoutClassSubjectSessionsInput = {
+  update: Prisma.XOR<Prisma.RoomUpdateWithoutClassSubjectSessionsInput, Prisma.RoomUncheckedUpdateWithoutClassSubjectSessionsInput>
+  create: Prisma.XOR<Prisma.RoomCreateWithoutClassSubjectSessionsInput, Prisma.RoomUncheckedCreateWithoutClassSubjectSessionsInput>
+  where?: Prisma.RoomWhereInput
+}
+
+export type RoomUpdateToOneWithWhereWithoutClassSubjectSessionsInput = {
+  where?: Prisma.RoomWhereInput
+  data: Prisma.XOR<Prisma.RoomUpdateWithoutClassSubjectSessionsInput, Prisma.RoomUncheckedUpdateWithoutClassSubjectSessionsInput>
+}
+
+export type RoomUpdateWithoutClassSubjectSessionsInput = {
+  roomCode?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailUpdateManyWithoutRoomNestedInput
+}
+
+export type RoomUncheckedUpdateWithoutClassSubjectSessionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  roomCode?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classSubjectSchedules?: Prisma.ClassSubjectScheduleDetailUncheckedUpdateManyWithoutRoomNestedInput
+}
+
 export type RoomCreateWithoutClassSubjectSchedulesInput = {
   roomCode: string
   type: string
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
+  classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateWithoutClassSubjectSchedulesInput = {
@@ -417,6 +495,7 @@ export type RoomUncheckedCreateWithoutClassSubjectSchedulesInput = {
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomCreateOrConnectWithoutClassSubjectSchedulesInput = {
@@ -441,6 +520,7 @@ export type RoomUpdateWithoutClassSubjectSchedulesInput = {
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateWithoutClassSubjectSchedulesInput = {
@@ -450,6 +530,7 @@ export type RoomUncheckedUpdateWithoutClassSubjectSchedulesInput = {
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 
@@ -458,10 +539,12 @@ export type RoomUncheckedUpdateWithoutClassSubjectSchedulesInput = {
  */
 
 export type RoomCountOutputType = {
+  classSubjectSessions: number
   classSubjectSchedules: number
 }
 
 export type RoomCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  classSubjectSessions?: boolean | RoomCountOutputTypeCountClassSubjectSessionsArgs
   classSubjectSchedules?: boolean | RoomCountOutputTypeCountClassSubjectSchedulesArgs
 }
 
@@ -478,8 +561,15 @@ export type RoomCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * RoomCountOutputType without action
  */
+export type RoomCountOutputTypeCountClassSubjectSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClassSubjectSessionWhereInput
+}
+
+/**
+ * RoomCountOutputType without action
+ */
 export type RoomCountOutputTypeCountClassSubjectSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ClassSubjectScheduleWhereInput
+  where?: Prisma.ClassSubjectScheduleDetailWhereInput
 }
 
 
@@ -490,6 +580,7 @@ export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   capacity?: boolean
   building?: boolean
   createdAt?: boolean
+  classSubjectSessions?: boolean | Prisma.Room$classSubjectSessionsArgs<ExtArgs>
   classSubjectSchedules?: boolean | Prisma.Room$classSubjectSchedulesArgs<ExtArgs>
   _count?: boolean | Prisma.RoomCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
@@ -523,6 +614,7 @@ export type RoomSelectScalar = {
 
 export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomCode" | "type" | "capacity" | "building" | "createdAt", ExtArgs["result"]["room"]>
 export type RoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  classSubjectSessions?: boolean | Prisma.Room$classSubjectSessionsArgs<ExtArgs>
   classSubjectSchedules?: boolean | Prisma.Room$classSubjectSchedulesArgs<ExtArgs>
   _count?: boolean | Prisma.RoomCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -532,7 +624,8 @@ export type RoomIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Room"
   objects: {
-    classSubjectSchedules: Prisma.$ClassSubjectSchedulePayload<ExtArgs>[]
+    classSubjectSessions: Prisma.$ClassSubjectSessionPayload<ExtArgs>[]
+    classSubjectSchedules: Prisma.$ClassSubjectScheduleDetailPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -935,7 +1028,8 @@ readonly fields: RoomFieldRefs;
  */
 export interface Prisma__RoomClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  classSubjectSchedules<T extends Prisma.Room$classSubjectSchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$classSubjectSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassSubjectSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  classSubjectSessions<T extends Prisma.Room$classSubjectSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$classSubjectSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassSubjectSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  classSubjectSchedules<T extends Prisma.Room$classSubjectSchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$classSubjectSchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassSubjectScheduleDetailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1364,27 +1458,51 @@ export type RoomDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Room.classSubjectSessions
+ */
+export type Room$classSubjectSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClassSubjectSession
+   */
+  select?: Prisma.ClassSubjectSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClassSubjectSession
+   */
+  omit?: Prisma.ClassSubjectSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClassSubjectSessionInclude<ExtArgs> | null
+  where?: Prisma.ClassSubjectSessionWhereInput
+  orderBy?: Prisma.ClassSubjectSessionOrderByWithRelationInput | Prisma.ClassSubjectSessionOrderByWithRelationInput[]
+  cursor?: Prisma.ClassSubjectSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClassSubjectSessionScalarFieldEnum | Prisma.ClassSubjectSessionScalarFieldEnum[]
+}
+
+/**
  * Room.classSubjectSchedules
  */
 export type Room$classSubjectSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ClassSubjectSchedule
+   * Select specific fields to fetch from the ClassSubjectScheduleDetail
    */
-  select?: Prisma.ClassSubjectScheduleSelect<ExtArgs> | null
+  select?: Prisma.ClassSubjectScheduleDetailSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ClassSubjectSchedule
+   * Omit specific fields from the ClassSubjectScheduleDetail
    */
-  omit?: Prisma.ClassSubjectScheduleOmit<ExtArgs> | null
+  omit?: Prisma.ClassSubjectScheduleDetailOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ClassSubjectScheduleInclude<ExtArgs> | null
-  where?: Prisma.ClassSubjectScheduleWhereInput
-  orderBy?: Prisma.ClassSubjectScheduleOrderByWithRelationInput | Prisma.ClassSubjectScheduleOrderByWithRelationInput[]
-  cursor?: Prisma.ClassSubjectScheduleWhereUniqueInput
+  include?: Prisma.ClassSubjectScheduleDetailInclude<ExtArgs> | null
+  where?: Prisma.ClassSubjectScheduleDetailWhereInput
+  orderBy?: Prisma.ClassSubjectScheduleDetailOrderByWithRelationInput | Prisma.ClassSubjectScheduleDetailOrderByWithRelationInput[]
+  cursor?: Prisma.ClassSubjectScheduleDetailWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ClassSubjectScheduleScalarFieldEnum | Prisma.ClassSubjectScheduleScalarFieldEnum[]
+  distinct?: Prisma.ClassSubjectScheduleDetailScalarFieldEnum | Prisma.ClassSubjectScheduleDetailScalarFieldEnum[]
 }
 
 /**
