@@ -28,14 +28,24 @@ export const ShiftType = {
 export type ShiftType = (typeof ShiftType)[keyof typeof ShiftType]
 
 
-export const ApplycationAdmissionStatus = {
+export const AssessmentStatus = {
+  NOT_SUBMITTED: 'NOT_SUBMITTED',
   PENDING: 'PENDING',
-  QUALIFIED: 'QUALIFIED',
-  ADMITTED: 'ADMITTED',
-  REJECTED: 'REJECTED'
+  APPROVED: 'APPROVED'
 } as const
 
-export type ApplycationAdmissionStatus = (typeof ApplycationAdmissionStatus)[keyof typeof ApplycationAdmissionStatus]
+export type AssessmentStatus = (typeof AssessmentStatus)[keyof typeof AssessmentStatus]
+
+
+export const EvaluationGrade = {
+  EXCELLENT: 'EXCELLENT',
+  GOOD: 'GOOD',
+  FAIR: 'FAIR',
+  AVERAGE: 'AVERAGE',
+  POOR: 'POOR'
+} as const
+
+export type EvaluationGrade = (typeof EvaluationGrade)[keyof typeof EvaluationGrade]
 
 
 export const StudentStatus = {

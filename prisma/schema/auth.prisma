@@ -46,7 +46,6 @@ model Student {
   graduationDate  DateTime?       @db.Date
   status          StudentStatus   @default(studying)
   applicationId   Int?            @unique // Hồ sơ tuyển sinh
-  application     Application?    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
 
   // Thông tin cá nhân
   userId          Int?            @unique
@@ -92,6 +91,7 @@ model Student {
   payments            Payment[]
   student_documents   StudentDocument[]
   admissionProfile    AdmissionProfile?
+  assessments         Assessment[]
 
   @@map("students")
 }

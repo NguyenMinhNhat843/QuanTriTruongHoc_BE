@@ -40,17 +40,17 @@ export class BatchService {
     const { id, majorId, curriculumId, ...rest } = createBatchDto;
 
     // Thời gian kết thúc của 1 khóa đào tạo phụ thuộc vào chương trình khung của nó có mấy kỳ
-    // Vis duj: start - 2026, gắn với chương trình có 3 kỳ thì end Year sẽ là 2027 (HK1 - 2027)
+    // Ví dụ: start - 2026, gắn với chương trình có 3 kỳ thì end Year sẽ là 2027 (HK1 - 2027)
     const soKyTheoChuongTrinhKhung =
       await this.prisma.curriculumSubject.aggregate({
         where: {
-          id: curriculumId,
+          id: curriculumId!,
         },
         _max: {
           semesterNumber: true,
         },
       });
-    const time = (soKyTheoChuongTrinhKhung?._max.semesterNumber || 0) - 2;
+    const time = (soKyTheoChuongTrinhKhung?._max?.semesterNumber || 0) - 2;
 
     const endYear = rest.startYear + time / 2 + (time % 2 === 1 ? 1 : 0);
 
@@ -173,24 +173,6 @@ export class BatchService {
     });
 
     return plainToInstance(CurriculumSubjectResponseDto, subjects);
-  }
-
-  /**
-   * Lấy thông tin hiển thị cho màn hình bảng Tiến độ đào tạo
-   * Gồm thông tin môn học của 1 batch tại 1 học kỳ, thông tin giáo viên giảng dạy cho môn đó
-   * Thông tin phòng học, giờ học, và các tuần trong kỳ
-   */
-  async getBatchSubjectsBySemesterId(batchId: number, semesterId: number) {
-    const semester = await this.prisma.semester.findUnique({
-      where: {
-        id: semesterId,
-      },
-    });
-
-    return await this.getBatchSubjectsBySemester(
-      batchId,
-      semester as SemesterResponseDto,
-    );
   }
 
   /**

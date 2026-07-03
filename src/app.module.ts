@@ -14,7 +14,6 @@ import { RoomModule } from "./room/room.module.js";
 import { CurriculumModule } from "./curriculumn/curriculum.module.js";
 import { CurriculumSubjectModule } from "./curriculumSubject/curriculumnSubject.module.js";
 import { BatchModule } from "./batch/batch.module.js";
-import { AdmissionModule } from "./admission/admission.module.js";
 import { TuitionFeeModule } from "./tuitionFee/tuitionFee.module.js";
 import { FeeModule } from "./Fee/fee.module.js";
 import { FeeCatalogModule } from "./FeeCatalog/feeCatalog.module.js";
@@ -27,6 +26,7 @@ import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
 import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
 import { AdmissionProfileModule } from "./admission-profile/admission-profile.module.js";
+import { AssessmentModule } from "./assessment/assessment.module.js";
 
 @Module({
   imports: [
@@ -49,7 +49,6 @@ import { AdmissionProfileModule } from "./admission-profile/admission-profile.mo
     RoomModule,
     CurriculumModule,
     CurriculumSubjectModule,
-    AdmissionModule,
     TuitionFeeModule,
     FeeModule,
     FeeCatalogModule,
@@ -61,6 +60,7 @@ import { AdmissionProfileModule } from "./admission-profile/admission-profile.mo
     CloudinaryModule,
     DocumentProfileModule,
     AdmissionProfileModule,
+    AssessmentModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

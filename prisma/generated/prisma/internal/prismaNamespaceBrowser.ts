@@ -60,11 +60,10 @@ export const ModelName = {
   Room: 'Room',
   Curriculum: 'Curriculum',
   CurriculumSubject: 'CurriculumSubject',
-  Admission: 'Admission',
-  AdmissionItem: 'AdmissionItem',
+  EvaluationPeriod: 'EvaluationPeriod',
   Criterion: 'Criterion',
-  AdmissionItemCriterion: 'AdmissionItemCriterion',
-  Application: 'Application',
+  Assessment: 'Assessment',
+  AssessmentDetail: 'AssessmentDetail',
   User: 'User',
   Student: 'Student',
   AdmissionProfile: 'AdmissionProfile',
@@ -244,62 +243,55 @@ export const CurriculumSubjectScalarFieldEnum = {
 export type CurriculumSubjectScalarFieldEnum = (typeof CurriculumSubjectScalarFieldEnum)[keyof typeof CurriculumSubjectScalarFieldEnum]
 
 
-export const AdmissionScalarFieldEnum = {
+export const EvaluationPeriodScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  status: 'status'
+  isActive: 'isActive',
+  isFrozen: 'isFrozen',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type AdmissionScalarFieldEnum = (typeof AdmissionScalarFieldEnum)[keyof typeof AdmissionScalarFieldEnum]
-
-
-export const AdmissionItemScalarFieldEnum = {
-  id: 'id',
-  admissionId: 'admissionId',
-  majorId: 'majorId',
-  batchName: 'batchName',
-  quota: 'quota'
-} as const
-
-export type AdmissionItemScalarFieldEnum = (typeof AdmissionItemScalarFieldEnum)[keyof typeof AdmissionItemScalarFieldEnum]
+export type EvaluationPeriodScalarFieldEnum = (typeof EvaluationPeriodScalarFieldEnum)[keyof typeof EvaluationPeriodScalarFieldEnum]
 
 
 export const CriterionScalarFieldEnum = {
   id: 'id',
-  criterionName: 'criterionName',
-  type: 'type',
-  description: 'description'
+  title: 'title',
+  maxScore: 'maxScore',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CriterionScalarFieldEnum = (typeof CriterionScalarFieldEnum)[keyof typeof CriterionScalarFieldEnum]
 
 
-export const AdmissionItemCriterionScalarFieldEnum = {
-  admissionItemId: 'admissionItemId',
-  criterionId: 'criterionId',
-  minValue: 'minValue',
-  isRequired: 'isRequired',
-  weight: 'weight'
-} as const
-
-export type AdmissionItemCriterionScalarFieldEnum = (typeof AdmissionItemCriterionScalarFieldEnum)[keyof typeof AdmissionItemCriterionScalarFieldEnum]
-
-
-export const ApplicationScalarFieldEnum = {
+export const AssessmentScalarFieldEnum = {
   id: 'id',
-  fullName: 'fullName',
-  email: 'email',
-  phone: 'phone',
-  rawdata: 'rawdata',
-  admissionId: 'admissionId',
-  admissionItemId: 'admissionItemId',
+  studentId: 'studentId',
+  periodId: 'periodId',
   status: 'status',
-  createdAt: 'createdAt'
+  totalStudentScore: 'totalStudentScore',
+  totalTeacherScore: 'totalTeacherScore',
+  finalGrade: 'finalGrade',
+  teacherComment: 'teacherComment',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum]
+export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
+
+
+export const AssessmentDetailScalarFieldEnum = {
+  id: 'id',
+  assessmentId: 'assessmentId',
+  criterionId: 'criterionId',
+  studentScore: 'studentScore',
+  teacherScore: 'teacherScore'
+} as const
+
+export type AssessmentDetailScalarFieldEnum = (typeof AssessmentDetailScalarFieldEnum)[keyof typeof AssessmentDetailScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -669,14 +661,6 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -691,13 +675,4 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

@@ -1,0 +1,86 @@
+// ==========================================
+// ĐIỂM RÈN LUYỆN (POINT ASSESSMENT MANAGEMENT)
+// ==========================================
+
+// 1. Trạng thái của Phiếu điểm rèn luyện
+enum AssessmentStatus {
+  NOT_SUBMITTED // Chưa nộp / Đang lưu nháp
+  PENDING       // Đã gửi - Chờ GVCN duyệt
+  APPROVED      // GVCN đã duyệt
+}
+
+// 2. Xếp loại rèn luyện tự động
+enum EvaluationGrade {
+  EXCELLENT     // Xuất sắc (90-100)
+  GOOD          // Tốt (80-89)
+  FAIR          // Khá (65-79)
+  AVERAGE       // Trung bình (50-64)
+  POOR          // Yếu / Kém (<50)
+}
+
+// 3. Bảng Đợt Đánh Giá (Ví dụ: Học kỳ 1 - 2026-2027)
+model EvaluationPeriod {
+  id        Int          @id @default(autoincrement())
+  name      String       // Tên đợt: HK1_2026_2027
+  isActive  Boolean      @default(true)  // Đợt này có đang mở cho chấm không
+  isFrozen  Boolean      @default(false) // Đã khóa sổ công bố kết quả chưa
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  assessments Assessment[]
+
+  @@map("evaluation_periods")
+}
+
+// 4. Bảng Tiêu Chí Chấm Điểm Cố Định
+model Criterion {
+  id          Int                @id @default(autoincrement())
+  title       String             // Tên tiêu chí, ví dụ: "Ý thức học tập"
+  maxScore    Int                // Điểm tối đa của tiêu chí này
+  sortOrder   Int                @default(0) // Thứ tự hiển thị trên form
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  details     AssessmentDetail[]
+
+  @@map("criteria")
+}
+
+// 5. Bảng Phiếu Điểm (Tổng hợp của một học sinh trong 1 đợt)
+model Assessment {
+  id                Int               @id @default(autoincrement())
+  studentId         Int
+  student           Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  periodId          Int
+  period            EvaluationPeriod  @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  
+  status            AssessmentStatus  @default(NOT_SUBMITTED)
+  
+  totalStudentScore Int               @default(0) // Tổng điểm học sinh tự chấm
+  totalTeacherScore Int               @default(0) // Tổng điểm GVCN chấm
+  finalGrade        EvaluationGrade?              // Xếp loại cuối cùng (Cập nhật khi khóa sổ)
+  
+  teacherComment    String?           @db.Text    // Ghi chú/Nhận xét của GVCN
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  details           AssessmentDetail[]
+
+  @@unique([studentId, periodId]) // Mỗi học sinh chỉ có 1 phiếu điểm duy nhất cho 1 đợt
+  @@map("assessments")
+}
+
+// 6. Bảng Chi Tiết Phiếu Điểm (Lưu điểm của từng tiêu chí)
+model AssessmentDetail {
+  id           Int        @id @default(autoincrement())
+  assessmentId Int
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  criterionId  Int
+  criterion    Criterion  @relation(fields: [criterionId], references: [id], onDelete: Cascade)
+  
+  studentScore Int        @default(0) // Điểm học sinh tự tích
+  teacherScore Int        @default(0) // Điểm GVCN duyệt cuối cùng
+
+  @@unique([assessmentId, criterionId]) // Trong một phiếu điểm, mỗi tiêu chí chỉ xuất hiện một lần
+  @@map("assessment_details")
+}

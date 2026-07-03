@@ -28,62 +28,82 @@ export type AggregateCriterion = {
 
 export type CriterionAvgAggregateOutputType = {
   id: number | null
+  maxScore: number | null
+  sortOrder: number | null
 }
 
 export type CriterionSumAggregateOutputType = {
   id: number | null
+  maxScore: number | null
+  sortOrder: number | null
 }
 
 export type CriterionMinAggregateOutputType = {
   id: number | null
-  criterionName: string | null
-  type: string | null
-  description: string | null
+  title: string | null
+  maxScore: number | null
+  sortOrder: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type CriterionMaxAggregateOutputType = {
   id: number | null
-  criterionName: string | null
-  type: string | null
-  description: string | null
+  title: string | null
+  maxScore: number | null
+  sortOrder: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type CriterionCountAggregateOutputType = {
   id: number
-  criterionName: number
-  type: number
-  description: number
+  title: number
+  maxScore: number
+  sortOrder: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
 export type CriterionAvgAggregateInputType = {
   id?: true
+  maxScore?: true
+  sortOrder?: true
 }
 
 export type CriterionSumAggregateInputType = {
   id?: true
+  maxScore?: true
+  sortOrder?: true
 }
 
 export type CriterionMinAggregateInputType = {
   id?: true
-  criterionName?: true
-  type?: true
-  description?: true
+  title?: true
+  maxScore?: true
+  sortOrder?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type CriterionMaxAggregateInputType = {
   id?: true
-  criterionName?: true
-  type?: true
-  description?: true
+  title?: true
+  maxScore?: true
+  sortOrder?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type CriterionCountAggregateInputType = {
   id?: true
-  criterionName?: true
-  type?: true
-  description?: true
+  title?: true
+  maxScore?: true
+  sortOrder?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -175,9 +195,11 @@ export type CriterionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 
 export type CriterionGroupByOutputType = {
   id: number
-  criterionName: string
-  type: string
-  description: string | null
+  title: string
+  maxScore: number
+  sortOrder: number
+  createdAt: Date
+  updatedAt: Date
   _count: CriterionCountAggregateOutputType | null
   _avg: CriterionAvgAggregateOutputType | null
   _sum: CriterionSumAggregateOutputType | null
@@ -205,18 +227,22 @@ export type CriterionWhereInput = {
   OR?: Prisma.CriterionWhereInput[]
   NOT?: Prisma.CriterionWhereInput | Prisma.CriterionWhereInput[]
   id?: Prisma.IntFilter<"Criterion"> | number
-  criterionName?: Prisma.StringFilter<"Criterion"> | string
-  type?: Prisma.StringFilter<"Criterion"> | string
-  description?: Prisma.StringNullableFilter<"Criterion"> | string | null
-  admissionItems?: Prisma.AdmissionItemCriterionListRelationFilter
+  title?: Prisma.StringFilter<"Criterion"> | string
+  maxScore?: Prisma.IntFilter<"Criterion"> | number
+  sortOrder?: Prisma.IntFilter<"Criterion"> | number
+  createdAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
+  details?: Prisma.AssessmentDetailListRelationFilter
 }
 
 export type CriterionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  criterionName?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
-  admissionItems?: Prisma.AdmissionItemCriterionOrderByRelationAggregateInput
+  title?: Prisma.SortOrder
+  maxScore?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  details?: Prisma.AssessmentDetailOrderByRelationAggregateInput
 }
 
 export type CriterionWhereUniqueInput = Prisma.AtLeast<{
@@ -224,17 +250,21 @@ export type CriterionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.CriterionWhereInput | Prisma.CriterionWhereInput[]
   OR?: Prisma.CriterionWhereInput[]
   NOT?: Prisma.CriterionWhereInput | Prisma.CriterionWhereInput[]
-  criterionName?: Prisma.StringFilter<"Criterion"> | string
-  type?: Prisma.StringFilter<"Criterion"> | string
-  description?: Prisma.StringNullableFilter<"Criterion"> | string | null
-  admissionItems?: Prisma.AdmissionItemCriterionListRelationFilter
+  title?: Prisma.StringFilter<"Criterion"> | string
+  maxScore?: Prisma.IntFilter<"Criterion"> | number
+  sortOrder?: Prisma.IntFilter<"Criterion"> | number
+  createdAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
+  details?: Prisma.AssessmentDetailListRelationFilter
 }, "id">
 
 export type CriterionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  criterionName?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrder
+  maxScore?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.CriterionCountOrderByAggregateInput
   _avg?: Prisma.CriterionAvgOrderByAggregateInput
   _max?: Prisma.CriterionMaxOrderByAggregateInput
@@ -247,88 +277,114 @@ export type CriterionScalarWhereWithAggregatesInput = {
   OR?: Prisma.CriterionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CriterionScalarWhereWithAggregatesInput | Prisma.CriterionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Criterion"> | number
-  criterionName?: Prisma.StringWithAggregatesFilter<"Criterion"> | string
-  type?: Prisma.StringWithAggregatesFilter<"Criterion"> | string
-  description?: Prisma.StringNullableWithAggregatesFilter<"Criterion"> | string | null
+  title?: Prisma.StringWithAggregatesFilter<"Criterion"> | string
+  maxScore?: Prisma.IntWithAggregatesFilter<"Criterion"> | number
+  sortOrder?: Prisma.IntWithAggregatesFilter<"Criterion"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Criterion"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Criterion"> | Date | string
 }
 
 export type CriterionCreateInput = {
-  criterionName: string
-  type: string
-  description?: string | null
-  admissionItems?: Prisma.AdmissionItemCriterionCreateNestedManyWithoutCriterionInput
+  title: string
+  maxScore: number
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  details?: Prisma.AssessmentDetailCreateNestedManyWithoutCriterionInput
 }
 
 export type CriterionUncheckedCreateInput = {
   id?: number
-  criterionName: string
-  type: string
-  description?: string | null
-  admissionItems?: Prisma.AdmissionItemCriterionUncheckedCreateNestedManyWithoutCriterionInput
+  title: string
+  maxScore: number
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  details?: Prisma.AssessmentDetailUncheckedCreateNestedManyWithoutCriterionInput
 }
 
 export type CriterionUpdateInput = {
-  criterionName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  admissionItems?: Prisma.AdmissionItemCriterionUpdateManyWithoutCriterionNestedInput
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  details?: Prisma.AssessmentDetailUpdateManyWithoutCriterionNestedInput
 }
 
 export type CriterionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  criterionName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  admissionItems?: Prisma.AdmissionItemCriterionUncheckedUpdateManyWithoutCriterionNestedInput
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  details?: Prisma.AssessmentDetailUncheckedUpdateManyWithoutCriterionNestedInput
 }
 
 export type CriterionCreateManyInput = {
   id?: number
-  criterionName: string
-  type: string
-  description?: string | null
+  title: string
+  maxScore: number
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type CriterionUpdateManyMutationInput = {
-  criterionName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CriterionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  criterionName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CriterionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  criterionName?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  maxScore?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CriterionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  maxScore?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type CriterionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  criterionName?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  maxScore?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CriterionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  criterionName?: Prisma.SortOrder
-  type?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  maxScore?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type CriterionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  maxScore?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
 }
 
 export type CriterionScalarRelationFilter = {
@@ -336,60 +392,68 @@ export type CriterionScalarRelationFilter = {
   isNot?: Prisma.CriterionWhereInput
 }
 
-export type CriterionCreateNestedOneWithoutAdmissionItemsInput = {
-  create?: Prisma.XOR<Prisma.CriterionCreateWithoutAdmissionItemsInput, Prisma.CriterionUncheckedCreateWithoutAdmissionItemsInput>
-  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutAdmissionItemsInput
+export type CriterionCreateNestedOneWithoutDetailsInput = {
+  create?: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
+  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutDetailsInput
   connect?: Prisma.CriterionWhereUniqueInput
 }
 
-export type CriterionUpdateOneRequiredWithoutAdmissionItemsNestedInput = {
-  create?: Prisma.XOR<Prisma.CriterionCreateWithoutAdmissionItemsInput, Prisma.CriterionUncheckedCreateWithoutAdmissionItemsInput>
-  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutAdmissionItemsInput
-  upsert?: Prisma.CriterionUpsertWithoutAdmissionItemsInput
+export type CriterionUpdateOneRequiredWithoutDetailsNestedInput = {
+  create?: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
+  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutDetailsInput
+  upsert?: Prisma.CriterionUpsertWithoutDetailsInput
   connect?: Prisma.CriterionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CriterionUpdateToOneWithWhereWithoutAdmissionItemsInput, Prisma.CriterionUpdateWithoutAdmissionItemsInput>, Prisma.CriterionUncheckedUpdateWithoutAdmissionItemsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CriterionUpdateToOneWithWhereWithoutDetailsInput, Prisma.CriterionUpdateWithoutDetailsInput>, Prisma.CriterionUncheckedUpdateWithoutDetailsInput>
 }
 
-export type CriterionCreateWithoutAdmissionItemsInput = {
-  criterionName: string
-  type: string
-  description?: string | null
+export type CriterionCreateWithoutDetailsInput = {
+  title: string
+  maxScore: number
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
-export type CriterionUncheckedCreateWithoutAdmissionItemsInput = {
+export type CriterionUncheckedCreateWithoutDetailsInput = {
   id?: number
-  criterionName: string
-  type: string
-  description?: string | null
+  title: string
+  maxScore: number
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
-export type CriterionCreateOrConnectWithoutAdmissionItemsInput = {
+export type CriterionCreateOrConnectWithoutDetailsInput = {
   where: Prisma.CriterionWhereUniqueInput
-  create: Prisma.XOR<Prisma.CriterionCreateWithoutAdmissionItemsInput, Prisma.CriterionUncheckedCreateWithoutAdmissionItemsInput>
+  create: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
 }
 
-export type CriterionUpsertWithoutAdmissionItemsInput = {
-  update: Prisma.XOR<Prisma.CriterionUpdateWithoutAdmissionItemsInput, Prisma.CriterionUncheckedUpdateWithoutAdmissionItemsInput>
-  create: Prisma.XOR<Prisma.CriterionCreateWithoutAdmissionItemsInput, Prisma.CriterionUncheckedCreateWithoutAdmissionItemsInput>
+export type CriterionUpsertWithoutDetailsInput = {
+  update: Prisma.XOR<Prisma.CriterionUpdateWithoutDetailsInput, Prisma.CriterionUncheckedUpdateWithoutDetailsInput>
+  create: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
   where?: Prisma.CriterionWhereInput
 }
 
-export type CriterionUpdateToOneWithWhereWithoutAdmissionItemsInput = {
+export type CriterionUpdateToOneWithWhereWithoutDetailsInput = {
   where?: Prisma.CriterionWhereInput
-  data: Prisma.XOR<Prisma.CriterionUpdateWithoutAdmissionItemsInput, Prisma.CriterionUncheckedUpdateWithoutAdmissionItemsInput>
+  data: Prisma.XOR<Prisma.CriterionUpdateWithoutDetailsInput, Prisma.CriterionUncheckedUpdateWithoutDetailsInput>
 }
 
-export type CriterionUpdateWithoutAdmissionItemsInput = {
-  criterionName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+export type CriterionUpdateWithoutDetailsInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type CriterionUncheckedUpdateWithoutAdmissionItemsInput = {
+export type CriterionUncheckedUpdateWithoutDetailsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  criterionName?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxScore?: Prisma.IntFieldUpdateOperationsInput | number
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -398,11 +462,11 @@ export type CriterionUncheckedUpdateWithoutAdmissionItemsInput = {
  */
 
 export type CriterionCountOutputType = {
-  admissionItems: number
+  details: number
 }
 
 export type CriterionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionItems?: boolean | CriterionCountOutputTypeCountAdmissionItemsArgs
+  details?: boolean | CriterionCountOutputTypeCountDetailsArgs
 }
 
 /**
@@ -418,44 +482,52 @@ export type CriterionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * CriterionCountOutputType without action
  */
-export type CriterionCountOutputTypeCountAdmissionItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AdmissionItemCriterionWhereInput
+export type CriterionCountOutputTypeCountDetailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssessmentDetailWhereInput
 }
 
 
 export type CriterionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  criterionName?: boolean
-  type?: boolean
-  description?: boolean
-  admissionItems?: boolean | Prisma.Criterion$admissionItemsArgs<ExtArgs>
+  title?: boolean
+  maxScore?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  details?: boolean | Prisma.Criterion$detailsArgs<ExtArgs>
   _count?: boolean | Prisma.CriterionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["criterion"]>
 
 export type CriterionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  criterionName?: boolean
-  type?: boolean
-  description?: boolean
+  title?: boolean
+  maxScore?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["criterion"]>
 
 export type CriterionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  criterionName?: boolean
-  type?: boolean
-  description?: boolean
+  title?: boolean
+  maxScore?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["criterion"]>
 
 export type CriterionSelectScalar = {
   id?: boolean
-  criterionName?: boolean
-  type?: boolean
-  description?: boolean
+  title?: boolean
+  maxScore?: boolean
+  sortOrder?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type CriterionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "criterionName" | "type" | "description", ExtArgs["result"]["criterion"]>
+export type CriterionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "maxScore" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["criterion"]>
 export type CriterionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionItems?: boolean | Prisma.Criterion$admissionItemsArgs<ExtArgs>
+  details?: boolean | Prisma.Criterion$detailsArgs<ExtArgs>
   _count?: boolean | Prisma.CriterionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CriterionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -464,13 +536,15 @@ export type CriterionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $CriterionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Criterion"
   objects: {
-    admissionItems: Prisma.$AdmissionItemCriterionPayload<ExtArgs>[]
+    details: Prisma.$AssessmentDetailPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    criterionName: string
-    type: string
-    description: string | null
+    title: string
+    maxScore: number
+    sortOrder: number
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["criterion"]>
   composites: {}
 }
@@ -865,7 +939,7 @@ readonly fields: CriterionFieldRefs;
  */
 export interface Prisma__CriterionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  admissionItems<T extends Prisma.Criterion$admissionItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Criterion$admissionItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionItemCriterionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  details<T extends Prisma.Criterion$detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Criterion$detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentDetailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -896,9 +970,11 @@ export interface Prisma__CriterionClient<T, Null = never, ExtArgs extends runtim
  */
 export interface CriterionFieldRefs {
   readonly id: Prisma.FieldRef<"Criterion", 'Int'>
-  readonly criterionName: Prisma.FieldRef<"Criterion", 'String'>
-  readonly type: Prisma.FieldRef<"Criterion", 'String'>
-  readonly description: Prisma.FieldRef<"Criterion", 'String'>
+  readonly title: Prisma.FieldRef<"Criterion", 'String'>
+  readonly maxScore: Prisma.FieldRef<"Criterion", 'Int'>
+  readonly sortOrder: Prisma.FieldRef<"Criterion", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Criterion", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Criterion", 'DateTime'>
 }
     
 
@@ -1292,27 +1368,27 @@ export type CriterionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Criterion.admissionItems
+ * Criterion.details
  */
-export type Criterion$admissionItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Criterion$detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the AdmissionItemCriterion
+   * Select specific fields to fetch from the AssessmentDetail
    */
-  select?: Prisma.AdmissionItemCriterionSelect<ExtArgs> | null
+  select?: Prisma.AssessmentDetailSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the AdmissionItemCriterion
+   * Omit specific fields from the AssessmentDetail
    */
-  omit?: Prisma.AdmissionItemCriterionOmit<ExtArgs> | null
+  omit?: Prisma.AssessmentDetailOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AdmissionItemCriterionInclude<ExtArgs> | null
-  where?: Prisma.AdmissionItemCriterionWhereInput
-  orderBy?: Prisma.AdmissionItemCriterionOrderByWithRelationInput | Prisma.AdmissionItemCriterionOrderByWithRelationInput[]
-  cursor?: Prisma.AdmissionItemCriterionWhereUniqueInput
+  include?: Prisma.AssessmentDetailInclude<ExtArgs> | null
+  where?: Prisma.AssessmentDetailWhereInput
+  orderBy?: Prisma.AssessmentDetailOrderByWithRelationInput | Prisma.AssessmentDetailOrderByWithRelationInput[]
+  cursor?: Prisma.AssessmentDetailWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AdmissionItemCriterionScalarFieldEnum | Prisma.AdmissionItemCriterionScalarFieldEnum[]
+  distinct?: Prisma.AssessmentDetailScalarFieldEnum | Prisma.AssessmentDetailScalarFieldEnum[]
 }
 
 /**

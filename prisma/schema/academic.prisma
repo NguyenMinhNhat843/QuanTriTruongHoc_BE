@@ -44,7 +44,6 @@ model Major {
   curriculumn     Curriculum[]
   batches         Batch[]
   creditPrices    CreditPrice[] 
-  admissionItems  AdmissionItem[]
 
   @@map("majors")
 }

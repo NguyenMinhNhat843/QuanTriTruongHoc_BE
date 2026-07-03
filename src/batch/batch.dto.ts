@@ -1,74 +1,67 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import { Exclude, Type } from "class-transformer";
-import {
-  IsInt,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from "class-validator";
-import { BatchResponseDto } from "./batch.response";
+import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
+import { Batch } from "../../prisma/generated/prisma/client";
 
-export class BatchDto implements BatchResponseDto {
-  @ApiProperty({ example: "K1", description: "Mã khóa học viết tắt" })
+export class BatchDto implements Batch {
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  id: number;
+
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty()
   batchCode: string;
 
-  @ApiProperty({ example: "Khóa 1", description: "Tên đầy đủ của khóa" })
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty()
   batchName: string;
 
-  @ApiProperty({ example: 2026, description: "Năm bắt đầu khóa học" })
-  @IsInt()
-  @IsNotEmpty()
-  startYear: number;
-
-  @ApiProperty({ example: 2030, description: "Năm kết thúc dự kiến" })
-  @IsInt()
-  @IsNotEmpty()
-  endYear: number;
-
-  @ApiPropertyOptional({ example: "Khóa đào tạo kỹ sư CNTT" })
-  @IsString()
-  @IsOptional()
-  description: string;
-
-  @ApiProperty({ example: 1, description: "ID ngành học mà khóa này thuộc về" })
-  @IsInt()
-  @IsNotEmpty()
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   majorId: number;
 
-  @ApiPropertyOptional({
-    example: 1,
-    description: "ID chương trình đào tạo nếu có",
-  })
-  @IsInt()
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsOptional()
-  curriculumId: number; // Thêm trường curriculumId nếu cần thiết
+  @IsNumber()
+  @Type(() => Number)
+  curriculumId: number | null;
 
-  @ApiPropertyOptional({
-    example: "ADMISSION",
-    description: "Trạng thái: ADMISSION, ACTIVE, GRADUATED",
-    default: "ACTIVE",
-  })
+  @ApiPropertyOptional({ type: String, nullable: true })
+  @IsOptional()
   @IsString()
-  @IsOptional()
-  status: string = "ACTIVE";
+  description: string | null;
 
-  // Các filed không trả về
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsOptional()
-  createdAt?: Date;
+  @IsNumber()
+  @Type(() => Number)
+  endTerm: number | null;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  id?: number;
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  endYear: number;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  updatedAt?: Date;
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  startYear: number;
+
+  @ApiProperty()
+  @IsString()
+  status: string;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  updatedAt: Date;
 }
 
 export class CreateBatchDto extends BatchDto {}
@@ -76,19 +69,13 @@ export class CreateBatchDto extends BatchDto {}
 export class UpdateBatchDto extends PartialType(CreateBatchDto) {}
 
 export class SearchBatchDto {
-  @ApiPropertyOptional({
-    example: "2",
-    description: "Từ khóa tìm kiếm mã hoặc tên khóa",
-  })
+  @ApiPropertyOptional()
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
   majorId?: number;
 
-  @ApiPropertyOptional({
-    example: "CNTT",
-    description: "Từ khóa tìm kiếm mã hoặc ngành",
-  })
+  @ApiPropertyOptional()
   @IsString()
   @IsOptional()
   majorCode?: string;
