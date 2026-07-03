@@ -7,16 +7,22 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from "@nestjs/common";
 import {
   ApiTags,
   ApiOperation,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiResponse,
 } from "@nestjs/swagger";
 import { RoomService } from "./room.service";
-import { RoomResponseDto } from "./room.response";
-import { CreateRoomDto, UpdateRoomDto } from "./room.dto";
+import {
+  CreateRoomDto,
+  RoomDto,
+  SearchRoomDto,
+  UpdateRoomDto,
+} from "./room.dto";
 
 @ApiTags("Rooms")
 @Controller("rooms")
@@ -25,28 +31,28 @@ export class RoomController {
 
   @Post()
   @ApiOperation({ summary: "Tạo mới phòng học" })
-  @ApiCreatedResponse({ type: RoomResponseDto })
+  @ApiCreatedResponse({ type: RoomDto })
   create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.create(createRoomDto);
   }
 
   @Get()
-  @ApiOperation({ summary: "Lấy danh sách tất cả phòng học" })
-  @ApiOkResponse({ type: RoomResponseDto, isArray: true })
-  findAll() {
-    return this.roomService.findAll();
+  @ApiOperation({ summary: "Tìm kiếm phòng học" })
+  @ApiResponse({ status: 200, type: [RoomDto] })
+  async getRooms(@Query() query: SearchRoomDto) {
+    return this.roomService.search(query);
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết phòng học theo ID" })
-  @ApiOkResponse({ type: RoomResponseDto })
+  @ApiOkResponse({ type: RoomDto })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.roomService.findOne(id);
   }
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật thông tin phòng học" })
-  @ApiOkResponse({ type: RoomResponseDto })
+  @ApiOkResponse({ type: RoomDto })
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateRoomDto: UpdateRoomDto,

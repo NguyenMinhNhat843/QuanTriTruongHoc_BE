@@ -5,14 +5,19 @@ import {
   InternalServerErrorException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { RoomResponseDto } from "./room.response";
-import { CreateRoomDto, UpdateRoomDto } from "./room.dto";
+import {
+  CreateRoomDto,
+  RoomDto,
+  SearchRoomDto,
+  UpdateRoomDto,
+} from "./room.dto";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class RoomService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateRoomDto): Promise<RoomResponseDto> {
+  async create(data: CreateRoomDto): Promise<RoomDto> {
     // 1. Kiểm tra mã phòng đã tồn tại chưa
     const existingRoom = await this.prisma.room.findUnique({
       where: { roomCode: data.roomCode },
@@ -26,19 +31,14 @@ export class RoomService {
       const room = await this.prisma.room.create({
         data,
       });
-      return new RoomResponseDto(room);
+      return plainToInstance(RoomDto, room);
     } catch (error) {
       console.log("Lỗi khi tạo phòng học:", error);
       throw new InternalServerErrorException("Lỗi hệ thống khi tạo phòng học");
     }
   }
 
-  async findAll(): Promise<RoomResponseDto[]> {
-    const rooms = await this.prisma.room.findMany({});
-    return rooms.map((room) => new RoomResponseDto(room));
-  }
-
-  async findOne(id: number): Promise<RoomResponseDto> {
+  async findOne(id: number): Promise<RoomDto> {
     const room = await this.prisma.room.findUnique({
       where: { id },
     });
@@ -46,10 +46,10 @@ export class RoomService {
     if (!room) {
       throw new NotFoundException(`Không tìm thấy phòng học với ID ${id}`);
     }
-    return new RoomResponseDto(room);
+    return plainToInstance(RoomDto, room);
   }
 
-  async update(id: number, data: UpdateRoomDto): Promise<RoomResponseDto> {
+  async update(id: number, data: UpdateRoomDto): Promise<RoomDto> {
     // Kiểm tra phòng học có tồn tại không
     await this.findOne(id);
 
@@ -70,7 +70,7 @@ export class RoomService {
         where: { id },
         data,
       });
-      return new RoomResponseDto(updated);
+      return plainToInstance(RoomDto, updated);
     } catch (error) {
       console.log("Lỗi khi cập nhật phòng học:", error);
       throw new InternalServerErrorException("Lỗi khi cập nhật phòng học");
@@ -80,5 +80,33 @@ export class RoomService {
   async remove(id: number) {
     await this.findOne(id);
     return this.prisma.room.delete({ where: { id } });
+  }
+
+  async search(query: SearchRoomDto): Promise<RoomDto[]> {
+    const { roomCode, type } = query;
+    const whereClause: any = {};
+
+    if (roomCode) {
+      whereClause.roomCode = {
+        contains: roomCode,
+        mode: "insensitive", // Tìm kiếm không phân biệt chữ hoa / chữ thường
+      };
+    }
+
+    if (type) {
+      whereClause.type = type;
+    }
+
+    try {
+      const rooms = await this.prisma.room.findMany({
+        where: whereClause,
+      });
+      return plainToInstance(RoomDto, rooms);
+    } catch (error) {
+      console.log("Lỗi khi lấy danh sách/tìm kiếm phòng học:", error);
+      throw new InternalServerErrorException(
+        "Lỗi hệ thống khi tìm kiếm phòng học",
+      );
+    }
   }
 }
