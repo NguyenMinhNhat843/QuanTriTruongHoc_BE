@@ -47,6 +47,16 @@ export class SemesterService {
         },
       });
 
+      // Tạo đợt đánh giá điểm rèn luyên
+      await client.evaluationPeriod.create({
+        data: {
+          semesterId: semester.id,
+          name: `Đợt đánh giá HK${semester.term} ${semester.year} - ${semester.year! + 1}`,
+          isActive: true,
+          isFrozen: false,
+        },
+      });
+
       return new SemesterResponseDto(semester);
     } catch (error) {
       if (

@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
-import { DocumentConfigService } from "./docConfig.service";
-import { DocumentConfigItemService } from "./docConfigItem.service";
-import { StudentDocumentService } from "./studentDoc.service";
-import { StudentDocumentController } from "./studentDoc.controller";
-import { DocumentConfigItemController } from "./docConfigItem.controller";
-import { DocumentConfigController } from "./docConfig.controller";
+import { DocumentConfigService } from "./service/docConfig.service";
+import { DocumentConfigItemService } from "./service/docConfigItem.service";
+import { StudentDocumentService } from "./service/studentDoc.service";
+import { StudentDocumentController } from "./controller/studentDoc.controller";
+import { DocumentConfigController } from "./controller/docConfig.controller";
 import { CloudinaryModule } from "../cloundinary/cloundinary.module";
+import { DocumentConfigItemController } from "./controller/docConfigItem.controller";
 
 @Module({
   imports: [CloudinaryModule],

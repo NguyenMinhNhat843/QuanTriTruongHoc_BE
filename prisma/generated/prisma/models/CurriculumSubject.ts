@@ -47,7 +47,6 @@ export type CurriculumSubjectMinAggregateOutputType = {
   curriculumId: number | null
   subjectId: number | null
   semesterNumber: number | null
-  isMandatory: boolean | null
   minGrade: number | null
   createdAt: Date | null
 }
@@ -57,7 +56,6 @@ export type CurriculumSubjectMaxAggregateOutputType = {
   curriculumId: number | null
   subjectId: number | null
   semesterNumber: number | null
-  isMandatory: boolean | null
   minGrade: number | null
   createdAt: Date | null
 }
@@ -67,7 +65,6 @@ export type CurriculumSubjectCountAggregateOutputType = {
   curriculumId: number
   subjectId: number
   semesterNumber: number
-  isMandatory: number
   minGrade: number
   createdAt: number
   _all: number
@@ -95,7 +92,6 @@ export type CurriculumSubjectMinAggregateInputType = {
   curriculumId?: true
   subjectId?: true
   semesterNumber?: true
-  isMandatory?: true
   minGrade?: true
   createdAt?: true
 }
@@ -105,7 +101,6 @@ export type CurriculumSubjectMaxAggregateInputType = {
   curriculumId?: true
   subjectId?: true
   semesterNumber?: true
-  isMandatory?: true
   minGrade?: true
   createdAt?: true
 }
@@ -115,7 +110,6 @@ export type CurriculumSubjectCountAggregateInputType = {
   curriculumId?: true
   subjectId?: true
   semesterNumber?: true
-  isMandatory?: true
   minGrade?: true
   createdAt?: true
   _all?: true
@@ -212,7 +206,6 @@ export type CurriculumSubjectGroupByOutputType = {
   curriculumId: number
   subjectId: number
   semesterNumber: number
-  isMandatory: boolean
   minGrade: number
   createdAt: Date
   _count: CurriculumSubjectCountAggregateOutputType | null
@@ -245,7 +238,6 @@ export type CurriculumSubjectWhereInput = {
   curriculumId?: Prisma.IntFilter<"CurriculumSubject"> | number
   subjectId?: Prisma.IntFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntFilter<"CurriculumSubject"> | number
-  isMandatory?: Prisma.BoolFilter<"CurriculumSubject"> | boolean
   minGrade?: Prisma.FloatFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeFilter<"CurriculumSubject"> | Date | string
   curriculum?: Prisma.XOR<Prisma.CurriculumScalarRelationFilter, Prisma.CurriculumWhereInput>
@@ -257,7 +249,6 @@ export type CurriculumSubjectOrderByWithRelationInput = {
   curriculumId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   curriculum?: Prisma.CurriculumOrderByWithRelationInput
@@ -273,7 +264,6 @@ export type CurriculumSubjectWhereUniqueInput = Prisma.AtLeast<{
   curriculumId?: Prisma.IntFilter<"CurriculumSubject"> | number
   subjectId?: Prisma.IntFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntFilter<"CurriculumSubject"> | number
-  isMandatory?: Prisma.BoolFilter<"CurriculumSubject"> | boolean
   minGrade?: Prisma.FloatFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeFilter<"CurriculumSubject"> | Date | string
   curriculum?: Prisma.XOR<Prisma.CurriculumScalarRelationFilter, Prisma.CurriculumWhereInput>
@@ -285,7 +275,6 @@ export type CurriculumSubjectOrderByWithAggregationInput = {
   curriculumId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CurriculumSubjectCountOrderByAggregateInput
@@ -303,14 +292,12 @@ export type CurriculumSubjectScalarWhereWithAggregatesInput = {
   curriculumId?: Prisma.IntWithAggregatesFilter<"CurriculumSubject"> | number
   subjectId?: Prisma.IntWithAggregatesFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntWithAggregatesFilter<"CurriculumSubject"> | number
-  isMandatory?: Prisma.BoolWithAggregatesFilter<"CurriculumSubject"> | boolean
   minGrade?: Prisma.FloatWithAggregatesFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CurriculumSubject"> | Date | string
 }
 
 export type CurriculumSubjectCreateInput = {
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
   curriculum: Prisma.CurriculumCreateNestedOneWithoutCurriculumSubjectsInput
@@ -322,14 +309,12 @@ export type CurriculumSubjectUncheckedCreateInput = {
   curriculumId: number
   subjectId: number
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
 }
 
 export type CurriculumSubjectUpdateInput = {
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculum?: Prisma.CurriculumUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
@@ -341,7 +326,6 @@ export type CurriculumSubjectUncheckedUpdateInput = {
   curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -351,14 +335,12 @@ export type CurriculumSubjectCreateManyInput = {
   curriculumId: number
   subjectId: number
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
 }
 
 export type CurriculumSubjectUpdateManyMutationInput = {
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -368,7 +350,6 @@ export type CurriculumSubjectUncheckedUpdateManyInput = {
   curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -393,7 +374,6 @@ export type CurriculumSubjectCountOrderByAggregateInput = {
   curriculumId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -411,7 +391,6 @@ export type CurriculumSubjectMaxOrderByAggregateInput = {
   curriculumId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -421,7 +400,6 @@ export type CurriculumSubjectMinOrderByAggregateInput = {
   curriculumId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
-  isMandatory?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -528,7 +506,6 @@ export type FloatFieldUpdateOperationsInput = {
 
 export type CurriculumSubjectCreateWithoutSubjectInput = {
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
   curriculum: Prisma.CurriculumCreateNestedOneWithoutCurriculumSubjectsInput
@@ -538,7 +515,6 @@ export type CurriculumSubjectUncheckedCreateWithoutSubjectInput = {
   id?: number
   curriculumId: number
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
 }
@@ -577,14 +553,12 @@ export type CurriculumSubjectScalarWhereInput = {
   curriculumId?: Prisma.IntFilter<"CurriculumSubject"> | number
   subjectId?: Prisma.IntFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntFilter<"CurriculumSubject"> | number
-  isMandatory?: Prisma.BoolFilter<"CurriculumSubject"> | boolean
   minGrade?: Prisma.FloatFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeFilter<"CurriculumSubject"> | Date | string
 }
 
 export type CurriculumSubjectCreateWithoutCurriculumInput = {
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
   subject: Prisma.SubjectCreateNestedOneWithoutCurriculumnSubjectInput
@@ -594,7 +568,6 @@ export type CurriculumSubjectUncheckedCreateWithoutCurriculumInput = {
   id?: number
   subjectId: number
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
 }
@@ -629,14 +602,12 @@ export type CurriculumSubjectCreateManySubjectInput = {
   id?: number
   curriculumId: number
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
 }
 
 export type CurriculumSubjectUpdateWithoutSubjectInput = {
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculum?: Prisma.CurriculumUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
@@ -646,7 +617,6 @@ export type CurriculumSubjectUncheckedUpdateWithoutSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -655,7 +625,6 @@ export type CurriculumSubjectUncheckedUpdateManyWithoutSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -664,14 +633,12 @@ export type CurriculumSubjectCreateManyCurriculumInput = {
   id?: number
   subjectId: number
   semesterNumber: number
-  isMandatory?: boolean
   minGrade?: number
   createdAt?: Date | string
 }
 
 export type CurriculumSubjectUpdateWithoutCurriculumInput = {
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCurriculumnSubjectNestedInput
@@ -681,7 +648,6 @@ export type CurriculumSubjectUncheckedUpdateWithoutCurriculumInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -690,7 +656,6 @@ export type CurriculumSubjectUncheckedUpdateManyWithoutCurriculumInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  isMandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -702,7 +667,6 @@ export type CurriculumSubjectSelect<ExtArgs extends runtime.Types.Extensions.Int
   curriculumId?: boolean
   subjectId?: boolean
   semesterNumber?: boolean
-  isMandatory?: boolean
   minGrade?: boolean
   createdAt?: boolean
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
@@ -714,7 +678,6 @@ export type CurriculumSubjectSelectCreateManyAndReturn<ExtArgs extends runtime.T
   curriculumId?: boolean
   subjectId?: boolean
   semesterNumber?: boolean
-  isMandatory?: boolean
   minGrade?: boolean
   createdAt?: boolean
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
@@ -726,7 +689,6 @@ export type CurriculumSubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   curriculumId?: boolean
   subjectId?: boolean
   semesterNumber?: boolean
-  isMandatory?: boolean
   minGrade?: boolean
   createdAt?: boolean
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
@@ -738,12 +700,11 @@ export type CurriculumSubjectSelectScalar = {
   curriculumId?: boolean
   subjectId?: boolean
   semesterNumber?: boolean
-  isMandatory?: boolean
   minGrade?: boolean
   createdAt?: boolean
 }
 
-export type CurriculumSubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "curriculumId" | "subjectId" | "semesterNumber" | "isMandatory" | "minGrade" | "createdAt", ExtArgs["result"]["curriculumSubject"]>
+export type CurriculumSubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "curriculumId" | "subjectId" | "semesterNumber" | "minGrade" | "createdAt", ExtArgs["result"]["curriculumSubject"]>
 export type CurriculumSubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
@@ -768,7 +729,6 @@ export type $CurriculumSubjectPayload<ExtArgs extends runtime.Types.Extensions.I
     curriculumId: number
     subjectId: number
     semesterNumber: number
-    isMandatory: boolean
     minGrade: number
     createdAt: Date
   }, ExtArgs["result"]["curriculumSubject"]>
@@ -1200,7 +1160,6 @@ export interface CurriculumSubjectFieldRefs {
   readonly curriculumId: Prisma.FieldRef<"CurriculumSubject", 'Int'>
   readonly subjectId: Prisma.FieldRef<"CurriculumSubject", 'Int'>
   readonly semesterNumber: Prisma.FieldRef<"CurriculumSubject", 'Int'>
-  readonly isMandatory: Prisma.FieldRef<"CurriculumSubject", 'Boolean'>
   readonly minGrade: Prisma.FieldRef<"CurriculumSubject", 'Float'>
   readonly createdAt: Prisma.FieldRef<"CurriculumSubject", 'DateTime'>
 }

@@ -15,38 +15,42 @@ import {
   ApiOkResponse,
 } from "@nestjs/swagger";
 import { MajorService } from "./major.service";
-import { MajorResponseDto } from "./major.response";
-import { CreateMajorDto, UpdateMajorDto } from "./major.dto";
+import {
+  CreateMajorDto,
+  MajorDto,
+  MajorResponseWithRelationDto,
+  UpdateMajorDto,
+} from "./major.dto";
 
-@ApiTags("Majors")
+@ApiTags("Majors - Ngành")
 @Controller("majors")
 export class MajorController {
   constructor(private readonly majorService: MajorService) {}
 
   @Post()
   @ApiOperation({ summary: "Tạo mới ngành đào tạo" })
-  @ApiCreatedResponse({ type: MajorResponseDto })
+  @ApiCreatedResponse({ type: MajorDto })
   create(@Body() createMajorDto: CreateMajorDto) {
     return this.majorService.create(createMajorDto);
   }
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả ngành đào tạo" })
-  @ApiOkResponse({ type: MajorResponseDto, isArray: true })
+  @ApiOkResponse({ type: MajorDto, isArray: true })
   findAll() {
     return this.majorService.findAll();
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết ngành đào tạo theo ID" })
-  @ApiOkResponse({ type: MajorResponseDto })
+  @ApiOkResponse({ type: MajorResponseWithRelationDto })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.majorService.findOne(id);
   }
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật ngành đào tạo" })
-  @ApiOkResponse({ type: MajorResponseDto })
+  @ApiOkResponse({ type: MajorDto })
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateMajorDto: UpdateMajorDto,

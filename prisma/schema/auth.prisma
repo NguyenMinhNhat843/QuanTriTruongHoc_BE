@@ -130,6 +130,7 @@ model AdmissionProfile {
 model DocumentConfig {
   id    Int    @id @default(autoincrement())
   name  String
+  startDate     DateTime      @default(now())
 
   items DocumentConfigItem[]
 }

@@ -3329,10 +3329,7 @@ export const CurriculumScalarFieldEnum = {
   curriculumCode: 'curriculumCode',
   curriculumName: 'curriculumName',
   majorId: 'majorId',
-  version: 'version',
   totalCredits: 'totalCredits',
-  effectiveFrom: 'effectiveFrom',
-  effectiveTo: 'effectiveTo',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -3346,7 +3343,6 @@ export const CurriculumSubjectScalarFieldEnum = {
   curriculumId: 'curriculumId',
   subjectId: 'subjectId',
   semesterNumber: 'semesterNumber',
-  isMandatory: 'isMandatory',
   minGrade: 'minGrade',
   createdAt: 'createdAt'
 } as const
@@ -3360,7 +3356,8 @@ export const EvaluationPeriodScalarFieldEnum = {
   isActive: 'isActive',
   isFrozen: 'isFrozen',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  semesterId: 'semesterId'
 } as const
 
 export type EvaluationPeriodScalarFieldEnum = (typeof EvaluationPeriodScalarFieldEnum)[keyof typeof EvaluationPeriodScalarFieldEnum]
@@ -3483,7 +3480,8 @@ export type AdmissionProfileScalarFieldEnum = (typeof AdmissionProfileScalarFiel
 
 export const DocumentConfigScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  startDate: 'startDate'
 } as const
 
 export type DocumentConfigScalarFieldEnum = (typeof DocumentConfigScalarFieldEnum)[keyof typeof DocumentConfigScalarFieldEnum]

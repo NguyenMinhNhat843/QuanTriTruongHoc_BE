@@ -5,7 +5,6 @@ import {
   IsString,
   IsInt,
   Min,
-  Max,
   IsArray,
   ValidateNested,
 } from "class-validator";
@@ -16,10 +15,16 @@ export class CreatePeriodDto {
   @IsString()
   @IsNotEmpty({ message: "Tên đợt đánh giá không được để trống" })
   name: string;
+
+  @ApiProperty()
+  semesterId: number;
 }
 
 export class CreateCriterionDto {
-  @ApiProperty({ example: "Ý thức học tập (Đi học đầy đủ, đúng giờ)", description: "Nội dung tiêu chí" })
+  @ApiProperty({
+    example: "Ý thức học tập (Đi học đầy đủ, đúng giờ)",
+    description: "Nội dung tiêu chí",
+  })
   @IsString()
   @IsNotEmpty({ message: "Nội dung tiêu chí không được để trống" })
   title: string;
@@ -52,7 +57,10 @@ export class SubmitAssessmentDto {
   @IsInt()
   periodId: number;
 
-  @ApiProperty({ type: [AssessmentDetailInput], description: "Chi tiết điểm tự chấm theo tiêu chí" })
+  @ApiProperty({
+    type: [AssessmentDetailInput],
+    description: "Chi tiết điểm tự chấm theo tiêu chí",
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => AssessmentDetailInput)
@@ -75,12 +83,18 @@ export class ApproveAssessmentDto {
   @IsInt()
   assessmentId: number;
 
-  @ApiPropertyOptional({ example: "Học sinh tích cực tham gia các hoạt động", description: "Nhận xét của GVCN" })
+  @ApiPropertyOptional({
+    example: "Học sinh tích cực tham gia các hoạt động",
+    description: "Nhận xét của GVCN",
+  })
   @IsOptional()
   @IsString()
   teacherComment?: string;
 
-  @ApiProperty({ type: [TeacherAssessmentDetailInput], description: "Chi tiết điểm GVCN chấm theo tiêu chí" })
+  @ApiProperty({
+    type: [TeacherAssessmentDetailInput],
+    description: "Chi tiết điểm GVCN chấm theo tiêu chí",
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => TeacherAssessmentDetailInput)

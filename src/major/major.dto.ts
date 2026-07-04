@@ -1,39 +1,63 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, OmitType } from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsOptional,
   IsString,
   IsInt,
-  MaxLength,
+  IsDate,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
+import { Major } from "../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
+import { DepartmentDto } from "../department/department.dto";
 
-export class CreateMajorDto {
-  @ApiProperty({ example: "CNTT", description: "Mã ngành đào tạo" })
+export class MajorDto implements Major {
+  @ApiProperty()
+  @IsInt()
+  @Type(() => Number)
+  id: number;
+
+  @ApiProperty()
+  @IsInt()
+  @Type(() => Number)
+  deptId: number;
+
+  @ApiProperty({ required: false, nullable: true })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty({ message: "Mã ngành không được để trống" })
-  @MaxLength(20)
+  description: string | null;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   majorCode: string;
 
-  @ApiProperty({ example: "Công nghệ thông tin" })
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty({ message: "Tên ngành không được để trống" })
-  @MaxLength(255)
+  @IsNotEmpty()
   majorName: string;
 
-  @ApiPropertyOptional({
-    example: 1,
-    description: "ID của phòng ban/khoa trực thuộc",
-  })
-  @IsInt()
-  deptId?: number;
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  createdAt: Date;
 
-  @ApiPropertyOptional({
-    example: "Ngành học tập trung vào phát triển phần mềm",
-  })
-  @IsString()
-  @IsOptional()
-  description?: string;
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  updatedAt: Date;
 }
 
+export class CreateMajorDto extends OmitType(MajorDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+] as const) {}
+
 export class UpdateMajorDto extends PartialType(CreateMajorDto) {}
+
+// Response type
+export class MajorResponseWithRelationDto extends MajorDto {
+  @ApiPropertyOptional({ type: () => DepartmentDto })
+  department?: DepartmentDto;
+}

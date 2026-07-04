@@ -521,6 +521,10 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type EnumRoleTypeFieldUpdateOperationsInput = {
   set?: $Enums.RoleType
 }

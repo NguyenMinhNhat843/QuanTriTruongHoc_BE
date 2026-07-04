@@ -6,10 +6,11 @@ import {
 import { PrismaService } from "../prisma/prisma.service"; // Đảm bảo đường dẫn đúng tới PrismaService
 import { CreateBatchDto, SearchBatchDto, UpdateBatchDto } from "./batch.dto";
 import { BatchResponseDto } from "./batch.response";
-import { CurriculumService } from "../curriculumn/curriculum.service";
+import { CurriculumService } from "../curriculumn/service/curriculum.service";
 import { SemesterResponseDto } from "../semester/semester.response";
 import { plainToInstance } from "class-transformer";
-import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
+import { resolveCurriculumSemesterNumber } from "../utils/academic.util";
+import { CurriculumSubjectResponseDtoWithRelation } from "../curriculumn/dto/curriculum-subject.dto";
 
 @Injectable()
 export class BatchService {
@@ -36,36 +37,12 @@ export class BatchService {
       throw new BadRequestException("batchCode đã tồn tại");
     }
 
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const { id, majorId, curriculumId, ...rest } = createBatchDto;
-
-    // Thời gian kết thúc của 1 khóa đào tạo phụ thuộc vào chương trình khung của nó có mấy kỳ
-    // Ví dụ: start - 2026, gắn với chương trình có 3 kỳ thì end Year sẽ là 2027 (HK1 - 2027)
-    const soKyTheoChuongTrinhKhung =
-      await this.prisma.curriculumSubject.aggregate({
-        where: {
-          id: curriculumId!,
-        },
-        _max: {
-          semesterNumber: true,
-        },
-      });
-    const time = (soKyTheoChuongTrinhKhung?._max?.semesterNumber || 0) - 2;
-
-    const endYear = rest.startYear + time / 2 + (time % 2 === 1 ? 1 : 0);
+    const { majorId, ...rest } = createBatchDto;
 
     return this.prisma.batch.create({
       data: {
         ...rest,
-        endYear,
-        ...(curriculumId && {
-          curriculum: {
-            connect: { id: curriculumId },
-          },
-        }),
-        major: {
-          connect: { id: majorId },
-        },
+        majorId: majorId,
       },
     });
   }
@@ -139,25 +116,16 @@ export class BatchService {
     batchId: number,
     semester: SemesterResponseDto,
   ) {
-    const batch = await this.prisma.batch.findUnique({
-      where: {
-        id: batchId,
-      },
+    const semesterNumber = await resolveCurriculumSemesterNumber({
+      prisma: this.prisma,
+      semesterId: semester.id,
+      batchId: batchId,
     });
-
-    const batchStartYear = batch?.startYear;
-    const { term, year } = semester || {};
-    if (!year || !term || !batchStartYear) {
-      throw new BadRequestException("Thiếu thông tin học kỳ hoặc khóa đào tạo");
-    }
-    const semesterNo = (year - batchStartYear!) * 2 + (term === 1 ? 1 : 2);
 
     const curriculum = await this.prisma.curriculum.findFirst({
       where: {
-        batches: {
-          some: {
-            id: batchId,
-          },
+        batch: {
+          id: batchId,
         },
       },
     });
@@ -165,14 +133,14 @@ export class BatchService {
     const subjects = await this.prisma.curriculumSubject.findMany({
       where: {
         curriculumId: curriculum?.id,
-        semesterNumber: semesterNo,
+        semesterNumber: semesterNumber,
       },
       include: {
         subject: true,
       },
     });
 
-    return plainToInstance(CurriculumSubjectResponseDto, subjects);
+    return plainToInstance(CurriculumSubjectResponseDtoWithRelation, subjects);
   }
 
   /**

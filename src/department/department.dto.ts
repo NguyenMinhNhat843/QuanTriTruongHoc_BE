@@ -1,46 +1,56 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
+import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsOptional,
   IsString,
   IsInt,
-  MaxLength,
+  IsDate,
 } from "class-validator";
+import { Department } from "../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
 
-export class CreateDepartmentDto {
-  @ApiProperty({
-    example: "IT01",
-    description: "Mã định danh duy nhất của phòng ban/khoa",
-  })
+export class DepartmentDto implements Department {
+  @ApiProperty()
+  @IsInt()
+  @Type(() => Number)
+  id: number;
+
+  @ApiProperty({ required: false, nullable: true })
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
+  headOfDepartmentId: number | null;
+
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty({ message: "Mã phòng ban không được để trống" })
-  @MaxLength(20)
+  @IsNotEmpty()
   deptCode: string;
 
-  @ApiProperty({
-    example: "Khoa Công nghệ thông tin",
-    description: "Tên đầy đủ của phòng ban/khoa",
-  })
+  @ApiProperty()
   @IsString()
-  @IsNotEmpty({ message: "Tên phòng ban không được để trống" })
-  @MaxLength(255)
+  @IsNotEmpty()
   deptName: string;
 
-  @ApiPropertyOptional({
-    example: "Chuyên đào tạo lập trình viên và kỹ sư hệ thống",
-    description: "Mô tả chi tiết về phòng ban",
-  })
+  @ApiProperty({ required: false, nullable: true })
+  @IsOptional()
   @IsString()
-  @IsOptional()
-  description?: string;
+  description: string | null;
 
-  @ApiPropertyOptional({
-    example: 1,
-    description: "ID của nhân viên (Staff) làm trưởng khoa",
-  })
-  @IsInt()
-  @IsOptional()
-  headOfDepartmentId?: number;
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  updatedAt: Date;
 }
+
+export class CreateDepartmentDto extends OmitType(DepartmentDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+]) {}
 
 export class UpdateDepartmentDto extends PartialType(CreateDepartmentDto) {}

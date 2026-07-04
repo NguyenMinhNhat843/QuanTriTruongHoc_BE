@@ -1,24 +1,35 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 import {
   CreateDocumentConfigDto,
   DocumentConfigResponseDto,
   DocumentConfigWithItemsResponseDto,
-} from "./docConfig.dto";
+} from "../dto/docConfig.dto";
 
 @Injectable()
 export class DocumentConfigService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(
-    dto: CreateDocumentConfigDto,
-  ): Promise<DocumentConfigResponseDto> {
-    const newConfig = await this.prisma.documentConfig.create({
-      data: dto,
+  async create(dto: CreateDocumentConfigDto) {
+    const { items, ...documentConfigData } = dto;
+
+    await this.prisma.$transaction(async (tx) => {
+      const newConfig = await tx.documentConfig.create({
+        data: documentConfigData,
+      });
+
+      await tx.documentConfigItem.createMany({
+        data: items.map((item) => ({
+          ...item,
+          documentConfigId: newConfig.id,
+        })),
+      });
     });
 
-    return plainToInstance(DocumentConfigResponseDto, newConfig);
+    return {
+      message: "Tạo cấu hình tài liệu thành công",
+    };
   }
 
   async findAll(): Promise<DocumentConfigResponseDto[]> {

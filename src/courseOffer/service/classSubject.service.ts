@@ -4,8 +4,6 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
-import { CurriculumSubjectService } from "../../curriculumSubject/curriculumnSubject.service";
-import { CourseRegistrationService } from "../grades.service";
 import {
   CreateClassSubjectDto,
   SearchClassSubjectDto,
@@ -18,15 +16,16 @@ import {
   ResponsePreviewGenerateSectionForClass,
 } from "../classSubject.response";
 import { CourseOfferDetailResponseDto } from "../classSubjectDetail.response";
-import { resolveCurriculumSemesterNumber } from "../../utils/academic.util";
+import { CourseRegistrationService } from "../grades.service";
+import { SubjectService } from "../../subject/subject.service";
 
 @Injectable()
 export class ClassSubjectService {
   constructor(
     private prisma: PrismaService,
-    private curriculumSubjectService: CurriculumSubjectService,
     private gradeService: CourseRegistrationService,
-  ) { }
+    private subjectService: SubjectService,
+  ) {}
 
   /**
    * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
@@ -439,31 +438,30 @@ export class ClassSubjectService {
       throw new NotFoundException(`Không tìm thấy lớp học với ID ${classId}`);
     }
 
-    const curriculumSubjects =
-      await this.curriculumSubjectService.findByCurriculumAndSemester(
-        semesterId,
-        classId,
-      );
+    const subjects = await this.subjectService.getSubjectsByClassAndSemester(
+      classId,
+      semesterId,
+    );
 
     // 4. Duyệt qua từng môn để dựng cấu trúc lớp học phần dự kiến
     const previewList: ResponsePreviewGenerateSectionForClass[] = [];
 
-    for (const cs of curriculumSubjects) {
-      // Kiểm tra xem lớp học phần này đã được sinh ra trong hệ thống từ trước chưa
+    for (const cs of subjects) {
+      // Kiểm tra xem ClassSubject này đã tồn tại chưa
       const existingCourseOffer = await this.prisma.courseOffer.findUnique({
         where: {
           subjectId_classId: {
-            subjectId: cs.subjectId,
+            subjectId: cs.id,
             classId: classId,
           },
         },
       });
 
       previewList.push({
-        subjectId: cs?.subjectId,
-        subjectCode: cs?.subject?.subjectCode || "Không xác định",
-        subjectName: cs?.subject?.subjectName || "Không xác định",
-        credits: cs?.subject?.credits || 0,
+        subjectId: cs?.id,
+        subjectCode: cs?.subjectCode || "Không xác định",
+        subjectName: cs?.subjectName || "Không xác định",
+        credits: cs?.credits || 0,
         isExisted: !!existingCourseOffer,
       });
     }

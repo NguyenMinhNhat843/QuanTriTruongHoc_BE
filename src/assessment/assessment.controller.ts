@@ -13,6 +13,7 @@ import {
   ApiOperation,
   ApiBearerAuth,
   ApiQuery,
+  ApiResponse,
 } from "@nestjs/swagger";
 import { AssessmentService } from "./assessment.service";
 import {
@@ -26,13 +27,18 @@ import { RolesGuard } from "../auth/guard/role.guard";
 import { Roles } from "../common/decorators/role.decorator";
 import { RoleType } from "../../prisma/generated/prisma/enums";
 import { GetUser } from "../common/decorators/get-user.decorator";
+import {
+  AssessmentDtoWithRelation,
+  CriterionDto,
+  EvaluationPeriodDto,
+} from "./assessment-response.dto";
 
 @ApiTags("Assessment (Quản lý Điểm rèn luyện)")
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller("assessment")
 export class AssessmentController {
-  constructor(private readonly assessmentService: AssessmentService) { }
+  constructor(private readonly assessmentService: AssessmentService) {}
 
   // =========================================================================
   // 1. ENDPOINTS DÀNH CHO PHÒNG CTHS (ADMIN / STAFF)
@@ -54,7 +60,10 @@ export class AssessmentController {
 
   @Post("periods/:id/freeze")
   @Roles(RoleType.admin, RoleType.staff)
-  @ApiOperation({ summary: "Phòng CTHS: Khóa đợt đánh giá & công bố kết quả (Tính toán xếp loại tự động)" })
+  @ApiOperation({
+    summary:
+      "Phòng CTHS: Khóa đợt đánh giá & công bố kết quả (Tính toán xếp loại tự động)",
+  })
   freezePeriod(@Param("id", ParseIntPipe) id: number) {
     return this.assessmentService.freezePeriod(id);
   }
@@ -66,6 +75,7 @@ export class AssessmentController {
   @Get("periods")
   @Roles(RoleType.admin, RoleType.staff, RoleType.teacher, RoleType.student)
   @ApiOperation({ summary: "Lấy danh sách các đợt đánh giá" })
+  @ApiResponse({ status: 200, type: [EvaluationPeriodDto] })
   getPeriods() {
     return this.assessmentService.getPeriods();
   }
@@ -73,6 +83,7 @@ export class AssessmentController {
   @Get("criteria")
   @Roles(RoleType.admin, RoleType.staff, RoleType.teacher, RoleType.student)
   @ApiOperation({ summary: "Lấy danh sách tiêu chí chấm điểm chuẩn" })
+  @ApiResponse({ status: 200, type: [CriterionDto] })
   getCriteria() {
     return this.assessmentService.getCriteria();
   }
@@ -83,8 +94,16 @@ export class AssessmentController {
 
   @Get("student/my-assessment")
   @Roles(RoleType.student)
-  @ApiOperation({ summary: "Học sinh: Lấy phiếu điểm rèn luyện cá nhân trong đợt" })
-  @ApiQuery({ name: "periodId", type: Number, required: true, description: "ID đợt đánh giá" })
+  @ApiOperation({
+    summary: "Học sinh: Lấy phiếu điểm rèn luyện cá nhân trong đợt",
+  })
+  @ApiQuery({
+    name: "periodId",
+    type: Number,
+    required: true,
+    description: "ID đợt đánh giá",
+  })
+  @ApiResponse({ status: 200, type: AssessmentDtoWithRelation })
   getMyAssessment(
     @GetUser("id") userId: number,
     @Query("periodId", ParseIntPipe) periodId: number,
@@ -94,7 +113,10 @@ export class AssessmentController {
 
   @Post("student/submit")
   @Roles(RoleType.student)
-  @ApiOperation({ summary: "Học sinh: Tự đánh giá và nộp phiếu rèn luyện (Trạng thái chuyển sang PENDING)" })
+  @ApiOperation({
+    summary:
+      "Học sinh: Tự đánh giá và nộp phiếu rèn luyện (Trạng thái chuyển sang PENDING)",
+  })
   submitAssessment(
     @GetUser("id") userId: number,
     @Body() dto: SubmitAssessmentDto,
@@ -108,8 +130,16 @@ export class AssessmentController {
 
   @Get("teacher/class-students")
   @Roles(RoleType.teacher)
-  @ApiOperation({ summary: "GVCN: Xem danh sách học sinh của lớp mình chủ nhiệm kèm trạng thái phiếu rèn luyện" })
-  @ApiQuery({ name: "periodId", type: Number, required: true, description: "ID đợt đánh giá" })
+  @ApiOperation({
+    summary:
+      "GVCN: Xem danh sách học sinh của lớp mình chủ nhiệm kèm trạng thái phiếu rèn luyện",
+  })
+  @ApiQuery({
+    name: "periodId",
+    type: Number,
+    required: true,
+    description: "ID đợt đánh giá",
+  })
   getClassStudentsAssessments(
     @GetUser("id") userId: number,
     @Query("periodId", ParseIntPipe) periodId: number,
@@ -119,7 +149,9 @@ export class AssessmentController {
 
   @Get("teacher/student-assessment/:id")
   @Roles(RoleType.teacher)
-  @ApiOperation({ summary: "GVCN: Xem chi tiết phiếu rèn luyện của một học sinh trong lớp" })
+  @ApiOperation({
+    summary: "GVCN: Xem chi tiết phiếu rèn luyện của một học sinh trong lớp",
+  })
   getStudentAssessmentForTeacher(
     @GetUser("id") userId: number,
     @Param("id", ParseIntPipe) id: number,
@@ -129,7 +161,10 @@ export class AssessmentController {
 
   @Post("teacher/approve")
   @Roles(RoleType.teacher)
-  @ApiOperation({ summary: "GVCN: Chấm điểm điều chỉnh, nhận xét và Duyệt phiếu rèn luyện (APPROVED)" })
+  @ApiOperation({
+    summary:
+      "GVCN: Chấm điểm điều chỉnh, nhận xét và Duyệt phiếu rèn luyện (APPROVED)",
+  })
   approveAssessment(
     @GetUser("id") userId: number,
     @Body() dto: ApproveAssessmentDto,

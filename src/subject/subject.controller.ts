@@ -19,6 +19,7 @@ import { SubjectService } from "./subject.service";
 import {
   CreateSubjectDto,
   ResponseSubjectDto,
+  SearchSubjectDto,
   UpdateSubjectDto,
 } from "./subject.dto";
 
@@ -37,8 +38,8 @@ export class SubjectController {
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả môn học" })
   @ApiOkResponse({ type: ResponseSubjectDto, isArray: true })
-  findAll() {
-    return this.subjectService.findAll();
+  findAll(@Query() query: SearchSubjectDto) {
+    return this.subjectService.findAll(query);
   }
 
   @Get("subjects-by-class-and-semester")

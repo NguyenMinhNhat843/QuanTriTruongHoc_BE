@@ -5,15 +5,20 @@ import {
   InternalServerErrorException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { MajorResponseDto } from "./major.response";
-import { CreateMajorDto, UpdateMajorDto } from "./major.dto";
+import {
+  CreateMajorDto,
+  MajorDto,
+  MajorResponseWithRelationDto,
+  UpdateMajorDto,
+} from "./major.dto";
 import { Prisma } from "../../prisma/generated/prisma/client";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class MajorService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateMajorDto): Promise<MajorResponseDto> {
+  async create(data: CreateMajorDto) {
     const { deptId, majorCode } = data;
 
     // 1. Kiểm tra phòng ban (Department) có tồn tại không
@@ -37,36 +42,36 @@ export class MajorService {
         data: data as Prisma.MajorUncheckedCreateInput,
         include: { department: true },
       });
-      return new MajorResponseDto(major);
+      return plainToInstance(MajorDto, major);
     } catch (error) {
       console.log("Lỗi khi tạo ngành học:", error);
       throw new InternalServerErrorException("Lỗi khi tạo ngành học");
     }
   }
 
-  async findAll(): Promise<MajorResponseDto[]> {
+  async findAll(): Promise<MajorDto[]> {
     const majors = await this.prisma.major.findMany({
       include: {
         department: true,
         _count: { select: { classes: true } },
       },
     });
-    return majors.map((major) => new MajorResponseDto(major));
+    return plainToInstance(MajorDto, majors);
   }
 
-  async findOne(id: number): Promise<MajorResponseDto> {
+  async findOne(id: number): Promise<MajorResponseWithRelationDto> {
     const major = await this.prisma.major.findUnique({
       where: { id },
-      include: { department: true, _count: { select: { classes: true } } },
+      include: { department: true },
     });
 
     if (!major) {
       throw new NotFoundException(`Không tìm thấy ngành học với ID ${id}`);
     }
-    return new MajorResponseDto(major);
+    return plainToInstance(MajorResponseWithRelationDto, major);
   }
 
-  async update(id: number, data: UpdateMajorDto): Promise<MajorResponseDto> {
+  async update(id: number, data: UpdateMajorDto) {
     // Kiểm tra tồn tại
     await this.findOne(id);
 
@@ -84,7 +89,7 @@ export class MajorService {
         data,
         include: { department: true },
       });
-      return new MajorResponseDto(updatedMajor);
+      return plainToInstance(MajorDto, updatedMajor);
     } catch (error) {
       console.log("Lỗi khi cập nhật ngành học:", error);
       throw new InternalServerErrorException("Lỗi khi cập nhật ngành học");

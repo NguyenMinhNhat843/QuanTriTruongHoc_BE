@@ -8,6 +8,7 @@ import {
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 import { Subject } from "../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
 
 export class SubjectDto implements Subject {
   @ApiProperty()
@@ -18,6 +19,7 @@ export class SubjectDto implements Subject {
   @ApiProperty({ type: Number, nullable: true })
   @IsInt()
   @IsOptional()
+  @Type(() => Number)
   departmentId: number | null;
 
   @ApiProperty()
@@ -83,7 +85,10 @@ export class SearchSubjectDto extends PartialType(
   ] as const),
 ) {
   @ApiProperty({ type: String, required: false })
-  keuword?: string;
+  keyword?: string;
+
+  @ApiProperty({ type: Number, required: false })
+  majorId?: number;
 }
 
 export class ResponseSubjectDto extends SubjectDto {}

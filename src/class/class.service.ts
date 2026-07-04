@@ -72,11 +72,8 @@ export class ClassService {
     try {
       const newClass = await client.class.create({
         data,
-        include: {
-          _count: { select: { courseOffers: true } },
-        },
       });
-      return new ClassResponseDto(newClass);
+      return plainToInstance(ClassResponseDto, newClass);
     } catch (error) {
       console.error("Lỗi khi tạo lớp học:", error);
       throw new InternalServerErrorException("Lỗi hệ thống khi tạo lớp học");
@@ -160,10 +157,18 @@ export class ClassService {
       },
     });
 
+    // Lấy giáo viên chủ nhiệm
+    const formTeacher = await this.prisma.staff.findUnique({
+      where: { id: classItem?.formTeacherId || 0 },
+    });
+
     if (!classItem) {
       throw new NotFoundException(`Không tìm thấy lớp học với ID ${id}`);
     }
-    return new ClassResponseDto(classItem);
+    return plainToInstance(ClassResponseDto, {
+      ...classItem,
+      formTeacher: formTeacher || null,
+    });
   }
 
   /**
@@ -185,7 +190,7 @@ export class ClassService {
         data,
         include: { major: true },
       });
-      return new ClassResponseDto(updated);
+      return plainToInstance(ClassResponseDto, updated);
     } catch (error) {
       console.log("Lỗi khi cập nhật lớp:", error);
       throw new InternalServerErrorException("Lỗi khi cập nhật lớp học");

@@ -37,16 +37,19 @@ export type DocumentConfigSumAggregateOutputType = {
 export type DocumentConfigMinAggregateOutputType = {
   id: number | null
   name: string | null
+  startDate: Date | null
 }
 
 export type DocumentConfigMaxAggregateOutputType = {
   id: number | null
   name: string | null
+  startDate: Date | null
 }
 
 export type DocumentConfigCountAggregateOutputType = {
   id: number
   name: number
+  startDate: number
   _all: number
 }
 
@@ -62,16 +65,19 @@ export type DocumentConfigSumAggregateInputType = {
 export type DocumentConfigMinAggregateInputType = {
   id?: true
   name?: true
+  startDate?: true
 }
 
 export type DocumentConfigMaxAggregateInputType = {
   id?: true
   name?: true
+  startDate?: true
 }
 
 export type DocumentConfigCountAggregateInputType = {
   id?: true
   name?: true
+  startDate?: true
   _all?: true
 }
 
@@ -164,6 +170,7 @@ export type DocumentConfigGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type DocumentConfigGroupByOutputType = {
   id: number
   name: string
+  startDate: Date
   _count: DocumentConfigCountAggregateOutputType | null
   _avg: DocumentConfigAvgAggregateOutputType | null
   _sum: DocumentConfigSumAggregateOutputType | null
@@ -192,12 +199,14 @@ export type DocumentConfigWhereInput = {
   NOT?: Prisma.DocumentConfigWhereInput | Prisma.DocumentConfigWhereInput[]
   id?: Prisma.IntFilter<"DocumentConfig"> | number
   name?: Prisma.StringFilter<"DocumentConfig"> | string
+  startDate?: Prisma.DateTimeFilter<"DocumentConfig"> | Date | string
   items?: Prisma.DocumentConfigItemListRelationFilter
 }
 
 export type DocumentConfigOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
   items?: Prisma.DocumentConfigItemOrderByRelationAggregateInput
 }
 
@@ -207,12 +216,14 @@ export type DocumentConfigWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DocumentConfigWhereInput[]
   NOT?: Prisma.DocumentConfigWhereInput | Prisma.DocumentConfigWhereInput[]
   name?: Prisma.StringFilter<"DocumentConfig"> | string
+  startDate?: Prisma.DateTimeFilter<"DocumentConfig"> | Date | string
   items?: Prisma.DocumentConfigItemListRelationFilter
 }, "id">
 
 export type DocumentConfigOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
   _count?: Prisma.DocumentConfigCountOrderByAggregateInput
   _avg?: Prisma.DocumentConfigAvgOrderByAggregateInput
   _max?: Prisma.DocumentConfigMaxOrderByAggregateInput
@@ -226,47 +237,56 @@ export type DocumentConfigScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DocumentConfigScalarWhereWithAggregatesInput | Prisma.DocumentConfigScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"DocumentConfig"> | number
   name?: Prisma.StringWithAggregatesFilter<"DocumentConfig"> | string
+  startDate?: Prisma.DateTimeWithAggregatesFilter<"DocumentConfig"> | Date | string
 }
 
 export type DocumentConfigCreateInput = {
   name: string
+  startDate?: Date | string
   items?: Prisma.DocumentConfigItemCreateNestedManyWithoutDocumentConfigInput
 }
 
 export type DocumentConfigUncheckedCreateInput = {
   id?: number
   name: string
+  startDate?: Date | string
   items?: Prisma.DocumentConfigItemUncheckedCreateNestedManyWithoutDocumentConfigInput
 }
 
 export type DocumentConfigUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.DocumentConfigItemUpdateManyWithoutDocumentConfigNestedInput
 }
 
 export type DocumentConfigUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.DocumentConfigItemUncheckedUpdateManyWithoutDocumentConfigNestedInput
 }
 
 export type DocumentConfigCreateManyInput = {
   id?: number
   name: string
+  startDate?: Date | string
 }
 
 export type DocumentConfigUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentConfigUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentConfigCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
 }
 
 export type DocumentConfigAvgOrderByAggregateInput = {
@@ -276,11 +296,13 @@ export type DocumentConfigAvgOrderByAggregateInput = {
 export type DocumentConfigMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
 }
 
 export type DocumentConfigMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  startDate?: Prisma.SortOrder
 }
 
 export type DocumentConfigSumOrderByAggregateInput = {
@@ -308,11 +330,13 @@ export type DocumentConfigUpdateOneRequiredWithoutItemsNestedInput = {
 
 export type DocumentConfigCreateWithoutItemsInput = {
   name: string
+  startDate?: Date | string
 }
 
 export type DocumentConfigUncheckedCreateWithoutItemsInput = {
   id?: number
   name: string
+  startDate?: Date | string
 }
 
 export type DocumentConfigCreateOrConnectWithoutItemsInput = {
@@ -333,11 +357,13 @@ export type DocumentConfigUpdateToOneWithWhereWithoutItemsInput = {
 
 export type DocumentConfigUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentConfigUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -374,6 +400,7 @@ export type DocumentConfigCountOutputTypeCountItemsArgs<ExtArgs extends runtime.
 export type DocumentConfigSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  startDate?: boolean
   items?: boolean | Prisma.DocumentConfig$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentConfigCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentConfig"]>
@@ -381,19 +408,22 @@ export type DocumentConfigSelect<ExtArgs extends runtime.Types.Extensions.Intern
 export type DocumentConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  startDate?: boolean
 }, ExtArgs["result"]["documentConfig"]>
 
 export type DocumentConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  startDate?: boolean
 }, ExtArgs["result"]["documentConfig"]>
 
 export type DocumentConfigSelectScalar = {
   id?: boolean
   name?: boolean
+  startDate?: boolean
 }
 
-export type DocumentConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name", ExtArgs["result"]["documentConfig"]>
+export type DocumentConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "startDate", ExtArgs["result"]["documentConfig"]>
 export type DocumentConfigInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   items?: boolean | Prisma.DocumentConfig$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentConfigCountOutputTypeDefaultArgs<ExtArgs>
@@ -409,6 +439,7 @@ export type $DocumentConfigPayload<ExtArgs extends runtime.Types.Extensions.Inte
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
+    startDate: Date
   }, ExtArgs["result"]["documentConfig"]>
   composites: {}
 }
@@ -835,6 +866,7 @@ export interface Prisma__DocumentConfigClient<T, Null = never, ExtArgs extends r
 export interface DocumentConfigFieldRefs {
   readonly id: Prisma.FieldRef<"DocumentConfig", 'Int'>
   readonly name: Prisma.FieldRef<"DocumentConfig", 'String'>
+  readonly startDate: Prisma.FieldRef<"DocumentConfig", 'DateTime'>
 }
     
 

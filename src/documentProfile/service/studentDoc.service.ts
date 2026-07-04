@@ -10,9 +10,9 @@ import {
   SearchStudentDocDto,
   StudentDocumentResponseDto,
   UpdateStudentDocumentDto,
-} from "./studentDoc.dto";
-import { PrismaService } from "../prisma/prisma.service";
-import { CloudinaryService } from "../cloundinary/cloundinary.service";
+} from "../dto/studentDoc.dto";
+import { PrismaService } from "../../prisma/prisma.service";
+import { CloudinaryService } from "../../cloundinary/cloundinary.service";
 
 @Injectable()
 export class StudentDocumentService {

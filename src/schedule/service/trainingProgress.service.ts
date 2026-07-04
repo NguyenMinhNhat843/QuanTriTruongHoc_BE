@@ -16,11 +16,11 @@ export class TrainingPlanService {
    */
   async getTrainingPlan(classId: number, semesterId: number) {
     // 1. Xác định học kỳ khung hiện tại của lớp là kỳ mấy (Ví dụ: kỳ 1, kỳ 2, kỳ 3...)
-    const semesterNumber = await resolveCurriculumSemesterNumber(
-      this.prisma,
-      classId,
-      semesterId,
-    );
+    const semesterNumber = await resolveCurriculumSemesterNumber({
+      prisma: this.prisma,
+      classId: classId,
+      semesterId: semesterId,
+    });
 
     // 2. Tìm Chương trình khung gắn với lớp này thông qua Batch
     const classInfo = await this.prisma.class.findUnique({

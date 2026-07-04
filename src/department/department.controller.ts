@@ -10,8 +10,12 @@ import {
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import { DepartmentService } from "./department.service";
-import { CreateDepartmentDto, UpdateDepartmentDto } from "./department.dto";
-import { DepartmentResponseDto } from "./department.response";
+import {
+  CreateDepartmentDto,
+  DepartmentDto,
+  UpdateDepartmentDto,
+} from "./department.dto";
+import { plainToInstance } from "class-transformer";
 
 @ApiTags("Departments") // Nhóm các API này lại trong giao diện Swagger
 @Controller("departments")
@@ -28,25 +32,22 @@ export class DepartmentController {
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả phòng ban" })
-  @ApiResponse({ status: 200, type: [DepartmentResponseDto] })
-  async findAll(): Promise<DepartmentResponseDto[]> {
+  @ApiResponse({ status: 200, type: [DepartmentDto] })
+  async findAll(): Promise<DepartmentDto[]> {
     const result = await this.departmentService.findAll();
-    return result.map((dept) => new DepartmentResponseDto(dept));
+    return result;
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết một phòng ban theo ID" })
-  @ApiResponse({ status: 200, type: DepartmentResponseDto })
-  async findOne(
-    @Param("id", ParseIntPipe) id: number,
-  ): Promise<DepartmentResponseDto> {
+  @ApiResponse({ status: 200, type: [DepartmentDto] })
+  async findOne(@Param("id", ParseIntPipe) id: number): Promise<DepartmentDto> {
     const department = await this.departmentService.findOne(id);
-    return new DepartmentResponseDto(department);
+    return plainToInstance(DepartmentDto, department);
   }
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật thông tin phòng ban" })
-  @ApiResponse({ status: 200, type: DepartmentResponseDto })
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateDepartmentDto: UpdateDepartmentDto,

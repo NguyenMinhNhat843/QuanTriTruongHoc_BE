@@ -11,8 +11,8 @@ import {
   CreateDocumentConfigDto,
   DocumentConfigResponseDto,
   DocumentConfigWithItemsResponseDto,
-} from "./docConfig.dto";
-import { DocumentConfigService } from "./docConfig.service";
+} from "../dto/docConfig.dto";
+import { DocumentConfigService } from "../service/docConfig.service";
 
 @ApiTags("Document Config")
 @Controller("document-configs")
@@ -21,10 +21,7 @@ export class DocumentConfigController {
 
   @Post()
   @ApiOperation({ summary: "Tạo mới cấu hình tài liệu" })
-  @ApiResponse({ status: 201, type: DocumentConfigResponseDto })
-  async create(
-    @Body() dto: CreateDocumentConfigDto,
-  ): Promise<DocumentConfigResponseDto> {
+  async create(@Body() dto: CreateDocumentConfigDto) {
     return this.documentConfigService.create(dto);
   }
 

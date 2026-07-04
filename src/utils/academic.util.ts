@@ -47,26 +47,75 @@ export class AcademicUtils {
   };
 }
 
-export async function resolveCurriculumSemesterNumber(
-  prisma: PrismaService, // Truyền prisma instance từ nơi gọi vào đây
-  classId: number,
-  semesterId: number,
-): Promise<number> {
-  const classInfo = await prisma.class.findUnique({
-    where: { id: classId },
-    include: { batch: true },
-  });
+// Định nghĩa cấu trúc Object tham số đầu vào
+interface ResolveSemesterOptions {
+  prisma: PrismaService;
+  semesterId: number;
+  classId?: number;
+  batchId?: number;
+}
 
-  if (!classInfo) {
-    throw new NotFoundException(`Không tìm thấy lớp học có ID ${classId}`);
-  }
-
-  if (!classInfo.batch || !classInfo.batch.curriculumId) {
+export async function resolveCurriculumSemesterNumber({
+  prisma,
+  semesterId,
+  classId,
+  batchId,
+}: ResolveSemesterOptions): Promise<number> {
+  // 1. Kiểm tra ràng buộc bắt buộc: Phải có classId HOẶC batchId
+  if (!classId && !batchId) {
     throw new BadRequestException(
-      "Lớp học chưa được gán Khóa đào tạo hoặc Chương trình khung.",
+      "Yêu cầu cung cấp ít nhất mã lớp học (classId) hoặc mã khóa đào tạo (batchId) để truy vấn.",
     );
   }
 
+  let batchInfo: { startYear: number; curriculumId: number | null } | null =
+    null;
+
+  // 2. Lấy thông tin Khóa đào tạo (Batch) theo hướng tối ưu nhất
+  if (batchId) {
+    // Nếu có batchId, ưu tiên tìm thẳng trong bảng Batch để bỏ qua bảng Class
+    const batch = await prisma.batch.findUnique({
+      where: { id: batchId },
+      select: { startYear: true, curriculumId: true },
+    });
+
+    if (!batch) {
+      throw new NotFoundException(
+        `Không tìm thấy Khóa đào tạo có ID ${batchId}`,
+      );
+    }
+    batchInfo = batch;
+  } else if (classId) {
+    // Nếu không có batchId nhưng có classId, truy vấn gián tiếp thông qua Class
+    const classInfo = await prisma.class.findUnique({
+      where: { id: classId },
+      include: {
+        batch: {
+          select: { startYear: true, curriculumId: true },
+        },
+      },
+    });
+
+    if (!classInfo) {
+      throw new NotFoundException(`Không tìm thấy lớp học có ID ${classId}`);
+    }
+
+    if (!classInfo.batch) {
+      throw new BadRequestException(
+        "Lớp học này chưa được gán vào bất kỳ Khóa đào tạo nào.",
+      );
+    }
+    batchInfo = classInfo.batch;
+  }
+
+  // Đảm bảo batchInfo luôn tồn tại (TypeScript Type Guard) và kiểm tra Chương trình khung
+  if (!batchInfo || !batchInfo.curriculumId) {
+    throw new BadRequestException(
+      "Khóa đào tạo chưa được cấu hình Chương trình khung.",
+    );
+  }
+
+  // 3. Tìm học kỳ thực tế đang xét
   const semester = await prisma.semester.findUnique({
     where: { id: semesterId },
   });
@@ -81,7 +130,8 @@ export async function resolveCurriculumSemesterNumber(
     );
   }
 
-  const yearDiff = semester.year - classInfo.batch.startYear;
+  // 4. Tính toán số thứ tự học kỳ (Semester Number)
+  const yearDiff = semester.year - batchInfo.startYear;
   const semesterNumber = yearDiff * 2 + semester.term;
 
   if (semesterNumber <= 0) {

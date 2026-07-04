@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import {
   CreateDocumentConfigItemDto,
   DocumentConfigItemResponseDto,
-} from "./docConfigItem.dto"; // Điều chỉnh đường dẫn file dto của bạn
+} from "../dto/docConfigItem.dto"; // Điều chỉnh đường dẫn file dto của bạn
 import { plainToInstance } from "class-transformer";
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
 export class DocumentConfigItemService {

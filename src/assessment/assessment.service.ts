@@ -32,6 +32,7 @@ export class AssessmentService {
     return this.prisma.evaluationPeriod.create({
       data: {
         name: dto.name,
+        semesterId: dto.semesterId,
         isActive: true,
         isFrozen: false,
       },

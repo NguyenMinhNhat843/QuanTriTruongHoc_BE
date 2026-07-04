@@ -29,14 +29,12 @@ export type AggregateCurriculum = {
 export type CurriculumAvgAggregateOutputType = {
   id: number | null
   majorId: number | null
-  version: number | null
   totalCredits: number | null
 }
 
 export type CurriculumSumAggregateOutputType = {
   id: number | null
   majorId: number | null
-  version: number | null
   totalCredits: number | null
 }
 
@@ -45,10 +43,7 @@ export type CurriculumMinAggregateOutputType = {
   curriculumCode: string | null
   curriculumName: string | null
   majorId: number | null
-  version: number | null
   totalCredits: number | null
-  effectiveFrom: Date | null
-  effectiveTo: Date | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,10 +54,7 @@ export type CurriculumMaxAggregateOutputType = {
   curriculumCode: string | null
   curriculumName: string | null
   majorId: number | null
-  version: number | null
   totalCredits: number | null
-  effectiveFrom: Date | null
-  effectiveTo: Date | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -73,10 +65,7 @@ export type CurriculumCountAggregateOutputType = {
   curriculumCode: number
   curriculumName: number
   majorId: number
-  version: number
   totalCredits: number
-  effectiveFrom: number
-  effectiveTo: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -87,14 +76,12 @@ export type CurriculumCountAggregateOutputType = {
 export type CurriculumAvgAggregateInputType = {
   id?: true
   majorId?: true
-  version?: true
   totalCredits?: true
 }
 
 export type CurriculumSumAggregateInputType = {
   id?: true
   majorId?: true
-  version?: true
   totalCredits?: true
 }
 
@@ -103,10 +90,7 @@ export type CurriculumMinAggregateInputType = {
   curriculumCode?: true
   curriculumName?: true
   majorId?: true
-  version?: true
   totalCredits?: true
-  effectiveFrom?: true
-  effectiveTo?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -117,10 +101,7 @@ export type CurriculumMaxAggregateInputType = {
   curriculumCode?: true
   curriculumName?: true
   majorId?: true
-  version?: true
   totalCredits?: true
-  effectiveFrom?: true
-  effectiveTo?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -131,10 +112,7 @@ export type CurriculumCountAggregateInputType = {
   curriculumCode?: true
   curriculumName?: true
   majorId?: true
-  version?: true
   totalCredits?: true
-  effectiveFrom?: true
-  effectiveTo?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -232,10 +210,7 @@ export type CurriculumGroupByOutputType = {
   curriculumCode: string
   curriculumName: string
   majorId: number
-  version: number
   totalCredits: number
-  effectiveFrom: Date | null
-  effectiveTo: Date | null
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -269,16 +244,13 @@ export type CurriculumWhereInput = {
   curriculumCode?: Prisma.StringFilter<"Curriculum"> | string
   curriculumName?: Prisma.StringFilter<"Curriculum"> | string
   majorId?: Prisma.IntFilter<"Curriculum"> | number
-  version?: Prisma.IntFilter<"Curriculum"> | number
   totalCredits?: Prisma.IntFilter<"Curriculum"> | number
-  effectiveFrom?: Prisma.DateTimeNullableFilter<"Curriculum"> | Date | string | null
-  effectiveTo?: Prisma.DateTimeNullableFilter<"Curriculum"> | Date | string | null
   isActive?: Prisma.BoolFilter<"Curriculum"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
   curriculumSubjects?: Prisma.CurriculumSubjectListRelationFilter
-  batches?: Prisma.BatchListRelationFilter
+  batch?: Prisma.XOR<Prisma.BatchNullableScalarRelationFilter, Prisma.BatchWhereInput> | null
 }
 
 export type CurriculumOrderByWithRelationInput = {
@@ -286,16 +258,13 @@ export type CurriculumOrderByWithRelationInput = {
   curriculumCode?: Prisma.SortOrder
   curriculumName?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
-  version?: Prisma.SortOrder
   totalCredits?: Prisma.SortOrder
-  effectiveFrom?: Prisma.SortOrderInput | Prisma.SortOrder
-  effectiveTo?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   major?: Prisma.MajorOrderByWithRelationInput
   curriculumSubjects?: Prisma.CurriculumSubjectOrderByRelationAggregateInput
-  batches?: Prisma.BatchOrderByRelationAggregateInput
+  batch?: Prisma.BatchOrderByWithRelationInput
 }
 
 export type CurriculumWhereUniqueInput = Prisma.AtLeast<{
@@ -306,16 +275,13 @@ export type CurriculumWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CurriculumWhereInput | Prisma.CurriculumWhereInput[]
   curriculumName?: Prisma.StringFilter<"Curriculum"> | string
   majorId?: Prisma.IntFilter<"Curriculum"> | number
-  version?: Prisma.IntFilter<"Curriculum"> | number
   totalCredits?: Prisma.IntFilter<"Curriculum"> | number
-  effectiveFrom?: Prisma.DateTimeNullableFilter<"Curriculum"> | Date | string | null
-  effectiveTo?: Prisma.DateTimeNullableFilter<"Curriculum"> | Date | string | null
   isActive?: Prisma.BoolFilter<"Curriculum"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
   curriculumSubjects?: Prisma.CurriculumSubjectListRelationFilter
-  batches?: Prisma.BatchListRelationFilter
+  batch?: Prisma.XOR<Prisma.BatchNullableScalarRelationFilter, Prisma.BatchWhereInput> | null
 }, "id" | "curriculumCode">
 
 export type CurriculumOrderByWithAggregationInput = {
@@ -323,10 +289,7 @@ export type CurriculumOrderByWithAggregationInput = {
   curriculumCode?: Prisma.SortOrder
   curriculumName?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
-  version?: Prisma.SortOrder
   totalCredits?: Prisma.SortOrder
-  effectiveFrom?: Prisma.SortOrderInput | Prisma.SortOrder
-  effectiveTo?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -345,10 +308,7 @@ export type CurriculumScalarWhereWithAggregatesInput = {
   curriculumCode?: Prisma.StringWithAggregatesFilter<"Curriculum"> | string
   curriculumName?: Prisma.StringWithAggregatesFilter<"Curriculum"> | string
   majorId?: Prisma.IntWithAggregatesFilter<"Curriculum"> | number
-  version?: Prisma.IntWithAggregatesFilter<"Curriculum"> | number
   totalCredits?: Prisma.IntWithAggregatesFilter<"Curriculum"> | number
-  effectiveFrom?: Prisma.DateTimeNullableWithAggregatesFilter<"Curriculum"> | Date | string | null
-  effectiveTo?: Prisma.DateTimeNullableWithAggregatesFilter<"Curriculum"> | Date | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Curriculum"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Curriculum"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Curriculum"> | Date | string
@@ -357,16 +317,13 @@ export type CurriculumScalarWhereWithAggregatesInput = {
 export type CurriculumCreateInput = {
   curriculumCode: string
   curriculumName: string
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutCurriculumnInput
   curriculumSubjects?: Prisma.CurriculumSubjectCreateNestedManyWithoutCurriculumInput
-  batches?: Prisma.BatchCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchCreateNestedOneWithoutCurriculumInput
 }
 
 export type CurriculumUncheckedCreateInput = {
@@ -374,30 +331,24 @@ export type CurriculumUncheckedCreateInput = {
   curriculumCode: string
   curriculumName: string
   majorId: number
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutCurriculumInput
-  batches?: Prisma.BatchUncheckedCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchUncheckedCreateNestedOneWithoutCurriculumInput
 }
 
 export type CurriculumUpdateInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutCurriculumnNestedInput
   curriculumSubjects?: Prisma.CurriculumSubjectUpdateManyWithoutCurriculumNestedInput
-  batches?: Prisma.BatchUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUpdateOneWithoutCurriculumNestedInput
 }
 
 export type CurriculumUncheckedUpdateInput = {
@@ -405,15 +356,12 @@ export type CurriculumUncheckedUpdateInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutCurriculumNestedInput
-  batches?: Prisma.BatchUncheckedUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUncheckedUpdateOneWithoutCurriculumNestedInput
 }
 
 export type CurriculumCreateManyInput = {
@@ -421,10 +369,7 @@ export type CurriculumCreateManyInput = {
   curriculumCode: string
   curriculumName: string
   majorId: number
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -433,10 +378,7 @@ export type CurriculumCreateManyInput = {
 export type CurriculumUpdateManyMutationInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -447,10 +389,7 @@ export type CurriculumUncheckedUpdateManyInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -476,10 +415,7 @@ export type CurriculumCountOrderByAggregateInput = {
   curriculumCode?: Prisma.SortOrder
   curriculumName?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
-  version?: Prisma.SortOrder
   totalCredits?: Prisma.SortOrder
-  effectiveFrom?: Prisma.SortOrder
-  effectiveTo?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -488,7 +424,6 @@ export type CurriculumCountOrderByAggregateInput = {
 export type CurriculumAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
-  version?: Prisma.SortOrder
   totalCredits?: Prisma.SortOrder
 }
 
@@ -497,10 +432,7 @@ export type CurriculumMaxOrderByAggregateInput = {
   curriculumCode?: Prisma.SortOrder
   curriculumName?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
-  version?: Prisma.SortOrder
   totalCredits?: Prisma.SortOrder
-  effectiveFrom?: Prisma.SortOrder
-  effectiveTo?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -511,10 +443,7 @@ export type CurriculumMinOrderByAggregateInput = {
   curriculumCode?: Prisma.SortOrder
   curriculumName?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
-  version?: Prisma.SortOrder
   totalCredits?: Prisma.SortOrder
-  effectiveFrom?: Prisma.SortOrder
-  effectiveTo?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -523,7 +452,6 @@ export type CurriculumMinOrderByAggregateInput = {
 export type CurriculumSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
-  version?: Prisma.SortOrder
   totalCredits?: Prisma.SortOrder
 }
 
@@ -574,24 +502,20 @@ export type CurriculumUncheckedUpdateManyWithoutMajorNestedInput = {
   deleteMany?: Prisma.CurriculumScalarWhereInput | Prisma.CurriculumScalarWhereInput[]
 }
 
-export type CurriculumCreateNestedOneWithoutBatchesInput = {
-  create?: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchesInput, Prisma.CurriculumUncheckedCreateWithoutBatchesInput>
-  connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutBatchesInput
+export type CurriculumCreateNestedOneWithoutBatchInput = {
+  create?: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchInput, Prisma.CurriculumUncheckedCreateWithoutBatchInput>
+  connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutBatchInput
   connect?: Prisma.CurriculumWhereUniqueInput
 }
 
-export type CurriculumUpdateOneWithoutBatchesNestedInput = {
-  create?: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchesInput, Prisma.CurriculumUncheckedCreateWithoutBatchesInput>
-  connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutBatchesInput
-  upsert?: Prisma.CurriculumUpsertWithoutBatchesInput
+export type CurriculumUpdateOneWithoutBatchNestedInput = {
+  create?: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchInput, Prisma.CurriculumUncheckedCreateWithoutBatchInput>
+  connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutBatchInput
+  upsert?: Prisma.CurriculumUpsertWithoutBatchInput
   disconnect?: Prisma.CurriculumWhereInput | boolean
   delete?: Prisma.CurriculumWhereInput | boolean
   connect?: Prisma.CurriculumWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CurriculumUpdateToOneWithWhereWithoutBatchesInput, Prisma.CurriculumUpdateWithoutBatchesInput>, Prisma.CurriculumUncheckedUpdateWithoutBatchesInput>
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CurriculumUpdateToOneWithWhereWithoutBatchInput, Prisma.CurriculumUpdateWithoutBatchInput>, Prisma.CurriculumUncheckedUpdateWithoutBatchInput>
 }
 
 export type CurriculumCreateNestedOneWithoutCurriculumSubjectsInput = {
@@ -611,30 +535,24 @@ export type CurriculumUpdateOneRequiredWithoutCurriculumSubjectsNestedInput = {
 export type CurriculumCreateWithoutMajorInput = {
   curriculumCode: string
   curriculumName: string
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectCreateNestedManyWithoutCurriculumInput
-  batches?: Prisma.BatchCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchCreateNestedOneWithoutCurriculumInput
 }
 
 export type CurriculumUncheckedCreateWithoutMajorInput = {
   id?: number
   curriculumCode: string
   curriculumName: string
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutCurriculumInput
-  batches?: Prisma.BatchUncheckedCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchUncheckedCreateNestedOneWithoutCurriculumInput
 }
 
 export type CurriculumCreateOrConnectWithoutMajorInput = {
@@ -671,22 +589,16 @@ export type CurriculumScalarWhereInput = {
   curriculumCode?: Prisma.StringFilter<"Curriculum"> | string
   curriculumName?: Prisma.StringFilter<"Curriculum"> | string
   majorId?: Prisma.IntFilter<"Curriculum"> | number
-  version?: Prisma.IntFilter<"Curriculum"> | number
   totalCredits?: Prisma.IntFilter<"Curriculum"> | number
-  effectiveFrom?: Prisma.DateTimeNullableFilter<"Curriculum"> | Date | string | null
-  effectiveTo?: Prisma.DateTimeNullableFilter<"Curriculum"> | Date | string | null
   isActive?: Prisma.BoolFilter<"Curriculum"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
 }
 
-export type CurriculumCreateWithoutBatchesInput = {
+export type CurriculumCreateWithoutBatchInput = {
   curriculumCode: string
   curriculumName: string
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -694,44 +606,38 @@ export type CurriculumCreateWithoutBatchesInput = {
   curriculumSubjects?: Prisma.CurriculumSubjectCreateNestedManyWithoutCurriculumInput
 }
 
-export type CurriculumUncheckedCreateWithoutBatchesInput = {
+export type CurriculumUncheckedCreateWithoutBatchInput = {
   id?: number
   curriculumCode: string
   curriculumName: string
   majorId: number
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutCurriculumInput
 }
 
-export type CurriculumCreateOrConnectWithoutBatchesInput = {
+export type CurriculumCreateOrConnectWithoutBatchInput = {
   where: Prisma.CurriculumWhereUniqueInput
-  create: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchesInput, Prisma.CurriculumUncheckedCreateWithoutBatchesInput>
+  create: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchInput, Prisma.CurriculumUncheckedCreateWithoutBatchInput>
 }
 
-export type CurriculumUpsertWithoutBatchesInput = {
-  update: Prisma.XOR<Prisma.CurriculumUpdateWithoutBatchesInput, Prisma.CurriculumUncheckedUpdateWithoutBatchesInput>
-  create: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchesInput, Prisma.CurriculumUncheckedCreateWithoutBatchesInput>
+export type CurriculumUpsertWithoutBatchInput = {
+  update: Prisma.XOR<Prisma.CurriculumUpdateWithoutBatchInput, Prisma.CurriculumUncheckedUpdateWithoutBatchInput>
+  create: Prisma.XOR<Prisma.CurriculumCreateWithoutBatchInput, Prisma.CurriculumUncheckedCreateWithoutBatchInput>
   where?: Prisma.CurriculumWhereInput
 }
 
-export type CurriculumUpdateToOneWithWhereWithoutBatchesInput = {
+export type CurriculumUpdateToOneWithWhereWithoutBatchInput = {
   where?: Prisma.CurriculumWhereInput
-  data: Prisma.XOR<Prisma.CurriculumUpdateWithoutBatchesInput, Prisma.CurriculumUncheckedUpdateWithoutBatchesInput>
+  data: Prisma.XOR<Prisma.CurriculumUpdateWithoutBatchInput, Prisma.CurriculumUncheckedUpdateWithoutBatchInput>
 }
 
-export type CurriculumUpdateWithoutBatchesInput = {
+export type CurriculumUpdateWithoutBatchInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -739,15 +645,12 @@ export type CurriculumUpdateWithoutBatchesInput = {
   curriculumSubjects?: Prisma.CurriculumSubjectUpdateManyWithoutCurriculumNestedInput
 }
 
-export type CurriculumUncheckedUpdateWithoutBatchesInput = {
+export type CurriculumUncheckedUpdateWithoutBatchInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -757,15 +660,12 @@ export type CurriculumUncheckedUpdateWithoutBatchesInput = {
 export type CurriculumCreateWithoutCurriculumSubjectsInput = {
   curriculumCode: string
   curriculumName: string
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutCurriculumnInput
-  batches?: Prisma.BatchCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchCreateNestedOneWithoutCurriculumInput
 }
 
 export type CurriculumUncheckedCreateWithoutCurriculumSubjectsInput = {
@@ -773,14 +673,11 @@ export type CurriculumUncheckedCreateWithoutCurriculumSubjectsInput = {
   curriculumCode: string
   curriculumName: string
   majorId: number
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  batches?: Prisma.BatchUncheckedCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchUncheckedCreateNestedOneWithoutCurriculumInput
 }
 
 export type CurriculumCreateOrConnectWithoutCurriculumSubjectsInput = {
@@ -802,15 +699,12 @@ export type CurriculumUpdateToOneWithWhereWithoutCurriculumSubjectsInput = {
 export type CurriculumUpdateWithoutCurriculumSubjectsInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutCurriculumnNestedInput
-  batches?: Prisma.BatchUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUpdateOneWithoutCurriculumNestedInput
 }
 
 export type CurriculumUncheckedUpdateWithoutCurriculumSubjectsInput = {
@@ -818,24 +712,18 @@ export type CurriculumUncheckedUpdateWithoutCurriculumSubjectsInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  batches?: Prisma.BatchUncheckedUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUncheckedUpdateOneWithoutCurriculumNestedInput
 }
 
 export type CurriculumCreateManyMajorInput = {
   id?: number
   curriculumCode: string
   curriculumName: string
-  version?: number
   totalCredits?: number
-  effectiveFrom?: Date | string | null
-  effectiveTo?: Date | string | null
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -844,40 +732,31 @@ export type CurriculumCreateManyMajorInput = {
 export type CurriculumUpdateWithoutMajorInput = {
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUpdateManyWithoutCurriculumNestedInput
-  batches?: Prisma.BatchUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUpdateOneWithoutCurriculumNestedInput
 }
 
 export type CurriculumUncheckedUpdateWithoutMajorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutCurriculumNestedInput
-  batches?: Prisma.BatchUncheckedUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUncheckedUpdateOneWithoutCurriculumNestedInput
 }
 
 export type CurriculumUncheckedUpdateManyWithoutMajorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
   curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
-  version?: Prisma.IntFieldUpdateOperationsInput | number
   totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
-  effectiveFrom?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  effectiveTo?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -890,12 +769,10 @@ export type CurriculumUncheckedUpdateManyWithoutMajorInput = {
 
 export type CurriculumCountOutputType = {
   curriculumSubjects: number
-  batches: number
 }
 
 export type CurriculumCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculumSubjects?: boolean | CurriculumCountOutputTypeCountCurriculumSubjectsArgs
-  batches?: boolean | CurriculumCountOutputTypeCountBatchesArgs
 }
 
 /**
@@ -915,29 +792,19 @@ export type CurriculumCountOutputTypeCountCurriculumSubjectsArgs<ExtArgs extends
   where?: Prisma.CurriculumSubjectWhereInput
 }
 
-/**
- * CurriculumCountOutputType without action
- */
-export type CurriculumCountOutputTypeCountBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BatchWhereInput
-}
-
 
 export type CurriculumSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   curriculumCode?: boolean
   curriculumName?: boolean
   majorId?: boolean
-  version?: boolean
   totalCredits?: boolean
-  effectiveFrom?: boolean
-  effectiveTo?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
   curriculumSubjects?: boolean | Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs>
-  batches?: boolean | Prisma.Curriculum$batchesArgs<ExtArgs>
+  batch?: boolean | Prisma.Curriculum$batchArgs<ExtArgs>
   _count?: boolean | Prisma.CurriculumCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["curriculum"]>
 
@@ -946,10 +813,7 @@ export type CurriculumSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   curriculumCode?: boolean
   curriculumName?: boolean
   majorId?: boolean
-  version?: boolean
   totalCredits?: boolean
-  effectiveFrom?: boolean
-  effectiveTo?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -961,10 +825,7 @@ export type CurriculumSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   curriculumCode?: boolean
   curriculumName?: boolean
   majorId?: boolean
-  version?: boolean
   totalCredits?: boolean
-  effectiveFrom?: boolean
-  effectiveTo?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -976,20 +837,17 @@ export type CurriculumSelectScalar = {
   curriculumCode?: boolean
   curriculumName?: boolean
   majorId?: boolean
-  version?: boolean
   totalCredits?: boolean
-  effectiveFrom?: boolean
-  effectiveTo?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CurriculumOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "curriculumCode" | "curriculumName" | "majorId" | "version" | "totalCredits" | "effectiveFrom" | "effectiveTo" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["curriculum"]>
+export type CurriculumOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "curriculumCode" | "curriculumName" | "majorId" | "totalCredits" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["curriculum"]>
 export type CurriculumInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
   curriculumSubjects?: boolean | Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs>
-  batches?: boolean | Prisma.Curriculum$batchesArgs<ExtArgs>
+  batch?: boolean | Prisma.Curriculum$batchArgs<ExtArgs>
   _count?: boolean | Prisma.CurriculumCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CurriculumIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1004,17 +862,14 @@ export type $CurriculumPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     major: Prisma.$MajorPayload<ExtArgs>
     curriculumSubjects: Prisma.$CurriculumSubjectPayload<ExtArgs>[]
-    batches: Prisma.$BatchPayload<ExtArgs>[]
+    batch: Prisma.$BatchPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     curriculumCode: string
     curriculumName: string
     majorId: number
-    version: number
     totalCredits: number
-    effectiveFrom: Date | null
-    effectiveTo: Date | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1414,7 +1269,7 @@ export interface Prisma__CurriculumClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   major<T extends Prisma.MajorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MajorDefaultArgs<ExtArgs>>): Prisma.Prisma__MajorClient<runtime.Types.Result.GetResult<Prisma.$MajorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   curriculumSubjects<T extends Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CurriculumSubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  batches<T extends Prisma.Curriculum$batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Curriculum$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  batch<T extends Prisma.Curriculum$batchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Curriculum$batchArgs<ExtArgs>>): Prisma.Prisma__BatchClient<runtime.Types.Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1448,10 +1303,7 @@ export interface CurriculumFieldRefs {
   readonly curriculumCode: Prisma.FieldRef<"Curriculum", 'String'>
   readonly curriculumName: Prisma.FieldRef<"Curriculum", 'String'>
   readonly majorId: Prisma.FieldRef<"Curriculum", 'Int'>
-  readonly version: Prisma.FieldRef<"Curriculum", 'Int'>
   readonly totalCredits: Prisma.FieldRef<"Curriculum", 'Int'>
-  readonly effectiveFrom: Prisma.FieldRef<"Curriculum", 'DateTime'>
-  readonly effectiveTo: Prisma.FieldRef<"Curriculum", 'DateTime'>
   readonly isActive: Prisma.FieldRef<"Curriculum", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Curriculum", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Curriculum", 'DateTime'>
@@ -1880,9 +1732,9 @@ export type Curriculum$curriculumSubjectsArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
- * Curriculum.batches
+ * Curriculum.batch
  */
-export type Curriculum$batchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Curriculum$batchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Batch
    */
@@ -1896,11 +1748,6 @@ export type Curriculum$batchesArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.BatchInclude<ExtArgs> | null
   where?: Prisma.BatchWhereInput
-  orderBy?: Prisma.BatchOrderByWithRelationInput | Prisma.BatchOrderByWithRelationInput[]
-  cursor?: Prisma.BatchWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BatchScalarFieldEnum | Prisma.BatchScalarFieldEnum[]
 }
 
 /**

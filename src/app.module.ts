@@ -12,7 +12,6 @@ import { SubjectModule } from "./subject/subject.module.js";
 import { SemesterModule } from "./semester/semester.module.js";
 import { RoomModule } from "./room/room.module.js";
 import { CurriculumModule } from "./curriculumn/curriculum.module.js";
-import { CurriculumSubjectModule } from "./curriculumSubject/curriculumnSubject.module.js";
 import { BatchModule } from "./batch/batch.module.js";
 import { TuitionFeeModule } from "./tuitionFee/tuitionFee.module.js";
 import { FeeModule } from "./Fee/fee.module.js";
@@ -48,7 +47,6 @@ import { AssessmentModule } from "./assessment/assessment.module.js";
     SemesterModule,
     RoomModule,
     CurriculumModule,
-    CurriculumSubjectModule,
     TuitionFeeModule,
     FeeModule,
     FeeCatalogModule,

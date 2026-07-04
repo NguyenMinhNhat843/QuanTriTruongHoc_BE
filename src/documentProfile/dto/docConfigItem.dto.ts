@@ -1,5 +1,5 @@
 import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
-import { DocumentConfigItem } from "../../prisma/generated/prisma/client";
+import { DocumentConfigItem } from "../../../prisma/generated/prisma/client";
 import {
   IsBoolean,
   IsInt,
@@ -40,10 +40,12 @@ export class DocumentConfigItemResponseDto extends DocumentConfigItemDto {
   @ApiProperty({ type: () => DocumentConfigResponseDto })
   documentConfig: DocumentConfigResponseDto;
 }
+
 export class CreateDocumentConfigItemDto extends OmitType(
   DocumentConfigItemDto,
   ["id"],
 ) {}
+
 export class UpdateDocumentConfigItemDto extends PartialType(
   CreateDocumentConfigItemDto,
 ) {}

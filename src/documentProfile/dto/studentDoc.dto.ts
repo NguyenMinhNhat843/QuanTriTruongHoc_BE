@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
-import { StudentDocument } from "../../prisma/generated/prisma/client";
+import { StudentDocument } from "../../../prisma/generated/prisma/client";
 import {
   IsDate,
   IsInt,
@@ -9,7 +9,7 @@ import {
   IsString,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { StudentResponseDto } from "../student/dto/student.response";
+import { StudentResponseDto } from "../../student/dto/student.response";
 import { DocumentConfigItemResponseDto } from "./docConfigItem.dto";
 
 export class StudentDocumentDto implements StudentDocument {

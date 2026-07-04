@@ -28,10 +28,12 @@ export type AggregateEvaluationPeriod = {
 
 export type EvaluationPeriodAvgAggregateOutputType = {
   id: number | null
+  semesterId: number | null
 }
 
 export type EvaluationPeriodSumAggregateOutputType = {
   id: number | null
+  semesterId: number | null
 }
 
 export type EvaluationPeriodMinAggregateOutputType = {
@@ -41,6 +43,7 @@ export type EvaluationPeriodMinAggregateOutputType = {
   isFrozen: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  semesterId: number | null
 }
 
 export type EvaluationPeriodMaxAggregateOutputType = {
@@ -50,6 +53,7 @@ export type EvaluationPeriodMaxAggregateOutputType = {
   isFrozen: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  semesterId: number | null
 }
 
 export type EvaluationPeriodCountAggregateOutputType = {
@@ -59,16 +63,19 @@ export type EvaluationPeriodCountAggregateOutputType = {
   isFrozen: number
   createdAt: number
   updatedAt: number
+  semesterId: number
   _all: number
 }
 
 
 export type EvaluationPeriodAvgAggregateInputType = {
   id?: true
+  semesterId?: true
 }
 
 export type EvaluationPeriodSumAggregateInputType = {
   id?: true
+  semesterId?: true
 }
 
 export type EvaluationPeriodMinAggregateInputType = {
@@ -78,6 +85,7 @@ export type EvaluationPeriodMinAggregateInputType = {
   isFrozen?: true
   createdAt?: true
   updatedAt?: true
+  semesterId?: true
 }
 
 export type EvaluationPeriodMaxAggregateInputType = {
@@ -87,6 +95,7 @@ export type EvaluationPeriodMaxAggregateInputType = {
   isFrozen?: true
   createdAt?: true
   updatedAt?: true
+  semesterId?: true
 }
 
 export type EvaluationPeriodCountAggregateInputType = {
@@ -96,6 +105,7 @@ export type EvaluationPeriodCountAggregateInputType = {
   isFrozen?: true
   createdAt?: true
   updatedAt?: true
+  semesterId?: true
   _all?: true
 }
 
@@ -192,6 +202,7 @@ export type EvaluationPeriodGroupByOutputType = {
   isFrozen: boolean
   createdAt: Date
   updatedAt: Date
+  semesterId: number
   _count: EvaluationPeriodCountAggregateOutputType | null
   _avg: EvaluationPeriodAvgAggregateOutputType | null
   _sum: EvaluationPeriodSumAggregateOutputType | null
@@ -224,6 +235,8 @@ export type EvaluationPeriodWhereInput = {
   isFrozen?: Prisma.BoolFilter<"EvaluationPeriod"> | boolean
   createdAt?: Prisma.DateTimeFilter<"EvaluationPeriod"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EvaluationPeriod"> | Date | string
+  semesterId?: Prisma.IntFilter<"EvaluationPeriod"> | number
+  semester?: Prisma.XOR<Prisma.SemesterScalarRelationFilter, Prisma.SemesterWhereInput>
   assessments?: Prisma.AssessmentListRelationFilter
 }
 
@@ -234,11 +247,14 @@ export type EvaluationPeriodOrderByWithRelationInput = {
   isFrozen?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  semesterId?: Prisma.SortOrder
+  semester?: Prisma.SemesterOrderByWithRelationInput
   assessments?: Prisma.AssessmentOrderByRelationAggregateInput
 }
 
 export type EvaluationPeriodWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  semesterId?: number
   AND?: Prisma.EvaluationPeriodWhereInput | Prisma.EvaluationPeriodWhereInput[]
   OR?: Prisma.EvaluationPeriodWhereInput[]
   NOT?: Prisma.EvaluationPeriodWhereInput | Prisma.EvaluationPeriodWhereInput[]
@@ -247,8 +263,9 @@ export type EvaluationPeriodWhereUniqueInput = Prisma.AtLeast<{
   isFrozen?: Prisma.BoolFilter<"EvaluationPeriod"> | boolean
   createdAt?: Prisma.DateTimeFilter<"EvaluationPeriod"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EvaluationPeriod"> | Date | string
+  semester?: Prisma.XOR<Prisma.SemesterScalarRelationFilter, Prisma.SemesterWhereInput>
   assessments?: Prisma.AssessmentListRelationFilter
-}, "id">
+}, "id" | "semesterId">
 
 export type EvaluationPeriodOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -257,6 +274,7 @@ export type EvaluationPeriodOrderByWithAggregationInput = {
   isFrozen?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  semesterId?: Prisma.SortOrder
   _count?: Prisma.EvaluationPeriodCountOrderByAggregateInput
   _avg?: Prisma.EvaluationPeriodAvgOrderByAggregateInput
   _max?: Prisma.EvaluationPeriodMaxOrderByAggregateInput
@@ -274,6 +292,7 @@ export type EvaluationPeriodScalarWhereWithAggregatesInput = {
   isFrozen?: Prisma.BoolWithAggregatesFilter<"EvaluationPeriod"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EvaluationPeriod"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"EvaluationPeriod"> | Date | string
+  semesterId?: Prisma.IntWithAggregatesFilter<"EvaluationPeriod"> | number
 }
 
 export type EvaluationPeriodCreateInput = {
@@ -282,6 +301,7 @@ export type EvaluationPeriodCreateInput = {
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  semester: Prisma.SemesterCreateNestedOneWithoutEvaluationPeriodInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutPeriodInput
 }
 
@@ -292,6 +312,7 @@ export type EvaluationPeriodUncheckedCreateInput = {
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  semesterId: number
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutPeriodInput
 }
 
@@ -301,6 +322,7 @@ export type EvaluationPeriodUpdateInput = {
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  semester?: Prisma.SemesterUpdateOneRequiredWithoutEvaluationPeriodNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutPeriodNestedInput
 }
 
@@ -311,6 +333,7 @@ export type EvaluationPeriodUncheckedUpdateInput = {
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  semesterId?: Prisma.IntFieldUpdateOperationsInput | number
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutPeriodNestedInput
 }
 
@@ -321,6 +344,7 @@ export type EvaluationPeriodCreateManyInput = {
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  semesterId: number
 }
 
 export type EvaluationPeriodUpdateManyMutationInput = {
@@ -338,6 +362,12 @@ export type EvaluationPeriodUncheckedUpdateManyInput = {
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  semesterId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type EvaluationPeriodNullableScalarRelationFilter = {
+  is?: Prisma.EvaluationPeriodWhereInput | null
+  isNot?: Prisma.EvaluationPeriodWhereInput | null
 }
 
 export type EvaluationPeriodCountOrderByAggregateInput = {
@@ -347,10 +377,12 @@ export type EvaluationPeriodCountOrderByAggregateInput = {
   isFrozen?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  semesterId?: Prisma.SortOrder
 }
 
 export type EvaluationPeriodAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  semesterId?: Prisma.SortOrder
 }
 
 export type EvaluationPeriodMaxOrderByAggregateInput = {
@@ -360,6 +392,7 @@ export type EvaluationPeriodMaxOrderByAggregateInput = {
   isFrozen?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  semesterId?: Prisma.SortOrder
 }
 
 export type EvaluationPeriodMinOrderByAggregateInput = {
@@ -369,15 +402,49 @@ export type EvaluationPeriodMinOrderByAggregateInput = {
   isFrozen?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  semesterId?: Prisma.SortOrder
 }
 
 export type EvaluationPeriodSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  semesterId?: Prisma.SortOrder
 }
 
 export type EvaluationPeriodScalarRelationFilter = {
   is?: Prisma.EvaluationPeriodWhereInput
   isNot?: Prisma.EvaluationPeriodWhereInput
+}
+
+export type EvaluationPeriodCreateNestedOneWithoutSemesterInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
+}
+
+export type EvaluationPeriodUncheckedCreateNestedOneWithoutSemesterInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
+}
+
+export type EvaluationPeriodUpdateOneWithoutSemesterNestedInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  upsert?: Prisma.EvaluationPeriodUpsertWithoutSemesterInput
+  disconnect?: Prisma.EvaluationPeriodWhereInput | boolean
+  delete?: Prisma.EvaluationPeriodWhereInput | boolean
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput, Prisma.EvaluationPeriodUpdateWithoutSemesterInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
+}
+
+export type EvaluationPeriodUncheckedUpdateOneWithoutSemesterNestedInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  upsert?: Prisma.EvaluationPeriodUpsertWithoutSemesterInput
+  disconnect?: Prisma.EvaluationPeriodWhereInput | boolean
+  delete?: Prisma.EvaluationPeriodWhereInput | boolean
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput, Prisma.EvaluationPeriodUpdateWithoutSemesterInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
 }
 
 export type EvaluationPeriodCreateNestedOneWithoutAssessmentsInput = {
@@ -394,12 +461,67 @@ export type EvaluationPeriodUpdateOneRequiredWithoutAssessmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutAssessmentsInput, Prisma.EvaluationPeriodUpdateWithoutAssessmentsInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutAssessmentsInput>
 }
 
+export type EvaluationPeriodCreateWithoutSemesterInput = {
+  name: string
+  isActive?: boolean
+  isFrozen?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutPeriodInput
+}
+
+export type EvaluationPeriodUncheckedCreateWithoutSemesterInput = {
+  id?: number
+  name: string
+  isActive?: boolean
+  isFrozen?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutPeriodInput
+}
+
+export type EvaluationPeriodCreateOrConnectWithoutSemesterInput = {
+  where: Prisma.EvaluationPeriodWhereUniqueInput
+  create: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+}
+
+export type EvaluationPeriodUpsertWithoutSemesterInput = {
+  update: Prisma.XOR<Prisma.EvaluationPeriodUpdateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
+  create: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  where?: Prisma.EvaluationPeriodWhereInput
+}
+
+export type EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput = {
+  where?: Prisma.EvaluationPeriodWhereInput
+  data: Prisma.XOR<Prisma.EvaluationPeriodUpdateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
+}
+
+export type EvaluationPeriodUpdateWithoutSemesterInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assessments?: Prisma.AssessmentUpdateManyWithoutPeriodNestedInput
+}
+
+export type EvaluationPeriodUncheckedUpdateWithoutSemesterInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutPeriodNestedInput
+}
+
 export type EvaluationPeriodCreateWithoutAssessmentsInput = {
   name: string
   isActive?: boolean
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  semester: Prisma.SemesterCreateNestedOneWithoutEvaluationPeriodInput
 }
 
 export type EvaluationPeriodUncheckedCreateWithoutAssessmentsInput = {
@@ -409,6 +531,7 @@ export type EvaluationPeriodUncheckedCreateWithoutAssessmentsInput = {
   isFrozen?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  semesterId: number
 }
 
 export type EvaluationPeriodCreateOrConnectWithoutAssessmentsInput = {
@@ -433,6 +556,7 @@ export type EvaluationPeriodUpdateWithoutAssessmentsInput = {
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  semester?: Prisma.SemesterUpdateOneRequiredWithoutEvaluationPeriodNestedInput
 }
 
 export type EvaluationPeriodUncheckedUpdateWithoutAssessmentsInput = {
@@ -442,6 +566,7 @@ export type EvaluationPeriodUncheckedUpdateWithoutAssessmentsInput = {
   isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  semesterId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -482,6 +607,8 @@ export type EvaluationPeriodSelect<ExtArgs extends runtime.Types.Extensions.Inte
   isFrozen?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  semesterId?: boolean
+  semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
   assessments?: boolean | Prisma.EvaluationPeriod$assessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.EvaluationPeriodCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["evaluationPeriod"]>
@@ -493,6 +620,8 @@ export type EvaluationPeriodSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   isFrozen?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  semesterId?: boolean
+  semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["evaluationPeriod"]>
 
 export type EvaluationPeriodSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -502,6 +631,8 @@ export type EvaluationPeriodSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   isFrozen?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  semesterId?: boolean
+  semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["evaluationPeriod"]>
 
 export type EvaluationPeriodSelectScalar = {
@@ -511,19 +642,26 @@ export type EvaluationPeriodSelectScalar = {
   isFrozen?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  semesterId?: boolean
 }
 
-export type EvaluationPeriodOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "isActive" | "isFrozen" | "createdAt" | "updatedAt", ExtArgs["result"]["evaluationPeriod"]>
+export type EvaluationPeriodOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "isActive" | "isFrozen" | "createdAt" | "updatedAt" | "semesterId", ExtArgs["result"]["evaluationPeriod"]>
 export type EvaluationPeriodInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
   assessments?: boolean | Prisma.EvaluationPeriod$assessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.EvaluationPeriodCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type EvaluationPeriodIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type EvaluationPeriodIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type EvaluationPeriodIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
+}
+export type EvaluationPeriodIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
+}
 
 export type $EvaluationPeriodPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "EvaluationPeriod"
   objects: {
+    semester: Prisma.$SemesterPayload<ExtArgs>
     assessments: Prisma.$AssessmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -533,6 +671,7 @@ export type $EvaluationPeriodPayload<ExtArgs extends runtime.Types.Extensions.In
     isFrozen: boolean
     createdAt: Date
     updatedAt: Date
+    semesterId: number
   }, ExtArgs["result"]["evaluationPeriod"]>
   composites: {}
 }
@@ -927,6 +1066,7 @@ readonly fields: EvaluationPeriodFieldRefs;
  */
 export interface Prisma__EvaluationPeriodClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  semester<T extends Prisma.SemesterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SemesterDefaultArgs<ExtArgs>>): Prisma.Prisma__SemesterClient<runtime.Types.Result.GetResult<Prisma.$SemesterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   assessments<T extends Prisma.EvaluationPeriod$assessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EvaluationPeriod$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -963,6 +1103,7 @@ export interface EvaluationPeriodFieldRefs {
   readonly isFrozen: Prisma.FieldRef<"EvaluationPeriod", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"EvaluationPeriod", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"EvaluationPeriod", 'DateTime'>
+  readonly semesterId: Prisma.FieldRef<"EvaluationPeriod", 'Int'>
 }
     
 
@@ -1217,6 +1358,10 @@ export type EvaluationPeriodCreateManyAndReturnArgs<ExtArgs extends runtime.Type
    */
   data: Prisma.EvaluationPeriodCreateManyInput | Prisma.EvaluationPeriodCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluationPeriodIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1287,6 +1432,10 @@ export type EvaluationPeriodUpdateManyAndReturnArgs<ExtArgs extends runtime.Type
    * Limit how many EvaluationPeriods to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvaluationPeriodIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

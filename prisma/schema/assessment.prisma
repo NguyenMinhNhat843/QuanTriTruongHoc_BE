@@ -26,6 +26,8 @@ model EvaluationPeriod {
   isFrozen  Boolean      @default(false) // Đã khóa sổ công bố kết quả chưa
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+  semesterId   Int      @unique
+  semester    Semester @relation(fields: [semesterId], references: [id])
 
   assessments Assessment[]
 

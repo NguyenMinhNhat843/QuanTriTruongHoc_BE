@@ -1,99 +1,77 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsInt,
-  MaxLength,
-  Min,
-  IsNumber,
-} from "class-validator";
+import { ApiProperty, ApiPropertyOptional, OmitType } from "@nestjs/swagger";
+import { IsOptional, IsString, IsNumber, IsDate } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { Class } from "../../prisma/generated/prisma/client";
 
-export class SearchClassDto {
-  @ApiPropertyOptional({ description: "Mã lớp học (classCode)" })
-  @IsOptional()
+export class ClassDto implements Class {
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  id: number;
+
+  @ApiProperty()
   @IsString()
-  classCode?: string;
+  classCode: string;
 
-  @ApiPropertyOptional({ description: "ID ngành học" })
+  @ApiProperty()
+  @IsString()
+  className: string;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  majorId: number;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  majorId?: number;
+  batchId: number | null;
 
-  @ApiPropertyOptional({ description: "ID khóa đào tạo (batchId)" })
+  @ApiPropertyOptional({ type: Number, nullable: true })
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  batchId?: number;
+  formTeacherId: number | null;
 
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  currentSize: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  maxStudents: number;
+
+  @ApiProperty()
+  @IsString()
+  status: string;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  updatedAt: Date;
+}
+
+export class SearchClassDto extends PartialType(ClassDto) {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   search?: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsInt()
-  @Type(() => Number)
-  formTeacherId?: number;
 }
 
-export class CreateClassDto implements Omit<
-  Class,
-  "id" | "createdAt" | "updatedAt"
-> {
-  @ApiProperty({ example: "CNTT17A", description: "Mã lớp học duy nhất" })
-  @IsString()
-  @IsNotEmpty({ message: "Mã lớp không được để trống" })
-  @MaxLength(20)
-  classCode: string;
-
-  @ApiProperty({ example: "Lớp Công nghệ thông tin 17A" })
-  @IsString()
-  @IsNotEmpty({ message: "Tên lớp không được để trống" })
-  @MaxLength(255)
-  className: string;
-
-  @ApiProperty({ example: 1, description: "ID của ngành đào tạo" })
-  @IsInt()
-  @IsNotEmpty()
-  majorId: number;
-
-  @ApiPropertyOptional({
-    type: Number,
-    description: "Số lượng sinh viên hiện tại trong lớp",
-  })
-  @IsInt()
-  @Min(0)
-  @IsOptional()
-  currentSize: number = 0;
-
-  @ApiPropertyOptional({
-    type: Number,
-    description: "ID giáo viên chủ nhiệm",
-  })
-  @IsInt()
-  @IsOptional()
-  formTeacherId: number | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-    description: "ID của Khóa đào tạo (batchID)",
-  })
-  @IsInt()
-  @IsOptional()
-  batchId: number | null;
-
-  @ApiPropertyOptional({ type: Number, example: 40, default: 40 })
-  @IsInt()
-  @Min(1)
-  @IsOptional()
-  maxStudents: number = 40;
-
+export class CreateClassDto extends OmitType(ClassDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+]) {
   @ApiPropertyOptional({ type: String, default: "active" })
   @IsString()
   @IsOptional()

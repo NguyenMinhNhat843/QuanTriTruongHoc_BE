@@ -1,4 +1,9 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  OmitType,
+  PartialType,
+} from "@nestjs/swagger";
 import { Exclude, Type } from "class-transformer";
 import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
 import { Batch } from "../../prisma/generated/prisma/client";
@@ -64,7 +69,11 @@ export class BatchDto implements Batch {
   updatedAt: Date;
 }
 
-export class CreateBatchDto extends BatchDto {}
+export class CreateBatchDto extends OmitType(BatchDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+]) {}
 
 export class UpdateBatchDto extends PartialType(CreateBatchDto) {}
 

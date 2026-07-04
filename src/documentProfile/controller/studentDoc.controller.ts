@@ -24,8 +24,8 @@ import {
   StudentDocumentResponseDto,
   SearchStudentDocDto,
   CreateManyStudentDocumentDto,
-} from "./studentDoc.dto";
-import { StudentDocumentService } from "./studentDoc.service";
+} from "../dto/studentDoc.dto";
+import { StudentDocumentService } from "../service/studentDoc.service";
 import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("Student Document")

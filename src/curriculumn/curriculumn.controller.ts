@@ -12,45 +12,34 @@ import {
 import {
   ApiTags,
   ApiOperation,
-  ApiCreatedResponse,
   ApiOkResponse,
   ApiQuery,
-  ApiResponse,
 } from "@nestjs/swagger";
-import { CurriculumService } from "./curriculum.service";
+import { CurriculumService } from "./service/curriculum.service";
 import {
   CreateCurriculumDto,
+  CurriculumDto,
+  CurriculumResponseDtoWithRelation,
   SearchCurriculumDto,
   UpdateCurriculumDto,
-} from "./curriculum.dto";
-import { CurriculumResponseDto } from "./curriculum.response";
-import { CurriculumSubjectResponseDto } from "../curriculumSubject/curriculumnSubject.response";
-import { CurriculumSubjectService } from "../curriculumSubject/curriculumnSubject.service";
+} from "./dto/curriculum.dto";
 
 @ApiTags("Curriculums")
 @Controller("curriculums")
 export class CurriculumController {
-  constructor(
-    private readonly curriculumService: CurriculumService,
-    private readonly curriculumSubjectService: CurriculumSubjectService,
-  ) {}
+  constructor(private readonly curriculumService: CurriculumService) {}
 
   @Post()
   @ApiOperation({ summary: "Tạo mới chương trình khung" })
-  @ApiCreatedResponse({ type: CurriculumResponseDto })
-  create(
-    @Body() createCurriculumDto: CreateCurriculumDto,
-  ): Promise<CurriculumResponseDto> {
+  create(@Body() createCurriculumDto: CreateCurriculumDto) {
     return this.curriculumService.create(createCurriculumDto);
   }
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả chương trình khung" })
-  @ApiOkResponse({ type: CurriculumResponseDto, isArray: true })
+  @ApiOkResponse({ type: CurriculumDto, isArray: true })
   @ApiQuery({ type: SearchCurriculumDto })
-  findAll(
-    @Query() query: SearchCurriculumDto,
-  ): Promise<CurriculumResponseDto[]> {
+  findAll(@Query() query: SearchCurriculumDto): Promise<CurriculumDto[]> {
     return this.curriculumService.findAll(query);
   }
 
@@ -58,39 +47,22 @@ export class CurriculumController {
   @ApiOperation({
     summary: "Lấy chương trình khung đầu tiên khớp với điều kiện",
   })
-  @ApiOkResponse({ type: CurriculumResponseDto, nullable: true })
+  @ApiOkResponse({ type: CurriculumResponseDtoWithRelation, nullable: true })
   findFirst(
     @Query() query: SearchCurriculumDto,
-  ): Promise<CurriculumResponseDto | null> {
+  ): Promise<CurriculumResponseDtoWithRelation | null> {
     return this.curriculumService.findFirst(query);
-  }
-
-  @Get("curriculum-subjects/by-semester")
-  @ApiOperation({
-    summary: "Lấy danh sách môn học theo học kỳ của 1 chương trình khung",
-    operationId: "getSubjectsBySemester",
-  })
-  @ApiResponse({ type: [CurriculumSubjectResponseDto], status: 200 })
-  async getSubjectsBySemester(
-    @Query("classId", ParseIntPipe) classId: number,
-    @Query("semesterId", ParseIntPipe) semesterId: number,
-  ): Promise<CurriculumSubjectResponseDto[]> {
-    return this.curriculumSubjectService.findByCurriculumAndSemester(
-      semesterId,
-      classId,
-    );
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết chương trình khung theo ID" })
-  @ApiOkResponse({ type: CurriculumResponseDto })
+  @ApiOkResponse({ type: CurriculumResponseDtoWithRelation })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.curriculumService.findOne(id);
   }
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật chương trình khung" })
-  @ApiOkResponse({ type: CurriculumResponseDto })
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateCurriculumDto: UpdateCurriculumDto,

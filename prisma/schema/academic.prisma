@@ -172,6 +172,7 @@ model Semester {
   courseOffers        CourseOffer[]
   feeInvoices         FeeInvoice[]
   feeInvoiceItems     FeeInvoiceItem[]
+  evaluationPeriod    EvaluationPeriod?
 
   // ràng buộc duy nhất
   @@unique([year, term], name: "unique_semester_term")
@@ -209,20 +210,16 @@ model Curriculum {
   majorId         Int
   major           Major    @relation(fields: [majorId], references: [id])
 
-  version         Int      @default(1) // Quản lý phiên bản để cập nhật CTK theo năm
   totalCredits    Int      @default(0)
-  
-  effectiveFrom   DateTime? @db.Date
-  effectiveTo     DateTime? @db.Date
   
   isActive        Boolean  @default(true)
   
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  // Quan hệ 1-n với bảng trung gian
+  // Quan hệ
   curriculumSubjects CurriculumSubject[]
-  batches               Batch[]
+  batch              Batch?
 
   @@map("curriculums")
 }
@@ -241,14 +238,14 @@ model CurriculumSubject {
   
   semesterNumber Int        // Học kỳ gợi ý (Học kỳ 1, 2, 3...)
   
-  isMandatory    Boolean    @default(true) // môn bắt buộc hay tự chọn
-  minGrade       Float      @default(5.0) // Điểm tối thiểu để qua môn (thường là 4 hoặc 5)
+  minGrade       Float      @default(5.0) // Điểm tối thiểu để qua môn
   
   createdAt      DateTime   @default(now())
 
-  @@unique([curriculumId, subjectId]) // Một môn học không xuất hiện 2 lần trong 1 chương trình
+  @@unique([curriculumId, subjectId])
   @@map("curriculum_subjects")
 }
+
 enum ShiftType {
   SANG
   CHIEU

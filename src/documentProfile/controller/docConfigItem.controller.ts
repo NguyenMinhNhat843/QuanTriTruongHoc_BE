@@ -7,11 +7,11 @@ import {
   ParseIntPipe,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { DocumentConfigItemService } from "../service/docConfigItem.service";
 import {
   CreateDocumentConfigItemDto,
   DocumentConfigItemResponseDto,
-} from "./docConfigItem.dto";
-import { DocumentConfigItemService } from "./docConfigItem.service";
+} from "../dto/docConfigItem.dto";
 
 @ApiTags("Document Config Item")
 @Controller("document-config-items")

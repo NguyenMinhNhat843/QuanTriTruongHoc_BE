@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { MajorResponseDto } from "../major/major.response";
 import { BatchDto } from "./batch.dto";
+import { MajorDto } from "../major/major.dto";
 
 export class BatchResponseDto extends BatchDto {
-  @ApiProperty({ type: MajorResponseDto, nullable: true })
-  major?: MajorResponseDto | null;
+  @ApiProperty({ type: MajorDto, nullable: true })
+  major?: MajorDto | null;
 }

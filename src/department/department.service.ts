@@ -4,7 +4,12 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service"; // Đường dẫn tới PrismaService của bạn
-import { CreateDepartmentDto, UpdateDepartmentDto } from "./department.dto";
+import {
+  CreateDepartmentDto,
+  DepartmentDto,
+  UpdateDepartmentDto,
+} from "./department.dto";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class DepartmentService {
@@ -22,18 +27,13 @@ export class DepartmentService {
 
     return this.prisma.department.create({
       data,
-      include: { majors: true }, // Trả về kèm danh sách ngành học nếu cần
+      include: { majors: true },
     });
   }
 
   async findAll() {
-    return this.prisma.department.findMany({
-      include: {
-        _count: {
-          select: { majors: true },
-        },
-      },
-    });
+    const result = await this.prisma.department.findMany();
+    return plainToInstance(DepartmentDto, result);
   }
 
   async findOne(id: number) {

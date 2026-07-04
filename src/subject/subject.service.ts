@@ -9,9 +9,11 @@ import { PrismaService } from "../prisma/prisma.service";
 import {
   CreateSubjectDto,
   ResponseSubjectDto,
+  SearchSubjectDto,
   UpdateSubjectDto,
 } from "./subject.dto";
 import { plainToInstance } from "class-transformer";
+import { Prisma } from "../../prisma/generated/prisma/client";
 
 @Injectable()
 export class SubjectService {
@@ -52,8 +54,56 @@ export class SubjectService {
     }
   }
 
-  async findAll(): Promise<ResponseSubjectDto[]> {
-    const subjects = await this.prisma.subject.findMany();
+  async findAll(query: SearchSubjectDto): Promise<ResponseSubjectDto[]> {
+    const { id, departmentId, subjectCode, subjectName, keyword, majorId } =
+      query;
+
+    const where: Prisma.SubjectWhereInput = {};
+
+    if (majorId) {
+      const major = await this.prisma.major.findUnique({
+        where: { id: majorId },
+        select: { deptId: true },
+      });
+
+      if (!major) {
+        return [];
+      }
+
+      where.departmentId = major.deptId;
+    }
+
+    // 2. Nếu client vừa truyền majorId vừa truyền departmentId, ưu tiên/kết hợp kiểm tra khớp nhau
+    if (departmentId) {
+      // Nếu đã có where.departmentId từ bước majorId mà lại khác với departmentId truyền vào trực tiếp
+      if (where.departmentId && where.departmentId !== departmentId) {
+        return []; // Mâu thuẫn điều kiện tìm kiếm -> Không có kết quả khớp
+      }
+      where.departmentId = departmentId;
+    }
+
+    // 3. Lọc theo các trường cơ bản (Khớp chính xác)
+    if (id) {
+      where.id = id;
+    }
+    if (subjectCode) {
+      where.subjectCode = subjectCode;
+    }
+    if (subjectName) {
+      where.subjectName = subjectName;
+    }
+
+    // 4. Xử lý tìm kiếm theo keyword (Tìm kiếm tương đối theo Code hoặc Name)
+    if (keyword) {
+      where.OR = [
+        { subjectCode: { contains: keyword, mode: "insensitive" } },
+        { subjectName: { contains: keyword, mode: "insensitive" } },
+      ];
+    }
+
+    // 5. Query DB và map data sang Response DTO
+    const subjects = await this.prisma.subject.findMany({ where });
+
     return plainToInstance(ResponseSubjectDto, subjects);
   }
 
@@ -139,36 +189,11 @@ export class SubjectService {
     id: number,
     data: UpdateSubjectDto,
   ): Promise<ResponseSubjectDto> {
-    const { subjectCode, ...subjectData } = data;
-    const existingSubject = await this.prisma.subject.findUnique({
-      where: { subjectCode },
-    });
-    if (existingSubject) {
-      throw new ConflictException(`Mã môn học ${subjectCode} đã tồn tại`);
-    }
-
-    const updateData: any = { ...subjectData };
-
-    if (subjectCode) {
-      const existingSubject = await this.prisma.subject.findFirst({
-        where: {
-          subjectCode,
-          id: { not: id },
-        },
-      });
-      if (existingSubject) {
-        throw new ConflictException(
-          `Mã môn học ${subjectCode} đã tồn tại trên hệ thống`,
-        );
-      }
-      updateData.subjectCode = subjectCode;
-    }
-
     try {
       const updatedSubject = await this.prisma.$transaction(async (tx) => {
         return tx.subject.update({
           where: { id },
-          data: updateData,
+          data,
         });
       });
 
