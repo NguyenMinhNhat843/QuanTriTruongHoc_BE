@@ -114,7 +114,7 @@ model ClassSubjectSession {
 model ClassSubjectScheduleDetail {
   id          Int                  @id @default(autoincrement())
   sessionId   Int
-  session     ClassSubjectSession  @relation(fields: [sessionId], references: [id])
+  session     ClassSubjectSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
   weekNumber  Int
   studyDate   DateTime?            @db.Date() // Ngày học cụ thể

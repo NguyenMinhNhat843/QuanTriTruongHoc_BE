@@ -44,6 +44,17 @@ export class ClassSubjectSessionController {
     return this.sessionService.create(createDto);
   }
 
+  @Post("upsert-plan-training")
+  @ApiOperation({
+    summary: "Tạo hoặc Cập nhật kế hoạch đào tạo cho môn học",
+  })
+  @ApiResponse({
+    status: 201,
+  })
+  async upsertTrainingPlan(@Body() upsertDto: UpsertTrainingPlanDto) {
+    return this.trainingPlanService.upsertTrainingPlan(upsertDto);
+  }
+
   @Get()
   @ApiOperation({ summary: "Get all class subject sessions matching query" })
   @ApiResponse({ status: 200, type: [ClassSubjectSessionDto] })
@@ -101,16 +112,5 @@ export class ClassSubjectSessionController {
   @ApiResponse({ status: 200 })
   async remove(@Param("id") id: string) {
     return this.sessionService.remove(Number(id));
-  }
-
-  @Post("upsert")
-  @ApiOperation({
-    summary: "Tạo hoặc Cập nhật kế hoạch đào tạo cho môn học",
-  })
-  @ApiResponse({
-    status: 201,
-  })
-  async upsertTrainingPlan(@Body() upsertDto: UpsertTrainingPlanDto) {
-    return this.trainingPlanService.upsertTrainingPlan(upsertDto);
   }
 }

@@ -95,111 +95,82 @@ export class TrainingPlanService {
    * 2. HÀM UPSERT KẾ HOẠCH ĐÀO TẠO (Tạo/Cập nhật CourseOffer trước rồi tạo lịch)
    */
   async upsertTrainingPlan(dto: UpsertTrainingPlanDto) {
-    const { classId, semesterId, subjectId, teacherId, sessions } = dto;
+    const { classId, semesterId, items } = dto;
 
-    return this.prisma.$transaction(async (tx) => {
-      // Bước 1: Tìm xem đã có bản ghi CourseOffer (classSubject) cho bộ ba này chưa
-      let courseOffer = await tx.courseOffer.findFirst({
-        where: { classId, semesterId, subjectId },
-      });
+    return await this.prisma.$transaction(async (tx) => {
+      for (const item of items) {
+        const { sessions, subjectId, teacherId } = item;
 
-      if (!courseOffer) {
-        // Nếu chưa có -> Tiến hành tạo mới hoàn toàn
-        courseOffer = await tx.courseOffer.create({
-          data: {
+        // Tìm xem đã có môn học này trong lớp/học kỳ này chưa
+        const classSubject = await tx.courseOffer.findFirst({
+          where: {
             classId,
             semesterId,
             subjectId,
-            teacherId: teacherId || null,
           },
         });
-      } else {
-        // Nếu đã có -> Cập nhật lại giáo viên dạy nếu có sự thay đổi
-        courseOffer = await tx.courseOffer.update({
-          where: { id: courseOffer.id },
-          data: { teacherId: teacherId || null },
-        });
-      }
 
-      const finalSessions: any = [];
+        let currentClassSubjectId: number;
 
-      // Bước 2: Duyệt qua từng buổi học (Session) gửi lên từ client
-      for (const sessionDto of sessions) {
-        const countPeriod = sessionDto.endPeriod - sessionDto.startPeriod + 1;
-        let sessionResult;
-
-        if (sessionDto.id) {
-          // Nếu có ID -> Cập nhật Session cũ
-          sessionResult = await tx.classSubjectSession.update({
-            where: { id: sessionDto.id },
+        if (!classSubject) {
+          // TRƯỜNG HỢP 1: TẠO MỚI CourseOffer
+          const newClassSubject = await tx.courseOffer.create({
             data: {
-              dayOfWeek: sessionDto.dayOfWeek,
-              shift: sessionDto.shift,
-              startPeriod: sessionDto.startPeriod,
-              endPeriod: sessionDto.endPeriod,
-              countPeriod: countPeriod,
-              roomId: sessionDto.roomId || null,
+              classId,
+              semesterId,
+              subjectId,
+              teacherId: teacherId || null,
             },
           });
+          currentClassSubjectId = newClassSubject.id;
         } else {
-          // Nếu không có ID -> Tạo mới Session nối thẳng vào `courseOffer.id` vừa xử lý phía trên
-          sessionResult = await tx.classSubjectSession.create({
+          // TRƯỜNG HỢP 2: CẬP NHẬT ClassSubject
+          await tx.courseOffer.update({
+            where: { id: classSubject.id },
             data: {
-              classSubjectId: courseOffer.id,
-              dayOfWeek: sessionDto.dayOfWeek,
-              shift: sessionDto.shift,
-              startPeriod: sessionDto.startPeriod,
-              endPeriod: sessionDto.endPeriod,
-              countPeriod: countPeriod,
-              roomId: sessionDto.roomId || null,
+              teacherId: teacherId || null,
+            },
+          });
+          currentClassSubjectId = classSubject.id;
+
+          // --- XỬ LÝ XÓA DỮ LIỆU CŨ ĐỂ LÀM SẠCH ---
+          // Bước 2: Xóa các Sessions (Buổi học) cũ, tự động xóa các chedules bên trong
+          await tx.classSubjectSession.deleteMany({
+            where: {
+              classSubjectId: classSubject.id,
             },
           });
         }
 
-        const finalDetails: any = [];
+        // =================================================================
+        // TIẾN HÀNH TẠO MỚI SESSIONS & SCHEDULES (Dùng chung cho cả Tạo mới và Cập nhật)
+        // =================================================================
+        for (const session of sessions) {
+          const { schedules, ...sessionData } = session;
 
-        // Bước 3: Duyệt tiếp các chi tiết ngày học theo tuần (Schedule Detail)
-        for (const scheduleDto of sessionDto.schedules!) {
-          if (scheduleDto.id) {
-            // Đã có bản ghi ngày cụ thể -> Cập nhật
-            const detail = await tx.classSubjectScheduleDetail.update({
-              where: { id: scheduleDto.id },
-              data: {
-                weekNumber: scheduleDto.weekNumber,
-                studyDate: scheduleDto.studyDate
-                  ? new Date(scheduleDto.studyDate)
+          // 1. Tạo mới buổi học (Session) và gán mối quan hệ với CourseOffer
+          const newSession = await tx.classSubjectSession.create({
+            data: {
+              ...sessionData,
+              classSubjectId: currentClassSubjectId, // Liên kết buổi học với môn học hiện tại
+            },
+          });
+
+          // 2. Tạo hàng loạt chi tiết lịch học (Schedules) cho buổi học vừa tạo
+          if (schedules && schedules.length > 0) {
+            await tx.classSubjectScheduleDetail.createMany({
+              data: schedules.map((schedule) => ({
+                sessionId: newSession.id, // Dùng ID thực tế vừa được sinh ra trong DB
+                weekNumber: schedule.weekNumber,
+                studyDate: schedule.studyDate
+                  ? new Date(schedule.studyDate)
                   : null,
-                roomId: scheduleDto.roomId || null,
-              },
+                roomId: schedule.roomId || null,
+              })),
             });
-            finalDetails.push(detail);
-          } else {
-            // Chưa có bản ghi ngày cụ thể -> Tạo mới dựa trên ID của session vừa sinh ra
-            const detail = await tx.classSubjectScheduleDetail.create({
-              data: {
-                sessionId: sessionResult.id,
-                weekNumber: scheduleDto.weekNumber,
-                studyDate: scheduleDto.studyDate
-                  ? new Date(scheduleDto.studyDate)
-                  : null,
-                roomId: scheduleDto.roomId || null,
-              },
-            });
-            finalDetails.push(detail);
           }
         }
-
-        finalSessions.push({
-          ...sessionResult,
-          schedules: finalDetails,
-        });
       }
-
-      return {
-        message: "Lưu kế hoạch đào tạo thành công",
-        classSubjectId: courseOffer.id,
-        sessions: finalSessions,
-      };
     });
   }
 }

@@ -360,6 +360,7 @@ export class StudentService {
         `Không tìm thấy Khóa đào tạo với ID ${batchId}`,
       );
     const majorId = batch.majorId;
+    console.log(batchId, majorId, studentsPerClass);
 
     // 1. Lấy danh sách học sinh chưa có lớp
     let studentsPool = await this.prisma.student.findMany({
@@ -369,14 +370,12 @@ export class StudentService {
         status: {
           in: ["approved", "studying"],
         },
-        batch: {
-          curriculum: {
-            majorId,
-          },
-        },
       },
       orderBy: { fullName: "asc" },
     });
+    const abc = await this.prisma.student.findMany();
+    console.log(`Tổng số sinh viên cần phân lớp: ${studentsPool.length}`);
+    console.log(`Tổng số sinh viên trong hệ thống: ${abc.length}`);
 
     if (studentsPool.length === 0)
       throw new BadRequestException("Không có sinh viên mới nào cần phân lớp.");
