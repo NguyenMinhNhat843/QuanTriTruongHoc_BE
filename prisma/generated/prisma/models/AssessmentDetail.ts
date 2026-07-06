@@ -29,7 +29,7 @@ export type AggregateAssessmentDetail = {
 export type AssessmentDetailAvgAggregateOutputType = {
   id: number | null
   assessmentId: number | null
-  criterionId: number | null
+  periodCriterionId: number | null
   studentScore: number | null
   teacherScore: number | null
 }
@@ -37,7 +37,7 @@ export type AssessmentDetailAvgAggregateOutputType = {
 export type AssessmentDetailSumAggregateOutputType = {
   id: number | null
   assessmentId: number | null
-  criterionId: number | null
+  periodCriterionId: number | null
   studentScore: number | null
   teacherScore: number | null
 }
@@ -45,7 +45,7 @@ export type AssessmentDetailSumAggregateOutputType = {
 export type AssessmentDetailMinAggregateOutputType = {
   id: number | null
   assessmentId: number | null
-  criterionId: number | null
+  periodCriterionId: number | null
   studentScore: number | null
   teacherScore: number | null
 }
@@ -53,7 +53,7 @@ export type AssessmentDetailMinAggregateOutputType = {
 export type AssessmentDetailMaxAggregateOutputType = {
   id: number | null
   assessmentId: number | null
-  criterionId: number | null
+  periodCriterionId: number | null
   studentScore: number | null
   teacherScore: number | null
 }
@@ -61,7 +61,7 @@ export type AssessmentDetailMaxAggregateOutputType = {
 export type AssessmentDetailCountAggregateOutputType = {
   id: number
   assessmentId: number
-  criterionId: number
+  periodCriterionId: number
   studentScore: number
   teacherScore: number
   _all: number
@@ -71,7 +71,7 @@ export type AssessmentDetailCountAggregateOutputType = {
 export type AssessmentDetailAvgAggregateInputType = {
   id?: true
   assessmentId?: true
-  criterionId?: true
+  periodCriterionId?: true
   studentScore?: true
   teacherScore?: true
 }
@@ -79,7 +79,7 @@ export type AssessmentDetailAvgAggregateInputType = {
 export type AssessmentDetailSumAggregateInputType = {
   id?: true
   assessmentId?: true
-  criterionId?: true
+  periodCriterionId?: true
   studentScore?: true
   teacherScore?: true
 }
@@ -87,7 +87,7 @@ export type AssessmentDetailSumAggregateInputType = {
 export type AssessmentDetailMinAggregateInputType = {
   id?: true
   assessmentId?: true
-  criterionId?: true
+  periodCriterionId?: true
   studentScore?: true
   teacherScore?: true
 }
@@ -95,7 +95,7 @@ export type AssessmentDetailMinAggregateInputType = {
 export type AssessmentDetailMaxAggregateInputType = {
   id?: true
   assessmentId?: true
-  criterionId?: true
+  periodCriterionId?: true
   studentScore?: true
   teacherScore?: true
 }
@@ -103,7 +103,7 @@ export type AssessmentDetailMaxAggregateInputType = {
 export type AssessmentDetailCountAggregateInputType = {
   id?: true
   assessmentId?: true
-  criterionId?: true
+  periodCriterionId?: true
   studentScore?: true
   teacherScore?: true
   _all?: true
@@ -198,7 +198,7 @@ export type AssessmentDetailGroupByArgs<ExtArgs extends runtime.Types.Extensions
 export type AssessmentDetailGroupByOutputType = {
   id: number
   assessmentId: number
-  criterionId: number
+  periodCriterionId: number
   studentScore: number
   teacherScore: number
   _count: AssessmentDetailCountAggregateOutputType | null
@@ -229,41 +229,41 @@ export type AssessmentDetailWhereInput = {
   NOT?: Prisma.AssessmentDetailWhereInput | Prisma.AssessmentDetailWhereInput[]
   id?: Prisma.IntFilter<"AssessmentDetail"> | number
   assessmentId?: Prisma.IntFilter<"AssessmentDetail"> | number
-  criterionId?: Prisma.IntFilter<"AssessmentDetail"> | number
+  periodCriterionId?: Prisma.IntFilter<"AssessmentDetail"> | number
   studentScore?: Prisma.IntFilter<"AssessmentDetail"> | number
   teacherScore?: Prisma.IntFilter<"AssessmentDetail"> | number
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
-  criterion?: Prisma.XOR<Prisma.CriterionScalarRelationFilter, Prisma.CriterionWhereInput>
+  periodCriterion?: Prisma.XOR<Prisma.EvaluationPeriodCriterionScalarRelationFilter, Prisma.EvaluationPeriodCriterionWhereInput>
 }
 
 export type AssessmentDetailOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
-  criterionId?: Prisma.SortOrder
+  periodCriterionId?: Prisma.SortOrder
   studentScore?: Prisma.SortOrder
   teacherScore?: Prisma.SortOrder
   assessment?: Prisma.AssessmentOrderByWithRelationInput
-  criterion?: Prisma.CriterionOrderByWithRelationInput
+  periodCriterion?: Prisma.EvaluationPeriodCriterionOrderByWithRelationInput
 }
 
 export type AssessmentDetailWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  assessmentId_criterionId?: Prisma.AssessmentDetailAssessmentIdCriterionIdCompoundUniqueInput
+  assessmentId_periodCriterionId?: Prisma.AssessmentDetailAssessmentIdPeriodCriterionIdCompoundUniqueInput
   AND?: Prisma.AssessmentDetailWhereInput | Prisma.AssessmentDetailWhereInput[]
   OR?: Prisma.AssessmentDetailWhereInput[]
   NOT?: Prisma.AssessmentDetailWhereInput | Prisma.AssessmentDetailWhereInput[]
   assessmentId?: Prisma.IntFilter<"AssessmentDetail"> | number
-  criterionId?: Prisma.IntFilter<"AssessmentDetail"> | number
+  periodCriterionId?: Prisma.IntFilter<"AssessmentDetail"> | number
   studentScore?: Prisma.IntFilter<"AssessmentDetail"> | number
   teacherScore?: Prisma.IntFilter<"AssessmentDetail"> | number
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
-  criterion?: Prisma.XOR<Prisma.CriterionScalarRelationFilter, Prisma.CriterionWhereInput>
-}, "id" | "assessmentId_criterionId">
+  periodCriterion?: Prisma.XOR<Prisma.EvaluationPeriodCriterionScalarRelationFilter, Prisma.EvaluationPeriodCriterionWhereInput>
+}, "id" | "assessmentId_periodCriterionId">
 
 export type AssessmentDetailOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
-  criterionId?: Prisma.SortOrder
+  periodCriterionId?: Prisma.SortOrder
   studentScore?: Prisma.SortOrder
   teacherScore?: Prisma.SortOrder
   _count?: Prisma.AssessmentDetailCountOrderByAggregateInput
@@ -279,7 +279,7 @@ export type AssessmentDetailScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AssessmentDetailScalarWhereWithAggregatesInput | Prisma.AssessmentDetailScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"AssessmentDetail"> | number
   assessmentId?: Prisma.IntWithAggregatesFilter<"AssessmentDetail"> | number
-  criterionId?: Prisma.IntWithAggregatesFilter<"AssessmentDetail"> | number
+  periodCriterionId?: Prisma.IntWithAggregatesFilter<"AssessmentDetail"> | number
   studentScore?: Prisma.IntWithAggregatesFilter<"AssessmentDetail"> | number
   teacherScore?: Prisma.IntWithAggregatesFilter<"AssessmentDetail"> | number
 }
@@ -288,13 +288,13 @@ export type AssessmentDetailCreateInput = {
   studentScore?: number
   teacherScore?: number
   assessment: Prisma.AssessmentCreateNestedOneWithoutDetailsInput
-  criterion: Prisma.CriterionCreateNestedOneWithoutDetailsInput
+  periodCriterion: Prisma.EvaluationPeriodCriterionCreateNestedOneWithoutAssessmentDetailsInput
 }
 
 export type AssessmentDetailUncheckedCreateInput = {
   id?: number
   assessmentId: number
-  criterionId: number
+  periodCriterionId: number
   studentScore?: number
   teacherScore?: number
 }
@@ -303,13 +303,13 @@ export type AssessmentDetailUpdateInput = {
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutDetailsNestedInput
-  criterion?: Prisma.CriterionUpdateOneRequiredWithoutDetailsNestedInput
+  periodCriterion?: Prisma.EvaluationPeriodCriterionUpdateOneRequiredWithoutAssessmentDetailsNestedInput
 }
 
 export type AssessmentDetailUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.IntFieldUpdateOperationsInput | number
-  criterionId?: Prisma.IntFieldUpdateOperationsInput | number
+  periodCriterionId?: Prisma.IntFieldUpdateOperationsInput | number
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -317,7 +317,7 @@ export type AssessmentDetailUncheckedUpdateInput = {
 export type AssessmentDetailCreateManyInput = {
   id?: number
   assessmentId: number
-  criterionId: number
+  periodCriterionId: number
   studentScore?: number
   teacherScore?: number
 }
@@ -330,7 +330,7 @@ export type AssessmentDetailUpdateManyMutationInput = {
 export type AssessmentDetailUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.IntFieldUpdateOperationsInput | number
-  criterionId?: Prisma.IntFieldUpdateOperationsInput | number
+  periodCriterionId?: Prisma.IntFieldUpdateOperationsInput | number
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -345,15 +345,15 @@ export type AssessmentDetailOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type AssessmentDetailAssessmentIdCriterionIdCompoundUniqueInput = {
+export type AssessmentDetailAssessmentIdPeriodCriterionIdCompoundUniqueInput = {
   assessmentId: number
-  criterionId: number
+  periodCriterionId: number
 }
 
 export type AssessmentDetailCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
-  criterionId?: Prisma.SortOrder
+  periodCriterionId?: Prisma.SortOrder
   studentScore?: Prisma.SortOrder
   teacherScore?: Prisma.SortOrder
 }
@@ -361,7 +361,7 @@ export type AssessmentDetailCountOrderByAggregateInput = {
 export type AssessmentDetailAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
-  criterionId?: Prisma.SortOrder
+  periodCriterionId?: Prisma.SortOrder
   studentScore?: Prisma.SortOrder
   teacherScore?: Prisma.SortOrder
 }
@@ -369,7 +369,7 @@ export type AssessmentDetailAvgOrderByAggregateInput = {
 export type AssessmentDetailMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
-  criterionId?: Prisma.SortOrder
+  periodCriterionId?: Prisma.SortOrder
   studentScore?: Prisma.SortOrder
   teacherScore?: Prisma.SortOrder
 }
@@ -377,7 +377,7 @@ export type AssessmentDetailMaxOrderByAggregateInput = {
 export type AssessmentDetailMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
-  criterionId?: Prisma.SortOrder
+  periodCriterionId?: Prisma.SortOrder
   studentScore?: Prisma.SortOrder
   teacherScore?: Prisma.SortOrder
 }
@@ -385,50 +385,50 @@ export type AssessmentDetailMinOrderByAggregateInput = {
 export type AssessmentDetailSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
-  criterionId?: Prisma.SortOrder
+  periodCriterionId?: Prisma.SortOrder
   studentScore?: Prisma.SortOrder
   teacherScore?: Prisma.SortOrder
 }
 
-export type AssessmentDetailCreateNestedManyWithoutCriterionInput = {
-  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput> | Prisma.AssessmentDetailCreateWithoutCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput[]
-  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput[]
-  createMany?: Prisma.AssessmentDetailCreateManyCriterionInputEnvelope
+export type AssessmentDetailCreateNestedManyWithoutPeriodCriterionInput = {
+  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput> | Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput[]
+  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput[]
+  createMany?: Prisma.AssessmentDetailCreateManyPeriodCriterionInputEnvelope
   connect?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
 }
 
-export type AssessmentDetailUncheckedCreateNestedManyWithoutCriterionInput = {
-  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput> | Prisma.AssessmentDetailCreateWithoutCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput[]
-  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput[]
-  createMany?: Prisma.AssessmentDetailCreateManyCriterionInputEnvelope
+export type AssessmentDetailUncheckedCreateNestedManyWithoutPeriodCriterionInput = {
+  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput> | Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput[]
+  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput[]
+  createMany?: Prisma.AssessmentDetailCreateManyPeriodCriterionInputEnvelope
   connect?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
 }
 
-export type AssessmentDetailUpdateManyWithoutCriterionNestedInput = {
-  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput> | Prisma.AssessmentDetailCreateWithoutCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput[]
-  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput[]
-  upsert?: Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutCriterionInput | Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutCriterionInput[]
-  createMany?: Prisma.AssessmentDetailCreateManyCriterionInputEnvelope
+export type AssessmentDetailUpdateManyWithoutPeriodCriterionNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput> | Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput[]
+  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput[]
+  upsert?: Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutPeriodCriterionInput | Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutPeriodCriterionInput[]
+  createMany?: Prisma.AssessmentDetailCreateManyPeriodCriterionInputEnvelope
   set?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
   disconnect?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
   delete?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
   connect?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
-  update?: Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutCriterionInput | Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutCriterionInput[]
-  updateMany?: Prisma.AssessmentDetailUpdateManyWithWhereWithoutCriterionInput | Prisma.AssessmentDetailUpdateManyWithWhereWithoutCriterionInput[]
+  update?: Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutPeriodCriterionInput | Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutPeriodCriterionInput[]
+  updateMany?: Prisma.AssessmentDetailUpdateManyWithWhereWithoutPeriodCriterionInput | Prisma.AssessmentDetailUpdateManyWithWhereWithoutPeriodCriterionInput[]
   deleteMany?: Prisma.AssessmentDetailScalarWhereInput | Prisma.AssessmentDetailScalarWhereInput[]
 }
 
-export type AssessmentDetailUncheckedUpdateManyWithoutCriterionNestedInput = {
-  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput> | Prisma.AssessmentDetailCreateWithoutCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput[]
-  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutCriterionInput[]
-  upsert?: Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutCriterionInput | Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutCriterionInput[]
-  createMany?: Prisma.AssessmentDetailCreateManyCriterionInputEnvelope
+export type AssessmentDetailUncheckedUpdateManyWithoutPeriodCriterionNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput> | Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput[] | Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput[]
+  connectOrCreate?: Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput | Prisma.AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput[]
+  upsert?: Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutPeriodCriterionInput | Prisma.AssessmentDetailUpsertWithWhereUniqueWithoutPeriodCriterionInput[]
+  createMany?: Prisma.AssessmentDetailCreateManyPeriodCriterionInputEnvelope
   set?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
   disconnect?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
   delete?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
   connect?: Prisma.AssessmentDetailWhereUniqueInput | Prisma.AssessmentDetailWhereUniqueInput[]
-  update?: Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutCriterionInput | Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutCriterionInput[]
-  updateMany?: Prisma.AssessmentDetailUpdateManyWithWhereWithoutCriterionInput | Prisma.AssessmentDetailUpdateManyWithWhereWithoutCriterionInput[]
+  update?: Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutPeriodCriterionInput | Prisma.AssessmentDetailUpdateWithWhereUniqueWithoutPeriodCriterionInput[]
+  updateMany?: Prisma.AssessmentDetailUpdateManyWithWhereWithoutPeriodCriterionInput | Prisma.AssessmentDetailUpdateManyWithWhereWithoutPeriodCriterionInput[]
   deleteMany?: Prisma.AssessmentDetailScalarWhereInput | Prisma.AssessmentDetailScalarWhereInput[]
 }
 
@@ -474,43 +474,43 @@ export type AssessmentDetailUncheckedUpdateManyWithoutAssessmentNestedInput = {
   deleteMany?: Prisma.AssessmentDetailScalarWhereInput | Prisma.AssessmentDetailScalarWhereInput[]
 }
 
-export type AssessmentDetailCreateWithoutCriterionInput = {
+export type AssessmentDetailCreateWithoutPeriodCriterionInput = {
   studentScore?: number
   teacherScore?: number
   assessment: Prisma.AssessmentCreateNestedOneWithoutDetailsInput
 }
 
-export type AssessmentDetailUncheckedCreateWithoutCriterionInput = {
+export type AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput = {
   id?: number
   assessmentId: number
   studentScore?: number
   teacherScore?: number
 }
 
-export type AssessmentDetailCreateOrConnectWithoutCriterionInput = {
+export type AssessmentDetailCreateOrConnectWithoutPeriodCriterionInput = {
   where: Prisma.AssessmentDetailWhereUniqueInput
-  create: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput>
+  create: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput>
 }
 
-export type AssessmentDetailCreateManyCriterionInputEnvelope = {
-  data: Prisma.AssessmentDetailCreateManyCriterionInput | Prisma.AssessmentDetailCreateManyCriterionInput[]
+export type AssessmentDetailCreateManyPeriodCriterionInputEnvelope = {
+  data: Prisma.AssessmentDetailCreateManyPeriodCriterionInput | Prisma.AssessmentDetailCreateManyPeriodCriterionInput[]
   skipDuplicates?: boolean
 }
 
-export type AssessmentDetailUpsertWithWhereUniqueWithoutCriterionInput = {
+export type AssessmentDetailUpsertWithWhereUniqueWithoutPeriodCriterionInput = {
   where: Prisma.AssessmentDetailWhereUniqueInput
-  update: Prisma.XOR<Prisma.AssessmentDetailUpdateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedUpdateWithoutCriterionInput>
-  create: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutCriterionInput>
+  update: Prisma.XOR<Prisma.AssessmentDetailUpdateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedUpdateWithoutPeriodCriterionInput>
+  create: Prisma.XOR<Prisma.AssessmentDetailCreateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedCreateWithoutPeriodCriterionInput>
 }
 
-export type AssessmentDetailUpdateWithWhereUniqueWithoutCriterionInput = {
+export type AssessmentDetailUpdateWithWhereUniqueWithoutPeriodCriterionInput = {
   where: Prisma.AssessmentDetailWhereUniqueInput
-  data: Prisma.XOR<Prisma.AssessmentDetailUpdateWithoutCriterionInput, Prisma.AssessmentDetailUncheckedUpdateWithoutCriterionInput>
+  data: Prisma.XOR<Prisma.AssessmentDetailUpdateWithoutPeriodCriterionInput, Prisma.AssessmentDetailUncheckedUpdateWithoutPeriodCriterionInput>
 }
 
-export type AssessmentDetailUpdateManyWithWhereWithoutCriterionInput = {
+export type AssessmentDetailUpdateManyWithWhereWithoutPeriodCriterionInput = {
   where: Prisma.AssessmentDetailScalarWhereInput
-  data: Prisma.XOR<Prisma.AssessmentDetailUpdateManyMutationInput, Prisma.AssessmentDetailUncheckedUpdateManyWithoutCriterionInput>
+  data: Prisma.XOR<Prisma.AssessmentDetailUpdateManyMutationInput, Prisma.AssessmentDetailUncheckedUpdateManyWithoutPeriodCriterionInput>
 }
 
 export type AssessmentDetailScalarWhereInput = {
@@ -519,7 +519,7 @@ export type AssessmentDetailScalarWhereInput = {
   NOT?: Prisma.AssessmentDetailScalarWhereInput | Prisma.AssessmentDetailScalarWhereInput[]
   id?: Prisma.IntFilter<"AssessmentDetail"> | number
   assessmentId?: Prisma.IntFilter<"AssessmentDetail"> | number
-  criterionId?: Prisma.IntFilter<"AssessmentDetail"> | number
+  periodCriterionId?: Prisma.IntFilter<"AssessmentDetail"> | number
   studentScore?: Prisma.IntFilter<"AssessmentDetail"> | number
   teacherScore?: Prisma.IntFilter<"AssessmentDetail"> | number
 }
@@ -527,12 +527,12 @@ export type AssessmentDetailScalarWhereInput = {
 export type AssessmentDetailCreateWithoutAssessmentInput = {
   studentScore?: number
   teacherScore?: number
-  criterion: Prisma.CriterionCreateNestedOneWithoutDetailsInput
+  periodCriterion: Prisma.EvaluationPeriodCriterionCreateNestedOneWithoutAssessmentDetailsInput
 }
 
 export type AssessmentDetailUncheckedCreateWithoutAssessmentInput = {
   id?: number
-  criterionId: number
+  periodCriterionId: number
   studentScore?: number
   teacherScore?: number
 }
@@ -563,27 +563,27 @@ export type AssessmentDetailUpdateManyWithWhereWithoutAssessmentInput = {
   data: Prisma.XOR<Prisma.AssessmentDetailUpdateManyMutationInput, Prisma.AssessmentDetailUncheckedUpdateManyWithoutAssessmentInput>
 }
 
-export type AssessmentDetailCreateManyCriterionInput = {
+export type AssessmentDetailCreateManyPeriodCriterionInput = {
   id?: number
   assessmentId: number
   studentScore?: number
   teacherScore?: number
 }
 
-export type AssessmentDetailUpdateWithoutCriterionInput = {
+export type AssessmentDetailUpdateWithoutPeriodCriterionInput = {
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutDetailsNestedInput
 }
 
-export type AssessmentDetailUncheckedUpdateWithoutCriterionInput = {
+export type AssessmentDetailUncheckedUpdateWithoutPeriodCriterionInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.IntFieldUpdateOperationsInput | number
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type AssessmentDetailUncheckedUpdateManyWithoutCriterionInput = {
+export type AssessmentDetailUncheckedUpdateManyWithoutPeriodCriterionInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.IntFieldUpdateOperationsInput | number
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
@@ -592,7 +592,7 @@ export type AssessmentDetailUncheckedUpdateManyWithoutCriterionInput = {
 
 export type AssessmentDetailCreateManyAssessmentInput = {
   id?: number
-  criterionId: number
+  periodCriterionId: number
   studentScore?: number
   teacherScore?: number
 }
@@ -600,19 +600,19 @@ export type AssessmentDetailCreateManyAssessmentInput = {
 export type AssessmentDetailUpdateWithoutAssessmentInput = {
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
-  criterion?: Prisma.CriterionUpdateOneRequiredWithoutDetailsNestedInput
+  periodCriterion?: Prisma.EvaluationPeriodCriterionUpdateOneRequiredWithoutAssessmentDetailsNestedInput
 }
 
 export type AssessmentDetailUncheckedUpdateWithoutAssessmentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  criterionId?: Prisma.IntFieldUpdateOperationsInput | number
+  periodCriterionId?: Prisma.IntFieldUpdateOperationsInput | number
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type AssessmentDetailUncheckedUpdateManyWithoutAssessmentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  criterionId?: Prisma.IntFieldUpdateOperationsInput | number
+  periodCriterionId?: Prisma.IntFieldUpdateOperationsInput | number
   studentScore?: Prisma.IntFieldUpdateOperationsInput | number
   teacherScore?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -622,65 +622,65 @@ export type AssessmentDetailUncheckedUpdateManyWithoutAssessmentInput = {
 export type AssessmentDetailSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   assessmentId?: boolean
-  criterionId?: boolean
+  periodCriterionId?: boolean
   studentScore?: boolean
   teacherScore?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
-  criterion?: boolean | Prisma.CriterionDefaultArgs<ExtArgs>
+  periodCriterion?: boolean | Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessmentDetail"]>
 
 export type AssessmentDetailSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   assessmentId?: boolean
-  criterionId?: boolean
+  periodCriterionId?: boolean
   studentScore?: boolean
   teacherScore?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
-  criterion?: boolean | Prisma.CriterionDefaultArgs<ExtArgs>
+  periodCriterion?: boolean | Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessmentDetail"]>
 
 export type AssessmentDetailSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   assessmentId?: boolean
-  criterionId?: boolean
+  periodCriterionId?: boolean
   studentScore?: boolean
   teacherScore?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
-  criterion?: boolean | Prisma.CriterionDefaultArgs<ExtArgs>
+  periodCriterion?: boolean | Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessmentDetail"]>
 
 export type AssessmentDetailSelectScalar = {
   id?: boolean
   assessmentId?: boolean
-  criterionId?: boolean
+  periodCriterionId?: boolean
   studentScore?: boolean
   teacherScore?: boolean
 }
 
-export type AssessmentDetailOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "criterionId" | "studentScore" | "teacherScore", ExtArgs["result"]["assessmentDetail"]>
+export type AssessmentDetailOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "periodCriterionId" | "studentScore" | "teacherScore", ExtArgs["result"]["assessmentDetail"]>
 export type AssessmentDetailInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
-  criterion?: boolean | Prisma.CriterionDefaultArgs<ExtArgs>
+  periodCriterion?: boolean | Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs>
 }
 export type AssessmentDetailIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
-  criterion?: boolean | Prisma.CriterionDefaultArgs<ExtArgs>
+  periodCriterion?: boolean | Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs>
 }
 export type AssessmentDetailIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
-  criterion?: boolean | Prisma.CriterionDefaultArgs<ExtArgs>
+  periodCriterion?: boolean | Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs>
 }
 
 export type $AssessmentDetailPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AssessmentDetail"
   objects: {
     assessment: Prisma.$AssessmentPayload<ExtArgs>
-    criterion: Prisma.$CriterionPayload<ExtArgs>
+    periodCriterion: Prisma.$EvaluationPeriodCriterionPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     assessmentId: number
-    criterionId: number
+    periodCriterionId: number
     studentScore: number
     teacherScore: number
   }, ExtArgs["result"]["assessmentDetail"]>
@@ -1078,7 +1078,7 @@ readonly fields: AssessmentDetailFieldRefs;
 export interface Prisma__AssessmentDetailClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   assessment<T extends Prisma.AssessmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentClient<runtime.Types.Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  criterion<T extends Prisma.CriterionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CriterionDefaultArgs<ExtArgs>>): Prisma.Prisma__CriterionClient<runtime.Types.Result.GetResult<Prisma.$CriterionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  periodCriterion<T extends Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EvaluationPeriodCriterionDefaultArgs<ExtArgs>>): Prisma.Prisma__EvaluationPeriodCriterionClient<runtime.Types.Result.GetResult<Prisma.$EvaluationPeriodCriterionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1110,7 +1110,7 @@ export interface Prisma__AssessmentDetailClient<T, Null = never, ExtArgs extends
 export interface AssessmentDetailFieldRefs {
   readonly id: Prisma.FieldRef<"AssessmentDetail", 'Int'>
   readonly assessmentId: Prisma.FieldRef<"AssessmentDetail", 'Int'>
-  readonly criterionId: Prisma.FieldRef<"AssessmentDetail", 'Int'>
+  readonly periodCriterionId: Prisma.FieldRef<"AssessmentDetail", 'Int'>
   readonly studentScore: Prisma.FieldRef<"AssessmentDetail", 'Int'>
   readonly teacherScore: Prisma.FieldRef<"AssessmentDetail", 'Int'>
 }

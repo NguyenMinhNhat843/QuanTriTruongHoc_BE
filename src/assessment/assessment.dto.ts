@@ -1,102 +1,119 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, PartialType, PickType } from "@nestjs/swagger";
 import {
-  IsNotEmpty,
   IsOptional,
   IsString,
   IsInt,
-  Min,
   IsArray,
   ValidateNested,
+  IsNotEmpty,
+  IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
+import {
+  AssessmentDetailDto,
+  AssessmentDto,
+  CriterionDto,
+  EvaluationPeriodCriterionDto,
+  EvaluationPeriodDto,
+} from "./assessment-response.dto";
+import { AssessmentStatus } from "../../prisma/generated/prisma/enums";
 
-export class CreatePeriodDto {
-  @ApiProperty({ example: "HK1-2026-2027", description: "Tên đợt đánh giá" })
-  @IsString()
-  @IsNotEmpty({ message: "Tên đợt đánh giá không được để trống" })
-  name: string;
+// ====== CRETION DTOs ======
+export class CreateCriterionDto extends PickType(CriterionDto, [
+  "title",
+  "maxScore",
+  "sortOrder",
+] as const) {}
+
+export class UpdateCriterionDto extends PartialType(CreateCriterionDto) {}
+
+// =========== PERIOD: Đợt Đánh giá =============
+export class CreatePeriodDto extends PickType(EvaluationPeriodDto, [
+  "name",
+  "semesterId",
+] as const) {
+  @ApiProperty({
+    type: [Number],
+  })
+  criterionIds?: number[];
+}
+
+export class UpdatePeriodDto extends PartialType(CreatePeriodDto) {}
+
+// ======= Bảng Trung gian: PeriodCriterion =======
+export class CreatePeriodCriterionDto extends PickType(
+  EvaluationPeriodCriterionDto,
+  ["criterionId", "periodId", "maxScoreSnapshot"] as const,
+) {}
+
+// ======== Assessment: Phiếu điểm của từng học sinh ==========
+export class CreateAssessmentDto extends PickType(AssessmentDto, [
+  "studentId",
+  "periodId",
+] as const) {}
+
+export class AssessmentDetailUpdateDto {
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  id: number; // ID của dòng AssessmentDetail cần update
 
   @ApiProperty()
-  semesterId: number;
-}
-
-export class CreateCriterionDto {
-  @ApiProperty({
-    example: "Ý thức học tập (Đi học đầy đủ, đúng giờ)",
-    description: "Nội dung tiêu chí",
-  })
-  @IsString()
-  @IsNotEmpty({ message: "Nội dung tiêu chí không được để trống" })
-  title: string;
-
-  @ApiProperty({ example: 30, description: "Điểm tối đa của tiêu chí này" })
   @IsInt()
-  @Min(1, { message: "Điểm tối đa phải lớn hơn 0" })
-  maxScore: number;
-
-  @ApiPropertyOptional({ example: 1, description: "Thứ tự sắp xếp hiển thị" })
   @IsOptional()
+  studentScore?: number;
+
+  @ApiProperty()
   @IsInt()
-  @Min(0)
-  sortOrder?: number;
+  @IsOptional()
+  teacherScore?: number;
 }
 
-export class AssessmentDetailInput {
-  @ApiProperty({ example: 1, description: "ID tiêu chí" })
+export class UpdateAssessmentDto {
+  @ApiProperty()
   @IsInt()
-  criterionId: number;
-
-  @ApiProperty({ example: 25, description: "Điểm học sinh tự chấm" })
-  @IsInt()
-  @Min(0, { message: "Điểm tự chấm không được nhỏ hơn 0" })
-  studentScore: number;
-}
-
-export class SubmitAssessmentDto {
-  @ApiProperty({ example: 1, description: "ID đợt đánh giá" })
-  @IsInt()
-  periodId: number;
-
-  @ApiProperty({
-    type: [AssessmentDetailInput],
-    description: "Chi tiết điểm tự chấm theo tiêu chí",
-  })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => AssessmentDetailInput)
-  details: AssessmentDetailInput[];
-}
-
-export class TeacherAssessmentDetailInput {
-  @ApiProperty({ example: 1, description: "ID tiêu chí" })
-  @IsInt()
-  criterionId: number;
-
-  @ApiProperty({ example: 24, description: "Điểm GVCN duyệt cuối cùng" })
-  @IsInt()
-  @Min(0, { message: "Điểm duyệt không được nhỏ hơn 0" })
-  teacherScore: number;
-}
-
-export class ApproveAssessmentDto {
-  @ApiProperty({ example: 1, description: "ID phiếu điểm cần duyệt" })
-  @IsInt()
+  @IsNotEmpty()
   assessmentId: number;
 
-  @ApiPropertyOptional({
-    example: "Học sinh tích cực tham gia các hoạt động",
-    description: "Nhận xét của GVCN",
-  })
-  @IsOptional()
+  @ApiProperty({ enum: AssessmentStatus })
+  @IsEnum(AssessmentStatus)
+  @IsNotEmpty()
+  status: AssessmentStatus;
+
+  @ApiProperty({ nullable: true })
   @IsString()
+  @IsOptional()
   teacherComment?: string;
 
   @ApiProperty({
-    type: [TeacherAssessmentDetailInput],
-    description: "Chi tiết điểm GVCN chấm theo tiêu chí",
+    type: [AssessmentDetailUpdateDto],
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => TeacherAssessmentDetailInput)
-  details: TeacherAssessmentDetailInput[];
+  @Type(() => AssessmentDetailUpdateDto)
+  details: AssessmentDetailUpdateDto[];
 }
+
+// Lấy phiếu điểm rèn luyện của 1 học sinh trong 1 học kỳ
+export class LoadAssessmentDto {
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  @Type(() => Number)
+  studentId: number;
+
+  @ApiProperty()
+  @IsInt()
+  @IsNotEmpty()
+  @Type(() => Number)
+  semesterId: number;
+}
+
+// ========= AssessmentDetail: Chi tiết điểm theo từng tiêu chí ==========
+export class CreateAssessmentDetailDto extends PickType(AssessmentDetailDto, [
+  "assessmentId",
+  "periodCriterionId",
+  "criterionId",
+  "studentScore",
+  "teacherScore",
+] as const) {}

@@ -6,90 +6,123 @@ import {
   Criterion,
   EvaluationGrade,
   EvaluationPeriod,
+  EvaluationPeriodCriterion,
 } from "../../prisma/generated/prisma/client";
-
-// ==========================================
-// 1. EvaluationPeriodDto
-// ==========================================
-export class EvaluationPeriodDto implements EvaluationPeriod {
-  @ApiProperty()
-  id: number;
-
-  @ApiProperty()
-  isActive: boolean;
-
-  @ApiProperty()
-  semesterId: number;
-
-  @ApiProperty()
-  isFrozen: boolean;
-
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  createdAt: Date;
-
-  @ApiProperty()
-  updatedAt: Date;
-}
+import { Type } from "class-transformer";
+import {
+  IsNumber,
+  IsBoolean,
+  IsDate,
+  IsEnum,
+  IsOptional,
+  IsString,
+} from "class-validator";
 
 // ==========================================
 // 2. CriterionDto
 // ==========================================
 export class CriterionDto implements Criterion {
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   id: number;
 
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   maxScore: number;
 
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   sortOrder: number;
 
   @ApiProperty()
+  @IsString()
   title: string;
 
   @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
   createdAt: Date;
 
   @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
   updatedAt: Date;
 }
 
-// ==========================================
-// 3. AssessmentDto
-// ==========================================
-export class AssessmentDto implements Assessment {
+// ===== BANG TRUNG GIAN: EvaluationPeriodCriterionDto =====
+export class EvaluationPeriodCriterionDto implements EvaluationPeriodCriterion {
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   id: number;
 
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  criterionId: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   periodId: number;
 
   @ApiProperty()
-  studentId: number;
+  @IsNumber()
+  @Type(() => Number)
+  maxScoreSnapshot: number;
+}
 
-  @ApiProperty({ enum: AssessmentStatus })
-  status: AssessmentStatus;
+export class ResponseEvaluationPeriodCriterionDtoWithRelation extends EvaluationPeriodCriterionDto {
+  @ApiProperty({ type: () => CriterionDto })
+  criterion: CriterionDto;
+}
+
+// ==========================================
+// 1. EvaluationPeriodDto
+// ==========================================
+export class EvaluationPeriodDto implements EvaluationPeriod {
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  id: number;
 
   @ApiProperty()
-  totalStudentScore: number;
+  @IsBoolean()
+  @Type(() => Boolean)
+  isActive: boolean;
 
   @ApiProperty()
-  totalTeacherScore: number;
-
-  @ApiProperty({ enum: EvaluationGrade, nullable: true })
-  finalGrade: EvaluationGrade | null;
-
-  @ApiProperty({ nullable: true })
-  teacherComment: string | null;
+  @IsNumber()
+  @Type(() => Number)
+  semesterId: number;
 
   @ApiProperty()
+  @IsBoolean()
+  @Type(() => Boolean)
+  isFrozen: boolean;
+
+  @ApiProperty()
+  @IsString()
+  name: string;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
   createdAt: Date;
 
   @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
   updatedAt: Date;
+}
+export class ResponseEvaluationPeriodDtoWithRelation extends EvaluationPeriodDto {
+  @ApiProperty({
+    type: () => [ResponseEvaluationPeriodCriterionDtoWithRelation],
+  })
+  periodCriteria: ResponseEvaluationPeriodCriterionDtoWithRelation[];
 }
 
 // ==========================================
@@ -97,27 +130,96 @@ export class AssessmentDto implements Assessment {
 // ==========================================
 export class AssessmentDetailDto implements AssessmentDetail {
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   id: number;
 
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  periodCriterionId: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   assessmentId: number;
 
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   criterionId: number;
 
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   studentScore: number;
 
   @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
   teacherScore: number;
 }
 
-export class AssessmentDetailDtoWithRelation extends AssessmentDetailDto {
-  @ApiProperty({ type: CriterionDto })
-  criterion: CriterionDto;
+// ==========================================
+// 3. AssessmentDto
+// ==========================================
+export class AssessmentDto implements Assessment {
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  id: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  periodId: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  studentId: number;
+
+  @ApiProperty({ enum: AssessmentStatus })
+  @IsEnum(AssessmentStatus)
+  status: AssessmentStatus;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  totalStudentScore: number;
+
+  @ApiProperty()
+  @IsNumber()
+  @Type(() => Number)
+  totalTeacherScore: number;
+
+  @ApiProperty({ enum: EvaluationGrade, nullable: true })
+  @IsOptional()
+  @IsEnum(EvaluationGrade)
+  finalGrade: EvaluationGrade | null;
+
+  @ApiProperty({ nullable: true })
+  @IsOptional()
+  @IsString()
+  teacherComment: string | null;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDate()
+  @Type(() => Date)
+  updatedAt: Date;
 }
 
-export class AssessmentDtoWithRelation extends AssessmentDto {
-  @ApiProperty({ type: [AssessmentDetailDtoWithRelation] })
+export class AssessmentDetailDtoWithRelation extends AssessmentDetailDto {
+  @ApiProperty({ type: () => ResponseEvaluationPeriodCriterionDtoWithRelation })
+  periodCriterion: ResponseEvaluationPeriodCriterionDtoWithRelation;
+}
+
+export class ResponseAssessmentDtoWithRelation extends AssessmentDto {
+  @ApiProperty({ type: () => [AssessmentDetailDtoWithRelation] })
   details: AssessmentDetailDtoWithRelation[];
 }

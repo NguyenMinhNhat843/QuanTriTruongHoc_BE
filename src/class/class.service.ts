@@ -5,7 +5,10 @@ import {
   InternalServerErrorException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { ClassResponseDto } from "./class.response";
+import {
+  ClassResponseDto,
+  ClassResponseWithRelationsDto,
+} from "./class.response";
 import { CreateClassDto, SearchClassDto, UpdateClassDto } from "./class.dto";
 import { plainToInstance } from "class-transformer";
 import { Prisma } from "../../prisma/generated/prisma/client";
@@ -147,7 +150,7 @@ export class ClassService {
   /**
    * Lấy thông tin một lớp học theo ID
    */
-  async findOne(id: number): Promise<ClassResponseDto> {
+  async findOne(id: number): Promise<ClassResponseWithRelationsDto> {
     const classItem = await this.prisma.class.findUnique({
       where: { id },
       include: {
@@ -165,7 +168,7 @@ export class ClassService {
     if (!classItem) {
       throw new NotFoundException(`Không tìm thấy lớp học với ID ${id}`);
     }
-    return plainToInstance(ClassResponseDto, {
+    return plainToInstance(ClassResponseWithRelationsDto, {
       ...classItem,
       formTeacher: formTeacher || null,
     });

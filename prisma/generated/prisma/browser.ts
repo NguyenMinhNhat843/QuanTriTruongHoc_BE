@@ -68,6 +68,11 @@ export type CurriculumSubject = Prisma.CurriculumSubjectModel
  */
 export type EvaluationPeriod = Prisma.EvaluationPeriodModel
 /**
+ * Model EvaluationPeriodCriterion
+ * 
+ */
+export type EvaluationPeriodCriterion = Prisma.EvaluationPeriodCriterionModel
+/**
  * Model Criterion
  * 
  */

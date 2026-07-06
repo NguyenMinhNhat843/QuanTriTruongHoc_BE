@@ -1,174 +1,168 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
+  Post,
   Query,
-  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiBearerAuth,
-  ApiQuery,
-  ApiResponse,
-} from "@nestjs/swagger";
 import { AssessmentService } from "./assessment.service";
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import {
-  CreatePeriodDto,
-  CreateCriterionDto,
-  SubmitAssessmentDto,
-  ApproveAssessmentDto,
-} from "./assessment.dto";
-import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
-import { RolesGuard } from "../auth/guard/role.guard";
-import { Roles } from "../common/decorators/role.decorator";
-import { RoleType } from "../../prisma/generated/prisma/enums";
-import { GetUser } from "../common/decorators/get-user.decorator";
-import {
-  AssessmentDtoWithRelation,
   CriterionDto,
   EvaluationPeriodDto,
+  ResponseAssessmentDtoWithRelation,
+  ResponseEvaluationPeriodDtoWithRelation,
 } from "./assessment-response.dto";
+import {
+  CreateCriterionDto,
+  CreatePeriodDto,
+  LoadAssessmentDto,
+  UpdateAssessmentDto,
+  UpdatePeriodDto,
+} from "./assessment.dto";
 
-@ApiTags("Assessment (Quản lý Điểm rèn luyện)")
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller("assessment")
+@ApiTags("Assessment")
 export class AssessmentController {
   constructor(private readonly assessmentService: AssessmentService) {}
 
-  // =========================================================================
-  // 1. ENDPOINTS DÀNH CHO PHÒNG CTHS (ADMIN / STAFF)
-  // =========================================================================
-
-  @Post("periods")
-  @Roles(RoleType.admin, RoleType.staff)
-  @ApiOperation({ summary: "Phòng CTHS: Khởi tạo đợt đánh giá mới" })
-  createPeriod(@Body() dto: CreatePeriodDto) {
-    return this.assessmentService.createPeriod(dto);
-  }
-
+  // Create Criteria: Tiêu chí chấm điểm
   @Post("criteria")
-  @Roles(RoleType.admin, RoleType.staff)
-  @ApiOperation({ summary: "Phòng CTHS: Tạo tiêu chí chấm điểm chuẩn" })
-  createCriterion(@Body() dto: CreateCriterionDto) {
-    return this.assessmentService.createCriterion(dto);
-  }
-
-  @Post("periods/:id/freeze")
-  @Roles(RoleType.admin, RoleType.staff)
-  @ApiOperation({
-    summary:
-      "Phòng CTHS: Khóa đợt đánh giá & công bố kết quả (Tính toán xếp loại tự động)",
+  @ApiOperation({ summary: "Tạo tiêu chí chấm điểm" })
+  @ApiResponse({
+    status: 201,
+    description: "Tiêu chí chấm điểm được tạo thành công",
+    type: CriterionDto,
   })
-  freezePeriod(@Param("id", ParseIntPipe) id: number) {
-    return this.assessmentService.freezePeriod(id);
+  async createCriteria(@Body() createCriterionDto: CreateCriterionDto) {
+    return this.assessmentService.createCriteria(createCriterionDto);
   }
 
-  // =========================================================================
-  // 2. ENDPOINTS CHUNG (ĐÃ ĐĂNG NHẬP)
-  // =========================================================================
+  // Update Criteria: Cập nhật tiêu chí chấm điểm
+  @Patch("criteria/:id")
+  @ApiOperation({ summary: "Cập nhật tiêu chí chấm điểm" })
+  @ApiResponse({
+    status: 200,
+    description: "Tiêu chí chấm điểm được cập nhật thành công",
+    type: CriterionDto,
+  })
+  async updateCriteria(
+    @Body() updateCriterionDto: CreateCriterionDto,
+    @Param("id") id: number,
+  ) {
+    return this.assessmentService.updateCriteria(id, updateCriterionDto);
+  }
+
+  // Delete Criteria: Xóa tiêu chí chấm điểm
+  @Delete("criteria/:id")
+  @ApiOperation({ summary: "Xóa tiêu chí chấm điểm" })
+  @ApiResponse({
+    status: 200,
+    description: "Tiêu chí chấm điểm được xóa thành công",
+    type: CriterionDto,
+  })
+  async deleteCriteria(@Param("id") id: number) {
+    return this.assessmentService.deleteCriteria(id);
+  }
+
+  // Lấy tiêu chí chấm điểm
+  @Get("criteria")
+  @ApiOperation({ summary: "Lấy danh sách tiêu chí chấm điểm" })
+  @ApiResponse({
+    status: 200,
+    type: [CriterionDto],
+  })
+  async getAllCriteria() {
+    return this.assessmentService.getAllCriteria();
+  }
+
+  // ============ Evaluate Period: Api Đợt đánh giá ============
+  @Post("periods")
+  @ApiOperation({ summary: "Tạo mới một đợt đánh giá kèm các tiêu chí" })
+  async create(@Body() createPeriodDto: CreatePeriodDto) {
+    return await this.assessmentService.createPeriod(createPeriodDto);
+  }
 
   @Get("periods")
-  @Roles(RoleType.admin, RoleType.staff, RoleType.teacher, RoleType.student)
-  @ApiOperation({ summary: "Lấy danh sách các đợt đánh giá" })
-  @ApiResponse({ status: 200, type: [EvaluationPeriodDto] })
-  getPeriods() {
-    return this.assessmentService.getPeriods();
-  }
-
-  @Get("criteria")
-  @Roles(RoleType.admin, RoleType.staff, RoleType.teacher, RoleType.student)
-  @ApiOperation({ summary: "Lấy danh sách tiêu chí chấm điểm chuẩn" })
-  @ApiResponse({ status: 200, type: [CriterionDto] })
-  getCriteria() {
-    return this.assessmentService.getCriteria();
-  }
-
-  // =========================================================================
-  // 3. ENDPOINTS DÀNH CHO HỌC SINH (STUDENT)
-  // =========================================================================
-
-  @Get("student/my-assessment")
-  @Roles(RoleType.student)
   @ApiOperation({
-    summary: "Học sinh: Lấy phiếu điểm rèn luyện cá nhân trong đợt",
+    summary: "Lấy danh sách tất cả các đợt đánh giá kèm quan hệ",
   })
-  @ApiQuery({
-    name: "periodId",
-    type: Number,
-    required: true,
-    description: "ID đợt đánh giá",
+  @ApiResponse({
+    status: 200,
+    type: [EvaluationPeriodDto],
   })
-  @ApiResponse({ status: 200, type: AssessmentDtoWithRelation })
-  getMyAssessment(
-    @GetUser("id") userId: number,
-    @Query("periodId", ParseIntPipe) periodId: number,
-  ) {
-    return this.assessmentService.getMyAssessment(userId, periodId);
+  async findAll() {
+    return await this.assessmentService.getAllPeriods();
   }
 
-  @Post("student/submit")
-  @Roles(RoleType.student)
+  @Get("periods/:id")
   @ApiOperation({
-    summary:
-      "Học sinh: Tự đánh giá và nộp phiếu rèn luyện (Trạng thái chuyển sang PENDING)",
+    summary: "Lấy chi tiết một đợt đánh giá",
   })
-  submitAssessment(
-    @GetUser("id") userId: number,
-    @Body() dto: SubmitAssessmentDto,
-  ) {
-    return this.assessmentService.submitAssessment(userId, dto);
+  @ApiResponse({
+    status: 200,
+    type: ResponseEvaluationPeriodDtoWithRelation,
+  })
+  async findDetail(@Param("id", ParseIntPipe) id: number) {
+    return await this.assessmentService.getDetailPeriod(id);
   }
 
-  // =========================================================================
-  // 4. ENDPOINTS DÀNH CHO GIÁO VIÊN CHỦ NHIỆM (TEACHER)
-  // =========================================================================
-
-  @Get("teacher/class-students")
-  @Roles(RoleType.teacher)
+  @Patch("periods/:id")
   @ApiOperation({
-    summary:
-      "GVCN: Xem danh sách học sinh của lớp mình chủ nhiệm kèm trạng thái phiếu rèn luyện",
+    summary: "Cập nhật thông tin đợt đánh giá và đồng bộ lại tiêu chí",
   })
-  @ApiQuery({
-    name: "periodId",
-    type: Number,
-    required: true,
-    description: "ID đợt đánh giá",
-  })
-  getClassStudentsAssessments(
-    @GetUser("id") userId: number,
-    @Query("periodId", ParseIntPipe) periodId: number,
-  ) {
-    return this.assessmentService.getClassStudentsAssessments(userId, periodId);
-  }
-
-  @Get("teacher/student-assessment/:id")
-  @Roles(RoleType.teacher)
-  @ApiOperation({
-    summary: "GVCN: Xem chi tiết phiếu rèn luyện của một học sinh trong lớp",
-  })
-  getStudentAssessmentForTeacher(
-    @GetUser("id") userId: number,
+  @ApiParam({ name: "id", description: "ID của đợt đánh giá", type: Number })
+  async update(
     @Param("id", ParseIntPipe) id: number,
+    @Body() updatePeriodDto: UpdatePeriodDto,
   ) {
-    return this.assessmentService.getStudentAssessmentForTeacher(userId, id);
+    return await this.assessmentService.updatePeriod(id, updatePeriodDto);
   }
 
-  @Post("teacher/approve")
-  @Roles(RoleType.teacher)
+  @Delete("periods/:id")
   @ApiOperation({
-    summary:
-      "GVCN: Chấm điểm điều chỉnh, nhận xét và Duyệt phiếu rèn luyện (APPROVED)",
+    summary: "Xóa đợt đánh giá và các liên kết tiêu chí liên quan",
   })
-  approveAssessment(
-    @GetUser("id") userId: number,
-    @Body() dto: ApproveAssessmentDto,
-  ) {
-    return this.assessmentService.approveAssessment(userId, dto);
+  @ApiParam({ name: "id", description: "ID của đợt đánh giá", type: Number })
+  async remove(@Param("id", ParseIntPipe) id: number) {
+    return await this.assessmentService.deletePeriod(id);
+  }
+
+  // ===== Assessment: API cho bảng phiếu điểm của từng học sinh =====
+  @Get("load")
+  @HttpCode(HttpStatus.OK) // Thay vì 201 Created mặc định của POST, trả về 200 OK vì bản chất là "Load" dữ liệu
+  @ApiOperation({
+    summary: "Lấy hoặc tạo phiếu điểm rèn luyện cho học sinh trong học kỳ",
+  })
+  @ApiResponse({
+    type: ResponseAssessmentDtoWithRelation,
+    status: 200,
+  })
+  @UsePipes(new ValidationPipe({ transform: true })) // Tự động ép kiểu dữ liệu từ DTO
+  async loadAssessment(@Query() loadAssessmentDto: LoadAssessmentDto) {
+    return await this.assessmentService.getOrCreateAssessment(
+      loadAssessmentDto,
+    );
+  }
+
+  @Post("submit")
+  @ApiOperation({
+    summary: "Cập nhật phiếu điểm rèn luyện cho học sinh",
+  })
+  @ApiResponse({
+    type: ResponseAssessmentDtoWithRelation,
+    status: 200,
+  })
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async updateAssessment(@Body() updateAssessmentDto: UpdateAssessmentDto) {
+    return await this.assessmentService.updateAssessment(updateAssessmentDto);
   }
 }

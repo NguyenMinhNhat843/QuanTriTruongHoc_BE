@@ -61,6 +61,7 @@ export const ModelName = {
   Curriculum: 'Curriculum',
   CurriculumSubject: 'CurriculumSubject',
   EvaluationPeriod: 'EvaluationPeriod',
+  EvaluationPeriodCriterion: 'EvaluationPeriodCriterion',
   Criterion: 'Criterion',
   Assessment: 'Assessment',
   AssessmentDetail: 'AssessmentDetail',
@@ -252,6 +253,16 @@ export const EvaluationPeriodScalarFieldEnum = {
 export type EvaluationPeriodScalarFieldEnum = (typeof EvaluationPeriodScalarFieldEnum)[keyof typeof EvaluationPeriodScalarFieldEnum]
 
 
+export const EvaluationPeriodCriterionScalarFieldEnum = {
+  id: 'id',
+  periodId: 'periodId',
+  criterionId: 'criterionId',
+  maxScoreSnapshot: 'maxScoreSnapshot'
+} as const
+
+export type EvaluationPeriodCriterionScalarFieldEnum = (typeof EvaluationPeriodCriterionScalarFieldEnum)[keyof typeof EvaluationPeriodCriterionScalarFieldEnum]
+
+
 export const CriterionScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -283,7 +294,7 @@ export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof
 export const AssessmentDetailScalarFieldEnum = {
   id: 'id',
   assessmentId: 'assessmentId',
-  criterionId: 'criterionId',
+  periodCriterionId: 'periodCriterionId',
   studentScore: 'studentScore',
   teacherScore: 'teacherScore'
 } as const

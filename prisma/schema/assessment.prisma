@@ -30,8 +30,27 @@ model EvaluationPeriod {
   semester    Semester @relation(fields: [semesterId], references: [id], onDelete: Cascade)
 
   assessments Assessment[]
+  periodCriteria     EvaluationPeriodCriterion[]
 
   @@map("evaluation_periods")
+}
+
+// Bảng trung gian: Cấu hình đợt đánh giá này có những tiêu chí nào vì mỗi kỳ có thể sẽ thay đổi vài tiêu chí
+model EvaluationPeriodCriterion {
+  id          Int              @id @default(autoincrement())
+  periodId    Int
+  period      EvaluationPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  criterionId Int
+  criterion   Criterion        @relation(fields: [criterionId], references: [id], onDelete: Cascade)
+  
+  // Lưu snapshot maxScore tại thời điểm tạo đợt này để tránh việc 
+  // tương lai thay đổi bảng Criterion làm ảnh hưởng đến dữ liệu quá khứ.
+  maxScoreSnapshot Int 
+
+  assessmentDetails AssessmentDetail[]
+
+  @@unique([periodId, criterionId]) // Một đợt đánh giá không thể trùng lặp tiêu chí
+  @@map("evaluation_period_criteria")
 }
 
 // 4. Bảng Tiêu Chí Chấm Điểm Cố Định
@@ -43,7 +62,7 @@ model Criterion {
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
 
-  details     AssessmentDetail[]
+  periodCriteria EvaluationPeriodCriterion[] // Quan hệ tới bảng cấu hình
 
   @@map("criteria")
 }
@@ -72,17 +91,18 @@ model Assessment {
   @@map("assessments")
 }
 
-// 6. Bảng Chi Tiết Phiếu Điểm (Lưu điểm của từng tiêu chí)
+// 7. Bảng Chi Tiết Phiếu Điểm (Điểm thực tế của từng tiêu chí)
 model AssessmentDetail {
-  id           Int        @id @default(autoincrement())
-  assessmentId Int
-  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-  criterionId  Int
-  criterion    Criterion  @relation(fields: [criterionId], references: [id], onDelete: Cascade)
+  id                        Int                       @id @default(autoincrement())
+  assessmentId              Int
+  assessment                Assessment                @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   
-  studentScore Int        @default(0) // Điểm học sinh tự tích
-  teacherScore Int        @default(0) // Điểm GVCN duyệt cuối cùng
+  periodCriterionId         Int
+  periodCriterion           EvaluationPeriodCriterion @relation(fields: [periodCriterionId], references: [id], onDelete: Cascade)
+  
+  studentScore              Int                       @default(0) // Điểm học sinh tự tích
+  teacherScore              Int                       @default(0) // Điểm GVCN duyệt cuối cùng
 
-  @@unique([assessmentId, criterionId]) // Trong một phiếu điểm, mỗi tiêu chí chỉ xuất hiện một lần
+  @@unique([assessmentId, periodCriterionId]) // Mỗi tiêu chí cấu hình chỉ xuất hiện 1 lần trong 1 phiếu
   @@map("assessment_details")
 }

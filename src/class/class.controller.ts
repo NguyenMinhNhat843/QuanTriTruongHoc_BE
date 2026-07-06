@@ -17,7 +17,10 @@ import {
 } from "@nestjs/swagger";
 import { ClassService } from "./class.service";
 import { CreateClassDto, SearchClassDto, UpdateClassDto } from "./class.dto";
-import { ClassResponseDto } from "./class.response";
+import {
+  ClassResponseDto,
+  ClassResponseWithRelationsDto,
+} from "./class.response";
 import { ClassBusinessService } from "./class.business";
 
 @ApiTags("Classes")
@@ -47,7 +50,7 @@ export class ClassController {
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết lớp học theo ID" })
-  @ApiOkResponse({ type: ClassResponseDto })
+  @ApiOkResponse({ type: ClassResponseWithRelationsDto })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.classService.findOne(id);
   }

@@ -232,7 +232,7 @@ export type CriterionWhereInput = {
   sortOrder?: Prisma.IntFilter<"Criterion"> | number
   createdAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
-  details?: Prisma.AssessmentDetailListRelationFilter
+  periodCriteria?: Prisma.EvaluationPeriodCriterionListRelationFilter
 }
 
 export type CriterionOrderByWithRelationInput = {
@@ -242,7 +242,7 @@ export type CriterionOrderByWithRelationInput = {
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  details?: Prisma.AssessmentDetailOrderByRelationAggregateInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionOrderByRelationAggregateInput
 }
 
 export type CriterionWhereUniqueInput = Prisma.AtLeast<{
@@ -255,7 +255,7 @@ export type CriterionWhereUniqueInput = Prisma.AtLeast<{
   sortOrder?: Prisma.IntFilter<"Criterion"> | number
   createdAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Criterion"> | Date | string
-  details?: Prisma.AssessmentDetailListRelationFilter
+  periodCriteria?: Prisma.EvaluationPeriodCriterionListRelationFilter
 }, "id">
 
 export type CriterionOrderByWithAggregationInput = {
@@ -290,7 +290,7 @@ export type CriterionCreateInput = {
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  details?: Prisma.AssessmentDetailCreateNestedManyWithoutCriterionInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionCreateNestedManyWithoutCriterionInput
 }
 
 export type CriterionUncheckedCreateInput = {
@@ -300,7 +300,7 @@ export type CriterionUncheckedCreateInput = {
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  details?: Prisma.AssessmentDetailUncheckedCreateNestedManyWithoutCriterionInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionUncheckedCreateNestedManyWithoutCriterionInput
 }
 
 export type CriterionUpdateInput = {
@@ -309,7 +309,7 @@ export type CriterionUpdateInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  details?: Prisma.AssessmentDetailUpdateManyWithoutCriterionNestedInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionUpdateManyWithoutCriterionNestedInput
 }
 
 export type CriterionUncheckedUpdateInput = {
@@ -319,7 +319,7 @@ export type CriterionUncheckedUpdateInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  details?: Prisma.AssessmentDetailUncheckedUpdateManyWithoutCriterionNestedInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionUncheckedUpdateManyWithoutCriterionNestedInput
 }
 
 export type CriterionCreateManyInput = {
@@ -346,6 +346,11 @@ export type CriterionUncheckedUpdateManyInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CriterionScalarRelationFilter = {
+  is?: Prisma.CriterionWhereInput
+  isNot?: Prisma.CriterionWhereInput
 }
 
 export type CriterionCountOrderByAggregateInput = {
@@ -387,26 +392,21 @@ export type CriterionSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
 }
 
-export type CriterionScalarRelationFilter = {
-  is?: Prisma.CriterionWhereInput
-  isNot?: Prisma.CriterionWhereInput
-}
-
-export type CriterionCreateNestedOneWithoutDetailsInput = {
-  create?: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
-  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutDetailsInput
+export type CriterionCreateNestedOneWithoutPeriodCriteriaInput = {
+  create?: Prisma.XOR<Prisma.CriterionCreateWithoutPeriodCriteriaInput, Prisma.CriterionUncheckedCreateWithoutPeriodCriteriaInput>
+  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutPeriodCriteriaInput
   connect?: Prisma.CriterionWhereUniqueInput
 }
 
-export type CriterionUpdateOneRequiredWithoutDetailsNestedInput = {
-  create?: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
-  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutDetailsInput
-  upsert?: Prisma.CriterionUpsertWithoutDetailsInput
+export type CriterionUpdateOneRequiredWithoutPeriodCriteriaNestedInput = {
+  create?: Prisma.XOR<Prisma.CriterionCreateWithoutPeriodCriteriaInput, Prisma.CriterionUncheckedCreateWithoutPeriodCriteriaInput>
+  connectOrCreate?: Prisma.CriterionCreateOrConnectWithoutPeriodCriteriaInput
+  upsert?: Prisma.CriterionUpsertWithoutPeriodCriteriaInput
   connect?: Prisma.CriterionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CriterionUpdateToOneWithWhereWithoutDetailsInput, Prisma.CriterionUpdateWithoutDetailsInput>, Prisma.CriterionUncheckedUpdateWithoutDetailsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CriterionUpdateToOneWithWhereWithoutPeriodCriteriaInput, Prisma.CriterionUpdateWithoutPeriodCriteriaInput>, Prisma.CriterionUncheckedUpdateWithoutPeriodCriteriaInput>
 }
 
-export type CriterionCreateWithoutDetailsInput = {
+export type CriterionCreateWithoutPeriodCriteriaInput = {
   title: string
   maxScore: number
   sortOrder?: number
@@ -414,7 +414,7 @@ export type CriterionCreateWithoutDetailsInput = {
   updatedAt?: Date | string
 }
 
-export type CriterionUncheckedCreateWithoutDetailsInput = {
+export type CriterionUncheckedCreateWithoutPeriodCriteriaInput = {
   id?: number
   title: string
   maxScore: number
@@ -423,23 +423,23 @@ export type CriterionUncheckedCreateWithoutDetailsInput = {
   updatedAt?: Date | string
 }
 
-export type CriterionCreateOrConnectWithoutDetailsInput = {
+export type CriterionCreateOrConnectWithoutPeriodCriteriaInput = {
   where: Prisma.CriterionWhereUniqueInput
-  create: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
+  create: Prisma.XOR<Prisma.CriterionCreateWithoutPeriodCriteriaInput, Prisma.CriterionUncheckedCreateWithoutPeriodCriteriaInput>
 }
 
-export type CriterionUpsertWithoutDetailsInput = {
-  update: Prisma.XOR<Prisma.CriterionUpdateWithoutDetailsInput, Prisma.CriterionUncheckedUpdateWithoutDetailsInput>
-  create: Prisma.XOR<Prisma.CriterionCreateWithoutDetailsInput, Prisma.CriterionUncheckedCreateWithoutDetailsInput>
+export type CriterionUpsertWithoutPeriodCriteriaInput = {
+  update: Prisma.XOR<Prisma.CriterionUpdateWithoutPeriodCriteriaInput, Prisma.CriterionUncheckedUpdateWithoutPeriodCriteriaInput>
+  create: Prisma.XOR<Prisma.CriterionCreateWithoutPeriodCriteriaInput, Prisma.CriterionUncheckedCreateWithoutPeriodCriteriaInput>
   where?: Prisma.CriterionWhereInput
 }
 
-export type CriterionUpdateToOneWithWhereWithoutDetailsInput = {
+export type CriterionUpdateToOneWithWhereWithoutPeriodCriteriaInput = {
   where?: Prisma.CriterionWhereInput
-  data: Prisma.XOR<Prisma.CriterionUpdateWithoutDetailsInput, Prisma.CriterionUncheckedUpdateWithoutDetailsInput>
+  data: Prisma.XOR<Prisma.CriterionUpdateWithoutPeriodCriteriaInput, Prisma.CriterionUncheckedUpdateWithoutPeriodCriteriaInput>
 }
 
-export type CriterionUpdateWithoutDetailsInput = {
+export type CriterionUpdateWithoutPeriodCriteriaInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxScore?: Prisma.IntFieldUpdateOperationsInput | number
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
@@ -447,7 +447,7 @@ export type CriterionUpdateWithoutDetailsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type CriterionUncheckedUpdateWithoutDetailsInput = {
+export type CriterionUncheckedUpdateWithoutPeriodCriteriaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxScore?: Prisma.IntFieldUpdateOperationsInput | number
@@ -462,11 +462,11 @@ export type CriterionUncheckedUpdateWithoutDetailsInput = {
  */
 
 export type CriterionCountOutputType = {
-  details: number
+  periodCriteria: number
 }
 
 export type CriterionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  details?: boolean | CriterionCountOutputTypeCountDetailsArgs
+  periodCriteria?: boolean | CriterionCountOutputTypeCountPeriodCriteriaArgs
 }
 
 /**
@@ -482,8 +482,8 @@ export type CriterionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
 /**
  * CriterionCountOutputType without action
  */
-export type CriterionCountOutputTypeCountDetailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AssessmentDetailWhereInput
+export type CriterionCountOutputTypeCountPeriodCriteriaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EvaluationPeriodCriterionWhereInput
 }
 
 
@@ -494,7 +494,7 @@ export type CriterionSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  details?: boolean | Prisma.Criterion$detailsArgs<ExtArgs>
+  periodCriteria?: boolean | Prisma.Criterion$periodCriteriaArgs<ExtArgs>
   _count?: boolean | Prisma.CriterionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["criterion"]>
 
@@ -527,7 +527,7 @@ export type CriterionSelectScalar = {
 
 export type CriterionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "maxScore" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["criterion"]>
 export type CriterionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  details?: boolean | Prisma.Criterion$detailsArgs<ExtArgs>
+  periodCriteria?: boolean | Prisma.Criterion$periodCriteriaArgs<ExtArgs>
   _count?: boolean | Prisma.CriterionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CriterionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -536,7 +536,7 @@ export type CriterionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type $CriterionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Criterion"
   objects: {
-    details: Prisma.$AssessmentDetailPayload<ExtArgs>[]
+    periodCriteria: Prisma.$EvaluationPeriodCriterionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -939,7 +939,7 @@ readonly fields: CriterionFieldRefs;
  */
 export interface Prisma__CriterionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  details<T extends Prisma.Criterion$detailsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Criterion$detailsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentDetailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  periodCriteria<T extends Prisma.Criterion$periodCriteriaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Criterion$periodCriteriaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvaluationPeriodCriterionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1368,27 +1368,27 @@ export type CriterionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Criterion.details
+ * Criterion.periodCriteria
  */
-export type Criterion$detailsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Criterion$periodCriteriaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the AssessmentDetail
+   * Select specific fields to fetch from the EvaluationPeriodCriterion
    */
-  select?: Prisma.AssessmentDetailSelect<ExtArgs> | null
+  select?: Prisma.EvaluationPeriodCriterionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the AssessmentDetail
+   * Omit specific fields from the EvaluationPeriodCriterion
    */
-  omit?: Prisma.AssessmentDetailOmit<ExtArgs> | null
+  omit?: Prisma.EvaluationPeriodCriterionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AssessmentDetailInclude<ExtArgs> | null
-  where?: Prisma.AssessmentDetailWhereInput
-  orderBy?: Prisma.AssessmentDetailOrderByWithRelationInput | Prisma.AssessmentDetailOrderByWithRelationInput[]
-  cursor?: Prisma.AssessmentDetailWhereUniqueInput
+  include?: Prisma.EvaluationPeriodCriterionInclude<ExtArgs> | null
+  where?: Prisma.EvaluationPeriodCriterionWhereInput
+  orderBy?: Prisma.EvaluationPeriodCriterionOrderByWithRelationInput | Prisma.EvaluationPeriodCriterionOrderByWithRelationInput[]
+  cursor?: Prisma.EvaluationPeriodCriterionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AssessmentDetailScalarFieldEnum | Prisma.AssessmentDetailScalarFieldEnum[]
+  distinct?: Prisma.EvaluationPeriodCriterionScalarFieldEnum | Prisma.EvaluationPeriodCriterionScalarFieldEnum[]
 }
 
 /**

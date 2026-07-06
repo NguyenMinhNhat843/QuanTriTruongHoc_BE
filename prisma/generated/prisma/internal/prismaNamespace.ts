@@ -394,6 +394,7 @@ export const ModelName = {
   Curriculum: 'Curriculum',
   CurriculumSubject: 'CurriculumSubject',
   EvaluationPeriod: 'EvaluationPeriod',
+  EvaluationPeriodCriterion: 'EvaluationPeriodCriterion',
   Criterion: 'Criterion',
   Assessment: 'Assessment',
   AssessmentDetail: 'AssessmentDetail',
@@ -436,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "evaluationPeriod" | "criterion" | "assessment" | "assessmentDetail" | "user" | "student" | "admissionProfile" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "classSubjectSession" | "classSubjectScheduleDetail" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post" | "fileStore"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "semester" | "room" | "curriculum" | "curriculumSubject" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "student" | "admissionProfile" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "benefitProgram" | "benefitApplication" | "benefitAward" | "courseOffer" | "courseRegistration" | "classSubjectSession" | "classSubjectScheduleDetail" | "teacherSubject" | "feeInvoice" | "feeInvoiceItem" | "payment" | "paymentAllocation" | "fee" | "feeCatalog" | "creditPrice" | "post" | "fileStore"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1177,6 +1178,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.EvaluationPeriodCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.EvaluationPeriodCountAggregateOutputType> | number
+        }
+      }
+    }
+    EvaluationPeriodCriterion: {
+      payload: Prisma.$EvaluationPeriodCriterionPayload<ExtArgs>
+      fields: Prisma.EvaluationPeriodCriterionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EvaluationPeriodCriterionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EvaluationPeriodCriterionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>
+        }
+        findFirst: {
+          args: Prisma.EvaluationPeriodCriterionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EvaluationPeriodCriterionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>
+        }
+        findMany: {
+          args: Prisma.EvaluationPeriodCriterionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>[]
+        }
+        create: {
+          args: Prisma.EvaluationPeriodCriterionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>
+        }
+        createMany: {
+          args: Prisma.EvaluationPeriodCriterionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EvaluationPeriodCriterionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>[]
+        }
+        delete: {
+          args: Prisma.EvaluationPeriodCriterionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>
+        }
+        update: {
+          args: Prisma.EvaluationPeriodCriterionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>
+        }
+        deleteMany: {
+          args: Prisma.EvaluationPeriodCriterionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EvaluationPeriodCriterionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EvaluationPeriodCriterionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>[]
+        }
+        upsert: {
+          args: Prisma.EvaluationPeriodCriterionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EvaluationPeriodCriterionPayload>
+        }
+        aggregate: {
+          args: Prisma.EvaluationPeriodCriterionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEvaluationPeriodCriterion>
+        }
+        groupBy: {
+          args: Prisma.EvaluationPeriodCriterionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EvaluationPeriodCriterionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EvaluationPeriodCriterionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EvaluationPeriodCriterionCountAggregateOutputType> | number
         }
       }
     }
@@ -3363,6 +3438,16 @@ export const EvaluationPeriodScalarFieldEnum = {
 export type EvaluationPeriodScalarFieldEnum = (typeof EvaluationPeriodScalarFieldEnum)[keyof typeof EvaluationPeriodScalarFieldEnum]
 
 
+export const EvaluationPeriodCriterionScalarFieldEnum = {
+  id: 'id',
+  periodId: 'periodId',
+  criterionId: 'criterionId',
+  maxScoreSnapshot: 'maxScoreSnapshot'
+} as const
+
+export type EvaluationPeriodCriterionScalarFieldEnum = (typeof EvaluationPeriodCriterionScalarFieldEnum)[keyof typeof EvaluationPeriodCriterionScalarFieldEnum]
+
+
 export const CriterionScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -3394,7 +3479,7 @@ export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof
 export const AssessmentDetailScalarFieldEnum = {
   id: 'id',
   assessmentId: 'assessmentId',
-  criterionId: 'criterionId',
+  periodCriterionId: 'periodCriterionId',
   studentScore: 'studentScore',
   teacherScore: 'teacherScore'
 } as const
@@ -4113,6 +4198,7 @@ export type GlobalOmitConfig = {
   curriculum?: Prisma.CurriculumOmit
   curriculumSubject?: Prisma.CurriculumSubjectOmit
   evaluationPeriod?: Prisma.EvaluationPeriodOmit
+  evaluationPeriodCriterion?: Prisma.EvaluationPeriodCriterionOmit
   criterion?: Prisma.CriterionOmit
   assessment?: Prisma.AssessmentOmit
   assessmentDetail?: Prisma.AssessmentDetailOmit
