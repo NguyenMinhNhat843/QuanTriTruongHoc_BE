@@ -796,6 +796,20 @@ export type NullableEnumEmployeeRoleFieldUpdateOperationsInput = {
   set?: $Enums.EmployeeRole | null
 }
 
+export type StaffCreateNestedOneWithoutTeacherSubjectsInput = {
+  create?: Prisma.XOR<Prisma.StaffCreateWithoutTeacherSubjectsInput, Prisma.StaffUncheckedCreateWithoutTeacherSubjectsInput>
+  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutTeacherSubjectsInput
+  connect?: Prisma.StaffWhereUniqueInput
+}
+
+export type StaffUpdateOneRequiredWithoutTeacherSubjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.StaffCreateWithoutTeacherSubjectsInput, Prisma.StaffUncheckedCreateWithoutTeacherSubjectsInput>
+  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutTeacherSubjectsInput
+  upsert?: Prisma.StaffUpsertWithoutTeacherSubjectsInput
+  connect?: Prisma.StaffWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutTeacherSubjectsInput, Prisma.StaffUpdateWithoutTeacherSubjectsInput>, Prisma.StaffUncheckedUpdateWithoutTeacherSubjectsInput>
+}
+
 export type StaffCreateNestedOneWithoutCourseOffersInput = {
   create?: Prisma.XOR<Prisma.StaffCreateWithoutCourseOffersInput, Prisma.StaffUncheckedCreateWithoutCourseOffersInput>
   connectOrCreate?: Prisma.StaffCreateOrConnectWithoutCourseOffersInput
@@ -810,20 +824,6 @@ export type StaffUpdateOneWithoutCourseOffersNestedInput = {
   delete?: Prisma.StaffWhereInput | boolean
   connect?: Prisma.StaffWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutCourseOffersInput, Prisma.StaffUpdateWithoutCourseOffersInput>, Prisma.StaffUncheckedUpdateWithoutCourseOffersInput>
-}
-
-export type StaffCreateNestedOneWithoutTeacherSubjectsInput = {
-  create?: Prisma.XOR<Prisma.StaffCreateWithoutTeacherSubjectsInput, Prisma.StaffUncheckedCreateWithoutTeacherSubjectsInput>
-  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutTeacherSubjectsInput
-  connect?: Prisma.StaffWhereUniqueInput
-}
-
-export type StaffUpdateOneRequiredWithoutTeacherSubjectsNestedInput = {
-  create?: Prisma.XOR<Prisma.StaffCreateWithoutTeacherSubjectsInput, Prisma.StaffUncheckedCreateWithoutTeacherSubjectsInput>
-  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutTeacherSubjectsInput
-  upsert?: Prisma.StaffUpsertWithoutTeacherSubjectsInput
-  connect?: Prisma.StaffWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutTeacherSubjectsInput, Prisma.StaffUpdateWithoutTeacherSubjectsInput>, Prisma.StaffUncheckedUpdateWithoutTeacherSubjectsInput>
 }
 
 export type StaffCreateWithoutDepartmentInput = {
@@ -1028,112 +1028,6 @@ export type StaffUncheckedUpdateWithoutUserInput = {
   teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
-export type StaffCreateWithoutCourseOffersInput = {
-  staffCode: string
-  email?: string | null
-  fullName?: string | null
-  gender?: boolean | null
-  dob?: Date | string | null
-  phone?: string | null
-  avatarUrl?: string | null
-  address?: string | null
-  identityNumber?: string | null
-  position?: string | null
-  hireDate?: Date | string | null
-  contractType?: string | null
-  salaryCoefficient?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  EmployeeRole?: $Enums.EmployeeRole | null
-  user?: Prisma.UserCreateNestedOneWithoutStaffInput
-  department?: Prisma.DepartmentCreateNestedOneWithoutStaffsInput
-  teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutTeacherInput
-}
-
-export type StaffUncheckedCreateWithoutCourseOffersInput = {
-  id?: number
-  staffCode: string
-  userId?: number | null
-  email?: string | null
-  fullName?: string | null
-  gender?: boolean | null
-  dob?: Date | string | null
-  phone?: string | null
-  avatarUrl?: string | null
-  address?: string | null
-  identityNumber?: string | null
-  departmentId?: number | null
-  position?: string | null
-  hireDate?: Date | string | null
-  contractType?: string | null
-  salaryCoefficient?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  EmployeeRole?: $Enums.EmployeeRole | null
-  teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutTeacherInput
-}
-
-export type StaffCreateOrConnectWithoutCourseOffersInput = {
-  where: Prisma.StaffWhereUniqueInput
-  create: Prisma.XOR<Prisma.StaffCreateWithoutCourseOffersInput, Prisma.StaffUncheckedCreateWithoutCourseOffersInput>
-}
-
-export type StaffUpsertWithoutCourseOffersInput = {
-  update: Prisma.XOR<Prisma.StaffUpdateWithoutCourseOffersInput, Prisma.StaffUncheckedUpdateWithoutCourseOffersInput>
-  create: Prisma.XOR<Prisma.StaffCreateWithoutCourseOffersInput, Prisma.StaffUncheckedCreateWithoutCourseOffersInput>
-  where?: Prisma.StaffWhereInput
-}
-
-export type StaffUpdateToOneWithWhereWithoutCourseOffersInput = {
-  where?: Prisma.StaffWhereInput
-  data: Prisma.XOR<Prisma.StaffUpdateWithoutCourseOffersInput, Prisma.StaffUncheckedUpdateWithoutCourseOffersInput>
-}
-
-export type StaffUpdateWithoutCourseOffersInput = {
-  staffCode?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  EmployeeRole?: Prisma.NullableEnumEmployeeRoleFieldUpdateOperationsInput | $Enums.EmployeeRole | null
-  user?: Prisma.UserUpdateOneWithoutStaffNestedInput
-  department?: Prisma.DepartmentUpdateOneWithoutStaffsNestedInput
-  teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutTeacherNestedInput
-}
-
-export type StaffUncheckedUpdateWithoutCourseOffersInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  staffCode?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  EmployeeRole?: Prisma.NullableEnumEmployeeRoleFieldUpdateOperationsInput | $Enums.EmployeeRole | null
-  teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutTeacherNestedInput
-}
-
 export type StaffCreateWithoutTeacherSubjectsInput = {
   staffCode: string
   email?: string | null
@@ -1238,6 +1132,112 @@ export type StaffUncheckedUpdateWithoutTeacherSubjectsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   EmployeeRole?: Prisma.NullableEnumEmployeeRoleFieldUpdateOperationsInput | $Enums.EmployeeRole | null
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutTeacherNestedInput
+}
+
+export type StaffCreateWithoutCourseOffersInput = {
+  staffCode: string
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
+  position?: string | null
+  hireDate?: Date | string | null
+  contractType?: string | null
+  salaryCoefficient?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  EmployeeRole?: $Enums.EmployeeRole | null
+  user?: Prisma.UserCreateNestedOneWithoutStaffInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutStaffsInput
+  teacherSubjects?: Prisma.TeacherSubjectCreateNestedManyWithoutTeacherInput
+}
+
+export type StaffUncheckedCreateWithoutCourseOffersInput = {
+  id?: number
+  staffCode: string
+  userId?: number | null
+  email?: string | null
+  fullName?: string | null
+  gender?: boolean | null
+  dob?: Date | string | null
+  phone?: string | null
+  avatarUrl?: string | null
+  address?: string | null
+  identityNumber?: string | null
+  departmentId?: number | null
+  position?: string | null
+  hireDate?: Date | string | null
+  contractType?: string | null
+  salaryCoefficient?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  EmployeeRole?: $Enums.EmployeeRole | null
+  teacherSubjects?: Prisma.TeacherSubjectUncheckedCreateNestedManyWithoutTeacherInput
+}
+
+export type StaffCreateOrConnectWithoutCourseOffersInput = {
+  where: Prisma.StaffWhereUniqueInput
+  create: Prisma.XOR<Prisma.StaffCreateWithoutCourseOffersInput, Prisma.StaffUncheckedCreateWithoutCourseOffersInput>
+}
+
+export type StaffUpsertWithoutCourseOffersInput = {
+  update: Prisma.XOR<Prisma.StaffUpdateWithoutCourseOffersInput, Prisma.StaffUncheckedUpdateWithoutCourseOffersInput>
+  create: Prisma.XOR<Prisma.StaffCreateWithoutCourseOffersInput, Prisma.StaffUncheckedCreateWithoutCourseOffersInput>
+  where?: Prisma.StaffWhereInput
+}
+
+export type StaffUpdateToOneWithWhereWithoutCourseOffersInput = {
+  where?: Prisma.StaffWhereInput
+  data: Prisma.XOR<Prisma.StaffUpdateWithoutCourseOffersInput, Prisma.StaffUncheckedUpdateWithoutCourseOffersInput>
+}
+
+export type StaffUpdateWithoutCourseOffersInput = {
+  staffCode?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  EmployeeRole?: Prisma.NullableEnumEmployeeRoleFieldUpdateOperationsInput | $Enums.EmployeeRole | null
+  user?: Prisma.UserUpdateOneWithoutStaffNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutStaffsNestedInput
+  teacherSubjects?: Prisma.TeacherSubjectUpdateManyWithoutTeacherNestedInput
+}
+
+export type StaffUncheckedUpdateWithoutCourseOffersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  staffCode?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  identityNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hireDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  contractType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salaryCoefficient?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  EmployeeRole?: Prisma.NullableEnumEmployeeRoleFieldUpdateOperationsInput | $Enums.EmployeeRole | null
+  teacherSubjects?: Prisma.TeacherSubjectUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type StaffCreateManyDepartmentInput = {

@@ -1,0 +1,123 @@
+// ==========================
+// 1. SEMESTERS (HỌC KỲ)
+// ==========================
+enum SemesterStatus {
+  CLOSE
+  ACTIVE
+  UPCOMING
+  DRAFT
+}
+model Semester {
+  id          Int      @id @default(autoincrement())
+  name        String   // Ví dụ: HK1 2026-2027, HK2 2026-2027
+  term        Int?       // Kỳ, ví dụ: 1, 2 nghĩa là Học kỳ 1 2 dùng để truy vấn dễ hơn
+  year        Int?      // Năm học nào
+  schoolYear  String?   // Ví dụ: 2025-2026
+  startDate   DateTime @db.Date
+  endDate     DateTime @db.Date
+  status      SemesterStatus?
+  isCurrent   Boolean  @default(false) // Đánh dấu học kỳ hiện tại để hệ thống lấy mặc định
+  teachingWeeks Int?  
+  createdAt   DateTime @default(now())
+
+  // quan hệ
+  courseOffers        CourseOffer[]
+  feeInvoices         FeeInvoice[]
+  feeInvoiceItems     FeeInvoiceItem[]
+  evaluationPeriod    EvaluationPeriod?
+
+  // ràng buộc duy nhất
+  @@unique([year, term], name: "unique_semester_term")
+  @@map("semesters")
+}
+
+// ==========================
+// 2. ROOM (PHÒNG HỌC)
+// ==========================
+model Room {
+  id        Int      @id @default(autoincrement())
+  roomCode  String   @unique // Ví dụ: A1.102, LAB_IT_01
+  type      String   // theory (lý thuyết), practice (thực hành), hall (hội trường)
+  capacity  Int?     // Sức chứa (tùy chọn thêm để kiểm tra sĩ số lớp)
+  building  String?  // Tòa nhà (ví dụ: Tòa A, Tòa B)
+  
+  createdAt DateTime @default(now())
+
+  classSubjectSessions  ClassSubjectSession[]
+  classSubjectSchedules ClassSubjectScheduleDetail[]
+
+  @@map("rooms")
+}
+
+// ==========================
+// 3. CLASS SUBJECT (Bảng trung gian giữa môn học và lớp học --> để phân giáo viên)
+// Lưu ý: Bảng này là ClassSubject chứ không phải CourseOffer
+// Vì ban đầu thiết kế theo hướng lớp học phần, bây giờ đổi lại sẽ lỗi nhiều chỗ nên để tạm đây
+// ==========================
+model CourseOffer {
+  id                Int       @id @default(autoincrement())
+  teacherId         Int?
+  teacher           Staff?    @relation(fields: [teacherId], references: [id])
+  subjectId         Int
+  subject           Subject   @relation(fields: [subjectId], references: [id])
+  classId           Int?
+  baseClass         Class?    @relation(fields: [classId], references: [id])
+  semesterId        Int
+  semester          Semester  @relation(fields: [semesterId], references: [id])
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt  
+
+  // Quan hệ
+  gradeStudents          GradeStudent[]
+  classSubjectSessions   ClassSubjectSession[]
+
+  @@unique([subjectId, classId])
+  @@index([subjectId, semesterId])
+  @@index([teacherId])
+  @@index([semesterId])
+  @@index([classId])
+  @@map("course_offers")
+}
+
+// ==========================
+// 4. CLASS_SUBJECT_SESSION (BUỔI HỌC ĐỊNH KỲ)
+// ==========================
+// Định nghĩa 1 "buổi học" cố định trong tuần của 1 lớp học phần
+// VD: Lớp X học Thứ 2, tiết 2-4, buổi Sáng
+model ClassSubjectSession {
+  id              Int         @id @default(autoincrement())
+  classSubjectId  Int
+  classSubject    CourseOffer @relation(fields: [classSubjectId], references: [id])
+
+  dayOfWeek       DayOfWeek   // 2 -> 8 (Thứ 2 đến Chủ Nhật)
+  shift           String      // S - C - T: sáng - chiều - tối
+  startPeriod     Int         // Tiết bắt đầu: 2
+  endPeriod       Int         // Tiết kết thúc: 4
+  countPeriod     Int?        // Số tiết: 4 - 2 + 1 = 3
+
+  roomId          Int?        // Phòng học mặc định cho buổi này
+  room            Room?       @relation(fields: [roomId], references: [id])
+
+  schedules       ClassSubjectScheduleDetail[]
+
+  @@unique([classSubjectId, dayOfWeek, shift, startPeriod, endPeriod])
+  @@map("class_subject_session")
+}
+
+// Mỗi record là 1 lần học cụ thể (theo tuần/ngày) của 1 buổi học định kỳ
+// Cho phép override phòng học nếu buổi đó đổi phòng
+model ClassSubjectScheduleDetail {
+  id          Int                  @id @default(autoincrement())
+  sessionId   Int
+  session     ClassSubjectSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  weekNumber  Int
+  studyDate   DateTime?            @db.Date() // Ngày học cụ thể
+
+  roomId      Int?                 // Ghi đè phòng học nếu buổi đó học phòng khác
+  room        Room?                @relation(fields: [roomId], references: [id])
+
+  @@unique([sessionId, weekNumber])
+  @@map("class_subject_schedule_detail")
+}

@@ -14,9 +14,9 @@ import { plainToInstance } from "class-transformer";
 import {
   ClassSubjectResponseDto,
   ResponsePreviewGenerateSectionForClass,
-} from "../classSubject.response";
-import { CourseOfferDetailResponseDto } from "../classSubjectDetail.response";
-import { CourseRegistrationService } from "../grades.service";
+} from "../dto/classSubject.response";
+import { CourseOfferDetailResponseDto } from "../dto/classSubjectDetail.response";
+import { CourseRegistrationService } from "./grades.service";
 import { SubjectService } from "../../subject/subject.service";
 
 @Injectable()
@@ -148,12 +148,11 @@ export class ClassSubjectService {
   async getCourseOfferDetail(
     classSubjectId: number,
   ): Promise<CourseOfferDetailResponseDto | null> {
-    const grades = await this.prisma.courseRegistration.findMany({
+    const grades = await this.prisma.gradeStudent.findMany({
       where: {
         courseOfferId: classSubjectId,
       },
     });
-    console.log("Grades for classSubjectId", classSubjectId, ": ", grades);
 
     const classSubject = await this.prisma.courseOffer.findUnique({
       where: {
@@ -176,7 +175,7 @@ export class ClassSubjectService {
     const courseOffer = await this.prisma.courseOffer.findUnique({
       where: { id: classSubjectId },
       include: {
-        registrations: {
+        gradeStudents: {
           select: {
             student: {
               select: {
@@ -224,8 +223,8 @@ export class ClassSubjectService {
       const parts = fullName.trim().split(/\s+/);
       return parts[parts.length - 1];
     };
-    if (courseOffer && courseOffer.registrations) {
-      courseOffer.registrations.sort((a, b) => {
+    if (courseOffer && courseOffer.gradeStudents) {
+      courseOffer.gradeStudents.sort((a, b) => {
         const nameA = getLastName(a.student?.fullName || "");
         const nameB = getLastName(b.student?.fullName || "");
 
@@ -468,41 +467,5 @@ export class ClassSubjectService {
 
     // 5. Trả về kết quả tổng quan
     return plainToInstance(ResponsePreviewGenerateSectionForClass, previewList);
-  }
-
-  /**
-   * Phân công giảng dạy
-   */
-  async assignTeacher(body: SearchClassSubjectDto) {
-    const classSubjects = await this.findAll(body);
-
-    const teachers = await this.prisma.staff.findMany({
-      where: {
-        EmployeeRole: "TEACHER",
-      },
-      include: {
-        teacherSubjects: true,
-      },
-    });
-
-    for (const classSubject of classSubjects) {
-      if (classSubject.teacherId) continue; // Nếu môn này có giáo viên rồi thì bỏ qua
-
-      // Tìm giáo viên phù hợp
-      const suitableTeacher = teachers.find((t) =>
-        t.teacherSubjects.some((ts) => ts.subjectId === classSubject.subjectId),
-      );
-
-      if (suitableTeacher) {
-        await this.prisma.courseOffer.update({
-          where: {
-            id: classSubject.id,
-          },
-          data: {
-            teacherId: suitableTeacher.id,
-          },
-        });
-      }
-    }
   }
 }

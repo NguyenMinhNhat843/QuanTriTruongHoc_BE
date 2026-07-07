@@ -8,11 +8,11 @@ import {
   IsBoolean,
   IsDate,
 } from "class-validator";
-import { CourseOffer } from "../../prisma/generated/prisma/client";
-import { ClassResponseDto } from "../class/class.response";
-import { StaffResponseDto } from "../staff/staff.response";
-import { SemesterResponseDto } from "../semester/semester.response";
-import { ResponseSubjectDto } from "../subject/subject.dto";
+import { CourseOffer } from "../../../prisma/generated/prisma/client";
+import { ClassResponseDto } from "../../class/class.response";
+import { StaffResponseDto } from "../../staff/staff.response";
+import { SemesterResponseDto } from "../../semester/semester.response";
+import { ResponseSubjectDto } from "../../subject/subject.dto";
 
 export class ClassSubjectDto implements CourseOffer {
   @ApiProperty()

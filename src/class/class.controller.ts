@@ -21,15 +21,11 @@ import {
   ClassResponseDto,
   ClassResponseWithRelationsDto,
 } from "./class.response";
-import { ClassBusinessService } from "./class.business";
 
 @ApiTags("Classes")
 @Controller("classes")
 export class ClassController {
-  constructor(
-    private readonly classService: ClassService,
-    private classBusinessService: ClassBusinessService,
-  ) {}
+  constructor(private readonly classService: ClassService) {}
 
   @Post()
   @ApiOperation({ summary: "Tạo mới lớp học" })
@@ -69,17 +65,5 @@ export class ClassController {
   @ApiOperation({ summary: "Xóa lớp học" })
   remove(@Param("id", ParseIntPipe) id: number) {
     return this.classService.remove(id);
-  }
-
-  @Post(":classId/add-student")
-  @ApiOperation({ summary: "Thêm một sinh viên vào lớp học" })
-  async addStudentToClass(
-    @Param("classId", ParseIntPipe) classId: number,
-    @Query("studentId", ParseIntPipe) studentId: number, // Chuyển từ @Param sang @Query
-  ) {
-    return await this.classBusinessService.addStudentToClass(
-      classId,
-      studentId,
-    );
   }
 }

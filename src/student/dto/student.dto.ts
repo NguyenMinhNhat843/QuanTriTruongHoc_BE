@@ -254,7 +254,6 @@ export class StudentDto implements Student {
   @ApiPropertyOptional({
     enum: StudentStatus,
     type: String,
-    default: StudentStatus.approved,
   })
   @IsEnum(StudentStatus)
   @IsOptional()

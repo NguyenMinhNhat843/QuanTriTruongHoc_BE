@@ -20,7 +20,6 @@ import { CreditPriceModule } from "./creaditPrice/creditPrice.module.js";
 import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/classSubject.module.js";
-import { AcademyModule } from "./academy/academy.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
 import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
@@ -54,7 +53,6 @@ import { AssessmentModule } from "./assessment/assessment.module.js";
     StudyScheduleModule,
     PostModule,
     CourseOfferModule,
-    AcademyModule, // module tổng hợp
     CloudinaryModule,
     DocumentProfileModule,
     AdmissionProfileModule,

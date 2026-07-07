@@ -8,6 +8,8 @@ import {
   Param,
   Query,
   ParseIntPipe,
+  Res,
+  HttpStatus,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -28,6 +30,7 @@ import {
   ResponseTrainingProgress,
   UpsertTrainingPlanDto,
 } from "../dto/training-progress.dto";
+import { Response } from "express";
 
 @ApiTags("class-subject-session")
 @Controller("class-subject-session")
@@ -68,18 +71,9 @@ export class ClassSubjectSessionController {
     description:
       "Lấy toàn bộ môn học trong Chương trình khung của lớp tại học kỳ đó. Môn nào chưa được xếp lịch (chưa có CourseOffer) thì các trường lịch và giáo viên sẽ trả về null/mảng rỗng.",
   })
-  @ApiQuery({
-    name: "classId",
-    type: Number,
-  })
-  @ApiQuery({
-    name: "semesterId",
-    type: Number,
-  })
-  @ApiResponse({
-    status: 200,
-    type: [ResponseTrainingProgress],
-  })
+  @ApiQuery({ name: "classId", type: Number })
+  @ApiQuery({ name: "semesterId", type: Number })
+  @ApiResponse({ status: 200, type: [ResponseTrainingProgress] })
   async getTrainingPlan(
     @Query("classId", ParseIntPipe) classId: number,
     @Query("semesterId", ParseIntPipe) semesterId: number,
@@ -112,5 +106,47 @@ export class ClassSubjectSessionController {
   @ApiResponse({ status: 200 })
   async remove(@Param("id") id: string) {
     return this.sessionService.remove(Number(id));
+  }
+
+  @Get("training-plan/export-excel")
+  @ApiOperation({
+    summary: "Xuất file Excel kế hoạch đào tạo của lớp học",
+  })
+  @ApiQuery({ name: "classId", type: Number })
+  @ApiQuery({ name: "semesterId", type: Number })
+  async exportExcel(
+    @Query("classId", ParseIntPipe) classId: number,
+    @Query("semesterId", ParseIntPipe) semesterId: number,
+    @Res() res: Response,
+  ) {
+    // 1. Validate dữ liệu đầu vào từ Query String
+    if (!classId || !semesterId) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: "Thiếu tham số classId hoặc semesterId bắt buộc.",
+      });
+    }
+
+    if (isNaN(classId) || !semesterId) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: "Tham số truyền vào phải là định dạng số (Number).",
+      });
+    }
+
+    try {
+      // 3. Gọi service để ghi đè stream và trả file trực tiếp thông qua đối tượng Response (res)
+      await this.trainingPlanService.exportTrainingPlanExcel(
+        classId,
+        semesterId,
+        res,
+      );
+    } catch (error: any) {
+      // Cắt/bắt lỗi nếu trong quá trình export xảy ra exception (Ví dụ: Không tìm thấy lớp, lỗi DB...)
+      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: error.message || "Có lỗi xảy ra khi xuất file excel.",
+      });
+    }
   }
 }

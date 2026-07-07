@@ -43,16 +43,6 @@ export type Class = Prisma.ClassModel
  */
 export type Subject = Prisma.SubjectModel
 /**
- * Model Semester
- * 
- */
-export type Semester = Prisma.SemesterModel
-/**
- * Model Room
- * 
- */
-export type Room = Prisma.RoomModel
-/**
  * Model Curriculum
  * 
  */
@@ -123,40 +113,10 @@ export type StudentDocument = Prisma.StudentDocumentModel
  */
 export type Staff = Prisma.StaffModel
 /**
- * Model BenefitProgram
+ * Model GradeStudent
  * 
  */
-export type BenefitProgram = Prisma.BenefitProgramModel
-/**
- * Model BenefitApplication
- * 
- */
-export type BenefitApplication = Prisma.BenefitApplicationModel
-/**
- * Model BenefitAward
- * 
- */
-export type BenefitAward = Prisma.BenefitAwardModel
-/**
- * Model CourseOffer
- * 
- */
-export type CourseOffer = Prisma.CourseOfferModel
-/**
- * Model CourseRegistration
- * 
- */
-export type CourseRegistration = Prisma.CourseRegistrationModel
-/**
- * Model ClassSubjectSession
- * 
- */
-export type ClassSubjectSession = Prisma.ClassSubjectSessionModel
-/**
- * Model ClassSubjectScheduleDetail
- * 
- */
-export type ClassSubjectScheduleDetail = Prisma.ClassSubjectScheduleDetailModel
+export type GradeStudent = Prisma.GradeStudentModel
 /**
  * Model TeacherSubject
  * 
@@ -207,3 +167,28 @@ export type Post = Prisma.PostModel
  * 
  */
 export type FileStore = Prisma.FileStoreModel
+/**
+ * Model Semester
+ * 
+ */
+export type Semester = Prisma.SemesterModel
+/**
+ * Model Room
+ * 
+ */
+export type Room = Prisma.RoomModel
+/**
+ * Model CourseOffer
+ * 
+ */
+export type CourseOffer = Prisma.CourseOfferModel
+/**
+ * Model ClassSubjectSession
+ * 
+ */
+export type ClassSubjectSession = Prisma.ClassSubjectSessionModel
+/**
+ * Model ClassSubjectScheduleDetail
+ * 
+ */
+export type ClassSubjectScheduleDetail = Prisma.ClassSubjectScheduleDetailModel

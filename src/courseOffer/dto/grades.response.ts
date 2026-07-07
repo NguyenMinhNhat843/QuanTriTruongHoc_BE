@@ -1,5 +1,4 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { CourseRegistration } from "../../prisma/generated/prisma/client";
 import {
   IsInt,
   IsNotEmpty,
@@ -12,7 +11,8 @@ import {
   Max,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { StudentResponseDto } from "../student/dto/student.response";
+import { StudentResponseDto } from "../../student/dto/student.response";
+import { GradeStudent } from "../../../prisma/generated/prisma/client";
 
 // Giả sử bạn có Enum cho trạng thái đăng ký, nếu không có bạn có thể bỏ IsEnum và dùng IsString
 export enum RegistrationStatus {
@@ -21,7 +21,7 @@ export enum RegistrationStatus {
   REJECTED = "REJECTED",
 }
 
-export class CourseOfferRegisResponseDto implements CourseRegistration {
+export class GradeStudentDto implements GradeStudent {
   @ApiProperty()
   @IsInt()
   @IsNotEmpty()

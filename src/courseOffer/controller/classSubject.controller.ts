@@ -17,15 +17,14 @@ import {
   ClassSubjectResponseDto,
   ClassSubjectDto,
   ResponsePreviewGenerateSectionForClass,
-} from "../classSubject.response";
+} from "../dto/classSubject.response";
 import {
   ExportGradeTableDto,
   SearchClassSubjectDto,
   updateClassSubjectDto,
 } from "../dto/classSubject.dto";
-import { ExportGradeTableService } from "../exportGrades.service";
-import { ClassSubjectGenerateService } from "../classSubjectGenerate.service";
-import { CourseOfferDetailResponseDto } from "../classSubjectDetail.response";
+import { ExportGradeTableService } from "../service/exportGrades.service";
+import { CourseOfferDetailResponseDto } from "../dto/classSubjectDetail.response";
 import { ClassSubjectService } from "../service/classSubject.service";
 
 @ApiTags("ClassSubject - Môn học trong lớp học")
@@ -33,7 +32,6 @@ import { ClassSubjectService } from "../service/classSubject.service";
 export class ClassSubjectController {
   constructor(
     private readonly classSubjectService: ClassSubjectService,
-    private readonly classSubjectGenerateService: ClassSubjectGenerateService,
     private exportGradeTableService: ExportGradeTableService,
   ) {}
 
@@ -56,21 +54,6 @@ export class ClassSubjectController {
   }
 
   /**
-   * Tạo danh sách classSUbject cho toàn bộ lớp học trong 1 học kỳ dựa trên chương trình khung
-   */
-  @Post("gen-classSubject")
-  @ApiOperation({
-    summary: "Tự động tạo classSubject cho toàn bộ lớp học",
-  })
-  async generateClassSubject(
-    @Query("semesterId", ParseIntPipe) semesterId: number,
-  ) {
-    return await this.classSubjectGenerateService.generateClassSubjectBySemester(
-      semesterId,
-    );
-  }
-
-  /**
    * Tạo danh sách classSubject cho 1 class trong 1 semester
    */
   @Post("gen-classSubject-grades")
@@ -85,18 +68,6 @@ export class ClassSubjectController {
       classId,
       semesterId,
     );
-  }
-
-  /**
-   * Phân công giáo viên giảng dạy cho từng lớp
-   */
-  @Post("assign-teacher")
-  @ApiOperation({ summary: "Phân công giáo viên giảng dạy cho từng lớp" })
-  @ApiResponse({
-    status: 200,
-  })
-  async assignTeacher(@Body() body: SearchClassSubjectDto) {
-    return await this.classSubjectService.assignTeacher(body);
   }
 
   /**

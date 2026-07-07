@@ -9,8 +9,8 @@ import {
   Query,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
-import { CourseRegistrationService } from "./grades.service";
-import { SaveGradesDto } from "./grades.dto";
+import { CourseRegistrationService } from "../service/grades.service";
+import { SaveGradesDto } from "../dto/grades.dto";
 
 @ApiTags("Đăng ký học phần (Course Registration)")
 @Controller("course-registrations")

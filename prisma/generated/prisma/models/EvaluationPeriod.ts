@@ -372,11 +372,6 @@ export type EvaluationPeriodUncheckedUpdateManyInput = {
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type EvaluationPeriodNullableScalarRelationFilter = {
-  is?: Prisma.EvaluationPeriodWhereInput | null
-  isNot?: Prisma.EvaluationPeriodWhereInput | null
-}
-
 export type EvaluationPeriodCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
@@ -422,36 +417,9 @@ export type EvaluationPeriodScalarRelationFilter = {
   isNot?: Prisma.EvaluationPeriodWhereInput
 }
 
-export type EvaluationPeriodCreateNestedOneWithoutSemesterInput = {
-  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
-  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
-  connect?: Prisma.EvaluationPeriodWhereUniqueInput
-}
-
-export type EvaluationPeriodUncheckedCreateNestedOneWithoutSemesterInput = {
-  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
-  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
-  connect?: Prisma.EvaluationPeriodWhereUniqueInput
-}
-
-export type EvaluationPeriodUpdateOneWithoutSemesterNestedInput = {
-  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
-  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
-  upsert?: Prisma.EvaluationPeriodUpsertWithoutSemesterInput
-  disconnect?: Prisma.EvaluationPeriodWhereInput | boolean
-  delete?: Prisma.EvaluationPeriodWhereInput | boolean
-  connect?: Prisma.EvaluationPeriodWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput, Prisma.EvaluationPeriodUpdateWithoutSemesterInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
-}
-
-export type EvaluationPeriodUncheckedUpdateOneWithoutSemesterNestedInput = {
-  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
-  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
-  upsert?: Prisma.EvaluationPeriodUpsertWithoutSemesterInput
-  disconnect?: Prisma.EvaluationPeriodWhereInput | boolean
-  delete?: Prisma.EvaluationPeriodWhereInput | boolean
-  connect?: Prisma.EvaluationPeriodWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput, Prisma.EvaluationPeriodUpdateWithoutSemesterInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
+export type EvaluationPeriodNullableScalarRelationFilter = {
+  is?: Prisma.EvaluationPeriodWhereInput | null
+  isNot?: Prisma.EvaluationPeriodWhereInput | null
 }
 
 export type EvaluationPeriodCreateNestedOneWithoutPeriodCriteriaInput = {
@@ -482,62 +450,36 @@ export type EvaluationPeriodUpdateOneRequiredWithoutAssessmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutAssessmentsInput, Prisma.EvaluationPeriodUpdateWithoutAssessmentsInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutAssessmentsInput>
 }
 
-export type EvaluationPeriodCreateWithoutSemesterInput = {
-  name: string
-  isActive?: boolean
-  isFrozen?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  assessments?: Prisma.AssessmentCreateNestedManyWithoutPeriodInput
-  periodCriteria?: Prisma.EvaluationPeriodCriterionCreateNestedManyWithoutPeriodInput
+export type EvaluationPeriodCreateNestedOneWithoutSemesterInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
 }
 
-export type EvaluationPeriodUncheckedCreateWithoutSemesterInput = {
-  id?: number
-  name: string
-  isActive?: boolean
-  isFrozen?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutPeriodInput
-  periodCriteria?: Prisma.EvaluationPeriodCriterionUncheckedCreateNestedManyWithoutPeriodInput
+export type EvaluationPeriodUncheckedCreateNestedOneWithoutSemesterInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
 }
 
-export type EvaluationPeriodCreateOrConnectWithoutSemesterInput = {
-  where: Prisma.EvaluationPeriodWhereUniqueInput
-  create: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+export type EvaluationPeriodUpdateOneWithoutSemesterNestedInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  upsert?: Prisma.EvaluationPeriodUpsertWithoutSemesterInput
+  disconnect?: Prisma.EvaluationPeriodWhereInput | boolean
+  delete?: Prisma.EvaluationPeriodWhereInput | boolean
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput, Prisma.EvaluationPeriodUpdateWithoutSemesterInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
 }
 
-export type EvaluationPeriodUpsertWithoutSemesterInput = {
-  update: Prisma.XOR<Prisma.EvaluationPeriodUpdateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
-  create: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
-  where?: Prisma.EvaluationPeriodWhereInput
-}
-
-export type EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput = {
-  where?: Prisma.EvaluationPeriodWhereInput
-  data: Prisma.XOR<Prisma.EvaluationPeriodUpdateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
-}
-
-export type EvaluationPeriodUpdateWithoutSemesterInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  assessments?: Prisma.AssessmentUpdateManyWithoutPeriodNestedInput
-  periodCriteria?: Prisma.EvaluationPeriodCriterionUpdateManyWithoutPeriodNestedInput
-}
-
-export type EvaluationPeriodUncheckedUpdateWithoutSemesterInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutPeriodNestedInput
-  periodCriteria?: Prisma.EvaluationPeriodCriterionUncheckedUpdateManyWithoutPeriodNestedInput
+export type EvaluationPeriodUncheckedUpdateOneWithoutSemesterNestedInput = {
+  create?: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  connectOrCreate?: Prisma.EvaluationPeriodCreateOrConnectWithoutSemesterInput
+  upsert?: Prisma.EvaluationPeriodUpsertWithoutSemesterInput
+  disconnect?: Prisma.EvaluationPeriodWhereInput | boolean
+  delete?: Prisma.EvaluationPeriodWhereInput | boolean
+  connect?: Prisma.EvaluationPeriodWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput, Prisma.EvaluationPeriodUpdateWithoutSemesterInput>, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
 }
 
 export type EvaluationPeriodCreateWithoutPeriodCriteriaInput = {
@@ -653,6 +595,64 @@ export type EvaluationPeriodUncheckedUpdateWithoutAssessmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   semesterId?: Prisma.IntFieldUpdateOperationsInput | number
+  periodCriteria?: Prisma.EvaluationPeriodCriterionUncheckedUpdateManyWithoutPeriodNestedInput
+}
+
+export type EvaluationPeriodCreateWithoutSemesterInput = {
+  name: string
+  isActive?: boolean
+  isFrozen?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutPeriodInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionCreateNestedManyWithoutPeriodInput
+}
+
+export type EvaluationPeriodUncheckedCreateWithoutSemesterInput = {
+  id?: number
+  name: string
+  isActive?: boolean
+  isFrozen?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutPeriodInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionUncheckedCreateNestedManyWithoutPeriodInput
+}
+
+export type EvaluationPeriodCreateOrConnectWithoutSemesterInput = {
+  where: Prisma.EvaluationPeriodWhereUniqueInput
+  create: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+}
+
+export type EvaluationPeriodUpsertWithoutSemesterInput = {
+  update: Prisma.XOR<Prisma.EvaluationPeriodUpdateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
+  create: Prisma.XOR<Prisma.EvaluationPeriodCreateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedCreateWithoutSemesterInput>
+  where?: Prisma.EvaluationPeriodWhereInput
+}
+
+export type EvaluationPeriodUpdateToOneWithWhereWithoutSemesterInput = {
+  where?: Prisma.EvaluationPeriodWhereInput
+  data: Prisma.XOR<Prisma.EvaluationPeriodUpdateWithoutSemesterInput, Prisma.EvaluationPeriodUncheckedUpdateWithoutSemesterInput>
+}
+
+export type EvaluationPeriodUpdateWithoutSemesterInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assessments?: Prisma.AssessmentUpdateManyWithoutPeriodNestedInput
+  periodCriteria?: Prisma.EvaluationPeriodCriterionUpdateManyWithoutPeriodNestedInput
+}
+
+export type EvaluationPeriodUncheckedUpdateWithoutSemesterInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFrozen?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutPeriodNestedInput
   periodCriteria?: Prisma.EvaluationPeriodCriterionUncheckedUpdateManyWithoutPeriodNestedInput
 }
 

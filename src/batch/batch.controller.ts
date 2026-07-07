@@ -13,7 +13,6 @@ import {
 import {
   ApiTags,
   ApiOperation,
-  ApiResponse,
   ApiOkResponse,
   ApiBearerAuth,
 } from "@nestjs/swagger";
@@ -35,8 +34,6 @@ export class BatchController {
 
   @Post()
   @ApiOperation({ summary: "Tạo mới một khóa đào tạo" })
-  @ApiResponse({ status: 201, description: "Tạo thành công." })
-  @ApiResponse({ status: 409, description: "Mã khóa học đã tồn tại." })
   create(@Body() createBatchDto: CreateBatchDto) {
     return this.batchService.create(createBatchDto);
   }
@@ -56,8 +53,6 @@ export class BatchController {
 
   @Patch(":id")
   @ApiOperation({ summary: "Cập nhật thông tin khóa đào tạo" })
-  @ApiResponse({ status: 200, description: "Cập nhật thành công." })
-  @ApiResponse({ status: 404, description: "Không tìm thấy khóa." })
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateBatchDto: UpdateBatchDto,
@@ -68,8 +63,6 @@ export class BatchController {
   // delete by id
   @Delete(":id")
   @ApiOperation({ summary: "Xóa một khóa đào tạo theo ID" })
-  @ApiResponse({ status: 200, description: "Xóa thành công." })
-  @ApiResponse({ status: 404, description: "Không tìm thấy khóa." })
   async deleteBatchById(@Param("id", ParseIntPipe) id: number) {
     return await this.batchService.deleteBatchById(id);
   }

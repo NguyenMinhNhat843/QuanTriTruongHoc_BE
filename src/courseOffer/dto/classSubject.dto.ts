@@ -20,7 +20,7 @@ import {
   ValidateNested,
 } from "class-validator";
 import { DayOfWeek } from "../../../prisma/generated/prisma/enums";
-import { ClassSubjectDto } from "../classSubject.response";
+import { ClassSubjectDto } from "./classSubject.response";
 
 export class ClassSubject implements ClassSubjectDto {
   @ApiProperty()

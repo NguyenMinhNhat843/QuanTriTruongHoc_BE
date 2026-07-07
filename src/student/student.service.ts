@@ -121,17 +121,27 @@ export class StudentService {
   async findStudentByStudentCode(
     studentCode: string,
   ): Promise<StudentResponseDto> {
-    const student = await this.prisma.student.findUnique({
-      where: { studentCode },
+    const idAsNumber = Number(studentCode);
+    const isIdNumber = !isNaN(idAsNumber);
+
+    const student = await this.prisma.student.findFirst({
+      where: {
+        OR: [
+          { studentCode: studentCode },
+          ...(isIdNumber ? [{ id: idAsNumber }] : []), // Chỉ tìm theo id nếu nó là số hợp lệ
+        ],
+      },
       include: {
         user: true,
         batch: true,
         class: true,
       },
     });
+
     if (!student) {
       throw new NotFoundException("Không tìm thấy sinh viên");
     }
+
     return plainToInstance(StudentResponseDto, student);
   }
 

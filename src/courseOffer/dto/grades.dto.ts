@@ -7,32 +7,27 @@ import {
   IsString,
   ValidateNested,
 } from "class-validator";
-import { CourseOfferRegisResponseDto } from "./grades.response";
 import { Type } from "class-transformer";
+import { GradeStudentDto } from "./grades.response";
 
 export class CreateCourseRegistrationDto {
-  @ApiProperty({ example: 1, description: "ID của Sinh viên" })
+  @ApiProperty()
   @IsInt()
   @IsNotEmpty()
   studentId: number;
 
-  @ApiProperty({ example: 1, description: "ID của Lớp học phần" })
+  @ApiProperty()
   @IsInt()
   @IsNotEmpty()
   courseOfferId: number;
 
-  @ApiPropertyOptional({
-    example: "Đăng ký học cải thiện điểm",
-    description: "Ghi chú",
-  })
+  @ApiPropertyOptional()
   @IsString()
   @IsOptional()
   note?: string;
 }
 
-export class UpdateCourseRegistrationDto extends PartialType(
-  CourseOfferRegisResponseDto,
-) {}
+export class UpdateCourseRegistrationDto extends PartialType(GradeStudentDto) {}
 
 export class SaveGradesDto {
   @ApiProperty()

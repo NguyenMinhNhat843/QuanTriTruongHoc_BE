@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
 export class CourseOfferQuery {
@@ -17,7 +17,7 @@ export class CourseOfferQuery {
       where: { id: classSubjectId },
       include: {
         teacher: true,
-        registrations: {
+        gradeStudents: {
           select: {
             student: {
               select: {
@@ -80,7 +80,7 @@ export class CourseOfferQuery {
       className: courseOffer.baseClass?.className || "",
     };
 
-    const gradeTable = await this.prisma.courseRegistration.findMany({
+    const gradeTable = await this.prisma.gradeStudent.findMany({
       where: {
         courseOfferId: classSubjectId,
       },

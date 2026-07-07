@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
-import { SaveGradesDto } from "./grades.dto";
-import { Prisma } from "../../prisma/generated/prisma/client";
+import { PrismaService } from "../../prisma/prisma.service";
+import { SaveGradesDto } from "../dto/grades.dto";
+import { Prisma } from "../../../prisma/generated/prisma/client";
 
 @Injectable()
 export class CourseRegistrationService {
@@ -25,7 +25,7 @@ export class CourseRegistrationService {
     });
 
     // Tạo điểm cho từng sinh viên
-    const createGrades = await client.courseRegistration.createMany({
+    const createGrades = await client.gradeStudent.createMany({
       data: students.map((s) => ({
         studentId: s.id,
         courseOfferId: classSubjectId,
@@ -40,7 +40,7 @@ export class CourseRegistrationService {
    * 2. Lấy toàn bộ danh sách đăng ký học phần
    */
   async getAll() {
-    return await this.prisma.courseRegistration.findMany({
+    return await this.prisma.gradeStudent.findMany({
       include: {
         student: {
           select: {
@@ -63,7 +63,7 @@ export class CourseRegistrationService {
    * 3. Lấy chi tiết một bản ghi đăng ký theo ID
    */
   async getDetail(id: number) {
-    const registration = await this.prisma.courseRegistration.findUnique({
+    const grade = await this.prisma.gradeStudent.findUnique({
       where: { id },
       include: {
         student: true,
@@ -76,13 +76,11 @@ export class CourseRegistrationService {
       },
     });
 
-    if (!registration) {
-      throw new NotFoundException(
-        `Không tìm thấy bản ghi đăng ký học phần với ID ${id}`,
-      );
+    if (!grade) {
+      throw new NotFoundException(`Không tìm thấy bản ghi điểm với ID ${id}`);
     }
 
-    return registration;
+    return grade;
   }
 
   /**
@@ -111,7 +109,7 @@ export class CourseRegistrationService {
     }
 
     const updatePromises = grades.map((grade) => {
-      return this.prisma.courseRegistration.updateMany({
+      return this.prisma.gradeStudent.updateMany({
         where: {
           courseOfferId: classSubjectId,
           studentId: grade.studentId,

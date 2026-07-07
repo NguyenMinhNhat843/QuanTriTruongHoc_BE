@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import * as ExcelJS from "exceljs";
+import { PrismaService } from "../../prisma/prisma.service";
 import { CourseOfferQuery } from "./classSubject.query";
-import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class ExportGradeTableService {
@@ -544,7 +544,7 @@ export class ExportGradeTableService {
             className: true,
           },
         },
-        courseRegistrations: {
+        gradeStudents: {
           select: {
             id: true,
             kttx1: true,
@@ -596,8 +596,8 @@ export class ExportGradeTableService {
     // ==========================================
     const semesterMap = new Map<number, any>();
 
-    studentTranscript.courseRegistrations.forEach((reg) => {
-      const courseOffer = reg.courseOffer;
+    studentTranscript.gradeStudents.forEach((grade) => {
+      const courseOffer = grade.courseOffer;
       if (!courseOffer || !courseOffer.semester) return;
 
       const semester = courseOffer.semester;
@@ -620,20 +620,20 @@ export class ExportGradeTableService {
         subjectCode: subjectInfo?.subjectCode || "",
         subjectName: subjectInfo?.subjectName || "",
         credits: subjectInfo?.credits || 0,
-        kttx1: reg.kttx1 ?? "-",
-        kttx2: reg.kttx2 ?? "-",
-        kttx3: reg.kttx3 ?? "-",
-        ktdk1: reg.ktdk1 ?? "-",
-        ktdk2: reg.ktdk2 ?? "-",
-        ktdk3: reg.ktdk3 ?? "-",
-        ktdk4: reg.ktdk4 ?? "-",
-        diemTB: reg.diemTB ?? "-",
-        diemKiemTra1: reg.diemKiemTra1 ?? "-",
-        diemKiemTra2: reg.diemKiemTra2 ?? "-",
-        diemTongKet1: reg.diemTongKet1 ?? "-",
-        diemTongKet2: reg.diemTongKet2 ?? "-",
-        rating: reg.rating || "",
-        note: reg.note || "",
+        kttx1: grade.kttx1 ?? "-",
+        kttx2: grade.kttx2 ?? "-",
+        kttx3: grade.kttx3 ?? "-",
+        ktdk1: grade.ktdk1 ?? "-",
+        ktdk2: grade.ktdk2 ?? "-",
+        ktdk3: grade.ktdk3 ?? "-",
+        ktdk4: grade.ktdk4 ?? "-",
+        diemTB: grade.diemTB ?? "-",
+        diemKiemTra1: grade.diemKiemTra1 ?? "-",
+        diemKiemTra2: grade.diemKiemTra2 ?? "-",
+        diemTongKet1: grade.diemTongKet1 ?? "-",
+        diemTongKet2: grade.diemTongKet2 ?? "-",
+        rating: grade.rating || "",
+        note: grade.note || "",
       });
     });
 
