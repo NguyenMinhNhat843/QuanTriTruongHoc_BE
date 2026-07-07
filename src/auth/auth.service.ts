@@ -1,7 +1,12 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service.js";
-import { LoginDto, RegisterDto, SearchAccountDto } from "./auth.dto.js";
+import {
+  LoginDto,
+  RegisterDto,
+  ResponseLoginDto,
+  SearchAccountDto,
+} from "./auth.dto.js";
 import * as bcrypt from "bcryptjs";
 import { plainToInstance } from "class-transformer";
 import { AccountResponseDto } from "./auth.resposne.js";
@@ -106,7 +111,7 @@ export class AuthService {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
     });
 
-    return res.status(200).json({
+    const result = plainToInstance(ResponseLoginDto, {
       access_token: accessToken,
 
       user: {
@@ -116,6 +121,8 @@ export class AuthService {
         profile: profile || undefined,
       },
     });
+
+    return res.status(200).json(result);
   }
 
   async refreshToken(refreshToken: string, res: Response) {

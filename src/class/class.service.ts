@@ -11,7 +11,7 @@ import {
 } from "./class.response";
 import { CreateClassDto, SearchClassDto, UpdateClassDto } from "./class.dto";
 import { plainToInstance } from "class-transformer";
-import { Prisma } from "../../prisma/generated/prisma/client";
+import { Prisma, RoleType } from "../../prisma/generated/prisma/client";
 
 @Injectable()
 export class ClassService {
@@ -86,52 +86,71 @@ export class ClassService {
   /**
    * Lấy danh sách tất cả lớp học
    */
-  async findAll(query: SearchClassDto): Promise<ClassResponseDto[]> {
+  async findAll(
+    query: SearchClassDto,
+    user?: any,
+  ): Promise<ClassResponseDto[]> {
+    // Bắt đầu đo log với một label duy nhất
     const { classCode, majorId, formTeacherId, batchId, search } = query;
-    const where: Prisma.ClassWhereInput = {};
 
-    // Tìm kiếm theo Ngành học
-    if (majorId) {
-      where.majorId = majorId;
-    }
+    // 1. Khởi tạo mảng conditions để nối các điều kiện bằng AND
+    const andConditions: Prisma.ClassWhereInput[] = [];
 
-    // Tìm kiếm theo Khóa học (Batc
-    if (batchId) {
-      where.batchId = batchId;
-    }
+    // 2. Áp dụng các bộ lọc cơ bản từ Query DTO (nếu có)
+    if (majorId) andConditions.push({ majorId });
+    if (batchId) andConditions.push({ batchId });
+    if (formTeacherId) andConditions.push({ formTeacherId });
 
-    // Tìm kiếm theo Giáo viên chủ nhi
-    if (formTeacherId) {
-      where.formTeacherId = formTeacherId;
-    }
-
-    // Tìm kiếm chính xác hoặc gần đúng theo Mã lớp (nếu truyền riên
     if (classCode) {
-      where.classCode = {
-        contains: classCode,
-        mode: "insensitive",
-      };
+      andConditions.push({
+        classCode: { contains: classCode, mode: "insensitive" },
+      });
     }
 
-    // Ô tìm kiếm tổng hợp (Search): Quét cả mã lớp lẫn tên l
     if (search) {
-      where.OR = [
-        {
-          classCode: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-        {
-          className: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-      ];
+      andConditions.push({
+        OR: [
+          { classCode: { contains: search, mode: "insensitive" } },
+          { className: { contains: search, mode: "insensitive" } },
+        ],
+      });
     }
 
-    // Thực hiện truy vấn dữ liệu từ
+    // 3. KIỂM TRA USER (CHỈ PHÂN QUYỀN NẾU CÓ USER TRUYỀN VÀO)
+    if (user && user.role) {
+      if (user.role === RoleType.teacher) {
+        andConditions.push({
+          OR: [
+            // Điều kiện 1: Là Giáo viên chủ nhiệm của lớp đó
+            { formTeacherId: user.staffId },
+
+            // Điều kiện 2: Có dạy ít nhất 1 môn học phần (CourseOffer) thuộc lớp đó
+            {
+              courseOffers: {
+                some: {
+                  teacherId: user.staffId,
+                },
+              },
+            },
+          ],
+        });
+      } else if (user.role === RoleType.student) {
+        // Học sinh thì chỉ thấy lớp của chính mình
+        andConditions.push({
+          students: {
+            some: { id: user.studentId },
+          },
+        });
+      }
+      // Admin, Staff hoặc các role khác không bị gán thêm điều kiện -> Load ALL
+    }
+
+    // Gộp tất cả các điều kiện lại thành một object `where` hoàn chỉnh
+    const where: Prisma.ClassWhereInput =
+      andConditions.length > 0 ? { AND: andConditions } : {};
+
+    // 4. Thực hiện truy vấn dữ liệu từ Database
+    const dbStartTime = performance.now();
     const classes = await this.prisma.class.findMany({
       where,
       include: {
@@ -143,6 +162,10 @@ export class ClassService {
         createdAt: "desc",
       },
     });
+    const dbEndTime = performance.now();
+
+    // 3. Tính toán và Log kết quả (Dùng Logger của NestJS tốt hơn console.log)
+    console.log(`Prisma DB Query: ${(dbEndTime - dbStartTime).toFixed(2)}ms`);
 
     return plainToInstance(ClassResponseDto, classes);
   }

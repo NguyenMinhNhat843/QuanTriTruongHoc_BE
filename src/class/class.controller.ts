@@ -8,6 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -21,6 +22,8 @@ import {
   ClassResponseDto,
   ClassResponseWithRelationsDto,
 } from "./class.response";
+import { GetUser } from "../common/decorators/get-user.decorator";
+import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
 
 @ApiTags("Classes")
 @Controller("classes")
@@ -40,8 +43,9 @@ export class ClassController {
   @Get()
   @ApiOperation({})
   @ApiOkResponse({ type: ClassResponseDto, isArray: true })
-  findAll(@Query() query: SearchClassDto) {
-    return this.classService.findAll(query);
+  @UseGuards(JwtAuthGuard)
+  findAll(@Query() query: SearchClassDto, @GetUser() user: any) {
+    return this.classService.findAll(query, user);
   }
 
   @Get(":id")

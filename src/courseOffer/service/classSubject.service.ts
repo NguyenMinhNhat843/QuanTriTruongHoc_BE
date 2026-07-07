@@ -9,7 +9,7 @@ import {
   SearchClassSubjectDto,
   updateClassSubjectDto,
 } from "../dto/classSubject.dto";
-import { Prisma } from "../../../prisma/generated/prisma/client";
+import { Prisma, RoleType } from "../../../prisma/generated/prisma/client";
 import { plainToInstance } from "class-transformer";
 import {
   ClassSubjectResponseDto,
@@ -30,11 +30,12 @@ export class ClassSubjectService {
   /**
    * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
    */
-  async findAll(query: SearchClassSubjectDto) {
+  async findAll(query: SearchClassSubjectDto, user?: any) {
     const { classId, semesterId, teacherId } = query;
 
     const where: Prisma.CourseOfferWhereInput = {};
 
+    // 1. Áp dụng các bộ lọc cơ bản từ Query
     if (classId) {
       where.classId = classId;
     }
@@ -47,6 +48,23 @@ export class ClassSubjectService {
       where.teacherId = teacherId;
     }
 
+    // 2. Kẹp thêm điều kiện bảo mật dựa vào Phân Quyền (Business Role Rule)
+    if (user.role === RoleType.teacher) {
+      // Nếu là Giáo viên: Chỉ xem được các lớp học phần mà mình được phân công giảng dạy
+      where.teacherId = user.staffId;
+    } else if (user.role === RoleType.student) {
+      // Nếu là Học sinh: Chỉ xem được các môn thuộc về lớp (baseClass) của chính mình
+      where.baseClass = {
+        students: {
+          some: {
+            id: user.studentId,
+          },
+        },
+      };
+    }
+    // Admin và Staff giữ nguyên (không gán thêm điều kiện) để có quyền xem toàn bộ dữ liệu hệ thống
+
+    // 3. Thực hiện truy vấn database
     const result = await this.prisma.courseOffer.findMany({
       where,
       include: {

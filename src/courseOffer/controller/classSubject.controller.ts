@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 
@@ -26,6 +27,8 @@ import {
 import { ExportGradeTableService } from "../service/exportGrades.service";
 import { CourseOfferDetailResponseDto } from "../dto/classSubjectDetail.response";
 import { ClassSubjectService } from "../service/classSubject.service";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { GetUser } from "../../common/decorators/get-user.decorator";
 
 @ApiTags("ClassSubject - Môn học trong lớp học")
 @Controller("course-offers")
@@ -117,12 +120,13 @@ export class ClassSubjectController {
    */
   @Get()
   @ApiOperation({ summary: "Lấy danh sách Môn học trong lớp học" })
+  @UseGuards(JwtAuthGuard)
   @ApiResponse({
     status: 200,
     type: [ClassSubjectResponseDto],
   })
-  async getAll(@Query() query: SearchClassSubjectDto) {
-    return this.classSubjectService.findAll(query);
+  async getAll(@Query() query: SearchClassSubjectDto, @GetUser() user: any) {
+    return this.classSubjectService.findAll(query, user);
   }
 
   /**

@@ -19,6 +19,31 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // Kiểm tra user còn tồn tại và đang hoạt động không
     const user = await this.prisma.user.findUnique({
       where: { id: payload.sub },
+      include: {
+        student: {
+          select: {
+            id: true,
+            studentCode: true,
+            fullName: true,
+            dob: true,
+          },
+        },
+        staff: {
+          select: {
+            id: true,
+            staffCode: true,
+            fullName: true,
+            dob: true,
+            department: {
+              select: {
+                id: true,
+                deptCode: true,
+                deptName: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!user || !user.isActive) {
@@ -30,6 +55,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       id: user.id,
       username: user.username,
       role: user.role,
+      studentId: user.student?.id || null,
+      staffId: user.staff?.id || null,
+      fullName: user.student?.fullName || user.staff?.fullName || null,
+      departmentId: user.staff?.department?.id || null,
+      deptCode: user.staff?.department?.deptCode || null,
+      deptName: user.staff?.department?.deptName || null,
     };
   }
 }
