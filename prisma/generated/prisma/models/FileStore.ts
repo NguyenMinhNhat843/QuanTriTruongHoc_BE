@@ -20,8 +20,18 @@ export type FileStoreModel = runtime.Types.Result.DefaultSelection<Prisma.$FileS
 
 export type AggregateFileStore = {
   _count: FileStoreCountAggregateOutputType | null
+  _avg: FileStoreAvgAggregateOutputType | null
+  _sum: FileStoreSumAggregateOutputType | null
   _min: FileStoreMinAggregateOutputType | null
   _max: FileStoreMaxAggregateOutputType | null
+}
+
+export type FileStoreAvgAggregateOutputType = {
+  postId: number | null
+}
+
+export type FileStoreSumAggregateOutputType = {
+  postId: number | null
 }
 
 export type FileStoreMinAggregateOutputType = {
@@ -29,6 +39,7 @@ export type FileStoreMinAggregateOutputType = {
   imageUrl: string | null
   publicId: string | null
   isUsed: boolean | null
+  postId: number | null
   createdAt: Date | null
 }
 
@@ -37,6 +48,7 @@ export type FileStoreMaxAggregateOutputType = {
   imageUrl: string | null
   publicId: string | null
   isUsed: boolean | null
+  postId: number | null
   createdAt: Date | null
 }
 
@@ -45,16 +57,26 @@ export type FileStoreCountAggregateOutputType = {
   imageUrl: number
   publicId: number
   isUsed: number
+  postId: number
   createdAt: number
   _all: number
 }
 
+
+export type FileStoreAvgAggregateInputType = {
+  postId?: true
+}
+
+export type FileStoreSumAggregateInputType = {
+  postId?: true
+}
 
 export type FileStoreMinAggregateInputType = {
   id?: true
   imageUrl?: true
   publicId?: true
   isUsed?: true
+  postId?: true
   createdAt?: true
 }
 
@@ -63,6 +85,7 @@ export type FileStoreMaxAggregateInputType = {
   imageUrl?: true
   publicId?: true
   isUsed?: true
+  postId?: true
   createdAt?: true
 }
 
@@ -71,6 +94,7 @@ export type FileStoreCountAggregateInputType = {
   imageUrl?: true
   publicId?: true
   isUsed?: true
+  postId?: true
   createdAt?: true
   _all?: true
 }
@@ -113,6 +137,18 @@ export type FileStoreAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: FileStoreAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: FileStoreSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: FileStoreMinAggregateInputType
@@ -143,6 +179,8 @@ export type FileStoreGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: FileStoreCountAggregateInputType | true
+  _avg?: FileStoreAvgAggregateInputType
+  _sum?: FileStoreSumAggregateInputType
   _min?: FileStoreMinAggregateInputType
   _max?: FileStoreMaxAggregateInputType
 }
@@ -152,8 +190,11 @@ export type FileStoreGroupByOutputType = {
   imageUrl: string
   publicId: string
   isUsed: boolean
+  postId: number | null
   createdAt: Date
   _count: FileStoreCountAggregateOutputType | null
+  _avg: FileStoreAvgAggregateOutputType | null
+  _sum: FileStoreSumAggregateOutputType | null
   _min: FileStoreMinAggregateOutputType | null
   _max: FileStoreMaxAggregateOutputType | null
 }
@@ -181,7 +222,9 @@ export type FileStoreWhereInput = {
   imageUrl?: Prisma.StringFilter<"FileStore"> | string
   publicId?: Prisma.StringFilter<"FileStore"> | string
   isUsed?: Prisma.BoolFilter<"FileStore"> | boolean
+  postId?: Prisma.IntNullableFilter<"FileStore"> | number | null
   createdAt?: Prisma.DateTimeFilter<"FileStore"> | Date | string
+  post?: Prisma.XOR<Prisma.PostNullableScalarRelationFilter, Prisma.PostWhereInput> | null
 }
 
 export type FileStoreOrderByWithRelationInput = {
@@ -189,7 +232,9 @@ export type FileStoreOrderByWithRelationInput = {
   imageUrl?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   isUsed?: Prisma.SortOrder
+  postId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  post?: Prisma.PostOrderByWithRelationInput
 }
 
 export type FileStoreWhereUniqueInput = Prisma.AtLeast<{
@@ -200,7 +245,9 @@ export type FileStoreWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.FileStoreWhereInput | Prisma.FileStoreWhereInput[]
   imageUrl?: Prisma.StringFilter<"FileStore"> | string
   isUsed?: Prisma.BoolFilter<"FileStore"> | boolean
+  postId?: Prisma.IntNullableFilter<"FileStore"> | number | null
   createdAt?: Prisma.DateTimeFilter<"FileStore"> | Date | string
+  post?: Prisma.XOR<Prisma.PostNullableScalarRelationFilter, Prisma.PostWhereInput> | null
 }, "id" | "publicId">
 
 export type FileStoreOrderByWithAggregationInput = {
@@ -208,10 +255,13 @@ export type FileStoreOrderByWithAggregationInput = {
   imageUrl?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   isUsed?: Prisma.SortOrder
+  postId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.FileStoreCountOrderByAggregateInput
+  _avg?: Prisma.FileStoreAvgOrderByAggregateInput
   _max?: Prisma.FileStoreMaxOrderByAggregateInput
   _min?: Prisma.FileStoreMinOrderByAggregateInput
+  _sum?: Prisma.FileStoreSumOrderByAggregateInput
 }
 
 export type FileStoreScalarWhereWithAggregatesInput = {
@@ -222,6 +272,7 @@ export type FileStoreScalarWhereWithAggregatesInput = {
   imageUrl?: Prisma.StringWithAggregatesFilter<"FileStore"> | string
   publicId?: Prisma.StringWithAggregatesFilter<"FileStore"> | string
   isUsed?: Prisma.BoolWithAggregatesFilter<"FileStore"> | boolean
+  postId?: Prisma.IntNullableWithAggregatesFilter<"FileStore"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FileStore"> | Date | string
 }
 
@@ -231,6 +282,7 @@ export type FileStoreCreateInput = {
   publicId: string
   isUsed?: boolean
   createdAt?: Date | string
+  post?: Prisma.PostCreateNestedOneWithoutImagesInput
 }
 
 export type FileStoreUncheckedCreateInput = {
@@ -238,6 +290,7 @@ export type FileStoreUncheckedCreateInput = {
   imageUrl: string
   publicId: string
   isUsed?: boolean
+  postId?: number | null
   createdAt?: Date | string
 }
 
@@ -247,6 +300,7 @@ export type FileStoreUpdateInput = {
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   isUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.PostUpdateOneWithoutImagesNestedInput
 }
 
 export type FileStoreUncheckedUpdateInput = {
@@ -254,6 +308,7 @@ export type FileStoreUncheckedUpdateInput = {
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   isUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -262,6 +317,7 @@ export type FileStoreCreateManyInput = {
   imageUrl: string
   publicId: string
   isUsed?: boolean
+  postId?: number | null
   createdAt?: Date | string
 }
 
@@ -278,7 +334,18 @@ export type FileStoreUncheckedUpdateManyInput = {
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   isUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FileStoreListRelationFilter = {
+  every?: Prisma.FileStoreWhereInput
+  some?: Prisma.FileStoreWhereInput
+  none?: Prisma.FileStoreWhereInput
+}
+
+export type FileStoreOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type FileStoreCountOrderByAggregateInput = {
@@ -286,7 +353,12 @@ export type FileStoreCountOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   isUsed?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type FileStoreAvgOrderByAggregateInput = {
+  postId?: Prisma.SortOrder
 }
 
 export type FileStoreMaxOrderByAggregateInput = {
@@ -294,6 +366,7 @@ export type FileStoreMaxOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   isUsed?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -302,7 +375,140 @@ export type FileStoreMinOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   isUsed?: Prisma.SortOrder
+  postId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type FileStoreSumOrderByAggregateInput = {
+  postId?: Prisma.SortOrder
+}
+
+export type FileStoreCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.FileStoreCreateWithoutPostInput, Prisma.FileStoreUncheckedCreateWithoutPostInput> | Prisma.FileStoreCreateWithoutPostInput[] | Prisma.FileStoreUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.FileStoreCreateOrConnectWithoutPostInput | Prisma.FileStoreCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.FileStoreCreateManyPostInputEnvelope
+  connect?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+}
+
+export type FileStoreUncheckedCreateNestedManyWithoutPostInput = {
+  create?: Prisma.XOR<Prisma.FileStoreCreateWithoutPostInput, Prisma.FileStoreUncheckedCreateWithoutPostInput> | Prisma.FileStoreCreateWithoutPostInput[] | Prisma.FileStoreUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.FileStoreCreateOrConnectWithoutPostInput | Prisma.FileStoreCreateOrConnectWithoutPostInput[]
+  createMany?: Prisma.FileStoreCreateManyPostInputEnvelope
+  connect?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+}
+
+export type FileStoreUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.FileStoreCreateWithoutPostInput, Prisma.FileStoreUncheckedCreateWithoutPostInput> | Prisma.FileStoreCreateWithoutPostInput[] | Prisma.FileStoreUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.FileStoreCreateOrConnectWithoutPostInput | Prisma.FileStoreCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.FileStoreUpsertWithWhereUniqueWithoutPostInput | Prisma.FileStoreUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.FileStoreCreateManyPostInputEnvelope
+  set?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  disconnect?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  delete?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  connect?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  update?: Prisma.FileStoreUpdateWithWhereUniqueWithoutPostInput | Prisma.FileStoreUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.FileStoreUpdateManyWithWhereWithoutPostInput | Prisma.FileStoreUpdateManyWithWhereWithoutPostInput[]
+  deleteMany?: Prisma.FileStoreScalarWhereInput | Prisma.FileStoreScalarWhereInput[]
+}
+
+export type FileStoreUncheckedUpdateManyWithoutPostNestedInput = {
+  create?: Prisma.XOR<Prisma.FileStoreCreateWithoutPostInput, Prisma.FileStoreUncheckedCreateWithoutPostInput> | Prisma.FileStoreCreateWithoutPostInput[] | Prisma.FileStoreUncheckedCreateWithoutPostInput[]
+  connectOrCreate?: Prisma.FileStoreCreateOrConnectWithoutPostInput | Prisma.FileStoreCreateOrConnectWithoutPostInput[]
+  upsert?: Prisma.FileStoreUpsertWithWhereUniqueWithoutPostInput | Prisma.FileStoreUpsertWithWhereUniqueWithoutPostInput[]
+  createMany?: Prisma.FileStoreCreateManyPostInputEnvelope
+  set?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  disconnect?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  delete?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  connect?: Prisma.FileStoreWhereUniqueInput | Prisma.FileStoreWhereUniqueInput[]
+  update?: Prisma.FileStoreUpdateWithWhereUniqueWithoutPostInput | Prisma.FileStoreUpdateWithWhereUniqueWithoutPostInput[]
+  updateMany?: Prisma.FileStoreUpdateManyWithWhereWithoutPostInput | Prisma.FileStoreUpdateManyWithWhereWithoutPostInput[]
+  deleteMany?: Prisma.FileStoreScalarWhereInput | Prisma.FileStoreScalarWhereInput[]
+}
+
+export type FileStoreCreateWithoutPostInput = {
+  id?: string
+  imageUrl: string
+  publicId: string
+  isUsed?: boolean
+  createdAt?: Date | string
+}
+
+export type FileStoreUncheckedCreateWithoutPostInput = {
+  id?: string
+  imageUrl: string
+  publicId: string
+  isUsed?: boolean
+  createdAt?: Date | string
+}
+
+export type FileStoreCreateOrConnectWithoutPostInput = {
+  where: Prisma.FileStoreWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileStoreCreateWithoutPostInput, Prisma.FileStoreUncheckedCreateWithoutPostInput>
+}
+
+export type FileStoreCreateManyPostInputEnvelope = {
+  data: Prisma.FileStoreCreateManyPostInput | Prisma.FileStoreCreateManyPostInput[]
+  skipDuplicates?: boolean
+}
+
+export type FileStoreUpsertWithWhereUniqueWithoutPostInput = {
+  where: Prisma.FileStoreWhereUniqueInput
+  update: Prisma.XOR<Prisma.FileStoreUpdateWithoutPostInput, Prisma.FileStoreUncheckedUpdateWithoutPostInput>
+  create: Prisma.XOR<Prisma.FileStoreCreateWithoutPostInput, Prisma.FileStoreUncheckedCreateWithoutPostInput>
+}
+
+export type FileStoreUpdateWithWhereUniqueWithoutPostInput = {
+  where: Prisma.FileStoreWhereUniqueInput
+  data: Prisma.XOR<Prisma.FileStoreUpdateWithoutPostInput, Prisma.FileStoreUncheckedUpdateWithoutPostInput>
+}
+
+export type FileStoreUpdateManyWithWhereWithoutPostInput = {
+  where: Prisma.FileStoreScalarWhereInput
+  data: Prisma.XOR<Prisma.FileStoreUpdateManyMutationInput, Prisma.FileStoreUncheckedUpdateManyWithoutPostInput>
+}
+
+export type FileStoreScalarWhereInput = {
+  AND?: Prisma.FileStoreScalarWhereInput | Prisma.FileStoreScalarWhereInput[]
+  OR?: Prisma.FileStoreScalarWhereInput[]
+  NOT?: Prisma.FileStoreScalarWhereInput | Prisma.FileStoreScalarWhereInput[]
+  id?: Prisma.StringFilter<"FileStore"> | string
+  imageUrl?: Prisma.StringFilter<"FileStore"> | string
+  publicId?: Prisma.StringFilter<"FileStore"> | string
+  isUsed?: Prisma.BoolFilter<"FileStore"> | boolean
+  postId?: Prisma.IntNullableFilter<"FileStore"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"FileStore"> | Date | string
+}
+
+export type FileStoreCreateManyPostInput = {
+  id?: string
+  imageUrl: string
+  publicId: string
+  isUsed?: boolean
+  createdAt?: Date | string
+}
+
+export type FileStoreUpdateWithoutPostInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  publicId?: Prisma.StringFieldUpdateOperationsInput | string
+  isUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FileStoreUncheckedUpdateWithoutPostInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  publicId?: Prisma.StringFieldUpdateOperationsInput | string
+  isUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FileStoreUncheckedUpdateManyWithoutPostInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  publicId?: Prisma.StringFieldUpdateOperationsInput | string
+  isUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -312,7 +518,9 @@ export type FileStoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   imageUrl?: boolean
   publicId?: boolean
   isUsed?: boolean
+  postId?: boolean
   createdAt?: boolean
+  post?: boolean | Prisma.FileStore$postArgs<ExtArgs>
 }, ExtArgs["result"]["fileStore"]>
 
 export type FileStoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -320,7 +528,9 @@ export type FileStoreSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   imageUrl?: boolean
   publicId?: boolean
   isUsed?: boolean
+  postId?: boolean
   createdAt?: boolean
+  post?: boolean | Prisma.FileStore$postArgs<ExtArgs>
 }, ExtArgs["result"]["fileStore"]>
 
 export type FileStoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -328,7 +538,9 @@ export type FileStoreSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   imageUrl?: boolean
   publicId?: boolean
   isUsed?: boolean
+  postId?: boolean
   createdAt?: boolean
+  post?: boolean | Prisma.FileStore$postArgs<ExtArgs>
 }, ExtArgs["result"]["fileStore"]>
 
 export type FileStoreSelectScalar = {
@@ -336,19 +548,32 @@ export type FileStoreSelectScalar = {
   imageUrl?: boolean
   publicId?: boolean
   isUsed?: boolean
+  postId?: boolean
   createdAt?: boolean
 }
 
-export type FileStoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "imageUrl" | "publicId" | "isUsed" | "createdAt", ExtArgs["result"]["fileStore"]>
+export type FileStoreOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "imageUrl" | "publicId" | "isUsed" | "postId" | "createdAt", ExtArgs["result"]["fileStore"]>
+export type FileStoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  post?: boolean | Prisma.FileStore$postArgs<ExtArgs>
+}
+export type FileStoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  post?: boolean | Prisma.FileStore$postArgs<ExtArgs>
+}
+export type FileStoreIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  post?: boolean | Prisma.FileStore$postArgs<ExtArgs>
+}
 
 export type $FileStorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FileStore"
-  objects: {}
+  objects: {
+    post: Prisma.$PostPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     imageUrl: string
     publicId: string
     isUsed: boolean
+    postId: number | null
     createdAt: Date
   }, ExtArgs["result"]["fileStore"]>
   composites: {}
@@ -744,6 +969,7 @@ readonly fields: FileStoreFieldRefs;
  */
 export interface Prisma__FileStoreClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  post<T extends Prisma.FileStore$postArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileStore$postArgs<ExtArgs>>): Prisma.Prisma__PostClient<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -777,6 +1003,7 @@ export interface FileStoreFieldRefs {
   readonly imageUrl: Prisma.FieldRef<"FileStore", 'String'>
   readonly publicId: Prisma.FieldRef<"FileStore", 'String'>
   readonly isUsed: Prisma.FieldRef<"FileStore", 'Boolean'>
+  readonly postId: Prisma.FieldRef<"FileStore", 'Int'>
   readonly createdAt: Prisma.FieldRef<"FileStore", 'DateTime'>
 }
     
@@ -794,6 +1021,10 @@ export type FileStoreFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the FileStore
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
   /**
    * Filter, which FileStore to fetch.
    */
@@ -813,6 +1044,10 @@ export type FileStoreFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
+  /**
    * Filter, which FileStore to fetch.
    */
   where: Prisma.FileStoreWhereUniqueInput
@@ -830,6 +1065,10 @@ export type FileStoreFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the FileStore
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
   /**
    * Filter, which FileStore to fetch.
    */
@@ -879,6 +1118,10 @@ export type FileStoreFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
+  /**
    * Filter, which FileStore to fetch.
    */
   where?: Prisma.FileStoreWhereInput
@@ -926,6 +1169,10 @@ export type FileStoreFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the FileStore
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
   /**
    * Filter, which FileStores to fetch.
    */
@@ -975,6 +1222,10 @@ export type FileStoreCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
+  /**
    * The data needed to create a FileStore.
    */
   data: Prisma.XOR<Prisma.FileStoreCreateInput, Prisma.FileStoreUncheckedCreateInput>
@@ -1008,6 +1259,10 @@ export type FileStoreCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    */
   data: Prisma.FileStoreCreateManyInput | Prisma.FileStoreCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1022,6 +1277,10 @@ export type FileStoreUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the FileStore
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
   /**
    * The data needed to update a FileStore.
    */
@@ -1074,6 +1333,10 @@ export type FileStoreUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many FileStores to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1088,6 +1351,10 @@ export type FileStoreUpsertArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the FileStore
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
   /**
    * The filter to search for the FileStore to update in case it exists.
    */
@@ -1115,6 +1382,10 @@ export type FileStoreDeleteArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
+  /**
    * Filter which FileStore to delete.
    */
   where: Prisma.FileStoreWhereUniqueInput
@@ -1135,6 +1406,25 @@ export type FileStoreDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * FileStore.post
+ */
+export type FileStore$postArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Post
+   */
+  select?: Prisma.PostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Post
+   */
+  omit?: Prisma.PostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostInclude<ExtArgs> | null
+  where?: Prisma.PostWhereInput
+}
+
+/**
  * FileStore without action
  */
 export type FileStoreDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1146,4 +1436,8 @@ export type FileStoreDefaultArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the FileStore
    */
   omit?: Prisma.FileStoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileStoreInclude<ExtArgs> | null
 }

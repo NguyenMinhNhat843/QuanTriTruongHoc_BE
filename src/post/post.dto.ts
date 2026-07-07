@@ -16,7 +16,7 @@ import {
 import { PostStatus, PostType } from "../../prisma/generated/prisma/enums";
 import { Post } from "../../prisma/generated/prisma/client";
 import { Type } from "class-transformer";
-import { StaffResponseDto } from "../staff/staff.response";
+import { ResponseUserWithRelationDto } from "../user/user.response";
 
 export class PostDto implements Post {
   @ApiPropertyOptional({ type: Number })
@@ -70,6 +70,15 @@ export class PostDto implements Post {
   @IsNotEmpty()
   viewCount: number;
 
+  @ApiPropertyOptional({ type: String })
+  seoDescription: string | null;
+
+  @ApiPropertyOptional({ type: String })
+  seoTitle: string | null;
+
+  @ApiPropertyOptional({ type: String })
+  summary: string | null;
+
   @ApiProperty()
   @IsDate()
   @IsNotEmpty()
@@ -85,8 +94,8 @@ export class PostDto implements Post {
 
 export class PostResponseDto extends PostDto {
   // quan hệ
-  @ApiProperty({ type: () => StaffResponseDto })
-  author: StaffResponseDto;
+  @ApiProperty({ type: () => ResponseUserWithRelationDto })
+  author: ResponseUserWithRelationDto;
 }
 
 class PaginationMetaDto {
@@ -118,14 +127,28 @@ export class CreatePostDto extends OmitType(PostDto, [
 }
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {}
+
 export class SearchPostDto extends PartialType(
   PickType(PostDto, ["type", "status", "createdAt", "title"]),
 ) {
   @ApiPropertyOptional({ type: Number })
   @IsNumber()
+  @Type(() => Number)
   limit: number = 10;
 
   @ApiPropertyOptional({ type: Number })
   @IsNumber()
+  @Type(() => Number)
   page: number = 1;
+}
+
+export class PostStatsResponseDto {
+  @ApiProperty()
+  totalPosts: number;
+
+  @ApiProperty()
+  draftPosts: number;
+
+  @ApiProperty({ type: "object", additionalProperties: { type: "number" } })
+  typeCounts: Record<string, number>;
 }

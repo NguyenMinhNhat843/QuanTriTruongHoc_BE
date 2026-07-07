@@ -21,6 +21,7 @@ import {
   CreatePostDto,
   PostResponseDto,
   PostResponseDtoPagination,
+  PostStatsResponseDto,
   SearchPostDto,
   UpdatePostDto,
 } from "./post.dto";
@@ -36,7 +37,7 @@ export class PostController {
    */
   @Get("stats")
   @ApiOperation({ summary: "Lấy thống kê bài viết" })
-  @ApiResponse({ status: 200, description: "Thống kê bài viết." })
+  @ApiResponse({ status: 200, type: PostStatsResponseDto })
   async getStats() {
     return this.postService.getStats();
   }
@@ -51,6 +52,18 @@ export class PostController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.postService.create(createPostDto, file);
+  }
+
+  @Get("related-posts")
+  @ApiOperation({ summary: "Lấy danh sách bài viết" })
+  @ApiResponse({ status: 200, type: PostResponseDtoPagination })
+  findRelatedPosts(@Query() query: SearchPostDto) {
+    const { type } = query;
+    return this.postService.findAll({
+      type: type,
+      limit: query.limit || 5,
+      page: query.page || 1,
+    });
   }
 
   @Get(":id")

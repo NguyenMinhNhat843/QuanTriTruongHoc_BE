@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
-import { CloudinaryService } from "./cloundinary.service";
-import { FileStoreController } from "./cloundinary.controller";
-import { CloudinaryProvider } from "./cloundinary.provider";
+import { CloudinaryService } from "./upload.service";
+import { FileStoreController } from "./upload.controller";
+import { CloudinaryProvider } from "./upload.provider";
 
 @Module({
   providers: [CloudinaryService, CloudinaryProvider],

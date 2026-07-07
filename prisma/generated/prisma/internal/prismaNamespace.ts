@@ -3494,7 +3494,10 @@ export const PostScalarFieldEnum = {
   title: 'title',
   slug: 'slug',
   coverImage: 'coverImage',
+  summary: 'summary',
   content: 'content',
+  seoTitle: 'seoTitle',
+  seoDescription: 'seoDescription',
   type: 'type',
   status: 'status',
   publishedAt: 'publishedAt',
@@ -3512,6 +3515,7 @@ export const FileStoreScalarFieldEnum = {
   imageUrl: 'imageUrl',
   publicId: 'publicId',
   isUsed: 'isUsed',
+  postId: 'postId',
   createdAt: 'createdAt'
 } as const
 

@@ -1,4 +1,9 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  OmitType,
+  PartialType,
+} from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsString,
@@ -14,7 +19,7 @@ import { EmployeeRole } from "../../prisma/generated/prisma/enums";
 import { Exclude, Type } from "class-transformer";
 import { Staff } from "../../prisma/generated/prisma/client";
 
-export class CreateStaffDto implements Staff {
+export class StaffDto implements Staff {
   @ApiPropertyOptional()
   @IsOptional()
   id: number;
@@ -142,6 +147,12 @@ export class CreateStaffDto implements Staff {
   @IsOptional()
   updatedAt: Date;
 }
+
+export class CreateStaffDto extends OmitType(StaffDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+]) {}
 
 export class UpdateStaffDto extends PartialType(CreateStaffDto) {
   @ApiPropertyOptional()

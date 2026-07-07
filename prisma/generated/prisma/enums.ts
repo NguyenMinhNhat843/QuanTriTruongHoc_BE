@@ -129,7 +129,7 @@ export const PostType = {
   INTERNAL: 'INTERNAL',
   ACHIEVEMENT: 'ACHIEVEMENT',
   MENU: 'MENU',
-  POLICY: 'POLICY'
+  RECRUITMENT: 'RECRUITMENT'
 } as const
 
 export type PostType = (typeof PostType)[keyof typeof PostType]

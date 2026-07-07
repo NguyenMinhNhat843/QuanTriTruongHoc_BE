@@ -9,12 +9,13 @@ import { PrismaService } from "../prisma/prisma.service";
 import {
   CreatePostDto,
   PostResponseDto,
+  PostStatsResponseDto,
   SearchPostDto,
   UpdatePostDto,
 } from "./post.dto";
 import { PostStatus } from "../../prisma/generated/prisma/enums";
 import { Cron, CronExpression } from "@nestjs/schedule";
-import { CloudinaryService } from "../cloundinary/cloundinary.service";
+import { CloudinaryService } from "../upload/upload.service";
 import { plainToInstance } from "class-transformer";
 
 @Injectable()
@@ -41,16 +42,16 @@ export class PostService {
       where: { slug: finalSlug },
     });
 
+    if (existingPost) {
+      throw new ConflictException("Slug hoặc tiêu đề này đã tồn tại");
+    }
+
     if (file) {
       const image = await this.cloudinaryService.uploadImageAndSaveDb(
         file,
         "quantritruonghoc/posts",
       );
       data.coverImage = image.imageUrl;
-    }
-
-    if (existingPost) {
-      throw new ConflictException("Slug hoặc tiêu đề này đã tồn tại");
     }
 
     const result = await this.prisma.post.create({
@@ -73,6 +74,13 @@ export class PostService {
   async findOne(id: number) {
     const post = await this.prisma.post.findUnique({
       where: { id },
+      include: {
+        author: {
+          include: {
+            staff: true,
+          },
+        },
+      },
     });
 
     return post ? plainToInstance(PostResponseDto, post) : null;
@@ -110,21 +118,24 @@ export class PostService {
       {} as Record<string, number>,
     );
 
-    return {
+    return plainToInstance(PostStatsResponseDto, {
       totalPosts,
       draftPosts: statusCounts["DRAFT"] || 0,
       typeCounts,
-    };
+    });
   }
 
   /**
    * Lấy danh sách bài viết (Có phân trang và lọc)
    */
   async findAll(query: SearchPostDto) {
-    const { page = 1, limit = 10, status } = query;
+    const { page = 1, limit = 10, status, type, title } = query;
     const skip = (page - 1) * limit;
 
-    const where = status ? { status } : {};
+    const where: any = {};
+    if (status) where.status = status;
+    if (type) where.type = type;
+    if (title) where.title = { contains: title, mode: "insensitive" };
 
     const [items, total] = await Promise.all([
       this.prisma.post.findMany({
@@ -141,9 +152,7 @@ export class PostService {
 
     return {
       data: items,
-      meta: {
-        total,
-      },
+      total,
     };
   }
 
@@ -155,7 +164,6 @@ export class PostService {
     updatePostDto: UpdatePostDto,
     file: Express.Multer.File,
   ) {
-    console.log("Updating post with ID:", updatePostDto);
     // Kiểm tra bài viết tồn tại
     const post = await this.prisma.post.findUnique({ where: { id } });
     if (!post)
@@ -184,18 +192,49 @@ export class PostService {
         throw new ConflictException("Slug đã tồn tại ở một bài viết khác");
     }
 
+    let fileStoreId: string | null = null;
     if (file) {
       const image = await this.cloudinaryService.uploadImageAndSaveDb(
         file,
         "quantritruonghoc/posts",
       );
       data.coverImage = image.imageUrl;
+      fileStoreId = image.id;
     }
 
-    return this.prisma.post.update({
-      where: { id },
-      data,
+    // update bài viết
+    await this.prisma.$transaction(async (tx) => {
+      const updated = await tx.post.update({
+        where: { id },
+        data,
+        include: { author: true },
+      });
+
+      if (fileStoreId) {
+        // Bật trạng thái ảnh mới thành true
+        await tx.fileStore.update({
+          where: { id: fileStoreId },
+          data: { isUsed: true, postId: updated.id },
+        });
+
+        // Tìm ảnh cũ của bài viết (nếu có) chuyển về false để cronjob dọn dẹp sau
+        if (post.coverImage) {
+          await tx.fileStore.updateMany({
+            where: {
+              imageUrl: post.coverImage,
+              id: { not: fileStoreId },
+            },
+            data: { isUsed: false, postId: null },
+          });
+        }
+      }
+
+      return updated;
     });
+
+    return {
+      message: "Cập nhật bài viết thành công",
+    };
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_1AM)

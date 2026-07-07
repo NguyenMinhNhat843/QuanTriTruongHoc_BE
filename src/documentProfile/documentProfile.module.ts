@@ -4,7 +4,7 @@ import { DocumentConfigItemService } from "./service/docConfigItem.service";
 import { StudentDocumentService } from "./service/studentDoc.service";
 import { StudentDocumentController } from "./controller/studentDoc.controller";
 import { DocumentConfigController } from "./controller/docConfig.controller";
-import { CloudinaryModule } from "../cloundinary/cloundinary.module";
+import { CloudinaryModule } from "../upload/upload.module";
 import { DocumentConfigItemController } from "./controller/docConfigItem.controller";
 
 @Module({

@@ -1,11 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { UserResponseDto } from "../user/user.response.js";
-import { CreateStaffDto } from "./staff.dto.js";
+import { StaffDto } from "./staff.dto.js";
 import { TeacherSubjectResponseDto } from "./teacherSubject.dto.js";
 import { Expose, Type } from "class-transformer";
+import { UserResponseDto } from "../user/user.response.js";
 
-export class StaffResponseDto extends CreateStaffDto {
-  @ApiPropertyOptional({ type: UserResponseDto })
+export class StaffResponseDto extends StaffDto {
+  @ApiPropertyOptional({ type: () => UserResponseDto }) // thêm arrow function
   user?: UserResponseDto;
 
   @ApiPropertyOptional({

@@ -21,7 +21,7 @@ import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/classSubject.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
-import { CloudinaryModule } from "./cloundinary/cloundinary.module.js";
+import { CloudinaryModule } from "./upload/upload.module.js";
 import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
 import { AdmissionProfileModule } from "./admission-profile/admission-profile.module.js";
 import { AssessmentModule } from "./assessment/assessment.module.js";

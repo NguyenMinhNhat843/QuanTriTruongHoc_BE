@@ -3,6 +3,8 @@ import { Exclude, Expose } from "class-transformer";
 import { RoleType } from "../../prisma/generated/prisma/enums.js";
 import { User } from "../../prisma/generated/prisma/client.js";
 import { IsOptional } from "class-validator";
+import { StudentResponseDto } from "../student/dto/student.response.js";
+import { StaffDto } from "../staff/staff.dto.js";
 
 export class UserResponseDto implements User {
   @ApiProperty({ example: 1 })
@@ -48,10 +50,15 @@ export class UserResponseDto implements User {
   @Exclude()
   deletedAt: Date | null;
 
-  constructor(partial: Partial<UserResponseDto>) {
-    Object.assign(this, partial);
-  }
-
   @ApiPropertyOptional({ example: "2024-01-01T12:00:00Z" })
   lastLoginAt: Date | null;
+}
+
+export class ResponseStaffDto extends StaffDto {}
+export class ResponseUserWithRelationDto extends UserResponseDto {
+  @ApiPropertyOptional({ type: () => StudentResponseDto })
+  student?: StudentResponseDto;
+
+  @ApiPropertyOptional({ type: () => ResponseStaffDto })
+  staff?: ResponseStaffDto;
 }

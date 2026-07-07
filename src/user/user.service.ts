@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateUserDto } from "./user.dto.js";
 import { UserResponseDto } from "./user.response.js";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class UserService {
@@ -13,7 +14,7 @@ export class UserService {
         ...data,
       },
     });
-    return new UserResponseDto(user);
+    return plainToInstance(UserResponseDto, user);
   }
 
   async updateUser(id: number, data: CreateUserDto): Promise<UserResponseDto> {
@@ -21,6 +22,6 @@ export class UserService {
       where: { id },
       data,
     });
-    return new UserResponseDto(user);
+    return plainToInstance(UserResponseDto, user);
   }
 }

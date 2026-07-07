@@ -12,7 +12,7 @@ import {
   UpdateStudentDocumentDto,
 } from "../dto/studentDoc.dto";
 import { PrismaService } from "../../prisma/prisma.service";
-import { CloudinaryService } from "../../cloundinary/cloundinary.service";
+import { CloudinaryService } from "../../upload/upload.service";
 
 @Injectable()
 export class StudentDocumentService {

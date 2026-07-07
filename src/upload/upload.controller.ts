@@ -7,7 +7,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from "@nestjs/common";
-import { CloudinaryService } from "./cloundinary.service";
+import { CloudinaryService } from "./upload.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiResponse } from "@nestjs/swagger";
 import { FireStoreResponse } from "./fireStore.response";
