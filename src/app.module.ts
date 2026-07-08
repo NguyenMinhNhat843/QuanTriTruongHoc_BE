@@ -25,6 +25,7 @@ import { CloudinaryModule } from "./upload/upload.module.js";
 import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
 import { AdmissionProfileModule } from "./admission-profile/admission-profile.module.js";
 import { AssessmentModule } from "./assessment/assessment.module.js";
+import { AnalyticsModule } from "./analytic/analytic.module.js";
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { AssessmentModule } from "./assessment/assessment.module.js";
     DocumentProfileModule,
     AdmissionProfileModule,
     AssessmentModule,
+    AnalyticsModule,
   ],
 })
 export class AppModule {}
