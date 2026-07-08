@@ -34,6 +34,8 @@ export class StudentService {
       const newStudent = await tx.student.create({
         data: {
           ...studentProfile,
+          majorId: studentProfile.majorId ?? null,
+          batchId: studentProfile.batchId ?? null,
           studentCode: `S${generateId()}`,
           dob: studentProfile.dob ? new Date(studentProfile.dob) : null,
         },
