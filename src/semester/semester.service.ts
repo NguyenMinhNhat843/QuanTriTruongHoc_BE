@@ -76,7 +76,7 @@ export class SemesterService {
     const semesters = await this.prisma.semester.findMany({
       orderBy: [{ year: "asc" }, { term: "asc" }],
       include: {
-        _count: { select: { courseOffers: true, feeInvoices: true } },
+        _count: { select: { courseOffers: true } },
       },
     });
     return semesters.map((s) => new SemesterResponseDto(s));
@@ -86,7 +86,7 @@ export class SemesterService {
     const semester = await this.prisma.semester.findUnique({
       where: { id },
       include: {
-        _count: { select: { courseOffers: true, feeInvoices: true } },
+        _count: { select: { courseOffers: true } },
       },
     });
 

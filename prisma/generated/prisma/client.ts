@@ -145,40 +145,30 @@ export type GradeStudent = Prisma.GradeStudentModel
  */
 export type TeacherSubject = Prisma.TeacherSubjectModel
 /**
+ * Model TuitionPeriod
+ * 
+ */
+export type TuitionPeriod = Prisma.TuitionPeriodModel
+/**
+ * Model TuitionConfig
+ * 
+ */
+export type TuitionConfig = Prisma.TuitionConfigModel
+/**
+ * Model TuitionConfigItem
+ * 
+ */
+export type TuitionConfigItem = Prisma.TuitionConfigItemModel
+/**
  * Model FeeInvoice
  * 
  */
 export type FeeInvoice = Prisma.FeeInvoiceModel
 /**
- * Model FeeInvoiceItem
- * 
- */
-export type FeeInvoiceItem = Prisma.FeeInvoiceItemModel
-/**
  * Model Payment
  * 
  */
 export type Payment = Prisma.PaymentModel
-/**
- * Model PaymentAllocation
- * 
- */
-export type PaymentAllocation = Prisma.PaymentAllocationModel
-/**
- * Model Fee
- * 
- */
-export type Fee = Prisma.FeeModel
-/**
- * Model FeeCatalog
- * 
- */
-export type FeeCatalog = Prisma.FeeCatalogModel
-/**
- * Model CreditPrice
- * 
- */
-export type CreditPrice = Prisma.CreditPriceModel
 /**
  * Model Post
  * 

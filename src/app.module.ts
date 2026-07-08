@@ -13,10 +13,6 @@ import { SemesterModule } from "./semester/semester.module.js";
 import { RoomModule } from "./room/room.module.js";
 import { CurriculumModule } from "./curriculumn/curriculum.module.js";
 import { BatchModule } from "./batch/batch.module.js";
-import { TuitionFeeModule } from "./tuitionFee/tuitionFee.module.js";
-import { FeeModule } from "./Fee/fee.module.js";
-import { FeeCatalogModule } from "./FeeCatalog/feeCatalog.module.js";
-import { CreditPriceModule } from "./creaditPrice/creditPrice.module.js";
 import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/classSubject.module.js";
@@ -26,6 +22,7 @@ import { DocumentProfileModule } from "./documentProfile/documentProfile.module.
 import { AdmissionProfileModule } from "./admission-profile/admission-profile.module.js";
 import { AssessmentModule } from "./assessment/assessment.module.js";
 import { AnalyticsModule } from "./analytic/analytic.module.js";
+import { TuitionModule } from "./tuition/tuition.module.js";
 
 @Module({
   imports: [
@@ -47,10 +44,6 @@ import { AnalyticsModule } from "./analytic/analytic.module.js";
     SemesterModule,
     RoomModule,
     CurriculumModule,
-    TuitionFeeModule,
-    FeeModule,
-    FeeCatalogModule,
-    CreditPriceModule,
     StudyScheduleModule,
     PostModule,
     CourseOfferModule,
@@ -59,6 +52,7 @@ import { AnalyticsModule } from "./analytic/analytic.module.js";
     AdmissionProfileModule,
     AssessmentModule,
     AnalyticsModule,
+    TuitionModule,
   ],
 })
 export class AppModule {}

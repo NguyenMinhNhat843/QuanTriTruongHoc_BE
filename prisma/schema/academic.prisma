@@ -43,8 +43,8 @@ model Major {
   classes         Class[]
   curriculumn     Curriculum[]
   batches         Batch[]
-  creditPrices    CreditPrice[] 
   students        Student[]
+  tuitionConfigs  TuitionConfig[]
 
   @@map("majors")
 }
@@ -78,7 +78,7 @@ model Batch {
   // Quan hệ: Một khóa có nhiều lớp
   classes     Class[]
   students    Student[]
-  creditPrices CreditPrice[] 
+  tuitionConfigs TuitionConfig[]
 
   @@map("batches")
 }

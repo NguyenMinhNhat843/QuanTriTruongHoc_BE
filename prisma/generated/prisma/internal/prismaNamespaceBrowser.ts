@@ -72,13 +72,11 @@ export const ModelName = {
   Staff: 'Staff',
   GradeStudent: 'GradeStudent',
   TeacherSubject: 'TeacherSubject',
+  TuitionPeriod: 'TuitionPeriod',
+  TuitionConfig: 'TuitionConfig',
+  TuitionConfigItem: 'TuitionConfigItem',
   FeeInvoice: 'FeeInvoice',
-  FeeInvoiceItem: 'FeeInvoiceItem',
   Payment: 'Payment',
-  PaymentAllocation: 'PaymentAllocation',
-  Fee: 'Fee',
-  FeeCatalog: 'FeeCatalog',
-  CreditPrice: 'CreditPrice',
   Post: 'Post',
   FileStore: 'FileStore',
   Semester: 'Semester',
@@ -439,11 +437,51 @@ export const TeacherSubjectScalarFieldEnum = {
 export type TeacherSubjectScalarFieldEnum = (typeof TeacherSubjectScalarFieldEnum)[keyof typeof TeacherSubjectScalarFieldEnum]
 
 
+export const TuitionPeriodScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  semesterId: 'semesterId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  createdAt: 'createdAt'
+} as const
+
+export type TuitionPeriodScalarFieldEnum = (typeof TuitionPeriodScalarFieldEnum)[keyof typeof TuitionPeriodScalarFieldEnum]
+
+
+export const TuitionConfigScalarFieldEnum = {
+  id: 'id',
+  periodId: 'periodId',
+  majorId: 'majorId',
+  batchId: 'batchId',
+  totalAmount: 'totalAmount',
+  minRequiredAmount: 'minRequiredAmount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TuitionConfigScalarFieldEnum = (typeof TuitionConfigScalarFieldEnum)[keyof typeof TuitionConfigScalarFieldEnum]
+
+
+export const TuitionConfigItemScalarFieldEnum = {
+  id: 'id',
+  configId: 'configId',
+  name: 'name',
+  amount: 'amount'
+} as const
+
+export type TuitionConfigItemScalarFieldEnum = (typeof TuitionConfigItemScalarFieldEnum)[keyof typeof TuitionConfigItemScalarFieldEnum]
+
+
 export const FeeInvoiceScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
-  semesterId: 'semesterId',
+  periodId: 'periodId',
   totalAmount: 'totalAmount',
+  minRequiredAmount: 'minRequiredAmount',
+  paidAmount: 'paidAmount',
+  remainingAmount: 'remainingAmount',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -452,78 +490,19 @@ export const FeeInvoiceScalarFieldEnum = {
 export type FeeInvoiceScalarFieldEnum = (typeof FeeInvoiceScalarFieldEnum)[keyof typeof FeeInvoiceScalarFieldEnum]
 
 
-export const FeeInvoiceItemScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  name: 'name',
-  amount: 'amount',
-  invoiceId: 'invoiceId',
-  semesterId: 'semesterId',
-  status: 'status'
-} as const
-
-export type FeeInvoiceItemScalarFieldEnum = (typeof FeeInvoiceItemScalarFieldEnum)[keyof typeof FeeInvoiceItemScalarFieldEnum]
-
-
 export const PaymentScalarFieldEnum = {
   id: 'id',
+  invoiceId: 'invoiceId',
   studentId: 'studentId',
-  totalPaid: 'totalPaid',
+  amountPaid: 'amountPaid',
   paymentDate: 'paymentDate',
   method: 'method',
   transactionRef: 'transactionRef',
-  createdAt: 'createdAt'
+  status: 'status',
+  createdBy: 'createdBy'
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
-
-
-export const PaymentAllocationScalarFieldEnum = {
-  id: 'id',
-  paymentId: 'paymentId',
-  feeInvoiceItemId: 'feeInvoiceItemId',
-  amount: 'amount',
-  allocatedAt: 'allocatedAt'
-} as const
-
-export type PaymentAllocationScalarFieldEnum = (typeof PaymentAllocationScalarFieldEnum)[keyof typeof PaymentAllocationScalarFieldEnum]
-
-
-export const FeeScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt'
-} as const
-
-export type FeeScalarFieldEnum = (typeof FeeScalarFieldEnum)[keyof typeof FeeScalarFieldEnum]
-
-
-export const FeeCatalogScalarFieldEnum = {
-  id: 'id',
-  feeId: 'feeId',
-  majorId: 'majorId',
-  batchId: 'batchId',
-  semester: 'semester',
-  isGlobal: 'isGlobal',
-  amount: 'amount',
-  createdAt: 'createdAt'
-} as const
-
-export type FeeCatalogScalarFieldEnum = (typeof FeeCatalogScalarFieldEnum)[keyof typeof FeeCatalogScalarFieldEnum]
-
-
-export const CreditPriceScalarFieldEnum = {
-  id: 'id',
-  majorId: 'majorId',
-  batchId: 'batchId',
-  semester: 'semester',
-  isGlobal: 'isGlobal',
-  price: 'price',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CreditPriceScalarFieldEnum = (typeof CreditPriceScalarFieldEnum)[keyof typeof CreditPriceScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {
