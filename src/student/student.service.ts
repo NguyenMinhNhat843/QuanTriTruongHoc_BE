@@ -1,7 +1,6 @@
 import {
   Injectable,
   NotFoundException,
-  ConflictException,
   BadRequestException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
@@ -31,36 +30,27 @@ export class StudentService {
   async createStudent(data: CreateStudentDto): Promise<StudentResponseDto> {
     const { admissionProfile, ...studentProfile } = data;
 
-    // Sử dụng $transaction để bọc toàn bộ logic tạo mới
     const student = await this.prisma.$transaction(async (tx) => {
-      // 1. Kiểm tra xem CMND/CCCD đã tồn tại chưa (Sử dụng 'tx' thay vì 'this.prisma')
-      const existingStudent = await tx.student.findFirst({
-        where: { identityNumber: data.identityNumber },
-      });
-
-      if (existingStudent) {
-        throw new ConflictException(
-          "Căn cước công dân này đã tồn tại trên hệ thống",
-        );
-      }
-
-      // 2. Tạo Student
       const newStudent = await tx.student.create({
         data: {
           ...studentProfile,
           studentCode: `S${generateId()}`,
-          dob: data.dob ? new Date(data.dob) : null,
+          dob: studentProfile.dob ? new Date(studentProfile.dob) : null,
         },
       });
 
-      // 3. Tạo AdmissionProfile (Lưu ý: Có cần nối studentId sang không?)
-      await tx.admissionProfile.create({
-        data: {
-          ...admissionProfile,
-          // Giả sử có trường studentId để map 2 bảng với nhau:
-          studentId: newStudent.id,
-        },
-      });
+      if (admissionProfile) {
+        await tx.admissionProfile.create({
+          data: {
+            ...admissionProfile,
+            studentId: newStudent.id,
+            gpa6: admissionProfile.gpa6 ?? 0,
+            gpa7: admissionProfile.gpa7 ?? 0,
+            gpa8: admissionProfile.gpa8 ?? 0,
+            gpa9: admissionProfile.gpa9 ?? 0,
+          },
+        });
+      }
 
       return newStudent;
     });
@@ -118,9 +108,7 @@ export class StudentService {
   /**
    * Tìm sinh viên theo mã sinh viên
    */
-  async findStudentByStudentCode(
-    studentCode: string,
-  ): Promise<StudentResponseDto> {
+  async findOne(studentCode: string): Promise<StudentResponseDto> {
     const idAsNumber = Number(studentCode);
     const isIdNumber = !isNaN(idAsNumber);
 
@@ -128,13 +116,32 @@ export class StudentService {
       where: {
         OR: [
           { studentCode: studentCode },
-          ...(isIdNumber ? [{ id: idAsNumber }] : []), // Chỉ tìm theo id nếu nó là số hợp lệ
+          ...(isIdNumber ? [{ id: idAsNumber }] : []),
         ],
       },
       include: {
         user: true,
-        batch: true,
-        class: true,
+        batch: {
+          select: {
+            id: true,
+            batchCode: true,
+            batchName: true,
+          },
+        },
+        class: {
+          select: {
+            id: true,
+            classCode: true,
+            className: true,
+          },
+        },
+        major: {
+          select: {
+            id: true,
+            majorCode: true,
+            majorName: true,
+          },
+        },
       },
     });
 
@@ -152,6 +159,7 @@ export class StudentService {
     id: number,
     data: UpdateStudentDto,
   ): Promise<StudentResponseDto> {
+    // 1. Kiểm tra sinh viên có tồn tại hay không
     const studentExists = await this.prisma.student.findUnique({
       where: { id },
     });
@@ -160,15 +168,52 @@ export class StudentService {
       throw new NotFoundException("Không tìm thấy sinh viên cần cập nhật");
     }
 
-    const updatedStudent = await this.prisma.student.update({
-      where: { id },
-      data,
+    const { admissionProfile, ...studentProfile } = data;
+
+    // 2. Sử dụng $transaction để đảm bảo tính toàn vẹn dữ liệu
+    const updatedStudent = await this.prisma.$transaction(async (tx) => {
+      // Cập nhật thông tin cơ bản của Student
+      const student = await tx.student.update({
+        where: { id },
+        data: {
+          ...studentProfile,
+          dob: studentProfile.dob ? new Date(studentProfile.dob) : undefined,
+        },
+      });
+
+      // 3. Xử lý cập nhật hoặc tạo mới AdmissionProfile nếu dữ liệu được truyền lên
+      if (admissionProfile) {
+        await tx.admissionProfile.upsert({
+          where: { studentId: id },
+          update: {
+            ...admissionProfile,
+          },
+          create: {
+            ...admissionProfile,
+            studentId: id,
+            // Sử dụng giá trị fallback tương tự như hàm create phòng trường hợp tạo mới
+            gpa6: admissionProfile.gpa6 ?? 0,
+            gpa7: admissionProfile.gpa7 ?? 0,
+            gpa8: admissionProfile.gpa8 ?? 0,
+            gpa9: admissionProfile.gpa9 ?? 0,
+          },
+        });
+      }
+
+      return student;
+    });
+
+    // 4. Nếu bạn cần include thêm thông tin (như `user: true` ở code cũ của bạn)
+    // để map vào StudentResponseDto, ta nên query lại hoặc include trực tiếp trong lệnh update ở trên.
+    const finalResult = await this.prisma.student.findUnique({
+      where: { id: updatedStudent.id },
       include: {
         user: true,
+        admissionProfile: true, // Thường Dto response sẽ cần cả cái này
       },
     });
 
-    return plainToInstance(StudentResponseDto, updatedStudent);
+    return plainToInstance(StudentResponseDto, finalResult);
   }
 
   /**
@@ -370,7 +415,6 @@ export class StudentService {
         `Không tìm thấy Khóa đào tạo với ID ${batchId}`,
       );
     const majorId = batch.majorId;
-    console.log(batchId, majorId, studentsPerClass);
 
     // 1. Lấy danh sách học sinh chưa có lớp
     let studentsPool = await this.prisma.student.findMany({

@@ -95,7 +95,6 @@ export async function resolveCurriculumSemesterNumber({
         },
       },
     });
-    console.log("batchInfo", classInfo); //sadasd
 
     if (!classInfo) {
       throw new NotFoundException(`Không tìm thấy lớp học có ID ${classId}`);

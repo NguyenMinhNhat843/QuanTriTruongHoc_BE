@@ -25,7 +25,8 @@ model User {
 **  Student: Hồ sơ học sinh
 */
 enum StudentStatus {
-  pending    // Đang đợi xét tuyển
+  registered // Mới đăng ký, chờ liên hệ
+  pending    // Nhân viên liên hệ, hoàn chỉnh hồ sơ, đang đợi xét tuyển
   failed     // Đã rớt
   approved   // Đã xác nhận nhập học, đợi đóng học phí nhập học
   studying   // Đã có tài khoản và đang theo học chính thức
@@ -40,12 +41,13 @@ model Student {
   studentCode     String          @unique
   batchId         Int?            // Khóa đào tạo
   batch           Batch?          @relation(fields: [batchId], references: [id])
+  majorId         Int?
+  major           Major?          @relation(fields: [majorId], references: [id])
   classId         Int?            // Lớp
   class           Class?          @relation(fields: [classId], references: [id])
   enrollmentDate  DateTime?       @db.Date
   graduationDate  DateTime?       @db.Date
   status          StudentStatus   @default(studying)
-  applicationId   Int?            @unique // Hồ sơ tuyển sinh
 
   // Thông tin cá nhân
   userId          Int?            @unique

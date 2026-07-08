@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { BatchResponseDto } from "../../batch/batch.response.js";
 import { ClassResponseDto } from "../../class/class.response.js";
 import { CreateStudentDto } from "./student.dto.js";
+import { MajorSimpleDto } from "../../major/major.dto.js";
 
 class DocumentProgressDto {
   @ApiProperty()
@@ -17,6 +18,9 @@ export class StudentResponseDto extends CreateStudentDto {
 
   @ApiPropertyOptional({ type: ClassResponseDto, nullable: true })
   class?: ClassResponseDto | null;
+
+  @ApiPropertyOptional({ type: MajorSimpleDto, nullable: true })
+  major?: MajorSimpleDto;
 
   @ApiProperty({
     type: DocumentProgressDto,

@@ -1,9 +1,4 @@
-import {
-  ApiProperty,
-  ApiPropertyOptional,
-  OmitType,
-  PartialType,
-} from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsString,
@@ -251,6 +246,11 @@ export class StudentDto implements Student {
   @IsOptional()
   classId: number | null;
 
+  @ApiProperty({ type: Number, nullable: true })
+  @IsNumber()
+  @IsOptional()
+  majorId: number | null;
+
   @ApiPropertyOptional({
     enum: StudentStatus,
     type: String,
@@ -261,14 +261,12 @@ export class StudentDto implements Student {
 }
 
 export class CreateStudentDto extends StudentDto {
-  @ApiProperty({ type: CreateAdmissionProfileDto })
+  @ApiPropertyOptional({ type: CreateAdmissionProfileDto })
   @Type(() => CreateAdmissionProfileDto)
-  @IsNotEmpty()
-  admissionProfile: CreateAdmissionProfileDto;
+  @IsOptional()
+  admissionProfile?: CreateAdmissionProfileDto;
 }
-export class UpdateStudentDto extends PartialType(
-  OmitType(StudentDto, ["id", "createdAt", "updatedAt"]),
-) {}
+export class UpdateStudentDto extends PartialType(CreateStudentDto) {}
 
 // Cho các học sinh này đậu xét tuyển
 export class ApprovedStudentDto {

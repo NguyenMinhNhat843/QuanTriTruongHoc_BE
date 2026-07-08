@@ -3,7 +3,13 @@ import {
   AdmissionProfile,
   Conduct,
 } from "../../../prisma/generated/prisma/client";
-import { IsEnum, IsInt, IsNotEmpty, IsOptional } from "class-validator";
+import {
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from "class-validator";
 import { Type } from "class-transformer";
 
 export class AdmissionProfileDto implements AdmissionProfile {
@@ -48,6 +54,7 @@ export class AdmissionProfileDto implements AdmissionProfile {
   gpa8: number;
 
   @ApiProperty({ type: Number })
+  @IsNumber()
   gpa9: number;
 
   @ApiProperty()

@@ -1,4 +1,9 @@
-import { ApiProperty, ApiPropertyOptional, OmitType } from "@nestjs/swagger";
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  OmitType,
+  PickType,
+} from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsOptional,
@@ -47,6 +52,12 @@ export class MajorDto implements Major {
   @Type(() => Date)
   updatedAt: Date;
 }
+
+export class MajorSimpleDto extends PickType(MajorDto, [
+  "id",
+  "majorCode",
+  "majorName",
+] as const) {}
 
 export class CreateMajorDto extends OmitType(MajorDto, [
   "id",

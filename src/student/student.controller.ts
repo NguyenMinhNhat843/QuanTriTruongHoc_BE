@@ -95,7 +95,7 @@ export class StudentController {
   async findByStudentCode(
     @Query("studentCode") studentCode: string,
   ): Promise<StudentResponseDto> {
-    return this.studentService.findStudentByStudentCode(studentCode);
+    return this.studentService.findOne(studentCode);
   }
 
   @Get("eligible-for-assignment")

@@ -39,6 +39,7 @@ export type EvaluationGrade = (typeof EvaluationGrade)[keyof typeof EvaluationGr
 
 
 export const StudentStatus = {
+  registered: 'registered',
   pending: 'pending',
   failed: 'failed',
   approved: 'approved',
