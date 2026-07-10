@@ -5,6 +5,8 @@ import {
   CreateTuitionConfigItemDto,
   TuitionConfigItemDto,
 } from "./tuition-config-item.dto"; // Import DTO items đã tạo ở bước trước
+import { MajorDto } from "../../major/major.dto";
+import { Type } from "class-transformer";
 
 // 1. Base DTO chứa đầy đủ các thuộc tính phẳng từ Model (Lược bỏ các quan hệ đối tượng)
 export class TuitionConfigDto implements TuitionConfig {
@@ -14,14 +16,15 @@ export class TuitionConfigDto implements TuitionConfig {
 
   @ApiProperty()
   @IsInt()
+  @Type(() => Number)
   periodId: number;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: Number, required: false, nullable: true })
   @IsOptional()
   @IsInt()
   majorId: number | null;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: Number, required: false, nullable: true })
   @IsOptional()
   @IsInt()
   batchId: number | null;
@@ -51,6 +54,7 @@ export class CreateTuitionConfigDto extends OmitType(TuitionConfigDto, [
   "createdAt",
   "updatedAt",
 ] as const) {
+  @ApiProperty({ type: () => [CreateTuitionConfigItemDto] })
   items: CreateTuitionConfigItemDto[];
 }
 
@@ -60,14 +64,15 @@ export class UpdateTuitionConfigDto extends PartialType(
 ) {}
 
 // 4. Search DTO: Tìm kiếm theo kì (periodId), ngành (majorId) hoặc khóa (batchId)
-export class SearchTuitionConfigDto extends PickType(TuitionConfigDto, [
-  "periodId",
-  "majorId",
-  "batchId",
-] as const) {}
+export class SearchTuitionConfigDto extends PartialType(
+  PickType(TuitionConfigDto, ["periodId", "majorId", "batchId"] as const),
+) {}
 
 // 5. Response DTO kèm theo mối quan hệ (Relation)
 export class TuitionConfigWithItemsDto extends TuitionConfigDto {
   @ApiProperty({ type: () => [TuitionConfigItemDto] }) // Khai báo kiểu mảng cho Swagger UI nhận diện
   items: TuitionConfigItemDto[];
+
+  @ApiProperty({ type: () => MajorDto, required: false, nullable: true })
+  major: MajorDto;
 }

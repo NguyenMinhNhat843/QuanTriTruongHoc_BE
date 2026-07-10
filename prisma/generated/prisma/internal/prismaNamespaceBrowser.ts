@@ -56,7 +56,9 @@ export const ModelName = {
   Batch: 'Batch',
   Class: 'Class',
   Subject: 'Subject',
+  SubjectCondition: 'SubjectCondition',
   Curriculum: 'Curriculum',
+  ElectiveGroup: 'ElectiveGroup',
   CurriculumSubject: 'CurriculumSubject',
   EvaluationPeriod: 'EvaluationPeriod',
   EvaluationPeriodCriterion: 'EvaluationPeriodCriterion',
@@ -173,11 +175,23 @@ export const SubjectScalarFieldEnum = {
   practiceHours: 'practiceHours',
   testHours: 'testHours',
   description: 'description',
+  knowledgeBlock: 'knowledgeBlock',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
+
+
+export const SubjectConditionScalarFieldEnum = {
+  id: 'id',
+  subjectId: 'subjectId',
+  conditionSubjectId: 'conditionSubjectId',
+  conditionType: 'conditionType',
+  createdAt: 'createdAt'
+} as const
+
+export type SubjectConditionScalarFieldEnum = (typeof SubjectConditionScalarFieldEnum)[keyof typeof SubjectConditionScalarFieldEnum]
 
 
 export const CurriculumScalarFieldEnum = {
@@ -194,11 +208,26 @@ export const CurriculumScalarFieldEnum = {
 export type CurriculumScalarFieldEnum = (typeof CurriculumScalarFieldEnum)[keyof typeof CurriculumScalarFieldEnum]
 
 
+export const ElectiveGroupScalarFieldEnum = {
+  id: 'id',
+  groupName: 'groupName',
+  curriculumId: 'curriculumId',
+  minCredits: 'minCredits',
+  minSubjects: 'minSubjects',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ElectiveGroupScalarFieldEnum = (typeof ElectiveGroupScalarFieldEnum)[keyof typeof ElectiveGroupScalarFieldEnum]
+
+
 export const CurriculumSubjectScalarFieldEnum = {
   id: 'id',
   curriculumId: 'curriculumId',
   subjectId: 'subjectId',
   semesterNumber: 'semesterNumber',
+  enrollmentType: 'enrollmentType',
+  electiveGroupId: 'electiveGroupId',
   minGrade: 'minGrade',
   createdAt: 'createdAt'
 } as const

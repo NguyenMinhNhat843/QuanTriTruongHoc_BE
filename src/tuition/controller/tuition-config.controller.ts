@@ -9,6 +9,7 @@ import {
   Query,
   ParseIntPipe,
   HttpStatus,
+  HttpCode,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -24,6 +25,7 @@ import {
   TuitionConfigWithItemsDto,
 } from "../dto/tuition-config.dto"; // Điều chỉnh lại đường dẫn
 import { TuitionConfigService } from "../service/tuition-config.service";
+import { MajorDto } from "../../major/major.dto";
 
 @ApiTags("Tuition Config (Cấu hình học phí)") // Nhóm các API này lại trên Swagger UI
 @Controller("tuition-configs")
@@ -51,6 +53,20 @@ export class TuitionConfigController {
     return this.tuitionConfigService.create(createDto);
   }
 
+  @Post(":id/sync-invoices")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary:
+      "Sinh công nợ thủ công (Đồng bộ hóa đơn học phí) cho sinh viên theo cấu hình",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Đồng bộ thành công công nợ sinh viên.",
+  })
+  async syncInvoices(@Param("id", ParseIntPipe) id: number) {
+    return await this.tuitionConfigService.triggerManualGenerateInvoices(id);
+  }
+
   // ==========================================
   // 2. GET - TÌM KIẾM / LẤY DANH SÁCH
   // ==========================================
@@ -66,6 +82,24 @@ export class TuitionConfigController {
     @Query() searchDto: SearchTuitionConfigDto,
   ): Promise<TuitionConfigWithItemsDto[]> {
     return this.tuitionConfigService.findAll(searchDto);
+  }
+
+  // =========================================================================
+  // GET - LẤY DANH SÁCH NGÀNH CHƯA CẤU HÌNH THEO ĐỢT HỌC PHÍ
+  // =========================================================================
+  @Get("unconfigured-majors")
+  @ApiOperation({
+    summary:
+      "Lấy danh sách các ngành chưa được thiết lập học phí của đợt này (Phục vụ ô Select Dropdown)",
+  })
+  @ApiOkResponse({
+    description: "Trả về mảng danh sách ngành học hợp lệ có thể cấu hình.",
+    type: [MajorDto],
+  })
+  async getUnconfiguredMajors(
+    @Query("periodId", ParseIntPipe) periodId: number,
+  ): Promise<MajorDto[]> {
+    return this.tuitionConfigService.findUnconfiguredMajors(periodId);
   }
 
   // ==========================================

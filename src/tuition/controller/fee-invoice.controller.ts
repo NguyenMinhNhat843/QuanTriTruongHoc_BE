@@ -22,6 +22,8 @@ import {
   UpdateFeeInvoiceDto,
   SearchFeeInvoiceDto,
   FeeInvoiceDto,
+  FeeInvoiceWithPaymentsDto,
+  FeeInvoiceWithStudentDto,
 } from "../dto/fee-invoice.dto"; // Điều chỉnh lại đường dẫn DTO cho đúng
 import { FeeInvoiceService } from "../service/fee-invoice.service";
 
@@ -68,6 +70,26 @@ export class FeeInvoiceController {
     return this.feeInvoiceService.findAll(searchDto);
   }
 
+  @Get("periods/:periodId/students/:identifier/debt")
+  @ApiOperation({
+    summary: "Lấy chi tiết công nợ học phí của sinh viên theo đợt học phí",
+  })
+  @ApiResponse({
+    status: 200,
+    description:
+      "Trả về chi tiết hóa đơn, thông tin sinh viên và lịch sử thanh toán lẻ.",
+    type: FeeInvoiceWithStudentDto,
+  })
+  async getStudentDebt(
+    @Param("periodId", ParseIntPipe) periodId: number,
+    @Param("identifier") identifier: string,
+  ) {
+    return await this.feeInvoiceService.getStudentDebtDetails(
+      identifier,
+      periodId,
+    );
+  }
+
   // ==========================================
   // 3. GET - LẤY CHI TIẾT HÓA ĐƠN
   // ==========================================
@@ -77,13 +99,15 @@ export class FeeInvoiceController {
   })
   @ApiOkResponse({
     description: "Tìm thấy hóa đơn học phí.",
-    type: FeeInvoiceDto,
+    type: FeeInvoiceWithPaymentsDto,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: "Hóa đơn học phí không tồn tại.",
   })
-  async findOne(@Param("id", ParseIntPipe) id: number): Promise<FeeInvoiceDto> {
+  async findOne(
+    @Param("id", ParseIntPipe) id: number,
+  ): Promise<FeeInvoiceWithPaymentsDto> {
     return this.feeInvoiceService.findOne(id);
   }
 

@@ -11,6 +11,8 @@ import {
   UpdateFeeInvoiceDto,
   SearchFeeInvoiceDto,
   FeeInvoiceDto,
+  FeeInvoiceWithPaymentsDto,
+  FeeInvoiceWithStudentDto,
 } from "../dto/fee-invoice.dto";
 import { PrismaService } from "../../prisma/prisma.service";
 import { PaymentService } from "./payment.service";
@@ -78,6 +80,67 @@ export class FeeInvoiceService {
     return this.toResponseDto(FeeInvoiceDto, result);
   }
 
+  /**
+   * Lấy chi tiết công nợ hóa đơn của 1 học sinh trong 1 đợt học phí cụ thể
+   * Tìm kiếm thông qua StudentCode thay vì ID tự tăng
+   */
+  async getStudentDebtDetails(
+    identifier: string,
+    periodId: number,
+  ): Promise<any> {
+    const searchKey = identifier.trim();
+    const invoice = await this.prisma.feeInvoice.findFirst({
+      where: {
+        periodId: periodId,
+        student: {
+          OR: [{ studentCode: searchKey }, { phone: searchKey }],
+        },
+      },
+      include: {
+        student: {
+          select: {
+            id: true,
+            studentCode: true,
+            fullName: true,
+            status: true,
+            phone: true,
+            batch: {
+              select: {
+                batchCode: true,
+                batchName: true,
+              },
+            },
+            major: {
+              select: {
+                majorName: true,
+                majorCode: true,
+              },
+            },
+            class: {
+              select: {
+                className: true,
+              },
+            },
+          },
+        },
+        // Include thêm lịch sử thanh toán để làm bảng đối soát ở góc Modal nếu cần
+        payments: {
+          orderBy: {
+            paymentDate: "desc",
+          },
+        },
+      },
+    });
+
+    if (!invoice) {
+      throw new NotFoundException(
+        `Không tìm thấy dữ liệu công nợ học phí cho sinh viên [${searchKey}] trong đợt thu này. Vui lòng kiểm tra lại mã sinh viên hoặc đồng bộ lại công nợ.`,
+      );
+    }
+
+    return plainToInstance(FeeInvoiceWithStudentDto, invoice);
+  }
+
   // ==========================================
   // 2. READ ALL / SEARCH
   // ==========================================
@@ -102,14 +165,19 @@ export class FeeInvoiceService {
   async findOne(
     id: number,
     tx?: Prisma.TransactionClient,
-  ): Promise<FeeInvoiceDto> {
+  ): Promise<FeeInvoiceWithPaymentsDto> {
     const client = this.getClient(tx);
-    const invoice = await client.feeInvoice.findUnique({ where: { id } });
+    const invoice = await client.feeInvoice.findUnique({
+      where: { id },
+      include: {
+        payments: true,
+      },
+    });
 
     if (!invoice) {
       throw new NotFoundException(`Hóa đơn học phí với ID ${id} không tồn tại`);
     }
-    return this.toResponseDto(FeeInvoiceDto, invoice);
+    return this.toResponseDto(FeeInvoiceWithPaymentsDto, invoice);
   }
 
   // ==========================================
@@ -120,32 +188,57 @@ export class FeeInvoiceService {
     updateDto: UpdateFeeInvoiceDto,
     tx?: Prisma.TransactionClient,
   ): Promise<FeeInvoiceDto> {
+    // Trong file fee-invoice.service.ts -> hàm update()
     const executeLogic = async (client: Prisma.TransactionClient) => {
-      // 4.1 Kiểm tra xem hóa đơn cũ đang có số tiền như thế nào
-      const oldInvoice = await this.findOne(id, client);
+      // 4.1 Lấy hóa đơn hiện tại trong DB
+      const oldInvoice = await client.feeInvoice.findUnique({
+        where: { id },
+        include: { payments: true }, // Lấy kèm lịch sử nếu cần
+      });
+      if (!oldInvoice) throw new NotFoundException("Không tìm thấy hóa đơn");
 
-      // 4.2 Tiến hành cập nhật hóa đơn học phí
+      // Giả sử DTO gửi lên số tiền ĐÃ ĐÓNG LŨY KẾ mới (updateDto.paidAmount)
+      // Hoặc bạn nên thiết kế DTO nhận số tiền nộp lần này: updateDto.amountPaidThisTime
+      const newPaidAmount = updateDto.paidAmount ?? oldInvoice.paidAmount;
+
+      // Tính toán lại số tiền còn thiếu dựa trên tổng tiền cố định ban đầu
+      const newRemainingAmount = oldInvoice.totalAmount - newPaidAmount;
+
+      // Tự động tính toán lại trạng thái chuẩn xác
+      let newStatus = "unpaid";
+      if (newRemainingAmount <= 0) {
+        newStatus = "paid";
+      } else if (newPaidAmount > 0) {
+        newStatus = "partial"; // Đồng bộ với các enum viết thường trong comment schema của bạn
+      }
+
+      // 4.2 Tiến hành cập nhật hóa đơn học phí với dữ liệu đã được tính toán tự động
+      const {paymentMethod, transactionRef, staffName, ...updateFeeInvoiceData} = updateDto;
       const updatedInvoice = await client.feeInvoice.update({
         where: { id },
-        data: updateDto,
+        data: {
+          ...updateFeeInvoiceData,
+          paidAmount: newPaidAmount,
+          remainingAmount: newRemainingAmount,
+          status: newStatus,
+        },
       });
 
-      // 4.3 Tính toán độ lệch số tiền đã đóng (Khách đóng thêm tiền)
-      const diffPaidAmount =
-        (updateDto.paidAmount ?? oldInvoice.paidAmount) - oldInvoice.paidAmount;
-
-      // Nếu số tiền đóng thêm lớn hơn 0, tiến hành tạo thêm 1 lịch sử Payment giao dịch mới
+      // 4.3 Tạo lịch sử Payment giao dịch mới (Giữ nguyên logic diffPaidAmount > 0 của bạn)
+      const diffPaidAmount = newPaidAmount - oldInvoice.paidAmount;
       if (diffPaidAmount > 0) {
         await this.paymentService.create(
           {
             invoiceId: updatedInvoice.id,
             studentId: updatedInvoice.studentId,
-            amountPaid: diffPaidAmount, // Số tiền thực tế vừa đóng thêm trong lượt update này
-            method: "TRANSFER", // Hoặc có thể mở rộng DTO update để nhận method từ Client gửi lên
-            transactionRef: `UPDATE_INVOICE_${updatedInvoice.id}`,
-            createdBy: "SYSTEM",
+            amountPaid: diffPaidAmount,
+            method: paymentMethod ?? "CASH", // Nên lấy từ client truyền lên thay vì áp cứng TRANSFER
+            transactionRef:
+              transactionRef ??
+              `QUAY_THU_${updatedInvoice.id}_${Date.now()}`,
+            createdBy: staffName ?? "CASHIER_SYSTEM", // Định danh nhân viên thu tiền
           },
-          client, // Chạy chung transaction
+          client,
         );
       }
 

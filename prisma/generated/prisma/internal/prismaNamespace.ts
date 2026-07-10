@@ -389,7 +389,9 @@ export const ModelName = {
   Batch: 'Batch',
   Class: 'Class',
   Subject: 'Subject',
+  SubjectCondition: 'SubjectCondition',
   Curriculum: 'Curriculum',
+  ElectiveGroup: 'ElectiveGroup',
   CurriculumSubject: 'CurriculumSubject',
   EvaluationPeriod: 'EvaluationPeriod',
   EvaluationPeriodCriterion: 'EvaluationPeriodCriterion',
@@ -432,7 +434,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "student" | "admissionProfile" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "courseOffer" | "classSubjectSession" | "classSubjectScheduleDetail"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "subjectCondition" | "curriculum" | "electiveGroup" | "curriculumSubject" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "student" | "admissionProfile" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "courseOffer" | "classSubjectSession" | "classSubjectScheduleDetail"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -806,6 +808,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SubjectCondition: {
+      payload: Prisma.$SubjectConditionPayload<ExtArgs>
+      fields: Prisma.SubjectConditionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SubjectConditionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SubjectConditionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>
+        }
+        findFirst: {
+          args: Prisma.SubjectConditionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SubjectConditionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>
+        }
+        findMany: {
+          args: Prisma.SubjectConditionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>[]
+        }
+        create: {
+          args: Prisma.SubjectConditionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>
+        }
+        createMany: {
+          args: Prisma.SubjectConditionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SubjectConditionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>[]
+        }
+        delete: {
+          args: Prisma.SubjectConditionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>
+        }
+        update: {
+          args: Prisma.SubjectConditionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SubjectConditionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SubjectConditionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SubjectConditionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SubjectConditionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubjectConditionPayload>
+        }
+        aggregate: {
+          args: Prisma.SubjectConditionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSubjectCondition>
+        }
+        groupBy: {
+          args: Prisma.SubjectConditionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubjectConditionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SubjectConditionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubjectConditionCountAggregateOutputType> | number
+        }
+      }
+    }
     Curriculum: {
       payload: Prisma.$CurriculumPayload<ExtArgs>
       fields: Prisma.CurriculumFieldRefs
@@ -877,6 +953,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CurriculumCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CurriculumCountAggregateOutputType> | number
+        }
+      }
+    }
+    ElectiveGroup: {
+      payload: Prisma.$ElectiveGroupPayload<ExtArgs>
+      fields: Prisma.ElectiveGroupFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ElectiveGroupFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ElectiveGroupFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
+        }
+        findFirst: {
+          args: Prisma.ElectiveGroupFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ElectiveGroupFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
+        }
+        findMany: {
+          args: Prisma.ElectiveGroupFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>[]
+        }
+        create: {
+          args: Prisma.ElectiveGroupCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
+        }
+        createMany: {
+          args: Prisma.ElectiveGroupCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ElectiveGroupCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>[]
+        }
+        delete: {
+          args: Prisma.ElectiveGroupDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
+        }
+        update: {
+          args: Prisma.ElectiveGroupUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
+        }
+        deleteMany: {
+          args: Prisma.ElectiveGroupDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ElectiveGroupUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ElectiveGroupUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>[]
+        }
+        upsert: {
+          args: Prisma.ElectiveGroupUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
+        }
+        aggregate: {
+          args: Prisma.ElectiveGroupAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateElectiveGroup>
+        }
+        groupBy: {
+          args: Prisma.ElectiveGroupGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ElectiveGroupGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ElectiveGroupCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ElectiveGroupCountAggregateOutputType> | number
         }
       }
     }
@@ -2988,11 +3138,23 @@ export const SubjectScalarFieldEnum = {
   practiceHours: 'practiceHours',
   testHours: 'testHours',
   description: 'description',
+  knowledgeBlock: 'knowledgeBlock',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
+
+
+export const SubjectConditionScalarFieldEnum = {
+  id: 'id',
+  subjectId: 'subjectId',
+  conditionSubjectId: 'conditionSubjectId',
+  conditionType: 'conditionType',
+  createdAt: 'createdAt'
+} as const
+
+export type SubjectConditionScalarFieldEnum = (typeof SubjectConditionScalarFieldEnum)[keyof typeof SubjectConditionScalarFieldEnum]
 
 
 export const CurriculumScalarFieldEnum = {
@@ -3009,11 +3171,26 @@ export const CurriculumScalarFieldEnum = {
 export type CurriculumScalarFieldEnum = (typeof CurriculumScalarFieldEnum)[keyof typeof CurriculumScalarFieldEnum]
 
 
+export const ElectiveGroupScalarFieldEnum = {
+  id: 'id',
+  groupName: 'groupName',
+  curriculumId: 'curriculumId',
+  minCredits: 'minCredits',
+  minSubjects: 'minSubjects',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ElectiveGroupScalarFieldEnum = (typeof ElectiveGroupScalarFieldEnum)[keyof typeof ElectiveGroupScalarFieldEnum]
+
+
 export const CurriculumSubjectScalarFieldEnum = {
   id: 'id',
   curriculumId: 'curriculumId',
   subjectId: 'subjectId',
   semesterNumber: 'semesterNumber',
+  enrollmentType: 'enrollmentType',
+  electiveGroupId: 'electiveGroupId',
   minGrade: 'minGrade',
   createdAt: 'createdAt'
 } as const
@@ -3493,9 +3670,51 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'KnowledgeBlock'
+ */
+export type EnumKnowledgeBlockFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KnowledgeBlock'>
+    
+
+
+/**
+ * Reference to a field of type 'KnowledgeBlock[]'
+ */
+export type ListEnumKnowledgeBlockFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KnowledgeBlock[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ConditionType'
+ */
+export type EnumConditionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConditionType'>
+    
+
+
+/**
+ * Reference to a field of type 'ConditionType[]'
+ */
+export type ListEnumConditionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConditionType[]'>
+    
+
+
+/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'EnrollmentType'
+ */
+export type EnumEnrollmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollmentType'>
+    
+
+
+/**
+ * Reference to a field of type 'EnrollmentType[]'
+ */
+export type ListEnumEnrollmentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrollmentType[]'>
     
 
 
@@ -3752,7 +3971,9 @@ export type GlobalOmitConfig = {
   batch?: Prisma.BatchOmit
   class?: Prisma.ClassOmit
   subject?: Prisma.SubjectOmit
+  subjectCondition?: Prisma.SubjectConditionOmit
   curriculum?: Prisma.CurriculumOmit
+  electiveGroup?: Prisma.ElectiveGroupOmit
   curriculumSubject?: Prisma.CurriculumSubjectOmit
   evaluationPeriod?: Prisma.EvaluationPeriodOmit
   evaluationPeriodCriterion?: Prisma.EvaluationPeriodCriterionOmit

@@ -9,6 +9,31 @@
 * 🟢 You can import this file directly.
 */
 
+export const KnowledgeBlock = {
+  GENERAL: 'GENERAL',
+  BASE_MAJOR: 'BASE_MAJOR',
+  SPECIALIZED: 'SPECIALIZED'
+} as const
+
+export type KnowledgeBlock = (typeof KnowledgeBlock)[keyof typeof KnowledgeBlock]
+
+
+export const ConditionType = {
+  PREREQUISITE: 'PREREQUISITE',
+  COREQUISITE: 'COREQUISITE'
+} as const
+
+export type ConditionType = (typeof ConditionType)[keyof typeof ConditionType]
+
+
+export const EnrollmentType = {
+  COMPULSORY: 'COMPULSORY',
+  ELECTIVE: 'ELECTIVE'
+} as const
+
+export type EnrollmentType = (typeof EnrollmentType)[keyof typeof EnrollmentType]
+
+
 export const ShiftType = {
   SANG: 'SANG',
   CHIEU: 'CHIEU',

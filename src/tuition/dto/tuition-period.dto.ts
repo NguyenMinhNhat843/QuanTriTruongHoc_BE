@@ -7,6 +7,7 @@ import {
   IsString,
 } from "class-validator";
 import { TuitionPeriod } from "../../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
 
 // 1. Base DTO chứa đầy đủ các thuộc tính phẳng từ Model
 export class TuitionPeriodDto implements Omit<
@@ -28,10 +29,12 @@ export class TuitionPeriodDto implements Omit<
 
   @ApiProperty()
   @IsDate()
+  @Type(() => Date)
   startDate: Date;
 
   @ApiProperty()
   @IsDate()
+  @Type(() => Date)
   endDate: Date;
 
   @ApiProperty()
@@ -56,6 +59,6 @@ export class UpdateTuitionPeriodDto extends PartialType(
 ) {}
 
 // 4. Search DTO: Chỉ tìm kiếm dựa trên tên
-export class SearchTuitionPeriodDto extends PickType(TuitionPeriodDto, [
-  "name",
-] as const) {}
+export class SearchTuitionPeriodDto extends PartialType(
+  PickType(TuitionPeriodDto, ["name"] as const),
+) {}

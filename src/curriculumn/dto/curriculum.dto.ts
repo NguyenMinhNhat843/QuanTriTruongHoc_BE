@@ -12,12 +12,13 @@ import {
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import {
-  Curriculum,
-  CurriculumSubject,
-} from "../../../prisma/generated/prisma/client";
+import { Curriculum } from "../../../prisma/generated/prisma/client";
 import { MajorDto } from "../../major/major.dto";
 import { CreateCurriculumSubjectDto } from "./curriculum-subject.dto";
+import {
+  ElectiveGroupPayload,
+  ElectiveGroupResponseDto,
+} from "./elective-groups.dto";
 
 export class CurriculumDto implements Curriculum {
   @ApiProperty()
@@ -72,11 +73,24 @@ export class CreateCurriculumDto extends OmitType(CurriculumDto, [
 ] as const) {
   @ApiProperty({
     type: [CurriculumSubjectPayload],
+    description:
+      "Danh sách các môn học bắt buộc (hoặc tự chọn tự do không theo nhóm)",
   })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => CurriculumSubjectPayload)
   curriculumSubjects: CurriculumSubjectPayload[];
+
+  @ApiProperty({
+    type: [ElectiveGroupPayload],
+    required: false,
+    description: "Danh sách các nhóm môn tự chọn kèm môn học bên trong",
+  })
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => ElectiveGroupPayload)
+  electiveGroups?: ElectiveGroupPayload[];
 }
 
 export class UpdateCurriculumDto extends PartialType(CreateCurriculumDto) {}
@@ -98,8 +112,15 @@ export class SearchCurriculumDto {
 // RESPONSE TYPE
 export class CurriculumResponseDtoWithRelation extends CurriculumDto {
   @ApiProperty({ type: [CreateCurriculumSubjectDto] })
-  curriculumSubjects: CurriculumSubject[];
+  curriculumSubjects: CreateCurriculumSubjectDto[];
 
   @ApiProperty({ type: () => MajorDto })
   major: MajorDto;
+
+  @ApiPropertyOptional({
+    type: [ElectiveGroupResponseDto],
+    description:
+      "Danh sách các nhóm môn tự chọn, bên trong mỗi nhóm có danh sách môn riêng",
+  })
+  electiveGroups?: ElectiveGroupResponseDto[];
 }

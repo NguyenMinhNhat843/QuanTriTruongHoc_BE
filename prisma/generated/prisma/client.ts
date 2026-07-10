@@ -65,10 +65,20 @@ export type Class = Prisma.ClassModel
  */
 export type Subject = Prisma.SubjectModel
 /**
+ * Model SubjectCondition
+ * 
+ */
+export type SubjectCondition = Prisma.SubjectConditionModel
+/**
  * Model Curriculum
  * 
  */
 export type Curriculum = Prisma.CurriculumModel
+/**
+ * Model ElectiveGroup
+ * 
+ */
+export type ElectiveGroup = Prisma.ElectiveGroupModel
 /**
  * Model CurriculumSubject
  * 

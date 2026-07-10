@@ -21,7 +21,7 @@ import {
   ResponseSubjectDto,
   SearchSubjectDto,
   UpdateSubjectDto,
-} from "./subject.dto";
+} from "./dto/subject.dto";
 
 @ApiTags("Subjects")
 @Controller("subjects")

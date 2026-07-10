@@ -3,7 +3,7 @@ import { TeacherSubject } from "../../prisma/generated/prisma/client";
 import { IsArray, IsInt, IsNumber, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { StaffResponseDto } from "./staff.response";
-import { ResponseSubjectDto } from "../subject/subject.dto";
+import { ResponseSubjectDto } from "../subject/dto/subject.dto";
 
 export class TeacherSubjectResponseDto implements TeacherSubject {
   @ApiPropertyOptional({

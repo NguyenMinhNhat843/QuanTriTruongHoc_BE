@@ -12,7 +12,7 @@ import { CourseOffer } from "../../../prisma/generated/prisma/client";
 import { ClassResponseDto } from "../../class/class.response";
 import { StaffResponseDto } from "../../staff/staff.response";
 import { SemesterResponseDto } from "../../semester/semester.response";
-import { ResponseSubjectDto } from "../../subject/subject.dto";
+import { ResponseSubjectDto } from "../../subject/dto/subject.dto";
 
 export class ClassSubjectDto implements CourseOffer {
   @ApiProperty()

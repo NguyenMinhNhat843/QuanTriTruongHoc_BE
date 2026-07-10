@@ -98,11 +98,6 @@ export class PostResponseDto extends PostDto {
   author: ResponseUserWithRelationDto;
 }
 
-class PaginationMetaDto {
-  @ApiProperty()
-  total: number;
-}
-
 export class PostResponseDtoPagination {
   @ApiProperty({
     type: [PostResponseDto],
@@ -110,9 +105,9 @@ export class PostResponseDtoPagination {
   data: PostResponseDto[];
 
   @ApiProperty({
-    type: PaginationMetaDto,
+    type: Number,
   })
-  meta: PaginationMetaDto;
+  total: number;
 }
 
 export class CreatePostDto extends OmitType(PostDto, [

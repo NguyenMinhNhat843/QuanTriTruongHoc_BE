@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   UseInterceptors,
   UploadedFile,
+  Delete,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -93,5 +94,13 @@ export class PostController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.postService.update(id, updatePostDto, file);
+  }
+
+  @Delete(":id")
+  @ApiOperation({ summary: "Xóa bài viết theo ID" })
+  @ApiResponse({ status: 200, description: "Xóa bài viết thành công." })
+  @ApiResponse({ status: 404, description: "Không tìm thấy bài viết." })
+  async remove(@Param("id", ParseIntPipe) id: number) {
+    return this.postService.delete(id);
   }
 }

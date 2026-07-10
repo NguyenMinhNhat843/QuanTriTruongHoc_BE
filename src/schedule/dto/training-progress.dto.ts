@@ -4,7 +4,7 @@ import {
   ClassSubjectSessionWithRelationDto,
 } from "./classSubjectSession.dto";
 import { ClassSubjectDto } from "../../courseOffer/dto/classSubject.response";
-import { SubjectDto } from "../../subject/subject.dto";
+import { SubjectDto } from "../../subject/dto/subject.dto";
 import { StaffResponseDto } from "../../staff/staff.response";
 import { ClassSubjectScheduleDetailDto } from "./classSubjectScheduleDetail";
 

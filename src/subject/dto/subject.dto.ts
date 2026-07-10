@@ -5,10 +5,15 @@ import {
   IsString,
   IsInt,
   IsDate,
+  ValidateNested,
 } from "class-validator";
 import { PartialType } from "@nestjs/swagger";
-import { Subject } from "../../prisma/generated/prisma/client";
+import {
+  KnowledgeBlock,
+  Subject,
+} from "../../../prisma/generated/prisma/client";
 import { Type } from "class-transformer";
+import { SubjectConditionDto } from "./subject-condition.dto";
 
 export class SubjectDto implements Subject {
   @ApiProperty()
@@ -26,6 +31,9 @@ export class SubjectDto implements Subject {
   @IsString()
   @IsNotEmpty()
   subjectCode: string;
+
+  @ApiProperty({ enum: KnowledgeBlock })
+  knowledgeBlock: KnowledgeBlock;
 
   @ApiProperty()
   @IsString()
@@ -68,11 +76,21 @@ export class SubjectDto implements Subject {
   updatedAt: Date;
 }
 
+export class SubjectConditionPayload extends PickType(SubjectConditionDto, [
+  "conditionSubjectId",
+  "conditionType",
+]) {}
 export class CreateSubjectDto extends OmitType(SubjectDto, [
   "id",
   "createdAt",
   "updatedAt",
-] as const) {}
+] as const) {
+  @ApiProperty({ type: [SubjectConditionPayload], required: false })
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => SubjectConditionPayload)
+  subjectConditions?: SubjectConditionPayload[];
+}
 
 export class UpdateSubjectDto extends PartialType(CreateSubjectDto) {}
 

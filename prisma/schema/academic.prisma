@@ -119,74 +119,145 @@ model Class {
 // ==========================
 // 4. SUBJECTS (MÔN HỌC)
 // ==========================
-model Subject {
-  id            Int        @id @default(autoincrement())
-  subjectCode   String     @unique
-  subjectName   String
-  departmentId  Int?
-  department    Department?   @relation(fields: [departmentId], references: [id])
-  
-  credits       Int        @default(0)
-  
-  theoryHours   Int        @default(0)
-  practiceHours Int        @default(0)
-  testHours     Int?       @default(0)
-  
-  description   String?    @db.Text
-  
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+enum KnowledgeBlock {
+  GENERAL      // Khối kiến thức đại cương / Môn chung
+  BASE_MAJOR   // Khối kiến thức cơ sở ngành
+  SPECIALIZED  // Khối kiến thức chuyên ngành
+}
 
-  // quan hệ
-  curriculumnSubject  CurriculumSubject[]
-  courseOffers        CourseOffer[]
-  teacherSubjects     TeacherSubject[]
+model Subject {
+  id            Int            @id @default(autoincrement())
+  subjectCode   String         @unique
+  subjectName   String
+  
+  departmentId  Int?
+  department    Department?    @relation(fields: [departmentId], references: [id])
+  
+  credits       Int            @default(0)
+  theoryHours   Int            @default(0)
+  practiceHours Int            @default(0)
+  testHours     Int?           @default(0)
+  description   String?        @db.Text
+
+  knowledgeBlock KnowledgeBlock @default(GENERAL)
+  
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  // Quan hệ
+  curriculumSubjects CurriculumSubject[]
+  courseOffers       CourseOffer[]
+  teacherSubjects    TeacherSubject[]
+
+  // Các quan hệ phục vụ cho Điều kiện môn học
+  asSubject          SubjectCondition[]  @relation("CurrentSubject")
+  asConditionSubject SubjectCondition[]  @relation("ConditionSubject")
 
   @@map("subjects")
+}
+
+// ==========================
+// 4.5 SUBJECT_CONDITIONS (MÔN TIÊN QUYẾT / SONG HÀNH)
+// ==========================
+enum ConditionType {
+  PREREQUISITE // Tiên quyết (Phải đậu môn điều kiện trước)
+  COREQUISITE  // Song hành (Học chung học kỳ hoặc đã học trước đó)
+}
+
+model SubjectCondition {
+  id                 Int           @id @default(autoincrement())
+  
+  // Môn học hiện tại đang xét điều kiện (Ví dụ: Hệ quản trị CSDL)
+  subjectId          Int
+  subject            Subject       @relation("CurrentSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  
+  // Môn học điều kiện (Ví dụ: Cơ sở dữ liệu)
+  conditionSubjectId Int
+  conditionSubject   Subject       @relation("ConditionSubject", fields: [conditionSubjectId], references: [id], onDelete: Restrict)
+  
+  // Loại điều kiện: Tiên quyết hay Song hành
+  conditionType      ConditionType @default(PREREQUISITE)
+
+  createdAt          DateTime      @default(now())
+
+  @@unique([subjectId, conditionSubjectId]) // Tránh trùng lặp cấu hình điều kiện
+  @@map("subject_conditions")
 }
 
 // ==========================
 // 6. CURRICULUMS (CHƯƠNG TRÌNH KHUNG)
 // ==========================
 model Curriculum {
-  id              Int      @id @default(autoincrement())
-  curriculumCode  String   @unique // Ví dụ: CTK-CNTT-2023
-  curriculumName  String
+  id             Int       @id @default(autoincrement())
+  curriculumCode String    @unique // Ví dụ: CTK-CNTT-2023
+  curriculumName String
   
-  majorId         Int
-  major           Major    @relation(fields: [majorId], references: [id])
+  majorId        Int
+  major          Major     @relation(fields: [majorId], references: [id])
 
-  totalCredits    Int      @default(0)
+  totalCredits   Int       @default(0)
+  isActive       Boolean   @default(true)
   
-  isActive        Boolean  @default(true)
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   // Quan hệ
   curriculumSubjects CurriculumSubject[]
+  electiveGroups     ElectiveGroup[]      // Danh sách các nhóm tự chọn trong CTK này
   batch              Batch?
 
   @@map("curriculums")
 }
 
 // ==========================
+// 6.5 ELECTIVE_GROUPS (NHÓM MÔN TỰ CHỌN THUỘC CTK)
+// ==========================
+model ElectiveGroup {
+  id            Int        @id @default(autoincrement())
+  groupName     String     // Ví dụ: Nhóm tự chọn hướng Web, Nhóm tự chọn hướng AI...
+  
+  curriculumId  Int
+  curriculum    Curriculum @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
+  
+  // Quy định ràng buộc cho nhóm này
+  minCredits    Int        @default(0) // Số tín chỉ tối thiểu sinh viên bắt buộc phải tích lũy trong nhóm
+  minSubjects   Int        @default(0) // Hoặc số môn học tối thiểu phải chọn (thường dùng 1 trong 2)
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  // Quan hệ ngược lại với các môn thuộc nhóm
+  curriculumSubjects CurriculumSubject[]
+
+  @@map("elective_groups")
+}
+
+// ==========================
 // 7. CURRICULUM_SUBJECTS (MÔN HỌC THUỘC CHƯƠNG TRÌNH)
 // ==========================
+enum EnrollmentType {
+  COMPULSORY // Bắt buộc
+  ELECTIVE   // Tự chọn
+}
+
 model CurriculumSubject {
-  id             Int        @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   
   curriculumId   Int
-  curriculum     Curriculum @relation(fields: [curriculumId], references: [id])
+  curriculum     Curriculum     @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
   
   subjectId      Int
-  subject        Subject    @relation(fields: [subjectId], references: [id])
+  subject        Subject        @relation(fields: [subjectId], references: [id], onDelete: Restrict)
   
-  semesterNumber Int        // Học kỳ gợi ý (Học kỳ 1, 2, 3...)
+  semesterNumber Int            // Học kỳ gợi ý
+  enrollmentType EnrollmentType @default(COMPULSORY) // Mặc định là bắt buộc
   
-  minGrade       Float      @default(5.0) // Điểm tối thiểu để qua môn
+  // Nếu là môn tự chọn (ELECTIVE) thì có thể gắn nó vào một nhóm cụ thể
+  electiveGroupId Int?
+  electiveGroup   ElectiveGroup? @relation(fields: [electiveGroupId], references: [id], onDelete: SetNull)
   
-  createdAt      DateTime   @default(now())
+  minGrade       Float          @default(5.0) // Điểm tối thiểu để qua môn
+  createdAt      DateTime       @default(now())
 
   @@unique([curriculumId, subjectId])
   @@map("curriculum_subjects")

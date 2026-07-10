@@ -15,7 +15,7 @@ import { ClassResponseDto } from "../../class/class.response";
 import { Type } from "class-transformer";
 import { CourseOfferStatus } from "../../../prisma/generated/prisma/enums";
 import { CourseOffer } from "../../../prisma/generated/prisma/client";
-import { ResponseSubjectDto } from "../../subject/subject.dto";
+import { ResponseSubjectDto } from "../../subject/dto/subject.dto";
 import { GradeStudentDto } from "./grades.response";
 
 export class CourseOfferDetailResponseDto implements CourseOffer {

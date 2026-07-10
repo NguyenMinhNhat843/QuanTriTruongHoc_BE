@@ -250,6 +250,7 @@ export type CurriculumWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
   curriculumSubjects?: Prisma.CurriculumSubjectListRelationFilter
+  electiveGroups?: Prisma.ElectiveGroupListRelationFilter
   batch?: Prisma.XOR<Prisma.BatchNullableScalarRelationFilter, Prisma.BatchWhereInput> | null
 }
 
@@ -264,6 +265,7 @@ export type CurriculumOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   major?: Prisma.MajorOrderByWithRelationInput
   curriculumSubjects?: Prisma.CurriculumSubjectOrderByRelationAggregateInput
+  electiveGroups?: Prisma.ElectiveGroupOrderByRelationAggregateInput
   batch?: Prisma.BatchOrderByWithRelationInput
 }
 
@@ -281,6 +283,7 @@ export type CurriculumWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Curriculum"> | Date | string
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
   curriculumSubjects?: Prisma.CurriculumSubjectListRelationFilter
+  electiveGroups?: Prisma.ElectiveGroupListRelationFilter
   batch?: Prisma.XOR<Prisma.BatchNullableScalarRelationFilter, Prisma.BatchWhereInput> | null
 }, "id" | "curriculumCode">
 
@@ -323,6 +326,7 @@ export type CurriculumCreateInput = {
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutCurriculumnInput
   curriculumSubjects?: Prisma.CurriculumSubjectCreateNestedManyWithoutCurriculumInput
+  electiveGroups?: Prisma.ElectiveGroupCreateNestedManyWithoutCurriculumInput
   batch?: Prisma.BatchCreateNestedOneWithoutCurriculumInput
 }
 
@@ -336,6 +340,7 @@ export type CurriculumUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutCurriculumInput
+  electiveGroups?: Prisma.ElectiveGroupUncheckedCreateNestedManyWithoutCurriculumInput
   batch?: Prisma.BatchUncheckedCreateNestedOneWithoutCurriculumInput
 }
 
@@ -348,6 +353,7 @@ export type CurriculumUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutCurriculumnNestedInput
   curriculumSubjects?: Prisma.CurriculumSubjectUpdateManyWithoutCurriculumNestedInput
+  electiveGroups?: Prisma.ElectiveGroupUpdateManyWithoutCurriculumNestedInput
   batch?: Prisma.BatchUpdateOneWithoutCurriculumNestedInput
 }
 
@@ -361,6 +367,7 @@ export type CurriculumUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutCurriculumNestedInput
+  electiveGroups?: Prisma.ElectiveGroupUncheckedUpdateManyWithoutCurriculumNestedInput
   batch?: Prisma.BatchUncheckedUpdateOneWithoutCurriculumNestedInput
 }
 
@@ -522,6 +529,20 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type CurriculumCreateNestedOneWithoutElectiveGroupsInput = {
+  create?: Prisma.XOR<Prisma.CurriculumCreateWithoutElectiveGroupsInput, Prisma.CurriculumUncheckedCreateWithoutElectiveGroupsInput>
+  connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutElectiveGroupsInput
+  connect?: Prisma.CurriculumWhereUniqueInput
+}
+
+export type CurriculumUpdateOneRequiredWithoutElectiveGroupsNestedInput = {
+  create?: Prisma.XOR<Prisma.CurriculumCreateWithoutElectiveGroupsInput, Prisma.CurriculumUncheckedCreateWithoutElectiveGroupsInput>
+  connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutElectiveGroupsInput
+  upsert?: Prisma.CurriculumUpsertWithoutElectiveGroupsInput
+  connect?: Prisma.CurriculumWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CurriculumUpdateToOneWithWhereWithoutElectiveGroupsInput, Prisma.CurriculumUpdateWithoutElectiveGroupsInput>, Prisma.CurriculumUncheckedUpdateWithoutElectiveGroupsInput>
+}
+
 export type CurriculumCreateNestedOneWithoutCurriculumSubjectsInput = {
   create?: Prisma.XOR<Prisma.CurriculumCreateWithoutCurriculumSubjectsInput, Prisma.CurriculumUncheckedCreateWithoutCurriculumSubjectsInput>
   connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutCurriculumSubjectsInput
@@ -544,6 +565,7 @@ export type CurriculumCreateWithoutMajorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectCreateNestedManyWithoutCurriculumInput
+  electiveGroups?: Prisma.ElectiveGroupCreateNestedManyWithoutCurriculumInput
   batch?: Prisma.BatchCreateNestedOneWithoutCurriculumInput
 }
 
@@ -556,6 +578,7 @@ export type CurriculumUncheckedCreateWithoutMajorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutCurriculumInput
+  electiveGroups?: Prisma.ElectiveGroupUncheckedCreateNestedManyWithoutCurriculumInput
   batch?: Prisma.BatchUncheckedCreateNestedOneWithoutCurriculumInput
 }
 
@@ -608,6 +631,7 @@ export type CurriculumCreateWithoutBatchInput = {
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutCurriculumnInput
   curriculumSubjects?: Prisma.CurriculumSubjectCreateNestedManyWithoutCurriculumInput
+  electiveGroups?: Prisma.ElectiveGroupCreateNestedManyWithoutCurriculumInput
 }
 
 export type CurriculumUncheckedCreateWithoutBatchInput = {
@@ -620,6 +644,7 @@ export type CurriculumUncheckedCreateWithoutBatchInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutCurriculumInput
+  electiveGroups?: Prisma.ElectiveGroupUncheckedCreateNestedManyWithoutCurriculumInput
 }
 
 export type CurriculumCreateOrConnectWithoutBatchInput = {
@@ -647,6 +672,7 @@ export type CurriculumUpdateWithoutBatchInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutCurriculumnNestedInput
   curriculumSubjects?: Prisma.CurriculumSubjectUpdateManyWithoutCurriculumNestedInput
+  electiveGroups?: Prisma.ElectiveGroupUpdateManyWithoutCurriculumNestedInput
 }
 
 export type CurriculumUncheckedUpdateWithoutBatchInput = {
@@ -659,6 +685,73 @@ export type CurriculumUncheckedUpdateWithoutBatchInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutCurriculumNestedInput
+  electiveGroups?: Prisma.ElectiveGroupUncheckedUpdateManyWithoutCurriculumNestedInput
+}
+
+export type CurriculumCreateWithoutElectiveGroupsInput = {
+  curriculumCode: string
+  curriculumName: string
+  totalCredits?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  major: Prisma.MajorCreateNestedOneWithoutCurriculumnInput
+  curriculumSubjects?: Prisma.CurriculumSubjectCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchCreateNestedOneWithoutCurriculumInput
+}
+
+export type CurriculumUncheckedCreateWithoutElectiveGroupsInput = {
+  id?: number
+  curriculumCode: string
+  curriculumName: string
+  majorId: number
+  totalCredits?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  curriculumSubjects?: Prisma.CurriculumSubjectUncheckedCreateNestedManyWithoutCurriculumInput
+  batch?: Prisma.BatchUncheckedCreateNestedOneWithoutCurriculumInput
+}
+
+export type CurriculumCreateOrConnectWithoutElectiveGroupsInput = {
+  where: Prisma.CurriculumWhereUniqueInput
+  create: Prisma.XOR<Prisma.CurriculumCreateWithoutElectiveGroupsInput, Prisma.CurriculumUncheckedCreateWithoutElectiveGroupsInput>
+}
+
+export type CurriculumUpsertWithoutElectiveGroupsInput = {
+  update: Prisma.XOR<Prisma.CurriculumUpdateWithoutElectiveGroupsInput, Prisma.CurriculumUncheckedUpdateWithoutElectiveGroupsInput>
+  create: Prisma.XOR<Prisma.CurriculumCreateWithoutElectiveGroupsInput, Prisma.CurriculumUncheckedCreateWithoutElectiveGroupsInput>
+  where?: Prisma.CurriculumWhereInput
+}
+
+export type CurriculumUpdateToOneWithWhereWithoutElectiveGroupsInput = {
+  where?: Prisma.CurriculumWhereInput
+  data: Prisma.XOR<Prisma.CurriculumUpdateWithoutElectiveGroupsInput, Prisma.CurriculumUncheckedUpdateWithoutElectiveGroupsInput>
+}
+
+export type CurriculumUpdateWithoutElectiveGroupsInput = {
+  curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
+  curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
+  totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  major?: Prisma.MajorUpdateOneRequiredWithoutCurriculumnNestedInput
+  curriculumSubjects?: Prisma.CurriculumSubjectUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUpdateOneWithoutCurriculumNestedInput
+}
+
+export type CurriculumUncheckedUpdateWithoutElectiveGroupsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  curriculumCode?: Prisma.StringFieldUpdateOperationsInput | string
+  curriculumName?: Prisma.StringFieldUpdateOperationsInput | string
+  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  totalCredits?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  curriculumSubjects?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutCurriculumNestedInput
+  batch?: Prisma.BatchUncheckedUpdateOneWithoutCurriculumNestedInput
 }
 
 export type CurriculumCreateWithoutCurriculumSubjectsInput = {
@@ -669,6 +762,7 @@ export type CurriculumCreateWithoutCurriculumSubjectsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutCurriculumnInput
+  electiveGroups?: Prisma.ElectiveGroupCreateNestedManyWithoutCurriculumInput
   batch?: Prisma.BatchCreateNestedOneWithoutCurriculumInput
 }
 
@@ -681,6 +775,7 @@ export type CurriculumUncheckedCreateWithoutCurriculumSubjectsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  electiveGroups?: Prisma.ElectiveGroupUncheckedCreateNestedManyWithoutCurriculumInput
   batch?: Prisma.BatchUncheckedCreateNestedOneWithoutCurriculumInput
 }
 
@@ -708,6 +803,7 @@ export type CurriculumUpdateWithoutCurriculumSubjectsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutCurriculumnNestedInput
+  electiveGroups?: Prisma.ElectiveGroupUpdateManyWithoutCurriculumNestedInput
   batch?: Prisma.BatchUpdateOneWithoutCurriculumNestedInput
 }
 
@@ -720,6 +816,7 @@ export type CurriculumUncheckedUpdateWithoutCurriculumSubjectsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  electiveGroups?: Prisma.ElectiveGroupUncheckedUpdateManyWithoutCurriculumNestedInput
   batch?: Prisma.BatchUncheckedUpdateOneWithoutCurriculumNestedInput
 }
 
@@ -741,6 +838,7 @@ export type CurriculumUpdateWithoutMajorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUpdateManyWithoutCurriculumNestedInput
+  electiveGroups?: Prisma.ElectiveGroupUpdateManyWithoutCurriculumNestedInput
   batch?: Prisma.BatchUpdateOneWithoutCurriculumNestedInput
 }
 
@@ -753,6 +851,7 @@ export type CurriculumUncheckedUpdateWithoutMajorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculumSubjects?: Prisma.CurriculumSubjectUncheckedUpdateManyWithoutCurriculumNestedInput
+  electiveGroups?: Prisma.ElectiveGroupUncheckedUpdateManyWithoutCurriculumNestedInput
   batch?: Prisma.BatchUncheckedUpdateOneWithoutCurriculumNestedInput
 }
 
@@ -773,10 +872,12 @@ export type CurriculumUncheckedUpdateManyWithoutMajorInput = {
 
 export type CurriculumCountOutputType = {
   curriculumSubjects: number
+  electiveGroups: number
 }
 
 export type CurriculumCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculumSubjects?: boolean | CurriculumCountOutputTypeCountCurriculumSubjectsArgs
+  electiveGroups?: boolean | CurriculumCountOutputTypeCountElectiveGroupsArgs
 }
 
 /**
@@ -796,6 +897,13 @@ export type CurriculumCountOutputTypeCountCurriculumSubjectsArgs<ExtArgs extends
   where?: Prisma.CurriculumSubjectWhereInput
 }
 
+/**
+ * CurriculumCountOutputType without action
+ */
+export type CurriculumCountOutputTypeCountElectiveGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ElectiveGroupWhereInput
+}
+
 
 export type CurriculumSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -808,6 +916,7 @@ export type CurriculumSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
   curriculumSubjects?: boolean | Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs>
+  electiveGroups?: boolean | Prisma.Curriculum$electiveGroupsArgs<ExtArgs>
   batch?: boolean | Prisma.Curriculum$batchArgs<ExtArgs>
   _count?: boolean | Prisma.CurriculumCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["curriculum"]>
@@ -851,6 +960,7 @@ export type CurriculumOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type CurriculumInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
   curriculumSubjects?: boolean | Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs>
+  electiveGroups?: boolean | Prisma.Curriculum$electiveGroupsArgs<ExtArgs>
   batch?: boolean | Prisma.Curriculum$batchArgs<ExtArgs>
   _count?: boolean | Prisma.CurriculumCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -866,6 +976,7 @@ export type $CurriculumPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     major: Prisma.$MajorPayload<ExtArgs>
     curriculumSubjects: Prisma.$CurriculumSubjectPayload<ExtArgs>[]
+    electiveGroups: Prisma.$ElectiveGroupPayload<ExtArgs>[]
     batch: Prisma.$BatchPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1273,6 +1384,7 @@ export interface Prisma__CurriculumClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   major<T extends Prisma.MajorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MajorDefaultArgs<ExtArgs>>): Prisma.Prisma__MajorClient<runtime.Types.Result.GetResult<Prisma.$MajorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   curriculumSubjects<T extends Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Curriculum$curriculumSubjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CurriculumSubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  electiveGroups<T extends Prisma.Curriculum$electiveGroupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Curriculum$electiveGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ElectiveGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   batch<T extends Prisma.Curriculum$batchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Curriculum$batchArgs<ExtArgs>>): Prisma.Prisma__BatchClient<runtime.Types.Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1733,6 +1845,30 @@ export type Curriculum$curriculumSubjectsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.CurriculumSubjectScalarFieldEnum | Prisma.CurriculumSubjectScalarFieldEnum[]
+}
+
+/**
+ * Curriculum.electiveGroups
+ */
+export type Curriculum$electiveGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ElectiveGroup
+   */
+  select?: Prisma.ElectiveGroupSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ElectiveGroup
+   */
+  omit?: Prisma.ElectiveGroupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ElectiveGroupInclude<ExtArgs> | null
+  where?: Prisma.ElectiveGroupWhereInput
+  orderBy?: Prisma.ElectiveGroupOrderByWithRelationInput | Prisma.ElectiveGroupOrderByWithRelationInput[]
+  cursor?: Prisma.ElectiveGroupWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ElectiveGroupScalarFieldEnum | Prisma.ElectiveGroupScalarFieldEnum[]
 }
 
 /**

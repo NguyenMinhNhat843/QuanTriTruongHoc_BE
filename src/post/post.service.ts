@@ -262,4 +262,43 @@ export class PostService {
       this.logger.log(`Đã tự động đăng ${result.count} bài viết.`);
     }
   }
+
+  /**
+   * Xóa bài viết
+   */
+  async delete(id: number) {
+    // 1. Kiểm tra bài viết có tồn tại hay không
+    const post = await this.prisma.post.findUnique({
+      where: { id },
+      include: { images: true }, // Lấy kèm danh sách ảnh trong FileStore
+    });
+
+    if (!post) {
+      throw new NotFoundException(`Không tìm thấy bài viết có ID ${id}`);
+    }
+
+    // 2. Chạy transaction để đảm bảo an toàn dữ liệu
+    await this.prisma.$transaction(async (tx) => {
+      // Cập nhật trạng thái các ảnh liên quan sang không sử dụng nữa
+      // (Bao gồm cả ảnh trong nội dung bài viết và ảnh coverImage nếu có trong FileStore)
+      await tx.fileStore.updateMany({
+        where: {
+          OR: [{ postId: id }, { imageUrl: post.coverImage || undefined }],
+        },
+        data: {
+          isUsed: false,
+          postId: null,
+        },
+      });
+
+      // Thực hiện xóa bài viết
+      await tx.post.delete({
+        where: { id },
+      });
+    });
+
+    return {
+      message: "Xóa bài viết thành công",
+    };
+  }
 }

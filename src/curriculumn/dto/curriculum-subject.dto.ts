@@ -1,8 +1,11 @@
 import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
 import { IsDate, IsInt } from "class-validator";
 import { Type } from "class-transformer";
-import { CurriculumSubject } from "../../../prisma/generated/prisma/client";
-import { SubjectDto } from "../../subject/subject.dto";
+import {
+  CurriculumSubject,
+  EnrollmentType,
+} from "../../../prisma/generated/prisma/client";
+import { SubjectDto } from "../../subject/dto/subject.dto";
 
 export class CurriculumSubjectDto implements CurriculumSubject {
   @ApiProperty()
@@ -29,6 +32,14 @@ export class CurriculumSubjectDto implements CurriculumSubject {
   @IsInt()
   @Type(() => Number)
   subjectId: number;
+
+  @ApiProperty({ enum: EnrollmentType })
+  enrollmentType: EnrollmentType;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @IsInt()
+  @Type(() => Number)
+  electiveGroupId: number | null;
 
   @ApiProperty()
   @IsDate()
