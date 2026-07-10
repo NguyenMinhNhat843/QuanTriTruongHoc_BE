@@ -56,7 +56,6 @@ export const ModelName = {
   Batch: 'Batch',
   Class: 'Class',
   Subject: 'Subject',
-  SubjectCondition: 'SubjectCondition',
   Curriculum: 'Curriculum',
   ElectiveGroup: 'ElectiveGroup',
   CurriculumSubject: 'CurriculumSubject',
@@ -72,6 +71,9 @@ export const ModelName = {
   DocumentConfigItem: 'DocumentConfigItem',
   StudentDocument: 'StudentDocument',
   Staff: 'Staff',
+  Province: 'Province',
+  Ward: 'Ward',
+  Village: 'Village',
   GradeStudent: 'GradeStudent',
   TeacherSubject: 'TeacherSubject',
   TuitionPeriod: 'TuitionPeriod',
@@ -181,17 +183,6 @@ export const SubjectScalarFieldEnum = {
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
-
-
-export const SubjectConditionScalarFieldEnum = {
-  id: 'id',
-  subjectId: 'subjectId',
-  conditionSubjectId: 'conditionSubjectId',
-  conditionType: 'conditionType',
-  createdAt: 'createdAt'
-} as const
-
-export type SubjectConditionScalarFieldEnum = (typeof SubjectConditionScalarFieldEnum)[keyof typeof SubjectConditionScalarFieldEnum]
 
 
 export const CurriculumScalarFieldEnum = {
@@ -429,6 +420,36 @@ export const StaffScalarFieldEnum = {
 } as const
 
 export type StaffScalarFieldEnum = (typeof StaffScalarFieldEnum)[keyof typeof StaffScalarFieldEnum]
+
+
+export const ProvinceScalarFieldEnum = {
+  code: 'code',
+  name: 'name',
+  fullName: 'fullName',
+  codeName: 'codeName'
+} as const
+
+export type ProvinceScalarFieldEnum = (typeof ProvinceScalarFieldEnum)[keyof typeof ProvinceScalarFieldEnum]
+
+
+export const WardScalarFieldEnum = {
+  code: 'code',
+  name: 'name',
+  fullName: 'fullName',
+  codeName: 'codeName',
+  provinceCode: 'provinceCode'
+} as const
+
+export type WardScalarFieldEnum = (typeof WardScalarFieldEnum)[keyof typeof WardScalarFieldEnum]
+
+
+export const VillageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  wardCode: 'wardCode'
+} as const
+
+export type VillageScalarFieldEnum = (typeof VillageScalarFieldEnum)[keyof typeof VillageScalarFieldEnum]
 
 
 export const GradeStudentScalarFieldEnum = {

@@ -18,14 +18,6 @@ export const KnowledgeBlock = {
 export type KnowledgeBlock = (typeof KnowledgeBlock)[keyof typeof KnowledgeBlock]
 
 
-export const ConditionType = {
-  PREREQUISITE: 'PREREQUISITE',
-  COREQUISITE: 'COREQUISITE'
-} as const
-
-export type ConditionType = (typeof ConditionType)[keyof typeof ConditionType]
-
-
 export const EnrollmentType = {
   COMPULSORY: 'COMPULSORY',
   ELECTIVE: 'ELECTIVE'

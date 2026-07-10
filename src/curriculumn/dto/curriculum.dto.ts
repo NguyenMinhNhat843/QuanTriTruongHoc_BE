@@ -81,7 +81,7 @@ export class CreateCurriculumDto extends OmitType(CurriculumDto, [
   @Type(() => CurriculumSubjectPayload)
   curriculumSubjects: CurriculumSubjectPayload[];
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: [ElectiveGroupPayload],
     required: false,
     description: "Danh sách các nhóm môn tự chọn kèm môn học bên trong",

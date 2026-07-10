@@ -20,7 +20,7 @@ export class SubjectService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateSubjectDto): Promise<ResponseSubjectDto> {
-    const { subjectCode, subjectConditions, ...subjectData } = data;
+    const { subjectCode, ...subjectData } = data;
 
     // 1. Kiểm tra logic nghiệp vụ: Khoa vs Khối kiến thức
     // Nếu có chọn Khoa (departmentId có giá trị), khối kiến thức KHÔNG ĐƯỢC là GENERAL
@@ -51,41 +51,9 @@ export class SubjectService {
           },
         });
 
-        // Bước 2.2: Nếu có cấu hình môn điều kiện, tiến hành xử lý
-        if (subjectConditions && subjectConditions.length > 0) {
-          // Kiểm tra xem các conditionSubjectId truyền lên có thực sự tồn tại trong DB không
-          const conditionIds = subjectConditions.map(
-            (c) => c.conditionSubjectId,
-          );
-          const existingConditionsCount = await tx.subject.count({
-            where: { id: { in: conditionIds } },
-          });
-
-          if (existingConditionsCount !== conditionIds.length) {
-            throw new BadRequestException(
-              "Một hoặc nhiều môn học điều kiện (tiên quyết/song hành) không tồn tại trên hệ thống",
-            );
-          }
-
-          // Tạo danh sách bản ghi điều kiện để gán vào bảng trung gian
-          const conditionsToCreate = subjectConditions.map((cond) => ({
-            subjectId: subject.id, // ID của môn vừa tạo
-            conditionSubjectId: cond.conditionSubjectId,
-            conditionType: cond.conditionType,
-          }));
-
-          // Tiến hành bulk-insert điều kiện môn học
-          await tx.subjectCondition.createMany({
-            data: conditionsToCreate,
-          });
-        }
-
         // Query lại full thông tin môn học vừa tạo kèm quan hệ (nếu cần thiết cho ResponseSubjectDto)
         return tx.subject.findUnique({
           where: { id: subject.id },
-          include: {
-            asSubject: true, // Bao gồm cả cấu hình điều kiện vừa tạo
-          },
         });
       });
 
@@ -252,7 +220,7 @@ export class SubjectService {
     id: number,
     data: UpdateSubjectDto,
   ): Promise<ResponseSubjectDto> {
-    const { subjectConditions, ...subjectData } = data;
+    const { ...subjectData } = data;
 
     // 1. Kiểm tra Môn học cần update có tồn tại không
     const existingSubject = await this.prisma.subject.findUnique({
@@ -286,56 +254,9 @@ export class SubjectService {
           data: subjectData,
         });
 
-        // Chỉ xử lý lại điều kiện môn học nếu mảng này được truyền lên (kể cả mảng rỗng `[]`)
-        if (subjectConditions !== undefined) {
-          // Xóa sạch các cấu hình môn điều kiện cũ của môn học này
-          await tx.subjectCondition.deleteMany({
-            where: { subjectId: id },
-          });
-
-          if (subjectConditions.length > 0) {
-            const conditionIds = subjectConditions.map(
-              (c) => c.conditionSubjectId,
-            );
-
-            // Chặn lỗi logic: Môn học không thể làm môn tiên quyết/song hành của chính nó
-            if (conditionIds.includes(id)) {
-              throw new BadRequestException(
-                "Môn học không thể thiết lập điều kiện tiên quyết hoặc song hành với chính nó.",
-              );
-            }
-
-            // Kiểm tra xem các môn điều kiện mới có tồn tại trong hệ thống hay không
-            const existingConditionsCount = await tx.subject.count({
-              where: { id: { in: conditionIds } },
-            });
-
-            if (existingConditionsCount !== conditionIds.length) {
-              throw new BadRequestException(
-                "Một hoặc nhiều môn học điều kiện (tiên quyết/song hành) không tồn tại trên hệ thống",
-              );
-            }
-
-            // Chuẩn bị dữ liệu nạp lại vào bảng trung gian
-            const conditionsToCreate = subjectConditions.map((cond) => ({
-              subjectId: id,
-              conditionSubjectId: cond.conditionSubjectId,
-              conditionType: cond.conditionType,
-            }));
-
-            // Bulk-insert lại danh sách điều kiện mới
-            await tx.subjectCondition.createMany({
-              data: conditionsToCreate,
-            });
-          }
-        }
-
         // Query lại full thông tin môn học sau khi cập nhật để trả về đúng DTO
         return tx.subject.findUnique({
           where: { id },
-          include: {
-            asSubject: true, // Trả ra kèm danh sách điều kiện hiện tại
-          },
         });
       });
 
@@ -366,26 +287,16 @@ export class SubjectService {
 
     // 2. Kiểm tra xem môn học này có đang được sử dụng ở các cấu hình khác không
     // (Chặn xóa nếu dính liên kết ON DELETE Restrict)
-    const [usedInCurriculumCount, usedAsConditionCount] = await Promise.all([
+    const [usedInCurriculumCount] = await Promise.all([
       // Kiểm tra xem môn học đã được kéo vào Chương trình khung nào chưa
       this.prisma.curriculumSubject.count({
         where: { subjectId: id },
-      }),
-      // Kiểm tra xem môn này có đang làm môn ĐIỀU KIỆN (tiên quyết/song hành) của môn khác không
-      this.prisma.subjectCondition.count({
-        where: { conditionSubjectId: id },
       }),
     ]);
 
     if (usedInCurriculumCount > 0) {
       throw new BadRequestException(
         `Không thể xóa môn học này vì nó đang thuộc về ${usedInCurriculumCount} chương trình khung. Vui lòng gỡ môn học khỏi các chương trình khung trước.`,
-      );
-    }
-
-    if (usedAsConditionCount > 0) {
-      throw new BadRequestException(
-        `Không thể xóa môn học này vì nó đang là môn điều kiện (tiên quyết/song hành) của môn học khác.`,
       );
     }
 

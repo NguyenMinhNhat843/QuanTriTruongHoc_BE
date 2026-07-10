@@ -65,11 +65,6 @@ export type Class = Prisma.ClassModel
  */
 export type Subject = Prisma.SubjectModel
 /**
- * Model SubjectCondition
- * 
- */
-export type SubjectCondition = Prisma.SubjectConditionModel
-/**
  * Model Curriculum
  * 
  */
@@ -144,6 +139,21 @@ export type StudentDocument = Prisma.StudentDocumentModel
  * 
  */
 export type Staff = Prisma.StaffModel
+/**
+ * Model Province
+ * 
+ */
+export type Province = Prisma.ProvinceModel
+/**
+ * Model Ward
+ * 
+ */
+export type Ward = Prisma.WardModel
+/**
+ * Model Village
+ * 
+ */
+export type Village = Prisma.VillageModel
 /**
  * Model GradeStudent
  * 

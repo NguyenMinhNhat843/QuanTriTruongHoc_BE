@@ -47,7 +47,6 @@ export class CurriculumService {
             curriculumId: curriculum.id,
             subjectId: cs.subjectId,
             semesterNumber: cs.semesterNumber,
-            enrollmentType: cs.enrollmentType ?? EnrollmentType.COMPULSORY,
             minGrade: cs.minGrade ?? 5.0,
             electiveGroupId: null, // Môn độc lập thì không thuộc nhóm nào
           });
@@ -281,7 +280,7 @@ export class CurriculumService {
               curriculumId: id,
               subjectId: cs.subjectId,
               semesterNumber: cs.semesterNumber,
-              enrollmentType: cs.enrollmentType ?? EnrollmentType.COMPULSORY,
+              enrollmentType: EnrollmentType.COMPULSORY,
               minGrade: cs.minGrade ?? 5.0,
               electiveGroupId: null,
             });

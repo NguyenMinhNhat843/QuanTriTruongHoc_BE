@@ -37,3 +37,43 @@ enum AdmissionStatus {
   CLOSE 
   ARCHIVED
 }
+
+// ==========================
+// DANH MỤC HÀNH CHÍNH 3 CẤP: TỈNH -> XÃ -> THÔN
+// ==========================
+
+model Province {
+  code        String   @id // Mã tỉnh/thành phố (ví dụ: "56" cho Khánh Hòa)
+  name        String   // Tên tỉnh (ví dụ: "Tỉnh Khánh Hòa")
+  fullName    String   // Tên đầy đủ
+  codeName    String   // Mã định danh dạng chữ (ví dụ: "khanh_hoa")
+
+  wards       Ward[]   // Một Tỉnh có nhiều Xã/Phường trực thuộc
+
+  @@map("provinces")
+}
+
+model Ward {
+  code         String   @id // Mã xã/phường/thị trấn
+  name         String   // Tên xã/phường (ví dụ: "Phường Diên Khánh")
+  fullName     String   
+  codeName     String   // (ví dụ: "dien_khanh")
+  provinceCode String   // Khóa ngoại nối thẳng lên Tỉnh
+
+  province     Province @relation(fields: [provinceCode], references: [code], onDelete: Cascade)
+  villages     Village[] // Một Xã có nhiều Thôn/Xóm/Bản/Tổ
+
+  @@index([provinceCode]) // Tăng tốc khi lọc Xã theo Tỉnh
+  @@map("wards")
+}
+
+model Village {
+  id           Int      @id @default(autoincrement()) // Thôn dùng ID tự tăng
+  name         String   // Tên thôn/xóm/ấp/bản/tổ dân phố
+  wardCode     String   // Khóa ngoại nối lên Xã
+
+  ward         Ward     @relation(fields: [wardCode], references: [code], onDelete: Cascade)
+
+  @@index([wardCode]) // Tăng tốc khi lọc Thôn theo Xã
+  @@map("villages")
+}

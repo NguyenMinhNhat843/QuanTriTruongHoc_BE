@@ -149,39 +149,7 @@ model Subject {
   courseOffers       CourseOffer[]
   teacherSubjects    TeacherSubject[]
 
-  // Các quan hệ phục vụ cho Điều kiện môn học
-  asSubject          SubjectCondition[]  @relation("CurrentSubject")
-  asConditionSubject SubjectCondition[]  @relation("ConditionSubject")
-
   @@map("subjects")
-}
-
-// ==========================
-// 4.5 SUBJECT_CONDITIONS (MÔN TIÊN QUYẾT / SONG HÀNH)
-// ==========================
-enum ConditionType {
-  PREREQUISITE // Tiên quyết (Phải đậu môn điều kiện trước)
-  COREQUISITE  // Song hành (Học chung học kỳ hoặc đã học trước đó)
-}
-
-model SubjectCondition {
-  id                 Int           @id @default(autoincrement())
-  
-  // Môn học hiện tại đang xét điều kiện (Ví dụ: Hệ quản trị CSDL)
-  subjectId          Int
-  subject            Subject       @relation("CurrentSubject", fields: [subjectId], references: [id], onDelete: Cascade)
-  
-  // Môn học điều kiện (Ví dụ: Cơ sở dữ liệu)
-  conditionSubjectId Int
-  conditionSubject   Subject       @relation("ConditionSubject", fields: [conditionSubjectId], references: [id], onDelete: Restrict)
-  
-  // Loại điều kiện: Tiên quyết hay Song hành
-  conditionType      ConditionType @default(PREREQUISITE)
-
-  createdAt          DateTime      @default(now())
-
-  @@unique([subjectId, conditionSubjectId]) // Tránh trùng lặp cấu hình điều kiện
-  @@map("subject_conditions")
 }
 
 // ==========================

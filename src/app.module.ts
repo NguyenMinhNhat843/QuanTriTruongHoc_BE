@@ -23,6 +23,7 @@ import { AdmissionProfileModule } from "./admission-profile/admission-profile.mo
 import { AssessmentModule } from "./assessment/assessment.module.js";
 import { AnalyticsModule } from "./analytic/analytic.module.js";
 import { TuitionModule } from "./tuition/tuition.module.js";
+import { AddressModule } from "./address/address.module.js";
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { TuitionModule } from "./tuition/tuition.module.js";
     AssessmentModule,
     AnalyticsModule,
     TuitionModule,
+    AddressModule,
   ],
 })
 export class AppModule {}

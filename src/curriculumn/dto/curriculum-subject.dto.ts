@@ -50,6 +50,8 @@ export class CurriculumSubjectDto implements CurriculumSubject {
 export class CreateCurriculumSubjectDto extends OmitType(CurriculumSubjectDto, [
   "id",
   "createdAt",
+  "enrollmentType",
+  "electiveGroupId",
 ] as const) {}
 
 export class UpdateCurriculumSubjectDto extends PartialType(
