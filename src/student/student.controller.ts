@@ -8,6 +8,8 @@ import {
   Query,
   ParseIntPipe,
   Delete,
+  UseGuards,
+  UnauthorizedException,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -15,6 +17,7 @@ import {
   ApiOkResponse,
   ApiResponse,
   ApiBody,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import { StudentService } from "./student.service.js";
 import {
@@ -33,6 +36,8 @@ import {
   GetEligibleStudentsDtoForAssignmentResponse,
 } from "./dto/get-eligible-students.dto.js";
 import { plainToInstance } from "class-transformer";
+import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard.js";
+import { GetUser } from "../common/decorators/get-user.decorator.js";
 
 @ApiTags("Students")
 @Controller("students")
@@ -84,6 +89,23 @@ export class StudentController {
   async searchStudent(@Query() query: SearchStudentDto) {
     console.log("query: ", query);
     return this.studentService.searchStudents(query);
+  }
+
+  @Get("me")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: "Lấy profile của sinh viên hiện tại dựa trên token JWT",
+  })
+  @ApiOkResponse({ type: StudentResponseDto })
+  async getMe(@GetUser() user: any) {
+    if (user.role !== "student" || !user.studentId) {
+      throw new UnauthorizedException(
+        "Tài khoản của bạn không có quyền truy cập thông tin sinh viên",
+      );
+    }
+
+    return this.studentService.findOne(String(user.studentId));
   }
 
   @Get("search-by-code")

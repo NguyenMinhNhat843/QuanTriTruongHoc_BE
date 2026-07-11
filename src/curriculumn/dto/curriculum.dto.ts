@@ -14,7 +14,10 @@ import { PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { Curriculum } from "../../../prisma/generated/prisma/client";
 import { MajorDto } from "../../major/major.dto";
-import { CreateCurriculumSubjectDto } from "./curriculum-subject.dto";
+import {
+  CreateCurriculumSubjectDto,
+  CurriculumSubjectResponseDtoWithRelation,
+} from "./curriculum-subject.dto";
 import {
   ElectiveGroupPayload,
   ElectiveGroupResponseDto,
@@ -111,8 +114,8 @@ export class SearchCurriculumDto {
 
 // RESPONSE TYPE
 export class CurriculumResponseDtoWithRelation extends CurriculumDto {
-  @ApiProperty({ type: [CreateCurriculumSubjectDto] })
-  curriculumSubjects: CreateCurriculumSubjectDto[];
+  @ApiProperty({ type: [CurriculumSubjectResponseDtoWithRelation] })
+  curriculumSubjects: CurriculumSubjectResponseDtoWithRelation[];
 
   @ApiProperty({ type: () => MajorDto })
   major: MajorDto;

@@ -150,7 +150,6 @@ export class ClassService {
       andConditions.length > 0 ? { AND: andConditions } : {};
 
     // 4. Thực hiện truy vấn dữ liệu từ Database
-    const dbStartTime = performance.now();
     const classes = await this.prisma.class.findMany({
       where,
       include: {
@@ -162,10 +161,6 @@ export class ClassService {
         createdAt: "desc",
       },
     });
-    const dbEndTime = performance.now();
-
-    // 3. Tính toán và Log kết quả (Dùng Logger của NestJS tốt hơn console.log)
-    console.log(`Prisma DB Query: ${(dbEndTime - dbStartTime).toFixed(2)}ms`);
 
     return plainToInstance(ClassResponseDto, classes);
   }

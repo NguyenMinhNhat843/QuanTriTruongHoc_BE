@@ -7,17 +7,24 @@ import {
   ParseIntPipe,
   Patch,
   Query,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
 import { CourseRegistrationService } from "../service/grades.service";
 import { SaveGradesDto } from "../dto/grades.dto";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { AcademicSummaryResponseDto } from "../dto/stat.dto";
 
-@ApiTags("Đăng ký học phần (Course Registration)")
-@Controller("course-registrations")
+@ApiTags("Quản lý Điểm (grade)")
+@Controller("grades")
 export class CourseRegistrationController {
-  constructor(
-    private readonly registrationService: CourseRegistrationService,
-  ) {}
+  constructor(private readonly gradeService: CourseRegistrationService) {}
 
   @Post(":classSubjectId")
   @ApiOperation({
@@ -27,10 +34,7 @@ export class CourseRegistrationController {
     @Query("classId", ParseIntPipe) classId: number,
     @Param("classSubjectId", ParseIntPipe) classSubjectId: number,
   ) {
-    return await this.registrationService.createGradeTable(
-      classId,
-      classSubjectId,
-    );
+    return await this.gradeService.createGradeTable(classId, classSubjectId);
   }
 
   @Get()
@@ -41,7 +45,28 @@ export class CourseRegistrationController {
     status: 200,
   })
   async findAll() {
-    return await this.registrationService.getAll();
+    return await this.gradeService.getAll();
+  }
+
+  @Get("summary-widget/:userId")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Lấy thông tin tổng quan học tập của học sinh" })
+  @ApiParam({ name: "userId", description: "ID của học sinh", example: 1 })
+  @ApiResponse({
+    status: 200,
+    type: AcademicSummaryResponseDto,
+  })
+  async getAcademicSummaryWidget(
+    @Param("userId", ParseIntPipe) userId: number,
+  ) {
+    const result = await this.gradeService.getAcademicSummaryWidget(userId);
+
+    // NestJS tự động map return object thành HTTP 200 JSON response
+    return {
+      success: true,
+      data: result,
+    };
   }
 
   @Get(":id")
@@ -51,12 +76,12 @@ export class CourseRegistrationController {
     status: 200,
   })
   async findOne(@Param("id", ParseIntPipe) id: number) {
-    return await this.registrationService.getDetail(id);
+    return await this.gradeService.getDetail(id);
   }
 
   @Patch("save-grades")
   @ApiOperation({ summary: "Lưu bảng điểm cho một ClassSubject" })
   async saveGrades(@Body() data: SaveGradesDto) {
-    return await this.registrationService.saveGradeTable(data);
+    return await this.gradeService.saveGradeTable(data);
   }
 }

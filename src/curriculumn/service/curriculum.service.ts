@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import {
   CreateCurriculumDto,
-  CurriculumDto,
   CurriculumResponseDtoWithRelation,
   SearchCurriculumDto,
   UpdateCurriculumDto,
@@ -119,7 +118,9 @@ export class CurriculumService {
   /**
    * Lấy tất cả
    */
-  async findAll(query: SearchCurriculumDto): Promise<CurriculumDto[]> {
+  async findAll(
+    query: SearchCurriculumDto,
+  ): Promise<CurriculumResponseDtoWithRelation[]> {
     const list = await this.prisma.curriculum.findMany({
       where: {
         majorId: query.majorId,
@@ -129,7 +130,7 @@ export class CurriculumService {
       },
       orderBy: { createdAt: "desc" },
     });
-    return plainToInstance(CurriculumDto, list);
+    return plainToInstance(CurriculumResponseDtoWithRelation, list);
   }
 
   async findFirst(

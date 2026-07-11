@@ -175,6 +175,7 @@ export type ProvinceWhereInput = {
   fullName?: Prisma.StringFilter<"Province"> | string
   codeName?: Prisma.StringFilter<"Province"> | string
   wards?: Prisma.WardListRelationFilter
+  students?: Prisma.StudentListRelationFilter
 }
 
 export type ProvinceOrderByWithRelationInput = {
@@ -183,6 +184,7 @@ export type ProvinceOrderByWithRelationInput = {
   fullName?: Prisma.SortOrder
   codeName?: Prisma.SortOrder
   wards?: Prisma.WardOrderByRelationAggregateInput
+  students?: Prisma.StudentOrderByRelationAggregateInput
 }
 
 export type ProvinceWhereUniqueInput = Prisma.AtLeast<{
@@ -194,6 +196,7 @@ export type ProvinceWhereUniqueInput = Prisma.AtLeast<{
   fullName?: Prisma.StringFilter<"Province"> | string
   codeName?: Prisma.StringFilter<"Province"> | string
   wards?: Prisma.WardListRelationFilter
+  students?: Prisma.StudentListRelationFilter
 }, "code">
 
 export type ProvinceOrderByWithAggregationInput = {
@@ -222,6 +225,7 @@ export type ProvinceCreateInput = {
   fullName: string
   codeName: string
   wards?: Prisma.WardCreateNestedManyWithoutProvinceInput
+  students?: Prisma.StudentCreateNestedManyWithoutProvinceInput
 }
 
 export type ProvinceUncheckedCreateInput = {
@@ -230,6 +234,7 @@ export type ProvinceUncheckedCreateInput = {
   fullName: string
   codeName: string
   wards?: Prisma.WardUncheckedCreateNestedManyWithoutProvinceInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutProvinceInput
 }
 
 export type ProvinceUpdateInput = {
@@ -238,6 +243,7 @@ export type ProvinceUpdateInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   wards?: Prisma.WardUpdateManyWithoutProvinceNestedInput
+  students?: Prisma.StudentUpdateManyWithoutProvinceNestedInput
 }
 
 export type ProvinceUncheckedUpdateInput = {
@@ -246,6 +252,7 @@ export type ProvinceUncheckedUpdateInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   wards?: Prisma.WardUncheckedUpdateManyWithoutProvinceNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutProvinceNestedInput
 }
 
 export type ProvinceCreateManyInput = {
@@ -267,6 +274,11 @@ export type ProvinceUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type ProvinceNullableScalarRelationFilter = {
+  is?: Prisma.ProvinceWhereInput | null
+  isNot?: Prisma.ProvinceWhereInput | null
 }
 
 export type ProvinceCountOrderByAggregateInput = {
@@ -295,6 +307,22 @@ export type ProvinceScalarRelationFilter = {
   isNot?: Prisma.ProvinceWhereInput
 }
 
+export type ProvinceCreateNestedOneWithoutStudentsInput = {
+  create?: Prisma.XOR<Prisma.ProvinceCreateWithoutStudentsInput, Prisma.ProvinceUncheckedCreateWithoutStudentsInput>
+  connectOrCreate?: Prisma.ProvinceCreateOrConnectWithoutStudentsInput
+  connect?: Prisma.ProvinceWhereUniqueInput
+}
+
+export type ProvinceUpdateOneWithoutStudentsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProvinceCreateWithoutStudentsInput, Prisma.ProvinceUncheckedCreateWithoutStudentsInput>
+  connectOrCreate?: Prisma.ProvinceCreateOrConnectWithoutStudentsInput
+  upsert?: Prisma.ProvinceUpsertWithoutStudentsInput
+  disconnect?: Prisma.ProvinceWhereInput | boolean
+  delete?: Prisma.ProvinceWhereInput | boolean
+  connect?: Prisma.ProvinceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProvinceUpdateToOneWithWhereWithoutStudentsInput, Prisma.ProvinceUpdateWithoutStudentsInput>, Prisma.ProvinceUncheckedUpdateWithoutStudentsInput>
+}
+
 export type ProvinceCreateNestedOneWithoutWardsInput = {
   create?: Prisma.XOR<Prisma.ProvinceCreateWithoutWardsInput, Prisma.ProvinceUncheckedCreateWithoutWardsInput>
   connectOrCreate?: Prisma.ProvinceCreateOrConnectWithoutWardsInput
@@ -309,11 +337,60 @@ export type ProvinceUpdateOneRequiredWithoutWardsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProvinceUpdateToOneWithWhereWithoutWardsInput, Prisma.ProvinceUpdateWithoutWardsInput>, Prisma.ProvinceUncheckedUpdateWithoutWardsInput>
 }
 
+export type ProvinceCreateWithoutStudentsInput = {
+  code: string
+  name: string
+  fullName: string
+  codeName: string
+  wards?: Prisma.WardCreateNestedManyWithoutProvinceInput
+}
+
+export type ProvinceUncheckedCreateWithoutStudentsInput = {
+  code: string
+  name: string
+  fullName: string
+  codeName: string
+  wards?: Prisma.WardUncheckedCreateNestedManyWithoutProvinceInput
+}
+
+export type ProvinceCreateOrConnectWithoutStudentsInput = {
+  where: Prisma.ProvinceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProvinceCreateWithoutStudentsInput, Prisma.ProvinceUncheckedCreateWithoutStudentsInput>
+}
+
+export type ProvinceUpsertWithoutStudentsInput = {
+  update: Prisma.XOR<Prisma.ProvinceUpdateWithoutStudentsInput, Prisma.ProvinceUncheckedUpdateWithoutStudentsInput>
+  create: Prisma.XOR<Prisma.ProvinceCreateWithoutStudentsInput, Prisma.ProvinceUncheckedCreateWithoutStudentsInput>
+  where?: Prisma.ProvinceWhereInput
+}
+
+export type ProvinceUpdateToOneWithWhereWithoutStudentsInput = {
+  where?: Prisma.ProvinceWhereInput
+  data: Prisma.XOR<Prisma.ProvinceUpdateWithoutStudentsInput, Prisma.ProvinceUncheckedUpdateWithoutStudentsInput>
+}
+
+export type ProvinceUpdateWithoutStudentsInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  codeName?: Prisma.StringFieldUpdateOperationsInput | string
+  wards?: Prisma.WardUpdateManyWithoutProvinceNestedInput
+}
+
+export type ProvinceUncheckedUpdateWithoutStudentsInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  codeName?: Prisma.StringFieldUpdateOperationsInput | string
+  wards?: Prisma.WardUncheckedUpdateManyWithoutProvinceNestedInput
+}
+
 export type ProvinceCreateWithoutWardsInput = {
   code: string
   name: string
   fullName: string
   codeName: string
+  students?: Prisma.StudentCreateNestedManyWithoutProvinceInput
 }
 
 export type ProvinceUncheckedCreateWithoutWardsInput = {
@@ -321,6 +398,7 @@ export type ProvinceUncheckedCreateWithoutWardsInput = {
   name: string
   fullName: string
   codeName: string
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutProvinceInput
 }
 
 export type ProvinceCreateOrConnectWithoutWardsInput = {
@@ -344,6 +422,7 @@ export type ProvinceUpdateWithoutWardsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
+  students?: Prisma.StudentUpdateManyWithoutProvinceNestedInput
 }
 
 export type ProvinceUncheckedUpdateWithoutWardsInput = {
@@ -351,6 +430,7 @@ export type ProvinceUncheckedUpdateWithoutWardsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
+  students?: Prisma.StudentUncheckedUpdateManyWithoutProvinceNestedInput
 }
 
 
@@ -360,10 +440,12 @@ export type ProvinceUncheckedUpdateWithoutWardsInput = {
 
 export type ProvinceCountOutputType = {
   wards: number
+  students: number
 }
 
 export type ProvinceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   wards?: boolean | ProvinceCountOutputTypeCountWardsArgs
+  students?: boolean | ProvinceCountOutputTypeCountStudentsArgs
 }
 
 /**
@@ -383,6 +465,13 @@ export type ProvinceCountOutputTypeCountWardsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.WardWhereInput
 }
 
+/**
+ * ProvinceCountOutputType without action
+ */
+export type ProvinceCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentWhereInput
+}
+
 
 export type ProvinceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   code?: boolean
@@ -390,6 +479,7 @@ export type ProvinceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   fullName?: boolean
   codeName?: boolean
   wards?: boolean | Prisma.Province$wardsArgs<ExtArgs>
+  students?: boolean | Prisma.Province$studentsArgs<ExtArgs>
   _count?: boolean | Prisma.ProvinceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["province"]>
 
@@ -417,6 +507,7 @@ export type ProvinceSelectScalar = {
 export type ProvinceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "name" | "fullName" | "codeName", ExtArgs["result"]["province"]>
 export type ProvinceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   wards?: boolean | Prisma.Province$wardsArgs<ExtArgs>
+  students?: boolean | Prisma.Province$studentsArgs<ExtArgs>
   _count?: boolean | Prisma.ProvinceCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProvinceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -426,6 +517,7 @@ export type $ProvincePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Province"
   objects: {
     wards: Prisma.$WardPayload<ExtArgs>[]
+    students: Prisma.$StudentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     code: string
@@ -827,6 +919,7 @@ readonly fields: ProvinceFieldRefs;
 export interface Prisma__ProvinceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   wards<T extends Prisma.Province$wardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Province$wardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  students<T extends Prisma.Province$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Province$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1274,6 +1367,30 @@ export type Province$wardsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.WardScalarFieldEnum | Prisma.WardScalarFieldEnum[]
+}
+
+/**
+ * Province.students
+ */
+export type Province$studentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Student
+   */
+  select?: Prisma.StudentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Student
+   */
+  omit?: Prisma.StudentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentInclude<ExtArgs> | null
+  where?: Prisma.StudentWhereInput
+  orderBy?: Prisma.StudentOrderByWithRelationInput | Prisma.StudentOrderByWithRelationInput[]
+  cursor?: Prisma.StudentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentScalarFieldEnum | Prisma.StudentScalarFieldEnum[]
 }
 
 /**

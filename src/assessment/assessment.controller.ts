@@ -10,11 +10,19 @@ import {
   Patch,
   Post,
   Query,
+  UnauthorizedException,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
 import { AssessmentService } from "./assessment.service";
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import {
   CriterionDto,
   EvaluationPeriodDto,
@@ -24,10 +32,13 @@ import {
 import {
   CreateCriterionDto,
   CreatePeriodDto,
+  EvaluationSummaryDataDto,
   LoadAssessmentDto,
   UpdateAssessmentDto,
   UpdatePeriodDto,
 } from "./assessment.dto";
+import { GetUser } from "../common/decorators/get-user.decorator";
+import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
 
 @Controller("assessment")
 @ApiTags("Assessment")
@@ -71,6 +82,30 @@ export class AssessmentController {
   })
   async deleteCriteria(@Param("id") id: number) {
     return this.assessmentService.deleteCriteria(id);
+  }
+
+  /**
+   * Trả về tóm tắt trạng thái chấm điểm rèn luyện hiển thị ở Widget trang chủ
+   */
+  @Get("home/evaluation-summary")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      "Lấy tóm tắt trạng thái chấm điểm rèn luyện của sinh viên hiện tại",
+  })
+  @ApiResponse({
+    status: 200,
+    type: EvaluationSummaryDataDto,
+  })
+  async getEvaluationSummary(@GetUser("studentId") studentId: number) {
+    if (!studentId) {
+      throw new UnauthorizedException(
+        "Tài khoản không liên kết với thông tin sinh viên",
+      );
+    }
+
+    return this.assessmentService.getEvaluationSummary(studentId);
   }
 
   // Lấy tiêu chí chấm điểm

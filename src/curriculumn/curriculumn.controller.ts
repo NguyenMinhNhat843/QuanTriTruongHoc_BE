@@ -18,7 +18,6 @@ import {
 import { CurriculumService } from "./service/curriculum.service";
 import {
   CreateCurriculumDto,
-  CurriculumDto,
   CurriculumResponseDtoWithRelation,
   SearchCurriculumDto,
   UpdateCurriculumDto,
@@ -37,9 +36,11 @@ export class CurriculumController {
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả chương trình khung" })
-  @ApiOkResponse({ type: CurriculumDto, isArray: true })
+  @ApiOkResponse({ type: CurriculumResponseDtoWithRelation, isArray: true })
   @ApiQuery({ type: SearchCurriculumDto })
-  findAll(@Query() query: SearchCurriculumDto): Promise<CurriculumDto[]> {
+  findAll(
+    @Query() query: SearchCurriculumDto,
+  ): Promise<CurriculumResponseDtoWithRelation[]> {
     return this.curriculumService.findAll(query);
   }
 

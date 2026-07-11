@@ -28,16 +28,26 @@ export class StudentService {
    * Tạo mới một sinh viên
    */
   async createStudent(data: CreateStudentDto): Promise<StudentResponseDto> {
-    const { admissionProfile, ...studentProfile } = data;
+    const {
+      admissionProfile,
+      batchId,
+      provinceCode,
+      wardCode,
+      villageId,
+      ...studentProfile
+    } = data;
 
     const student = await this.prisma.$transaction(async (tx) => {
       const newStudent = await tx.student.create({
         data: {
           ...studentProfile,
           majorId: studentProfile.majorId ?? null,
-          batchId: studentProfile.batchId ?? null,
+          batchId: batchId ?? null,
           studentCode: `S${generateId()}`,
           dob: studentProfile.dob ? new Date(studentProfile.dob) : null,
+          provinceCode: provinceCode ?? null,
+          wardCode: wardCode ?? null,
+          villageId: villageId ?? null,
         },
       });
 
@@ -108,7 +118,7 @@ export class StudentService {
   }
 
   /**
-   * Tìm sinh viên theo mã sinh viên
+   * Tìm sinh viên theo mã sinh viên hoặc Id
    */
   async findOne(studentCode: string): Promise<StudentResponseDto> {
     const idAsNumber = Number(studentCode);

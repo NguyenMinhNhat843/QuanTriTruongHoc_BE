@@ -170,6 +170,98 @@ export class AssessmentService {
     return plainToInstance(ResponseEvaluationPeriodDtoWithRelation, period);
   }
 
+  /**
+   * Lấy tóm tắt tình trạng phiếu điểm rèn luyện đợt hiện tại của sinh viên
+   */
+  async getEvaluationSummary(studentId: number) {
+    // 1. Tìm đợt đánh giá điểm rèn luyện đang mở thuộc học kỳ hiện tại
+    const currentPeriod = await this.prismaService.evaluationPeriod.findFirst({
+      where: {
+        isActive: true,
+        semester: {
+          isCurrent: true,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        isFrozen: true,
+      },
+    });
+
+    // Nếu không có đợt đánh giá nào đang mở, trả về trạng thái không hoạt động
+    if (!currentPeriod) {
+      return {
+        hasActivePeriod: false,
+        message:
+          "Hiện tại không nằm trong đợt đánh giá hoặc đợt đánh giá đã đóng.",
+        periodName: null,
+        assessment: null,
+      };
+    }
+
+    // 2. Tìm phiếu điểm của sinh viên trong đợt đánh giá này
+    const assessment = await this.prismaService.assessment.findUnique({
+      where: {
+        studentId_periodId: {
+          studentId: studentId,
+          periodId: currentPeriod.id,
+        },
+      },
+      select: {
+        id: true,
+        status: true,
+        totalStudentScore: true,
+        totalTeacherScore: true,
+        finalGrade: true,
+        teacherComment: true,
+        updatedAt: true,
+      },
+    });
+
+    // 3. Chuẩn hóa dữ liệu trả về dựa trên tình trạng phiếu điểm
+    if (!assessment) {
+      // Trường hợp hệ thống đã mở đợt nhưng sinh viên chưa hề ấn khởi tạo hay lưu nháp
+      return {
+        hasActivePeriod: true,
+        periodName: currentPeriod.name,
+        isFrozen: currentPeriod.isFrozen,
+        assessment: {
+          status: "NOT_CREATED", // FE dựa vào đây hiển thị nút "Bắt đầu chấm điểm"
+          statusLabel: "Chưa tự chấm",
+          totalStudentScore: 0,
+          totalTeacherScore: 0,
+          finalGrade: null,
+          teacherComment: null,
+          lastUpdatedAt: null,
+        },
+      };
+    }
+
+    // Định nghĩa label tiếng Việt cho các trạng thái Enum để FE dễ hiển thị dạng Tag/Badge
+    const statusLabels: Record<string, string> = {
+      NOT_SUBMITTED: "Đang lưu nháp",
+      PENDING: "Chờ GVCN duyệt",
+      APPROVED: "GVCN đã duyệt",
+    };
+
+    return {
+      hasActivePeriod: true,
+      periodName: currentPeriod.name,
+      isFrozen: currentPeriod.isFrozen,
+      assessment: {
+        id: assessment.id,
+        status: assessment.status, // NOT_SUBMITTED | PENDING | APPROVED
+        statusLabel: statusLabels[assessment.status] || "Không xác định",
+        totalStudentScore: assessment.totalStudentScore,
+        totalTeacherScore: assessment.totalTeacherScore,
+        finalGrade: assessment.finalGrade, // Xuất sắc, Tốt, Khá... (nếu đã khóa sổ)
+        teacherComment: assessment.teacherComment,
+        lastUpdatedAt: assessment.updatedAt,
+      },
+    };
+  }
+
   // ============= API cho Assessment: Bảng phiếu chấm từng sinh viên ================
   async getOrCreateAssessment(dto: LoadAssessmentDto) {
     const { studentId, semesterId } = dto;

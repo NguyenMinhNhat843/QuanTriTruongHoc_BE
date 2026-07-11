@@ -117,3 +117,21 @@ export class CreateAssessmentDetailDto extends PickType(AssessmentDetailDto, [
   "studentScore",
   "teacherScore",
 ] as const) {}
+
+// ======== Response DTOs ==========
+export class EvaluationSummaryDataDto {
+  @ApiProperty()
+  hasActivePeriod: boolean;
+
+  @ApiProperty({ type: String, nullable: true })
+  message?: string;
+
+  @ApiProperty({ type: String, nullable: true })
+  periodName: string | null;
+
+  @ApiProperty({ type: Boolean, nullable: true })
+  isFrozen?: boolean;
+
+  @ApiProperty({ type: AssessmentDto, nullable: true })
+  assessment: AssessmentDto | null;
+}

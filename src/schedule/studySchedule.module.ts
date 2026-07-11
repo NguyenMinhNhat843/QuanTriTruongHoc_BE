@@ -4,6 +4,8 @@ import { ClassSubjectScheduleDetailController } from "./controller/classSubjectS
 import { ClassSubjectScheduleDetailService } from "./service/classSubjectScheduleDetail.service";
 import { ClassSubjectSessionService } from "./service/classSubjectSession.service";
 import { TrainingPlanService } from "./service/trainingProgress.service";
+import { TimeTableService } from "./service/time-table.service";
+import { TimeTableController } from "./controller/time-table.controller";
 
 @Module({
   imports: [],
@@ -11,11 +13,17 @@ import { TrainingPlanService } from "./service/trainingProgress.service";
     ClassSubjectSessionService,
     ClassSubjectScheduleDetailService,
     TrainingPlanService,
+    TimeTableService,
   ],
   controllers: [
     ClassSubjectSessionController,
     ClassSubjectScheduleDetailController,
+    TimeTableController,
   ],
-  exports: [ClassSubjectSessionService, ClassSubjectScheduleDetailService],
+  exports: [
+    ClassSubjectSessionService,
+    ClassSubjectScheduleDetailService,
+    TimeTableService,
+  ],
 })
 export class StudyScheduleModule {}

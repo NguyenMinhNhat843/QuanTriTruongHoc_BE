@@ -88,6 +88,19 @@ export class StudentDto implements Student {
   @Exclude()
   updatedAt: Date;
 
+  // Địa chỉ
+  @ApiPropertyOptional({ type: String, nullable: true })
+  addressDetail: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
+  provinceCode: string | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  villageId: number | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
+  wardCode: string | null;
+
   // --- THÔNG TIN CÁ NHÂN BẮT BUỘC ---
   @ApiProperty({
     type: String,
@@ -122,14 +135,6 @@ export class StudentDto implements Student {
   @IsString()
   @IsOptional()
   phone: string | null;
-
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  address: string | null;
 
   @ApiPropertyOptional({
     type: String,

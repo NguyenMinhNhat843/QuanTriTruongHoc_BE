@@ -201,6 +201,7 @@ export type VillageWhereInput = {
   name?: Prisma.StringFilter<"Village"> | string
   wardCode?: Prisma.StringFilter<"Village"> | string
   ward?: Prisma.XOR<Prisma.WardScalarRelationFilter, Prisma.WardWhereInput>
+  students?: Prisma.StudentListRelationFilter
 }
 
 export type VillageOrderByWithRelationInput = {
@@ -208,6 +209,7 @@ export type VillageOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   wardCode?: Prisma.SortOrder
   ward?: Prisma.WardOrderByWithRelationInput
+  students?: Prisma.StudentOrderByRelationAggregateInput
 }
 
 export type VillageWhereUniqueInput = Prisma.AtLeast<{
@@ -218,6 +220,7 @@ export type VillageWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Village"> | string
   wardCode?: Prisma.StringFilter<"Village"> | string
   ward?: Prisma.XOR<Prisma.WardScalarRelationFilter, Prisma.WardWhereInput>
+  students?: Prisma.StudentListRelationFilter
 }, "id">
 
 export type VillageOrderByWithAggregationInput = {
@@ -243,23 +246,27 @@ export type VillageScalarWhereWithAggregatesInput = {
 export type VillageCreateInput = {
   name: string
   ward: Prisma.WardCreateNestedOneWithoutVillagesInput
+  students?: Prisma.StudentCreateNestedManyWithoutVillageInput
 }
 
 export type VillageUncheckedCreateInput = {
   id?: number
   name: string
   wardCode: string
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutVillageInput
 }
 
 export type VillageUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   ward?: Prisma.WardUpdateOneRequiredWithoutVillagesNestedInput
+  students?: Prisma.StudentUpdateManyWithoutVillageNestedInput
 }
 
 export type VillageUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   wardCode?: Prisma.StringFieldUpdateOperationsInput | string
+  students?: Prisma.StudentUncheckedUpdateManyWithoutVillageNestedInput
 }
 
 export type VillageCreateManyInput = {
@@ -276,6 +283,11 @@ export type VillageUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   wardCode?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type VillageNullableScalarRelationFilter = {
+  is?: Prisma.VillageWhereInput | null
+  isNot?: Prisma.VillageWhereInput | null
 }
 
 export type VillageListRelationFilter = {
@@ -312,6 +324,22 @@ export type VillageMinOrderByAggregateInput = {
 
 export type VillageSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+}
+
+export type VillageCreateNestedOneWithoutStudentsInput = {
+  create?: Prisma.XOR<Prisma.VillageCreateWithoutStudentsInput, Prisma.VillageUncheckedCreateWithoutStudentsInput>
+  connectOrCreate?: Prisma.VillageCreateOrConnectWithoutStudentsInput
+  connect?: Prisma.VillageWhereUniqueInput
+}
+
+export type VillageUpdateOneWithoutStudentsNestedInput = {
+  create?: Prisma.XOR<Prisma.VillageCreateWithoutStudentsInput, Prisma.VillageUncheckedCreateWithoutStudentsInput>
+  connectOrCreate?: Prisma.VillageCreateOrConnectWithoutStudentsInput
+  upsert?: Prisma.VillageUpsertWithoutStudentsInput
+  disconnect?: Prisma.VillageWhereInput | boolean
+  delete?: Prisma.VillageWhereInput | boolean
+  connect?: Prisma.VillageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VillageUpdateToOneWithWhereWithoutStudentsInput, Prisma.VillageUpdateWithoutStudentsInput>, Prisma.VillageUncheckedUpdateWithoutStudentsInput>
 }
 
 export type VillageCreateNestedManyWithoutWardInput = {
@@ -356,13 +384,53 @@ export type VillageUncheckedUpdateManyWithoutWardNestedInput = {
   deleteMany?: Prisma.VillageScalarWhereInput | Prisma.VillageScalarWhereInput[]
 }
 
+export type VillageCreateWithoutStudentsInput = {
+  name: string
+  ward: Prisma.WardCreateNestedOneWithoutVillagesInput
+}
+
+export type VillageUncheckedCreateWithoutStudentsInput = {
+  id?: number
+  name: string
+  wardCode: string
+}
+
+export type VillageCreateOrConnectWithoutStudentsInput = {
+  where: Prisma.VillageWhereUniqueInput
+  create: Prisma.XOR<Prisma.VillageCreateWithoutStudentsInput, Prisma.VillageUncheckedCreateWithoutStudentsInput>
+}
+
+export type VillageUpsertWithoutStudentsInput = {
+  update: Prisma.XOR<Prisma.VillageUpdateWithoutStudentsInput, Prisma.VillageUncheckedUpdateWithoutStudentsInput>
+  create: Prisma.XOR<Prisma.VillageCreateWithoutStudentsInput, Prisma.VillageUncheckedCreateWithoutStudentsInput>
+  where?: Prisma.VillageWhereInput
+}
+
+export type VillageUpdateToOneWithWhereWithoutStudentsInput = {
+  where?: Prisma.VillageWhereInput
+  data: Prisma.XOR<Prisma.VillageUpdateWithoutStudentsInput, Prisma.VillageUncheckedUpdateWithoutStudentsInput>
+}
+
+export type VillageUpdateWithoutStudentsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ward?: Prisma.WardUpdateOneRequiredWithoutVillagesNestedInput
+}
+
+export type VillageUncheckedUpdateWithoutStudentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  wardCode?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
 export type VillageCreateWithoutWardInput = {
   name: string
+  students?: Prisma.StudentCreateNestedManyWithoutVillageInput
 }
 
 export type VillageUncheckedCreateWithoutWardInput = {
   id?: number
   name: string
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutVillageInput
 }
 
 export type VillageCreateOrConnectWithoutWardInput = {
@@ -407,11 +475,13 @@ export type VillageCreateManyWardInput = {
 
 export type VillageUpdateWithoutWardInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  students?: Prisma.StudentUpdateManyWithoutVillageNestedInput
 }
 
 export type VillageUncheckedUpdateWithoutWardInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  students?: Prisma.StudentUncheckedUpdateManyWithoutVillageNestedInput
 }
 
 export type VillageUncheckedUpdateManyWithoutWardInput = {
@@ -420,12 +490,43 @@ export type VillageUncheckedUpdateManyWithoutWardInput = {
 }
 
 
+/**
+ * Count Type VillageCountOutputType
+ */
+
+export type VillageCountOutputType = {
+  students: number
+}
+
+export type VillageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  students?: boolean | VillageCountOutputTypeCountStudentsArgs
+}
+
+/**
+ * VillageCountOutputType without action
+ */
+export type VillageCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VillageCountOutputType
+   */
+  select?: Prisma.VillageCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * VillageCountOutputType without action
+ */
+export type VillageCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentWhereInput
+}
+
 
 export type VillageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   wardCode?: boolean
   ward?: boolean | Prisma.WardDefaultArgs<ExtArgs>
+  students?: boolean | Prisma.Village$studentsArgs<ExtArgs>
+  _count?: boolean | Prisma.VillageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["village"]>
 
 export type VillageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -451,6 +552,8 @@ export type VillageSelectScalar = {
 export type VillageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "wardCode", ExtArgs["result"]["village"]>
 export type VillageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ward?: boolean | Prisma.WardDefaultArgs<ExtArgs>
+  students?: boolean | Prisma.Village$studentsArgs<ExtArgs>
+  _count?: boolean | Prisma.VillageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VillageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ward?: boolean | Prisma.WardDefaultArgs<ExtArgs>
@@ -463,6 +566,7 @@ export type $VillagePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Village"
   objects: {
     ward: Prisma.$WardPayload<ExtArgs>
+    students: Prisma.$StudentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -863,6 +967,7 @@ readonly fields: VillageFieldRefs;
 export interface Prisma__VillageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   ward<T extends Prisma.WardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WardDefaultArgs<ExtArgs>>): Prisma.Prisma__WardClient<runtime.Types.Result.GetResult<Prisma.$WardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  students<T extends Prisma.Village$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Village$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1293,6 +1398,30 @@ export type VillageDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Villages to delete.
    */
   limit?: number
+}
+
+/**
+ * Village.students
+ */
+export type Village$studentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Student
+   */
+  select?: Prisma.StudentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Student
+   */
+  omit?: Prisma.StudentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentInclude<ExtArgs> | null
+  where?: Prisma.StudentWhereInput
+  orderBy?: Prisma.StudentOrderByWithRelationInput | Prisma.StudentOrderByWithRelationInput[]
+  cursor?: Prisma.StudentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentScalarFieldEnum | Prisma.StudentScalarFieldEnum[]
 }
 
 /**

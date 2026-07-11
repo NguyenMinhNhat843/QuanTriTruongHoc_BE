@@ -58,7 +58,13 @@ model Student {
   dob             DateTime?       @db.Date
   phone           String?         
   avatarUrl       String?
-  address         String?
+  provinceCode    String?
+  province        Province?        @relation(fields: [provinceCode], references: [code])
+  wardCode        String?
+  ward            Ward?            @relation(fields: [wardCode], references: [code])
+  villageId       Int?
+  village         Village?         @relation(fields: [villageId], references: [id])
+  addressDetail   String?
   identityNumber  String?         @unique // CCCD
 
   // Thông tin cha

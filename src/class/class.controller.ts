@@ -42,7 +42,7 @@ export class ClassController {
    */
   @Get()
   @ApiOperation({})
-  @ApiOkResponse({ type: ClassResponseDto, isArray: true })
+  @ApiOkResponse({ type: ClassResponseWithRelationsDto, isArray: true })
   @UseGuards(JwtAuthGuard)
   findAll(@Query() query: SearchClassDto, @GetUser() user: any) {
     return this.classService.findAll(query, user);
