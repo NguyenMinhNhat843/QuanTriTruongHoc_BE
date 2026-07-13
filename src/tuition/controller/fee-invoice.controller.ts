@@ -9,6 +9,7 @@ import {
   Query,
   ParseIntPipe,
   HttpStatus,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -16,6 +17,7 @@ import {
   ApiResponse,
   ApiOkResponse,
   ApiCreatedResponse,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import {
   CreateFeeInvoiceDto,
@@ -24,11 +26,17 @@ import {
   FeeInvoiceDto,
   FeeInvoiceWithPaymentsDto,
   FeeInvoiceWithStudentDto,
-} from "../dto/fee-invoice.dto"; // Điều chỉnh lại đường dẫn DTO cho đúng
+  ResponseFeeInvoicePagination,
+} from "../dto/fee-invoice.dto";
 import { FeeInvoiceService } from "../service/fee-invoice.service";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { GetUser } from "../../common/decorators/get-user.decorator";
+import { AuthUserResponseDto } from "../../auth/dto/auth-user-response.dto";
 
-@ApiTags("Fee Invoice (Hóa đơn học phí)") // Gom nhóm trên giao diện Swagger UI
+@ApiTags("Fee Invoice (Hóa đơn học phí)")
+@ApiBearerAuth()
 @Controller("fee-invoices")
+@UseGuards(JwtAuthGuard)
 export class FeeInvoiceController {
   constructor(private readonly feeInvoiceService: FeeInvoiceService) {}
 
@@ -49,8 +57,11 @@ export class FeeInvoiceController {
     status: HttpStatus.BAD_REQUEST,
     description: "Dữ liệu đầu vào không hợp lệ hoặc sai định dạng.",
   })
-  async create(@Body() createDto: CreateFeeInvoiceDto): Promise<FeeInvoiceDto> {
-    return this.feeInvoiceService.create(createDto);
+  async create(
+    @Body() createDto: CreateFeeInvoiceDto,
+    @GetUser() user: AuthUserResponseDto,
+  ): Promise<FeeInvoiceDto> {
+    return this.feeInvoiceService.create(createDto, user);
   }
 
   // ==========================================
@@ -62,11 +73,11 @@ export class FeeInvoiceController {
   })
   @ApiOkResponse({
     description: "Trả về danh sách hóa đơn học phí phù hợp với bộ lọc.",
-    type: [FeeInvoiceDto],
+    type: ResponseFeeInvoicePagination,
   })
   async findAll(
     @Query() searchDto: SearchFeeInvoiceDto,
-  ): Promise<FeeInvoiceDto[]> {
+  ): Promise<ResponseFeeInvoicePagination> {
     return this.feeInvoiceService.findAll(searchDto);
   }
 

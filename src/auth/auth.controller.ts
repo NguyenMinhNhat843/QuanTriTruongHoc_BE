@@ -10,9 +10,9 @@ import {
   Req,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service.js";
-import { LoginDto, RegisterDto, SearchAccountDto } from "./auth.dto.js";
+import { LoginDto, RegisterDto, SearchAccountDto } from "./dto/auth.dto.js";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { AccountResponseDto } from "./auth.resposne.js";
+import { AccountResponseDto, LoginResponseDto } from "./dto/auth.resposne.js";
 import { Request, Response } from "express";
 
 @ApiTags("Auth")
@@ -29,6 +29,10 @@ export class AuthController {
   @Post("login")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Đăng nhập vào hệ thống" })
+  @ApiResponse({
+    status: 200,
+    type: LoginResponseDto,
+  })
   async login(@Body() loginDto: LoginDto, @Res() res: Response) {
     return this.authService.login(loginDto, res);
   }

@@ -6,6 +6,8 @@ import { FeeInvoiceService } from "./service/fee-invoice.service";
 import { PaymentService } from "./service/payment.service";
 import { TuitionConfigService } from "./service/tuition-config.service";
 import { TuitionPeriodService } from "./service/tuition-period.service";
+import { DashboardController } from "./controller/dashboard.controller";
+import { DashboardService } from "./service/dashboard.service";
 
 @Module({
   imports: [],
@@ -13,18 +15,21 @@ import { TuitionPeriodService } from "./service/tuition-period.service";
     FeeInvoiceController,
     TuitionPeriodController,
     TuitionConfigController,
+    DashboardController,
   ],
   providers: [
     FeeInvoiceService,
     PaymentService,
     TuitionConfigService,
     TuitionPeriodService,
+    DashboardService,
   ],
   exports: [
     FeeInvoiceService,
     PaymentService,
     TuitionConfigService,
     TuitionPeriodService,
+    DashboardService,
   ],
 })
 export class TuitionModule {}

@@ -70,4 +70,10 @@ export class SearchPaymentDto extends PickType(PaymentDto, [
   "studentId",
   "method",
   "status",
-] as const) {}
+] as const) {
+  @ApiProperty({ required: false, default: 1 })
+  page: number;
+
+  @ApiProperty({ required: false, default: 10 })
+  limit: number;
+}

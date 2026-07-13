@@ -573,7 +573,7 @@ export class StudentService {
   ): Promise<ResponseStudentPaginationDto> {
     const {
       page = 1,
-      limit = 1000,
+      limit = 10,
       keyword,
       status,
       excludeStatus,

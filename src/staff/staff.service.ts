@@ -3,7 +3,6 @@ import {
   ConflictException,
   InternalServerErrorException,
   NotFoundException,
-  BadRequestException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
@@ -175,33 +174,6 @@ export class StaffService {
     });
 
     return plainToInstance(StaffResponseDto, staff);
-  }
-
-  /**
-   * Cấp tài khoản cho giáo viên
-   */
-  async applyAccountForTeacher(teacherId: number) {
-    const teacher = await this.prisma.staff.findUnique({
-      where: {
-        id: teacherId,
-      },
-    });
-
-    if (!teacher) {
-      throw new BadRequestException("User này không tồn tại");
-    }
-
-    // Tạo account
-    const account = await this.prisma.user.create({
-      data: {
-        username: teacher.staffCode,
-        role: teacher.EmployeeRole === "STAFF" ? "staff" : "teacher",
-        passwordHash: "123456",
-        staffId: teacher.id,
-      },
-    });
-
-    return account;
   }
 
   /**

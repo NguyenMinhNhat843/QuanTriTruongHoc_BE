@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { RoleType, User } from "../../prisma/generated/prisma/client";
+import { RoleType, User } from "../../../prisma/generated/prisma/client";
 import {
   IsBoolean,
   IsDate,
@@ -10,16 +10,34 @@ import {
   IsString,
 } from "class-validator";
 
-export class LoginResponseDto {
+// 1. Định nghĩa sub-dto cho user trước
+export class UserInfoDto {
   @ApiProperty()
-  access_token: string;
+  id: number;
 
   @ApiProperty()
-  user: {
-    id: number;
-    username: string;
-    role: string;
-  };
+  username: string;
+
+  @ApiProperty()
+  role: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  profile: any;
+}
+
+// 2. Sử dụng trong LoginResponseDto
+export class LoginResponseDto {
+  @ApiProperty({
+    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  })
+  access_token: string;
+
+  @ApiProperty({
+    type: UserInfoDto,
+  })
+  user: UserInfoDto;
 }
 
 export class AccountResponseDto implements User {

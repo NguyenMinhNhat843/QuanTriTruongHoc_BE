@@ -6,10 +6,10 @@ import {
   RegisterDto,
   ResponseLoginDto,
   SearchAccountDto,
-} from "./auth.dto.js";
+} from "./dto/auth.dto.js";
 import * as bcrypt from "bcryptjs";
 import { plainToInstance } from "class-transformer";
-import { AccountResponseDto } from "./auth.resposne.js";
+import { AccountResponseDto } from "./dto/auth.resposne.js";
 import { Response } from "express";
 
 @Injectable()

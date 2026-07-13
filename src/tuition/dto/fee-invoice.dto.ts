@@ -90,11 +90,15 @@ export class CreateFeeInvoiceDto extends OmitType(FeeInvoiceDto, [
 export class UpdateFeeInvoiceDto extends PartialType(CreateFeeInvoiceDto) {}
 
 // 4. Search DTO: Tìm kiếm theo học sinh (studentId), đợt thu (periodId) hoặc trạng thái hóa đơn (status)
-export class SearchFeeInvoiceDto extends PickType(FeeInvoiceDto, [
-  "studentId",
-  "periodId",
-  "status",
-] as const) {}
+export class SearchFeeInvoiceDto extends PartialType(
+  PickType(FeeInvoiceDto, ["studentId", "periodId", "status"]),
+) {
+  @ApiProperty({ required: false, default: 1 })
+  page?: number;
+
+  @ApiProperty({ required: false, default: 10 })
+  limit?: number;
+}
 
 export class ResponseStudentDebtDto extends StudentDto {
   @ApiProperty({ type: MajorDto, nullable: true })
@@ -113,4 +117,12 @@ export class FeeInvoiceWithStudentDto extends FeeInvoiceDto {
 
   @ApiProperty({ type: [PaymentDto] })
   payments?: PaymentDto[];
+}
+
+export class ResponseFeeInvoicePagination {
+  @ApiProperty({ type: [FeeInvoiceDto] })
+  data: FeeInvoiceDto[];
+
+  @ApiProperty({ type: Number })
+  total: number;
 }

@@ -16,6 +16,7 @@ import {
 } from "../dto/fee-invoice.dto";
 import { PrismaService } from "../../prisma/prisma.service";
 import { PaymentService } from "./payment.service";
+import { AuthUserResponseDto } from "../../auth/dto/auth-user-response.dto";
 
 @Injectable()
 export class FeeInvoiceService {
@@ -39,7 +40,16 @@ export class FeeInvoiceService {
   // ==========================================
   // 1. CREATE (Tạo hóa đơn học phí + Tạo Payment ban đầu)
   // ==========================================
-  async create(createDto: CreateFeeInvoiceDto): Promise<FeeInvoiceDto> {
+  async create(
+    createDto: CreateFeeInvoiceDto,
+    user?: AuthUserResponseDto,
+  ): Promise<FeeInvoiceDto> {
+    if (!user || user.role === "student" || user.role === "teacher") {
+      throw new NotFoundException(
+        `Bạn không có quyền tạo hóa đơn học phí. Vui lòng liên hệ quản trị viên để được hỗ trợ.`,
+      );
+    }
+
     const executeLogic = async (client: Prisma.TransactionClient) => {
       // 1.1 Tạo hóa đơn học phí
       const invoice = await client.feeInvoice.create({
@@ -61,11 +71,11 @@ export class FeeInvoiceService {
             invoiceId: invoice.id,
             studentId: invoice.studentId,
             amountPaid: createDto.paidAmount,
-            method: "CASH", // Hoặc cấu hình một phương thức mặc định ban đầu
+            method: "CASH",
             transactionRef: `INIT_INVOICE_${invoice.id}`,
-            createdBy: "SYSTEM",
+            createdBy: user.fullName || "SYSTEM",
           },
-          client, // Gửi client transaction xuống để chạy chung chu kỳ
+          client,
         );
       }
 
@@ -144,10 +154,7 @@ export class FeeInvoiceService {
   // ==========================================
   // 2. READ ALL / SEARCH
   // ==========================================
-  async findAll(
-    searchDto: SearchFeeInvoiceDto,
-    tx?: Prisma.TransactionClient,
-  ): Promise<FeeInvoiceDto[]> {
+  async findAll(searchDto: SearchFeeInvoiceDto, tx?: Prisma.TransactionClient) {
     const client = this.getClient(tx);
     const where: Prisma.FeeInvoiceWhereInput = {};
 
@@ -155,8 +162,26 @@ export class FeeInvoiceService {
     if (searchDto.periodId) where.periodId = searchDto.periodId;
     if (searchDto.status) where.status = searchDto.status;
 
-    const results = await client.feeInvoice.findMany({ where });
-    return plainToInstance(FeeInvoiceDto, results);
+    const page = Number(searchDto.page) || 1;
+    const limit = Number(searchDto.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const [results, totalItems] = await Promise.all([
+      client.feeInvoice.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { id: "desc" },
+      }),
+      client.feeInvoice.count({ where }),
+    ]);
+
+    const data = plainToInstance(FeeInvoiceDto, results);
+
+    return {
+      data,
+      total: totalItems,
+    };
   }
 
   // ==========================================
@@ -213,7 +238,12 @@ export class FeeInvoiceService {
       }
 
       // 4.2 Tiến hành cập nhật hóa đơn học phí với dữ liệu đã được tính toán tự động
-      const {paymentMethod, transactionRef, staffName, ...updateFeeInvoiceData} = updateDto;
+      const {
+        paymentMethod,
+        transactionRef,
+        staffName,
+        ...updateFeeInvoiceData
+      } = updateDto;
       const updatedInvoice = await client.feeInvoice.update({
         where: { id },
         data: {
@@ -234,8 +264,7 @@ export class FeeInvoiceService {
             amountPaid: diffPaidAmount,
             method: paymentMethod ?? "CASH", // Nên lấy từ client truyền lên thay vì áp cứng TRANSFER
             transactionRef:
-              transactionRef ??
-              `QUAY_THU_${updatedInvoice.id}_${Date.now()}`,
+              transactionRef ?? `QUAY_THU_${updatedInvoice.id}_${Date.now()}`,
             createdBy: staffName ?? "CASHIER_SYSTEM", // Định danh nhân viên thu tiền
           },
           client,
