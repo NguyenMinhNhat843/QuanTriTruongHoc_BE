@@ -17,6 +17,7 @@ import { PostStatus } from "../../prisma/generated/prisma/enums";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { CloudinaryService } from "../upload/upload.service";
 import { plainToInstance } from "class-transformer";
+import sanitizeHtml from "sanitize-html";
 
 @Injectable()
 export class PostService {
@@ -30,7 +31,7 @@ export class PostService {
    * Tạo bài viết mới
    */
   async create(createPostDto: CreatePostDto, file: Express.Multer.File) {
-    const { title, slug, ...data } = createPostDto;
+    const { title, slug, content, ...data } = createPostDto;
 
     // Nếu không có slug, tự động tạo từ title
     const finalSlug = slug
@@ -46,6 +47,21 @@ export class PostService {
       throw new ConflictException("Slug hoặc tiêu đề này đã tồn tại");
     }
 
+    const cleanContent = sanitizeHtml(content, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+        "img",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+      ]),
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        img: ["src", "alt", "title"],
+        "*": ["style"],
+      },
+    });
+
     if (file) {
       const image = await this.cloudinaryService.uploadImageAndSaveDb(
         file,
@@ -57,6 +73,7 @@ export class PostService {
     const result = await this.prisma.post.create({
       data: {
         ...data,
+        content: cleanContent,
         title,
         slug: finalSlug,
       },
