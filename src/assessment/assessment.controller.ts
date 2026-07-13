@@ -39,14 +39,20 @@ import {
 } from "./assessment.dto";
 import { GetUser } from "../common/decorators/get-user.decorator";
 import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
+import { RolesGuard } from "../auth/guard/role.guard";
+import { Roles } from "../common/decorators/role.decorator";
+import { RoleType } from "../../prisma/generated/prisma/enums";
 
 @Controller("assessment")
+@ApiBearerAuth()
 @ApiTags("Assessment")
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class AssessmentController {
   constructor(private readonly assessmentService: AssessmentService) {}
 
   // Create Criteria: Tiêu chí chấm điểm
   @Post("criteria")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({ summary: "Tạo tiêu chí chấm điểm" })
   @ApiResponse({
     status: 201,
@@ -59,6 +65,7 @@ export class AssessmentController {
 
   // Update Criteria: Cập nhật tiêu chí chấm điểm
   @Patch("criteria/:id")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({ summary: "Cập nhật tiêu chí chấm điểm" })
   @ApiResponse({
     status: 200,
@@ -74,6 +81,7 @@ export class AssessmentController {
 
   // Delete Criteria: Xóa tiêu chí chấm điểm
   @Delete("criteria/:id")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({ summary: "Xóa tiêu chí chấm điểm" })
   @ApiResponse({
     status: 200,
@@ -121,6 +129,7 @@ export class AssessmentController {
 
   // ============ Evaluate Period: Api Đợt đánh giá ============
   @Post("periods")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({ summary: "Tạo mới một đợt đánh giá kèm các tiêu chí" })
   async create(@Body() createPeriodDto: CreatePeriodDto) {
     return await this.assessmentService.createPeriod(createPeriodDto);
@@ -134,11 +143,13 @@ export class AssessmentController {
     status: 200,
     type: [EvaluationPeriodDto],
   })
+  @Roles(RoleType.admin, RoleType.staff)
   async findAll() {
     return await this.assessmentService.getAllPeriods();
   }
 
   @Get("periods/:id")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Lấy chi tiết một đợt đánh giá",
   })
@@ -151,6 +162,7 @@ export class AssessmentController {
   }
 
   @Patch("periods/:id")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Cập nhật thông tin đợt đánh giá và đồng bộ lại tiêu chí",
   })
@@ -163,6 +175,7 @@ export class AssessmentController {
   }
 
   @Delete("periods/:id")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Xóa đợt đánh giá và các liên kết tiêu chí liên quan",
   })

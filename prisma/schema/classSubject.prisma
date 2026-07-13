@@ -16,11 +16,6 @@ enum DayOfWeek {
   SUNDAY
 }
 
-// ==========================
-// Lưu ý: Bảng này là Grades - Bảng lưu điểm từng học sinh
-// Điểm của 1 học sinh của 1 classSubject
-// Bảng này là: Grades
-// ==========================
 model GradeStudent {
   id             Int         @id @default(autoincrement())
   
