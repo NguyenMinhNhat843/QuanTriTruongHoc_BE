@@ -126,7 +126,7 @@ export class TuitionConfigService {
       // 2.4 Thực hiện insert hàng loạt (Bulk Insert) để tối ưu hiệu năng tối đa
       const result = await tx.feeInvoice.createMany({
         data: invoicesToCreate,
-        skipDuplicates: true, // Nếu sinh viên đã có hóa đơn trong đợt này rồi thì bỏ qua không tạo đè
+        skipDuplicates: true,
       });
       return result.count;
     } catch (error) {

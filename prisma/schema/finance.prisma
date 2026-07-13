@@ -78,6 +78,7 @@ model FeeInvoice {
 
   payments        Payment[]
 
+  @@unique([studentId, periodId])
   @@map("fee_invoices")
 }
 

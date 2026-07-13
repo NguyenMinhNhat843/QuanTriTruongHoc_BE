@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   HttpStatus,
   HttpCode,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -17,6 +18,7 @@ import {
   ApiResponse,
   ApiOkResponse,
   ApiCreatedResponse,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import {
   CreateTuitionConfigDto,
@@ -26,9 +28,12 @@ import {
 } from "../dto/tuition-config.dto"; // Điều chỉnh lại đường dẫn
 import { TuitionConfigService } from "../service/tuition-config.service";
 import { MajorDto } from "../../major/major.dto";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
 @ApiTags("Tuition Config (Cấu hình học phí)") // Nhóm các API này lại trên Swagger UI
+@ApiBearerAuth()
 @Controller("tuition-configs")
+@UseGuards(JwtAuthGuard)
 export class TuitionConfigController {
   constructor(private readonly tuitionConfigService: TuitionConfigService) {}
 

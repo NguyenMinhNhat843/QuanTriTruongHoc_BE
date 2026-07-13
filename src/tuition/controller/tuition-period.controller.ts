@@ -10,18 +10,27 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import {
   CreateTuitionPeriodDto,
   SearchTuitionPeriodDto,
   TuitionPeriodDto,
   UpdateTuitionPeriodDto,
-} from "../dto/tuition-period.dto"; // Thay đổi đường dẫn import DTO cho đúng
+} from "../dto/tuition-period.dto";
 import { TuitionPeriodService } from "../service/tuition-period.service";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
-@ApiTags("Tuition Periods") // Nhóm các API này lại trên giao diện Swagger UI
+@ApiTags("Tuition Periods")
+@ApiBearerAuth()
 @Controller("tuition-periods")
+@UseGuards(JwtAuthGuard)
 export class TuitionPeriodController {
   constructor(private readonly tuitionPeriodService: TuitionPeriodService) {}
 

@@ -213,12 +213,10 @@ export class FeeInvoiceService {
     updateDto: UpdateFeeInvoiceDto,
     tx?: Prisma.TransactionClient,
   ): Promise<FeeInvoiceDto> {
-    // Trong file fee-invoice.service.ts -> hàm update()
     const executeLogic = async (client: Prisma.TransactionClient) => {
-      // 4.1 Lấy hóa đơn hiện tại trong DB
       const oldInvoice = await client.feeInvoice.findUnique({
         where: { id },
-        include: { payments: true }, // Lấy kèm lịch sử nếu cần
+        include: { payments: true },
       });
       if (!oldInvoice) throw new NotFoundException("Không tìm thấy hóa đơn");
 
