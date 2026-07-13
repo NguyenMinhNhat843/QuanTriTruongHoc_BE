@@ -38,13 +38,19 @@ import {
 import { plainToInstance } from "class-transformer";
 import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard.js";
 import { GetUser } from "../common/decorators/get-user.decorator.js";
+import { RolesGuard } from "../auth/guard/role.guard.js";
+import { Roles } from "../common/decorators/role.decorator.js";
+import { RoleType } from "../../prisma/generated/prisma/enums.js";
 
 @ApiTags("Students")
+@ApiBearerAuth()
 @Controller("students")
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
   @Post()
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Tạo mới hồ sơ sinh viên",
     operationId: "createStudent",
@@ -58,6 +64,7 @@ export class StudentController {
 
   // Tạo nhiều sinh viên cùng lúc
   @Post("/bulk")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Tạo nhiều hồ sơ sinh viên cùng lúc",
     operationId: "createManyStudents",
@@ -154,6 +161,7 @@ export class StudentController {
   }
 
   @Patch("approve")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Duyệt hồ sơ sinh viên",
     operationId: "approveStudent",
@@ -163,6 +171,7 @@ export class StudentController {
   }
 
   @Patch("assign-classes")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Phân lớp cho sinh viên",
     operationId: "assignStudentsToClasses",
@@ -172,6 +181,7 @@ export class StudentController {
   }
 
   @Patch(":id")
+  @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Cập nhật thông tin hồ sơ sinh viên",
     operationId: "updateStudent",

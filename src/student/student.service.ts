@@ -414,49 +414,57 @@ export class StudentService {
   }
 
   /**
-   * Phân lớp cho học sinh
+   * Phân lớp cho học sinh (Đã fix lỗi Race Condition)
    */
   async assignStudentsToClasses(body: AssignStudentsToClassesDto) {
     const { batchId, studentsPerClass = 40 } = body;
 
-    const batch = await this.prisma.batch.findUnique({
-      where: { id: batchId },
-    });
-    if (!batch)
-      throw new NotFoundException(
-        `Không tìm thấy Khóa đào tạo với ID ${batchId}`,
-      );
-    const majorId = batch.majorId;
-
-    // 1. Lấy danh sách học sinh chưa có lớp
-    let studentsPool = await this.prisma.student.findMany({
-      where: {
-        batchId,
-        classId: null,
-        status: {
-          in: ["approved", "studying"],
-        },
-      },
-      orderBy: { fullName: "asc" },
-    });
-    const abc = await this.prisma.student.findMany();
-    console.log(`Tổng số sinh viên cần phân lớp: ${studentsPool.length}`);
-    console.log(`Tổng số sinh viên trong hệ thống: ${abc.length}`);
-
-    if (studentsPool.length === 0)
-      throw new BadRequestException("Không có sinh viên mới nào cần phân lớp.");
-
-    // 2. Lấy các lớp hiện có của khóa để ƯU TIÊN LẤP ĐẦY TRƯỚC
-    const existingClasses = await this.prisma.class.findMany({
-      where: { batchId, status: "ACTIVE" },
-      orderBy: { classCode: "asc" },
-    });
-
-    const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
-    const resultDetails: any = [];
-
+    // 1. Chạy Transaction ngay từ đầu để đảm bảo tính đóng gói độc quyền
     return await this.prisma.$transaction(async (tx) => {
-      // BƯỚC 1: Duyệt qua các lớp cũ, xem lớp nào thiếu thì SLICE học sinh bù vào cho ĐẦY
+      // BƯỚC QUAN TRỌNG: Sử dụng khóa dữ liệu "FOR UPDATE" trên chính Batch này.
+      // Lệnh này ép tất cả các request phân lớp cùng batchId đến sau PHẢI ĐỢI request đầu tiên xử lý xong.
+      const batches = await tx.$queryRaw<any[]>`
+      SELECT id, "batchCode", "majorId" FROM "Batch" 
+      WHERE id = ${batchId} 
+      FOR UPDATE
+    `;
+
+      const batch = batches[0];
+      if (!batch) {
+        throw new NotFoundException(
+          `Không tìm thấy Khóa đào tạo với ID ${batchId}`,
+        );
+      }
+      const majorId = batch.majorId;
+
+      // 2. Lấy danh sách học sinh chưa có lớp (Đọc TRONG transaction để dữ liệu luôn luôn mới nhất)
+      let studentsPool = await tx.student.findMany({
+        where: {
+          batchId,
+          classId: null,
+          status: {
+            in: ["approved", "studying"],
+          },
+        },
+        orderBy: { fullName: "asc" },
+      });
+
+      if (studentsPool.length === 0) {
+        throw new BadRequestException(
+          "Không có sinh viên mới nào cần phân lớp.",
+        );
+      }
+
+      // 3. Lấy các lớp hiện có của khóa (Đọc TRONG transaction)
+      const existingClasses = await tx.class.findMany({
+        where: { batchId, status: "ACTIVE" },
+        orderBy: { classCode: "asc" },
+      });
+
+      const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"];
+      const resultDetails: any = [];
+
+      // BƯỚC 1: Duyệt qua các lớp cũ, lấp đầy
       for (const cls of existingClasses) {
         if (studentsPool.length === 0) break;
 
@@ -467,13 +475,11 @@ export class StudentService {
         const needed = maxLimit - currentCount;
 
         if (needed > 0) {
-          // Cắt đúng số lượng đứa đang thiếu để nạp vào lớp này
           const assignedStudents = studentsPool.slice(0, needed);
-          studentsPool = studentsPool.slice(needed); // Cắt bỏ những đứa đã được xếp ra khỏi hàng chờ
+          studentsPool = studentsPool.slice(needed);
 
           const studentIds = assignedStudents.map((s) => s.id);
 
-          // Update DB luôn
           await tx.class.update({
             where: { id: cls.id },
             data: { currentSize: currentCount + studentIds.length },
@@ -493,7 +499,7 @@ export class StudentService {
         }
       }
 
-      // BƯỚC 2: Nếu vẫn còn dư học sinh, cứ CHẶT TỪNG KHÚC 40 ĐỨA rồi TẠO LỚP MỚI
+      // BƯỚC 2: Tạo lớp mới cho học sinh còn dư
       let maxLetterIdx = -1;
       existingClasses.forEach((cls) => {
         const lastChar = cls.classCode.slice(-1).toUpperCase();
@@ -503,13 +509,11 @@ export class StudentService {
       let classCounter = maxLetterIdx + 1;
 
       while (studentsPool.length > 0) {
-        // Cắt đúng 40 đứa tiếp theo (hoặc phần còn lại cuối cùng nếu ít hơn 40)
         const assignedStudents = studentsPool.slice(0, studentsPerClass);
         studentsPool = studentsPool.slice(studentsPerClass);
 
         const studentIds = assignedStudents.map((s) => s.id);
 
-        // Tạo mã lớp tăng tiến (A, B, C...)
         let classCode = "";
         let className = "";
         let isUnique = false;
@@ -528,7 +532,6 @@ export class StudentService {
           else classCounter++;
         }
 
-        // Tạo luôn lớp mới vào DB
         const newClass = await tx.class.create({
           data: {
             classCode,
@@ -537,12 +540,11 @@ export class StudentService {
             batchId: batch.id,
             maxStudents: studentsPerClass,
             currentSize: studentIds.length,
-            status: "active",
+            status: "ACTIVE", // Đồng bộ viết hoa chuẩn DB
             formTeacherId: null,
           },
         });
 
-        // Cập nhật học sinh sang lớp mới
         await tx.student.updateMany({
           where: { id: { in: studentIds } },
           data: { classId: newClass.id },
@@ -559,7 +561,8 @@ export class StudentService {
       }
 
       return {
-        message: "Phân lớp bằng phương pháp cắt mảng hoàn tất!",
+        message:
+          "Phân lớp bằng phương pháp an toàn (Anti-Race Condition) hoàn tất!",
         details: resultDetails,
       };
     });
