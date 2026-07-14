@@ -34,17 +34,24 @@ export class TuitionPeriodService {
   async findAll(
     searchDto: SearchTuitionPeriodDto,
   ): Promise<TuitionPeriodDto[]> {
-    const { name } = searchDto;
+    const { name, semesterId } = searchDto;
+    const where: any = {};
+
+    // Lọc theo tên (không phân biệt hoa thường)
+    if (name) {
+      where.name = {
+        contains: name,
+        mode: "insensitive",
+      };
+    }
+
+    // Lọc theo học kỳ (ép kiểu số để tránh lỗi Prisma)
+    if (semesterId !== undefined && semesterId !== null) {
+      where.semesterId = Number(semesterId);
+    }
 
     const periods = await this.prisma.tuitionPeriod.findMany({
-      where: name
-        ? {
-            name: {
-              contains: name,
-              mode: "insensitive", // Tìm kiếm không phân biệt hoa thường (PostgreSQL)
-            },
-          }
-        : {},
+      where,
       orderBy: {
         createdAt: "desc",
       },

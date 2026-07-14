@@ -6,6 +6,7 @@ import {
 import { PrismaService } from "../../prisma/prisma.service";
 import { SaveGradesDto } from "../dto/grades.dto";
 import { Prisma } from "../../../prisma/generated/prisma/client";
+import { convertToGradeSystem } from "../../utils/grade-convert";
 
 @Injectable()
 export class CourseRegistrationService {
@@ -268,5 +269,175 @@ export class CourseRegistrationService {
         "Lỗi hệ thống khi tải tóm tắt học tập.",
       );
     }
+  }
+
+  // Bảng điểm toàn bộ của 1 học sinh
+  async getStudentTranscript(studentId: number) {
+    // 1. Kiểm tra học sinh có tồn tại không
+    const student = await this.prisma.student.findUnique({
+      where: { id: studentId },
+      select: { fullName: true, studentCode: true },
+    });
+    if (!student) {
+      throw new NotFoundException("Không tìm thấy thông tin học sinh.");
+    }
+
+    // 2. Truy vấn toàn bộ điểm của học sinh từ trước tới nay
+    const grades = await this.prisma.gradeStudent.findMany({
+      where: { studentId: studentId },
+      include: {
+        courseOffer: {
+          include: {
+            subject: {
+              select: {
+                id: true,
+                subjectCode: true,
+                subjectName: true,
+                credits: true,
+              },
+            },
+            semester: {
+              select: {
+                id: true,
+                name: true,
+                term: true,
+                year: true,
+                schoolYear: true,
+              },
+            },
+          },
+        },
+      },
+      // Sắp xếp theo học kỳ tăng dần để tiện tính CPA tích lũy cộng dồn
+      orderBy: [
+        { courseOffer: { semester: { year: "asc" } } },
+        { courseOffer: { semester: { term: "asc" } } },
+      ],
+    });
+
+    // 3. Phân nhóm điểm theo từng Học kỳ và tính toán GPA, CPA
+    const semestersMap = new Map<number, any>();
+
+    // Các biến dùng để tính CPA tích lũy cộng dồn qua từng kỳ
+    let totalAccumulatedCredits = 0;
+    let totalAccumulatedWeightedScore = 0;
+
+    for (const gradeItem of grades) {
+      const courseOffer = gradeItem.courseOffer;
+      const semester = courseOffer.semester;
+      const subject = courseOffer.subject;
+
+      if (!semester || !subject) continue;
+
+      // Lấy điểm tổng kết (ưu tiên điểm tổng kết thi lần 2 nếu có, không thì lấy lần 1)
+      const finalScore =
+        gradeItem.diemTongKet2 ??
+        gradeItem.diemTongKet1 ??
+        gradeItem.diemTB ??
+        null;
+      const { gradeFour, gradeLetter } = convertToGradeSystem(finalScore);
+
+      // Định dạng thông tin môn học
+      const subjectGrade = {
+        gradeId: gradeItem.id,
+        subjectId: subject.id,
+        subjectCode: subject.subjectCode,
+        subjectName: subject.subjectName,
+        credits: subject.credits,
+        // Điểm thành phần
+        kttx1: gradeItem.kttx1,
+        kttx2: gradeItem.kttx2,
+        kttx3: gradeItem.kttx3,
+        ktdk1: gradeItem.ktdk1,
+        ktdk2: gradeItem.ktdk2,
+        ktdk3: gradeItem.ktdk3,
+        ktdk4: gradeItem.ktdk4,
+        diemTB: gradeItem.diemTB,
+        diemTongKet1: gradeItem.diemTongKet1,
+        diemTongKet2: gradeItem.diemTongKet2,
+        // Điểm quy đổi
+        finalScore: finalScore,
+        gradeFour: gradeFour,
+        gradeLetter: gradeLetter,
+        isPassed:
+          gradeLetter !== "F" && finalScore !== null && finalScore >= 4.0,
+      };
+
+      // Khởi tạo học kỳ trong Map nếu chưa có
+      if (!semestersMap.has(semester.id)) {
+        semestersMap.set(semester.id, {
+          semesterId: semester.id,
+          semesterName:
+            semester.name ||
+            `Học kỳ ${semester.term} (${semester.schoolYear || semester.year})`,
+          term: semester.term,
+          year: semester.year,
+          schoolYear: semester.schoolYear,
+          subjects: [],
+          // Các chỉ số GPA của riêng kỳ này
+          semesterGPA10: 0,
+          semesterGPA4: 0,
+          semesterCredits: 0,
+          // Các chỉ số CPA tích lũy tính đến kỳ này
+          cumulativeCPA10: 0,
+          cumulativeCPA4: 0,
+          cumulativeCredits: 0,
+        });
+      }
+
+      semestersMap.get(semester.id).subjects.push(subjectGrade);
+    }
+
+    // 4. Duyệt qua từng học kỳ đã nhóm để tính các chỉ số GPA & CPA
+    const transcript = Array.from(semestersMap.values());
+
+    transcript.forEach((sem) => {
+      let termTotalCredits = 0;
+      let termWeightedScore10 = 0;
+      let termWeightedScore4 = 0;
+
+      sem.subjects.forEach((subj: any) => {
+        if (subj.finalScore !== null) {
+          termTotalCredits += subj.credits;
+          termWeightedScore10 += subj.finalScore * subj.credits;
+          termWeightedScore4 += subj.gradeFour * subj.credits;
+
+          // Tính dồn vào CPA tích lũy toàn khóa (chỉ tính những môn đã qua học hoặc môn được tính điểm)
+          totalAccumulatedCredits += subj.credits;
+          totalAccumulatedWeightedScore += subj.gradeFour * subj.credits;
+        }
+      });
+
+      // Gán chỉ số GPA của học kỳ này
+      sem.semesterCredits = termTotalCredits;
+      sem.semesterGPA10 =
+        termTotalCredits > 0
+          ? Number((termWeightedScore10 / termTotalCredits).toFixed(2))
+          : 0;
+      sem.semesterGPA4 =
+        termTotalCredits > 0
+          ? Number((termWeightedScore4 / termTotalCredits).toFixed(2))
+          : 0;
+
+      // Cộng dồn tích lũy tính đến thời điểm kết thúc học kỳ này (CPA)
+      sem.cumulativeCredits = totalAccumulatedCredits;
+      sem.cumulativeCPA4 =
+        totalAccumulatedCredits > 0
+          ? Number(
+              (totalAccumulatedWeightedScore / totalAccumulatedCredits).toFixed(
+                2,
+              ),
+            )
+          : 0;
+    });
+
+    return {
+      studentInfo: {
+        studentId: studentId,
+        studentCode: student.studentCode,
+        fullName: student.fullName,
+      },
+      transcript: transcript, // Mảng các học kỳ đã sắp xếp thời gian tăng dần
+    };
   }
 }

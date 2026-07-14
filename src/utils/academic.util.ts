@@ -1,6 +1,7 @@
 import { NotFoundException } from "@nestjs/common/exceptions/not-found.exception";
 import { PrismaService } from "../prisma/prisma.service";
 import { BadRequestException } from "@nestjs/common/exceptions/bad-request.exception";
+import { SemesterResponseDto } from "../semester/semester.response";
 
 export class AcademicUtils {
   /**
@@ -141,4 +142,76 @@ export async function resolveCurriculumSemesterNumber({
   }
 
   return semesterNumber;
+}
+
+export async function getSemestersByBatch(
+  prisma: PrismaService,
+  batchId: number,
+): Promise<(SemesterResponseDto | null)[]> {
+  // 1. Truy vấn Batch và Curriculum liên quan để lấy startYear và danh sách môn học
+  const batch = await prisma.batch.findUnique({
+    where: { id: batchId },
+    include: {
+      curriculum: {
+        include: {
+          curriculumSubjects: {
+            select: {
+              semesterNumber: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!batch) {
+    throw new Error(`Không tìm thấy Khóa đào tạo (Batch) với ID: ${batchId}`);
+  }
+
+  if (!batch.curriculum) {
+    throw new Error(
+      `Khóa đào tạo này chưa được gán Chương trình khung (Curriculum)`,
+    );
+  }
+
+  const startYear = batch.startYear;
+  const subjects = batch.curriculum.curriculumSubjects;
+
+  if (subjects.length === 0) {
+    throw new Error(
+      `Chương trình khung của khóa này hiện chưa có môn học nào để tính số học kỳ`,
+    );
+  }
+
+  // 2. Tìm số học kỳ lớn nhất (max semesterNumber)
+  const maxSemester = Math.max(...subjects.map((s) => s.semesterNumber));
+
+  // Tạo mảng các Promise truy vấn database đồng thời (để tối ưu hiệu năng thay vì dùng await từng dòng trong vòng lặp for)
+  const semesterQueries: any = [];
+
+  for (let semNum = 1; semNum <= maxSemester; semNum++) {
+    // Xác định năm học bắt đầu của học kỳ này
+    const yearOffset = Math.floor((semNum - 1) / 2);
+    const currentYear = startYear + yearOffset;
+
+    // Học kỳ lẻ là term = 1, học kỳ chẵn là term = 2
+    const term = semNum % 2 !== 0 ? 1 : 2;
+
+    // Truy vấn dựa trên ràng buộc unique_semester_term của bảng Semester
+    const query = prisma.semester.findUnique({
+      where: {
+        unique_semester_term: {
+          year: currentYear,
+          term: term,
+        },
+      },
+    });
+
+    semesterQueries.push(query);
+  }
+
+  // 3. Thực thi đồng thời tất cả các query và trả về kết quả
+  const results = await Promise.all(semesterQueries);
+
+  return results;
 }

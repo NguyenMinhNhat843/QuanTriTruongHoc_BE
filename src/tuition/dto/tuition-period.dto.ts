@@ -60,5 +60,5 @@ export class UpdateTuitionPeriodDto extends PartialType(
 
 // 4. Search DTO: Chỉ tìm kiếm dựa trên tên
 export class SearchTuitionPeriodDto extends PartialType(
-  PickType(TuitionPeriodDto, ["name"] as const),
+  PickType(TuitionPeriodDto, ["name", "semesterId"] as const),
 ) {}

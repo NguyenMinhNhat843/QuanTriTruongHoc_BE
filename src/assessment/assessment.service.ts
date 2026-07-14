@@ -71,7 +71,6 @@ export class AssessmentService {
   }
 
   // Create Period: Đợt đánh giá
-  // Create Period: Đợt đánh giá
   async createPeriod(createPeriodDto: CreatePeriodDto) {
     const { criterionIds, ...evaluationPeriodData } = createPeriodDto;
 

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Query,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -16,7 +17,11 @@ import {
 } from "@nestjs/swagger";
 import { SemesterService } from "./semester.service";
 import { SemesterResponseDto } from "./semester.response";
-import { CreateSemesterDto, UpdateSemesterDto } from "./semester.dto";
+import {
+  CreateSemesterDto,
+  FindAllSemestersQueryDto,
+  UpdateSemesterDto,
+} from "./semester.dto";
 
 @ApiTags("Semesters")
 @Controller("semesters")
@@ -40,8 +45,8 @@ export class SemesterController {
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả học kỳ" })
   @ApiOkResponse({ type: SemesterResponseDto, isArray: true })
-  findAll() {
-    return this.semesterService.findAll();
+  findAll(@Query() query: FindAllSemestersQueryDto) {
+    return this.semesterService.findAll(query);
   }
 
   @Get(":id")

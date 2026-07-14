@@ -3,17 +3,23 @@ import {
   Get,
   UseGuards,
   UnauthorizedException,
+  Query,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import {
   ApiBearerAuth,
+  ApiOkResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
 import { TimeTableService } from "../service/time-table.service";
 import { GetUser } from "../../common/decorators/get-user.decorator";
-import { TodayScheduleItemDto } from "../dto/time-table.dto";
+import {
+  GetWeeklyScheduleQueryDto,
+  TodayScheduleItemDto,
+  WeeklyScheduleResponseDto,
+} from "../dto/time-table.dto";
 
 @ApiTags("Time-table")
 @Controller("/time-table")
@@ -42,5 +48,29 @@ export class TimeTableController {
     }
 
     return this.timetableService.getTodaySchedule(studentId);
+  }
+
+  @Get("weekly")
+  @ApiOperation({
+    summary: "Lấy thời khóa biểu theo tuần",
+  })
+  @ApiOkResponse({
+    type: WeeklyScheduleResponseDto,
+    isArray: true,
+  })
+  async getWeeklySchedule(
+    @Query() query: GetWeeklyScheduleQueryDto,
+  ): Promise<WeeklyScheduleResponseDto[]> {
+    // Gọi sang hàm service đã viết riêng để xử lý gộp nhóm và flatten dữ liệu
+    const scheduleData = await this.timetableService.getWeeklySchedule({
+      weekNumber: query.weekNumber,
+      semesterId: query.semesterId,
+      classId: query.classId,
+      studentId: query.studentId,
+      teacherId: query.teacherId,
+    });
+
+    // Ép kiểu dữ liệu trả về map khớp hoàn toàn với DTO cấu trúc sạch của bạn
+    return scheduleData as WeeklyScheduleResponseDto[];
   }
 }

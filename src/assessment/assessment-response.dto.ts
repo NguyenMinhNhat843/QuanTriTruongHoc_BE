@@ -198,7 +198,7 @@ export class AssessmentDto implements Assessment {
   @IsEnum(EvaluationGrade)
   finalGrade: EvaluationGrade | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ type: String, nullable: true })
   @IsOptional()
   @IsString()
   teacherComment: string | null;

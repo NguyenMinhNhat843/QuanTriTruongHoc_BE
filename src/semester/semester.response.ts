@@ -49,22 +49,4 @@ export class SemesterResponseDto implements Semester {
     description: "Số lượng hóa đơn học phí",
   })
   feeInvoiceCount?: number;
-
-  constructor(partial: any) {
-    this.id = partial.id;
-    this.name = partial.name;
-    this.schoolYear = partial.schoolYear;
-    this.startDate = partial.startDate;
-    this.endDate = partial.endDate;
-    this.isCurrent = partial.isCurrent;
-    this.createdAt = partial.createdAt;
-    this.term = partial.term;
-    this.year = partial.year;
-
-    // Map số lượng quan hệ từ Prisma _count (nếu có dùng trong service)
-    if (partial._count) {
-      this.courseOfferCount = partial._count.courseOffers;
-      this.feeInvoiceCount = partial._count.feeInvoices;
-    }
-  }
 }

@@ -174,3 +174,119 @@ export class GradeStudentDto implements GradeStudent {
   @Type(() => StudentResponseDto)
   student: StudentResponseDto;
 }
+
+export class SubjectGradeResponseDto {
+  @ApiProperty()
+  gradeId!: number;
+
+  @ApiProperty()
+  subjectId!: number;
+
+  @ApiProperty()
+  subjectCode!: string;
+
+  @ApiProperty()
+  subjectName!: string;
+
+  @ApiProperty()
+  credits!: number;
+
+  @ApiProperty({ nullable: true })
+  kttx1!: number | null;
+
+  @ApiProperty({ nullable: true })
+  kttx2!: number | null;
+
+  @ApiProperty({ nullable: true })
+  kttx3!: number | null;
+
+  @ApiProperty({ nullable: true })
+  ktdk1!: number | null;
+
+  @ApiProperty({ nullable: true })
+  ktdk2!: number | null;
+
+  @ApiProperty({ nullable: true })
+  ktdk3!: number | null;
+
+  @ApiProperty({ nullable: true })
+  ktdk4!: number | null;
+
+  @ApiProperty({ nullable: true })
+  diemTB!: number | null;
+
+  @ApiProperty({ nullable: true })
+  diemTongKet1!: number | null;
+
+  @ApiProperty({ nullable: true })
+  diemTongKet2!: number | null;
+
+  @ApiProperty({ nullable: true })
+  finalScore!: number | null;
+
+  @ApiProperty()
+  gradeFour!: number;
+
+  @ApiProperty()
+  gradeLetter!: string;
+
+  @ApiProperty()
+  isPassed!: boolean;
+}
+
+export class SemesterTranscriptResponseDto {
+  @ApiProperty()
+  semesterId!: number;
+
+  @ApiProperty()
+  semesterName!: string;
+
+  @ApiProperty()
+  term!: number;
+
+  @ApiProperty()
+  year!: number;
+
+  @ApiProperty({ nullable: true })
+  schoolYear!: string | null;
+
+  @ApiProperty({ type: [SubjectGradeResponseDto] })
+  subjects!: SubjectGradeResponseDto[];
+
+  @ApiProperty()
+  semesterGPA10!: number;
+
+  @ApiProperty()
+  semesterGPA4!: number;
+
+  @ApiProperty()
+  semesterCredits!: number;
+
+  @ApiProperty()
+  cumulativeCPA10!: number;
+
+  @ApiProperty()
+  cumulativeCPA4!: number;
+
+  @ApiProperty()
+  cumulativeCredits!: number;
+}
+
+export class StudentInfoResponseDto {
+  @ApiProperty()
+  studentId!: number;
+
+  @ApiProperty()
+  studentCode!: string;
+
+  @ApiProperty()
+  fullName!: string;
+}
+
+export class StudentTranscriptResponseDto {
+  @ApiProperty({ type: StudentInfoResponseDto })
+  studentInfo!: StudentInfoResponseDto;
+
+  @ApiProperty({ type: [SemesterTranscriptResponseDto] })
+  transcript!: SemesterTranscriptResponseDto[];
+}

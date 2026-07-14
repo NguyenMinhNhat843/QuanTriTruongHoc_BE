@@ -15,11 +15,13 @@ import {
   ApiResponse,
   ApiParam,
   ApiBearerAuth,
+  ApiQuery,
 } from "@nestjs/swagger";
 import { CourseRegistrationService } from "../service/grades.service";
 import { SaveGradesDto } from "../dto/grades.dto";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { AcademicSummaryResponseDto } from "../dto/stat.dto";
+import { StudentTranscriptResponseDto } from "../dto/grades.response";
 
 @ApiTags("Quản lý Điểm (grade)")
 @Controller("grades")
@@ -46,6 +48,19 @@ export class CourseRegistrationController {
   })
   async findAll() {
     return await this.gradeService.getAll();
+  }
+
+  @Get("transcript")
+  @ApiOperation({
+    summary: "Lấy bảng điểm toàn khóa của học sinh",
+  })
+  @ApiResponse({
+    status: 200,
+    type: StudentTranscriptResponseDto,
+  })
+  @ApiQuery({ name: "studentId", required: true, type: Number })
+  async getTranscript(@Query("studentId", ParseIntPipe) studentId: number) {
+    return this.gradeService.getStudentTranscript(studentId);
   }
 
   @Get("summary-widget/:userId")

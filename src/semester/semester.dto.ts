@@ -75,3 +75,16 @@ export class CreateSemesterDto {
 }
 
 export class UpdateSemesterDto extends PartialType(CreateSemesterDto) {}
+export class FindAllSemestersQueryDto {
+  @ApiPropertyOptional()
+  @Type(() => Number)
+  @IsInt()
+  @IsOptional()
+  studentId?: number;
+
+  @ApiPropertyOptional()
+  @Type(() => Number)
+  @IsInt()
+  @IsOptional()
+  batchId?: number;
+}

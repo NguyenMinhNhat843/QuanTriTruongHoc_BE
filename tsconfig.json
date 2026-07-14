@@ -16,9 +16,6 @@
     "noImplicitAny": false,
     "strictPropertyInitialization": false,
     "types": ["node", "multer"]
-
-    // Alias cấu hình ở đây
-    // "ignoreDeprecations": "6.0"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
