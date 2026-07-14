@@ -260,12 +260,11 @@ export class PostService {
 
     const now = new Date();
 
-    // Tìm và cập nhật các bài viết:
-    // 1. Trạng thái khác PUBLISHED (thường là PENDING hoặc DRAFT)
-    // 2. Thời gian publishedAt nhỏ hơn hoặc bằng hiện tại
     const result = await this.prisma.post.updateMany({
       where: {
-        status: { not: PostStatus.PUBLISHED },
+        status: {
+          in: [PostStatus.DRAFT, PostStatus.PENDING],
+        },
         publishedAt: {
           lte: now,
         },

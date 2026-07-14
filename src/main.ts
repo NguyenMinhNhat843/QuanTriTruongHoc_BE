@@ -5,7 +5,13 @@ import { ValidationPipe } from "@nestjs/common";
 import cookieParser from "cookie-parser";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const app = await NestFactory.create(AppModule, {
+    logger: isProduction
+      ? ["error", "warn"]
+      : ["log", "debug", "error", "warn"],
+  });
 
   const config = new DocumentBuilder()
     .setTitle("API hệ thống")

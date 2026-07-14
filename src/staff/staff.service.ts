@@ -3,6 +3,7 @@ import {
   ConflictException,
   InternalServerErrorException,
   NotFoundException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
@@ -33,7 +34,7 @@ export class StaffService {
 
       return plainToInstance(StaffResponseDto, staff);
     } catch (error) {
-      console.log("Error creating staff:", error);
+      Logger.error("Error creating staff:", error);
       throw new InternalServerErrorException("Lỗi hệ thống khi tạo nhân viên");
     }
   }
@@ -150,7 +151,7 @@ export class StaffService {
         orderBy: { [sortBy]: sortOrder },
       }),
     ]);
-    console.log("Total staff found:", total);
+    Logger.error("Total staff found:", total);
 
     return plainToInstance(StaffResponseDto, items);
   }

@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   InternalServerErrorException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 
@@ -116,7 +117,7 @@ export class DashboardService {
         topDebtors,
       };
     } catch (error) {
-      console.log("Error fetching dashboard data:", error);
+      Logger.error("Error fetching dashboard data:", error);
       throw new InternalServerErrorException(
         "Lỗi hệ thống khi lấy dữ liệu dashboard",
       );
@@ -142,7 +143,7 @@ export class DashboardService {
 
       return trend;
     } catch (error) {
-      console.log("Error fetching payment trend:", error);
+      Logger.error("Error fetching payment trend:", error);
       throw new InternalServerErrorException(
         "Lỗi lấy dữ liệu biểu đồ dòng tiền",
       );

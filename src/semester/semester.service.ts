@@ -3,6 +3,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   ConflictException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateSemesterDto, UpdateSemesterDto } from "./semester.dto";
@@ -123,7 +124,7 @@ export class SemesterService {
         return new SemesterResponseDto(updated);
       });
     } catch (error) {
-      console.log("Lỗi khi cập nhật học kỳ:", error);
+      Logger.error("Lỗi khi cập nhật học kỳ:", error);
       throw new InternalServerErrorException("Lỗi khi cập nhật học kỳ");
     }
   }

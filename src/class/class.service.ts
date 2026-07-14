@@ -3,6 +3,7 @@ import {
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import {
@@ -213,7 +214,7 @@ export class ClassService {
       });
       return plainToInstance(ClassResponseDto, updated);
     } catch (error) {
-      console.log("Lỗi khi cập nhật lớp:", error);
+      Logger.error("Lỗi khi cập nhật lớp học", error);
       throw new InternalServerErrorException("Lỗi khi cập nhật lớp học");
     }
   }

@@ -3,6 +3,7 @@ import {
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import {
@@ -33,7 +34,7 @@ export class RoomService {
       });
       return plainToInstance(RoomDto, room);
     } catch (error) {
-      console.log("Lỗi khi tạo phòng học:", error);
+      Logger.error("Lỗi khi tạo phòng học:", error);
       throw new InternalServerErrorException("Lỗi hệ thống khi tạo phòng học");
     }
   }
@@ -72,7 +73,7 @@ export class RoomService {
       });
       return plainToInstance(RoomDto, updated);
     } catch (error) {
-      console.log("Lỗi khi cập nhật phòng học:", error);
+      Logger.error("Lỗi khi cập nhật phòng học:", error);
       throw new InternalServerErrorException("Lỗi khi cập nhật phòng học");
     }
   }
@@ -103,7 +104,7 @@ export class RoomService {
       });
       return plainToInstance(RoomDto, rooms);
     } catch (error) {
-      console.log("Lỗi khi lấy danh sách/tìm kiếm phòng học:", error);
+      Logger.error("Lỗi khi lấy danh sách/tìm kiếm phòng học:", error);
       throw new InternalServerErrorException(
         "Lỗi hệ thống khi tìm kiếm phòng học",
       );

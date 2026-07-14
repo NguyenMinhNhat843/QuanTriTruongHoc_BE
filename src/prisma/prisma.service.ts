@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
@@ -48,9 +48,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   async onModuleInit() {
     try {
       await this.$connect();
-      console.log("🚀 Database connected successfully via Adapter");
+      Logger.log("🚀 Database connected successfully via Adapter");
     } catch (e) {
-      console.error("🚀 Database connection failed:", e);
+      Logger.error("🚀 Database connection failed:", e);
     }
   }
 }

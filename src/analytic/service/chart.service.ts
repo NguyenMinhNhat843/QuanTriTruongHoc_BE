@@ -38,35 +38,30 @@ export class ChartService {
   }
 
   async getMajorDistribution() {
-    // Đếm số lượng học sinh đang học (status: 'studying') gom nhóm theo ngành/khối (Major)
-    const distribution = await this.prisma.student.groupBy({
-      by: ["majorId"],
-      where: {
-        status: "studying",
-        majorId: { not: null }, // Bỏ qua nếu học sinh chưa phân ngành
-      },
-      _count: {
-        id: true,
-      },
-    });
-
-    // Lấy tên ngành tương ứng để Frontend hiển thị label
-    const majorIds = distribution
-      .map((d) => d.majorId)
-      .filter((id): id is number => id !== null);
-    const majors = await this.prisma.major.findMany({
-      where: { id: { in: majorIds } },
-      select: { id: true, majorName: true },
-    });
+    // Thực hiện Raw Query để gộp nhóm, tính toán fallback majorId và lấy luôn tên ngành
+    const result = await this.prisma.$queryRaw<
+      { majorName: string; studentCount: number }[]
+    >`
+    SELECT 
+      m."majorName" AS "majorName",
+      COUNT(s.id)::int AS "studentCount"
+    FROM students s
+    LEFT JOIN batches b ON s."batchId" = b.id
+    -- JOIN sang bảng majors dựa trên giá trị majorId sau khi đã fallback
+    INNER JOIN majors m ON COALESCE(s."majorId", b."majorId") = m.id
+    WHERE 
+      s.status = 'studying'
+      -- Đảm bảo học sinh có thông tin ngành trực tiếp hoặc thông qua khóa học
+      AND (s."majorId" IS NOT NULL OR b."majorId" IS NOT NULL)
+    GROUP BY m."majorName"
+    ORDER BY "studentCount" DESC;
+  `;
 
     // Map lại thành cấu trúc chuẩn [ { name: "Tên Ngành", value: Số lượng } ]
-    return distribution.map((item) => {
-      const major = majors.find((m) => m.id === item.majorId);
-      return {
-        name: major?.majorName || "Ngành khác",
-        value: item._count.id,
-      };
-    });
+    return result.map((item) => ({
+      name: item.majorName,
+      value: item.studentCount,
+    }));
   }
 
   async getAcademicPerformanceByClass() {

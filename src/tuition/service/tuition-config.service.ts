@@ -1,6 +1,7 @@
 import {
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
@@ -88,7 +89,7 @@ export class TuitionConfigService {
         },
         select: { id: true },
       });
-      console.log(
+      Logger.log(
         `[TuitionConfigService] Đang sinh công nợ cho configId=${config.id}, tìm thấy ${targetBatches.length} batch thỏa mãn.`,
       );
 
@@ -104,7 +105,7 @@ export class TuitionConfigService {
         },
         select: { id: true },
       });
-      console.log(
+      Logger.log(
         `[TuitionConfigService] Đang sinh công nợ cho configId=${config.id}, tìm thấy ${students.length} sinh viên thỏa mãn.`,
       );
 

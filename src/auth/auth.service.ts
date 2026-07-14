@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service.js";
 import {
@@ -145,7 +145,7 @@ export class AuthService {
         access_token: newAccessToken,
       });
     } catch (err) {
-      console.log("Lỗi khi xác minh refresh token:", err);
+      Logger.error("Lỗi khi xác minh refresh token", err);
       throw new UnauthorizedException("Refresh token không hợp lệ");
     }
   }

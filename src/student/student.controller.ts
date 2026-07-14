@@ -94,7 +94,6 @@ export class StudentController {
   })
   @ApiResponse({ status: 200, type: ResponseStudentPaginationDto })
   async searchStudent(@Query() query: SearchStudentDto) {
-    console.log("query: ", query);
     return this.studentService.searchStudents(query);
   }
 

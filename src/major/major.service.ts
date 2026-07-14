@@ -3,6 +3,7 @@ import {
   ConflictException,
   NotFoundException,
   InternalServerErrorException,
+  Logger,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import {
@@ -44,7 +45,7 @@ export class MajorService {
       });
       return plainToInstance(MajorDto, major);
     } catch (error) {
-      console.log("Lỗi khi tạo ngành học:", error);
+      Logger.error("Lỗi khi tạo ngành học:", error);
       throw new InternalServerErrorException("Lỗi khi tạo ngành học");
     }
   }
@@ -91,7 +92,7 @@ export class MajorService {
       });
       return plainToInstance(MajorDto, updatedMajor);
     } catch (error) {
-      console.log("Lỗi khi cập nhật ngành học:", error);
+      Logger.error("Lỗi khi cập nhật ngành học:", error);
       throw new InternalServerErrorException("Lỗi khi cập nhật ngành học");
     }
   }

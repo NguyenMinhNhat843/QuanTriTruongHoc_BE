@@ -71,8 +71,10 @@ export class AssessmentService {
   }
 
   // Create Period: Đợt đánh giá
+  // Create Period: Đợt đánh giá
   async createPeriod(createPeriodDto: CreatePeriodDto) {
     const { criterionIds, ...evaluationPeriodData } = createPeriodDto;
+
     const result = await this.prismaService.$transaction(async (tx) => {
       const newPeriod = await tx.evaluationPeriod.create({
         data: {
@@ -82,14 +84,33 @@ export class AssessmentService {
         },
       });
 
-      await tx.evaluationPeriodCriterion.createMany({
-        data:
-          criterionIds?.map((criterionId) => ({
-            periodId: newPeriod.id,
-            criterionId,
-            maxScoreSnapshot: 0,
-          })) || [],
-      });
+      if (criterionIds && criterionIds.length > 0) {
+        const criteria = await tx.criterion.findMany({
+          where: {
+            id: { in: criterionIds },
+          },
+          select: {
+            id: true,
+            maxScore: true,
+          },
+        });
+
+        const criteriaMap = new Map(criteria.map((c) => [c.id, c.maxScore]));
+
+        await tx.evaluationPeriodCriterion.createMany({
+          data: criterionIds.map((criterionId) => {
+            const maxScore = criteriaMap.get(criterionId);
+
+            const maxScoreSnapshot = maxScore !== undefined ? maxScore : 0;
+
+            return {
+              periodId: newPeriod.id,
+              criterionId,
+              maxScoreSnapshot,
+            };
+          }),
+        });
+      }
 
       return newPeriod;
     });
