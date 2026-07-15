@@ -55,43 +55,91 @@ export class StatisticsService {
       where: { isCurrent: true },
     });
 
+    // Tìm đợt thu học phí đang hoạt động thuộc học kỳ hiện tại
+    const currentTuitionPeriod = currentSemester
+      ? await this.prisma.tuitionPeriod.findFirst({
+          where: {
+            semesterId: currentSemester.id,
+            isActive: true,
+          },
+        })
+      : null;
+
     const [
       // --- NHÓM 1: VẬN HÀNH LỚP HỌC & SĨ SỐ ---
       classesData,
 
-      // --- NHÓM 2: TIẾN ĐỘ HỒ SƠ TUYỂN SINH ---
-      totalAdmissionProfiles,
-      pendingDocumentsCount,
-
-      // --- NHÓM 3: ĐIỂM RÈN LUYỆN (Nếu có học kỳ hiện tại) ---
-      assessmentStats,
+      // --- NHÓM 2: TÌNH HÌNH TÀI CHÍNH & HỌC PHÍ (Nếu có đợt thu học phí hiện tại) ---
+      tuitionInvoicesStats,
+      recentPaymentsData,
     ] = await Promise.all([
       // Lấy danh sách lớp học để tính toán tỉ lệ lấp đầy và trạng thái
       this.prisma.class.findMany({
         select: { className: true, currentSize: true, maxStudents: true },
       }),
 
-      // Tổng số hồ sơ xét tuyển học bạ cấp 2
-      this.prisma.admissionProfile.count(),
-
-      // Đếm số lượng học sinh chưa hoàn thiện đủ giấy tờ (ví dụ: thiếu file nhập học)
-      this.prisma.studentDocument.count(),
-
-      // Thống kê trạng thái phiếu điểm rèn luyện của kỳ hiện tại
-      currentSemester
-        ? this.prisma.assessment.groupBy({
-            by: ["status"],
-            where: {
-              period: { semesterId: currentSemester.id },
+      // Thống kê hóa đơn học phí của đợt hiện tại (Tổng tiền, thực thu, còn thiếu, phân loại trạng thái)
+      currentTuitionPeriod
+        ? this.prisma.feeInvoice.aggregate({
+            where: { periodId: currentTuitionPeriod.id },
+            _sum: {
+              totalAmount: true,
+              paidAmount: true,
+              remainingAmount: true,
             },
-            _count: { id: true },
+            _count: {
+              id: true,
+            },
+          })
+        : Promise.resolve(null),
+
+      // Lấy danh sách giao dịch thành công gần đây của đợt hiện tại để render bảng "Dòng tiền gần đây"
+      currentTuitionPeriod
+        ? this.prisma.payment.findMany({
+            where: {
+              invoice: { periodId: currentTuitionPeriod.id },
+              status: "SUCCESS",
+            },
+            take: 5,
+            orderBy: { paymentDate: "desc" },
+            select: {
+              id: true,
+              amountPaid: true,
+              paymentDate: true,
+              method: true,
+              student: {
+                select: {
+                  fullName: true,
+                  studentCode: true,
+                },
+              },
+            },
           })
         : Promise.resolve([]),
     ]);
 
+    // Lấy thêm phân phối số lượng hóa đơn theo từng trạng thái (unpaid, partial, paid)
+    const invoiceStatusDistribution = { unpaid: 0, partial: 0, paid: 0 };
+    if (currentTuitionPeriod) {
+      const groupStatus = await this.prisma.feeInvoice.groupBy({
+        by: ["status"],
+        where: { periodId: currentTuitionPeriod.id },
+        _count: { id: true },
+      });
+
+      groupStatus.forEach((item) => {
+        if (item.status === "unpaid")
+          invoiceStatusDistribution.unpaid = item._count.id;
+        if (item.status === "partial")
+          invoiceStatusDistribution.partial = item._count.id;
+        if (item.status === "paid")
+          invoiceStatusDistribution.paid = item._count.id;
+      });
+    }
+
     // --- XỬ LÝ LOGIC SỐ LIỆU ---
 
-    // Tính toán tỷ lệ lấp đầy trung bình của toàn trường (Capacity Rate)
+    // 1. Tính toán tỷ lệ lấp đầy trung bình của toàn trường (Capacity Rate)
     const totalMaxStudents = classesData.reduce(
       (sum, c) => sum + c.maxStudents,
       0,
@@ -115,16 +163,16 @@ export class StatisticsService {
         size: `${c.currentSize}/${c.maxStudents}`,
       }));
 
-    // Format lại dữ liệu điểm rèn luyện cho Frontend dễ vẽ biểu đồ trạng thái duyệt của GVCN
-    const rènLuyệnSơBộ = {
-      notSubmitted:
-        assessmentStats.find((a) => a.status === "NOT_SUBMITTED")?._count.id ||
-        0,
-      pendingApproval:
-        assessmentStats.find((a) => a.status === "PENDING")?._count.id || 0,
-      approved:
-        assessmentStats.find((a) => a.status === "APPROVED")?._count.id || 0,
-    };
+    // 2. Tính toán hiệu suất thu học phí (Financial Metrics)
+    const totalInvoiced = tuitionInvoicesStats?._sum?.totalAmount || 0;
+    const totalCollected = tuitionInvoicesStats?._sum?.paidAmount || 0;
+    const totalRemaining = tuitionInvoicesStats?._sum?.remainingAmount || 0;
+    const totalInvoicesCount = tuitionInvoicesStats?._count?.id || 0;
+
+    const collectionRate =
+      totalInvoiced > 0
+        ? parseFloat(((totalCollected / totalInvoiced) * 100).toFixed(2))
+        : 0;
 
     return {
       semesterName: currentSemester?.name || "Chưa thiết lập học kỳ hiện tại",
@@ -136,11 +184,29 @@ export class StatisticsService {
         totalCurrentStudents,
         totalMaxStudents,
       },
-      admissions: {
-        totalProfilesProcessed: totalAdmissionProfiles,
-        alertMissingDocuments: pendingDocumentsCount, // Cảnh báo số file học sinh nộp lỗi/thiếu cần xử lý
-      },
-      behaviorAssessment: currentSemester ? rènLuyệnSơBộ : null,
+      finance: currentTuitionPeriod
+        ? {
+            periodName: currentTuitionPeriod.name,
+            startDate: currentTuitionPeriod.startDate,
+            endDate: currentTuitionPeriod.endDate,
+            metrics: {
+              totalInvoiced, // Tổng tiền phát hành hóa đơn (phải thu)
+              totalCollected, // Tổng tiền thực tế đã thu thành công
+              totalRemaining, // Tổng tiền sinh viên còn nợ
+              collectionRate, // Tỷ lệ hoàn thành thu học phí (%)
+              totalInvoicesCount, // Tổng số lượng hóa đơn phát hành
+            },
+            statusDistribution: invoiceStatusDistribution, // { unpaid: X, partial: Y, paid: Z }
+            recentPayments: recentPaymentsData.map((p) => ({
+              id: p.id,
+              studentName: p.student?.fullName || "N/A",
+              studentCode: p.student?.studentCode || "N/A",
+              amountPaid: p.amountPaid,
+              paymentDate: p.paymentDate,
+              method: p.method,
+            })),
+          }
+        : null,
     };
   }
 }

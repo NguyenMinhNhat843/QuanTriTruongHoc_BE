@@ -31,7 +31,6 @@ export type CurriculumSubjectAvgAggregateOutputType = {
   curriculumId: number | null
   subjectId: number | null
   semesterNumber: number | null
-  electiveGroupId: number | null
   minGrade: number | null
 }
 
@@ -40,7 +39,6 @@ export type CurriculumSubjectSumAggregateOutputType = {
   curriculumId: number | null
   subjectId: number | null
   semesterNumber: number | null
-  electiveGroupId: number | null
   minGrade: number | null
 }
 
@@ -50,7 +48,6 @@ export type CurriculumSubjectMinAggregateOutputType = {
   subjectId: number | null
   semesterNumber: number | null
   enrollmentType: $Enums.EnrollmentType | null
-  electiveGroupId: number | null
   minGrade: number | null
   createdAt: Date | null
 }
@@ -61,7 +58,6 @@ export type CurriculumSubjectMaxAggregateOutputType = {
   subjectId: number | null
   semesterNumber: number | null
   enrollmentType: $Enums.EnrollmentType | null
-  electiveGroupId: number | null
   minGrade: number | null
   createdAt: Date | null
 }
@@ -72,7 +68,6 @@ export type CurriculumSubjectCountAggregateOutputType = {
   subjectId: number
   semesterNumber: number
   enrollmentType: number
-  electiveGroupId: number
   minGrade: number
   createdAt: number
   _all: number
@@ -84,7 +79,6 @@ export type CurriculumSubjectAvgAggregateInputType = {
   curriculumId?: true
   subjectId?: true
   semesterNumber?: true
-  electiveGroupId?: true
   minGrade?: true
 }
 
@@ -93,7 +87,6 @@ export type CurriculumSubjectSumAggregateInputType = {
   curriculumId?: true
   subjectId?: true
   semesterNumber?: true
-  electiveGroupId?: true
   minGrade?: true
 }
 
@@ -103,7 +96,6 @@ export type CurriculumSubjectMinAggregateInputType = {
   subjectId?: true
   semesterNumber?: true
   enrollmentType?: true
-  electiveGroupId?: true
   minGrade?: true
   createdAt?: true
 }
@@ -114,7 +106,6 @@ export type CurriculumSubjectMaxAggregateInputType = {
   subjectId?: true
   semesterNumber?: true
   enrollmentType?: true
-  electiveGroupId?: true
   minGrade?: true
   createdAt?: true
 }
@@ -125,7 +116,6 @@ export type CurriculumSubjectCountAggregateInputType = {
   subjectId?: true
   semesterNumber?: true
   enrollmentType?: true
-  electiveGroupId?: true
   minGrade?: true
   createdAt?: true
   _all?: true
@@ -223,7 +213,6 @@ export type CurriculumSubjectGroupByOutputType = {
   subjectId: number
   semesterNumber: number
   enrollmentType: $Enums.EnrollmentType
-  electiveGroupId: number | null
   minGrade: number
   createdAt: Date
   _count: CurriculumSubjectCountAggregateOutputType | null
@@ -257,12 +246,10 @@ export type CurriculumSubjectWhereInput = {
   subjectId?: Prisma.IntFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntFilter<"CurriculumSubject"> | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFilter<"CurriculumSubject"> | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.IntNullableFilter<"CurriculumSubject"> | number | null
   minGrade?: Prisma.FloatFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeFilter<"CurriculumSubject"> | Date | string
   curriculum?: Prisma.XOR<Prisma.CurriculumScalarRelationFilter, Prisma.CurriculumWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
-  electiveGroup?: Prisma.XOR<Prisma.ElectiveGroupNullableScalarRelationFilter, Prisma.ElectiveGroupWhereInput> | null
 }
 
 export type CurriculumSubjectOrderByWithRelationInput = {
@@ -271,12 +258,10 @@ export type CurriculumSubjectOrderByWithRelationInput = {
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
   enrollmentType?: Prisma.SortOrder
-  electiveGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   curriculum?: Prisma.CurriculumOrderByWithRelationInput
   subject?: Prisma.SubjectOrderByWithRelationInput
-  electiveGroup?: Prisma.ElectiveGroupOrderByWithRelationInput
 }
 
 export type CurriculumSubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -289,12 +274,10 @@ export type CurriculumSubjectWhereUniqueInput = Prisma.AtLeast<{
   subjectId?: Prisma.IntFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntFilter<"CurriculumSubject"> | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFilter<"CurriculumSubject"> | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.IntNullableFilter<"CurriculumSubject"> | number | null
   minGrade?: Prisma.FloatFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeFilter<"CurriculumSubject"> | Date | string
   curriculum?: Prisma.XOR<Prisma.CurriculumScalarRelationFilter, Prisma.CurriculumWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
-  electiveGroup?: Prisma.XOR<Prisma.ElectiveGroupNullableScalarRelationFilter, Prisma.ElectiveGroupWhereInput> | null
 }, "id" | "curriculumId_subjectId">
 
 export type CurriculumSubjectOrderByWithAggregationInput = {
@@ -303,7 +286,6 @@ export type CurriculumSubjectOrderByWithAggregationInput = {
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
   enrollmentType?: Prisma.SortOrder
-  electiveGroupId?: Prisma.SortOrderInput | Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CurriculumSubjectCountOrderByAggregateInput
@@ -322,7 +304,6 @@ export type CurriculumSubjectScalarWhereWithAggregatesInput = {
   subjectId?: Prisma.IntWithAggregatesFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntWithAggregatesFilter<"CurriculumSubject"> | number
   enrollmentType?: Prisma.EnumEnrollmentTypeWithAggregatesFilter<"CurriculumSubject"> | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.IntNullableWithAggregatesFilter<"CurriculumSubject"> | number | null
   minGrade?: Prisma.FloatWithAggregatesFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CurriculumSubject"> | Date | string
 }
@@ -334,7 +315,6 @@ export type CurriculumSubjectCreateInput = {
   createdAt?: Date | string
   curriculum: Prisma.CurriculumCreateNestedOneWithoutCurriculumSubjectsInput
   subject: Prisma.SubjectCreateNestedOneWithoutCurriculumSubjectsInput
-  electiveGroup?: Prisma.ElectiveGroupCreateNestedOneWithoutCurriculumSubjectsInput
 }
 
 export type CurriculumSubjectUncheckedCreateInput = {
@@ -343,7 +323,6 @@ export type CurriculumSubjectUncheckedCreateInput = {
   subjectId: number
   semesterNumber: number
   enrollmentType?: $Enums.EnrollmentType
-  electiveGroupId?: number | null
   minGrade?: number
   createdAt?: Date | string
 }
@@ -355,7 +334,6 @@ export type CurriculumSubjectUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculum?: Prisma.CurriculumUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
-  electiveGroup?: Prisma.ElectiveGroupUpdateOneWithoutCurriculumSubjectsNestedInput
 }
 
 export type CurriculumSubjectUncheckedUpdateInput = {
@@ -364,7 +342,6 @@ export type CurriculumSubjectUncheckedUpdateInput = {
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -375,7 +352,6 @@ export type CurriculumSubjectCreateManyInput = {
   subjectId: number
   semesterNumber: number
   enrollmentType?: $Enums.EnrollmentType
-  electiveGroupId?: number | null
   minGrade?: number
   createdAt?: Date | string
 }
@@ -393,7 +369,6 @@ export type CurriculumSubjectUncheckedUpdateManyInput = {
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -419,7 +394,6 @@ export type CurriculumSubjectCountOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
   enrollmentType?: Prisma.SortOrder
-  electiveGroupId?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -429,7 +403,6 @@ export type CurriculumSubjectAvgOrderByAggregateInput = {
   curriculumId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
-  electiveGroupId?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
 }
 
@@ -439,7 +412,6 @@ export type CurriculumSubjectMaxOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
   enrollmentType?: Prisma.SortOrder
-  electiveGroupId?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -450,7 +422,6 @@ export type CurriculumSubjectMinOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
   enrollmentType?: Prisma.SortOrder
-  electiveGroupId?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -460,7 +431,6 @@ export type CurriculumSubjectSumOrderByAggregateInput = {
   curriculumId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   semesterNumber?: Prisma.SortOrder
-  electiveGroupId?: Prisma.SortOrder
   minGrade?: Prisma.SortOrder
 }
 
@@ -548,48 +518,6 @@ export type CurriculumSubjectUncheckedUpdateManyWithoutCurriculumNestedInput = {
   deleteMany?: Prisma.CurriculumSubjectScalarWhereInput | Prisma.CurriculumSubjectScalarWhereInput[]
 }
 
-export type CurriculumSubjectCreateNestedManyWithoutElectiveGroupInput = {
-  create?: Prisma.XOR<Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput> | Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput[] | Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput[]
-  connectOrCreate?: Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput | Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput[]
-  createMany?: Prisma.CurriculumSubjectCreateManyElectiveGroupInputEnvelope
-  connect?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-}
-
-export type CurriculumSubjectUncheckedCreateNestedManyWithoutElectiveGroupInput = {
-  create?: Prisma.XOR<Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput> | Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput[] | Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput[]
-  connectOrCreate?: Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput | Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput[]
-  createMany?: Prisma.CurriculumSubjectCreateManyElectiveGroupInputEnvelope
-  connect?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-}
-
-export type CurriculumSubjectUpdateManyWithoutElectiveGroupNestedInput = {
-  create?: Prisma.XOR<Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput> | Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput[] | Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput[]
-  connectOrCreate?: Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput | Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput[]
-  upsert?: Prisma.CurriculumSubjectUpsertWithWhereUniqueWithoutElectiveGroupInput | Prisma.CurriculumSubjectUpsertWithWhereUniqueWithoutElectiveGroupInput[]
-  createMany?: Prisma.CurriculumSubjectCreateManyElectiveGroupInputEnvelope
-  set?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  disconnect?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  delete?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  connect?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  update?: Prisma.CurriculumSubjectUpdateWithWhereUniqueWithoutElectiveGroupInput | Prisma.CurriculumSubjectUpdateWithWhereUniqueWithoutElectiveGroupInput[]
-  updateMany?: Prisma.CurriculumSubjectUpdateManyWithWhereWithoutElectiveGroupInput | Prisma.CurriculumSubjectUpdateManyWithWhereWithoutElectiveGroupInput[]
-  deleteMany?: Prisma.CurriculumSubjectScalarWhereInput | Prisma.CurriculumSubjectScalarWhereInput[]
-}
-
-export type CurriculumSubjectUncheckedUpdateManyWithoutElectiveGroupNestedInput = {
-  create?: Prisma.XOR<Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput> | Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput[] | Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput[]
-  connectOrCreate?: Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput | Prisma.CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput[]
-  upsert?: Prisma.CurriculumSubjectUpsertWithWhereUniqueWithoutElectiveGroupInput | Prisma.CurriculumSubjectUpsertWithWhereUniqueWithoutElectiveGroupInput[]
-  createMany?: Prisma.CurriculumSubjectCreateManyElectiveGroupInputEnvelope
-  set?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  disconnect?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  delete?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  connect?: Prisma.CurriculumSubjectWhereUniqueInput | Prisma.CurriculumSubjectWhereUniqueInput[]
-  update?: Prisma.CurriculumSubjectUpdateWithWhereUniqueWithoutElectiveGroupInput | Prisma.CurriculumSubjectUpdateWithWhereUniqueWithoutElectiveGroupInput[]
-  updateMany?: Prisma.CurriculumSubjectUpdateManyWithWhereWithoutElectiveGroupInput | Prisma.CurriculumSubjectUpdateManyWithWhereWithoutElectiveGroupInput[]
-  deleteMany?: Prisma.CurriculumSubjectScalarWhereInput | Prisma.CurriculumSubjectScalarWhereInput[]
-}
-
 export type EnumEnrollmentTypeFieldUpdateOperationsInput = {
   set?: $Enums.EnrollmentType
 }
@@ -608,7 +536,6 @@ export type CurriculumSubjectCreateWithoutSubjectInput = {
   minGrade?: number
   createdAt?: Date | string
   curriculum: Prisma.CurriculumCreateNestedOneWithoutCurriculumSubjectsInput
-  electiveGroup?: Prisma.ElectiveGroupCreateNestedOneWithoutCurriculumSubjectsInput
 }
 
 export type CurriculumSubjectUncheckedCreateWithoutSubjectInput = {
@@ -616,7 +543,6 @@ export type CurriculumSubjectUncheckedCreateWithoutSubjectInput = {
   curriculumId: number
   semesterNumber: number
   enrollmentType?: $Enums.EnrollmentType
-  electiveGroupId?: number | null
   minGrade?: number
   createdAt?: Date | string
 }
@@ -656,7 +582,6 @@ export type CurriculumSubjectScalarWhereInput = {
   subjectId?: Prisma.IntFilter<"CurriculumSubject"> | number
   semesterNumber?: Prisma.IntFilter<"CurriculumSubject"> | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFilter<"CurriculumSubject"> | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.IntNullableFilter<"CurriculumSubject"> | number | null
   minGrade?: Prisma.FloatFilter<"CurriculumSubject"> | number
   createdAt?: Prisma.DateTimeFilter<"CurriculumSubject"> | Date | string
 }
@@ -667,7 +592,6 @@ export type CurriculumSubjectCreateWithoutCurriculumInput = {
   minGrade?: number
   createdAt?: Date | string
   subject: Prisma.SubjectCreateNestedOneWithoutCurriculumSubjectsInput
-  electiveGroup?: Prisma.ElectiveGroupCreateNestedOneWithoutCurriculumSubjectsInput
 }
 
 export type CurriculumSubjectUncheckedCreateWithoutCurriculumInput = {
@@ -675,7 +599,6 @@ export type CurriculumSubjectUncheckedCreateWithoutCurriculumInput = {
   subjectId: number
   semesterNumber: number
   enrollmentType?: $Enums.EnrollmentType
-  electiveGroupId?: number | null
   minGrade?: number
   createdAt?: Date | string
 }
@@ -706,57 +629,11 @@ export type CurriculumSubjectUpdateManyWithWhereWithoutCurriculumInput = {
   data: Prisma.XOR<Prisma.CurriculumSubjectUpdateManyMutationInput, Prisma.CurriculumSubjectUncheckedUpdateManyWithoutCurriculumInput>
 }
 
-export type CurriculumSubjectCreateWithoutElectiveGroupInput = {
-  semesterNumber: number
-  enrollmentType?: $Enums.EnrollmentType
-  minGrade?: number
-  createdAt?: Date | string
-  curriculum: Prisma.CurriculumCreateNestedOneWithoutCurriculumSubjectsInput
-  subject: Prisma.SubjectCreateNestedOneWithoutCurriculumSubjectsInput
-}
-
-export type CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput = {
-  id?: number
-  curriculumId: number
-  subjectId: number
-  semesterNumber: number
-  enrollmentType?: $Enums.EnrollmentType
-  minGrade?: number
-  createdAt?: Date | string
-}
-
-export type CurriculumSubjectCreateOrConnectWithoutElectiveGroupInput = {
-  where: Prisma.CurriculumSubjectWhereUniqueInput
-  create: Prisma.XOR<Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput>
-}
-
-export type CurriculumSubjectCreateManyElectiveGroupInputEnvelope = {
-  data: Prisma.CurriculumSubjectCreateManyElectiveGroupInput | Prisma.CurriculumSubjectCreateManyElectiveGroupInput[]
-  skipDuplicates?: boolean
-}
-
-export type CurriculumSubjectUpsertWithWhereUniqueWithoutElectiveGroupInput = {
-  where: Prisma.CurriculumSubjectWhereUniqueInput
-  update: Prisma.XOR<Prisma.CurriculumSubjectUpdateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedUpdateWithoutElectiveGroupInput>
-  create: Prisma.XOR<Prisma.CurriculumSubjectCreateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedCreateWithoutElectiveGroupInput>
-}
-
-export type CurriculumSubjectUpdateWithWhereUniqueWithoutElectiveGroupInput = {
-  where: Prisma.CurriculumSubjectWhereUniqueInput
-  data: Prisma.XOR<Prisma.CurriculumSubjectUpdateWithoutElectiveGroupInput, Prisma.CurriculumSubjectUncheckedUpdateWithoutElectiveGroupInput>
-}
-
-export type CurriculumSubjectUpdateManyWithWhereWithoutElectiveGroupInput = {
-  where: Prisma.CurriculumSubjectScalarWhereInput
-  data: Prisma.XOR<Prisma.CurriculumSubjectUpdateManyMutationInput, Prisma.CurriculumSubjectUncheckedUpdateManyWithoutElectiveGroupInput>
-}
-
 export type CurriculumSubjectCreateManySubjectInput = {
   id?: number
   curriculumId: number
   semesterNumber: number
   enrollmentType?: $Enums.EnrollmentType
-  electiveGroupId?: number | null
   minGrade?: number
   createdAt?: Date | string
 }
@@ -767,7 +644,6 @@ export type CurriculumSubjectUpdateWithoutSubjectInput = {
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   curriculum?: Prisma.CurriculumUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
-  electiveGroup?: Prisma.ElectiveGroupUpdateOneWithoutCurriculumSubjectsNestedInput
 }
 
 export type CurriculumSubjectUncheckedUpdateWithoutSubjectInput = {
@@ -775,7 +651,6 @@ export type CurriculumSubjectUncheckedUpdateWithoutSubjectInput = {
   curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -785,7 +660,6 @@ export type CurriculumSubjectUncheckedUpdateManyWithoutSubjectInput = {
   curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -795,7 +669,6 @@ export type CurriculumSubjectCreateManyCurriculumInput = {
   subjectId: number
   semesterNumber: number
   enrollmentType?: $Enums.EnrollmentType
-  electiveGroupId?: number | null
   minGrade?: number
   createdAt?: Date | string
 }
@@ -806,7 +679,6 @@ export type CurriculumSubjectUpdateWithoutCurriculumInput = {
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subject?: Prisma.SubjectUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
-  electiveGroup?: Prisma.ElectiveGroupUpdateOneWithoutCurriculumSubjectsNestedInput
 }
 
 export type CurriculumSubjectUncheckedUpdateWithoutCurriculumInput = {
@@ -814,53 +686,12 @@ export type CurriculumSubjectUncheckedUpdateWithoutCurriculumInput = {
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CurriculumSubjectUncheckedUpdateManyWithoutCurriculumInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  subjectId?: Prisma.IntFieldUpdateOperationsInput | number
-  semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  electiveGroupId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type CurriculumSubjectCreateManyElectiveGroupInput = {
-  id?: number
-  curriculumId: number
-  subjectId: number
-  semesterNumber: number
-  enrollmentType?: $Enums.EnrollmentType
-  minGrade?: number
-  createdAt?: Date | string
-}
-
-export type CurriculumSubjectUpdateWithoutElectiveGroupInput = {
-  semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  curriculum?: Prisma.CurriculumUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutCurriculumSubjectsNestedInput
-}
-
-export type CurriculumSubjectUncheckedUpdateWithoutElectiveGroupInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
-  subjectId?: Prisma.IntFieldUpdateOperationsInput | number
-  semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
-  minGrade?: Prisma.FloatFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type CurriculumSubjectUncheckedUpdateManyWithoutElectiveGroupInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  curriculumId?: Prisma.IntFieldUpdateOperationsInput | number
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number
   semesterNumber?: Prisma.IntFieldUpdateOperationsInput | number
   enrollmentType?: Prisma.EnumEnrollmentTypeFieldUpdateOperationsInput | $Enums.EnrollmentType
@@ -876,12 +707,10 @@ export type CurriculumSubjectSelect<ExtArgs extends runtime.Types.Extensions.Int
   subjectId?: boolean
   semesterNumber?: boolean
   enrollmentType?: boolean
-  electiveGroupId?: boolean
   minGrade?: boolean
   createdAt?: boolean
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  electiveGroup?: boolean | Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs>
 }, ExtArgs["result"]["curriculumSubject"]>
 
 export type CurriculumSubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -890,12 +719,10 @@ export type CurriculumSubjectSelectCreateManyAndReturn<ExtArgs extends runtime.T
   subjectId?: boolean
   semesterNumber?: boolean
   enrollmentType?: boolean
-  electiveGroupId?: boolean
   minGrade?: boolean
   createdAt?: boolean
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  electiveGroup?: boolean | Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs>
 }, ExtArgs["result"]["curriculumSubject"]>
 
 export type CurriculumSubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -904,12 +731,10 @@ export type CurriculumSubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   subjectId?: boolean
   semesterNumber?: boolean
   enrollmentType?: boolean
-  electiveGroupId?: boolean
   minGrade?: boolean
   createdAt?: boolean
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  electiveGroup?: boolean | Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs>
 }, ExtArgs["result"]["curriculumSubject"]>
 
 export type CurriculumSubjectSelectScalar = {
@@ -918,26 +743,22 @@ export type CurriculumSubjectSelectScalar = {
   subjectId?: boolean
   semesterNumber?: boolean
   enrollmentType?: boolean
-  electiveGroupId?: boolean
   minGrade?: boolean
   createdAt?: boolean
 }
 
-export type CurriculumSubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "curriculumId" | "subjectId" | "semesterNumber" | "enrollmentType" | "electiveGroupId" | "minGrade" | "createdAt", ExtArgs["result"]["curriculumSubject"]>
+export type CurriculumSubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "curriculumId" | "subjectId" | "semesterNumber" | "enrollmentType" | "minGrade" | "createdAt", ExtArgs["result"]["curriculumSubject"]>
 export type CurriculumSubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  electiveGroup?: boolean | Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs>
 }
 export type CurriculumSubjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  electiveGroup?: boolean | Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs>
 }
 export type CurriculumSubjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   curriculum?: boolean | Prisma.CurriculumDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
-  electiveGroup?: boolean | Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs>
 }
 
 export type $CurriculumSubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -945,7 +766,6 @@ export type $CurriculumSubjectPayload<ExtArgs extends runtime.Types.Extensions.I
   objects: {
     curriculum: Prisma.$CurriculumPayload<ExtArgs>
     subject: Prisma.$SubjectPayload<ExtArgs>
-    electiveGroup: Prisma.$ElectiveGroupPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -953,7 +773,6 @@ export type $CurriculumSubjectPayload<ExtArgs extends runtime.Types.Extensions.I
     subjectId: number
     semesterNumber: number
     enrollmentType: $Enums.EnrollmentType
-    electiveGroupId: number | null
     minGrade: number
     createdAt: Date
   }, ExtArgs["result"]["curriculumSubject"]>
@@ -1352,7 +1171,6 @@ export interface Prisma__CurriculumSubjectClient<T, Null = never, ExtArgs extend
   readonly [Symbol.toStringTag]: "PrismaPromise"
   curriculum<T extends Prisma.CurriculumDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CurriculumDefaultArgs<ExtArgs>>): Prisma.Prisma__CurriculumClient<runtime.Types.Result.GetResult<Prisma.$CurriculumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  electiveGroup<T extends Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CurriculumSubject$electiveGroupArgs<ExtArgs>>): Prisma.Prisma__ElectiveGroupClient<runtime.Types.Result.GetResult<Prisma.$ElectiveGroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1387,7 +1205,6 @@ export interface CurriculumSubjectFieldRefs {
   readonly subjectId: Prisma.FieldRef<"CurriculumSubject", 'Int'>
   readonly semesterNumber: Prisma.FieldRef<"CurriculumSubject", 'Int'>
   readonly enrollmentType: Prisma.FieldRef<"CurriculumSubject", 'EnrollmentType'>
-  readonly electiveGroupId: Prisma.FieldRef<"CurriculumSubject", 'Int'>
   readonly minGrade: Prisma.FieldRef<"CurriculumSubject", 'Float'>
   readonly createdAt: Prisma.FieldRef<"CurriculumSubject", 'DateTime'>
 }
@@ -1788,25 +1605,6 @@ export type CurriculumSubjectDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many CurriculumSubjects to delete.
    */
   limit?: number
-}
-
-/**
- * CurriculumSubject.electiveGroup
- */
-export type CurriculumSubject$electiveGroupArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ElectiveGroup
-   */
-  select?: Prisma.ElectiveGroupSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ElectiveGroup
-   */
-  omit?: Prisma.ElectiveGroupOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ElectiveGroupInclude<ExtArgs> | null
-  where?: Prisma.ElectiveGroupWhereInput
 }
 
 /**

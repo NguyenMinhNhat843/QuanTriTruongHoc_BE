@@ -48,11 +48,6 @@ export type Subject = Prisma.SubjectModel
  */
 export type Curriculum = Prisma.CurriculumModel
 /**
- * Model ElectiveGroup
- * 
- */
-export type ElectiveGroup = Prisma.ElectiveGroupModel
-/**
  * Model CurriculumSubject
  * 
  */

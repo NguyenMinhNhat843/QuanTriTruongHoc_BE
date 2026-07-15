@@ -36,11 +36,6 @@ export class CurriculumSubjectDto implements CurriculumSubject {
   @ApiProperty({ enum: EnrollmentType })
   enrollmentType: EnrollmentType;
 
-  @ApiProperty({ type: Number, nullable: true })
-  @IsInt()
-  @Type(() => Number)
-  electiveGroupId: number | null;
-
   @ApiProperty()
   @IsDate()
   @Type(() => Date)
@@ -51,7 +46,6 @@ export class CreateCurriculumSubjectDto extends OmitType(CurriculumSubjectDto, [
   "id",
   "createdAt",
   "enrollmentType",
-  "electiveGroupId",
 ] as const) {}
 
 export class UpdateCurriculumSubjectDto extends PartialType(

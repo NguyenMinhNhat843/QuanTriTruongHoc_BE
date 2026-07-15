@@ -6,7 +6,7 @@ import {
 import { PrismaService } from "../prisma/prisma.service"; // Đường dẫn tới PrismaService của bạn
 import {
   CreateDepartmentDto,
-  DepartmentDto,
+  ResponseDepartmentDto,
   UpdateDepartmentDto,
 } from "./department.dto";
 import { plainToInstance } from "class-transformer";
@@ -32,8 +32,60 @@ export class DepartmentService {
   }
 
   async findAll() {
-    const result = await this.prisma.department.findMany();
-    return plainToInstance(DepartmentDto, result);
+    const departments = await this.prisma.department.findMany({
+      include: {
+        staffs: {
+          select: {
+            id: true,
+            fullName: true,
+          },
+        },
+        majors: {
+          select: {
+            id: true,
+            _count: {
+              select: {
+                students: true,
+              },
+            },
+          },
+        },
+        _count: {
+          select: {
+            majors: true,
+            staffs: true,
+          },
+        },
+      },
+    });
+
+    const formattedResult = departments.map((dept) => {
+      const headOfDept = dept.staffs.find(
+        (s) => s.id === dept.headOfDepartmentId,
+      );
+
+      const totalStudents = dept.majors.reduce(
+        (sum, major) => sum + major._count.students,
+        0,
+      );
+
+      return {
+        id: dept.id,
+        deptCode: dept.deptCode,
+        deptName: dept.deptName,
+        description: dept.description,
+        headOfDepartmentId: dept.headOfDepartmentId,
+        createdAt: dept.createdAt,
+        updatedAt: dept.updatedAt,
+
+        headOfDepartmentName: headOfDept ? headOfDept.fullName : null,
+        totalMajors: dept._count.majors,
+        totalStaffs: dept._count.staffs,
+        totalStudents: totalStudents,
+      };
+    });
+
+    return plainToInstance(ResponseDepartmentDto, formattedResult);
   }
 
   async findOne(id: number) {

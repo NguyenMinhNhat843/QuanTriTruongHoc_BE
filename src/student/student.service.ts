@@ -229,7 +229,7 @@ export class StudentService {
   }
 
   /**
-   * Duyệt hồ sơ và cấp tài khoản cho sinh viên
+   * Xét duyệt các học sinh đăng ký để chuyển sang đã đậu hay rớt
    */
   async approveStudent(body: ApprovedStudentDto) {
     const { quote } = body;
@@ -579,7 +579,6 @@ export class StudentService {
       limit = 10,
       keyword,
       status,
-      excludeStatus,
       classId,
       batchId,
       majorId,
@@ -619,20 +618,10 @@ export class StudentService {
               ],
             }
           : {},
-        status
-          ? excludeStatus
-            ? { status: { not: status } } // NOT pending
-            : { status } // pending
-          : {},
+        status ? { status } : {},
         classId ? { classId } : {},
         batchId ? { batchId: Number(batchId) } : {},
-        majorId
-          ? {
-              batch: {
-                majorId: Number(majorId),
-              },
-            }
-          : {},
+        majorId ? { majorId } : {},
         fromDate || toDate
           ? {
               enrollmentDate: {
@@ -655,6 +644,12 @@ export class StudentService {
         include: {
           user: true,
           batch: true,
+          major: {
+            select: {
+              majorCode: true,
+              majorName: true,
+            },
+          },
           class: {
             select: {
               classCode: true,

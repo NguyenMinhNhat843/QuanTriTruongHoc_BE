@@ -18,10 +18,6 @@ import {
   CreateCurriculumSubjectDto,
   CurriculumSubjectResponseDtoWithRelation,
 } from "./curriculum-subject.dto";
-import {
-  ElectiveGroupPayload,
-  ElectiveGroupResponseDto,
-} from "./elective-groups.dto";
 
 export class CurriculumDto implements Curriculum {
   @ApiProperty()
@@ -83,17 +79,6 @@ export class CreateCurriculumDto extends OmitType(CurriculumDto, [
   @ValidateNested({ each: true })
   @Type(() => CurriculumSubjectPayload)
   curriculumSubjects: CurriculumSubjectPayload[];
-
-  @ApiPropertyOptional({
-    type: [ElectiveGroupPayload],
-    required: false,
-    description: "Danh sách các nhóm môn tự chọn kèm môn học bên trong",
-  })
-  @IsArray()
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => ElectiveGroupPayload)
-  electiveGroups?: ElectiveGroupPayload[];
 }
 
 export class UpdateCurriculumDto extends PartialType(CreateCurriculumDto) {}
@@ -119,11 +104,4 @@ export class CurriculumResponseDtoWithRelation extends CurriculumDto {
 
   @ApiProperty({ type: () => MajorDto })
   major: MajorDto;
-
-  @ApiPropertyOptional({
-    type: [ElectiveGroupResponseDto],
-    description:
-      "Danh sách các nhóm môn tự chọn, bên trong mỗi nhóm có danh sách môn riêng",
-  })
-  electiveGroups?: ElectiveGroupResponseDto[];
 }

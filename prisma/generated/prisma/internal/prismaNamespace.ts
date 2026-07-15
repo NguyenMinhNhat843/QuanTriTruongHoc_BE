@@ -390,7 +390,6 @@ export const ModelName = {
   Class: 'Class',
   Subject: 'Subject',
   Curriculum: 'Curriculum',
-  ElectiveGroup: 'ElectiveGroup',
   CurriculumSubject: 'CurriculumSubject',
   EvaluationPeriod: 'EvaluationPeriod',
   EvaluationPeriodCriterion: 'EvaluationPeriodCriterion',
@@ -436,7 +435,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "electiveGroup" | "curriculumSubject" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "student" | "admissionProfile" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "province" | "ward" | "village" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "courseOffer" | "classSubjectSession" | "classSubjectScheduleDetail"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "student" | "admissionProfile" | "documentConfig" | "documentConfigItem" | "studentDocument" | "staff" | "province" | "ward" | "village" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "courseOffer" | "classSubjectSession" | "classSubjectScheduleDetail"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -881,80 +880,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CurriculumCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CurriculumCountAggregateOutputType> | number
-        }
-      }
-    }
-    ElectiveGroup: {
-      payload: Prisma.$ElectiveGroupPayload<ExtArgs>
-      fields: Prisma.ElectiveGroupFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ElectiveGroupFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ElectiveGroupFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
-        }
-        findFirst: {
-          args: Prisma.ElectiveGroupFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ElectiveGroupFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
-        }
-        findMany: {
-          args: Prisma.ElectiveGroupFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>[]
-        }
-        create: {
-          args: Prisma.ElectiveGroupCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
-        }
-        createMany: {
-          args: Prisma.ElectiveGroupCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ElectiveGroupCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>[]
-        }
-        delete: {
-          args: Prisma.ElectiveGroupDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
-        }
-        update: {
-          args: Prisma.ElectiveGroupUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
-        }
-        deleteMany: {
-          args: Prisma.ElectiveGroupDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ElectiveGroupUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ElectiveGroupUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>[]
-        }
-        upsert: {
-          args: Prisma.ElectiveGroupUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ElectiveGroupPayload>
-        }
-        aggregate: {
-          args: Prisma.ElectiveGroupAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateElectiveGroup>
-        }
-        groupBy: {
-          args: Prisma.ElectiveGroupGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ElectiveGroupGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ElectiveGroupCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ElectiveGroupCountAggregateOutputType> | number
         }
       }
     }
@@ -3310,26 +3235,12 @@ export const CurriculumScalarFieldEnum = {
 export type CurriculumScalarFieldEnum = (typeof CurriculumScalarFieldEnum)[keyof typeof CurriculumScalarFieldEnum]
 
 
-export const ElectiveGroupScalarFieldEnum = {
-  id: 'id',
-  groupName: 'groupName',
-  curriculumId: 'curriculumId',
-  minCredits: 'minCredits',
-  minSubjects: 'minSubjects',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ElectiveGroupScalarFieldEnum = (typeof ElectiveGroupScalarFieldEnum)[keyof typeof ElectiveGroupScalarFieldEnum]
-
-
 export const CurriculumSubjectScalarFieldEnum = {
   id: 'id',
   curriculumId: 'curriculumId',
   subjectId: 'subjectId',
   semesterNumber: 'semesterNumber',
   enrollmentType: 'enrollmentType',
-  electiveGroupId: 'electiveGroupId',
   minGrade: 'minGrade',
   createdAt: 'createdAt'
 } as const
@@ -4130,7 +4041,6 @@ export type GlobalOmitConfig = {
   class?: Prisma.ClassOmit
   subject?: Prisma.SubjectOmit
   curriculum?: Prisma.CurriculumOmit
-  electiveGroup?: Prisma.ElectiveGroupOmit
   curriculumSubject?: Prisma.CurriculumSubjectOmit
   evaluationPeriod?: Prisma.EvaluationPeriodOmit
   evaluationPeriodCriterion?: Prisma.EvaluationPeriodCriterionOmit

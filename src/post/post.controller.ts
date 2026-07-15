@@ -10,12 +10,14 @@ import {
   UseInterceptors,
   UploadedFile,
   Delete,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiConsumes,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import { PostService } from "./post.service";
 import {
@@ -27,11 +29,14 @@ import {
   UpdatePostDto,
 } from "./post.dto";
 import { FileInterceptor } from "@nestjs/platform-express/multer/interceptors/file.interceptor";
+import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
 
 @ApiTags("Post (Quản trị bài viết)") // Nhóm các API này lại trong Swagger
 @Controller("posts")
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(private readonly postService: PostService) { }
 
   /**
    * Thống kê đơn giản

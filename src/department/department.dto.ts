@@ -15,7 +15,7 @@ export class DepartmentDto implements Department {
   @Type(() => Number)
   id: number;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: Number, required: false, nullable: true })
   @IsOptional()
   @IsInt()
   @Type(() => Number)
@@ -31,7 +31,7 @@ export class DepartmentDto implements Department {
   @IsNotEmpty()
   deptName: string;
 
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: String, required: false, nullable: true })
   @IsOptional()
   @IsString()
   description: string | null;
@@ -45,6 +45,24 @@ export class DepartmentDto implements Department {
   @IsDate()
   @Type(() => Date)
   updatedAt: Date;
+}
+
+export class ResponseDepartmentDto extends DepartmentDto {
+  @ApiProperty({ required: false, nullable: true })
+  @IsOptional()
+  headOfDepartmentName: string | null;
+
+  @ApiProperty()
+  @IsInt()
+  totalMajors: number;
+
+  @ApiProperty()
+  @IsInt()
+  totalStaffs: number;
+
+  @ApiProperty()
+  @IsInt()
+  totalStudents: number;
 }
 
 export class CreateDepartmentDto extends OmitType(DepartmentDto, [

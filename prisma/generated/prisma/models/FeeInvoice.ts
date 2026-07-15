@@ -303,6 +303,7 @@ export type FeeInvoiceOrderByWithRelationInput = {
 
 export type FeeInvoiceWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  studentId_periodId?: Prisma.FeeInvoiceStudentIdPeriodIdCompoundUniqueInput
   AND?: Prisma.FeeInvoiceWhereInput | Prisma.FeeInvoiceWhereInput[]
   OR?: Prisma.FeeInvoiceWhereInput[]
   NOT?: Prisma.FeeInvoiceWhereInput | Prisma.FeeInvoiceWhereInput[]
@@ -318,7 +319,7 @@ export type FeeInvoiceWhereUniqueInput = Prisma.AtLeast<{
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   period?: Prisma.XOR<Prisma.TuitionPeriodScalarRelationFilter, Prisma.TuitionPeriodWhereInput>
   payments?: Prisma.PaymentListRelationFilter
-}, "id">
+}, "id" | "studentId_periodId">
 
 export type FeeInvoiceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -452,6 +453,11 @@ export type FeeInvoiceListRelationFilter = {
 
 export type FeeInvoiceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type FeeInvoiceStudentIdPeriodIdCompoundUniqueInput = {
+  studentId: number
+  periodId: number
 }
 
 export type FeeInvoiceCountOrderByAggregateInput = {

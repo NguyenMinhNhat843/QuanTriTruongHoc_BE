@@ -61,9 +61,7 @@ export const StudentStatus = {
   failed: 'failed',
   approved: 'approved',
   studying: 'studying',
-  suspended: 'suspended',
   dropped: 'dropped',
-  expelled: 'expelled',
   graduated: 'graduated'
 } as const
 

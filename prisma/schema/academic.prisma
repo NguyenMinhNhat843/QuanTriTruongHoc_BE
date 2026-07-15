@@ -171,33 +171,9 @@ model Curriculum {
 
   // Quan hệ
   curriculumSubjects CurriculumSubject[]
-  electiveGroups     ElectiveGroup[]      // Danh sách các nhóm tự chọn trong CTK này
   batch              Batch?
 
   @@map("curriculums")
-}
-
-// ==========================
-// 6.5 ELECTIVE_GROUPS (NHÓM MÔN TỰ CHỌN THUỘC CTK)
-// ==========================
-model ElectiveGroup {
-  id            Int        @id @default(autoincrement())
-  groupName     String     // Ví dụ: Nhóm tự chọn hướng Web, Nhóm tự chọn hướng AI...
-  
-  curriculumId  Int
-  curriculum    Curriculum @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
-  
-  // Quy định ràng buộc cho nhóm này
-  minCredits    Int        @default(0) // Số tín chỉ tối thiểu sinh viên bắt buộc phải tích lũy trong nhóm
-  minSubjects   Int        @default(0) // Hoặc số môn học tối thiểu phải chọn (thường dùng 1 trong 2)
-
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-
-  // Quan hệ ngược lại với các môn thuộc nhóm
-  curriculumSubjects CurriculumSubject[]
-
-  @@map("elective_groups")
 }
 
 // ==========================
@@ -219,10 +195,6 @@ model CurriculumSubject {
   
   semesterNumber Int            // Học kỳ gợi ý
   enrollmentType EnrollmentType @default(COMPULSORY) // Mặc định là bắt buộc
-  
-  // Nếu là môn tự chọn (ELECTIVE) thì có thể gắn nó vào một nhóm cụ thể
-  electiveGroupId Int?
-  electiveGroup   ElectiveGroup? @relation(fields: [electiveGroupId], references: [id], onDelete: SetNull)
   
   minGrade       Float          @default(5.0) // Điểm tối thiểu để qua môn
   createdAt      DateTime       @default(now())

@@ -13,6 +13,7 @@ import { DepartmentService } from "./department.service";
 import {
   CreateDepartmentDto,
   DepartmentDto,
+  ResponseDepartmentDto,
   UpdateDepartmentDto,
 } from "./department.dto";
 import { plainToInstance } from "class-transformer";
@@ -32,8 +33,8 @@ export class DepartmentController {
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách tất cả phòng ban" })
-  @ApiResponse({ status: 200, type: [DepartmentDto] })
-  async findAll(): Promise<DepartmentDto[]> {
+  @ApiResponse({ status: 200, type: [ResponseDepartmentDto] })
+  async findAll(): Promise<ResponseDepartmentDto[]> {
     const result = await this.departmentService.findAll();
     return result;
   }

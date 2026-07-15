@@ -57,7 +57,6 @@ export const ModelName = {
   Class: 'Class',
   Subject: 'Subject',
   Curriculum: 'Curriculum',
-  ElectiveGroup: 'ElectiveGroup',
   CurriculumSubject: 'CurriculumSubject',
   EvaluationPeriod: 'EvaluationPeriod',
   EvaluationPeriodCriterion: 'EvaluationPeriodCriterion',
@@ -199,26 +198,12 @@ export const CurriculumScalarFieldEnum = {
 export type CurriculumScalarFieldEnum = (typeof CurriculumScalarFieldEnum)[keyof typeof CurriculumScalarFieldEnum]
 
 
-export const ElectiveGroupScalarFieldEnum = {
-  id: 'id',
-  groupName: 'groupName',
-  curriculumId: 'curriculumId',
-  minCredits: 'minCredits',
-  minSubjects: 'minSubjects',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ElectiveGroupScalarFieldEnum = (typeof ElectiveGroupScalarFieldEnum)[keyof typeof ElectiveGroupScalarFieldEnum]
-
-
 export const CurriculumSubjectScalarFieldEnum = {
   id: 'id',
   curriculumId: 'curriculumId',
   subjectId: 'subjectId',
   semesterNumber: 'semesterNumber',
   enrollmentType: 'enrollmentType',
-  electiveGroupId: 'electiveGroupId',
   minGrade: 'minGrade',
   createdAt: 'createdAt'
 } as const
