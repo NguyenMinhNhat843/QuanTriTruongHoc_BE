@@ -3,7 +3,6 @@ import { UserModule } from "./user/user.module.js";
 import { PrismaModule } from "./prisma/prisma.module.js";
 import { ConfigModule } from "@nestjs/config";
 import { StudentModule } from "./student/student.module.js";
-import { StaffModule } from "./staff/staff.module.js";
 import { AuthModule } from "./auth/auth.module.js";
 import { DepartmentModule } from "./department/department.module.js";
 import { MajorModule } from "./major/major.module.js";
@@ -24,6 +23,7 @@ import { AssessmentModule } from "./assessment/assessment.module.js";
 import { AnalyticsModule } from "./analytic/analytic.module.js";
 import { TuitionModule } from "./tuition/tuition.module.js";
 import { AddressModule } from "./address/address.module.js";
+import { StaffModule } from "./staff/staff.module.js";
 
 @Module({
   imports: [

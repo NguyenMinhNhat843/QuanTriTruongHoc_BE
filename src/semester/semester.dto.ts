@@ -87,4 +87,10 @@ export class FindAllSemestersQueryDto {
   @IsInt()
   @IsOptional()
   batchId?: number;
+
+  @ApiPropertyOptional()
+  @Type(() => Number)
+  @IsInt()
+  @IsOptional()
+  classId?: number;
 }

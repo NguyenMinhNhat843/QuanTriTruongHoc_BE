@@ -82,11 +82,28 @@ export class SemesterService {
   async findAll(
     query?: FindAllSemestersQueryDto,
   ): Promise<SemesterResponseDto[]> {
-    const { studentId, batchId } = query || {};
+    // 1. Thêm classId vào phần bóc tách dữ liệu từ query
+    const { studentId, batchId, classId } = query || {};
     let targetBatchId = batchId ? Number(batchId) : undefined;
     let whereCondition: any = {};
 
-    // 1. Nếu có studentId, truy vấn để lấy batchId của học sinh đó
+    // 2. Nếu có classId, truy vấn để lấy batchId của lớp học đó
+    if (classId) {
+      const classroom = await this.prisma.class.findUnique({
+        where: { id: Number(classId) },
+        select: { batchId: true },
+      });
+
+      if (!classroom) {
+        throw new BadRequestException("Không tìm thấy thông tin lớp học.");
+      }
+
+      if (classroom.batchId) {
+        targetBatchId = classroom.batchId;
+      }
+    }
+
+    // 3. Nếu có studentId (Giữ nguyên logic cũ của bạn)
     if (studentId) {
       const student = await this.prisma.student.findUnique({
         where: { id: Number(studentId) },
@@ -102,9 +119,9 @@ export class SemesterService {
       }
     }
 
-    // 2. Nếu xác định được Khóa học (Batch), tính toán khoảng học kỳ theo chương trình khung
+    // 4. Nếu xác định được Khóa học (Batch), tính toán khoảng học kỳ theo chương trình khung
     if (targetBatchId) {
-      // 1. Lấy startYear và danh sách semesterNumber tối đa từ chương trình khung của Batch
+      // Lấy startYear và danh sách semesterNumber tối đa từ chương trình khung của Batch
       const batch = await this.prisma.batch.findUnique({
         where: { id: targetBatchId },
         select: {
@@ -128,17 +145,13 @@ export class SemesterService {
       const startYear = batch.startYear;
       const startTerm = 1; // Theo đặc tả: Mặc định kỳ 1 của khóa học bắt đầu tại Term 1
 
-      // 2. Tìm học kỳ lớn nhất (semesterNumberMax) có trong chương trình khung
+      // Tìm học kỳ lớn nhất (semesterNumberMax) có trong chương trình khung
       const semesterNumbers =
         batch.curriculum?.curriculumSubjects.map((cs) => cs.semesterNumber) ||
         [];
       const maxSemesterNumber =
         semesterNumbers.length > 0 ? Math.max(...semesterNumbers) : 4; // Mặc định là 4 nếu CTK trống
 
-      /**
-       * 3. Thuật toán quy đổi từ số thứ tự học kỳ tuyến tính (maxSemesterNumber)
-       * ra mốc (EndYear, EndTerm) thực tế dựa trên mốc bắt đầu (startYear, startTerm = 1)
-       */
       // Tổng số bước nhảy kỳ tính từ kỳ gốc (kỳ 1 tương đương bước nhảy 0)
       const totalTermSteps = maxSemesterNumber - 1;
 
@@ -147,7 +160,7 @@ export class SemesterService {
         startYear + Math.floor((startTerm - 1 + totalTermSteps) / 2);
       const endTerm = ((startTerm - 1 + totalTermSteps) % 2) + 1; // Trả về 1 hoặc 2
 
-      // 4. Xây dựng điều kiện lọc chính xác cho bảng Semester
+      // Xây dựng điều kiện lọc chính xác cho bảng Semester
       whereCondition = {
         OR: [
           // Trường hợp 1: Nằm hoàn toàn ở các năm giữa năm bắt đầu và năm kết thúc
@@ -157,7 +170,7 @@ export class SemesterService {
               lt: endYear,
             },
           },
-          // Trường hợp 2: Nếu là năm bắt đầu, phải lấy từ Term 1 trở đi (ở đây mặc định lấy tất cả các kỳ của năm bắt đầu)
+          // Trường hợp 2: Nếu là năm bắt đầu, lấy từ Term 1 trở đi
           {
             year: startYear,
             term: { gte: startTerm },
@@ -171,7 +184,7 @@ export class SemesterService {
       };
     }
 
-    // 3. Truy vấn dữ liệu từ Database
+    // 5. Truy vấn dữ liệu từ Database
     const semesters = await this.prisma.semester.findMany({
       where: whereCondition,
       orderBy: [{ year: "asc" }, { term: "asc" }],

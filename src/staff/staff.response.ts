@@ -3,10 +3,14 @@ import { StaffDto } from "./staff.dto.js";
 import { TeacherSubjectResponseDto } from "./teacherSubject.dto.js";
 import { Expose, Type } from "class-transformer";
 import { UserResponseDto } from "../user/user.response.js";
+import { DepartmentDto } from "../department/department.dto.js";
 
 export class StaffResponseDto extends StaffDto {
-  @ApiPropertyOptional({ type: () => UserResponseDto }) // thêm arrow function
+  @ApiPropertyOptional({ type: () => UserResponseDto })
   user?: UserResponseDto;
+
+  @ApiPropertyOptional({ type: () => DepartmentDto })
+  department?: DepartmentDto;
 
   @ApiPropertyOptional({
     type: () => [TeacherSubjectResponseDto],

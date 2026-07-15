@@ -5,15 +5,15 @@ import {
   NotFoundException,
   Logger,
 } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service.js";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
-import { generateId } from "../utils/generateId.js";
-import { Prisma } from "../../prisma/generated/prisma/client.js";
 import {
   StaffResponseDto,
   TeacherDashboardStatsResponseDto,
 } from "./staff.response.js";
 import { plainToInstance } from "class-transformer";
+import { PrismaService } from "../prisma/prisma.service.js";
+import { generateId } from "../utils/generateId.js";
+import { Prisma } from "../../prisma/generated/prisma/client.js";
 
 @Injectable()
 export class StaffService {
@@ -145,7 +145,14 @@ export class StaffService {
       this.prisma.staff.count({ where }),
       this.prisma.staff.findMany({
         where,
-        include: { user: true },
+        include: {
+          user: true,
+          department: {
+            select: {
+              deptName: true,
+            },
+          },
+        },
         skip,
         take: limit,
         orderBy: { [sortBy]: sortOrder },
