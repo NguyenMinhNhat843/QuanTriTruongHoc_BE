@@ -25,6 +25,7 @@ export class TuitionPeriodDto implements Omit<
 
   @ApiProperty()
   @IsInt()
+  @Type(() => Number)
   semesterId: number;
 
   @ApiProperty()
@@ -51,14 +52,14 @@ export class CreateTuitionPeriodDto extends OmitType(TuitionPeriodDto, [
   "id",
   "isActive",
   "createdAt",
-] as const) {}
+] as const) { }
 
 // 3. Update DTO: Kế thừa từ Create DTO nhưng tất cả các trường đều optional
 export class UpdateTuitionPeriodDto extends PartialType(
   CreateTuitionPeriodDto,
-) {}
+) { }
 
 // 4. Search DTO: Chỉ tìm kiếm dựa trên tên
 export class SearchTuitionPeriodDto extends PartialType(
   PickType(TuitionPeriodDto, ["name", "semesterId"] as const),
-) {}
+) { }
