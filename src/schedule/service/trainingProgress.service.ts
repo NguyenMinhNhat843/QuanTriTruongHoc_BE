@@ -11,7 +11,7 @@ import { Response } from "express";
 
 @Injectable()
 export class TrainingPlanService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   /**
    * 1. HÀM LẤY KẾ HOẠCH ĐÀO TẠO (Lấy Subject trong CTK làm gốc)
@@ -102,80 +102,69 @@ export class TrainingPlanService {
   async upsertTrainingPlan(dto: UpsertTrainingPlanDto) {
     const { classId, semesterId, items } = dto;
 
+    // Tăng timeout lên 15-20s đề phòng trường hợp cục items gửi lên quá lớn
     return await this.prisma.$transaction(async (tx) => {
       for (const item of items) {
         const { sessions, subjectId, teacherId } = item;
 
-        // Tìm xem đã có môn học này trong lớp/học kỳ này chưa
+        // 1. Tìm xem môn học này đã tồn tại trong lớp/học kỳ chưa
         const classSubject = await tx.courseOffer.findFirst({
-          where: {
-            classId,
-            semesterId,
-            subjectId,
-          },
+          where: { classId, semesterId, subjectId },
+          select: { id: true } // Chỉ lấy id để tối ưu hiệu năng
         });
 
-        let currentClassSubjectId: number;
+        // Chuẩn bị cấu trúc data của toàn bộ Sessions và Schedules lồng nhau
+        const sessionsCreateData = sessions.map((session) => {
+          const { schedules, ...sessionData } = session;
+          return {
+            ...sessionData,
+            // Sử dụng tính năng tạo lồng (Nested Relation Create) của Prisma
+            schedules: schedules && schedules.length > 0 ? {
+              create: schedules.map((schedule) => ({
+                weekNumber: schedule.weekNumber,
+                studyDate: schedule.studyDate ? new Date(schedule.studyDate) : null,
+                roomId: schedule.roomId || null,
+              }))
+            } : undefined
+          };
+        });
 
         if (!classSubject) {
-          // TRƯỜNG HỢP 1: TẠO MỚI CourseOffer
-          const newClassSubject = await tx.courseOffer.create({
+          // TRƯỜNG HỢP 1: TẠO MỚI HOÀN TOÀN (Chỉ mất đúng 1 query duy nhất cho toàn bộ sessions/schedules)
+          await tx.courseOffer.create({
             data: {
               classId,
               semesterId,
               subjectId,
               teacherId: teacherId || null,
-            },
+              // Đẩy toàn bộ session và schedule vào đây để tạo đồng thời
+              classSubjectSessions: {
+                create: sessionsCreateData
+              }
+            }
           });
-          currentClassSubjectId = newClassSubject.id;
         } else {
-          // TRƯỜNG HỢP 2: CẬP NHẬT ClassSubject
+          // TRƯỜNG HỢP 2: CẬP NHẬT CÓ SẴN
+          // Bước 2.1: Xóa toàn bộ Sessions cũ (Cascading sẽ tự dọn dẹp Schedule cũ)
+          await tx.classSubjectSession.deleteMany({
+            where: { classSubjectId: classSubject.id },
+          });
+
+          // Bước 2.2: Cập nhật giảng viên và đẩy toàn bộ Sessions/Schedules mới vào (Cũng chỉ mất 1 query)
           await tx.courseOffer.update({
             where: { id: classSubject.id },
             data: {
               teacherId: teacherId || null,
-            },
+              classSubjectSessions: {
+                create: sessionsCreateData
+              }
+            }
           });
-          currentClassSubjectId = classSubject.id;
-
-          // --- XỬ LÝ XÓA DỮ LIỆU CŨ ĐỂ LÀM SẠCH ---
-          // Bước 2: Xóa các Sessions (Buổi học) cũ, tự động xóa các chedules bên trong
-          await tx.classSubjectSession.deleteMany({
-            where: {
-              classSubjectId: classSubject.id,
-            },
-          });
-        }
-
-        // =================================================================
-        // TIẾN HÀNH TẠO MỚI SESSIONS & SCHEDULES (Dùng chung cho cả Tạo mới và Cập nhật)
-        // =================================================================
-        for (const session of sessions) {
-          const { schedules, ...sessionData } = session;
-
-          // 1. Tạo mới buổi học (Session) và gán mối quan hệ với CourseOffer
-          const newSession = await tx.classSubjectSession.create({
-            data: {
-              ...sessionData,
-              classSubjectId: currentClassSubjectId, // Liên kết buổi học với môn học hiện tại
-            },
-          });
-
-          // 2. Tạo hàng loạt chi tiết lịch học (Schedules) cho buổi học vừa tạo
-          if (schedules && schedules.length > 0) {
-            await tx.classSubjectScheduleDetail.createMany({
-              data: schedules.map((schedule) => ({
-                sessionId: newSession.id, // Dùng ID thực tế vừa được sinh ra trong DB
-                weekNumber: schedule.weekNumber,
-                studyDate: schedule.studyDate
-                  ? new Date(schedule.studyDate)
-                  : null,
-                roomId: schedule.roomId || null,
-              })),
-            });
-          }
         }
       }
+    }, {
+      maxWait: 5000,
+      timeout: 20000 // Tăng thời gian xử lý an toàn lên 20 giây
     });
   }
 
@@ -358,7 +347,7 @@ export class TrainingPlanService {
             // Cột tuần bắt đầu từ vị trí thứ 8 (Index 8 trong mảng rowData tương đương cột H)
             rowData[7 + w] = hasSchedule
               ? session.countPeriod ||
-                session.endPeriod - session.startPeriod + 1
+              session.endPeriod - session.startPeriod + 1
               : "";
           }
         } else {
