@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
+import { PrismaService } from "../../prisma/prisma.service";
 import {
   CreateCriterionDto,
   CreatePeriodDto,
@@ -11,17 +11,17 @@ import {
   UpdateAssessmentDto,
   UpdateCriterionDto,
   UpdatePeriodDto,
-} from "./assessment.dto";
+} from "../assessment.dto";
 import { plainToInstance } from "class-transformer";
 import {
   CriterionDto,
   EvaluationPeriodDto,
   ResponseEvaluationPeriodDtoWithRelation,
-} from "./assessment-response.dto";
+} from "../assessment-response.dto";
 import {
   AssessmentStatus,
   EvaluationGrade,
-} from "../../prisma/generated/prisma/enums";
+} from "../../../prisma/generated/prisma/enums";
 
 @Injectable()
 export class AssessmentService {
@@ -290,7 +290,7 @@ export class AssessmentService {
     const period = await this.prismaService.evaluationPeriod.findUnique({
       where: { semesterId },
       include: {
-        periodCriteria: true, // Lấy luôn cấu hình tiêu chí để dùng nếu cần tạo mới
+        periodCriteria: true, // Lấy luôn cấu hình tiêu chí của đợt
       },
     });
 
@@ -303,6 +303,12 @@ export class AssessmentService {
     if (!period.isActive) {
       throw new BadRequestException(
         "Đợt đánh giá này hiện đang đóng, không thể khởi tạo phiếu điểm.",
+      );
+    }
+
+    if (period.periodCriteria.length === 0) {
+      throw new BadRequestException(
+        "Đợt đánh giá này chưa được cấu hình tiêu chí chấm điểm.",
       );
     }
 
@@ -319,7 +325,7 @@ export class AssessmentService {
           include: {
             periodCriterion: {
               include: {
-                criterion: true, // Lấy kèm thông tin gốc (title, sortOrder...) để FE hiển thị
+                criterion: true,
               },
             },
           },
@@ -327,20 +333,58 @@ export class AssessmentService {
       },
     });
 
-    // Nếu đã tồn tại, trả về luôn
+    // === XỬ LÝ TRƯỜNG HỢP: ĐÃ CÓ ASSESSMENT NHƯNG THIẾU HOẶC MẤT DETAILS ===
     if (existingAssessment) {
-      return existingAssessment;
-    }
-
-    // 3. Nếu CHƯA tồn tại -> Tiến hành khởi tạo mới (Dùng Prisma Transaction để đảm bảo an toàn)
-    if (period.periodCriteria.length === 0) {
-      throw new BadRequestException(
-        "Đợt đánh giá này chưa được cấu hình tiêu chí chấm điểm.",
+      // Lấy danh sách ID các tiêu chí đợt (periodCriterionId) đã có trong DB của sinh viên
+      const existingPeriodCriterionIds = existingAssessment.details.map(
+        (d) => d.periodCriterionId,
       );
+
+      // Lọc ra các tiêu chí trong đợt hiện tại chưa được tạo dòng chi tiết cho sinh viên này
+      const missingPeriodCriteria = period.periodCriteria.filter(
+        (pc) => !existingPeriodCriterionIds.includes(pc.id),
+      );
+
+      // Nếu không thiếu tiêu chí nào -> An toàn trả về luôn!
+      if (missingPeriodCriteria.length === 0) {
+        return existingAssessment;
+      }
+
+      // Tiến hành tạo bù các dòng chi tiết bị thiếu bằng Transaction
+      return await this.prismaService.$transaction(async (tx) => {
+        // Tạo hàng loạt các chi tiết bị thiếu
+        await tx.assessmentDetail.createMany({
+          data: missingPeriodCriteria.map((pc) => ({
+            assessmentId: existingAssessment.id,
+            periodCriterionId: pc.id,
+            studentScore: 0,
+            teacherScore: 0,
+          })),
+          skipDuplicates: true, // Phòng hờ lỗi trùng lặp khi chạy song song
+        });
+
+        // Lấy lại dữ liệu Assessment hoàn chỉnh sau khi đã nạp đủ details
+        const fullAssessment = await tx.assessment.findUnique({
+          where: { id: existingAssessment.id },
+          include: {
+            details: {
+              include: {
+                periodCriterion: {
+                  include: {
+                    criterion: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        return fullAssessment;
+      });
     }
 
+    // 3. Nếu CHƯA tồn tại cả Assessment -> Khởi tạo mới từ đầu (Bảo toàn Logic cũ của bạn)
     return await this.prismaService.$transaction(async (tx) => {
-      // Tạo mới phiếu điểm tổng quan
       const newAssessment = await tx.assessment.create({
         data: {
           studentId,

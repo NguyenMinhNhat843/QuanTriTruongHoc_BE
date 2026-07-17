@@ -17,16 +17,16 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from "@nestjs/swagger";
-import { CourseRegistrationService } from "../service/grades.service";
 import { SaveGradesDto } from "../dto/grades.dto";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { AcademicSummaryResponseDto } from "../dto/stat.dto";
 import { StudentTranscriptResponseDto } from "../dto/grades.response";
+import { GradeService } from "../service/grades.service";
 
 @ApiTags("Quản lý Điểm (grade)")
 @Controller("grades")
-export class CourseRegistrationController {
-  constructor(private readonly gradeService: CourseRegistrationService) {}
+export class GradeController {
+  constructor(private readonly gradeService: GradeService) {}
 
   @Post(":classSubjectId")
   @ApiOperation({

@@ -36,12 +36,12 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     const adapter = new PrismaPg(pool);
     super({
       adapter,
-      log: [
-        { emit: "stdout", level: "query" }, // Log toàn bộ câu lệnh SQL chạy dưới DB
-        { emit: "stdout", level: "info" }, // Log thông tin hệ thống
-        { emit: "stdout", level: "warn" }, // Log cảnh báo
-        { emit: "stdout", level: "error" }, // Log lỗi phát sinh
-      ],
+      // log: [
+      //   { emit: "stdout", level: "query" }, 
+      //   { emit: "stdout", level: "info" },
+      //   { emit: "stdout", level: "warn" }, 
+      //   { emit: "stdout", level: "error" }, 
+      // ],
     });
   }
 

@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import * as ExcelJS from "exceljs";
 import { PrismaService } from "../../prisma/prisma.service";
-import { CourseOfferQuery } from "./classSubject.query";
+import { ClassSubjectQuery } from "./classSubject.query";
 
 @Injectable()
 export class ExportGradeTableService {
   constructor(
-    private courseOfferQuery: CourseOfferQuery,
+    private courseOfferQuery: ClassSubjectQuery,
     private prisma: PrismaService,
   ) {}
   /**
@@ -309,7 +309,7 @@ export class ExportGradeTableService {
           grade?.diemTongKet2 !== undefined &&
           grade?.diemTongKet2 !== ""
             ? grade.diemTongKet2
-            : grade?.diemTongKet1; // Ưu tiên lấy điểm tổng kết 2 [cite: 192-197]
+            : grade?.diemTongKet1; // Ưu tiên lấy điểm tổng kết 2
 
         tongDiemHe10 += Number(rawDiem) * subject?.keyValueData?.credits;
         // Thực hiện đổi sang Điểm chữ trước rồi mới từ Điểm chữ đổi sang Hệ 4 đúng như bạn mong muốn [cite: 199-201]

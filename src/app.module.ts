@@ -24,6 +24,7 @@ import { AnalyticsModule } from "./analytic/analytic.module.js";
 import { TuitionModule } from "./tuition/tuition.module.js";
 import { AddressModule } from "./address/address.module.js";
 import { StaffModule } from "./staff/staff.module.js";
+import { ScriptModule } from "./script/script.module.js";
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { StaffModule } from "./staff/staff.module.js";
     AnalyticsModule,
     TuitionModule,
     AddressModule,
+    ScriptModule,
   ],
 })
 export class AppModule {}

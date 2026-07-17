@@ -1,4 +1,3 @@
-// utils/grade-converter.ts
 export function convertToGradeSystem(score: number | null | undefined): {
   gradeFour: number;
   gradeLetter: string;

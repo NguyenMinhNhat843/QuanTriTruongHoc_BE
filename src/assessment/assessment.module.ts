@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { AssessmentService } from "./assessment.service";
-import { AssessmentController } from "./assessment.controller";
+import { AssessmentService } from "./service/assessment.service";
+import { AssessmentController } from "./controller/assessment.controller";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Module({

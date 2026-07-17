@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
-export class CourseOfferQuery {
+export class ClassSubjectQuery {
   constructor(private prisma: PrismaService) {}
 
   // 1. Hàm bổ trợ để lấy từ cuối cùng (Tên) trong chuỗi Họ và Tên

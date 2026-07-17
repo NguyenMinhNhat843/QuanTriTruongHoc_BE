@@ -1,13 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import {
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsNumber,
-  IsBoolean,
-  IsDate,
-} from "class-validator";
+import { IsInt, IsNotEmpty, IsOptional, IsDate } from "class-validator";
 import { CourseOffer } from "../../../prisma/generated/prisma/client";
 import { ClassResponseDto } from "../../class/class.response";
 import { StaffResponseDto } from "../../staff/staff.response";
@@ -66,31 +58,5 @@ export class ClassSubjectResponseDto extends ClassSubjectDto {
 }
 
 export class ResponseGetDetailCourseOffer extends ClassSubjectDto {}
-
-/**
- * Response api previewGenerateSectionForClass
- * Xem trước danh sách các classSubject
- */
-export class ResponsePreviewGenerateSectionForClass {
-  @ApiProperty()
-  @IsNumber()
-  subjectId: number;
-
-  @ApiProperty()
-  @IsString()
-  subjectCode: string;
-
-  @ApiProperty()
-  @IsString()
-  subjectName: string;
-
-  @ApiProperty()
-  @IsNumber()
-  credits: number;
-
-  @ApiProperty()
-  @IsBoolean()
-  isExisted: boolean;
-}
 
 export class ResponseCourseDataForExportExcel {}

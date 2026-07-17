@@ -9,7 +9,7 @@ import { Prisma } from "../../../prisma/generated/prisma/client";
 import { convertToGradeSystem } from "../../utils/grade-convert";
 
 @Injectable()
-export class CourseRegistrationService {
+export class GradeService {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
@@ -42,7 +42,7 @@ export class CourseRegistrationService {
   }
 
   /**
-   * 2. Lấy toàn bộ danh sách đăng ký học phần
+   * 2. Lấy toàn bộ bảng điểm
    */
   async getAll() {
     return await this.prisma.gradeStudent.findMany({

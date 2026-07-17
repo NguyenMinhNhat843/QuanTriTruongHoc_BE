@@ -15,7 +15,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import { AssessmentService } from "./assessment.service";
+import { AssessmentService } from "../service/assessment.service";
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -28,7 +28,7 @@ import {
   EvaluationPeriodDto,
   ResponseAssessmentDtoWithRelation,
   ResponseEvaluationPeriodDtoWithRelation,
-} from "./assessment-response.dto";
+} from "../assessment-response.dto";
 import {
   CreateCriterionDto,
   CreatePeriodDto,
@@ -36,12 +36,12 @@ import {
   LoadAssessmentDto,
   UpdateAssessmentDto,
   UpdatePeriodDto,
-} from "./assessment.dto";
-import { GetUser } from "../common/decorators/get-user.decorator";
-import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
-import { RolesGuard } from "../auth/guard/role.guard";
-import { Roles } from "../common/decorators/role.decorator";
-import { RoleType } from "../../prisma/generated/prisma/enums";
+} from "../assessment.dto";
+import { GetUser } from "../../common/decorators/get-user.decorator";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { RolesGuard } from "../../auth/guard/role.guard";
+import { Roles } from "../../common/decorators/role.decorator";
+import { RoleType } from "../../../prisma/generated/prisma/enums";
 
 @Controller("assessment")
 @ApiBearerAuth()

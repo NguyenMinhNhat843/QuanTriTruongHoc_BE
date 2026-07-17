@@ -17,7 +17,6 @@ import { Response } from "express";
 import {
   ClassSubjectResponseDto,
   ClassSubjectDto,
-  ResponsePreviewGenerateSectionForClass,
 } from "../dto/classSubject.response";
 import {
   ExportGradeTableDto,
@@ -74,7 +73,7 @@ export class ClassSubjectController {
   }
 
   /**
-   * Xuất file excel bảng điểm chuẩn Giáo dục (Tự sinh layout linh hoạt)
+   * Xuất file excel bảng điểm
    */
   @Post("/export-excel")
   async exportExcel(@Body() body: ExportGradeTableDto, @Res() res: Response) {
@@ -127,28 +126,6 @@ export class ClassSubjectController {
   })
   async getAll(@Query() query: SearchClassSubjectDto, @GetUser() user: any) {
     return this.classSubjectService.findAll(query, user);
-  }
-
-  /**
-   * Xem trước danh sách ClassSubject sẽ sinh trong 1 học kỳ theo chương trình khung của 1 Class
-   */
-  @Get("previewpreviewGenerateSectionForClass")
-  @ApiOperation({
-    summary: "Xem trước danh sách lớp học phần tự động",
-  })
-  @ApiResponse({
-    status: 200,
-    description: "Lấy dữ liệu cấu trúc xem trước thành công.",
-    type: [ResponsePreviewGenerateSectionForClass],
-  })
-  async previewGenerateSectionForClass(
-    @Query("classId", ParseIntPipe) classId: number,
-    @Query("semesterId", ParseIntPipe) semesterId: number,
-  ) {
-    return this.classSubjectService.previewGenerateSectionForClass(
-      classId,
-      semesterId,
-    );
   }
 
   /**

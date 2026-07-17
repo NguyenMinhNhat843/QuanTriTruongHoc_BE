@@ -11,21 +11,12 @@ import {
 } from "../dto/classSubject.dto";
 import { Prisma, RoleType } from "../../../prisma/generated/prisma/client";
 import { plainToInstance } from "class-transformer";
-import {
-  ClassSubjectResponseDto,
-  ResponsePreviewGenerateSectionForClass,
-} from "../dto/classSubject.response";
+import { ClassSubjectResponseDto } from "../dto/classSubject.response";
 import { CourseOfferDetailResponseDto } from "../dto/classSubjectDetail.response";
-import { CourseRegistrationService } from "./grades.service";
-import { SubjectService } from "../../subject/subject.service";
 
 @Injectable()
 export class ClassSubjectService {
-  constructor(
-    private prisma: PrismaService,
-    private gradeService: CourseRegistrationService,
-    private subjectService: SubjectService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   /**
    * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
@@ -161,35 +152,81 @@ export class ClassSubjectService {
   }
 
   /**
-   * Chi tiết lớp học phần
+   * Chi tiết classSubject
    */
   async getCourseOfferDetail(
     classSubjectId: number,
   ): Promise<CourseOfferDetailResponseDto | null> {
-    const grades = await this.prisma.gradeStudent.findMany({
-      where: {
-        courseOfferId: classSubjectId,
-      },
+    // 1. Lấy thông tin lớp học phần và classId liên kết
+    const classSubject = await this.prisma.courseOffer.findUnique({
+      where: { id: classSubjectId },
+      select: { classId: true },
     });
 
-    const classSubject = await this.prisma.courseOffer.findUnique({
-      where: {
-        id: classSubjectId,
-      },
-      select: {
-        classId: true,
-      },
-    });
     const classId = classSubject?.classId;
     if (!classId) {
       throw new NotFoundException("Không tìm thấy lớp học");
     }
 
-    // Chưa có bảng điểm nào được tạo cho lớp học phần này, tiến hành tạo mới
-    if (!grades || grades.length === 0) {
-      await this.gradeService.createGradeTable(classId, classSubjectId);
+    // 2. Lấy danh sách toàn bộ học sinh đang ở trong lớp hành chính này
+    const studentsInClass = await this.prisma.student.findMany({
+      where: { classId: classId },
+      select: { id: true },
+    });
+    const currentStudentIds = new Set(studentsInClass.map((s) => s.id));
+
+    // 3. Lấy các học sinh hiện đang có bản ghi điểm trong lớp học phần này
+    const existingGrades = await this.prisma.gradeStudent.findMany({
+      where: { courseOfferId: classSubjectId },
+      select: { studentId: true },
+    });
+    const existingStudentIds = new Set(existingGrades.map((g) => g.studentId));
+
+    // =================================================================
+    // 4. [LOGIC ĐỒNG BỘ 2 CHIỀU] - XỬ LÝ HỌC SINH THIẾU & HỌC SINH THỪA
+    // =================================================================
+
+    // Hướng A: Tìm học sinh mới vào lớp mà CHƯA có bản ghi điểm (THIẾU)
+    const missingStudents = studentsInClass.filter(
+      (student) => !existingStudentIds.has(student.id),
+    );
+
+    // Hướng B: Tìm studentId có điểm nhưng KHÔNG CÒN thuộc lớp này nữa (THỪA)
+    const extraStudentIds = existingGrades
+      .map((g) => g.studentId)
+      .filter((id) => !currentStudentIds.has(id));
+
+    // 5. Thực thi đồng bộ vào Database nếu có biến động dữ liệu
+    if (missingStudents.length > 0 || extraStudentIds.length > 0) {
+      await this.prisma.$transaction([
+        // Hành động 1: Tạo bù nếu thiếu
+        ...(missingStudents.length > 0
+          ? [
+              this.prisma.gradeStudent.createMany({
+                data: missingStudents.map((student) => ({
+                  studentId: student.id,
+                  courseOfferId: classSubjectId,
+                })),
+                skipDuplicates: true,
+              }),
+            ]
+          : []),
+
+        // Hành động 2: Xóa bỏ nếu thừa (Học sinh đã bị xóa khỏi lớp)
+        ...(extraStudentIds.length > 0
+          ? [
+              this.prisma.gradeStudent.deleteMany({
+                where: {
+                  courseOfferId: classSubjectId,
+                  studentId: { in: extraStudentIds },
+                },
+              }),
+            ]
+          : []),
+      ]);
     }
 
+    // 6. Sau khi đã đồng bộ hoàn tất, tiến hành lấy toàn bộ thông tin chi tiết để trả về
     const courseOffer = await this.prisma.courseOffer.findUnique({
       where: { id: classSubjectId },
       include: {
@@ -235,13 +272,18 @@ export class ClassSubjectService {
       },
     });
 
-    // Xếp điểm học sinh theo thứ tự bảng chữ cái
+    if (!courseOffer) {
+      throw new NotFoundException("Không tìm thấy lớp học phần");
+    }
+
+    // 7. Xếp điểm học sinh theo thứ tự bảng chữ cái tiếng Việt
     const getLastName = (fullName: string) => {
       if (!fullName) return "";
       const parts = fullName.trim().split(/\s+/);
       return parts[parts.length - 1];
     };
-    if (courseOffer && courseOffer.gradeStudents) {
+
+    if (courseOffer.gradeStudents) {
       courseOffer.gradeStudents.sort((a, b) => {
         const nameA = getLastName(a.student?.fullName || "");
         const nameB = getLastName(b.student?.fullName || "");
@@ -256,10 +298,6 @@ export class ClassSubjectService {
           "vi",
         );
       });
-    }
-
-    if (!courseOffer) {
-      throw new NotFoundException("Không tìm thấy lớp học phần");
     }
 
     return plainToInstance(CourseOfferDetailResponseDto, courseOffer, {
@@ -435,55 +473,5 @@ export class ClassSubjectService {
         totalRegistrations,
       },
     };
-  }
-
-  /**
-   * Xem trước khi sinh classSubject
-   */
-  async previewGenerateSectionForClass(classId: number, semesterId: number) {
-    const semester = await this.prisma.semester.findUnique({
-      where: { id: semesterId },
-    });
-    if (!semester) {
-      throw new NotFoundException(`Không tìm thấy học kỳ với ID ${semesterId}`);
-    }
-
-    const classDto = await this.prisma.class.findUnique({
-      where: { id: classId },
-    });
-    if (!classDto) {
-      throw new NotFoundException(`Không tìm thấy lớp học với ID ${classId}`);
-    }
-
-    const subjects = await this.subjectService.getSubjectsByClassAndSemester(
-      classId,
-      semesterId,
-    );
-
-    // 4. Duyệt qua từng môn để dựng cấu trúc lớp học phần dự kiến
-    const previewList: ResponsePreviewGenerateSectionForClass[] = [];
-
-    for (const cs of subjects) {
-      // Kiểm tra xem ClassSubject này đã tồn tại chưa
-      const existingCourseOffer = await this.prisma.courseOffer.findUnique({
-        where: {
-          subjectId_classId: {
-            subjectId: cs.id,
-            classId: classId,
-          },
-        },
-      });
-
-      previewList.push({
-        subjectId: cs?.id,
-        subjectCode: cs?.subjectCode || "Không xác định",
-        subjectName: cs?.subjectName || "Không xác định",
-        credits: cs?.credits || 0,
-        isExisted: !!existingCourseOffer,
-      });
-    }
-
-    // 5. Trả về kết quả tổng quan
-    return plainToInstance(ResponsePreviewGenerateSectionForClass, previewList);
   }
 }

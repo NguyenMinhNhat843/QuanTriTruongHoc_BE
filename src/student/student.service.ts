@@ -22,7 +22,7 @@ import { AssignStudentsToClassesDto } from "./dto/get-eligible-students.dto.js";
 
 @Injectable()
 export class StudentService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   /**
    * Tạo mới một sinh viên
@@ -38,10 +38,30 @@ export class StudentService {
     } = data;
 
     const student = await this.prisma.$transaction(async (tx) => {
+      // 1. Khai báo biến majorId mặc định
+      let majorId: number | null = null;
+
+      // 2. Nếu có truyền vào batchId, tìm batch tương ứng để lấy majorId
+      if (batchId) {
+        const batch = await tx.batch.findUnique({
+          where: { id: batchId },
+          select: { majorId: true }, // Chỉ cần lấy trường majorId để tối ưu hiệu năng
+        });
+
+        if (!batch) {
+          throw new NotFoundException(
+            `Không tìm thấy Khóa đào tạo (Batch) với ID ${batchId}`,
+          );
+        }
+
+        majorId = batch.majorId;
+      }
+
+      // 3. Tạo Student với majorId đã tự động lấy từ Batch
       const newStudent = await tx.student.create({
         data: {
           ...studentProfile,
-          majorId: studentProfile.majorId ?? null,
+          majorId: majorId, // Gán majorId lấy từ Batch ở trên
           batchId: batchId ?? null,
           studentCode: `S${generateId()}`,
           dob: studentProfile.dob ? new Date(studentProfile.dob) : null,
@@ -51,6 +71,7 @@ export class StudentService {
         },
       });
 
+      // 4. Tạo admission profile nếu có
       if (admissionProfile) {
         await tx.admissionProfile.create({
           data: {
@@ -421,10 +442,8 @@ export class StudentService {
 
     // 1. Chạy Transaction ngay từ đầu để đảm bảo tính đóng gói độc quyền
     return await this.prisma.$transaction(async (tx) => {
-      // BƯỚC QUAN TRỌNG: Sử dụng khóa dữ liệu "FOR UPDATE" trên chính Batch này.
-      // Lệnh này ép tất cả các request phân lớp cùng batchId đến sau PHẢI ĐỢI request đầu tiên xử lý xong.
       const batches = await tx.$queryRaw<any[]>`
-      SELECT id, "batchCode", "majorId" FROM "Batch" 
+      SELECT id, "batchCode", "majorId" FROM batches 
       WHERE id = ${batchId} 
       FOR UPDATE
     `;
@@ -609,14 +628,14 @@ export class StudentService {
       AND: [
         keyword
           ? {
-              OR: [
-                { studentCode: { contains: keyword, mode: "insensitive" } },
-                { identityNumber: { contains: keyword, mode: "insensitive" } },
-                { email: { contains: keyword, mode: "insensitive" } },
-                { fullName: { contains: keyword, mode: "insensitive" } },
-                { phone: { contains: keyword, mode: "insensitive" } },
-              ],
-            }
+            OR: [
+              { studentCode: { contains: keyword, mode: "insensitive" } },
+              { identityNumber: { contains: keyword, mode: "insensitive" } },
+              { email: { contains: keyword, mode: "insensitive" } },
+              { fullName: { contains: keyword, mode: "insensitive" } },
+              { phone: { contains: keyword, mode: "insensitive" } },
+            ],
+          }
           : {},
         status ? { status } : {},
         classId ? { classId } : {},
@@ -624,11 +643,11 @@ export class StudentService {
         majorId ? { majorId } : {},
         fromDate || toDate
           ? {
-              enrollmentDate: {
-                ...(fromDate && { gte: new Date(fromDate) }),
-                ...(toDate && { lte: new Date(toDate) }),
-              },
-            }
+            enrollmentDate: {
+              ...(fromDate && { gte: new Date(fromDate) }),
+              ...(toDate && { lte: new Date(toDate) }),
+            },
+          }
           : {},
         studentCode
           ? { studentCode: { contains: studentCode, mode: "insensitive" } }
