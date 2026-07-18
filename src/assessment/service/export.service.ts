@@ -132,7 +132,8 @@ export class ExportExcelService {
       const assessment = student.assessments[0];
       const diemTuDanhGia = assessment?.totalStudentScore || 0;
       const diemGvDanhGia = assessment?.totalTeacherScore || 0;
-      const diemRenLuyenTongKet = assessment?.finalGrade || diemGvDanhGia;
+      const diemRenLuyenTongKet =
+        (diemTuDanhGia + gpaHocKy + (diemGvDanhGia + gpaHocKy)) / 2;
 
       // Chuẩn bị mảng giá trị cho hàng
       const rowValues = [
@@ -146,7 +147,7 @@ export class ExportExcelService {
         gpaHocKy,
         diemRenLuyenTongKet,
         {
-          formula: `=IF(I${currentRow}>=90,"Xuất sắc",IF(I${currentRow}>=80,"Tốt",IF(I${currentRow}>=70,"Khá",IF(I${currentRow}>=50,"Trung bình","Yếu")))`,
+          formula: `=IF(I${currentRow}>=90,"Xuất sắc",IF(I${currentRow}>=80,"Tốt",IF(I${currentRow}>=70,"Khá",IF(I${currentRow}>=50,"Trung bình","Yếu"))))`,
         },
         "",
       ];
