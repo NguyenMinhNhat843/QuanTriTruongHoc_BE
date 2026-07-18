@@ -29,10 +29,11 @@ export class UserInfoDto {
 
 // 2. Sử dụng trong LoginResponseDto
 export class LoginResponseDto {
-  @ApiProperty({
-    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  })
+  @ApiProperty()
   access_token: string;
+
+  @ApiProperty()
+  refresh_token: string;
 
   @ApiProperty({
     type: UserInfoDto,
@@ -95,4 +96,9 @@ export class AccountResponseDto implements User {
   @IsString()
   @IsNotEmpty()
   username: string;
+}
+
+export class ResponseRefreshTokenDto {
+  @ApiProperty()
+  access_token: string;
 }

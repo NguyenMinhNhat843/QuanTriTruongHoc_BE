@@ -10,7 +10,7 @@ import {
 import * as bcrypt from "bcryptjs";
 import { plainToInstance } from "class-transformer";
 import { AccountResponseDto } from "./dto/auth.resposne.js";
-import { Response } from "express";
+import { Request, Response } from "express";
 
 @Injectable()
 export class AuthService {
@@ -113,6 +113,7 @@ export class AuthService {
 
     const result = plainToInstance(ResponseLoginDto, {
       access_token: accessToken,
+      refresh_token: refreshToken,
 
       user: {
         id: user.id,
@@ -125,28 +126,39 @@ export class AuthService {
     return res.status(200).json(result);
   }
 
-  async refreshToken(refreshToken: string, res: Response) {
-    if (!refreshToken)
-      throw new UnauthorizedException("Refresh token không được cung cấp");
+  async refresh(req: Request, res: Response) {
+    // 1. Lấy refreshToken từ cookie
+    const refreshToken = req.cookies?.["refreshToken"];
+    if (!refreshToken) {
+      throw new UnauthorizedException("Không tìm thấy Refresh Token");
+    }
 
     try {
       const payload = await this.jwtService.verifyAsync(refreshToken);
 
+      // 4. Tạo payload mới (chỉ giữ lại các thông tin cần thiết)
       const newPayload = {
         sub: payload.sub,
         username: payload.username,
         role: payload.role,
       };
+
+      // 5. Ký accessToken mới
       const newAccessToken = await this.jwtService.signAsync(newPayload, {
         expiresIn: "1h",
       });
 
+      // 6. Trả về accessToken mới cho client
       return res.status(200).json({
         access_token: newAccessToken,
       });
-    } catch (err) {
-      Logger.error("Lỗi khi xác minh refresh token", err);
-      throw new UnauthorizedException("Refresh token không hợp lệ");
+    } catch (error) {
+      Logger.error("Refresh Token không hợp lệ hoặc đã hết hạn", error);
+      // Nếu token hết hạn hoặc không hợp lệ, xóa luôn cookie lỗi và bắt login lại
+      res.clearCookie("refreshToken", { path: "/auth/refresh" });
+      throw new UnauthorizedException(
+        "Refresh Token không hợp lệ hoặc đã hết hạn",
+      );
     }
   }
 

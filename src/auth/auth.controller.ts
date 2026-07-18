@@ -12,7 +12,11 @@ import {
 import { AuthService } from "./auth.service.js";
 import { LoginDto, RegisterDto, SearchAccountDto } from "./dto/auth.dto.js";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { AccountResponseDto, LoginResponseDto } from "./dto/auth.resposne.js";
+import {
+  AccountResponseDto,
+  LoginResponseDto,
+  ResponseRefreshTokenDto,
+} from "./dto/auth.resposne.js";
 import { Request, Response } from "express";
 
 @ApiTags("Auth")
@@ -40,9 +44,9 @@ export class AuthController {
   @Post("refresh")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Làm mới token" })
-  async refreshToken(@Req() req: Request, @Res() res: Response) {
-    const refreshToken = req.cookies.refreshToken;
-    return this.authService.refreshToken(refreshToken, res);
+  @ApiResponse({ status: 200, type: ResponseRefreshTokenDto })
+  async refresh(@Req() req: Request, @Res() res: Response) {
+    return this.authService.refresh(req, res);
   }
 
   @Post("logout")

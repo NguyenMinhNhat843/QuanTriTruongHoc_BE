@@ -57,7 +57,8 @@ export class StaffResponseDto extends StaffDto {
   department: DepartmentDto;
 }
 export class ResponseLoginDto {
-  accessToken: string;
+  access_token: string;
+  refresh_token: string;
   user: {
     id: number;
     username: string;
