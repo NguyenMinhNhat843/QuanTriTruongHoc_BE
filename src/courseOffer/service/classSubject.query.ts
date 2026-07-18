@@ -48,6 +48,7 @@ export class ClassSubjectQuery {
             subjectName: true,
             subjectCode: true,
             credits: true,
+            isThucTap: true,
           },
         },
         semester: {
@@ -78,6 +79,7 @@ export class ClassSubjectQuery {
       subjectCode: courseOffer.subject?.subjectCode || "",
       credits: courseOffer.subject?.credits || 0,
       className: courseOffer.baseClass?.className || "",
+      isThucTap: courseOffer.subject?.isThucTap || false,
     };
 
     const gradeTable = await this.prisma.gradeStudent.findMany({

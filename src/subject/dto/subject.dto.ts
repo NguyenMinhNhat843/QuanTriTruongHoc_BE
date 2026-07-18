@@ -1,4 +1,9 @@
-import { ApiProperty, OmitType, PickType } from "@nestjs/swagger";
+import {
+  ApiProperty,
+  ApiPropertyOptional,
+  OmitType,
+  PickType,
+} from "@nestjs/swagger";
 import {
   IsNotEmpty,
   IsOptional,
@@ -37,6 +42,10 @@ export class SubjectDto implements Subject {
   @IsString()
   @IsNotEmpty()
   subjectName: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  isThucTap: boolean;
 
   @ApiProperty()
   @IsInt()

@@ -164,11 +164,24 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type EnumKnowledgeBlockFilter<$PrismaModel = never> = {
   equals?: $Enums.KnowledgeBlock | Prisma.EnumKnowledgeBlockFieldRefInput<$PrismaModel>
   in?: $Enums.KnowledgeBlock[] | Prisma.ListEnumKnowledgeBlockFieldRefInput<$PrismaModel>
   notIn?: $Enums.KnowledgeBlock[] | Prisma.ListEnumKnowledgeBlockFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumKnowledgeBlockFilter<$PrismaModel> | $Enums.KnowledgeBlock
+}
+
+export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type EnumKnowledgeBlockWithAggregatesFilter<$PrismaModel = never> = {
@@ -179,19 +192,6 @@ export type EnumKnowledgeBlockWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumKnowledgeBlockFilter<$PrismaModel>
   _max?: Prisma.NestedEnumKnowledgeBlockFilter<$PrismaModel>
-}
-
-export type BoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
-export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type EnumEnrollmentTypeFilter<$PrismaModel = never> = {
@@ -636,11 +636,24 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type NestedEnumKnowledgeBlockFilter<$PrismaModel = never> = {
   equals?: $Enums.KnowledgeBlock | Prisma.EnumKnowledgeBlockFieldRefInput<$PrismaModel>
   in?: $Enums.KnowledgeBlock[] | Prisma.ListEnumKnowledgeBlockFieldRefInput<$PrismaModel>
   notIn?: $Enums.KnowledgeBlock[] | Prisma.ListEnumKnowledgeBlockFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumKnowledgeBlockFilter<$PrismaModel> | $Enums.KnowledgeBlock
+}
+
+export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type NestedEnumKnowledgeBlockWithAggregatesFilter<$PrismaModel = never> = {
@@ -651,19 +664,6 @@ export type NestedEnumKnowledgeBlockWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumKnowledgeBlockFilter<$PrismaModel>
   _max?: Prisma.NestedEnumKnowledgeBlockFilter<$PrismaModel>
-}
-
-export type NestedBoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
-export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type NestedEnumEnrollmentTypeFilter<$PrismaModel = never> = {

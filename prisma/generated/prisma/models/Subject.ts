@@ -54,6 +54,7 @@ export type SubjectMinAggregateOutputType = {
   practiceHours: number | null
   testHours: number | null
   description: string | null
+  isThucTap: boolean | null
   knowledgeBlock: $Enums.KnowledgeBlock | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -69,6 +70,7 @@ export type SubjectMaxAggregateOutputType = {
   practiceHours: number | null
   testHours: number | null
   description: string | null
+  isThucTap: boolean | null
   knowledgeBlock: $Enums.KnowledgeBlock | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -84,6 +86,7 @@ export type SubjectCountAggregateOutputType = {
   practiceHours: number
   testHours: number
   description: number
+  isThucTap: number
   knowledgeBlock: number
   createdAt: number
   updatedAt: number
@@ -119,6 +122,7 @@ export type SubjectMinAggregateInputType = {
   practiceHours?: true
   testHours?: true
   description?: true
+  isThucTap?: true
   knowledgeBlock?: true
   createdAt?: true
   updatedAt?: true
@@ -134,6 +138,7 @@ export type SubjectMaxAggregateInputType = {
   practiceHours?: true
   testHours?: true
   description?: true
+  isThucTap?: true
   knowledgeBlock?: true
   createdAt?: true
   updatedAt?: true
@@ -149,6 +154,7 @@ export type SubjectCountAggregateInputType = {
   practiceHours?: true
   testHours?: true
   description?: true
+  isThucTap?: true
   knowledgeBlock?: true
   createdAt?: true
   updatedAt?: true
@@ -251,6 +257,7 @@ export type SubjectGroupByOutputType = {
   practiceHours: number
   testHours: number | null
   description: string | null
+  isThucTap: boolean
   knowledgeBlock: $Enums.KnowledgeBlock
   createdAt: Date
   updatedAt: Date
@@ -289,6 +296,7 @@ export type SubjectWhereInput = {
   practiceHours?: Prisma.IntFilter<"Subject"> | number
   testHours?: Prisma.IntNullableFilter<"Subject"> | number | null
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
+  isThucTap?: Prisma.BoolFilter<"Subject"> | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFilter<"Subject"> | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
@@ -308,6 +316,7 @@ export type SubjectOrderByWithRelationInput = {
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  isThucTap?: Prisma.SortOrder
   knowledgeBlock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -330,6 +339,7 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   practiceHours?: Prisma.IntFilter<"Subject"> | number
   testHours?: Prisma.IntNullableFilter<"Subject"> | number | null
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
+  isThucTap?: Prisma.BoolFilter<"Subject"> | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFilter<"Subject"> | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
@@ -349,6 +359,7 @@ export type SubjectOrderByWithAggregationInput = {
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  isThucTap?: Prisma.SortOrder
   knowledgeBlock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -372,6 +383,7 @@ export type SubjectScalarWhereWithAggregatesInput = {
   practiceHours?: Prisma.IntWithAggregatesFilter<"Subject"> | number
   testHours?: Prisma.IntNullableWithAggregatesFilter<"Subject"> | number | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Subject"> | string | null
+  isThucTap?: Prisma.BoolWithAggregatesFilter<"Subject"> | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockWithAggregatesFilter<"Subject"> | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
@@ -385,6 +397,7 @@ export type SubjectCreateInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -404,6 +417,7 @@ export type SubjectUncheckedCreateInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -420,6 +434,7 @@ export type SubjectUpdateInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -439,6 +454,7 @@ export type SubjectUncheckedUpdateInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -457,6 +473,7 @@ export type SubjectCreateManyInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -470,6 +487,7 @@ export type SubjectUpdateManyMutationInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -485,6 +503,7 @@ export type SubjectUncheckedUpdateManyInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,6 +529,7 @@ export type SubjectCountOrderByAggregateInput = {
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  isThucTap?: Prisma.SortOrder
   knowledgeBlock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -534,6 +554,7 @@ export type SubjectMaxOrderByAggregateInput = {
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  isThucTap?: Prisma.SortOrder
   knowledgeBlock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -549,6 +570,7 @@ export type SubjectMinOrderByAggregateInput = {
   practiceHours?: Prisma.SortOrder
   testHours?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  isThucTap?: Prisma.SortOrder
   knowledgeBlock?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -610,6 +632,10 @@ export type SubjectUncheckedUpdateManyWithoutDepartmentNestedInput = {
   deleteMany?: Prisma.SubjectScalarWhereInput | Prisma.SubjectScalarWhereInput[]
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type EnumKnowledgeBlockFieldUpdateOperationsInput = {
   set?: $Enums.KnowledgeBlock
 }
@@ -664,6 +690,7 @@ export type SubjectCreateWithoutDepartmentInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -681,6 +708,7 @@ export type SubjectUncheckedCreateWithoutDepartmentInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -728,6 +756,7 @@ export type SubjectScalarWhereInput = {
   practiceHours?: Prisma.IntFilter<"Subject"> | number
   testHours?: Prisma.IntNullableFilter<"Subject"> | number | null
   description?: Prisma.StringNullableFilter<"Subject"> | string | null
+  isThucTap?: Prisma.BoolFilter<"Subject"> | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFilter<"Subject"> | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
@@ -741,6 +770,7 @@ export type SubjectCreateWithoutCurriculumSubjectsInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -759,6 +789,7 @@ export type SubjectUncheckedCreateWithoutCurriculumSubjectsInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -790,6 +821,7 @@ export type SubjectUpdateWithoutCurriculumSubjectsInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -808,6 +840,7 @@ export type SubjectUncheckedUpdateWithoutCurriculumSubjectsInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -823,6 +856,7 @@ export type SubjectCreateWithoutTeacherSubjectsInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -841,6 +875,7 @@ export type SubjectUncheckedCreateWithoutTeacherSubjectsInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -872,6 +907,7 @@ export type SubjectUpdateWithoutTeacherSubjectsInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -890,6 +926,7 @@ export type SubjectUncheckedUpdateWithoutTeacherSubjectsInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -905,6 +942,7 @@ export type SubjectCreateWithoutCourseOffersInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -923,6 +961,7 @@ export type SubjectUncheckedCreateWithoutCourseOffersInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -954,6 +993,7 @@ export type SubjectUpdateWithoutCourseOffersInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -972,6 +1012,7 @@ export type SubjectUncheckedUpdateWithoutCourseOffersInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -988,6 +1029,7 @@ export type SubjectCreateManyDepartmentInput = {
   practiceHours?: number
   testHours?: number | null
   description?: string | null
+  isThucTap?: boolean
   knowledgeBlock?: $Enums.KnowledgeBlock
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1001,6 +1043,7 @@ export type SubjectUpdateWithoutDepartmentInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1018,6 +1061,7 @@ export type SubjectUncheckedUpdateWithoutDepartmentInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1035,6 +1079,7 @@ export type SubjectUncheckedUpdateManyWithoutDepartmentInput = {
   practiceHours?: Prisma.IntFieldUpdateOperationsInput | number
   testHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isThucTap?: Prisma.BoolFieldUpdateOperationsInput | boolean
   knowledgeBlock?: Prisma.EnumKnowledgeBlockFieldUpdateOperationsInput | $Enums.KnowledgeBlock
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1099,6 +1144,7 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   practiceHours?: boolean
   testHours?: boolean
   description?: boolean
+  isThucTap?: boolean
   knowledgeBlock?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1119,6 +1165,7 @@ export type SubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   practiceHours?: boolean
   testHours?: boolean
   description?: boolean
+  isThucTap?: boolean
   knowledgeBlock?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1135,6 +1182,7 @@ export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   practiceHours?: boolean
   testHours?: boolean
   description?: boolean
+  isThucTap?: boolean
   knowledgeBlock?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1151,12 +1199,13 @@ export type SubjectSelectScalar = {
   practiceHours?: boolean
   testHours?: boolean
   description?: boolean
+  isThucTap?: boolean
   knowledgeBlock?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "departmentId" | "credits" | "theoryHours" | "practiceHours" | "testHours" | "description" | "knowledgeBlock" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
+export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCode" | "subjectName" | "departmentId" | "credits" | "theoryHours" | "practiceHours" | "testHours" | "description" | "isThucTap" | "knowledgeBlock" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   department?: boolean | Prisma.Subject$departmentArgs<ExtArgs>
   curriculumSubjects?: boolean | Prisma.Subject$curriculumSubjectsArgs<ExtArgs>
@@ -1189,6 +1238,7 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     practiceHours: number
     testHours: number | null
     description: string | null
+    isThucTap: boolean
     knowledgeBlock: $Enums.KnowledgeBlock
     createdAt: Date
     updatedAt: Date
@@ -1628,6 +1678,7 @@ export interface SubjectFieldRefs {
   readonly practiceHours: Prisma.FieldRef<"Subject", 'Int'>
   readonly testHours: Prisma.FieldRef<"Subject", 'Int'>
   readonly description: Prisma.FieldRef<"Subject", 'String'>
+  readonly isThucTap: Prisma.FieldRef<"Subject", 'Boolean'>
   readonly knowledgeBlock: Prisma.FieldRef<"Subject", 'KnowledgeBlock'>
   readonly createdAt: Prisma.FieldRef<"Subject", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Subject", 'DateTime'>

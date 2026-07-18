@@ -133,6 +133,9 @@ export class GradeService {
           diemTongKet1: grade.diemTongKet1,
           diemTongKet2: grade.diemTongKet2,
           rating: this.calculateRatingGrade(grade.diemTongKet2),
+          diemYThuc: grade.diemYThuc,
+          diemChuyenMon: grade.diemChuyenMon,
+          diemBaoCao: grade.diemBaoCao,
           note: grade.note,
         },
       });

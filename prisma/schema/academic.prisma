@@ -139,6 +139,8 @@ model Subject {
   testHours     Int?           @default(0)
   description   String?        @db.Text
 
+  isThucTap     Boolean   @default(false) // Field này đánh dấu ClassSubject này có phải báo cáo thực tập ko
+
   knowledgeBlock KnowledgeBlock @default(GENERAL)
   
   createdAt     DateTime       @default(now())

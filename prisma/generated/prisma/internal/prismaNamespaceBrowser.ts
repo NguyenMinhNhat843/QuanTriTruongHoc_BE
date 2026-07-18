@@ -176,6 +176,7 @@ export const SubjectScalarFieldEnum = {
   practiceHours: 'practiceHours',
   testHours: 'testHours',
   description: 'description',
+  isThucTap: 'isThucTap',
   knowledgeBlock: 'knowledgeBlock',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -457,6 +458,9 @@ export const GradeStudentScalarFieldEnum = {
   diemTongKet1: 'diemTongKet1',
   diemTongKet2: 'diemTongKet2',
   rating: 'rating',
+  diemYThuc: 'diemYThuc',
+  diemChuyenMon: 'diemChuyenMon',
+  diemBaoCao: 'diemBaoCao',
   note: 'note',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

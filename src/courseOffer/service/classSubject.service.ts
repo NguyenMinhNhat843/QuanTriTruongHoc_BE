@@ -157,16 +157,23 @@ export class ClassSubjectService {
   async getCourseOfferDetail(
     classSubjectId: number,
   ): Promise<CourseOfferDetailResponseDto | null> {
-    // 1. Lấy thông tin lớp học phần và classId liên kết
+    // 1. Lấy thông tin lớp học phần, classId liên kết VÀ kiểm tra xem môn học có phải thực tập không
     const classSubject = await this.prisma.courseOffer.findUnique({
       where: { id: classSubjectId },
-      select: { classId: true },
+      select: {
+        classId: true,
+        subject: {
+          select: { isThucTap: true },
+        },
+      },
     });
 
     const classId = classSubject?.classId;
     if (!classId) {
       throw new NotFoundException("Không tìm thấy lớp học");
     }
+
+    const isThucTap = classSubject?.subject?.isThucTap ?? false;
 
     // 2. Lấy danh sách toàn bộ học sinh đang ở trong lớp hành chính này
     const studentsInClass = await this.prisma.student.findMany({
@@ -226,6 +233,30 @@ export class ClassSubjectService {
       ]);
     }
 
+    // Định nghĩa các trường điểm dựa theo loại hình môn học
+    const gradeSelectFields = isThucTap
+      ? {
+          diemYThuc: true,
+          diemChuyenMon: true,
+          diemBaoCao: true,
+          diemTB: true,
+          diemTongKet1: true,
+        }
+      : {
+          kttx1: true,
+          kttx2: true,
+          kttx3: true,
+          ktdk1: true,
+          ktdk2: true,
+          ktdk3: true,
+          ktdk4: true,
+          diemTB: true,
+          diemKiemTra1: true,
+          diemKiemTra2: true,
+          diemTongKet1: true,
+          diemTongKet2: true,
+        };
+
     // 6. Sau khi đã đồng bộ hoàn tất, tiến hành lấy toàn bộ thông tin chi tiết để trả về
     const courseOffer = await this.prisma.courseOffer.findUnique({
       where: { id: classSubjectId },
@@ -240,18 +271,7 @@ export class ClassSubjectService {
                 dob: true,
               },
             },
-            kttx1: true,
-            kttx2: true,
-            kttx3: true,
-            ktdk1: true,
-            ktdk2: true,
-            ktdk3: true,
-            ktdk4: true,
-            diemTB: true,
-            diemKiemTra1: true,
-            diemKiemTra2: true,
-            diemTongKet1: true,
-            diemTongKet2: true,
+            ...gradeSelectFields,
           },
         },
         teacher: {

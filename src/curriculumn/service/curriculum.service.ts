@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import {
+  CopyCurriculumDto,
   CreateCurriculumDto,
   CurriculumResponseDtoWithRelation,
   SearchCurriculumDto,
@@ -65,6 +70,82 @@ export class CurriculumService {
     });
 
     return result;
+  }
+
+  async copyCurriculum(dto: CopyCurriculumDto) {
+    const { curriculumCode, curriculumName, sourceCurriculumId } = dto;
+
+    // 1. Kiểm tra xem mã chương trình khung mới đã tồn tại chưa
+    const existingCurriculum = await this.prisma.curriculum.findUnique({
+      where: { curriculumCode },
+    });
+    if (existingCurriculum) {
+      throw new BadRequestException(
+        `Mã chương trình khung '${curriculumCode}' đã tồn tại trong hệ thống.`,
+      );
+    }
+
+    // 3. Thực hiện đọc và sao chép trong một Transaction
+    return await this.prisma.$transaction(async (tx) => {
+      // B1: Lấy thông tin chương trình gốc cùng toàn bộ danh sách môn học đi kèm
+      const sourceCurriculum = await tx.curriculum.findUnique({
+        where: { id: sourceCurriculumId },
+        include: {
+          curriculumSubjects: true, // Lấy kèm danh sách môn học liên kết
+        },
+      });
+
+      if (!sourceCurriculum) {
+        throw new NotFoundException(
+          `Không tìm thấy chương trình khung gốc với ID ${sourceCurriculumId} để sao chép.`,
+        );
+      }
+
+      // B2: Tạo mới chương trình khung (Curriculum)
+      const newCurriculum = await tx.curriculum.create({
+        data: {
+          curriculumCode,
+          curriculumName,
+          majorId: sourceCurriculum.majorId,
+          totalCredits: sourceCurriculum.totalCredits, // Kế thừa tổng số tín chỉ gốc
+          isActive: true, // Mặc định bật hoạt động cho bản sao
+        },
+      });
+
+      // B3: Kiểm tra nếu chương trình gốc có môn học thì tiến hành nhân bản
+      if (
+        sourceCurriculum.curriculumSubjects &&
+        sourceCurriculum.curriculumSubjects.length > 0
+      ) {
+        // Chuẩn bị dữ liệu để insert số lượng lớn (createMany)
+        const subjectsToCopy = sourceCurriculum.curriculumSubjects.map(
+          (item) => ({
+            curriculumId: newCurriculum.id, // Gắn vào ID của chương trình mới tạo
+            subjectId: item.subjectId,
+            semesterNumber: item.semesterNumber,
+            enrollmentType: item.enrollmentType,
+            minGrade: item.minGrade,
+          }),
+        );
+
+        // Tiến hành ghi hàng loạt vào bảng trung gian
+        await tx.curriculumSubject.createMany({
+          data: subjectsToCopy,
+        });
+      }
+
+      // B4: Trả về kết quả kèm danh sách môn học vừa được copy để kiểm tra dữ liệu
+      return tx.curriculum.findUnique({
+        where: { id: newCurriculum.id },
+        include: {
+          curriculumSubjects: {
+            include: {
+              subject: true, // Include thêm thông tin môn học cụ thể cho trực quan
+            },
+          },
+        },
+      });
+    });
   }
 
   /**

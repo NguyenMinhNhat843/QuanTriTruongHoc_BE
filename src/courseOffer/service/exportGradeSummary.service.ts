@@ -2,10 +2,14 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import * as ExcelJS from "exceljs";
 import { PrismaService } from "../../prisma/prisma.service";
 import { getSemestersByBatch } from "../../utils/academic.util";
+import { ExportGradeTableService } from "./exportGrades.service";
 
 @Injectable()
 export class ExportGradeTableSummaryService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private exportGradeService: ExportGradeTableService,
+  ) {}
 
   // =========================================================================
   // BỘ STYLE CHUẨN GIÁO DỤC THỐNG NHẤT
@@ -212,7 +216,6 @@ export class ExportGradeTableSummaryService {
       uniqueSubjects.forEach((sub: any) => {
         const studentGrades = rawGradeMap.get(student.id);
         const gradeObj = studentGrades?.get(sub.id);
-        console.log("gradeObj", gradeObj);
 
         const rawScore = gradeObj?.diemTongKet2 ?? gradeObj?.diemTongKet1;
 

@@ -8,6 +8,10 @@ import {
   Delete,
   ParseIntPipe,
   Query,
+  HttpCode,
+  HttpStatus,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
 import {
   ApiTags,
@@ -17,6 +21,7 @@ import {
 } from "@nestjs/swagger";
 import { CurriculumService } from "./service/curriculum.service";
 import {
+  CopyCurriculumDto,
   CreateCurriculumDto,
   CurriculumResponseDtoWithRelation,
   SearchCurriculumDto,
@@ -32,6 +37,14 @@ export class CurriculumController {
   @ApiOperation({ summary: "Tạo mới chương trình khung" })
   create(@Body() createCurriculumDto: CreateCurriculumDto) {
     return this.curriculumService.create(createCurriculumDto);
+  }
+
+  @Post("copy")
+  @ApiOperation({ summary: "Sao chép chương trình khung" })
+  @HttpCode(HttpStatus.CREATED)
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+  async copyCurriculum(@Body() copyCurriculumDto: CopyCurriculumDto) {
+    return this.curriculumService.copyCurriculum(copyCurriculumDto);
   }
 
   @Get()

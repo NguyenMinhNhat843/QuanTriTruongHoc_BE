@@ -518,10 +518,6 @@ export type CurriculumUpdateOneWithoutBatchNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CurriculumUpdateToOneWithWhereWithoutBatchInput, Prisma.CurriculumUpdateWithoutBatchInput>, Prisma.CurriculumUncheckedUpdateWithoutBatchInput>
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type CurriculumCreateNestedOneWithoutCurriculumSubjectsInput = {
   create?: Prisma.XOR<Prisma.CurriculumCreateWithoutCurriculumSubjectsInput, Prisma.CurriculumUncheckedCreateWithoutCurriculumSubjectsInput>
   connectOrCreate?: Prisma.CurriculumCreateOrConnectWithoutCurriculumSubjectsInput

@@ -132,6 +132,34 @@ export class GradeStudentDto implements GradeStudent {
   @Max(10)
   diemTongKet2!: number | null;
 
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  finalScore!: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  diemBaoCao!: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  diemChuyenMon!: number | null;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  diemYThuc!: number | null;
+
   @ApiProperty()
   @IsInt()
   @IsNotEmpty()

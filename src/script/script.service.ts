@@ -16,15 +16,14 @@ export class GradeImportService {
     for (const worksheet of workbook.worksheets) {
       const sheetName = worksheet.name;
 
-      // 1. Lấy thông tin Lớp ở ô B2 (Ví dụ: "Lớp: TC24HD1")
-      const classCellVal = worksheet.getCell("A2").value?.toString() || "";
+      // 1. Lấy thông tin Lớp ở ô A5 (Ví dụ: "Lớp: TC23TH1")
+      const classCellVal = worksheet.getCell("A5").value?.toString() || "";
       const classCode = classCellVal.replace(/Lớp:\s*/i, "").trim();
 
       if (!classCode) {
         continue; // Bỏ qua nếu không tìm thấy mã lớp học
       }
 
-      // 2. Tìm môn học dựa trên tên sheet (so khớp tương đối hoặc tuyệt đối)
       // Tìm Class trước
       const classObj = await this.prisma.class.findUnique({
         where: { classCode },
@@ -48,7 +47,6 @@ export class GradeImportService {
           },
         },
       });
-      console.log(`Found subject for sheet "${sheetName}":`, subject);
 
       if (!subject) {
         importResults.push({
@@ -59,7 +57,7 @@ export class GradeImportService {
         continue;
       }
 
-      // Tìm lớp học phần (CourseOffer) tương ứng của môn học này cho Lớp học này
+      // Tìm lớp học phần (CourseOffer) tương ứng
       const courseOffer = await this.prisma.courseOffer.findFirst({
         where: {
           classId: classObj.id,
@@ -76,58 +74,34 @@ export class GradeImportService {
         continue;
       }
 
-      // 3. PHÂN TÍCH ĐỘNG CỘT ĐIỂM (Hàng 6 và 7)
-      const headerRow7 = worksheet.getRow(7);
+      // 2. PHÂN TÍCH ĐỘNG CỘT ĐIỂM (Dựa vào hàng 9 trong file mẫu)
+      const headerRow9 = worksheet.getRow(9);
 
       const kttxCols: number[] = [];
       const ktdkCols: number[] = [];
-      let tbCol: number | null = null;
-      const ktktCols: number[] = []; // Điểm kiểm tra kết thúc (Lần 1, Lần 2)
-      let tk1Col: number | null = null; // Tổng kết lần 1
-      let tk2Col: number | null = null; // Tổng kết lần 2
+      const ktktCols: number[] = []; // Cột điểm KTKT L1, L2
       let noteCol: number | null = null; // Ghi chú
 
-      // Quét từ cột E (cột 5) đến cột S (cột 19) để map header
       let currentGroup: "KTTX" | "KTDK" | "KTKT" | null = null;
 
-      for (let colIdx = 5; colIdx <= 20; colIdx++) {
-        const val6 = headerRow7.getCell(colIdx).value?.toString()?.trim() || "";
+      // Quét từ cột E (5) đến cột P (16) để xác định vị trí cột
+      for (let colIdx = 5; colIdx <= 16; colIdx++) {
+        const val9 = headerRow9.getCell(colIdx).value?.toString()?.trim() || "";
 
-        // Xác định group lớn dựa trên hàng 6
-        if (val6.includes("KT TX") || val6.includes("KTTX")) {
+        if (val9.includes("KTTX")) {
           currentGroup = "KTTX";
-        } else if (val6.includes("KT ĐK") || val6.includes("KTĐK")) {
+        } else if (val9.includes("KTĐK") || val9.includes("KTDK")) {
           currentGroup = "KTDK";
-        } else if (val6.includes("TB")) {
-          currentGroup = null;
-          tbCol = colIdx;
-        } else if (
-          val6.includes("Điểm kiểm tra kết thúc") ||
-          val6.includes("KTKT")
-        ) {
+        } else if (val9.includes("Điểm KTKT") || val9.includes("KTKT")) {
           currentGroup = "KTKT";
-        } else if (
-          val6.includes("Điểm tổng kết lần 1") ||
-          val6.includes("tổng kết lần 1") ||
-          val6.includes("kết lần 1") ||
-          val6.includes("kết 1")
-        ) {
-          currentGroup = null;
-          tk1Col = colIdx;
-        } else if (
-          val6.includes("Điểm tổng kết lần 2") ||
-          val6.includes("tổng kết lần 2") ||
-          val6.includes("kết lần 2") ||
-          val6.includes("kết 2")
-        ) {
-          currentGroup = null;
-          tk2Col = colIdx;
-        } else if (val6.includes("Ghi chú")) {
+        } else if (val9.includes("TBKT") || val9.includes("Điểm tổng kết")) {
+          currentGroup = null; // Bỏ qua các cột điểm trung bình/tổng kết gốc của Excel vì hệ thống tự tính
+        } else if (val9.includes("Ghi chú")) {
           currentGroup = null;
           noteCol = colIdx;
         }
 
-        // Đẩy cột vào nhóm tương ứng dựa theo group đang hoạt động
+        // Đẩy cột vào nhóm tương ứng
         if (currentGroup === "KTTX") {
           kttxCols.push(colIdx);
         } else if (currentGroup === "KTDK") {
@@ -137,15 +111,15 @@ export class GradeImportService {
         }
       }
 
-      // 4. ĐỌC DỮ LIỆU HỌC SINH TỪ HÀNG 9
-      let rowIdx = 9;
+      // 3. ĐỌC DỮ LIỆU HỌC SINH BẮT ĐẦU TỪ HÀNG 11
+      let rowIdx = 11;
       let successCount = 0;
 
       while (true) {
         const row = worksheet.getRow(rowIdx);
         const stt = row.getCell(1).value; // Cột A (STT)
 
-        // Dừng lại nếu gặp dòng Tổng số hoặc không còn dữ liệu STT
+        // Dừng lại nếu hết danh sách hoặc gặp dòng tổng kết cuối bảng
         if (
           !stt ||
           stt.toString().trim() === "" ||
@@ -154,7 +128,7 @@ export class GradeImportService {
           break;
         }
 
-        // Ghép Họ và tên lót (Cột B) + Tên (Cột C) để tìm kiếm sinh viên
+        // Ghép Họ và tên lót (Cột B) + Tên (Cột C)
         const hoDem = row.getCell(2).value?.toString()?.trim() || "";
         const ten = row.getCell(3).value?.toString()?.trim() || "";
         const fullName = `${hoDem} ${ten}`.trim();
@@ -164,7 +138,7 @@ export class GradeImportService {
           continue;
         }
 
-        // Tìm học sinh thuộc lớp này dựa vào tên học sinh
+        // Tìm học sinh thuộc lớp này
         const student = await this.prisma.student.findFirst({
           where: {
             classId: classObj.id,
@@ -177,41 +151,28 @@ export class GradeImportService {
 
         if (!student) {
           rowIdx++;
-          continue; // Bỏ qua hoặc log lỗi nếu không tìm thấy sinh viên đúng tên trong lớp
+          continue; // Bỏ qua nếu không tìm thấy sinh viên
         }
 
-        // Hàm helper parse điểm an toàn
+        // Helper parse điểm số, chuyển đổi định dạng dấu phẩy của Việt Nam (ví dụ "8,3" -> 8.3)
         const parseScore = (val: any): number | null => {
           if (val === undefined || val === null || val === "") return null;
-          const num = Number(val);
+
+          let normalizedVal = val.toString().trim();
+          // Thay thế dấu phẩy thành dấu chấm để chuyển đổi sang kiểu Number hợp lệ
+          normalizedVal = normalizedVal.replace(",", ".");
+
+          const num = Number(normalizedVal);
           return isNaN(num) ? null : num;
         };
 
-        // Gán các cột điểm động đã map
-        const kttx1 = kttxCols[0]
-          ? parseScore(row.getCell(kttxCols[0]).value)
-          : null;
-        const kttx2 = kttxCols[1]
-          ? parseScore(row.getCell(kttxCols[1]).value)
-          : null;
-        const kttx3 = kttxCols[2]
-          ? parseScore(row.getCell(kttxCols[2]).value)
-          : null;
-
-        const ktdk1 = ktdkCols[0]
-          ? parseScore(row.getCell(ktdkCols[0]).value)
-          : null;
-        const ktdk2 = ktdkCols[1]
-          ? parseScore(row.getCell(ktdkCols[1]).value)
-          : null;
-        const ktdk3 = ktdkCols[2]
-          ? parseScore(row.getCell(ktdkCols[2]).value)
-          : null;
-        const ktdk4 = ktdkCols[3]
-          ? parseScore(row.getCell(ktdkCols[3]).value)
-          : null;
-
-        const diemTB = tbCol ? parseScore(row.getCell(tbCol).value) : null;
+        // Đọc các giá trị điểm thô từ Excel
+        const kttxScores = kttxCols
+          .map((col) => parseScore(row.getCell(col).value))
+          .filter((v) => v !== null) as number[];
+        const ktdkScores = ktdkCols
+          .map((col) => parseScore(row.getCell(col).value))
+          .filter((v) => v !== null) as number[];
 
         const diemKiemTra1 = ktktCols[0]
           ? parseScore(row.getCell(ktktCols[0]).value)
@@ -220,16 +181,46 @@ export class GradeImportService {
           ? parseScore(row.getCell(ktktCols[1]).value)
           : null;
 
-        const diemTongKet1 = tk1Col
-          ? parseScore(row.getCell(tk1Col).value)
-          : null;
-        const diemTongKet2 = tk2Col
-          ? parseScore(row.getCell(tk2Col).value)
-          : null;
+        // --- 4. TỰ ĐỘNG TÍNH TOÁN ĐIỂM THEO CÔNG THỨC ---
+
+        // Tính Điểm TBKT: (KTTX * 1 + KTDK * 2) / Tổng hệ số
+        let diemTB: number | null = null;
+        const ttxSum = kttxScores.reduce((sum, val) => sum + val, 0);
+        const tdkSum = ktdkScores.reduce((sum, val) => sum + val, 0);
+        const totalWeights = kttxScores.length * 1 + ktdkScores.length * 2;
+
+        if (totalWeights > 0) {
+          const rawTB = (ttxSum * 1 + tdkSum * 2) / totalWeights;
+          diemTB = Math.round(rawTB * 10) / 10; // Làm tròn 1 chữ số thập phân
+        }
+
+        // Tính Điểm Tổng Kết Lần 1: (diemTB * 0.4) + (diemKiemTra1 * 0.6)
+        let diemTongKet1: number | null = null;
+        if (diemTB !== null && diemKiemTra1 !== null) {
+          const rawTK1 = diemTB * 0.4 + diemKiemTra1 * 0.6;
+          diemTongKet1 = Math.round(rawTK1 * 10) / 10;
+        }
+
+        // Tính Điểm Tổng Kết Lần 2 (nếu có thi Lần 2): (diemTB * 0.4) + (diemKiemTra2 * 0.6)
+        let diemTongKet2: number | null = null;
+        if (diemTB !== null && diemKiemTra2 !== null) {
+          const rawTK2 = diemTB * 0.4 + diemKiemTra2 * 0.6;
+          diemTongKet2 = Math.round(rawTK2 * 10) / 10;
+        }
 
         const note = noteCol
           ? row.getCell(noteCol).value?.toString() || null
           : null;
+
+        // Gán các biến điểm cụ thể để lưu trữ vào database
+        const kttx1 = kttxScores[0] ?? null;
+        const kttx2 = kttxScores[1] ?? null;
+        const kttx3 = kttxScores[2] ?? null;
+
+        const ktdk1 = ktdkScores[0] ?? null;
+        const ktdk2 = ktdkScores[1] ?? null;
+        const ktdk3 = ktdkScores[2] ?? null;
+        const ktdk4 = ktdkScores[3] ?? null;
 
         // Lưu / Cập nhật vào DB bằng upsert
         await this.prisma.gradeStudent.upsert({
@@ -280,7 +271,7 @@ export class GradeImportService {
       importResults.push({
         sheet: sheetName,
         status: "SUCCESS",
-        message: `Đã import thành công ${successCount} học sinh môn "${subject.subjectName}"`,
+        message: `Đã import và tính toán thành công ${successCount} học sinh môn "${subject.subjectName}"`,
       });
     }
 

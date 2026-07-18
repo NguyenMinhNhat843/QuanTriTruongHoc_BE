@@ -105,3 +105,23 @@ export class CurriculumResponseDtoWithRelation extends CurriculumDto {
   @ApiProperty({ type: () => MajorDto })
   major: MajorDto;
 }
+
+// Cope Curiculum
+export class CopyCurriculumDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty({ message: "Mã chương trình khung mới không được để trống" })
+  curriculumCode: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty({ message: "Tên chương trình khung mới không được để trống" })
+  curriculumName: string;
+
+  @ApiProperty()
+  @IsInt({ message: "ID chương trình gốc phải là số nguyên" })
+  @IsNotEmpty({
+    message: "Vui lòng cung cấp ID của chương trình khung gốc cần sao chép",
+  })
+  sourceCurriculumId: number;
+}

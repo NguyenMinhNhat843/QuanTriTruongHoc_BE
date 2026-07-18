@@ -39,6 +39,11 @@ model GradeStudent {
   diemTongKet2    Float?
   rating          String?
 
+  // Điểm cho báo cáo thực tập
+  diemYThuc       Float?
+  diemChuyenMon   Float?
+  diemBaoCao      Float?
+
   note           String?     @db.Text
   
   createdAt      DateTime    @default(now())
