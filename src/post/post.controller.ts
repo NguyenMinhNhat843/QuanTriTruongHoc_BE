@@ -33,10 +33,8 @@ import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard";
 
 @ApiTags("Post (Quản trị bài viết)") // Nhóm các API này lại trong Swagger
 @Controller("posts")
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 export class PostController {
-  constructor(private readonly postService: PostService) { }
+  constructor(private readonly postService: PostService) {}
 
   /**
    * Thống kê đơn giản
@@ -44,6 +42,8 @@ export class PostController {
   @Get("stats")
   @ApiOperation({ summary: "Lấy thống kê bài viết" })
   @ApiResponse({ status: 200, type: PostStatsResponseDto })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async getStats() {
     return this.postService.getStats();
   }
@@ -53,6 +53,8 @@ export class PostController {
   @UseInterceptors(FileInterceptor("coverImage"))
   @ApiOperation({ summary: "Tạo bài viết mới" })
   @ApiResponse({ status: 201, type: PostResponseDto })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   create(
     @Body() createPostDto: CreatePostDto,
     @UploadedFile() file: Express.Multer.File,
@@ -93,6 +95,8 @@ export class PostController {
   @ApiResponse({ status: 200, description: "Cập nhật thành công." })
   @ApiResponse({ status: 404, description: "Không tìm thấy bài viết." })
   @UseInterceptors(FileInterceptor("coverImage"))
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
@@ -105,6 +109,8 @@ export class PostController {
   @ApiOperation({ summary: "Xóa bài viết theo ID" })
   @ApiResponse({ status: 200, description: "Xóa bài viết thành công." })
   @ApiResponse({ status: 404, description: "Không tìm thấy bài viết." })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async remove(@Param("id", ParseIntPipe) id: number) {
     return this.postService.delete(id);
   }
