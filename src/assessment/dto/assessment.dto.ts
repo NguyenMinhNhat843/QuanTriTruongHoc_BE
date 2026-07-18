@@ -15,8 +15,8 @@ import {
   CriterionDto,
   EvaluationPeriodCriterionDto,
   EvaluationPeriodDto,
-} from "./assessment-response.dto";
-import { AssessmentStatus } from "../../prisma/generated/prisma/enums";
+} from "../assessment-response.dto";
+import { AssessmentStatus } from "../../../prisma/generated/prisma/enums";
 
 // ====== CRETION DTOs ======
 export class CreateCriterionDto extends PickType(CriterionDto, [

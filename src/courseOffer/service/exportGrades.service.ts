@@ -41,14 +41,6 @@ export class ExportGradeTableService {
   /**
    * Các hàm helper quy đổi điểm giữ nguyên logic cũ
    */
-  private convertHe10ToHe4(diemHe10: number): number {
-    if (diemHe10 >= 8.5) return 4.0;
-    if (diemHe10 >= 7.0) return 3.0;
-    if (diemHe10 >= 5.5) return 2.0;
-    if (diemHe10 >= 4.0) return 1.0;
-    return 0.0;
-  }
-
   private convertHe10ToDiemChu(diemHe10: number): string {
     if (diemHe10 >= 8.5) return "A";
     if (diemHe10 >= 7.0) return "B";

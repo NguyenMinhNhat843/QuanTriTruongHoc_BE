@@ -11,7 +11,7 @@ import {
   UpdateAssessmentDto,
   UpdateCriterionDto,
   UpdatePeriodDto,
-} from "../assessment.dto";
+} from "../dto/assessment.dto";
 import { plainToInstance } from "class-transformer";
 import {
   CriterionDto,

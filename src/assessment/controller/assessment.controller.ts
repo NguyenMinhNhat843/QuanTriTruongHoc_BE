@@ -10,6 +10,7 @@ import {
   Patch,
   Post,
   Query,
+  Res,
   UnauthorizedException,
   UseGuards,
   UsePipes,
@@ -36,19 +37,25 @@ import {
   LoadAssessmentDto,
   UpdateAssessmentDto,
   UpdatePeriodDto,
-} from "../assessment.dto";
+} from "../dto/assessment.dto";
 import { GetUser } from "../../common/decorators/get-user.decorator";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { RolesGuard } from "../../auth/guard/role.guard";
 import { Roles } from "../../common/decorators/role.decorator";
 import { RoleType } from "../../../prisma/generated/prisma/enums";
+import { ExportDiemRenLuyenQueryDto } from "../dto/export-excel.dto";
+import { Response } from "express";
+import { ExportExcelService } from "../service/export.service";
 
 @Controller("assessment")
 @ApiBearerAuth()
 @ApiTags("Assessment")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AssessmentController {
-  constructor(private readonly assessmentService: AssessmentService) {}
+  constructor(
+    private readonly assessmentService: AssessmentService,
+    private readonly exportExcelService: ExportExcelService,
+  ) {}
 
   // Create Criteria: Tiêu chí chấm điểm
   @Post("criteria")
@@ -198,6 +205,22 @@ export class AssessmentController {
   async loadAssessment(@Query() loadAssessmentDto: LoadAssessmentDto) {
     return await this.assessmentService.getOrCreateAssessment(
       loadAssessmentDto,
+    );
+  }
+
+  @Get("export-assessment")
+  @ApiOperation({
+    summary:
+      "Xuất file Excel bảng điểm rèn luyện và kết quả học tập của 1 lớp theo học kỳ",
+  })
+  async downloadBangDiemRenLuyen(
+    @Query() query: ExportDiemRenLuyenQueryDto,
+    @Res() res: Response,
+  ) {
+    return await this.exportExcelService.exportBangDiemRenLuyenHocKy(
+      query.classId,
+      query.semesterId,
+      res,
     );
   }
 

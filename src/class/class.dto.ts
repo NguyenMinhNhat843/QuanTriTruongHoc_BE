@@ -36,8 +36,6 @@ export class ClassDto implements Class {
   formTeacherId: number | null;
 
   @ApiProperty()
-  @IsNumber()
-  @Type(() => Number)
   currentSize: number;
 
   @ApiProperty()

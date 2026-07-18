@@ -75,7 +75,10 @@ export class ClassService {
 
     try {
       const newClass = await client.class.create({
-        data,
+        data: {
+          ...data,
+          currentSize: data.currentSize ? data.currentSize : 0,
+        },
       });
       return plainToInstance(ClassResponseDto, newClass);
     } catch (error) {
