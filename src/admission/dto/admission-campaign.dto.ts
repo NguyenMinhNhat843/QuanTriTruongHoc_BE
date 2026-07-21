@@ -1,5 +1,6 @@
 import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { AdmissionCampaign, CampaignStatus } from "../../../prisma/generated/prisma/client";
+import { AdmissionCampaignMajorDto } from "./admission-campaign-major.dto";
 
 export class AdmissionCampaignDto implements AdmissionCampaign {
   @ApiProperty()
@@ -39,7 +40,13 @@ export class AdmissionCampaignDto implements AdmissionCampaign {
   updatedAt: Date;
 }
 
-export class CreateAdmissionCampaignDto extends OmitType(AdmissionCampaignDto, ["id", "createdAt", "updatedAt"]) {}
+// CREATE DTO
+export class AdmissionCampaignItemsDto extends OmitType(AdmissionCampaignMajorDto, ["id", "admissionCampaignId"]) {}
+export class CreateAdmissionCampaignDto extends OmitType(AdmissionCampaignDto, ["id", "createdAt", "updatedAt"]) {
+  @ApiProperty({ type: [AdmissionCampaignItemsDto] })
+  items: AdmissionCampaignItemsDto[];
+}
+
 export class UpdateAdmissionCampaignDto extends PartialType(CreateAdmissionCampaignDto) {}
 export class SearchAdmissionCampaignDto extends PickType(AdmissionCampaignDto, ["name", "status"]) {}
 
