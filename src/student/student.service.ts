@@ -173,13 +173,17 @@ export class StudentService {
     // 1. Lấy đợt tuyển sinh tương ứng với Batch để tìm cấu hình tài liệu (DocumentConfig)
     const campaign = await this.prisma.admissionCampaign.findFirst({
       where: { batchId: numericBatchId },
-      select: { id: true, educationLevel: true },
+      select: { id: true },
     });
 
-    // Lấy danh sách giấy tờ bắt buộc cấu hình theo Đợt hoặc Khóa học
+    // 2. Lấy cấu hình giấy tờ theo đợt tuyển sinh (hoặc cấu hình chung)
     const docConfig = await this.prisma.documentConfig.findFirst({
       where: {
-        OR: [{ admissionCampaignId: campaign?.id }, { educationLevel: campaign?.educationLevel }],
+        OR: [
+          ...(campaign?.id ? [{ admissionCampaignId: campaign.id }] : []),
+          // Nếu không tìm thấy cấu hình theo campaign, rơi vào cấu hình mặc định/chung
+          { admissionCampaignId: null },
+        ],
       },
       include: {
         items: {

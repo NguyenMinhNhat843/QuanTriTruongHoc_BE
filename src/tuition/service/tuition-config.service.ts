@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import {
   CreateTuitionConfigDto,
@@ -30,9 +25,7 @@ export class TuitionConfigService {
   // ==========================================
   // 1. CREATE (Tạo Config kèm theo Items)
   // ==========================================
-  async create(
-    createDto: CreateTuitionConfigDto,
-  ): Promise<TuitionConfigWithItemsDto> {
+  async create(createDto: CreateTuitionConfigDto): Promise<TuitionConfigWithItemsDto> {
     const { items, ...configData } = createDto;
 
     // Chạy trong 1 Transaction để nếu lỗi tạo items thì config cũng bị rollback
@@ -58,9 +51,7 @@ export class TuitionConfigService {
   /**
    * API: Kích hoạt sinh công nợ thủ công cho một cấu hình học phí cụ thể
    */
-  async triggerManualGenerateInvoices(
-    configId: number,
-  ): Promise<{ success: boolean; count: number }> {
+  async triggerManualGenerateInvoices(configId: number): Promise<{ success: boolean; count: number }> {
     const config = await this.findOne(configId);
 
     // 2. Chạy transaction để thực hiện quét và tạo hóa đơn
@@ -74,10 +65,7 @@ export class TuitionConfigService {
   /**
    * Logic tách biệt: Quét sinh viên theo ngành/khóa để hạ công nợ cụ thể
    */
-  private async generateInvoicesFromConfig(
-    config: any,
-    tx: Prisma.TransactionClient,
-  ) {
+  private async generateInvoicesFromConfig(config: any, tx: Prisma.TransactionClient) {
     try {
       // 2.1 Tìm các đợt khóa học (Batches) đang hoạt động thuộc ngành này
       // Nếu cấu hình có chỉ định đích danh batchId, ta chỉ lọc đúng batchId đó.
@@ -101,7 +89,7 @@ export class TuitionConfigService {
         where: {
           batchId: { in: batchIds },
           // majorId: config.majorId ? config.majorId : undefined,
-          status: "studying",
+          status: "STUDYING",
         },
         select: { id: true },
       });
@@ -112,17 +100,15 @@ export class TuitionConfigService {
       if (students.length === 0) return;
 
       // 2.3 Chuẩn bị data hóa đơn với số tiền "đóng gói" từ định mức vừa cấu hình
-      const invoicesToCreate: Prisma.FeeInvoiceCreateManyInput[] = students.map(
-        (student) => ({
-          studentId: student.id,
-          periodId: config.periodId,
-          totalAmount: config.totalAmount, // Lấy từ cấu hình qua
-          minRequiredAmount: config.minRequiredAmount, // Lấy từ cấu hình qua
-          paidAmount: 0, // Mới sinh công nợ nên chưa đóng đồng nào
-          remainingAmount: config.totalAmount, // Số nợ = Tổng tiền phải đóng
-          status: "unpaid", // Trạng thái: Chưa thanh toán
-        }),
-      );
+      const invoicesToCreate: Prisma.FeeInvoiceCreateManyInput[] = students.map((student) => ({
+        studentId: student.id,
+        periodId: config.periodId,
+        totalAmount: config.totalAmount, // Lấy từ cấu hình qua
+        minRequiredAmount: config.minRequiredAmount, // Lấy từ cấu hình qua
+        paidAmount: 0, // Mới sinh công nợ nên chưa đóng đồng nào
+        remainingAmount: config.totalAmount, // Số nợ = Tổng tiền phải đóng
+        status: "unpaid", // Trạng thái: Chưa thanh toán
+      }));
 
       // 2.4 Thực hiện insert hàng loạt (Bulk Insert) để tối ưu hiệu năng tối đa
       const result = await tx.feeInvoice.createMany({
@@ -141,9 +127,7 @@ export class TuitionConfigService {
   // ==========================================
   // 2. READ ALL / SEARCH (Tìm kiếm nâng cao)
   // ==========================================
-  async findAll(
-    searchDto: SearchTuitionConfigDto,
-  ): Promise<TuitionConfigWithItemsDto[]> {
+  async findAll(searchDto: SearchTuitionConfigDto): Promise<TuitionConfigWithItemsDto[]> {
     const where: any = {};
 
     // Gán điều kiện tìm kiếm động nếu có truyền lên
@@ -175,9 +159,7 @@ export class TuitionConfigService {
       select: { majorId: true },
     });
 
-    const configuredMajorIds = configuredConfigs
-      .map((c) => c.majorId)
-      .filter((id): id is number => id !== null);
+    const configuredMajorIds = configuredConfigs.map((c) => c.majorId).filter((id): id is number => id !== null);
 
     // 2. Lấy ra các ngành học mà ID KHÔNG nằm trong danh sách đã được cấu hình ở trên
     const unconfiguredMajors = await this.prisma.major.findMany({
@@ -219,10 +201,7 @@ export class TuitionConfigService {
   // ==========================================
   // 4. UPDATE (Cập nhật Config + Sync Items)
   // ==========================================
-  async update(
-    id: number,
-    updateDto: UpdateTuitionConfigDto,
-  ): Promise<TuitionConfigWithItemsDto> {
+  async update(id: number, updateDto: UpdateTuitionConfigDto): Promise<TuitionConfigWithItemsDto> {
     // Kiểm tra bản ghi tồn tại trước
     await this.findOne(id);
 
@@ -255,10 +234,7 @@ export class TuitionConfigService {
 
       // 3. LOGIC BỔ SUNG: Cập nhật lại công nợ (FeeInvoice) cho sinh viên theo định mức mới
       // Chỉ cập nhật những hóa đơn CHƯA ĐÓNG ĐỒNG NÀO (unpaid) để tránh làm sai lệch dữ liệu kế toán
-      if (
-        configData.totalAmount !== undefined ||
-        configData.minRequiredAmount !== undefined
-      ) {
+      if (configData.totalAmount !== undefined || configData.minRequiredAmount !== undefined) {
         // Tìm các khóa (Batches) đang hoạt động thuộc cấu hình này
         const targetBatches = await tx.batch.findMany({
           where: {
@@ -278,9 +254,7 @@ export class TuitionConfigService {
               status: "unpaid", // Điều kiện tiên quyết: Chưa thanh toán đồng nào
               student: {
                 batchId: { in: batchIds },
-                majorId: updatedConfig.majorId
-                  ? updatedConfig.majorId
-                  : undefined,
+                majorId: updatedConfig.majorId ? updatedConfig.majorId : undefined,
               },
             },
             data: {
