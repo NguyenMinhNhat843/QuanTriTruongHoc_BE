@@ -50,7 +50,7 @@ model Province {
 
   wards       Ward[]   // Một Tỉnh có nhiều Xã/Phường trực thuộc
 
-  students     Student[]
+  admissionProfiles AdmissionProfile[]
 
   @@map("provinces")
 }
@@ -65,7 +65,7 @@ model Ward {
   province     Province @relation(fields: [provinceCode], references: [code], onDelete: Cascade)
   villages     Village[] // Một Xã có nhiều Thôn/Xóm/Bản/Tổ
 
-  students     Student[]
+  admissionProfiles AdmissionProfile[]
 
   @@index([provinceCode]) // Tăng tốc khi lọc Xã theo Tỉnh
   @@map("wards")
@@ -78,7 +78,7 @@ model Village {
 
   ward         Ward     @relation(fields: [wardCode], references: [code], onDelete: Cascade)
 
-  students     Student[]
+  admissionProfiles AdmissionProfile[]
 
   @@index([wardCode]) // Tăng tốc khi lọc Thôn theo Xã
   @@map("villages")

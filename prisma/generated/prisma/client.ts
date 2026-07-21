@@ -75,6 +75,51 @@ export type Curriculum = Prisma.CurriculumModel
  */
 export type CurriculumSubject = Prisma.CurriculumSubjectModel
 /**
+ * Model AdmissionCampaign
+ * 
+ */
+export type AdmissionCampaign = Prisma.AdmissionCampaignModel
+/**
+ * Model AdmissionCampaignMajor
+ * 
+ */
+export type AdmissionCampaignMajor = Prisma.AdmissionCampaignMajorModel
+/**
+ * Model AdmissionProfile
+ * 
+ */
+export type AdmissionProfile = Prisma.AdmissionProfileModel
+/**
+ * Model ExamScore
+ * 
+ */
+export type ExamScore = Prisma.ExamScoreModel
+/**
+ * Model AdmissionStatusLog
+ * 
+ */
+export type AdmissionStatusLog = Prisma.AdmissionStatusLogModel
+/**
+ * Model AdmissionDocument
+ * 
+ */
+export type AdmissionDocument = Prisma.AdmissionDocumentModel
+/**
+ * Model Student
+ * 
+ */
+export type Student = Prisma.StudentModel
+/**
+ * Model DocumentConfig
+ * 
+ */
+export type DocumentConfig = Prisma.DocumentConfigModel
+/**
+ * Model DocumentConfigItem
+ * 
+ */
+export type DocumentConfigItem = Prisma.DocumentConfigItemModel
+/**
  * Model EvaluationPeriod
  * 
  */
@@ -104,31 +149,6 @@ export type AssessmentDetail = Prisma.AssessmentDetailModel
  * 
  */
 export type User = Prisma.UserModel
-/**
- * Model Student
- * 
- */
-export type Student = Prisma.StudentModel
-/**
- * Model AdmissionProfile
- * 
- */
-export type AdmissionProfile = Prisma.AdmissionProfileModel
-/**
- * Model DocumentConfig
- * 
- */
-export type DocumentConfig = Prisma.DocumentConfigModel
-/**
- * Model DocumentConfigItem
- * 
- */
-export type DocumentConfigItem = Prisma.DocumentConfigItemModel
-/**
- * Model StudentDocument
- * 
- */
-export type StudentDocument = Prisma.StudentDocumentModel
 /**
  * Model Staff
  * 

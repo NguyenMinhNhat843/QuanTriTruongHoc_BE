@@ -11,7 +11,7 @@ import { Response } from "express";
 
 @Injectable()
 export class TrainingPlanService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * 1. HÀM LẤY KẾ HOẠCH ĐÀO TẠO (Lấy Subject trong CTK làm gốc)
@@ -102,70 +102,194 @@ export class TrainingPlanService {
   async upsertTrainingPlan(dto: UpsertTrainingPlanDto) {
     const { classId, semesterId, items } = dto;
 
-    // Tăng timeout lên 15-20s đề phòng trường hợp cục items gửi lên quá lớn
-    return await this.prisma.$transaction(async (tx) => {
-      for (const item of items) {
-        const { sessions, subjectId, teacherId } = item;
+    // =========================================================================
+    // BƯỚC 1: BẢO VỆ DỮ LIỆU - BẮT XUNG ĐỘT NỘI BỘ TRONG DTO (IN-MEMORY CHECK)
+    // =========================================================================
+    const extractedSessions: Array<{
+      itemIndex: number;
+      subjectId: number;
+      roomId: number;
+      dayOfWeek: string;
+      shift: string;
+      startPeriod: number;
+      endPeriod: number;
+    }> = [];
 
-        // 1. Tìm xem môn học này đã tồn tại trong lớp/học kỳ chưa
-        const classSubject = await tx.courseOffer.findFirst({
-          where: { classId, semesterId, subjectId },
-          select: { id: true } // Chỉ lấy id để tối ưu hiệu năng
-        });
-
-        // Chuẩn bị cấu trúc data của toàn bộ Sessions và Schedules lồng nhau
-        const sessionsCreateData = sessions.map((session) => {
-          const { schedules, ...sessionData } = session;
-          return {
-            ...sessionData,
-            // Sử dụng tính năng tạo lồng (Nested Relation Create) của Prisma
-            schedules: schedules && schedules.length > 0 ? {
-              create: schedules.map((schedule) => ({
-                weekNumber: schedule.weekNumber,
-                studyDate: schedule.studyDate ? new Date(schedule.studyDate) : null,
-                roomId: schedule.roomId || null,
-              }))
-            } : undefined
-          };
-        });
-
-        if (!classSubject) {
-          // TRƯỜNG HỢP 1: TẠO MỚI HOÀN TOÀN (Chỉ mất đúng 1 query duy nhất cho toàn bộ sessions/schedules)
-          await tx.courseOffer.create({
-            data: {
-              classId,
-              semesterId,
-              subjectId,
-              teacherId: teacherId || null,
-              // Đẩy toàn bộ session và schedule vào đây để tạo đồng thời
-              classSubjectSessions: {
-                create: sessionsCreateData
-              }
-            }
-          });
-        } else {
-          // TRƯỜNG HỢP 2: CẬP NHẬT CÓ SẴN
-          // Bước 2.1: Xóa toàn bộ Sessions cũ (Cascading sẽ tự dọn dẹp Schedule cũ)
-          await tx.classSubjectSession.deleteMany({
-            where: { classSubjectId: classSubject.id },
-          });
-
-          // Bước 2.2: Cập nhật giảng viên và đẩy toàn bộ Sessions/Schedules mới vào (Cũng chỉ mất 1 query)
-          await tx.courseOffer.update({
-            where: { id: classSubject.id },
-            data: {
-              teacherId: teacherId || null,
-              classSubjectSessions: {
-                create: sessionsCreateData
-              }
-            }
+    items.forEach((item, itemIdx) => {
+      item.sessions.forEach((sess) => {
+        if (sess.roomId) {
+          extractedSessions.push({
+            itemIndex: itemIdx,
+            subjectId: item.subjectId,
+            roomId: sess.roomId,
+            dayOfWeek: sess.dayOfWeek,
+            shift: sess.shift,
+            startPeriod: sess.startPeriod,
+            endPeriod: sess.endPeriod,
           });
         }
-      }
-    }, {
-      maxWait: 5000,
-      timeout: 20000 // Tăng thời gian xử lý an toàn lên 20 giây
+      });
     });
+
+    // Check trùng nhau giữa các phần tử trong chính payload gửi lên
+    for (let i = 0; i < extractedSessions.length; i++) {
+      for (let j = i + 1; j < extractedSessions.length; j++) {
+        const a = extractedSessions[i];
+        const b = extractedSessions[j];
+
+        const isSameRoomAndDay =
+          a.roomId === b.roomId &&
+          a.dayOfWeek === b.dayOfWeek &&
+          a.shift === b.shift;
+
+        // Công thức kiểm tra 2 khoảng tiết [start, end] có giao nhau không
+        const isPeriodOverlap =
+          a.startPeriod <= b.endPeriod && a.endPeriod >= b.startPeriod;
+
+        if (isSameRoomAndDay && isPeriodOverlap) {
+          throw new BadRequestException(
+            `Xung đột lịch trong dữ liệu gửi lên: Phòng ID ${a.roomId} bị trùng tiết (${a.startPeriod}-${a.endPeriod}) và (${b.startPeriod}-${b.endPeriod}) vào thứ ${a.dayOfWeek}, ca ${a.shift}.`,
+          );
+        }
+      }
+    }
+
+    // =========================================================================
+    // BƯỚC 2: TRANSACTION XỬ LÝ DATABASE & CHECK TRÙNG LỊCH VỚI DB
+    // =========================================================================
+    return await this.prisma.$transaction(
+      async (tx) => {
+        // Lấy danh sách ID của các CourseOffer thuộc lớp này và kỳ này (để loại trừ khi update)
+        const existingOffers = await tx.courseOffer.findMany({
+          where: { classId, semesterId },
+          select: { id: true, subjectId: true },
+        });
+
+        const existingOfferIds = existingOffers.map((o) => o.id);
+
+        // BƯỚC 2.1: KHỬ TRÙNG VỚI CÁC LỚP KHÁC TRONG CÙNG HỌC KỲ TRÊN DATABASE
+        if (extractedSessions.length > 0) {
+          // Tìm tất cả session trong cùng học kỳ có sử dụng các phòng học liên quan
+          const conflictSessions = await tx.classSubjectSession.findMany({
+            where: {
+              classSubject: {
+                semesterId: semesterId,
+                // Loại trừ các CourseOffer của chính lớp hiện tại ra (vì ta sắp ghi đè/upsert)
+                id: { notIn: existingOfferIds },
+              },
+              roomId: { in: extractedSessions.map((s) => s.roomId) },
+            },
+            select: {
+              id: true,
+              roomId: true,
+              dayOfWeek: true,
+              shift: true,
+              startPeriod: true,
+              endPeriod: true,
+              room: { select: { roomCode: true } },
+              classSubject: {
+                select: {
+                  baseClass: { select: { className: true } },
+                  subject: { select: { subjectName: true } },
+                },
+              },
+            },
+          });
+
+          // So sánh khoảng tiết giữa payload mới và data cũ dưới DB
+          for (const newSess of extractedSessions) {
+            const conflict = conflictSessions.find(
+              (dbSess) =>
+                dbSess.roomId === newSess.roomId &&
+                dbSess.dayOfWeek === newSess.dayOfWeek &&
+                dbSess.shift === newSess.shift &&
+                // Kiểm tra va chạm khoảng tiết
+                newSess.startPeriod <= dbSess.endPeriod &&
+                newSess.endPeriod >= dbSess.startPeriod,
+            );
+
+            if (conflict) {
+              const roomName =
+                conflict.room?.roomCode || `ID ${conflict.roomId}`;
+              const className =
+                conflict.classSubject.baseClass?.className || "Lớp khác";
+              const subjectName =
+                conflict.classSubject.subject.subjectName || "Môn khác";
+
+              throw new BadRequestException(
+                `Trùng lịch phòng học: Phòng ${roomName} vào Thứ ${newSess.dayOfWeek} (Ca ${newSess.shift}, Tiết ${newSess.startPeriod}-${newSess.endPeriod}) đã được sử dụng bởi ${className} (${subjectName} - Tiết ${conflict.startPeriod}-${conflict.endPeriod}).`,
+              );
+            }
+          }
+        }
+
+        // =========================================================================
+        // BƯỚC 3: TIẾN HÀNH UPSERT DATA VÀO DATABASE DỰA TRÊN THIẾT KẾ CŨ
+        // =========================================================================
+        for (const item of items) {
+          const { sessions, subjectId, teacherId } = item;
+
+          const classSubject = existingOffers.find(
+            (o) => o.subjectId === subjectId,
+          );
+
+          // Standardize lồng dữ liệu session + schedule
+          const sessionsCreateData = sessions.map((session) => {
+            const { schedules, ...sessionData } = session;
+            return {
+              ...sessionData,
+              countPeriod: session.endPeriod - session.startPeriod + 1, // Tự tính countPeriod
+              schedules:
+                schedules && schedules.length > 0
+                  ? {
+                      create: schedules.map((schedule) => ({
+                        weekNumber: schedule.weekNumber,
+                        studyDate: schedule.studyDate
+                          ? new Date(schedule.studyDate)
+                          : null,
+                        roomId: schedule.roomId || null,
+                      })),
+                    }
+                  : undefined,
+            };
+          });
+
+          if (!classSubject) {
+            // TẠO MỚI
+            await tx.courseOffer.create({
+              data: {
+                classId,
+                semesterId,
+                subjectId,
+                teacherId: teacherId || null,
+                classSubjectSessions: {
+                  create: sessionsCreateData,
+                },
+              },
+            });
+          } else {
+            // CẬP NHẬT: Xóa session cũ rồi tạo lại
+            await tx.classSubjectSession.deleteMany({
+              where: { classSubjectId: classSubject.id },
+            });
+
+            await tx.courseOffer.update({
+              where: { id: classSubject.id },
+              data: {
+                teacherId: teacherId || null,
+                classSubjectSessions: {
+                  create: sessionsCreateData,
+                },
+              },
+            });
+          }
+        }
+      },
+      {
+        maxWait: 5000,
+        timeout: 20000,
+      },
+    );
   }
 
   async exportTrainingPlanExcel(
@@ -347,7 +471,7 @@ export class TrainingPlanService {
             // Cột tuần bắt đầu từ vị trí thứ 8 (Index 8 trong mảng rowData tương đương cột H)
             rowData[7 + w] = hasSchedule
               ? session.countPeriod ||
-              session.endPeriod - session.startPeriod + 1
+                session.endPeriod - session.startPeriod + 1
               : "";
           }
         } else {

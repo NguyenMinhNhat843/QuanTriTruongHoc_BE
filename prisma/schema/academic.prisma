@@ -45,6 +45,8 @@ model Major {
   batches         Batch[]
   students        Student[]
   tuitionConfigs  TuitionConfig[]
+  admissionCampaignMajors AdmissionCampaignMajor[]
+  admissionProfiles       AdmissionProfile[]
 
   @@map("majors")
 }
@@ -79,6 +81,7 @@ model Batch {
   classes     Class[]
   students    Student[]
   tuitionConfigs TuitionConfig[]
+  admissionCampaigns AdmissionCampaign[]
 
   @@map("batches")
 }

@@ -275,6 +275,7 @@ export type UserWhereInput = {
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   staff?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
   posts?: Prisma.PostListRelationFilter
+  admissionStatusLogs?: Prisma.AdmissionStatusLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -292,6 +293,7 @@ export type UserOrderByWithRelationInput = {
   student?: Prisma.StudentOrderByWithRelationInput
   staff?: Prisma.StaffOrderByWithRelationInput
   posts?: Prisma.PostOrderByRelationAggregateInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -312,6 +314,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   staff?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
   posts?: Prisma.PostListRelationFilter
+  admissionStatusLogs?: Prisma.AdmissionStatusLogListRelationFilter
 }, "id" | "username" | "staffId" | "studentId">
 
 export type UserOrderByWithAggregationInput = {
@@ -364,6 +367,7 @@ export type UserCreateInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   staff?: Prisma.StaffCreateNestedOneWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutByUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -381,6 +385,7 @@ export type UserUncheckedCreateInput = {
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutByUserInput
 }
 
 export type UserUpdateInput = {
@@ -397,6 +402,7 @@ export type UserUpdateInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutByUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -414,6 +420,7 @@ export type UserUncheckedUpdateInput = {
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutByUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -455,6 +462,11 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -516,17 +528,18 @@ export type UserNullableScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput | null
 }
 
-export type UserScalarRelationFilter = {
-  is?: Prisma.UserWhereInput
-  isNot?: Prisma.UserWhereInput
+export type UserCreateNestedOneWithoutAdmissionStatusLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdmissionStatusLogsInput, Prisma.UserUncheckedCreateWithoutAdmissionStatusLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdmissionStatusLogsInput
+  connect?: Prisma.UserWhereUniqueInput
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type EnumRoleTypeFieldUpdateOperationsInput = {
-  set?: $Enums.RoleType
+export type UserUpdateOneRequiredWithoutAdmissionStatusLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdmissionStatusLogsInput, Prisma.UserUncheckedCreateWithoutAdmissionStatusLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdmissionStatusLogsInput
+  upsert?: Prisma.UserUpsertWithoutAdmissionStatusLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdmissionStatusLogsInput, Prisma.UserUpdateWithoutAdmissionStatusLogsInput>, Prisma.UserUncheckedUpdateWithoutAdmissionStatusLogsInput>
 }
 
 export type UserCreateNestedOneWithoutStudentInput = {
@@ -535,14 +548,16 @@ export type UserCreateNestedOneWithoutStudentInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneWithoutStudentNestedInput = {
+export type UserUpdateOneRequiredWithoutStudentNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutStudentInput, Prisma.UserUncheckedCreateWithoutStudentInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutStudentInput
   upsert?: Prisma.UserUpsertWithoutStudentInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStudentInput, Prisma.UserUpdateWithoutStudentInput>, Prisma.UserUncheckedUpdateWithoutStudentInput>
+}
+
+export type EnumRoleTypeFieldUpdateOperationsInput = {
+  set?: $Enums.RoleType
 }
 
 export type UserCreateNestedOneWithoutStaffInput = {
@@ -575,6 +590,88 @@ export type UserUpdateOneRequiredWithoutPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPostsInput, Prisma.UserUpdateWithoutPostsInput>, Prisma.UserUncheckedUpdateWithoutPostsInput>
 }
 
+export type UserCreateWithoutAdmissionStatusLogsInput = {
+  username: string
+  staffId?: number | null
+  studentId?: number | null
+  passwordHash: string
+  lastLoginAt?: Date | string | null
+  role: $Enums.RoleType
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  staff?: Prisma.StaffCreateNestedOneWithoutUserInput
+  posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+}
+
+export type UserUncheckedCreateWithoutAdmissionStatusLogsInput = {
+  id?: number
+  username: string
+  staffId?: number | null
+  studentId?: number | null
+  passwordHash: string
+  lastLoginAt?: Date | string | null
+  role: $Enums.RoleType
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
+  posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+}
+
+export type UserCreateOrConnectWithoutAdmissionStatusLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdmissionStatusLogsInput, Prisma.UserUncheckedCreateWithoutAdmissionStatusLogsInput>
+}
+
+export type UserUpsertWithoutAdmissionStatusLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdmissionStatusLogsInput, Prisma.UserUncheckedUpdateWithoutAdmissionStatusLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdmissionStatusLogsInput, Prisma.UserUncheckedCreateWithoutAdmissionStatusLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAdmissionStatusLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdmissionStatusLogsInput, Prisma.UserUncheckedUpdateWithoutAdmissionStatusLogsInput>
+}
+
+export type UserUpdateWithoutAdmissionStatusLogsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
+  posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdmissionStatusLogsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  staffId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.EnumRoleTypeFieldUpdateOperationsInput | $Enums.RoleType
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
+  posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+}
+
 export type UserCreateWithoutStudentInput = {
   username: string
   staffId?: number | null
@@ -588,6 +685,7 @@ export type UserCreateWithoutStudentInput = {
   deletedAt?: Date | string | null
   staff?: Prisma.StaffCreateNestedOneWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutByUserInput
 }
 
 export type UserUncheckedCreateWithoutStudentInput = {
@@ -604,6 +702,7 @@ export type UserUncheckedCreateWithoutStudentInput = {
   deletedAt?: Date | string | null
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutByUserInput
 }
 
 export type UserCreateOrConnectWithoutStudentInput = {
@@ -635,6 +734,7 @@ export type UserUpdateWithoutStudentInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutByUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentInput = {
@@ -651,6 +751,7 @@ export type UserUncheckedUpdateWithoutStudentInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutByUserNestedInput
 }
 
 export type UserCreateWithoutStaffInput = {
@@ -666,6 +767,7 @@ export type UserCreateWithoutStaffInput = {
   deletedAt?: Date | string | null
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutByUserInput
 }
 
 export type UserUncheckedCreateWithoutStaffInput = {
@@ -682,6 +784,7 @@ export type UserUncheckedCreateWithoutStaffInput = {
   deletedAt?: Date | string | null
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutByUserInput
 }
 
 export type UserCreateOrConnectWithoutStaffInput = {
@@ -713,6 +816,7 @@ export type UserUpdateWithoutStaffInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutByUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStaffInput = {
@@ -729,6 +833,7 @@ export type UserUncheckedUpdateWithoutStaffInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutByUserNestedInput
 }
 
 export type UserCreateWithoutPostsInput = {
@@ -744,6 +849,7 @@ export type UserCreateWithoutPostsInput = {
   deletedAt?: Date | string | null
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   staff?: Prisma.StaffCreateNestedOneWithoutUserInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutByUserInput
 }
 
 export type UserUncheckedCreateWithoutPostsInput = {
@@ -760,6 +866,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   deletedAt?: Date | string | null
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutByUserInput
 }
 
 export type UserCreateOrConnectWithoutPostsInput = {
@@ -791,6 +898,7 @@ export type UserUpdateWithoutPostsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutByUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostsInput = {
@@ -807,6 +915,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
+  admissionStatusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutByUserNestedInput
 }
 
 
@@ -816,10 +925,12 @@ export type UserUncheckedUpdateWithoutPostsInput = {
 
 export type UserCountOutputType = {
   posts: number
+  admissionStatusLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | UserCountOutputTypeCountPostsArgs
+  admissionStatusLogs?: boolean | UserCountOutputTypeCountAdmissionStatusLogsArgs
 }
 
 /**
@@ -839,6 +950,13 @@ export type UserCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Exte
   where?: Prisma.PostWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAdmissionStatusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AdmissionStatusLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -855,6 +973,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   staff?: boolean | Prisma.User$staffArgs<ExtArgs>
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
+  admissionStatusLogs?: boolean | Prisma.User$admissionStatusLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -905,6 +1024,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   staff?: boolean | Prisma.User$staffArgs<ExtArgs>
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
+  admissionStatusLogs?: boolean | Prisma.User$admissionStatusLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -916,6 +1036,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     student: Prisma.$StudentPayload<ExtArgs> | null
     staff: Prisma.$StaffPayload<ExtArgs> | null
     posts: Prisma.$PostPayload<ExtArgs>[]
+    admissionStatusLogs: Prisma.$AdmissionStatusLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1326,6 +1447,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   student<T extends Prisma.User$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   staff<T extends Prisma.User$staffArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$staffArgs<ExtArgs>>): Prisma.Prisma__StaffClient<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   posts<T extends Prisma.User$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admissionStatusLogs<T extends Prisma.User$admissionStatusLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$admissionStatusLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionStatusLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1818,6 +1940,30 @@ export type User$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
   take?: number
   skip?: number
   distinct?: Prisma.PostScalarFieldEnum | Prisma.PostScalarFieldEnum[]
+}
+
+/**
+ * User.admissionStatusLogs
+ */
+export type User$admissionStatusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdmissionStatusLog
+   */
+  select?: Prisma.AdmissionStatusLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdmissionStatusLog
+   */
+  omit?: Prisma.AdmissionStatusLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdmissionStatusLogInclude<ExtArgs> | null
+  where?: Prisma.AdmissionStatusLogWhereInput
+  orderBy?: Prisma.AdmissionStatusLogOrderByWithRelationInput | Prisma.AdmissionStatusLogOrderByWithRelationInput[]
+  cursor?: Prisma.AdmissionStatusLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AdmissionStatusLogScalarFieldEnum | Prisma.AdmissionStatusLogScalarFieldEnum[]
 }
 
 /**

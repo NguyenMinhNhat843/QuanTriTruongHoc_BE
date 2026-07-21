@@ -42,6 +42,7 @@ export type DocumentConfigItemMinAggregateOutputType = {
   id: number | null
   documentConfigId: number | null
   name: string | null
+  code: string | null
   required: boolean | null
   sortOrder: number | null
 }
@@ -50,6 +51,7 @@ export type DocumentConfigItemMaxAggregateOutputType = {
   id: number | null
   documentConfigId: number | null
   name: string | null
+  code: string | null
   required: boolean | null
   sortOrder: number | null
 }
@@ -58,6 +60,7 @@ export type DocumentConfigItemCountAggregateOutputType = {
   id: number
   documentConfigId: number
   name: number
+  code: number
   required: number
   sortOrder: number
   _all: number
@@ -80,6 +83,7 @@ export type DocumentConfigItemMinAggregateInputType = {
   id?: true
   documentConfigId?: true
   name?: true
+  code?: true
   required?: true
   sortOrder?: true
 }
@@ -88,6 +92,7 @@ export type DocumentConfigItemMaxAggregateInputType = {
   id?: true
   documentConfigId?: true
   name?: true
+  code?: true
   required?: true
   sortOrder?: true
 }
@@ -96,6 +101,7 @@ export type DocumentConfigItemCountAggregateInputType = {
   id?: true
   documentConfigId?: true
   name?: true
+  code?: true
   required?: true
   sortOrder?: true
   _all?: true
@@ -191,6 +197,7 @@ export type DocumentConfigItemGroupByOutputType = {
   id: number
   documentConfigId: number
   name: string
+  code: string | null
   required: boolean | null
   sortOrder: number | null
   _count: DocumentConfigItemCountAggregateOutputType | null
@@ -222,20 +229,22 @@ export type DocumentConfigItemWhereInput = {
   id?: Prisma.IntFilter<"DocumentConfigItem"> | number
   documentConfigId?: Prisma.IntFilter<"DocumentConfigItem"> | number
   name?: Prisma.StringFilter<"DocumentConfigItem"> | string
+  code?: Prisma.StringNullableFilter<"DocumentConfigItem"> | string | null
   required?: Prisma.BoolNullableFilter<"DocumentConfigItem"> | boolean | null
   sortOrder?: Prisma.IntNullableFilter<"DocumentConfigItem"> | number | null
   documentConfig?: Prisma.XOR<Prisma.DocumentConfigScalarRelationFilter, Prisma.DocumentConfigWhereInput>
-  studentDocuments?: Prisma.StudentDocumentListRelationFilter
+  admissionDocuments?: Prisma.AdmissionDocumentListRelationFilter
 }
 
 export type DocumentConfigItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   documentConfigId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
   required?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrderInput | Prisma.SortOrder
   documentConfig?: Prisma.DocumentConfigOrderByWithRelationInput
-  studentDocuments?: Prisma.StudentDocumentOrderByRelationAggregateInput
+  admissionDocuments?: Prisma.AdmissionDocumentOrderByRelationAggregateInput
 }
 
 export type DocumentConfigItemWhereUniqueInput = Prisma.AtLeast<{
@@ -245,16 +254,18 @@ export type DocumentConfigItemWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.DocumentConfigItemWhereInput | Prisma.DocumentConfigItemWhereInput[]
   documentConfigId?: Prisma.IntFilter<"DocumentConfigItem"> | number
   name?: Prisma.StringFilter<"DocumentConfigItem"> | string
+  code?: Prisma.StringNullableFilter<"DocumentConfigItem"> | string | null
   required?: Prisma.BoolNullableFilter<"DocumentConfigItem"> | boolean | null
   sortOrder?: Prisma.IntNullableFilter<"DocumentConfigItem"> | number | null
   documentConfig?: Prisma.XOR<Prisma.DocumentConfigScalarRelationFilter, Prisma.DocumentConfigWhereInput>
-  studentDocuments?: Prisma.StudentDocumentListRelationFilter
+  admissionDocuments?: Prisma.AdmissionDocumentListRelationFilter
 }, "id">
 
 export type DocumentConfigItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   documentConfigId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
   required?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DocumentConfigItemCountOrderByAggregateInput
@@ -271,54 +282,61 @@ export type DocumentConfigItemScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"DocumentConfigItem"> | number
   documentConfigId?: Prisma.IntWithAggregatesFilter<"DocumentConfigItem"> | number
   name?: Prisma.StringWithAggregatesFilter<"DocumentConfigItem"> | string
+  code?: Prisma.StringNullableWithAggregatesFilter<"DocumentConfigItem"> | string | null
   required?: Prisma.BoolNullableWithAggregatesFilter<"DocumentConfigItem"> | boolean | null
   sortOrder?: Prisma.IntNullableWithAggregatesFilter<"DocumentConfigItem"> | number | null
 }
 
 export type DocumentConfigItemCreateInput = {
   name: string
+  code?: string | null
   required?: boolean | null
   sortOrder?: number | null
   documentConfig: Prisma.DocumentConfigCreateNestedOneWithoutItemsInput
-  studentDocuments?: Prisma.StudentDocumentCreateNestedManyWithoutDocumentConfigItemInput
+  admissionDocuments?: Prisma.AdmissionDocumentCreateNestedManyWithoutDocumentConfigItemInput
 }
 
 export type DocumentConfigItemUncheckedCreateInput = {
   id?: number
   documentConfigId: number
   name: string
+  code?: string | null
   required?: boolean | null
   sortOrder?: number | null
-  studentDocuments?: Prisma.StudentDocumentUncheckedCreateNestedManyWithoutDocumentConfigItemInput
+  admissionDocuments?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutDocumentConfigItemInput
 }
 
 export type DocumentConfigItemUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   documentConfig?: Prisma.DocumentConfigUpdateOneRequiredWithoutItemsNestedInput
-  studentDocuments?: Prisma.StudentDocumentUpdateManyWithoutDocumentConfigItemNestedInput
+  admissionDocuments?: Prisma.AdmissionDocumentUpdateManyWithoutDocumentConfigItemNestedInput
 }
 
 export type DocumentConfigItemUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   documentConfigId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  studentDocuments?: Prisma.StudentDocumentUncheckedUpdateManyWithoutDocumentConfigItemNestedInput
+  admissionDocuments?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutDocumentConfigItemNestedInput
 }
 
 export type DocumentConfigItemCreateManyInput = {
   id?: number
   documentConfigId: number
   name: string
+  code?: string | null
   required?: boolean | null
   sortOrder?: number | null
 }
 
 export type DocumentConfigItemUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
@@ -327,8 +345,14 @@ export type DocumentConfigItemUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   documentConfigId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type DocumentConfigItemScalarRelationFilter = {
+  is?: Prisma.DocumentConfigItemWhereInput
+  isNot?: Prisma.DocumentConfigItemWhereInput
 }
 
 export type DocumentConfigItemListRelationFilter = {
@@ -345,6 +369,7 @@ export type DocumentConfigItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   documentConfigId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   required?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
@@ -359,6 +384,7 @@ export type DocumentConfigItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   documentConfigId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   required?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
@@ -367,6 +393,7 @@ export type DocumentConfigItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   documentConfigId?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   required?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
@@ -377,9 +404,18 @@ export type DocumentConfigItemSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
 }
 
-export type DocumentConfigItemScalarRelationFilter = {
-  is?: Prisma.DocumentConfigItemWhereInput
-  isNot?: Prisma.DocumentConfigItemWhereInput
+export type DocumentConfigItemCreateNestedOneWithoutAdmissionDocumentsInput = {
+  create?: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutAdmissionDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutAdmissionDocumentsInput>
+  connectOrCreate?: Prisma.DocumentConfigItemCreateOrConnectWithoutAdmissionDocumentsInput
+  connect?: Prisma.DocumentConfigItemWhereUniqueInput
+}
+
+export type DocumentConfigItemUpdateOneRequiredWithoutAdmissionDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutAdmissionDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutAdmissionDocumentsInput>
+  connectOrCreate?: Prisma.DocumentConfigItemCreateOrConnectWithoutAdmissionDocumentsInput
+  upsert?: Prisma.DocumentConfigItemUpsertWithoutAdmissionDocumentsInput
+  connect?: Prisma.DocumentConfigItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentConfigItemUpdateToOneWithWhereWithoutAdmissionDocumentsInput, Prisma.DocumentConfigItemUpdateWithoutAdmissionDocumentsInput>, Prisma.DocumentConfigItemUncheckedUpdateWithoutAdmissionDocumentsInput>
 }
 
 export type DocumentConfigItemCreateNestedManyWithoutDocumentConfigInput = {
@@ -424,33 +460,75 @@ export type DocumentConfigItemUncheckedUpdateManyWithoutDocumentConfigNestedInpu
   deleteMany?: Prisma.DocumentConfigItemScalarWhereInput | Prisma.DocumentConfigItemScalarWhereInput[]
 }
 
-export type DocumentConfigItemCreateNestedOneWithoutStudentDocumentsInput = {
-  create?: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutStudentDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutStudentDocumentsInput>
-  connectOrCreate?: Prisma.DocumentConfigItemCreateOrConnectWithoutStudentDocumentsInput
-  connect?: Prisma.DocumentConfigItemWhereUniqueInput
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
 }
 
-export type DocumentConfigItemUpdateOneRequiredWithoutStudentDocumentsNestedInput = {
-  create?: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutStudentDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutStudentDocumentsInput>
-  connectOrCreate?: Prisma.DocumentConfigItemCreateOrConnectWithoutStudentDocumentsInput
-  upsert?: Prisma.DocumentConfigItemUpsertWithoutStudentDocumentsInput
-  connect?: Prisma.DocumentConfigItemWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentConfigItemUpdateToOneWithWhereWithoutStudentDocumentsInput, Prisma.DocumentConfigItemUpdateWithoutStudentDocumentsInput>, Prisma.DocumentConfigItemUncheckedUpdateWithoutStudentDocumentsInput>
+export type DocumentConfigItemCreateWithoutAdmissionDocumentsInput = {
+  name: string
+  code?: string | null
+  required?: boolean | null
+  sortOrder?: number | null
+  documentConfig: Prisma.DocumentConfigCreateNestedOneWithoutItemsInput
+}
+
+export type DocumentConfigItemUncheckedCreateWithoutAdmissionDocumentsInput = {
+  id?: number
+  documentConfigId: number
+  name: string
+  code?: string | null
+  required?: boolean | null
+  sortOrder?: number | null
+}
+
+export type DocumentConfigItemCreateOrConnectWithoutAdmissionDocumentsInput = {
+  where: Prisma.DocumentConfigItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutAdmissionDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutAdmissionDocumentsInput>
+}
+
+export type DocumentConfigItemUpsertWithoutAdmissionDocumentsInput = {
+  update: Prisma.XOR<Prisma.DocumentConfigItemUpdateWithoutAdmissionDocumentsInput, Prisma.DocumentConfigItemUncheckedUpdateWithoutAdmissionDocumentsInput>
+  create: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutAdmissionDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutAdmissionDocumentsInput>
+  where?: Prisma.DocumentConfigItemWhereInput
+}
+
+export type DocumentConfigItemUpdateToOneWithWhereWithoutAdmissionDocumentsInput = {
+  where?: Prisma.DocumentConfigItemWhereInput
+  data: Prisma.XOR<Prisma.DocumentConfigItemUpdateWithoutAdmissionDocumentsInput, Prisma.DocumentConfigItemUncheckedUpdateWithoutAdmissionDocumentsInput>
+}
+
+export type DocumentConfigItemUpdateWithoutAdmissionDocumentsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  documentConfig?: Prisma.DocumentConfigUpdateOneRequiredWithoutItemsNestedInput
+}
+
+export type DocumentConfigItemUncheckedUpdateWithoutAdmissionDocumentsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  documentConfigId?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type DocumentConfigItemCreateWithoutDocumentConfigInput = {
   name: string
+  code?: string | null
   required?: boolean | null
   sortOrder?: number | null
-  studentDocuments?: Prisma.StudentDocumentCreateNestedManyWithoutDocumentConfigItemInput
+  admissionDocuments?: Prisma.AdmissionDocumentCreateNestedManyWithoutDocumentConfigItemInput
 }
 
 export type DocumentConfigItemUncheckedCreateWithoutDocumentConfigInput = {
   id?: number
   name: string
+  code?: string | null
   required?: boolean | null
   sortOrder?: number | null
-  studentDocuments?: Prisma.StudentDocumentUncheckedCreateNestedManyWithoutDocumentConfigItemInput
+  admissionDocuments?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutDocumentConfigItemInput
 }
 
 export type DocumentConfigItemCreateOrConnectWithoutDocumentConfigInput = {
@@ -486,81 +564,40 @@ export type DocumentConfigItemScalarWhereInput = {
   id?: Prisma.IntFilter<"DocumentConfigItem"> | number
   documentConfigId?: Prisma.IntFilter<"DocumentConfigItem"> | number
   name?: Prisma.StringFilter<"DocumentConfigItem"> | string
+  code?: Prisma.StringNullableFilter<"DocumentConfigItem"> | string | null
   required?: Prisma.BoolNullableFilter<"DocumentConfigItem"> | boolean | null
   sortOrder?: Prisma.IntNullableFilter<"DocumentConfigItem"> | number | null
-}
-
-export type DocumentConfigItemCreateWithoutStudentDocumentsInput = {
-  name: string
-  required?: boolean | null
-  sortOrder?: number | null
-  documentConfig: Prisma.DocumentConfigCreateNestedOneWithoutItemsInput
-}
-
-export type DocumentConfigItemUncheckedCreateWithoutStudentDocumentsInput = {
-  id?: number
-  documentConfigId: number
-  name: string
-  required?: boolean | null
-  sortOrder?: number | null
-}
-
-export type DocumentConfigItemCreateOrConnectWithoutStudentDocumentsInput = {
-  where: Prisma.DocumentConfigItemWhereUniqueInput
-  create: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutStudentDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutStudentDocumentsInput>
-}
-
-export type DocumentConfigItemUpsertWithoutStudentDocumentsInput = {
-  update: Prisma.XOR<Prisma.DocumentConfigItemUpdateWithoutStudentDocumentsInput, Prisma.DocumentConfigItemUncheckedUpdateWithoutStudentDocumentsInput>
-  create: Prisma.XOR<Prisma.DocumentConfigItemCreateWithoutStudentDocumentsInput, Prisma.DocumentConfigItemUncheckedCreateWithoutStudentDocumentsInput>
-  where?: Prisma.DocumentConfigItemWhereInput
-}
-
-export type DocumentConfigItemUpdateToOneWithWhereWithoutStudentDocumentsInput = {
-  where?: Prisma.DocumentConfigItemWhereInput
-  data: Prisma.XOR<Prisma.DocumentConfigItemUpdateWithoutStudentDocumentsInput, Prisma.DocumentConfigItemUncheckedUpdateWithoutStudentDocumentsInput>
-}
-
-export type DocumentConfigItemUpdateWithoutStudentDocumentsInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  documentConfig?: Prisma.DocumentConfigUpdateOneRequiredWithoutItemsNestedInput
-}
-
-export type DocumentConfigItemUncheckedUpdateWithoutStudentDocumentsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  documentConfigId?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type DocumentConfigItemCreateManyDocumentConfigInput = {
   id?: number
   name: string
+  code?: string | null
   required?: boolean | null
   sortOrder?: number | null
 }
 
 export type DocumentConfigItemUpdateWithoutDocumentConfigInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  studentDocuments?: Prisma.StudentDocumentUpdateManyWithoutDocumentConfigItemNestedInput
+  admissionDocuments?: Prisma.AdmissionDocumentUpdateManyWithoutDocumentConfigItemNestedInput
 }
 
 export type DocumentConfigItemUncheckedUpdateWithoutDocumentConfigInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  studentDocuments?: Prisma.StudentDocumentUncheckedUpdateManyWithoutDocumentConfigItemNestedInput
+  admissionDocuments?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutDocumentConfigItemNestedInput
 }
 
 export type DocumentConfigItemUncheckedUpdateManyWithoutDocumentConfigInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   required?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   sortOrder?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
@@ -571,11 +608,11 @@ export type DocumentConfigItemUncheckedUpdateManyWithoutDocumentConfigInput = {
  */
 
 export type DocumentConfigItemCountOutputType = {
-  studentDocuments: number
+  admissionDocuments: number
 }
 
 export type DocumentConfigItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  studentDocuments?: boolean | DocumentConfigItemCountOutputTypeCountStudentDocumentsArgs
+  admissionDocuments?: boolean | DocumentConfigItemCountOutputTypeCountAdmissionDocumentsArgs
 }
 
 /**
@@ -591,8 +628,8 @@ export type DocumentConfigItemCountOutputTypeDefaultArgs<ExtArgs extends runtime
 /**
  * DocumentConfigItemCountOutputType without action
  */
-export type DocumentConfigItemCountOutputTypeCountStudentDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StudentDocumentWhereInput
+export type DocumentConfigItemCountOutputTypeCountAdmissionDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AdmissionDocumentWhereInput
 }
 
 
@@ -600,10 +637,11 @@ export type DocumentConfigItemSelect<ExtArgs extends runtime.Types.Extensions.In
   id?: boolean
   documentConfigId?: boolean
   name?: boolean
+  code?: boolean
   required?: boolean
   sortOrder?: boolean
   documentConfig?: boolean | Prisma.DocumentConfigDefaultArgs<ExtArgs>
-  studentDocuments?: boolean | Prisma.DocumentConfigItem$studentDocumentsArgs<ExtArgs>
+  admissionDocuments?: boolean | Prisma.DocumentConfigItem$admissionDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentConfigItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentConfigItem"]>
 
@@ -611,6 +649,7 @@ export type DocumentConfigItemSelectCreateManyAndReturn<ExtArgs extends runtime.
   id?: boolean
   documentConfigId?: boolean
   name?: boolean
+  code?: boolean
   required?: boolean
   sortOrder?: boolean
   documentConfig?: boolean | Prisma.DocumentConfigDefaultArgs<ExtArgs>
@@ -620,6 +659,7 @@ export type DocumentConfigItemSelectUpdateManyAndReturn<ExtArgs extends runtime.
   id?: boolean
   documentConfigId?: boolean
   name?: boolean
+  code?: boolean
   required?: boolean
   sortOrder?: boolean
   documentConfig?: boolean | Prisma.DocumentConfigDefaultArgs<ExtArgs>
@@ -629,14 +669,15 @@ export type DocumentConfigItemSelectScalar = {
   id?: boolean
   documentConfigId?: boolean
   name?: boolean
+  code?: boolean
   required?: boolean
   sortOrder?: boolean
 }
 
-export type DocumentConfigItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentConfigId" | "name" | "required" | "sortOrder", ExtArgs["result"]["documentConfigItem"]>
+export type DocumentConfigItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentConfigId" | "name" | "code" | "required" | "sortOrder", ExtArgs["result"]["documentConfigItem"]>
 export type DocumentConfigItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   documentConfig?: boolean | Prisma.DocumentConfigDefaultArgs<ExtArgs>
-  studentDocuments?: boolean | Prisma.DocumentConfigItem$studentDocumentsArgs<ExtArgs>
+  admissionDocuments?: boolean | Prisma.DocumentConfigItem$admissionDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentConfigItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentConfigItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -650,12 +691,13 @@ export type $DocumentConfigItemPayload<ExtArgs extends runtime.Types.Extensions.
   name: "DocumentConfigItem"
   objects: {
     documentConfig: Prisma.$DocumentConfigPayload<ExtArgs>
-    studentDocuments: Prisma.$StudentDocumentPayload<ExtArgs>[]
+    admissionDocuments: Prisma.$AdmissionDocumentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     documentConfigId: number
     name: string
+    code: string | null
     required: boolean | null
     sortOrder: number | null
   }, ExtArgs["result"]["documentConfigItem"]>
@@ -1053,7 +1095,7 @@ readonly fields: DocumentConfigItemFieldRefs;
 export interface Prisma__DocumentConfigItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   documentConfig<T extends Prisma.DocumentConfigDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentConfigDefaultArgs<ExtArgs>>): Prisma.Prisma__DocumentConfigClient<runtime.Types.Result.GetResult<Prisma.$DocumentConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  studentDocuments<T extends Prisma.DocumentConfigItem$studentDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentConfigItem$studentDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admissionDocuments<T extends Prisma.DocumentConfigItem$admissionDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentConfigItem$admissionDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1086,6 +1128,7 @@ export interface DocumentConfigItemFieldRefs {
   readonly id: Prisma.FieldRef<"DocumentConfigItem", 'Int'>
   readonly documentConfigId: Prisma.FieldRef<"DocumentConfigItem", 'Int'>
   readonly name: Prisma.FieldRef<"DocumentConfigItem", 'String'>
+  readonly code: Prisma.FieldRef<"DocumentConfigItem", 'String'>
   readonly required: Prisma.FieldRef<"DocumentConfigItem", 'Boolean'>
   readonly sortOrder: Prisma.FieldRef<"DocumentConfigItem", 'Int'>
 }
@@ -1489,27 +1532,27 @@ export type DocumentConfigItemDeleteManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
- * DocumentConfigItem.studentDocuments
+ * DocumentConfigItem.admissionDocuments
  */
-export type DocumentConfigItem$studentDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type DocumentConfigItem$admissionDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the StudentDocument
+   * Select specific fields to fetch from the AdmissionDocument
    */
-  select?: Prisma.StudentDocumentSelect<ExtArgs> | null
+  select?: Prisma.AdmissionDocumentSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the StudentDocument
+   * Omit specific fields from the AdmissionDocument
    */
-  omit?: Prisma.StudentDocumentOmit<ExtArgs> | null
+  omit?: Prisma.AdmissionDocumentOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.StudentDocumentInclude<ExtArgs> | null
-  where?: Prisma.StudentDocumentWhereInput
-  orderBy?: Prisma.StudentDocumentOrderByWithRelationInput | Prisma.StudentDocumentOrderByWithRelationInput[]
-  cursor?: Prisma.StudentDocumentWhereUniqueInput
+  include?: Prisma.AdmissionDocumentInclude<ExtArgs> | null
+  where?: Prisma.AdmissionDocumentWhereInput
+  orderBy?: Prisma.AdmissionDocumentOrderByWithRelationInput | Prisma.AdmissionDocumentOrderByWithRelationInput[]
+  cursor?: Prisma.AdmissionDocumentWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.StudentDocumentScalarFieldEnum | Prisma.StudentDocumentScalarFieldEnum[]
+  distinct?: Prisma.AdmissionDocumentScalarFieldEnum | Prisma.AdmissionDocumentScalarFieldEnum[]
 }
 
 /**

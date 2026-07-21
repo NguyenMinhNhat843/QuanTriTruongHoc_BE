@@ -35,6 +35,127 @@ export const ShiftType = {
 export type ShiftType = (typeof ShiftType)[keyof typeof ShiftType]
 
 
+export const CampaignStatus = {
+  PLANNING: 'PLANNING',
+  OPEN: 'OPEN',
+  CLOSED: 'CLOSED',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type CampaignStatus = (typeof CampaignStatus)[keyof typeof CampaignStatus]
+
+
+export const ApplicationStatus = {
+  REGISTERED: 'REGISTERED',
+  SUBMITTED: 'SUBMITTED',
+  APPROVED: 'APPROVED',
+  CONFIRMED: 'CONFIRMED',
+  REJECTED: 'REJECTED',
+  ENROLLED: 'ENROLLED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type ApplicationStatus = (typeof ApplicationStatus)[keyof typeof ApplicationStatus]
+
+
+export const Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHER: 'OTHER'
+} as const
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
+
+
+export const Conduct = {
+  TOT: 'TOT',
+  KHA: 'KHA',
+  TB: 'TB',
+  YEU: 'YEU'
+} as const
+
+export type Conduct = (typeof Conduct)[keyof typeof Conduct]
+
+
+export const PriorityRegion = {
+  KV1: 'KV1',
+  KV2_NT: 'KV2_NT',
+  KV2: 'KV2',
+  KV3: 'KV3'
+} as const
+
+export type PriorityRegion = (typeof PriorityRegion)[keyof typeof PriorityRegion]
+
+
+export const PriorityObject = {
+  NONE: 'NONE',
+  CON_THUONG_BINH_LIET_SI: 'CON_THUONG_BINH_LIET_SI',
+  DAN_TOC_THIEU_SO: 'DAN_TOC_THIEU_SO',
+  HO_NGHEO: 'HO_NGHEO',
+  KHUYET_TAT: 'KHUYET_TAT',
+  KHAC: 'KHAC'
+} as const
+
+export type PriorityObject = (typeof PriorityObject)[keyof typeof PriorityObject]
+
+
+export const AdmissionType = {
+  ACADEMIC_TRANSCRIPT: 'ACADEMIC_TRANSCRIPT',
+  EXAM_SCORE: 'EXAM_SCORE',
+  DIRECT: 'DIRECT'
+} as const
+
+export type AdmissionType = (typeof AdmissionType)[keyof typeof AdmissionType]
+
+
+export const EducationLevel = {
+  THCS: 'THCS',
+  THPT: 'THPT'
+} as const
+
+export type EducationLevel = (typeof EducationLevel)[keyof typeof EducationLevel]
+
+
+export const TrainingType = {
+  DUAL_PROGRAM_9PLUS: 'DUAL_PROGRAM_9PLUS',
+  VOCATIONAL_INTERMEDIATE: 'VOCATIONAL_INTERMEDIATE',
+  VOCATIONAL_ELEMENTARY: 'VOCATIONAL_ELEMENTARY',
+  CONTINUING_EDUCATION: 'CONTINUING_EDUCATION'
+} as const
+
+export type TrainingType = (typeof TrainingType)[keyof typeof TrainingType]
+
+
+export const DocumentStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus]
+
+
+export const DirectAdmissionReason = {
+  HSG_QUOC_GIA: 'HSG_QUOC_GIA',
+  HSG_CAP_TINH: 'HSG_CAP_TINH',
+  CHUNG_CHI_NGHE: 'CHUNG_CHI_NGHE',
+  CON_DIEN_CHINH_SACH: 'CON_DIEN_CHINH_SACH',
+  KHAC: 'KHAC'
+} as const
+
+export type DirectAdmissionReason = (typeof DirectAdmissionReason)[keyof typeof DirectAdmissionReason]
+
+
+export const StudentStatus = {
+  studying: 'studying',
+  suspended: 'suspended',
+  dropped: 'dropped',
+  graduated: 'graduated'
+} as const
+
+export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]
+
+
 export const AssessmentStatus = {
   NOT_SUBMITTED: 'NOT_SUBMITTED',
   PENDING: 'PENDING',
@@ -53,29 +174,6 @@ export const EvaluationGrade = {
 } as const
 
 export type EvaluationGrade = (typeof EvaluationGrade)[keyof typeof EvaluationGrade]
-
-
-export const StudentStatus = {
-  registered: 'registered',
-  pending: 'pending',
-  failed: 'failed',
-  approved: 'approved',
-  studying: 'studying',
-  dropped: 'dropped',
-  graduated: 'graduated'
-} as const
-
-export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]
-
-
-export const Conduct = {
-  TOT: 'TOT',
-  KHA: 'KHA',
-  TB: 'TB',
-  YEU: 'YEU'
-} as const
-
-export type Conduct = (typeof Conduct)[keyof typeof Conduct]
 
 
 export const EmployeeRole = {

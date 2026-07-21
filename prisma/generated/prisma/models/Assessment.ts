@@ -512,6 +512,48 @@ export type AssessmentScalarRelationFilter = {
   isNot?: Prisma.AssessmentWhereInput
 }
 
+export type AssessmentCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+}
+
+export type AssessmentUncheckedCreateNestedManyWithoutStudentInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
+  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+}
+
+export type AssessmentUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
+  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput | Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput[]
+  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+}
+
+export type AssessmentUncheckedUpdateManyWithoutStudentNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
+  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput[]
+  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
+  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput[]
+  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput | Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput[]
+  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+}
+
 export type AssessmentCreateNestedManyWithoutPeriodInput = {
   create?: Prisma.XOR<Prisma.AssessmentCreateWithoutPeriodInput, Prisma.AssessmentUncheckedCreateWithoutPeriodInput> | Prisma.AssessmentCreateWithoutPeriodInput[] | Prisma.AssessmentUncheckedCreateWithoutPeriodInput[]
   connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutPeriodInput | Prisma.AssessmentCreateOrConnectWithoutPeriodInput[]
@@ -576,46 +618,71 @@ export type AssessmentUpdateOneRequiredWithoutDetailsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AssessmentUpdateToOneWithWhereWithoutDetailsInput, Prisma.AssessmentUpdateWithoutDetailsInput>, Prisma.AssessmentUncheckedUpdateWithoutDetailsInput>
 }
 
-export type AssessmentCreateNestedManyWithoutStudentInput = {
-  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
-  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
-  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+export type AssessmentCreateWithoutStudentInput = {
+  status?: $Enums.AssessmentStatus
+  totalStudentScore?: number
+  totalTeacherScore?: number
+  finalGrade?: $Enums.EvaluationGrade | null
+  teacherComment?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  period: Prisma.EvaluationPeriodCreateNestedOneWithoutAssessmentsInput
+  details?: Prisma.AssessmentDetailCreateNestedManyWithoutAssessmentInput
 }
 
-export type AssessmentUncheckedCreateNestedManyWithoutStudentInput = {
-  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
-  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
-  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+export type AssessmentUncheckedCreateWithoutStudentInput = {
+  id?: number
+  periodId: number
+  status?: $Enums.AssessmentStatus
+  totalStudentScore?: number
+  totalTeacherScore?: number
+  finalGrade?: $Enums.EvaluationGrade | null
+  teacherComment?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  details?: Prisma.AssessmentDetailUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
-export type AssessmentUpdateManyWithoutStudentNestedInput = {
-  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
-  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput[]
-  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
-  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput[]
-  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput | Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput[]
-  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+export type AssessmentCreateOrConnectWithoutStudentInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput>
 }
 
-export type AssessmentUncheckedUpdateManyWithoutStudentNestedInput = {
-  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput> | Prisma.AssessmentCreateWithoutStudentInput[] | Prisma.AssessmentUncheckedCreateWithoutStudentInput[]
-  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutStudentInput | Prisma.AssessmentCreateOrConnectWithoutStudentInput[]
-  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutStudentInput[]
-  createMany?: Prisma.AssessmentCreateManyStudentInputEnvelope
-  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
-  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutStudentInput[]
-  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput | Prisma.AssessmentUpdateManyWithWhereWithoutStudentInput[]
-  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+export type AssessmentCreateManyStudentInputEnvelope = {
+  data: Prisma.AssessmentCreateManyStudentInput | Prisma.AssessmentCreateManyStudentInput[]
+  skipDuplicates?: boolean
+}
+
+export type AssessmentUpsertWithWhereUniqueWithoutStudentInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AssessmentUpdateWithoutStudentInput, Prisma.AssessmentUncheckedUpdateWithoutStudentInput>
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput>
+}
+
+export type AssessmentUpdateWithWhereUniqueWithoutStudentInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateWithoutStudentInput, Prisma.AssessmentUncheckedUpdateWithoutStudentInput>
+}
+
+export type AssessmentUpdateManyWithWhereWithoutStudentInput = {
+  where: Prisma.AssessmentScalarWhereInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateManyMutationInput, Prisma.AssessmentUncheckedUpdateManyWithoutStudentInput>
+}
+
+export type AssessmentScalarWhereInput = {
+  AND?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+  OR?: Prisma.AssessmentScalarWhereInput[]
+  NOT?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+  id?: Prisma.IntFilter<"Assessment"> | number
+  studentId?: Prisma.IntFilter<"Assessment"> | number
+  periodId?: Prisma.IntFilter<"Assessment"> | number
+  status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
+  totalStudentScore?: Prisma.IntFilter<"Assessment"> | number
+  totalTeacherScore?: Prisma.IntFilter<"Assessment"> | number
+  finalGrade?: Prisma.EnumEvaluationGradeNullableFilter<"Assessment"> | $Enums.EvaluationGrade | null
+  teacherComment?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
 }
 
 export type AssessmentCreateWithoutPeriodInput = {
@@ -667,22 +734,6 @@ export type AssessmentUpdateWithWhereUniqueWithoutPeriodInput = {
 export type AssessmentUpdateManyWithWhereWithoutPeriodInput = {
   where: Prisma.AssessmentScalarWhereInput
   data: Prisma.XOR<Prisma.AssessmentUpdateManyMutationInput, Prisma.AssessmentUncheckedUpdateManyWithoutPeriodInput>
-}
-
-export type AssessmentScalarWhereInput = {
-  AND?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
-  OR?: Prisma.AssessmentScalarWhereInput[]
-  NOT?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
-  id?: Prisma.IntFilter<"Assessment"> | number
-  studentId?: Prisma.IntFilter<"Assessment"> | number
-  periodId?: Prisma.IntFilter<"Assessment"> | number
-  status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
-  totalStudentScore?: Prisma.IntFilter<"Assessment"> | number
-  totalTeacherScore?: Prisma.IntFilter<"Assessment"> | number
-  finalGrade?: Prisma.EnumEvaluationGradeNullableFilter<"Assessment"> | $Enums.EvaluationGrade | null
-  teacherComment?: Prisma.StringNullableFilter<"Assessment"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
 }
 
 export type AssessmentCreateWithoutDetailsInput = {
@@ -751,19 +802,7 @@ export type AssessmentUncheckedUpdateWithoutDetailsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type AssessmentCreateWithoutStudentInput = {
-  status?: $Enums.AssessmentStatus
-  totalStudentScore?: number
-  totalTeacherScore?: number
-  finalGrade?: $Enums.EvaluationGrade | null
-  teacherComment?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  period: Prisma.EvaluationPeriodCreateNestedOneWithoutAssessmentsInput
-  details?: Prisma.AssessmentDetailCreateNestedManyWithoutAssessmentInput
-}
-
-export type AssessmentUncheckedCreateWithoutStudentInput = {
+export type AssessmentCreateManyStudentInput = {
   id?: number
   periodId: number
   status?: $Enums.AssessmentStatus
@@ -773,33 +812,43 @@ export type AssessmentUncheckedCreateWithoutStudentInput = {
   teacherComment?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  details?: Prisma.AssessmentDetailUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
-export type AssessmentCreateOrConnectWithoutStudentInput = {
-  where: Prisma.AssessmentWhereUniqueInput
-  create: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput>
+export type AssessmentUpdateWithoutStudentInput = {
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  totalStudentScore?: Prisma.IntFieldUpdateOperationsInput | number
+  totalTeacherScore?: Prisma.IntFieldUpdateOperationsInput | number
+  finalGrade?: Prisma.NullableEnumEvaluationGradeFieldUpdateOperationsInput | $Enums.EvaluationGrade | null
+  teacherComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  period?: Prisma.EvaluationPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
+  details?: Prisma.AssessmentDetailUpdateManyWithoutAssessmentNestedInput
 }
 
-export type AssessmentCreateManyStudentInputEnvelope = {
-  data: Prisma.AssessmentCreateManyStudentInput | Prisma.AssessmentCreateManyStudentInput[]
-  skipDuplicates?: boolean
+export type AssessmentUncheckedUpdateWithoutStudentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  periodId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  totalStudentScore?: Prisma.IntFieldUpdateOperationsInput | number
+  totalTeacherScore?: Prisma.IntFieldUpdateOperationsInput | number
+  finalGrade?: Prisma.NullableEnumEvaluationGradeFieldUpdateOperationsInput | $Enums.EvaluationGrade | null
+  teacherComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  details?: Prisma.AssessmentDetailUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
-export type AssessmentUpsertWithWhereUniqueWithoutStudentInput = {
-  where: Prisma.AssessmentWhereUniqueInput
-  update: Prisma.XOR<Prisma.AssessmentUpdateWithoutStudentInput, Prisma.AssessmentUncheckedUpdateWithoutStudentInput>
-  create: Prisma.XOR<Prisma.AssessmentCreateWithoutStudentInput, Prisma.AssessmentUncheckedCreateWithoutStudentInput>
-}
-
-export type AssessmentUpdateWithWhereUniqueWithoutStudentInput = {
-  where: Prisma.AssessmentWhereUniqueInput
-  data: Prisma.XOR<Prisma.AssessmentUpdateWithoutStudentInput, Prisma.AssessmentUncheckedUpdateWithoutStudentInput>
-}
-
-export type AssessmentUpdateManyWithWhereWithoutStudentInput = {
-  where: Prisma.AssessmentScalarWhereInput
-  data: Prisma.XOR<Prisma.AssessmentUpdateManyMutationInput, Prisma.AssessmentUncheckedUpdateManyWithoutStudentInput>
+export type AssessmentUncheckedUpdateManyWithoutStudentInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  periodId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  totalStudentScore?: Prisma.IntFieldUpdateOperationsInput | number
+  totalTeacherScore?: Prisma.IntFieldUpdateOperationsInput | number
+  finalGrade?: Prisma.NullableEnumEvaluationGradeFieldUpdateOperationsInput | $Enums.EvaluationGrade | null
+  teacherComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AssessmentCreateManyPeriodInput = {
@@ -842,55 +891,6 @@ export type AssessmentUncheckedUpdateWithoutPeriodInput = {
 export type AssessmentUncheckedUpdateManyWithoutPeriodInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
-  totalStudentScore?: Prisma.IntFieldUpdateOperationsInput | number
-  totalTeacherScore?: Prisma.IntFieldUpdateOperationsInput | number
-  finalGrade?: Prisma.NullableEnumEvaluationGradeFieldUpdateOperationsInput | $Enums.EvaluationGrade | null
-  teacherComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type AssessmentCreateManyStudentInput = {
-  id?: number
-  periodId: number
-  status?: $Enums.AssessmentStatus
-  totalStudentScore?: number
-  totalTeacherScore?: number
-  finalGrade?: $Enums.EvaluationGrade | null
-  teacherComment?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type AssessmentUpdateWithoutStudentInput = {
-  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
-  totalStudentScore?: Prisma.IntFieldUpdateOperationsInput | number
-  totalTeacherScore?: Prisma.IntFieldUpdateOperationsInput | number
-  finalGrade?: Prisma.NullableEnumEvaluationGradeFieldUpdateOperationsInput | $Enums.EvaluationGrade | null
-  teacherComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  period?: Prisma.EvaluationPeriodUpdateOneRequiredWithoutAssessmentsNestedInput
-  details?: Prisma.AssessmentDetailUpdateManyWithoutAssessmentNestedInput
-}
-
-export type AssessmentUncheckedUpdateWithoutStudentInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  periodId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
-  totalStudentScore?: Prisma.IntFieldUpdateOperationsInput | number
-  totalTeacherScore?: Prisma.IntFieldUpdateOperationsInput | number
-  finalGrade?: Prisma.NullableEnumEvaluationGradeFieldUpdateOperationsInput | $Enums.EvaluationGrade | null
-  teacherComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  details?: Prisma.AssessmentDetailUncheckedUpdateManyWithoutAssessmentNestedInput
-}
-
-export type AssessmentUncheckedUpdateManyWithoutStudentInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  periodId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   totalStudentScore?: Prisma.IntFieldUpdateOperationsInput | number
   totalTeacherScore?: Prisma.IntFieldUpdateOperationsInput | number

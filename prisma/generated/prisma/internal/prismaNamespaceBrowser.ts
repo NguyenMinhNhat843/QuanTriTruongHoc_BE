@@ -58,17 +58,21 @@ export const ModelName = {
   Subject: 'Subject',
   Curriculum: 'Curriculum',
   CurriculumSubject: 'CurriculumSubject',
+  AdmissionCampaign: 'AdmissionCampaign',
+  AdmissionCampaignMajor: 'AdmissionCampaignMajor',
+  AdmissionProfile: 'AdmissionProfile',
+  ExamScore: 'ExamScore',
+  AdmissionStatusLog: 'AdmissionStatusLog',
+  AdmissionDocument: 'AdmissionDocument',
+  Student: 'Student',
+  DocumentConfig: 'DocumentConfig',
+  DocumentConfigItem: 'DocumentConfigItem',
   EvaluationPeriod: 'EvaluationPeriod',
   EvaluationPeriodCriterion: 'EvaluationPeriodCriterion',
   Criterion: 'Criterion',
   Assessment: 'Assessment',
   AssessmentDetail: 'AssessmentDetail',
   User: 'User',
-  Student: 'Student',
-  AdmissionProfile: 'AdmissionProfile',
-  DocumentConfig: 'DocumentConfig',
-  DocumentConfigItem: 'DocumentConfigItem',
-  StudentDocument: 'StudentDocument',
   Staff: 'Staff',
   Province: 'Province',
   Ward: 'Ward',
@@ -212,6 +216,178 @@ export const CurriculumSubjectScalarFieldEnum = {
 export type CurriculumSubjectScalarFieldEnum = (typeof CurriculumSubjectScalarFieldEnum)[keyof typeof CurriculumSubjectScalarFieldEnum]
 
 
+export const AdmissionCampaignScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  academicYear: 'academicYear',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  status: 'status',
+  targetQuota: 'targetQuota',
+  description: 'description',
+  batchId: 'batchId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdmissionCampaignScalarFieldEnum = (typeof AdmissionCampaignScalarFieldEnum)[keyof typeof AdmissionCampaignScalarFieldEnum]
+
+
+export const AdmissionCampaignMajorScalarFieldEnum = {
+  id: 'id',
+  admissionCampaignId: 'admissionCampaignId',
+  majorId: 'majorId',
+  quota: 'quota',
+  benchmarkScore: 'benchmarkScore'
+} as const
+
+export type AdmissionCampaignMajorScalarFieldEnum = (typeof AdmissionCampaignMajorScalarFieldEnum)[keyof typeof AdmissionCampaignMajorScalarFieldEnum]
+
+
+export const AdmissionProfileScalarFieldEnum = {
+  id: 'id',
+  applicationCode: 'applicationCode',
+  admissionCampaignId: 'admissionCampaignId',
+  majorId: 'majorId',
+  status: 'status',
+  admissionType: 'admissionType',
+  educationLevel: 'educationLevel',
+  trainingType: 'trainingType',
+  fullName: 'fullName',
+  identityNumber: 'identityNumber',
+  dob: 'dob',
+  gender: 'gender',
+  phone: 'phone',
+  email: 'email',
+  addressDetail: 'addressDetail',
+  provinceCode: 'provinceCode',
+  wardCode: 'wardCode',
+  villageId: 'villageId',
+  fatherName: 'fatherName',
+  fatherPhone: 'fatherPhone',
+  motherName: 'motherName',
+  motherPhone: 'motherPhone',
+  guardianName: 'guardianName',
+  guardianPhone: 'guardianPhone',
+  gpa6: 'gpa6',
+  gpa7: 'gpa7',
+  gpa8: 'gpa8',
+  gpa9: 'gpa9',
+  conduct6: 'conduct6',
+  conduct7: 'conduct7',
+  conduct8: 'conduct8',
+  conduct9: 'conduct9',
+  thcsGradYear: 'thcsGradYear',
+  gpa10: 'gpa10',
+  gpa11: 'gpa11',
+  gpa12: 'gpa12',
+  thptGradYear: 'thptGradYear',
+  totalExamScore: 'totalExamScore',
+  priorityRegion: 'priorityRegion',
+  priorityObject: 'priorityObject',
+  priorityScore: 'priorityScore',
+  isDirectAdmission: 'isDirectAdmission',
+  directReason: 'directReason',
+  scoreCalculated: 'scoreCalculated',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  studentId: 'studentId'
+} as const
+
+export type AdmissionProfileScalarFieldEnum = (typeof AdmissionProfileScalarFieldEnum)[keyof typeof AdmissionProfileScalarFieldEnum]
+
+
+export const ExamScoreScalarFieldEnum = {
+  id: 'id',
+  admissionProfileId: 'admissionProfileId',
+  subjectCode: 'subjectCode',
+  score: 'score'
+} as const
+
+export type ExamScoreScalarFieldEnum = (typeof ExamScoreScalarFieldEnum)[keyof typeof ExamScoreScalarFieldEnum]
+
+
+export const AdmissionStatusLogScalarFieldEnum = {
+  id: 'id',
+  admissionProfileId: 'admissionProfileId',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  byUserId: 'byUserId',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type AdmissionStatusLogScalarFieldEnum = (typeof AdmissionStatusLogScalarFieldEnum)[keyof typeof AdmissionStatusLogScalarFieldEnum]
+
+
+export const AdmissionDocumentScalarFieldEnum = {
+  id: 'id',
+  admissionProfileId: 'admissionProfileId',
+  documentConfigItemId: 'documentConfigItemId',
+  fileUrl: 'fileUrl',
+  fileName: 'fileName',
+  fileSize: 'fileSize',
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  verifiedAt: 'verifiedAt',
+  verifiedByUserId: 'verifiedByUserId',
+  uploadedAt: 'uploadedAt'
+} as const
+
+export type AdmissionDocumentScalarFieldEnum = (typeof AdmissionDocumentScalarFieldEnum)[keyof typeof AdmissionDocumentScalarFieldEnum]
+
+
+export const StudentScalarFieldEnum = {
+  id: 'id',
+  studentCode: 'studentCode',
+  identityNumber: 'identityNumber',
+  userId: 'userId',
+  batchId: 'batchId',
+  majorId: 'majorId',
+  classId: 'classId',
+  educationLevel: 'educationLevel',
+  status: 'status',
+  enrollmentDate: 'enrollmentDate',
+  graduationDate: 'graduationDate',
+  fullName: 'fullName',
+  email: 'email',
+  gender: 'gender',
+  dob: 'dob',
+  phone: 'phone',
+  avatarUrl: 'avatarUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
+
+
+export const DocumentConfigScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  startDate: 'startDate',
+  admissionCampaignId: 'admissionCampaignId',
+  educationLevel: 'educationLevel',
+  trainingType: 'trainingType'
+} as const
+
+export type DocumentConfigScalarFieldEnum = (typeof DocumentConfigScalarFieldEnum)[keyof typeof DocumentConfigScalarFieldEnum]
+
+
+export const DocumentConfigItemScalarFieldEnum = {
+  id: 'id',
+  documentConfigId: 'documentConfigId',
+  name: 'name',
+  code: 'code',
+  required: 'required',
+  sortOrder: 'sortOrder'
+} as const
+
+export type DocumentConfigItemScalarFieldEnum = (typeof DocumentConfigItemScalarFieldEnum)[keyof typeof DocumentConfigItemScalarFieldEnum]
+
+
 export const EvaluationPeriodScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -289,101 +465,6 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-export const StudentScalarFieldEnum = {
-  id: 'id',
-  studentCode: 'studentCode',
-  batchId: 'batchId',
-  majorId: 'majorId',
-  classId: 'classId',
-  enrollmentDate: 'enrollmentDate',
-  graduationDate: 'graduationDate',
-  status: 'status',
-  userId: 'userId',
-  email: 'email',
-  fullName: 'fullName',
-  gender: 'gender',
-  dob: 'dob',
-  phone: 'phone',
-  avatarUrl: 'avatarUrl',
-  provinceCode: 'provinceCode',
-  wardCode: 'wardCode',
-  villageId: 'villageId',
-  addressDetail: 'addressDetail',
-  identityNumber: 'identityNumber',
-  fatherName: 'fatherName',
-  fatherPhone: 'fatherPhone',
-  fatherCCCD: 'fatherCCCD',
-  fatherYearOfBirth: 'fatherYearOfBirth',
-  fatherJob: 'fatherJob',
-  motherName: 'motherName',
-  motherPhone: 'motherPhone',
-  motherCCCD: 'motherCCCD',
-  motherYearOfBirth: 'motherYearOfBirth',
-  motherJob: 'motherJob',
-  guardianName: 'guardianName',
-  guardianRelationship: 'guardianRelationship',
-  guardianPhone: 'guardianPhone',
-  guardianCCCD: 'guardianCCCD',
-  guardianYearOfBirth: 'guardianYearOfBirth',
-  guardianJob: 'guardianJob',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
-
-
-export const AdmissionProfileScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  gpa6: 'gpa6',
-  gpa7: 'gpa7',
-  gpa8: 'gpa8',
-  gpa9: 'gpa9',
-  conduct6: 'conduct6',
-  conduct7: 'conduct7',
-  conduct8: 'conduct8',
-  conduct9: 'conduct9'
-} as const
-
-export type AdmissionProfileScalarFieldEnum = (typeof AdmissionProfileScalarFieldEnum)[keyof typeof AdmissionProfileScalarFieldEnum]
-
-
-export const DocumentConfigScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  startDate: 'startDate'
-} as const
-
-export type DocumentConfigScalarFieldEnum = (typeof DocumentConfigScalarFieldEnum)[keyof typeof DocumentConfigScalarFieldEnum]
-
-
-export const DocumentConfigItemScalarFieldEnum = {
-  id: 'id',
-  documentConfigId: 'documentConfigId',
-  name: 'name',
-  required: 'required',
-  sortOrder: 'sortOrder'
-} as const
-
-export type DocumentConfigItemScalarFieldEnum = (typeof DocumentConfigItemScalarFieldEnum)[keyof typeof DocumentConfigItemScalarFieldEnum]
-
-
-export const StudentDocumentScalarFieldEnum = {
-  id: 'id',
-  studentId: 'studentId',
-  documentConfigItemId: 'documentConfigItemId',
-  fileUrl: 'fileUrl',
-  fileName: 'fileName',
-  fileSize: 'fileSize',
-  uploadedAt: 'uploadedAt'
-} as const
-
-export type StudentDocumentScalarFieldEnum = (typeof StudentDocumentScalarFieldEnum)[keyof typeof StudentDocumentScalarFieldEnum]
 
 
 export const StaffScalarFieldEnum = {

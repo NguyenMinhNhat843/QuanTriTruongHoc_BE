@@ -184,7 +184,7 @@ export type WardWhereInput = {
   provinceCode?: Prisma.StringFilter<"Ward"> | string
   province?: Prisma.XOR<Prisma.ProvinceScalarRelationFilter, Prisma.ProvinceWhereInput>
   villages?: Prisma.VillageListRelationFilter
-  students?: Prisma.StudentListRelationFilter
+  admissionProfiles?: Prisma.AdmissionProfileListRelationFilter
 }
 
 export type WardOrderByWithRelationInput = {
@@ -195,7 +195,7 @@ export type WardOrderByWithRelationInput = {
   provinceCode?: Prisma.SortOrder
   province?: Prisma.ProvinceOrderByWithRelationInput
   villages?: Prisma.VillageOrderByRelationAggregateInput
-  students?: Prisma.StudentOrderByRelationAggregateInput
+  admissionProfiles?: Prisma.AdmissionProfileOrderByRelationAggregateInput
 }
 
 export type WardWhereUniqueInput = Prisma.AtLeast<{
@@ -209,7 +209,7 @@ export type WardWhereUniqueInput = Prisma.AtLeast<{
   provinceCode?: Prisma.StringFilter<"Ward"> | string
   province?: Prisma.XOR<Prisma.ProvinceScalarRelationFilter, Prisma.ProvinceWhereInput>
   villages?: Prisma.VillageListRelationFilter
-  students?: Prisma.StudentListRelationFilter
+  admissionProfiles?: Prisma.AdmissionProfileListRelationFilter
 }, "code">
 
 export type WardOrderByWithAggregationInput = {
@@ -241,7 +241,7 @@ export type WardCreateInput = {
   codeName: string
   province: Prisma.ProvinceCreateNestedOneWithoutWardsInput
   villages?: Prisma.VillageCreateNestedManyWithoutWardInput
-  students?: Prisma.StudentCreateNestedManyWithoutWardInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutWardInput
 }
 
 export type WardUncheckedCreateInput = {
@@ -251,7 +251,7 @@ export type WardUncheckedCreateInput = {
   codeName: string
   provinceCode: string
   villages?: Prisma.VillageUncheckedCreateNestedManyWithoutWardInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutWardInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutWardInput
 }
 
 export type WardUpdateInput = {
@@ -261,7 +261,7 @@ export type WardUpdateInput = {
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   province?: Prisma.ProvinceUpdateOneRequiredWithoutWardsNestedInput
   villages?: Prisma.VillageUpdateManyWithoutWardNestedInput
-  students?: Prisma.StudentUpdateManyWithoutWardNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutWardNestedInput
 }
 
 export type WardUncheckedUpdateInput = {
@@ -271,7 +271,7 @@ export type WardUncheckedUpdateInput = {
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   provinceCode?: Prisma.StringFieldUpdateOperationsInput | string
   villages?: Prisma.VillageUncheckedUpdateManyWithoutWardNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutWardNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutWardNestedInput
 }
 
 export type WardCreateManyInput = {
@@ -341,20 +341,20 @@ export type WardScalarRelationFilter = {
   isNot?: Prisma.WardWhereInput
 }
 
-export type WardCreateNestedOneWithoutStudentsInput = {
-  create?: Prisma.XOR<Prisma.WardCreateWithoutStudentsInput, Prisma.WardUncheckedCreateWithoutStudentsInput>
-  connectOrCreate?: Prisma.WardCreateOrConnectWithoutStudentsInput
+export type WardCreateNestedOneWithoutAdmissionProfilesInput = {
+  create?: Prisma.XOR<Prisma.WardCreateWithoutAdmissionProfilesInput, Prisma.WardUncheckedCreateWithoutAdmissionProfilesInput>
+  connectOrCreate?: Prisma.WardCreateOrConnectWithoutAdmissionProfilesInput
   connect?: Prisma.WardWhereUniqueInput
 }
 
-export type WardUpdateOneWithoutStudentsNestedInput = {
-  create?: Prisma.XOR<Prisma.WardCreateWithoutStudentsInput, Prisma.WardUncheckedCreateWithoutStudentsInput>
-  connectOrCreate?: Prisma.WardCreateOrConnectWithoutStudentsInput
-  upsert?: Prisma.WardUpsertWithoutStudentsInput
+export type WardUpdateOneWithoutAdmissionProfilesNestedInput = {
+  create?: Prisma.XOR<Prisma.WardCreateWithoutAdmissionProfilesInput, Prisma.WardUncheckedCreateWithoutAdmissionProfilesInput>
+  connectOrCreate?: Prisma.WardCreateOrConnectWithoutAdmissionProfilesInput
+  upsert?: Prisma.WardUpsertWithoutAdmissionProfilesInput
   disconnect?: Prisma.WardWhereInput | boolean
   delete?: Prisma.WardWhereInput | boolean
   connect?: Prisma.WardWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.WardUpdateToOneWithWhereWithoutStudentsInput, Prisma.WardUpdateWithoutStudentsInput>, Prisma.WardUncheckedUpdateWithoutStudentsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WardUpdateToOneWithWhereWithoutAdmissionProfilesInput, Prisma.WardUpdateWithoutAdmissionProfilesInput>, Prisma.WardUncheckedUpdateWithoutAdmissionProfilesInput>
 }
 
 export type WardCreateNestedManyWithoutProvinceInput = {
@@ -413,7 +413,7 @@ export type WardUpdateOneRequiredWithoutVillagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WardUpdateToOneWithWhereWithoutVillagesInput, Prisma.WardUpdateWithoutVillagesInput>, Prisma.WardUncheckedUpdateWithoutVillagesInput>
 }
 
-export type WardCreateWithoutStudentsInput = {
+export type WardCreateWithoutAdmissionProfilesInput = {
   code: string
   name: string
   fullName: string
@@ -422,7 +422,7 @@ export type WardCreateWithoutStudentsInput = {
   villages?: Prisma.VillageCreateNestedManyWithoutWardInput
 }
 
-export type WardUncheckedCreateWithoutStudentsInput = {
+export type WardUncheckedCreateWithoutAdmissionProfilesInput = {
   code: string
   name: string
   fullName: string
@@ -431,23 +431,23 @@ export type WardUncheckedCreateWithoutStudentsInput = {
   villages?: Prisma.VillageUncheckedCreateNestedManyWithoutWardInput
 }
 
-export type WardCreateOrConnectWithoutStudentsInput = {
+export type WardCreateOrConnectWithoutAdmissionProfilesInput = {
   where: Prisma.WardWhereUniqueInput
-  create: Prisma.XOR<Prisma.WardCreateWithoutStudentsInput, Prisma.WardUncheckedCreateWithoutStudentsInput>
+  create: Prisma.XOR<Prisma.WardCreateWithoutAdmissionProfilesInput, Prisma.WardUncheckedCreateWithoutAdmissionProfilesInput>
 }
 
-export type WardUpsertWithoutStudentsInput = {
-  update: Prisma.XOR<Prisma.WardUpdateWithoutStudentsInput, Prisma.WardUncheckedUpdateWithoutStudentsInput>
-  create: Prisma.XOR<Prisma.WardCreateWithoutStudentsInput, Prisma.WardUncheckedCreateWithoutStudentsInput>
+export type WardUpsertWithoutAdmissionProfilesInput = {
+  update: Prisma.XOR<Prisma.WardUpdateWithoutAdmissionProfilesInput, Prisma.WardUncheckedUpdateWithoutAdmissionProfilesInput>
+  create: Prisma.XOR<Prisma.WardCreateWithoutAdmissionProfilesInput, Prisma.WardUncheckedCreateWithoutAdmissionProfilesInput>
   where?: Prisma.WardWhereInput
 }
 
-export type WardUpdateToOneWithWhereWithoutStudentsInput = {
+export type WardUpdateToOneWithWhereWithoutAdmissionProfilesInput = {
   where?: Prisma.WardWhereInput
-  data: Prisma.XOR<Prisma.WardUpdateWithoutStudentsInput, Prisma.WardUncheckedUpdateWithoutStudentsInput>
+  data: Prisma.XOR<Prisma.WardUpdateWithoutAdmissionProfilesInput, Prisma.WardUncheckedUpdateWithoutAdmissionProfilesInput>
 }
 
-export type WardUpdateWithoutStudentsInput = {
+export type WardUpdateWithoutAdmissionProfilesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -456,7 +456,7 @@ export type WardUpdateWithoutStudentsInput = {
   villages?: Prisma.VillageUpdateManyWithoutWardNestedInput
 }
 
-export type WardUncheckedUpdateWithoutStudentsInput = {
+export type WardUncheckedUpdateWithoutAdmissionProfilesInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -471,7 +471,7 @@ export type WardCreateWithoutProvinceInput = {
   fullName: string
   codeName: string
   villages?: Prisma.VillageCreateNestedManyWithoutWardInput
-  students?: Prisma.StudentCreateNestedManyWithoutWardInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutWardInput
 }
 
 export type WardUncheckedCreateWithoutProvinceInput = {
@@ -480,7 +480,7 @@ export type WardUncheckedCreateWithoutProvinceInput = {
   fullName: string
   codeName: string
   villages?: Prisma.VillageUncheckedCreateNestedManyWithoutWardInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutWardInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutWardInput
 }
 
 export type WardCreateOrConnectWithoutProvinceInput = {
@@ -526,7 +526,7 @@ export type WardCreateWithoutVillagesInput = {
   fullName: string
   codeName: string
   province: Prisma.ProvinceCreateNestedOneWithoutWardsInput
-  students?: Prisma.StudentCreateNestedManyWithoutWardInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutWardInput
 }
 
 export type WardUncheckedCreateWithoutVillagesInput = {
@@ -535,7 +535,7 @@ export type WardUncheckedCreateWithoutVillagesInput = {
   fullName: string
   codeName: string
   provinceCode: string
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutWardInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutWardInput
 }
 
 export type WardCreateOrConnectWithoutVillagesInput = {
@@ -560,7 +560,7 @@ export type WardUpdateWithoutVillagesInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   province?: Prisma.ProvinceUpdateOneRequiredWithoutWardsNestedInput
-  students?: Prisma.StudentUpdateManyWithoutWardNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutWardNestedInput
 }
 
 export type WardUncheckedUpdateWithoutVillagesInput = {
@@ -569,7 +569,7 @@ export type WardUncheckedUpdateWithoutVillagesInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   provinceCode?: Prisma.StringFieldUpdateOperationsInput | string
-  students?: Prisma.StudentUncheckedUpdateManyWithoutWardNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutWardNestedInput
 }
 
 export type WardCreateManyProvinceInput = {
@@ -585,7 +585,7 @@ export type WardUpdateWithoutProvinceInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   villages?: Prisma.VillageUpdateManyWithoutWardNestedInput
-  students?: Prisma.StudentUpdateManyWithoutWardNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutWardNestedInput
 }
 
 export type WardUncheckedUpdateWithoutProvinceInput = {
@@ -594,7 +594,7 @@ export type WardUncheckedUpdateWithoutProvinceInput = {
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   codeName?: Prisma.StringFieldUpdateOperationsInput | string
   villages?: Prisma.VillageUncheckedUpdateManyWithoutWardNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutWardNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutWardNestedInput
 }
 
 export type WardUncheckedUpdateManyWithoutProvinceInput = {
@@ -611,12 +611,12 @@ export type WardUncheckedUpdateManyWithoutProvinceInput = {
 
 export type WardCountOutputType = {
   villages: number
-  students: number
+  admissionProfiles: number
 }
 
 export type WardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   villages?: boolean | WardCountOutputTypeCountVillagesArgs
-  students?: boolean | WardCountOutputTypeCountStudentsArgs
+  admissionProfiles?: boolean | WardCountOutputTypeCountAdmissionProfilesArgs
 }
 
 /**
@@ -639,8 +639,8 @@ export type WardCountOutputTypeCountVillagesArgs<ExtArgs extends runtime.Types.E
 /**
  * WardCountOutputType without action
  */
-export type WardCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StudentWhereInput
+export type WardCountOutputTypeCountAdmissionProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AdmissionProfileWhereInput
 }
 
 
@@ -652,7 +652,7 @@ export type WardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   provinceCode?: boolean
   province?: boolean | Prisma.ProvinceDefaultArgs<ExtArgs>
   villages?: boolean | Prisma.Ward$villagesArgs<ExtArgs>
-  students?: boolean | Prisma.Ward$studentsArgs<ExtArgs>
+  admissionProfiles?: boolean | Prisma.Ward$admissionProfilesArgs<ExtArgs>
   _count?: boolean | Prisma.WardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ward"]>
 
@@ -686,7 +686,7 @@ export type WardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type WardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   province?: boolean | Prisma.ProvinceDefaultArgs<ExtArgs>
   villages?: boolean | Prisma.Ward$villagesArgs<ExtArgs>
-  students?: boolean | Prisma.Ward$studentsArgs<ExtArgs>
+  admissionProfiles?: boolean | Prisma.Ward$admissionProfilesArgs<ExtArgs>
   _count?: boolean | Prisma.WardCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -701,7 +701,7 @@ export type $WardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     province: Prisma.$ProvincePayload<ExtArgs>
     villages: Prisma.$VillagePayload<ExtArgs>[]
-    students: Prisma.$StudentPayload<ExtArgs>[]
+    admissionProfiles: Prisma.$AdmissionProfilePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     code: string
@@ -1105,7 +1105,7 @@ export interface Prisma__WardClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   province<T extends Prisma.ProvinceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProvinceDefaultArgs<ExtArgs>>): Prisma.Prisma__ProvinceClient<runtime.Types.Result.GetResult<Prisma.$ProvincePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   villages<T extends Prisma.Ward$villagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ward$villagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VillagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  students<T extends Prisma.Ward$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ward$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admissionProfiles<T extends Prisma.Ward$admissionProfilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Ward$admissionProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1565,27 +1565,27 @@ export type Ward$villagesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * Ward.students
+ * Ward.admissionProfiles
  */
-export type Ward$studentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Ward$admissionProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Student
+   * Select specific fields to fetch from the AdmissionProfile
    */
-  select?: Prisma.StudentSelect<ExtArgs> | null
+  select?: Prisma.AdmissionProfileSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Student
+   * Omit specific fields from the AdmissionProfile
    */
-  omit?: Prisma.StudentOmit<ExtArgs> | null
+  omit?: Prisma.AdmissionProfileOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.StudentInclude<ExtArgs> | null
-  where?: Prisma.StudentWhereInput
-  orderBy?: Prisma.StudentOrderByWithRelationInput | Prisma.StudentOrderByWithRelationInput[]
-  cursor?: Prisma.StudentWhereUniqueInput
+  include?: Prisma.AdmissionProfileInclude<ExtArgs> | null
+  where?: Prisma.AdmissionProfileWhereInput
+  orderBy?: Prisma.AdmissionProfileOrderByWithRelationInput | Prisma.AdmissionProfileOrderByWithRelationInput[]
+  cursor?: Prisma.AdmissionProfileWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.StudentScalarFieldEnum | Prisma.StudentScalarFieldEnum[]
+  distinct?: Prisma.AdmissionProfileScalarFieldEnum | Prisma.AdmissionProfileScalarFieldEnum[]
 }
 
 /**

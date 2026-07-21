@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException, BadRequestException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import {
   CreateAdmissionProfileDto,
@@ -73,9 +69,7 @@ export class AdmissionProfileService {
     });
 
     if (!profile) {
-      throw new NotFoundException(
-        `Không tìm thấy hồ sơ tuyển sinh với ID ${id}`,
-      );
+      throw new NotFoundException(`Không tìm thấy hồ sơ tuyển sinh với ID ${id}`);
     }
 
     return profile;

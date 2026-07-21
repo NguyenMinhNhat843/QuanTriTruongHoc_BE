@@ -1,0 +1,360 @@
+// ==========================================
+// TUYỂN SINH — ĐỢT & CHỈ TIÊU
+// ==========================================
+enum CampaignStatus {
+  PLANNING   // Lập kế hoạch (chưa mở)
+  OPEN       // Đang nhận hồ sơ
+  CLOSED     // Đã hết hạn nhận hồ sơ
+  COMPLETED  // Đã hoàn tất công tác tuyển sinh đợt này
+}
+
+model AdmissionCampaign {
+  id            Int            @id @default(autoincrement())
+  code          String         @unique // "D1-2026", "DOT-9PLUS-T6"
+  name          String         // "Tuyển sinh Đợt 1 - Hệ 9+ & CĐ K26"
+  academicYear  String         // "2026-2027"
+
+  startDate     DateTime       @db.Date
+  endDate       DateTime       @db.Date
+  status        CampaignStatus @default(PLANNING)
+
+  targetQuota   Int?
+  description   String?
+
+  batchId       Int?
+  batch         Batch?         @relation(fields: [batchId], references: [id])
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  admissionProfiles AdmissionProfile[]
+  campaignMajors    AdmissionCampaignMajor[]
+  documentConfigs   DocumentConfig[]
+
+  @@map("admission_campaigns")
+}
+
+// Chỉ tiêu + điểm chuẩn riêng cho từng Ngành trong từng Đợt tuyển sinh
+model AdmissionCampaignMajor {
+  id                  Int               @id @default(autoincrement())
+  admissionCampaignId Int
+  majorId             Int
+  quota               Int
+  benchmarkScore      Float?            // Điểm chuẩn trúng tuyển — dùng để hệ thống tự xét khi vượt chỉ tiêu
+
+  admissionCampaign   AdmissionCampaign @relation(fields: [admissionCampaignId], references: [id], onDelete: Cascade)
+  major               Major             @relation(fields: [majorId], references: [id])
+
+  @@unique([admissionCampaignId, majorId])
+  @@map("admission_campaign_majors")
+}
+
+// ==========================================
+// TRẠNG THÁI HỒ SƠ ĐĂNG KÝ
+// ==========================================
+enum ApplicationStatus {
+  REGISTERED // Mới đăng ký online
+  SUBMITTED  // Đã nộp đủ hồ sơ số hóa, chờ duyệt
+  APPROVED   // Đã trúng tuyển (đủ điều kiện), chờ xác nhận nhập học
+  CONFIRMED  // Thí sinh đã xác nhận nhập học / đóng phí giữ chỗ — chờ hoàn tất thủ tục
+  REJECTED   // Rớt / hồ sơ không hợp lệ
+  ENROLLED   // Đã hoàn tất thủ tục nhập học & đã tạo Student + User
+  CANCELLED  // Thí sinh tự hủy đăng ký
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// Hạnh kiểm
+enum Conduct {
+  TOT
+  KHA
+  TB
+  YEU
+}
+
+// Khu vực ưu tiên theo quy chế tuyển sinh (KV1, KV2-NT, KV2, KV3)
+enum PriorityRegion {
+  KV1
+  KV2_NT
+  KV2
+  KV3
+}
+
+// Đối tượng ưu tiên theo quy chế GDNN
+enum PriorityObject {
+  NONE
+  CON_THUONG_BINH_LIET_SI
+  DAN_TOC_THIEU_SO
+  HO_NGHEO
+  KHUYET_TAT
+  KHAC
+}
+
+// ==========================================
+// ADMISSION PROFILE (Hồ sơ đăng ký xét tuyển ban đầu)
+// ==========================================
+model AdmissionProfile {
+  id                  Int               @id @default(autoincrement())
+  applicationCode     String            @unique // "HS2026-0001"
+
+  // --- Đợt tuyển sinh & Ngành đăng ký ---
+  admissionCampaignId Int
+  admissionCampaign   AdmissionCampaign @relation(fields: [admissionCampaignId], references: [id])
+
+  majorId             Int
+  major               Major             @relation(fields: [majorId], references: [id])
+
+  // --- Trạng thái hồ sơ ---
+  status              ApplicationStatus @default(REGISTERED)
+  admissionType       AdmissionType     @default(ACADEMIC_TRANSCRIPT)
+  educationLevel      EducationLevel    @default(THCS)
+  trainingType        TrainingType      @default(VOCATIONAL_INTERMEDIATE)
+
+  // --- Thông tin cá nhân thí sinh ---
+  fullName            String
+  identityNumber      String            // CCCD / Mã định danh
+  dob                 DateTime          @db.Date
+  gender              Gender
+  phone               String
+  email               String?
+  addressDetail       String?
+  provinceCode        String?
+  province            Province?         @relation(fields: [provinceCode], references: [code])
+  wardCode            String?
+  ward                Ward?             @relation(fields: [wardCode], references: [code])
+  villageId           Int?
+  village             Village?          @relation(fields: [villageId], references: [id])
+
+  // --- Thông tin Phụ huynh / Người giám hộ ---
+  fatherName          String?
+  fatherPhone         String?
+  motherName          String?
+  motherPhone         String?
+  guardianName        String?
+  guardianPhone       String?
+
+  // --- Học bạ THCS ---
+  gpa6                Float?
+  gpa7                Float?
+  gpa8                Float?
+  gpa9                Float?
+  conduct6            Conduct?
+  conduct7            Conduct?
+  conduct8            Conduct?
+  conduct9            Conduct?
+  thcsGradYear        Int?
+
+  // --- Học bạ THPT ---
+  gpa10               Float?
+  gpa11               Float?
+  gpa12               Float?
+  thptGradYear        Int?
+
+  // --- Điểm thi: tách bảng con để hỗ trợ tổ hợp môn linh hoạt ---
+  examScores          ExamScore[]
+  totalExamScore      Float?            // Tổng điểm theo tổ hợp đã chọn (tính toán, lưu cache)
+
+  // --- Ưu tiên theo quy chế GDNN ---
+  priorityRegion      PriorityRegion?
+  priorityObject      PriorityObject?   @default(NONE)
+  priorityScore       Float?            @default(0) // Điểm cộng ưu tiên
+
+  // --- Tuyển thẳng ---
+  isDirectAdmission   Boolean           @default(false)
+  directReason        DirectAdmissionReason?
+
+  scoreCalculated     Float?            // Điểm hệ thống tự tính (đã gồm ưu tiên)
+  note                String?
+
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  documents           AdmissionDocument[]
+  statusLogs          AdmissionStatusLog[]
+
+  // --- Liên kết ngược sang Student (chỉ có giá trị khi status = ENROLLED) ---
+  studentId           Int?              @unique
+  student             Student?          @relation(fields: [studentId], references: [id])
+
+  // Chống 1 thí sinh nộp trùng nhiều hồ sơ cùng ngành trong cùng 1 đợt
+  @@unique([admissionCampaignId, majorId, identityNumber])
+  @@map("admission_profiles")
+}
+
+// Điểm thi theo từng môn — hỗ trợ tổ hợp môn linh hoạt (A, A1, D...)
+model ExamScore {
+  id                  Int               @id @default(autoincrement())
+  admissionProfileId  Int
+  subjectCode         String            // MATH, LITERATURE, ENGLISH, PHYSICS, CHEMISTRY, BIOLOGY...
+  score               Float
+
+  admissionProfile    AdmissionProfile  @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([admissionProfileId, subjectCode])
+  @@map("exam_scores")
+}
+
+// Lịch sử duyệt/chuyển trạng thái hồ sơ — audit trail bắt buộc theo quy chế
+model AdmissionStatusLog {
+  id                  Int               @id @default(autoincrement())
+  admissionProfileId  Int
+  fromStatus          ApplicationStatus?
+  toStatus            ApplicationStatus
+  byUserId            Int
+  reason              String?
+  createdAt           DateTime          @default(now())
+
+  admissionProfile    AdmissionProfile  @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
+  byUser              User              @relation(fields: [byUserId], references: [id])
+
+  @@map("admission_status_logs")
+}
+
+// ==========================================
+// TÀI LIỆU ĐÍNH KÈM THEO HỒ SƠ ĐĂNG KÝ
+// ==========================================
+model AdmissionDocument {
+  id                   Int                @id @default(autoincrement())
+  admissionProfileId   Int
+  documentConfigItemId Int
+  fileUrl              String
+  fileName             String
+  fileSize             Int
+
+  status               DocumentStatus     @default(PENDING)
+  rejectionReason      String?
+  verifiedAt           DateTime?
+  verifiedByUserId     Int?
+
+  uploadedAt           DateTime           @default(now())
+
+  admissionProfile     AdmissionProfile   @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
+  documentConfigItem   DocumentConfigItem @relation(fields: [documentConfigItemId], references: [id])
+
+  @@map("admission_documents")
+}
+
+enum AdmissionType {
+  ACADEMIC_TRANSCRIPT // Xét học bạ (THCS hoặc THPT)
+  EXAM_SCORE          // Xét điểm thi (Vào lớp 10 hoặc THPT QG)
+  DIRECT              // Xét tuyển thẳng (Theo quy chế GDNN)
+}
+
+enum EducationLevel {
+  THCS // Tốt nghiệp THCS (đối tượng tuyển sinh hệ 9+)
+  THPT // Tốt nghiệp THPT
+}
+
+// Loại hình / Trình độ đào tạo đăng ký
+enum TrainingType {
+  DUAL_PROGRAM_9PLUS      // Hệ 9+ (Văn hóa THPT + Trung cấp Nghề)
+  VOCATIONAL_INTERMEDIATE // Trung cấp Nghề đơn thuần
+  VOCATIONAL_ELEMENTARY   // Sơ cấp Nghề (dưới 1 năm)
+  CONTINUING_EDUCATION    // Đào tạo thường xuyên / Chuyên đề ngắn hạn
+}
+
+enum DocumentStatus {
+  PENDING   // Mới tải lên
+  APPROVED  // Phòng Đào tạo đã duyệt
+  REJECTED  // Giấy tờ mờ, sai thông tin... cần tải lại
+}
+
+// Chuẩn hóa lý do tuyển thẳng để thống kê được theo quy định
+enum DirectAdmissionReason {
+  HSG_QUOC_GIA        // Giải học sinh giỏi quốc gia
+  HSG_CAP_TINH        // Giải học sinh giỏi cấp tỉnh
+  CHUNG_CHI_NGHE      // Có chứng chỉ nghề phù hợp
+  CON_DIEN_CHINH_SACH // Con diện chính sách theo quy chế GDNN
+  KHAC                // Lý do khác (ghi rõ ở note)
+}
+
+// ==========================================
+// STUDENT (Định danh học sinh chính thức — KHÔNG lặp dữ liệu gia đình/địa chỉ,
+// các thông tin đó lấy qua admissionProfile để tránh trùng & lệch dữ liệu)
+// ==========================================
+enum StudentStatus {
+  studying   // Đang theo học chính thức
+  suspended  // Bảo lưu
+  dropped    // Đã thôi học
+  graduated  // Đã tốt nghiệp
+}
+
+model Student {
+  id                  Int               @id @default(autoincrement())
+  studentCode         String            @unique // "SV2026001"
+  identityNumber      String            @unique // CCCD
+
+  userId              Int               @unique
+  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Thông tin phân luồng & đào tạo
+  batchId             Int?
+  batch               Batch?            @relation(fields: [batchId], references: [id])
+  majorId             Int?
+  major               Major?            @relation(fields: [majorId], references: [id])
+  classId             Int?
+  class               Class?            @relation(fields: [classId], references: [id])
+
+  educationLevel      EducationLevel    @default(THCS)
+  status              StudentStatus     @default(studying)
+  enrollmentDate      DateTime?         @db.Date
+  graduationDate      DateTime?         @db.Date
+
+  // Thông tin cá nhân hiện hành — có thể thay đổi độc lập với hồ sơ tuyển sinh gốc
+  fullName            String
+  email               String?
+  gender              Gender?
+  dob                 DateTime?         @db.Date
+  phone               String?
+  avatarUrl           String?
+
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  // Mối quan hệ
+  // -> Địa chỉ, thông tin cha mẹ: xem qua admissionProfile.province/ward/village/fatherName...
+  admissionProfile    AdmissionProfile?
+  gradeStudents       GradeStudent[]
+  feeInvoices         FeeInvoice[]
+  payments            Payment[]
+  assessments         Assessment[]
+
+  @@map("students")
+}
+
+// ==========================================
+// TÀI LIỆU SỐ HÓA HỒ SƠ NHẬP HỌC
+// ==========================================
+model DocumentConfig {
+  id                  Int                  @id @default(autoincrement())
+  name                String               // "Hồ sơ nhập học Hệ 9+", "Hồ sơ nhập học Cao đẳng"
+  startDate           DateTime             @default(now())
+
+  // Gắn checklist đúng theo đợt tuyển sinh / hệ đào tạo / loại hình
+  admissionCampaignId Int?
+  admissionCampaign   AdmissionCampaign?   @relation(fields: [admissionCampaignId], references: [id])
+  educationLevel      EducationLevel?
+  trainingType        TrainingType?
+
+  items               DocumentConfigItem[]
+
+  @@map("document_configs")
+}
+
+model DocumentConfigItem {
+  id               Int              @id @default(autoincrement())
+  documentConfigId Int
+  name             String           // CCCD mặt trước, CCCD mặt sau, Bằng tốt nghiệp THCS, Học bạ...
+  code             String?          // 'CCCD_FRONT', 'DIPLOMA_THCS'...
+  required         Boolean?         @default(true)
+  sortOrder        Int?
+
+  documentConfig     DocumentConfig    @relation(fields: [documentConfigId], references: [id])
+  admissionDocuments AdmissionDocument[]
+
+  @@map("document_config_items")
+}

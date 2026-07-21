@@ -242,6 +242,8 @@ export type MajorWhereInput = {
   batches?: Prisma.BatchListRelationFilter
   students?: Prisma.StudentListRelationFilter
   tuitionConfigs?: Prisma.TuitionConfigListRelationFilter
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorListRelationFilter
+  admissionProfiles?: Prisma.AdmissionProfileListRelationFilter
 }
 
 export type MajorOrderByWithRelationInput = {
@@ -258,6 +260,8 @@ export type MajorOrderByWithRelationInput = {
   batches?: Prisma.BatchOrderByRelationAggregateInput
   students?: Prisma.StudentOrderByRelationAggregateInput
   tuitionConfigs?: Prisma.TuitionConfigOrderByRelationAggregateInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorOrderByRelationAggregateInput
+  admissionProfiles?: Prisma.AdmissionProfileOrderByRelationAggregateInput
 }
 
 export type MajorWhereUniqueInput = Prisma.AtLeast<{
@@ -277,6 +281,8 @@ export type MajorWhereUniqueInput = Prisma.AtLeast<{
   batches?: Prisma.BatchListRelationFilter
   students?: Prisma.StudentListRelationFilter
   tuitionConfigs?: Prisma.TuitionConfigListRelationFilter
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorListRelationFilter
+  admissionProfiles?: Prisma.AdmissionProfileListRelationFilter
 }, "id" | "majorCode">
 
 export type MajorOrderByWithAggregationInput = {
@@ -319,6 +325,8 @@ export type MajorCreateInput = {
   batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateInput = {
@@ -334,6 +342,8 @@ export type MajorUncheckedCreateInput = {
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUpdateInput = {
@@ -348,6 +358,8 @@ export type MajorUpdateInput = {
   batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateInput = {
@@ -363,6 +375,8 @@ export type MajorUncheckedUpdateInput = {
   batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorCreateManyInput = {
@@ -537,6 +551,34 @@ export type MajorUpdateOneRequiredWithoutCurriculumnNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MajorUpdateToOneWithWhereWithoutCurriculumnInput, Prisma.MajorUpdateWithoutCurriculumnInput>, Prisma.MajorUncheckedUpdateWithoutCurriculumnInput>
 }
 
+export type MajorCreateNestedOneWithoutAdmissionCampaignMajorsInput = {
+  create?: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionCampaignMajorsInput, Prisma.MajorUncheckedCreateWithoutAdmissionCampaignMajorsInput>
+  connectOrCreate?: Prisma.MajorCreateOrConnectWithoutAdmissionCampaignMajorsInput
+  connect?: Prisma.MajorWhereUniqueInput
+}
+
+export type MajorUpdateOneRequiredWithoutAdmissionCampaignMajorsNestedInput = {
+  create?: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionCampaignMajorsInput, Prisma.MajorUncheckedCreateWithoutAdmissionCampaignMajorsInput>
+  connectOrCreate?: Prisma.MajorCreateOrConnectWithoutAdmissionCampaignMajorsInput
+  upsert?: Prisma.MajorUpsertWithoutAdmissionCampaignMajorsInput
+  connect?: Prisma.MajorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MajorUpdateToOneWithWhereWithoutAdmissionCampaignMajorsInput, Prisma.MajorUpdateWithoutAdmissionCampaignMajorsInput>, Prisma.MajorUncheckedUpdateWithoutAdmissionCampaignMajorsInput>
+}
+
+export type MajorCreateNestedOneWithoutAdmissionProfilesInput = {
+  create?: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionProfilesInput, Prisma.MajorUncheckedCreateWithoutAdmissionProfilesInput>
+  connectOrCreate?: Prisma.MajorCreateOrConnectWithoutAdmissionProfilesInput
+  connect?: Prisma.MajorWhereUniqueInput
+}
+
+export type MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput = {
+  create?: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionProfilesInput, Prisma.MajorUncheckedCreateWithoutAdmissionProfilesInput>
+  connectOrCreate?: Prisma.MajorCreateOrConnectWithoutAdmissionProfilesInput
+  upsert?: Prisma.MajorUpsertWithoutAdmissionProfilesInput
+  connect?: Prisma.MajorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MajorUpdateToOneWithWhereWithoutAdmissionProfilesInput, Prisma.MajorUpdateWithoutAdmissionProfilesInput>, Prisma.MajorUncheckedUpdateWithoutAdmissionProfilesInput>
+}
+
 export type MajorCreateNestedOneWithoutStudentsInput = {
   create?: Prisma.XOR<Prisma.MajorCreateWithoutStudentsInput, Prisma.MajorUncheckedCreateWithoutStudentsInput>
   connectOrCreate?: Prisma.MajorCreateOrConnectWithoutStudentsInput
@@ -580,6 +622,8 @@ export type MajorCreateWithoutDepartmentInput = {
   batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateWithoutDepartmentInput = {
@@ -594,6 +638,8 @@ export type MajorUncheckedCreateWithoutDepartmentInput = {
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorCreateOrConnectWithoutDepartmentInput = {
@@ -646,6 +692,8 @@ export type MajorCreateWithoutBatchesInput = {
   curriculumn?: Prisma.CurriculumCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateWithoutBatchesInput = {
@@ -660,6 +708,8 @@ export type MajorUncheckedCreateWithoutBatchesInput = {
   curriculumn?: Prisma.CurriculumUncheckedCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorCreateOrConnectWithoutBatchesInput = {
@@ -689,6 +739,8 @@ export type MajorUpdateWithoutBatchesInput = {
   curriculumn?: Prisma.CurriculumUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateWithoutBatchesInput = {
@@ -703,6 +755,8 @@ export type MajorUncheckedUpdateWithoutBatchesInput = {
   curriculumn?: Prisma.CurriculumUncheckedUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorCreateWithoutClassesInput = {
@@ -716,6 +770,8 @@ export type MajorCreateWithoutClassesInput = {
   batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateWithoutClassesInput = {
@@ -730,6 +786,8 @@ export type MajorUncheckedCreateWithoutClassesInput = {
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorCreateOrConnectWithoutClassesInput = {
@@ -759,6 +817,8 @@ export type MajorUpdateWithoutClassesInput = {
   batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateWithoutClassesInput = {
@@ -773,6 +833,8 @@ export type MajorUncheckedUpdateWithoutClassesInput = {
   batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorCreateWithoutCurriculumnInput = {
@@ -786,6 +848,8 @@ export type MajorCreateWithoutCurriculumnInput = {
   batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateWithoutCurriculumnInput = {
@@ -800,6 +864,8 @@ export type MajorUncheckedCreateWithoutCurriculumnInput = {
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorCreateOrConnectWithoutCurriculumnInput = {
@@ -829,6 +895,8 @@ export type MajorUpdateWithoutCurriculumnInput = {
   batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateWithoutCurriculumnInput = {
@@ -843,6 +911,164 @@ export type MajorUncheckedUpdateWithoutCurriculumnInput = {
   batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
+}
+
+export type MajorCreateWithoutAdmissionCampaignMajorsInput = {
+  majorCode: string
+  majorName: string
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  department: Prisma.DepartmentCreateNestedOneWithoutMajorsInput
+  classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  curriculumn?: Prisma.CurriculumCreateNestedManyWithoutMajorInput
+  batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
+  students?: Prisma.StudentCreateNestedManyWithoutMajorInput
+  tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
+}
+
+export type MajorUncheckedCreateWithoutAdmissionCampaignMajorsInput = {
+  id?: number
+  majorCode: string
+  majorName: string
+  deptId: number
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutMajorInput
+  curriculumn?: Prisma.CurriculumUncheckedCreateNestedManyWithoutMajorInput
+  batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
+  tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
+}
+
+export type MajorCreateOrConnectWithoutAdmissionCampaignMajorsInput = {
+  where: Prisma.MajorWhereUniqueInput
+  create: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionCampaignMajorsInput, Prisma.MajorUncheckedCreateWithoutAdmissionCampaignMajorsInput>
+}
+
+export type MajorUpsertWithoutAdmissionCampaignMajorsInput = {
+  update: Prisma.XOR<Prisma.MajorUpdateWithoutAdmissionCampaignMajorsInput, Prisma.MajorUncheckedUpdateWithoutAdmissionCampaignMajorsInput>
+  create: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionCampaignMajorsInput, Prisma.MajorUncheckedCreateWithoutAdmissionCampaignMajorsInput>
+  where?: Prisma.MajorWhereInput
+}
+
+export type MajorUpdateToOneWithWhereWithoutAdmissionCampaignMajorsInput = {
+  where?: Prisma.MajorWhereInput
+  data: Prisma.XOR<Prisma.MajorUpdateWithoutAdmissionCampaignMajorsInput, Prisma.MajorUncheckedUpdateWithoutAdmissionCampaignMajorsInput>
+}
+
+export type MajorUpdateWithoutAdmissionCampaignMajorsInput = {
+  majorCode?: Prisma.StringFieldUpdateOperationsInput | string
+  majorName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.DepartmentUpdateOneRequiredWithoutMajorsNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  curriculumn?: Prisma.CurriculumUpdateManyWithoutMajorNestedInput
+  batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
+  students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
+  tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
+}
+
+export type MajorUncheckedUpdateWithoutAdmissionCampaignMajorsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  majorCode?: Prisma.StringFieldUpdateOperationsInput | string
+  majorName?: Prisma.StringFieldUpdateOperationsInput | string
+  deptId?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutMajorNestedInput
+  curriculumn?: Prisma.CurriculumUncheckedUpdateManyWithoutMajorNestedInput
+  batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
+  tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
+}
+
+export type MajorCreateWithoutAdmissionProfilesInput = {
+  majorCode: string
+  majorName: string
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  department: Prisma.DepartmentCreateNestedOneWithoutMajorsInput
+  classes?: Prisma.ClassCreateNestedManyWithoutMajorInput
+  curriculumn?: Prisma.CurriculumCreateNestedManyWithoutMajorInput
+  batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
+  students?: Prisma.StudentCreateNestedManyWithoutMajorInput
+  tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+}
+
+export type MajorUncheckedCreateWithoutAdmissionProfilesInput = {
+  id?: number
+  majorCode: string
+  majorName: string
+  deptId: number
+  description?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  classes?: Prisma.ClassUncheckedCreateNestedManyWithoutMajorInput
+  curriculumn?: Prisma.CurriculumUncheckedCreateNestedManyWithoutMajorInput
+  batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
+  tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+}
+
+export type MajorCreateOrConnectWithoutAdmissionProfilesInput = {
+  where: Prisma.MajorWhereUniqueInput
+  create: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionProfilesInput, Prisma.MajorUncheckedCreateWithoutAdmissionProfilesInput>
+}
+
+export type MajorUpsertWithoutAdmissionProfilesInput = {
+  update: Prisma.XOR<Prisma.MajorUpdateWithoutAdmissionProfilesInput, Prisma.MajorUncheckedUpdateWithoutAdmissionProfilesInput>
+  create: Prisma.XOR<Prisma.MajorCreateWithoutAdmissionProfilesInput, Prisma.MajorUncheckedCreateWithoutAdmissionProfilesInput>
+  where?: Prisma.MajorWhereInput
+}
+
+export type MajorUpdateToOneWithWhereWithoutAdmissionProfilesInput = {
+  where?: Prisma.MajorWhereInput
+  data: Prisma.XOR<Prisma.MajorUpdateWithoutAdmissionProfilesInput, Prisma.MajorUncheckedUpdateWithoutAdmissionProfilesInput>
+}
+
+export type MajorUpdateWithoutAdmissionProfilesInput = {
+  majorCode?: Prisma.StringFieldUpdateOperationsInput | string
+  majorName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.DepartmentUpdateOneRequiredWithoutMajorsNestedInput
+  classes?: Prisma.ClassUpdateManyWithoutMajorNestedInput
+  curriculumn?: Prisma.CurriculumUpdateManyWithoutMajorNestedInput
+  batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
+  students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
+  tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+}
+
+export type MajorUncheckedUpdateWithoutAdmissionProfilesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  majorCode?: Prisma.StringFieldUpdateOperationsInput | string
+  majorName?: Prisma.StringFieldUpdateOperationsInput | string
+  deptId?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  classes?: Prisma.ClassUncheckedUpdateManyWithoutMajorNestedInput
+  curriculumn?: Prisma.CurriculumUncheckedUpdateManyWithoutMajorNestedInput
+  batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
+  tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorCreateWithoutStudentsInput = {
@@ -856,6 +1082,8 @@ export type MajorCreateWithoutStudentsInput = {
   curriculumn?: Prisma.CurriculumCreateNestedManyWithoutMajorInput
   batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateWithoutStudentsInput = {
@@ -870,6 +1098,8 @@ export type MajorUncheckedCreateWithoutStudentsInput = {
   curriculumn?: Prisma.CurriculumUncheckedCreateNestedManyWithoutMajorInput
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorCreateOrConnectWithoutStudentsInput = {
@@ -899,6 +1129,8 @@ export type MajorUpdateWithoutStudentsInput = {
   curriculumn?: Prisma.CurriculumUpdateManyWithoutMajorNestedInput
   batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateWithoutStudentsInput = {
@@ -913,6 +1145,8 @@ export type MajorUncheckedUpdateWithoutStudentsInput = {
   curriculumn?: Prisma.CurriculumUncheckedUpdateManyWithoutMajorNestedInput
   batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorCreateWithoutTuitionConfigsInput = {
@@ -926,6 +1160,8 @@ export type MajorCreateWithoutTuitionConfigsInput = {
   curriculumn?: Prisma.CurriculumCreateNestedManyWithoutMajorInput
   batches?: Prisma.BatchCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileCreateNestedManyWithoutMajorInput
 }
 
 export type MajorUncheckedCreateWithoutTuitionConfigsInput = {
@@ -940,6 +1176,8 @@ export type MajorUncheckedCreateWithoutTuitionConfigsInput = {
   curriculumn?: Prisma.CurriculumUncheckedCreateNestedManyWithoutMajorInput
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutMajorInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutMajorInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutMajorInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput
 }
 
 export type MajorCreateOrConnectWithoutTuitionConfigsInput = {
@@ -969,6 +1207,8 @@ export type MajorUpdateWithoutTuitionConfigsInput = {
   curriculumn?: Prisma.CurriculumUpdateManyWithoutMajorNestedInput
   batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateWithoutTuitionConfigsInput = {
@@ -983,6 +1223,8 @@ export type MajorUncheckedUpdateWithoutTuitionConfigsInput = {
   curriculumn?: Prisma.CurriculumUncheckedUpdateManyWithoutMajorNestedInput
   batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorCreateManyDepartmentInput = {
@@ -1005,6 +1247,8 @@ export type MajorUpdateWithoutDepartmentInput = {
   batches?: Prisma.BatchUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateWithoutDepartmentInput = {
@@ -1019,6 +1263,8 @@ export type MajorUncheckedUpdateWithoutDepartmentInput = {
   batches?: Prisma.BatchUncheckedUpdateManyWithoutMajorNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutMajorNestedInput
   tuitionConfigs?: Prisma.TuitionConfigUncheckedUpdateManyWithoutMajorNestedInput
+  admissionCampaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorNestedInput
+  admissionProfiles?: Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput
 }
 
 export type MajorUncheckedUpdateManyWithoutDepartmentInput = {
@@ -1041,6 +1287,8 @@ export type MajorCountOutputType = {
   batches: number
   students: number
   tuitionConfigs: number
+  admissionCampaignMajors: number
+  admissionProfiles: number
 }
 
 export type MajorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1049,6 +1297,8 @@ export type MajorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   batches?: boolean | MajorCountOutputTypeCountBatchesArgs
   students?: boolean | MajorCountOutputTypeCountStudentsArgs
   tuitionConfigs?: boolean | MajorCountOutputTypeCountTuitionConfigsArgs
+  admissionCampaignMajors?: boolean | MajorCountOutputTypeCountAdmissionCampaignMajorsArgs
+  admissionProfiles?: boolean | MajorCountOutputTypeCountAdmissionProfilesArgs
 }
 
 /**
@@ -1096,6 +1346,20 @@ export type MajorCountOutputTypeCountTuitionConfigsArgs<ExtArgs extends runtime.
   where?: Prisma.TuitionConfigWhereInput
 }
 
+/**
+ * MajorCountOutputType without action
+ */
+export type MajorCountOutputTypeCountAdmissionCampaignMajorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AdmissionCampaignMajorWhereInput
+}
+
+/**
+ * MajorCountOutputType without action
+ */
+export type MajorCountOutputTypeCountAdmissionProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AdmissionProfileWhereInput
+}
+
 
 export type MajorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1111,6 +1375,8 @@ export type MajorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   batches?: boolean | Prisma.Major$batchesArgs<ExtArgs>
   students?: boolean | Prisma.Major$studentsArgs<ExtArgs>
   tuitionConfigs?: boolean | Prisma.Major$tuitionConfigsArgs<ExtArgs>
+  admissionCampaignMajors?: boolean | Prisma.Major$admissionCampaignMajorsArgs<ExtArgs>
+  admissionProfiles?: boolean | Prisma.Major$admissionProfilesArgs<ExtArgs>
   _count?: boolean | Prisma.MajorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["major"]>
 
@@ -1154,6 +1420,8 @@ export type MajorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   batches?: boolean | Prisma.Major$batchesArgs<ExtArgs>
   students?: boolean | Prisma.Major$studentsArgs<ExtArgs>
   tuitionConfigs?: boolean | Prisma.Major$tuitionConfigsArgs<ExtArgs>
+  admissionCampaignMajors?: boolean | Prisma.Major$admissionCampaignMajorsArgs<ExtArgs>
+  admissionProfiles?: boolean | Prisma.Major$admissionProfilesArgs<ExtArgs>
   _count?: boolean | Prisma.MajorCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MajorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1172,6 +1440,8 @@ export type $MajorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     batches: Prisma.$BatchPayload<ExtArgs>[]
     students: Prisma.$StudentPayload<ExtArgs>[]
     tuitionConfigs: Prisma.$TuitionConfigPayload<ExtArgs>[]
+    admissionCampaignMajors: Prisma.$AdmissionCampaignMajorPayload<ExtArgs>[]
+    admissionProfiles: Prisma.$AdmissionProfilePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1581,6 +1851,8 @@ export interface Prisma__MajorClient<T, Null = never, ExtArgs extends runtime.Ty
   batches<T extends Prisma.Major$batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   students<T extends Prisma.Major$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tuitionConfigs<T extends Prisma.Major$tuitionConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$tuitionConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TuitionConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admissionCampaignMajors<T extends Prisma.Major$admissionCampaignMajorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$admissionCampaignMajorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionCampaignMajorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  admissionProfiles<T extends Prisma.Major$admissionProfilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Major$admissionProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2135,6 +2407,54 @@ export type Major$tuitionConfigsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.TuitionConfigScalarFieldEnum | Prisma.TuitionConfigScalarFieldEnum[]
+}
+
+/**
+ * Major.admissionCampaignMajors
+ */
+export type Major$admissionCampaignMajorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdmissionCampaignMajor
+   */
+  select?: Prisma.AdmissionCampaignMajorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdmissionCampaignMajor
+   */
+  omit?: Prisma.AdmissionCampaignMajorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdmissionCampaignMajorInclude<ExtArgs> | null
+  where?: Prisma.AdmissionCampaignMajorWhereInput
+  orderBy?: Prisma.AdmissionCampaignMajorOrderByWithRelationInput | Prisma.AdmissionCampaignMajorOrderByWithRelationInput[]
+  cursor?: Prisma.AdmissionCampaignMajorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AdmissionCampaignMajorScalarFieldEnum | Prisma.AdmissionCampaignMajorScalarFieldEnum[]
+}
+
+/**
+ * Major.admissionProfiles
+ */
+export type Major$admissionProfilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdmissionProfile
+   */
+  select?: Prisma.AdmissionProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdmissionProfile
+   */
+  omit?: Prisma.AdmissionProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdmissionProfileInclude<ExtArgs> | null
+  where?: Prisma.AdmissionProfileWhereInput
+  orderBy?: Prisma.AdmissionProfileOrderByWithRelationInput | Prisma.AdmissionProfileOrderByWithRelationInput[]
+  cursor?: Prisma.AdmissionProfileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AdmissionProfileScalarFieldEnum | Prisma.AdmissionProfileScalarFieldEnum[]
 }
 
 /**
