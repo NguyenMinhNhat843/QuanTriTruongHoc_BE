@@ -3,9 +3,11 @@ import {
   CreateAdmissionCampaignDto,
   UpdateAdmissionCampaignDto,
   SearchAdmissionCampaignDto,
+  ResponseAdmissionCampaignDetailDto,
 } from "../dto/admission-campaign.dto"; // Adjust path to your DTO
 import { PrismaService } from "../../prisma/prisma.service";
 import { ApplicationStatus, CampaignStatus } from "../../../prisma/generated/prisma/enums";
+import { plainToInstance } from "class-transformer";
 
 @Injectable()
 export class AdmissionCampaignService {
@@ -162,7 +164,7 @@ export class AdmissionCampaignService {
   /**
    * Lấy danh sách đợt tuyển sinh có phân trang & hỗ trợ lọc theo name, status
    */
-  async findAll(query: SearchAdmissionCampaignDto & { page?: number; limit?: number }) {
+  async findAll(query: SearchAdmissionCampaignDto) {
     const page = Number(query.page) || 1;
     const limit = Number(query.limit) || 10;
     const skip = (page - 1) * limit;
@@ -182,18 +184,11 @@ export class AdmissionCampaignService {
         skip,
         take: limit,
         orderBy: { createdAt: "desc" },
-        include: {
-          campaignMajors: {
-            include: {
-              major: true,
-            },
-          },
-        },
       }),
       this.prisma.admissionCampaign.count({ where }),
     ]);
 
-    return { data, total, page, limit };
+    return { data, total };
   }
 
   /**
@@ -215,7 +210,7 @@ export class AdmissionCampaignService {
       throw new NotFoundException(`AdmissionCampaign with ID ${id} not found`);
     }
 
-    return campaign;
+    return plainToInstance(ResponseAdmissionCampaignDetailDto, campaign);
   }
 
   /**

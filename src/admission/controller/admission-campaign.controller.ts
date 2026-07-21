@@ -6,6 +6,7 @@ import {
   SearchAdmissionCampaignDto,
   AdmissionCampaignDto,
   ResponseAdmissionCampaignPaginationPaginationDto,
+  ResponseAdmissionCampaignDetailDto,
 } from "../dto/admission-campaign.dto";
 import { AdmissionCampaignService } from "../service/admission-campaign.service";
 
@@ -43,7 +44,7 @@ export class AdmissionCampaignController {
 
   @Get(":id")
   @ApiOperation({ summary: "Lấy chi tiết Admission Campaign" })
-  @ApiResponse({ status: 200, type: AdmissionCampaignDto })
+  @ApiResponse({ status: 200, type: ResponseAdmissionCampaignDetailDto })
   @ApiResponse({ status: 404 })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.admissionCampaignService.findOne(id);

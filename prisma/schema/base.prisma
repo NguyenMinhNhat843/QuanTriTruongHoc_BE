@@ -83,3 +83,23 @@ model Village {
   @@index([wardCode]) // Tăng tốc khi lọc Thôn theo Xã
   @@map("villages")
 }
+
+// NĂM HỌC
+enum AcademicYearStatus {
+  PLANNING // Chưa mở, đang chuẩn bị
+  ACTIVE   // Đang áp dụng
+  CLOSED   // Đã khóa sổ
+}
+
+model AcademicYear {
+  id        Int                @id @default(autoincrement())
+  code      String             @unique // "2026-2027"
+  startDate DateTime           @db.Date
+  endDate   DateTime           @db.Date
+  isCurrent Boolean            @default(false)
+  status    AcademicYearStatus @default(PLANNING)
+
+  admissionCampaigns    AdmissionCampaign[]
+
+  @@map("academic_years")
+}

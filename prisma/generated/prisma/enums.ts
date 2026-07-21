@@ -213,6 +213,15 @@ export const AdmissionStatus = {
 export type AdmissionStatus = (typeof AdmissionStatus)[keyof typeof AdmissionStatus]
 
 
+export const AcademicYearStatus = {
+  PLANNING: 'PLANNING',
+  ACTIVE: 'ACTIVE',
+  CLOSED: 'CLOSED'
+} as const
+
+export type AcademicYearStatus = (typeof AcademicYearStatus)[keyof typeof AcademicYearStatus]
+
+
 export const CourseOfferStatus = {
   planned: 'planned',
   open: 'open',

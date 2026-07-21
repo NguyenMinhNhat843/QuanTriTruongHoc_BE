@@ -24,6 +24,7 @@ import { AddressModule } from "./address/address.module.js";
 import { StaffModule } from "./staff/staff.module.js";
 import { ScriptModule } from "./script/script.module.js";
 import { AdmissionModule } from "./admission/admission.module.js";
+import { AcademicYearModule } from "./academic-year/academic-year.module.js";
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { AdmissionModule } from "./admission/admission.module.js";
     AddressModule,
     ScriptModule,
     AdmissionModule,
+    AcademicYearModule,
   ],
 })
 export class AppModule {}

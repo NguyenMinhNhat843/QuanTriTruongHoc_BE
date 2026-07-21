@@ -1,5 +1,6 @@
 import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { AdmissionCampaignMajor } from "../../../prisma/generated/prisma/client";
+import { MajorDto } from "../../major/major.dto";
 
 export class AdmissionCampaignMajorDto implements AdmissionCampaignMajor {
   @ApiProperty()
@@ -36,4 +37,10 @@ export class ResponseAdmissionCampaignMajorPaginationDto {
 
   @ApiProperty({ type: Number })
   total: number;
+}
+
+// RESPONSE DETAIL: Response chi tiết với các mối quan hệ
+export class ResponseAdmissionCampaignMajorDetailDto extends AdmissionCampaignMajorDto {
+  @ApiProperty({ type: MajorDto, nullable: true })
+  major?: MajorDto;
 }

@@ -1,14 +1,16 @@
 import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { AdmissionCampaign, CampaignStatus } from "../../../prisma/generated/prisma/client";
-import { AdmissionCampaignMajorDto } from "./admission-campaign-major.dto";
+import { AdmissionCampaignMajorDto, ResponseAdmissionCampaignMajorDetailDto } from "./admission-campaign-major.dto";
 import { IsInt, IsNotEmpty } from "class-validator";
+import { Type } from "class-transformer";
+import { BatchDto } from "../../batch/batch.dto";
 
 export class AdmissionCampaignDto implements AdmissionCampaign {
   @ApiProperty()
   id: number;
 
-  @ApiProperty({ example: "2024-2025" })
-  academicYear: string;
+  @ApiProperty()
+  academicYearId: number;
 
   @ApiProperty({ type: Number, nullable: true })
   batchId: number | null;
@@ -49,7 +51,15 @@ export class CreateAdmissionCampaignDto extends OmitType(AdmissionCampaignDto, [
 }
 
 export class UpdateAdmissionCampaignDto extends PartialType(CreateAdmissionCampaignDto) {}
-export class SearchAdmissionCampaignDto extends PickType(AdmissionCampaignDto, ["name", "status"]) {}
+export class SearchAdmissionCampaignDto extends PartialType(PickType(AdmissionCampaignDto, ["name", "status"])) {
+  @ApiProperty()
+  @Type(() => Number)
+  page?: number;
+
+  @ApiProperty()
+  @Type(() => Number)
+  limit?: number;
+}
 
 // XÉT DUYỆT HỌC SINH TRONG ĐƯỢT TUYỂN SINH
 export class ApproveCampaignDto {
@@ -66,4 +76,13 @@ export class ResponseAdmissionCampaignPaginationPaginationDto {
 
   @ApiProperty({ type: Number })
   total: number;
+}
+
+// RESPONSE DETAIL: Response chi tiết với các mối quan hệ
+export class ResponseAdmissionCampaignDetailDto extends AdmissionCampaignDto {
+  @ApiProperty({ type: BatchDto, nullable: true })
+  batch?: BatchDto;
+
+  @ApiProperty({ type: [ResponseAdmissionCampaignMajorDetailDto], nullable: true })
+  campaignMajors?: ResponseAdmissionCampaignMajorDetailDto[];
 }

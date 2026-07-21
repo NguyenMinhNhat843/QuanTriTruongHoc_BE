@@ -77,6 +77,7 @@ export const ModelName = {
   Province: 'Province',
   Ward: 'Ward',
   Village: 'Village',
+  AcademicYear: 'AcademicYear',
   GradeStudent: 'GradeStudent',
   TeacherSubject: 'TeacherSubject',
   TuitionPeriod: 'TuitionPeriod',
@@ -219,13 +220,12 @@ export const AdmissionCampaignScalarFieldEnum = {
   id: 'id',
   code: 'code',
   name: 'name',
-  academicYear: 'academicYear',
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
   targetQuota: 'targetQuota',
   description: 'description',
-  batchId: 'batchId',
+  academicYearId: 'academicYearId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -519,6 +519,18 @@ export const VillageScalarFieldEnum = {
 } as const
 
 export type VillageScalarFieldEnum = (typeof VillageScalarFieldEnum)[keyof typeof VillageScalarFieldEnum]
+
+
+export const AcademicYearScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isCurrent: 'isCurrent',
+  status: 'status'
+} as const
+
+export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
 
 
 export const GradeStudentScalarFieldEnum = {

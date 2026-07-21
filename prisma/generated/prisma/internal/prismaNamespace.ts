@@ -410,6 +410,7 @@ export const ModelName = {
   Province: 'Province',
   Ward: 'Ward',
   Village: 'Village',
+  AcademicYear: 'AcademicYear',
   GradeStudent: 'GradeStudent',
   TeacherSubject: 'TeacherSubject',
   TuitionPeriod: 'TuitionPeriod',
@@ -439,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "admissionProfile" | "examScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "province" | "ward" | "village" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "courseOffer" | "classSubjectSession" | "classSubjectScheduleDetail"
+    modelProps: "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "admissionProfile" | "examScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "province" | "ward" | "village" | "academicYear" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "courseOffer" | "classSubjectSession" | "classSubjectScheduleDetail"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2367,6 +2368,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AcademicYear: {
+      payload: Prisma.$AcademicYearPayload<ExtArgs>
+      fields: Prisma.AcademicYearFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AcademicYearFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AcademicYearFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+        }
+        findFirst: {
+          args: Prisma.AcademicYearFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AcademicYearFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+        }
+        findMany: {
+          args: Prisma.AcademicYearFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+        }
+        create: {
+          args: Prisma.AcademicYearCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+        }
+        createMany: {
+          args: Prisma.AcademicYearCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AcademicYearCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+        }
+        delete: {
+          args: Prisma.AcademicYearDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+        }
+        update: {
+          args: Prisma.AcademicYearUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+        }
+        deleteMany: {
+          args: Prisma.AcademicYearDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AcademicYearUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AcademicYearUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+        }
+        upsert: {
+          args: Prisma.AcademicYearUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+        }
+        aggregate: {
+          args: Prisma.AcademicYearAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAcademicYear>
+        }
+        groupBy: {
+          args: Prisma.AcademicYearGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AcademicYearGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AcademicYearCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AcademicYearCountAggregateOutputType> | number
+        }
+      }
+    }
     GradeStudent: {
       payload: Prisma.$GradeStudentPayload<ExtArgs>
       fields: Prisma.GradeStudentFieldRefs
@@ -3552,13 +3627,12 @@ export const AdmissionCampaignScalarFieldEnum = {
   id: 'id',
   code: 'code',
   name: 'name',
-  academicYear: 'academicYear',
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
   targetQuota: 'targetQuota',
   description: 'description',
-  batchId: 'batchId',
+  academicYearId: 'academicYearId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3852,6 +3926,18 @@ export const VillageScalarFieldEnum = {
 } as const
 
 export type VillageScalarFieldEnum = (typeof VillageScalarFieldEnum)[keyof typeof VillageScalarFieldEnum]
+
+
+export const AcademicYearScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isCurrent: 'isCurrent',
+  status: 'status'
+} as const
+
+export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
 
 
 export const GradeStudentScalarFieldEnum = {
@@ -4406,6 +4492,20 @@ export type ListEnumEmployeeRoleFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'AcademicYearStatus'
+ */
+export type EnumAcademicYearStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AcademicYearStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AcademicYearStatus[]'
+ */
+export type ListEnumAcademicYearStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AcademicYearStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'PostType'
  */
 export type EnumPostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostType'>
@@ -4581,6 +4681,7 @@ export type GlobalOmitConfig = {
   province?: Prisma.ProvinceOmit
   ward?: Prisma.WardOmit
   village?: Prisma.VillageOmit
+  academicYear?: Prisma.AcademicYearOmit
   gradeStudent?: Prisma.GradeStudentOmit
   teacherSubject?: Prisma.TeacherSubjectOmit
   tuitionPeriod?: Prisma.TuitionPeriodOmit

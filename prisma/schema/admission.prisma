@@ -12,7 +12,6 @@ model AdmissionCampaign {
   id            Int            @id @default(autoincrement())
   code          String         @unique // "D1-2026", "DOT-9PLUS-T6"
   name          String         // "Tuyển sinh Đợt 1 - Hệ 9+ & CĐ K26"
-  academicYear  String         // "2026-2027"
 
   startDate     DateTime       @db.Date
   endDate       DateTime       @db.Date
@@ -21,8 +20,9 @@ model AdmissionCampaign {
   targetQuota   Int?
   description   String?
 
-  batchId       Int?
-  batch         Batch?         @relation(fields: [batchId], references: [id])
+  academicYearId Int
+  academicYear    AcademicYear   @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+
 
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt

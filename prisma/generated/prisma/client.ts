@@ -170,6 +170,11 @@ export type Ward = Prisma.WardModel
  */
 export type Village = Prisma.VillageModel
 /**
+ * Model AcademicYear
+ * 
+ */
+export type AcademicYear = Prisma.AcademicYearModel
+/**
  * Model GradeStudent
  * 
  */

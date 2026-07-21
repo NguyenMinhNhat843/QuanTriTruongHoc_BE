@@ -81,7 +81,6 @@ model Batch {
   classes     Class[]
   students    Student[]
   tuitionConfigs TuitionConfig[]
-  admissionCampaigns AdmissionCampaign[]
 
   @@map("batches")
 }
