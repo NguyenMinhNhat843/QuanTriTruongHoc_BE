@@ -9,7 +9,7 @@ import {
 } from "../dto/document-config.dto";
 import { DocumentConfigService } from "../service/document-config.service";
 
-@ApiTags("Document Configs")
+@ApiTags("Document Configs: Cấu hình hồ sơ nhập học")
 @Controller("document-configs")
 export class DocumentConfigController {
   constructor(private readonly documentConfigService: DocumentConfigService) {}

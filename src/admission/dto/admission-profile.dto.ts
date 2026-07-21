@@ -185,7 +185,13 @@ export class SearchAdmissionProfileDto extends PartialType(
     "admissionCampaignId",
     "majorId",
   ]),
-) {}
+) {
+  @ApiProperty({ type: Number, required: false, default: 1 })
+  page: number;
+
+  @ApiProperty({ type: Number, required: false, default: 10 })
+  limit: number;
+}
 
 // RESPONSE PAGINATION DTO
 export class ResponseAdmissionProfilePaginationDto {

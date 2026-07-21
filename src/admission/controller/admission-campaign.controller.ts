@@ -9,7 +9,7 @@ import {
 } from "../dto/admission-campaign.dto";
 import { AdmissionCampaignService } from "../service/admission-campaign.service";
 
-@ApiTags("Admission Campaigns")
+@ApiTags("Admission Campaigns: Đợt tuyển sinh")
 @Controller("admission-campaigns")
 export class AdmissionCampaignController {
   constructor(private readonly admissionCampaignService: AdmissionCampaignService) {}
