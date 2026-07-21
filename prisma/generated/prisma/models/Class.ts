@@ -53,7 +53,6 @@ export type ClassMinAggregateOutputType = {
   formTeacherId: number | null
   maxStudents: number | null
   currentSize: number | null
-  status: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -67,7 +66,6 @@ export type ClassMaxAggregateOutputType = {
   formTeacherId: number | null
   maxStudents: number | null
   currentSize: number | null
-  status: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -81,7 +79,6 @@ export type ClassCountAggregateOutputType = {
   formTeacherId: number
   maxStudents: number
   currentSize: number
-  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -115,7 +112,6 @@ export type ClassMinAggregateInputType = {
   formTeacherId?: true
   maxStudents?: true
   currentSize?: true
-  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -129,7 +125,6 @@ export type ClassMaxAggregateInputType = {
   formTeacherId?: true
   maxStudents?: true
   currentSize?: true
-  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -143,7 +138,6 @@ export type ClassCountAggregateInputType = {
   formTeacherId?: true
   maxStudents?: true
   currentSize?: true
-  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -244,7 +238,6 @@ export type ClassGroupByOutputType = {
   formTeacherId: number | null
   maxStudents: number
   currentSize: number
-  status: string
   createdAt: Date
   updatedAt: Date
   _count: ClassCountAggregateOutputType | null
@@ -281,7 +274,6 @@ export type ClassWhereInput = {
   formTeacherId?: Prisma.IntNullableFilter<"Class"> | number | null
   maxStudents?: Prisma.IntFilter<"Class"> | number
   currentSize?: Prisma.IntFilter<"Class"> | number
-  status?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
@@ -299,7 +291,6 @@ export type ClassOrderByWithRelationInput = {
   formTeacherId?: Prisma.SortOrderInput | Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   currentSize?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   major?: Prisma.MajorOrderByWithRelationInput
@@ -320,7 +311,6 @@ export type ClassWhereUniqueInput = Prisma.AtLeast<{
   formTeacherId?: Prisma.IntNullableFilter<"Class"> | number | null
   maxStudents?: Prisma.IntFilter<"Class"> | number
   currentSize?: Prisma.IntFilter<"Class"> | number
-  status?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
@@ -338,7 +328,6 @@ export type ClassOrderByWithAggregationInput = {
   formTeacherId?: Prisma.SortOrderInput | Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   currentSize?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ClassCountOrderByAggregateInput
@@ -360,7 +349,6 @@ export type ClassScalarWhereWithAggregatesInput = {
   formTeacherId?: Prisma.IntNullableWithAggregatesFilter<"Class"> | number | null
   maxStudents?: Prisma.IntWithAggregatesFilter<"Class"> | number
   currentSize?: Prisma.IntWithAggregatesFilter<"Class"> | number
-  status?: Prisma.StringWithAggregatesFilter<"Class"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Class"> | Date | string
 }
@@ -371,7 +359,6 @@ export type ClassCreateInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutClassesInput
@@ -389,7 +376,6 @@ export type ClassUncheckedCreateInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutBaseClassInput
@@ -402,7 +388,6 @@ export type ClassUpdateInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutClassesNestedInput
@@ -420,7 +405,6 @@ export type ClassUncheckedUpdateInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutBaseClassNestedInput
@@ -436,7 +420,6 @@ export type ClassCreateManyInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -447,7 +430,6 @@ export type ClassUpdateManyMutationInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -461,7 +443,6 @@ export type ClassUncheckedUpdateManyInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -485,7 +466,6 @@ export type ClassCountOrderByAggregateInput = {
   formTeacherId?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   currentSize?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -508,7 +488,6 @@ export type ClassMaxOrderByAggregateInput = {
   formTeacherId?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   currentSize?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -522,7 +501,6 @@ export type ClassMinOrderByAggregateInput = {
   formTeacherId?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   currentSize?: Prisma.SortOrder
-  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -663,7 +641,6 @@ export type ClassCreateWithoutMajorInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   batch?: Prisma.BatchCreateNestedOneWithoutClassesInput
@@ -679,7 +656,6 @@ export type ClassUncheckedCreateWithoutMajorInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutBaseClassInput
@@ -724,7 +700,6 @@ export type ClassScalarWhereInput = {
   formTeacherId?: Prisma.IntNullableFilter<"Class"> | number | null
   maxStudents?: Prisma.IntFilter<"Class"> | number
   currentSize?: Prisma.IntFilter<"Class"> | number
-  status?: Prisma.StringFilter<"Class"> | string
   createdAt?: Prisma.DateTimeFilter<"Class"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Class"> | Date | string
 }
@@ -735,7 +710,6 @@ export type ClassCreateWithoutBatchInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutClassesInput
@@ -751,7 +725,6 @@ export type ClassUncheckedCreateWithoutBatchInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutBaseClassInput
@@ -790,7 +763,6 @@ export type ClassCreateWithoutStudentsInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutClassesInput
@@ -807,7 +779,6 @@ export type ClassUncheckedCreateWithoutStudentsInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   courseOffers?: Prisma.CourseOfferUncheckedCreateNestedManyWithoutBaseClassInput
@@ -835,7 +806,6 @@ export type ClassUpdateWithoutStudentsInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutClassesNestedInput
@@ -852,7 +822,6 @@ export type ClassUncheckedUpdateWithoutStudentsInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutBaseClassNestedInput
@@ -864,7 +833,6 @@ export type ClassCreateWithoutCourseOffersInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutClassesInput
@@ -881,7 +849,6 @@ export type ClassUncheckedCreateWithoutCourseOffersInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutClassInput
@@ -909,7 +876,6 @@ export type ClassUpdateWithoutCourseOffersInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutClassesNestedInput
@@ -926,7 +892,6 @@ export type ClassUncheckedUpdateWithoutCourseOffersInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   students?: Prisma.StudentUncheckedUpdateManyWithoutClassNestedInput
@@ -940,7 +905,6 @@ export type ClassCreateManyMajorInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -951,7 +915,6 @@ export type ClassUpdateWithoutMajorInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   batch?: Prisma.BatchUpdateOneWithoutClassesNestedInput
@@ -967,7 +930,6 @@ export type ClassUncheckedUpdateWithoutMajorInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutBaseClassNestedInput
@@ -982,7 +944,6 @@ export type ClassUncheckedUpdateManyWithoutMajorInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -995,7 +956,6 @@ export type ClassCreateManyBatchInput = {
   formTeacherId?: number | null
   maxStudents?: number
   currentSize?: number
-  status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1006,7 +966,6 @@ export type ClassUpdateWithoutBatchInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutClassesNestedInput
@@ -1022,7 +981,6 @@ export type ClassUncheckedUpdateWithoutBatchInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   courseOffers?: Prisma.CourseOfferUncheckedUpdateManyWithoutBaseClassNestedInput
@@ -1037,7 +995,6 @@ export type ClassUncheckedUpdateManyWithoutBatchInput = {
   formTeacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   currentSize?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1091,7 +1048,6 @@ export type ClassSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   formTeacherId?: boolean
   maxStudents?: boolean
   currentSize?: boolean
-  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
@@ -1110,7 +1066,6 @@ export type ClassSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   formTeacherId?: boolean
   maxStudents?: boolean
   currentSize?: boolean
-  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
@@ -1126,7 +1081,6 @@ export type ClassSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   formTeacherId?: boolean
   maxStudents?: boolean
   currentSize?: boolean
-  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
@@ -1142,12 +1096,11 @@ export type ClassSelectScalar = {
   formTeacherId?: boolean
   maxStudents?: boolean
   currentSize?: boolean
-  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classCode" | "className" | "majorId" | "batchId" | "formTeacherId" | "maxStudents" | "currentSize" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
+export type ClassOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classCode" | "className" | "majorId" | "batchId" | "formTeacherId" | "maxStudents" | "currentSize" | "createdAt" | "updatedAt", ExtArgs["result"]["class"]>
 export type ClassInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
   batch?: boolean | Prisma.Class$batchArgs<ExtArgs>
@@ -1181,7 +1134,6 @@ export type $ClassPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     formTeacherId: number | null
     maxStudents: number
     currentSize: number
-    status: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["class"]>
@@ -1619,7 +1571,6 @@ export interface ClassFieldRefs {
   readonly formTeacherId: Prisma.FieldRef<"Class", 'Int'>
   readonly maxStudents: Prisma.FieldRef<"Class", 'Int'>
   readonly currentSize: Prisma.FieldRef<"Class", 'Int'>
-  readonly status: Prisma.FieldRef<"Class", 'String'>
   readonly createdAt: Prisma.FieldRef<"Class", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Class", 'DateTime'>
 }

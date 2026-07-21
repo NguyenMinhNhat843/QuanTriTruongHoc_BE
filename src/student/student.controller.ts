@@ -10,32 +10,19 @@ import {
   Delete,
   UseGuards,
   UnauthorizedException,
+  HttpCode,
+  HttpStatus,
 } from "@nestjs/common";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiOkResponse,
-  ApiResponse,
-  ApiBody,
-  ApiBearerAuth,
-} from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiOkResponse, ApiResponse, ApiBody, ApiBearerAuth } from "@nestjs/swagger";
 import { StudentService } from "./student.service.js";
 import {
-  ApprovedStudentDto,
+  AssignStudentsToClassesDto,
   CreateStudentDto,
+  GetEligibleStudentsDto,
   SearchStudentDto,
   UpdateStudentDto,
 } from "./dto/student.dto.js";
-import {
-  ResponseStudentPaginationDto,
-  StudentResponseDto,
-} from "./dto/student.response.js";
-import {
-  AssignStudentsToClassesDto,
-  GetEligibleStudentsDtoForAssignment,
-  GetEligibleStudentsDtoForAssignmentResponse,
-} from "./dto/get-eligible-students.dto.js";
-import { plainToInstance } from "class-transformer";
+import { ResponseStudentPaginationDto, StudentResponseDto } from "./dto/student.response.js";
 import { JwtAuthGuard } from "../auth/guard/jwt-auth.guard.js";
 import { GetUser } from "../common/decorators/get-user.decorator.js";
 import { RolesGuard } from "../auth/guard/role.guard.js";
@@ -55,11 +42,8 @@ export class StudentController {
     summary: "Tạo mới hồ sơ sinh viên",
     operationId: "createStudent",
   })
-  @ApiOkResponse({ type: StudentResponseDto })
-  async create(
-    @Body() createStudentDto: CreateStudentDto,
-  ): Promise<StudentResponseDto> {
-    return this.studentService.createStudent(createStudentDto);
+  async create(@Body() createStudentDto: CreateStudentDto) {
+    return this.studentService.create(createStudentDto);
   }
 
   // Tạo nhiều sinh viên cùng lúc
@@ -106,12 +90,12 @@ export class StudentController {
   @ApiOkResponse({ type: StudentResponseDto })
   async getMe(@GetUser() user: any) {
     if (user.role !== "student" || !user.studentId) {
-      throw new UnauthorizedException(
-        "Tài khoản của bạn không có quyền truy cập thông tin sinh viên",
-      );
+      throw new UnauthorizedException("Tài khoản của bạn không có quyền truy cập thông tin sinh viên");
     }
 
-    return this.studentService.findOne(String(user.studentId));
+    return this.studentService.findOne({
+      id: user.studentId,
+    });
   }
 
   @Get("search-by-code")
@@ -120,53 +104,23 @@ export class StudentController {
     operationId: "findStudentByStudentCode",
   })
   @ApiOkResponse({ type: StudentResponseDto })
-  async findByStudentCode(
-    @Query("studentCode") studentCode: string,
-  ): Promise<StudentResponseDto> {
-    return this.studentService.findOne(studentCode);
+  async findByStudentCode(@Query("studentCode") studentCode: string): Promise<StudentResponseDto> {
+    return this.studentService.findOne({
+      studentCode,
+    });
   }
 
   @Get("eligible-for-assignment")
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: "Lấy danh sách sinh viên đủ điều kiện phân lớp",
-    operationId: "getEligibleStudentsForAssignment",
+    summary: "Lấy danh sách học sinh đủ điều kiện phân lớp",
   })
-  @ApiOkResponse({ type: [GetEligibleStudentsDtoForAssignmentResponse] })
-  async getEligibleStudentsForAssignment(
-    @Query() query: GetEligibleStudentsDtoForAssignment,
-  ) {
-    const { batchId } = query;
-    if (!batchId) return [];
-    const result =
-      await this.studentService.getEligibleStudentsForAssignment(batchId);
-    const resultFormat = result.students.map((student) => {
-      return {
-        student: {
-          id: student.id,
-          studentCode: student.studentCode,
-          fullName: student.fullName,
-        },
-        batch: {
-          id: student.batch?.id,
-          batchCode: student.batch?.batchCode,
-          batchName: student.batch?.batchName,
-        },
-      };
-    });
-    return plainToInstance(
-      GetEligibleStudentsDtoForAssignmentResponse,
-      resultFormat,
-    );
-  }
-
-  @Patch("approve")
-  @Roles(RoleType.admin, RoleType.staff)
-  @ApiOperation({
-    summary: "Duyệt hồ sơ sinh viên",
-    operationId: "approveStudent",
+  @ApiResponse({
+    status: 200,
+    description: "Lấy danh sách học sinh thành công.",
   })
-  async approveStudents(@Body() body: ApprovedStudentDto) {
-    return this.studentService.approveStudent(body);
+  async getEligibleStudentsForAssignment(@Query() query: GetEligibleStudentsDto) {
+    return await this.studentService.getEligibleStudentsForAssignment(query.batchId);
   }
 
   @Patch("assign-classes")
@@ -183,13 +137,8 @@ export class StudentController {
   @Roles(RoleType.admin, RoleType.staff)
   @ApiOperation({
     summary: "Cập nhật thông tin hồ sơ sinh viên",
-    operationId: "updateStudent",
   })
-  @ApiOkResponse({ type: StudentResponseDto })
-  async update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() updateStudentDto: UpdateStudentDto,
-  ): Promise<StudentResponseDto> {
-    return this.studentService.updateStudent(id, updateStudentDto);
+  async update(@Param("id", ParseIntPipe) id: number, @Body() updateStudentDto: UpdateStudentDto) {
+    return this.studentService.update(id, updateStudentDto);
   }
 }

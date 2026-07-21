@@ -3495,7 +3495,6 @@ export const ClassScalarFieldEnum = {
   formTeacherId: 'formTeacherId',
   maxStudents: 'maxStudents',
   currentSize: 'currentSize',
-  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

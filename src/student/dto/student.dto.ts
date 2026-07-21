@@ -100,6 +100,22 @@ export class FindOneStudentDto {
   studentCode?: string;
 }
 
+// LẤY DANH SÁCH STUDENT ĐỦ ĐIỀU KIỆN PHÂN LỚP
+export class GetEligibleStudentsDto {
+  @ApiProperty()
+  @Type(() => Number)
+  batchId: number;
+}
+
+// PHÂN LỚP CHO HỌC SINH
+export class AssignStudentsToClassesDto {
+  @ApiPropertyOptional({ type: Number })
+  batchId?: number;
+
+  @ApiPropertyOptional({ type: Number, default: 40 })
+  studentsPerClass?: number;
+}
+
 // RESPONSE PAGINATION DTO
 export class ResponseStudentPaginationDto {
   @ApiProperty({ type: [StudentDto] })
