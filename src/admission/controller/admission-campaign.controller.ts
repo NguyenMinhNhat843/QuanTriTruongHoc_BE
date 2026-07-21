@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, Req } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
 import {
   CreateAdmissionCampaignDto,
@@ -19,6 +19,19 @@ export class AdmissionCampaignController {
   @ApiResponse({ status: 201, type: AdmissionCampaignDto })
   create(@Body() createDto: CreateAdmissionCampaignDto) {
     return this.admissionCampaignService.create(createDto);
+  }
+
+  @Post(":id/approve")
+  @ApiOperation({ summary: "Chạy xét duyệt tự động kết quả trúng tuyển cho đợt tuyển sinh" })
+  @ApiResponse({ status: 200, description: "Xét duyệt thành công" })
+  approveCampaign(@Param("id", ParseIntPipe) id: number, @Req() req: any) {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      throw new Error("Không tìm thấy thông tin người dùng thực hiện");
+    }
+
+    return this.admissionCampaignService.approveCampaign(id, userId);
   }
 
   @Get()

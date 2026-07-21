@@ -1,358 +1,110 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
-import {
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsInt,
-  IsEnum,
-  IsDateString,
-  Min,
-  IsEmail,
-  IsBoolean,
-  IsNumber,
-} from "class-validator";
-import { StudentStatus } from "../../../prisma/generated/prisma/enums.js";
-import { Student } from "../../../prisma/generated/prisma/client.js";
-import { Exclude, Type } from "class-transformer";
-import { CreateAdmissionProfileDto } from "../../admission-profile/dto/admission-profile.dto.js";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
+import { Student, EducationLevel, StudentStatus, Gender } from "../../../prisma/generated/prisma/client";
+import { Type } from "class-transformer";
 
 export class StudentDto implements Student {
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsInt()
-  @IsOptional()
+  @ApiProperty()
   id: number;
 
-  @ApiPropertyOptional({
-    type: String,
-  })
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
+  @ApiProperty({ example: "SV2026001" })
   studentCode: string;
 
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsDateString()
-  @IsOptional()
-  enrollmentDate: Date | null;
+  @ApiProperty({ example: "038200001234" })
+  identityNumber: string;
 
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsDateString()
-  @IsOptional()
-  graduationDate: Date | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-    nullable: true,
-  })
-  @IsInt()
-  @IsOptional()
-  applicationId: number | null;
-
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  avatarUrl: string | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-    nullable: true,
-  })
-  @IsInt()
-  @IsOptional()
-  userId: number | null;
-
-  @ApiPropertyOptional({
-    type: String,
-  })
-  @IsOptional()
-  @IsDateString()
-  @Exclude()
-  createdAt: Date;
-
-  @ApiPropertyOptional({
-    type: String,
-  })
-  @IsDateString()
-  @IsOptional()
-  @Exclude()
-  updatedAt: Date;
-
-  // Địa chỉ
-  @ApiPropertyOptional({ type: String, nullable: true })
-  addressDetail: string | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  provinceCode: string | null;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  villageId: number | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  wardCode: string | null;
-
-  // --- THÔNG TIN CÁ NHÂN BẮT BUỘC ---
-  @ApiProperty({
-    type: String,
-  })
-  @IsString()
-  @IsNotEmpty()
-  fullName: string;
-
-  // --- THÔNG TIN CÁ NHÂN TÙY CHỌN (NULLABLE) ---
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsEmail()
-  @IsOptional()
-  email: string | null;
-
-  @ApiPropertyOptional({
-    type: Boolean,
-    nullable: true,
-  })
-  @IsBoolean()
-  @IsOptional()
-  gender: boolean | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsDateString()
-  @IsOptional()
-  dob: Date | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  phone: string | null;
-
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  identityNumber: string | null;
-
-  // --- THÔNG TIN GIA ĐÌNH ---
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  fatherName: string | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  fatherPhone: string | null;
-
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  fatherCCCD: string | null;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @IsInt()
-  @IsOptional()
-  fatherYearOfBirth: number | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  fatherJob: string | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  motherName: string | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  motherPhone: string | null;
-
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  motherCCCD: string | null;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @IsInt()
-  @IsOptional()
-  motherYearOfBirth: number | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  motherJob: string | null;
-
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  guardianName: string | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  guardianRelationship: string | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  guardianPhone: string | null;
-
-  @ApiPropertyOptional({
-    type: String,
-    nullable: true,
-  })
-  @IsString()
-  @IsOptional()
-  guardianCCCD: string | null;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @IsInt()
-  @IsOptional()
-  guardianYearOfBirth: number | null;
-
-  @ApiPropertyOptional({ type: String, nullable: true })
-  @IsString()
-  @IsOptional()
-  guardianJob: string | null;
-
-  // --- THÔNG TIN ĐÀO TẠO ---
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @IsInt()
-  @IsOptional()
-  batchId: number | null;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @IsInt()
-  @IsOptional()
-  classId: number | null;
+  @ApiProperty()
+  userId: number;
 
   @ApiProperty({ type: Number, nullable: true })
-  @IsNumber()
-  @IsOptional()
+  batchId: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
   majorId: number | null;
 
-  @ApiPropertyOptional({
-    enum: StudentStatus,
-    type: String,
-  })
-  @IsEnum(StudentStatus)
-  @IsOptional()
+  @ApiProperty({ type: Number, nullable: true })
+  classId: number | null;
+
+  @ApiProperty({ enum: EducationLevel, default: EducationLevel.THCS })
+  educationLevel: EducationLevel;
+
+  @ApiProperty({ enum: StudentStatus, default: StudentStatus.STUDYING })
   status: StudentStatus;
+
+  @ApiProperty({ type: Date, nullable: true })
+  enrollmentDate: Date | null;
+
+  @ApiProperty({ type: Date, nullable: true })
+  graduationDate: Date | null;
+
+  @ApiProperty({ example: "Nguyễn Văn A" })
+  fullName: string;
+
+  @ApiProperty({ type: String, nullable: true, example: "nguyenvana@gmail.com" })
+  email: string | null;
+
+  @ApiProperty({ enum: Gender, nullable: true })
+  gender: Gender | null;
+
+  @ApiProperty({ type: Date, nullable: true })
+  dob: Date | null;
+
+  @ApiProperty({ type: String, nullable: true, example: "0912345678" })
+  phone: string | null;
+
+  @ApiProperty({ type: String, nullable: true })
+  avatarUrl: string | null;
+
+  @ApiProperty({ type: Date })
+  createdAt: Date;
+
+  @ApiProperty({ type: Date })
+  updatedAt: Date;
 }
 
-export class CreateStudentDto extends StudentDto {
-  @ApiPropertyOptional({ type: CreateAdmissionProfileDto })
-  @Type(() => CreateAdmissionProfileDto)
-  @IsOptional()
-  admissionProfile?: CreateAdmissionProfileDto;
-}
+// CREATE DTO: Bỏ các trường hệ thống tự sinh (id, createdAt, updatedAt)
+export class CreateStudentDto extends OmitType(StudentDto, ["id", "createdAt", "updatedAt"]) {}
+
+// UPDATE DTO: Cho phép cập nhật từng trường của CreateStudentDto
 export class UpdateStudentDto extends PartialType(CreateStudentDto) {}
 
-// Cho các học sinh này đậu xét tuyển
-export class ApprovedStudentDto {
+// SEARCH DTO: Lọc theo các trường định danh và thông tin phân luồng
+export class SearchStudentDto extends PartialType(
+  PickType(StudentDto, [
+    "studentCode",
+    "identityNumber",
+    "fullName",
+    "phone",
+    "email",
+    "status",
+    "batchId",
+    "majorId",
+    "classId",
+  ]),
+) {
   @ApiProperty({ type: Number, required: false })
-  @IsNumber()
-  @IsOptional()
-  quote?: number;
-}
-
-export class SearchStudentDto {
-  // --- PHÂN TRANG ---
-  @ApiPropertyOptional({ default: 1 })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
   page?: number;
 
-  @ApiPropertyOptional({ default: 10 })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
+  @ApiProperty({ type: Number, required: false })
   limit?: number;
+}
 
-  // --- LỌC & TÌM KIẾM ---
-  @ApiPropertyOptional({ description: "Tìm kiếm theo mã SV, tên SV hoặc CCCD" })
-  @IsOptional()
-  @IsString()
-  keyword?: string;
-
-  @ApiPropertyOptional({ enum: StudentStatus, enumName: "StudentStatus" })
-  @IsOptional()
-  @IsEnum(StudentStatus)
-  status?: StudentStatus;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  classId?: number | null;
-
-  @ApiPropertyOptional({
-    description: "Lọc theo ngày nhập học từ (YYYY-MM-DD)",
-  })
-  @IsOptional()
-  @IsDateString()
-  fromDate?: string;
-
-  @ApiPropertyOptional({
-    description: "Lọc theo ngày nhập học đến (YYYY-MM-DD)",
-  })
-  @IsOptional()
-  @IsDateString()
-  toDate?: string;
-
+export class FindOneStudentDto {
   @ApiPropertyOptional({ type: Number })
   @Type(() => Number)
-  @IsOptional()
-  @IsInt()
-  majorId?: number;
+  id?: number;
 
-  @ApiPropertyOptional({ type: Number })
-  @Type(() => Number)
-  @IsOptional()
-  @IsInt()
-  batchId?: number;
+  @ApiPropertyOptional({ type: String })
+  identityNumber?: string;
 
-  // --- SẮP XẾP ---
-  @ApiPropertyOptional({ default: "createdAt" })
-  @IsOptional()
-  @IsString()
-  sortBy?: string = "createdAt";
+  @ApiPropertyOptional({ type: String })
+  studentCode?: string;
+}
 
-  @ApiPropertyOptional({ description: "Tìm kiếm theo mã sinh viên" })
-  @IsOptional()
-  @IsString()
-  studentCode?: string; // Thêm trường studentCode để hỗ trợ tìm kiếm theo mã sinh viên
+// RESPONSE PAGINATION DTO
+export class ResponseStudentPaginationDto {
+  @ApiProperty({ type: [StudentDto] })
+  data: StudentDto[];
 
-  @ApiPropertyOptional({ enum: ["asc", "desc"], default: "desc" })
-  @IsOptional()
-  @IsEnum(["asc", "desc"], { each: true })
-  sortOrder?: "asc" | "desc" = "desc";
+  @ApiProperty({ type: Number })
+  total: number;
 }

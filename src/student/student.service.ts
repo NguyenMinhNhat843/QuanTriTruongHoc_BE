@@ -1,94 +1,43 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException, BadRequestException, ConflictException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service.js";
-import {
-  ApprovedStudentDto,
-  CreateStudentDto,
-  SearchStudentDto,
-  UpdateStudentDto,
-} from "./dto/student.dto.js";
+import { CreateStudentDto, FindOneStudentDto, SearchStudentDto, UpdateStudentDto } from "./dto/student.dto.js";
 import {
   QualifiedStudentResponseDto,
   ResponseStudentPaginationDto,
   StudentResponseDto,
 } from "./dto/student.response.js";
 import { Prisma } from "../../prisma/generated/prisma/client.js";
-import { generateId } from "../utils/generateId.js";
 import { plainToInstance } from "class-transformer";
 import { AssignStudentsToClassesDto } from "./dto/get-eligible-students.dto.js";
 
 @Injectable()
 export class StudentService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   /**
-   * Tạo mới một sinh viên
+   * Tạo mới học sinh
    */
-  async createStudent(data: CreateStudentDto): Promise<StudentResponseDto> {
-    const {
-      admissionProfile,
-      batchId,
-      provinceCode,
-      wardCode,
-      villageId,
-      ...studentProfile
-    } = data;
-
-    const student = await this.prisma.$transaction(async (tx) => {
-      // 1. Khai báo biến majorId mặc định
-      let majorId: number | null = null;
-
-      // 2. Nếu có truyền vào batchId, tìm batch tương ứng để lấy majorId
-      if (batchId) {
-        const batch = await tx.batch.findUnique({
-          where: { id: batchId },
-          select: { majorId: true }, // Chỉ cần lấy trường majorId để tối ưu hiệu năng
-        });
-
-        if (!batch) {
-          throw new NotFoundException(
-            `Không tìm thấy Khóa đào tạo (Batch) với ID ${batchId}`,
-          );
-        }
-
-        majorId = batch.majorId;
-      }
-
-      // 3. Tạo Student với majorId đã tự động lấy từ Batch
-      const newStudent = await tx.student.create({
-        data: {
-          ...studentProfile,
-          majorId: majorId, // Gán majorId lấy từ Batch ở trên
-          batchId: batchId ?? null,
-          studentCode: `S${generateId()}`,
-          dob: studentProfile.dob ? new Date(studentProfile.dob) : null,
-          provinceCode: provinceCode ?? null,
-          wardCode: wardCode ?? null,
-          villageId: villageId ?? null,
-        },
-      });
-
-      // 4. Tạo admission profile nếu có
-      if (admissionProfile) {
-        await tx.admissionProfile.create({
-          data: {
-            ...admissionProfile,
-            studentId: newStudent.id,
-            gpa6: admissionProfile.gpa6 ?? 0,
-            gpa7: admissionProfile.gpa7 ?? 0,
-            gpa8: admissionProfile.gpa8 ?? 0,
-            gpa9: admissionProfile.gpa9 ?? 0,
-          },
-        });
-      }
-
-      return newStudent;
+  async create(dto: CreateStudentDto) {
+    // Kiểm tra trùng lặp mã học sinh, CCCD hoặc userId
+    const existingStudent = await this.prisma.student.findFirst({
+      where: {
+        OR: [{ studentCode: dto.studentCode }, { identityNumber: dto.identityNumber }, { userId: dto.userId }],
+      },
     });
 
-    return plainToInstance(StudentResponseDto, student);
+    if (existingStudent) {
+      throw new ConflictException("Mã học sinh, CCCD hoặc User ID đã tồn tại trong hệ thống");
+    }
+
+    return this.prisma.student.create({
+      data: dto,
+      include: {
+        user: true,
+        batch: true,
+        major: true,
+        class: true,
+      },
+    });
   }
 
   async deleteStudentById(id: number) {
@@ -108,8 +57,7 @@ export class StudentService {
       if (!dateInput) return null;
 
       // Nếu là chuỗi, lấy 10 ký tự đầu (YYYY-MM-DD)
-      const dateStr =
-        typeof dateInput === "string" ? dateInput.split("T")[0] : dateInput;
+      const dateStr = typeof dateInput === "string" ? dateInput.split("T")[0] : dateInput;
 
       // Ép về định dạng ISO chuẩn múi giờ +07:00
       return new Date(`${dateStr}T00:00:00.000+07:00`);
@@ -139,19 +87,28 @@ export class StudentService {
   }
 
   /**
-   * Tìm sinh viên theo mã sinh viên hoặc Id
+   * Tìm sinh viên theo Ưu tiên: id -> identityNumber -> studentCode
    */
-  async findOne(studentCode: string): Promise<StudentResponseDto> {
-    const idAsNumber = Number(studentCode);
-    const isIdNumber = !isNaN(idAsNumber);
+  async findOne(query: FindOneStudentDto): Promise<StudentResponseDto> {
+    const { id, identityNumber, studentCode } = query;
+
+    if (!id && !identityNumber && !studentCode) {
+      throw new BadRequestException("Cần truyền ít nhất một trong các tham số: id, identityNumber, hoặc studentCode");
+    }
+
+    // Xây dựng câu điều kiện Prisma theo đúng thứ tự ưu tiên
+    const whereCondition: any = {};
+
+    if (id) {
+      whereCondition.id = Number(id);
+    } else if (identityNumber) {
+      whereCondition.identityNumber = identityNumber;
+    } else if (studentCode) {
+      whereCondition.studentCode = studentCode;
+    }
 
     const student = await this.prisma.student.findFirst({
-      where: {
-        OR: [
-          { studentCode: studentCode },
-          ...(isIdNumber ? [{ id: idAsNumber }] : []),
-        ],
-      },
+      where: whereCondition,
       include: {
         user: true,
         batch: {
@@ -186,67 +143,20 @@ export class StudentService {
   }
 
   /**
-   * Cập nhật thông tin sinh viên
+   * Cập nhật thông tin học sinh
    */
-  async updateStudent(
-    id: number,
-    data: UpdateStudentDto,
-  ): Promise<StudentResponseDto> {
-    // 1. Kiểm tra sinh viên có tồn tại hay không
-    const studentExists = await this.prisma.student.findUnique({
+  async update(id: number, dto: UpdateStudentDto) {
+    await this.findOne({ id });
+
+    return this.prisma.student.update({
       where: { id },
-    });
-
-    if (!studentExists) {
-      throw new NotFoundException("Không tìm thấy sinh viên cần cập nhật");
-    }
-
-    const { admissionProfile, ...studentProfile } = data;
-
-    // 2. Sử dụng $transaction để đảm bảo tính toàn vẹn dữ liệu
-    const updatedStudent = await this.prisma.$transaction(async (tx) => {
-      // Cập nhật thông tin cơ bản của Student
-      const student = await tx.student.update({
-        where: { id },
-        data: {
-          ...studentProfile,
-          dob: studentProfile.dob ? new Date(studentProfile.dob) : undefined,
-        },
-      });
-
-      // 3. Xử lý cập nhật hoặc tạo mới AdmissionProfile nếu dữ liệu được truyền lên
-      if (admissionProfile) {
-        await tx.admissionProfile.upsert({
-          where: { studentId: id },
-          update: {
-            ...admissionProfile,
-          },
-          create: {
-            ...admissionProfile,
-            studentId: id,
-            // Sử dụng giá trị fallback tương tự như hàm create phòng trường hợp tạo mới
-            gpa6: admissionProfile.gpa6 ?? 0,
-            gpa7: admissionProfile.gpa7 ?? 0,
-            gpa8: admissionProfile.gpa8 ?? 0,
-            gpa9: admissionProfile.gpa9 ?? 0,
-          },
-        });
-      }
-
-      return student;
-    });
-
-    // 4. Nếu bạn cần include thêm thông tin (như `user: true` ở code cũ của bạn)
-    // để map vào StudentResponseDto, ta nên query lại hoặc include trực tiếp trong lệnh update ở trên.
-    const finalResult = await this.prisma.student.findUnique({
-      where: { id: updatedStudent.id },
+      data: dto,
       include: {
-        user: true,
-        admissionProfile: true, // Thường Dto response sẽ cần cả cái này
+        batch: true,
+        major: true,
+        class: true,
       },
     });
-
-    return plainToInstance(StudentResponseDto, finalResult);
   }
 
   /**
@@ -283,8 +193,7 @@ export class StudentService {
           validConducts.includes(profile.conduct8) &&
           validConducts.includes(profile.conduct9);
 
-        const avgGpa =
-          (profile.gpa6 + profile.gpa7 + profile.gpa8 + profile.gpa9) / 4;
+        const avgGpa = (profile.gpa6 + profile.gpa7 + profile.gpa8 + profile.gpa9) / 4;
 
         // Điều kiện đạt: GPA trung bình > 5 và hạnh kiểm đạt
         if (avgGpa > 5 && isConductPassed) {
@@ -295,9 +204,7 @@ export class StudentService {
       .filter((s): s is { id: number; avgGpa: number } => s !== null);
 
     if (qualifiedStudents.length === 0) {
-      throw new BadRequestException(
-        "Không có học sinh nào đủ điều kiện trúng tuyển",
-      );
+      throw new BadRequestException("Không có học sinh nào đủ điều kiện trúng tuyển");
     }
 
     // 3. Sắp xếp học sinh đủ điều kiện theo GPA từ CAO xuống THẤP
@@ -305,10 +212,7 @@ export class StudentService {
 
     // 4. Áp dụng chỉ tiêu (quote) nếu có truyền vào và quote hợp lệ (> 0)
     // Nếu không truyền quote hoặc quote <= 0, lấy toàn bộ (all)
-    const finalSelection =
-      quote && quote > 0
-        ? qualifiedStudents.slice(0, quote)
-        : qualifiedStudents;
+    const finalSelection = quote && quote > 0 ? qualifiedStudents.slice(0, quote) : qualifiedStudents;
 
     const targetStudentIds = finalSelection.map((s) => s.id);
 
@@ -332,9 +236,7 @@ export class StudentService {
   /**
    * Lấy danh sách học sinh đủ điều kiện phân lớp
    */
-  async getEligibleStudentsForAssignment(
-    batchId: number,
-  ): Promise<ResponseStudentPaginationDto> {
+  async getEligibleStudentsForAssignment(batchId: number): Promise<ResponseStudentPaginationDto> {
     // 1. Lấy cấu hình hồ sơ mẫu (id = 1) để tính toán documentProgress
     const docConfig = await this.prisma.documentConfig.findUnique({
       where: { id: 1 },
@@ -387,21 +289,16 @@ export class StudentService {
 
     // 4. Map dữ liệu để tính toán tiến độ hồ sơ và tiêu chí đạt (isQualified)
     const formattedItems = items.map((item) => {
-      const submittedItemIds = new Set(
-        item.student_documents.map((doc) => doc.documentConfigItemId),
-      );
+      const submittedItemIds = new Set(item.student_documents.map((doc) => doc.documentConfigItemId));
 
-      const currentDocsCount = totalConfigItems.filter((configItem) =>
-        submittedItemIds.has(configItem.id),
-      ).length;
+      const currentDocsCount = totalConfigItems.filter((configItem) => submittedItemIds.has(configItem.id)).length;
 
       // Tính toán điều kiện xét tuyển (isQualified)
       let isQualified = false;
       const profile = item.admissionProfile;
 
       if (profile) {
-        const avgGpa =
-          (profile.gpa6 + profile.gpa7 + profile.gpa8 + profile.gpa9) / 4;
+        const avgGpa = (profile.gpa6 + profile.gpa7 + profile.gpa8 + profile.gpa9) / 4;
         const validConducts = ["KHA", "TOT"];
         const isConductPassed =
           validConducts.includes(profile.conduct6) &&
@@ -423,9 +320,7 @@ export class StudentService {
     });
 
     // Khúc biến đổi danh sách bằng plainToInstance theo DTO QualifiedStudentResponseDto
-    const students = formattedItems.map((item) =>
-      plainToInstance(QualifiedStudentResponseDto, item),
-    );
+    const students = formattedItems.map((item) => plainToInstance(QualifiedStudentResponseDto, item));
 
     // 5. Trả về đúng cấu trúc ResponseStudentPaginationDto cho FE
     return {
@@ -450,9 +345,7 @@ export class StudentService {
 
       const batch = batches[0];
       if (!batch) {
-        throw new NotFoundException(
-          `Không tìm thấy Khóa đào tạo với ID ${batchId}`,
-        );
+        throw new NotFoundException(`Không tìm thấy Khóa đào tạo với ID ${batchId}`);
       }
       const majorId = batch.majorId;
 
@@ -469,9 +362,7 @@ export class StudentService {
       });
 
       if (studentsPool.length === 0) {
-        throw new BadRequestException(
-          "Không có sinh viên mới nào cần phân lớp.",
-        );
+        throw new BadRequestException("Không có sinh viên mới nào cần phân lớp.");
       }
 
       // 3. Lấy các lớp hiện có của khóa (Đọc TRONG transaction)
@@ -539,9 +430,7 @@ export class StudentService {
 
         while (!isUnique) {
           const suffix = letters[classCounter] || `Lớp-${classCounter + 1}`;
-          classCode = `${batch.batchCode}${suffix}`
-            .toUpperCase()
-            .replace(/\s+/g, "");
+          classCode = `${batch.batchCode}${suffix}`.toUpperCase().replace(/\s+/g, "");
           className = `${batch.batchCode} ${suffix}`;
 
           const duplicateCheck = await tx.class.findUnique({
@@ -580,8 +469,7 @@ export class StudentService {
       }
 
       return {
-        message:
-          "Phân lớp bằng phương pháp an toàn (Anti-Race Condition) hoàn tất!",
+        message: "Phân lớp bằng phương pháp an toàn (Anti-Race Condition) hoàn tất!",
         details: resultDetails,
       };
     });
@@ -590,9 +478,7 @@ export class StudentService {
   /**
    * Search student theo tham số truyền vào
    */
-  async searchStudents(
-    query: SearchStudentDto,
-  ): Promise<ResponseStudentPaginationDto> {
+  async searchStudents(query: SearchStudentDto): Promise<ResponseStudentPaginationDto> {
     const {
       page = 1,
       limit = 10,
@@ -628,14 +514,14 @@ export class StudentService {
       AND: [
         keyword
           ? {
-            OR: [
-              { studentCode: { contains: keyword, mode: "insensitive" } },
-              { identityNumber: { contains: keyword, mode: "insensitive" } },
-              { email: { contains: keyword, mode: "insensitive" } },
-              { fullName: { contains: keyword, mode: "insensitive" } },
-              { phone: { contains: keyword, mode: "insensitive" } },
-            ],
-          }
+              OR: [
+                { studentCode: { contains: keyword, mode: "insensitive" } },
+                { identityNumber: { contains: keyword, mode: "insensitive" } },
+                { email: { contains: keyword, mode: "insensitive" } },
+                { fullName: { contains: keyword, mode: "insensitive" } },
+                { phone: { contains: keyword, mode: "insensitive" } },
+              ],
+            }
           : {},
         status ? { status } : {},
         classId ? { classId } : {},
@@ -643,15 +529,13 @@ export class StudentService {
         majorId ? { majorId } : {},
         fromDate || toDate
           ? {
-            enrollmentDate: {
-              ...(fromDate && { gte: new Date(fromDate) }),
-              ...(toDate && { lte: new Date(toDate) }),
-            },
-          }
+              enrollmentDate: {
+                ...(fromDate && { gte: new Date(fromDate) }),
+                ...(toDate && { lte: new Date(toDate) }),
+              },
+            }
           : {},
-        studentCode
-          ? { studentCode: { contains: studentCode, mode: "insensitive" } }
-          : {},
+        studentCode ? { studentCode: { contains: studentCode, mode: "insensitive" } } : {},
       ],
     };
 
@@ -691,21 +575,16 @@ export class StudentService {
 
     // 4. Map dữ liệu để tính toán thực tế hồ sơ hiện có và check tiêu chí đạt
     const formattedItems = items.map((item) => {
-      const submittedItemIds = new Set(
-        item.student_documents.map((doc) => doc.documentConfigItemId),
-      );
+      const submittedItemIds = new Set(item.student_documents.map((doc) => doc.documentConfigItemId));
 
-      const currentDocsCount = totalConfigItems.filter((configItem) =>
-        submittedItemIds.has(configItem.id),
-      ).length;
+      const currentDocsCount = totalConfigItems.filter((configItem) => submittedItemIds.has(configItem.id)).length;
 
       // Tính toán điều kiện xét tuyển (isQualified)
       let isQualified = false;
       const profile = item.admissionProfile;
 
       if (profile) {
-        const avgGpa =
-          (profile.gpa6 + profile.gpa7 + profile.gpa8 + profile.gpa9) / 4;
+        const avgGpa = (profile.gpa6 + profile.gpa7 + profile.gpa8 + profile.gpa9) / 4;
         const validConducts = ["KHA", "TOT"];
         const isConductPassed =
           validConducts.includes(profile.conduct6) &&
@@ -727,9 +606,7 @@ export class StudentService {
     });
 
     // Khúc biến đổi danh sách bằng plainToInstance theo DTO QualifiedStudentResponseDto
-    const students = formattedItems.map((item) =>
-      plainToInstance(QualifiedStudentResponseDto, item),
-    );
+    const students = formattedItems.map((item) => plainToInstance(QualifiedStudentResponseDto, item));
 
     // 5. Trả về đúng cấu trúc ResponseStudentPaginationDto
     return {

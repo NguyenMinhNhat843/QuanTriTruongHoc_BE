@@ -1,6 +1,7 @@
 import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { AdmissionCampaign, CampaignStatus } from "../../../prisma/generated/prisma/client";
 import { AdmissionCampaignMajorDto } from "./admission-campaign-major.dto";
+import { IsInt, IsNotEmpty } from "class-validator";
 
 export class AdmissionCampaignDto implements AdmissionCampaign {
   @ApiProperty()
@@ -49,6 +50,14 @@ export class CreateAdmissionCampaignDto extends OmitType(AdmissionCampaignDto, [
 
 export class UpdateAdmissionCampaignDto extends PartialType(CreateAdmissionCampaignDto) {}
 export class SearchAdmissionCampaignDto extends PickType(AdmissionCampaignDto, ["name", "status"]) {}
+
+// XÉT DUYỆT HỌC SINH TRONG ĐƯỢT TUYỂN SINH
+export class ApproveCampaignDto {
+  @ApiProperty({ example: 1, description: "ID Đợt tuyển sinh cần xét duyệt" })
+  @IsInt()
+  @IsNotEmpty()
+  admissionCampaignId: number;
+}
 
 // RESPONSE TYPE
 export class ResponseAdmissionCampaignPaginationPaginationDto {
