@@ -1,21 +1,10 @@
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-  Logger,
-} from "@nestjs/common";
+import { Injectable, ConflictException, NotFoundException, Logger } from "@nestjs/common";
 import slugify from "slugify";
 import { PrismaService } from "../prisma/prisma.service";
-import {
-  CreatePostDto,
-  PostResponseDto,
-  PostStatsResponseDto,
-  SearchPostDto,
-  UpdatePostDto,
-} from "./post.dto";
+import { CreatePostDto, PostResponseDto, PostStatsResponseDto, SearchPostDto, UpdatePostDto } from "./post.dto";
 import { PostStatus } from "../../prisma/generated/prisma/enums";
 import { Cron, CronExpression } from "@nestjs/schedule";
-import { CloudinaryService } from "../upload/upload.service";
+import { UploadFileService } from "../upload/upload.service";
 import { plainToInstance } from "class-transformer";
 import sanitizeHtml from "sanitize-html";
 
@@ -24,7 +13,7 @@ export class PostService {
   private readonly logger = new Logger(PostService.name);
   constructor(
     private prisma: PrismaService,
-    private cloudinaryService: CloudinaryService,
+    private cloudinaryService: UploadFileService,
   ) {}
 
   /**
@@ -34,9 +23,7 @@ export class PostService {
     const { title, slug, content, ...data } = createPostDto;
 
     // Nếu không có slug, tự động tạo từ title
-    const finalSlug = slug
-      ? slug
-      : slugify(title, { lower: true, strict: true, locale: "vi" });
+    const finalSlug = slug ? slug : slugify(title, { lower: true, strict: true, locale: "vi" });
 
     // Kiểm tra trùng lặp slug
     const existingPost = await this.prisma.post.findUnique({
@@ -48,13 +35,7 @@ export class PostService {
     }
 
     const cleanContent = sanitizeHtml(content, {
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat([
-        "img",
-        "h1",
-        "h2",
-        "h3",
-        "h4",
-      ]),
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2", "h3", "h4"]),
       allowedAttributes: {
         ...sanitizeHtml.defaults.allowedAttributes,
         img: ["src", "alt", "title"],
@@ -63,10 +44,7 @@ export class PostService {
     });
 
     if (file) {
-      const image = await this.cloudinaryService.uploadImageAndSaveDb(
-        file,
-        "quantritruonghoc/posts",
-      );
+      const image = await this.cloudinaryService.uploadImageAndSaveDb(file, "quantritruonghoc/posts");
       data.coverImage = image.imageUrl;
     }
 
@@ -176,15 +154,10 @@ export class PostService {
   /**
    * Cập nhật bài viết
    */
-  async update(
-    id: number,
-    updatePostDto: UpdatePostDto,
-    file: Express.Multer.File,
-  ) {
+  async update(id: number, updatePostDto: UpdatePostDto, file: Express.Multer.File) {
     // Kiểm tra bài viết tồn tại
     const post = await this.prisma.post.findUnique({ where: { id } });
-    if (!post)
-      throw new NotFoundException(`Không tìm thấy bài viết có ID ${id}`);
+    if (!post) throw new NotFoundException(`Không tìm thấy bài viết có ID ${id}`);
 
     const data: any = { ...updatePostDto };
 
@@ -205,16 +178,12 @@ export class PostService {
           id: { not: id },
         },
       });
-      if (existingSlug)
-        throw new ConflictException("Slug đã tồn tại ở một bài viết khác");
+      if (existingSlug) throw new ConflictException("Slug đã tồn tại ở một bài viết khác");
     }
 
     let fileStoreId: string | null = null;
     if (file) {
-      const image = await this.cloudinaryService.uploadImageAndSaveDb(
-        file,
-        "quantritruonghoc/posts",
-      );
+      const image = await this.cloudinaryService.uploadImageAndSaveDb(file, "quantritruonghoc/posts");
       data.coverImage = image.imageUrl;
       fileStoreId = image.id;
     }

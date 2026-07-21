@@ -277,10 +277,10 @@ enum DirectAdmissionReason {
 // các thông tin đó lấy qua admissionProfile để tránh trùng & lệch dữ liệu)
 // ==========================================
 enum StudentStatus {
-  studying   // Đang theo học chính thức
-  suspended  // Bảo lưu
-  dropped    // Đã thôi học
-  graduated  // Đã tốt nghiệp
+  STUDYING   // Đang theo học chính thức
+  SUSPENDED  // Bảo lưu
+  DROPPED    // Đã thôi học
+  GRADUATED  // Đã tốt nghiệp
 }
 
 model Student {
@@ -300,7 +300,7 @@ model Student {
   class               Class?            @relation(fields: [classId], references: [id])
 
   educationLevel      EducationLevel    @default(THCS)
-  status              StudentStatus     @default(studying)
+  status              StudentStatus     @default(STUDYING)
   enrollmentDate      DateTime?         @db.Date
   graduationDate      DateTime?         @db.Date
 

@@ -7,13 +7,7 @@ export class StatisticsService {
 
   async getOverviewStats() {
     // Sử dụng Promise.all để tối ưu hóa hiệu năng, chạy song song các câu lệnh đếm
-    const [
-      totalStudents,
-      totalTeachers,
-      studyingStudents,
-      pendingStudents,
-      registerStudents,
-    ] = await Promise.all([
+    const [totalStudents, totalTeachers, studyingStudents, pendingStudents, registerStudents] = await Promise.all([
       // 1. Tổng số học sinh (tất cả trạng thái)
       this.prisma.student.count(),
 
@@ -26,17 +20,17 @@ export class StatisticsService {
 
       // 3. Số học sinh đang học
       this.prisma.student.count({
-        where: { status: "studying" },
+        where: { status: "STUDYING" },
       }),
 
       // 4. Số học sinh đang đợi xét tuyển
-      this.prisma.student.count({
-        where: { status: "pending" },
+      this.prisma.admissionProfile.count({
+        where: { status: "SUBMITTED" },
       }),
 
       // 5. Số học sinh đăng ký mới (tư vấn)
-      this.prisma.student.count({
-        where: { status: "registered" },
+      this.prisma.admissionProfile.count({
+        where: { status: "REGISTERED" },
       }),
     ]);
 
@@ -128,32 +122,19 @@ export class StatisticsService {
       });
 
       groupStatus.forEach((item) => {
-        if (item.status === "unpaid")
-          invoiceStatusDistribution.unpaid = item._count.id;
-        if (item.status === "partial")
-          invoiceStatusDistribution.partial = item._count.id;
-        if (item.status === "paid")
-          invoiceStatusDistribution.paid = item._count.id;
+        if (item.status === "unpaid") invoiceStatusDistribution.unpaid = item._count.id;
+        if (item.status === "partial") invoiceStatusDistribution.partial = item._count.id;
+        if (item.status === "paid") invoiceStatusDistribution.paid = item._count.id;
       });
     }
 
     // --- XỬ LÝ LOGIC SỐ LIỆU ---
 
     // 1. Tính toán tỷ lệ lấp đầy trung bình của toàn trường (Capacity Rate)
-    const totalMaxStudents = classesData.reduce(
-      (sum, c) => sum + c.maxStudents,
-      0,
-    );
-    const totalCurrentStudents = classesData.reduce(
-      (sum, c) => sum + c.currentSize,
-      0,
-    );
+    const totalMaxStudents = classesData.reduce((sum, c) => sum + c.maxStudents, 0);
+    const totalCurrentStudents = classesData.reduce((sum, c) => sum + c.currentSize, 0);
     const schoolFillRate =
-      totalMaxStudents > 0
-        ? parseFloat(
-            ((totalCurrentStudents / totalMaxStudents) * 100).toFixed(2),
-          )
-        : 0;
+      totalMaxStudents > 0 ? parseFloat(((totalCurrentStudents / totalMaxStudents) * 100).toFixed(2)) : 0;
 
     // Tìm các lớp đang có nguy cơ quá tải (sĩ số vượt hoặc bằng max)
     const overloadedClasses = classesData
@@ -169,10 +150,7 @@ export class StatisticsService {
     const totalRemaining = tuitionInvoicesStats?._sum?.remainingAmount || 0;
     const totalInvoicesCount = tuitionInvoicesStats?._count?.id || 0;
 
-    const collectionRate =
-      totalInvoiced > 0
-        ? parseFloat(((totalCollected / totalInvoiced) * 100).toFixed(2))
-        : 0;
+    const collectionRate = totalInvoiced > 0 ? parseFloat(((totalCollected / totalInvoiced) * 100).toFixed(2)) : 0;
 
     return {
       semesterName: currentSemester?.name || "Chưa thiết lập học kỳ hiện tại",

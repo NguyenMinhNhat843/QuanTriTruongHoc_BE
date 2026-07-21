@@ -1,15 +1,11 @@
 // cloudinary.service.ts
 import { Injectable, BadRequestException } from "@nestjs/common";
-import {
-  v2 as cloudinary,
-  UploadApiResponse,
-  UploadApiErrorResponse,
-} from "cloudinary";
+import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 import { Readable } from "stream"; // <--- Dùng module có sẵn của Node.js
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
-export class CloudinaryService {
+export class UploadFileService {
   constructor(private prisma: PrismaService) {}
   async uploadFile(
     file: Express.Multer.File,
@@ -19,29 +15,20 @@ export class CloudinaryService {
       throw new BadRequestException("File không hợp lệ hoặc không tồn tại");
     }
 
-    const cloundinaryResult = await new Promise<UploadApiResponse>(
-      (resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: folder, resource_type: "auto" },
-          (error?: UploadApiErrorResponse, result?: UploadApiResponse) => {
-            if (error)
-              return reject(
-                new BadRequestException(`Upload thất bại: ${error.message}`),
-              );
-            if (!result)
-              return reject(
-                new BadRequestException(
-                  "Upload thất bại: Không nhận được phản hồi từ Cloudinary",
-                ),
-              );
+    const cloundinaryResult = await new Promise<UploadApiResponse>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: folder, resource_type: "auto" },
+        (error?: UploadApiErrorResponse, result?: UploadApiResponse) => {
+          if (error) return reject(new BadRequestException(`Upload thất bại: ${error.message}`));
+          if (!result)
+            return reject(new BadRequestException("Upload thất bại: Không nhận được phản hồi từ Cloudinary"));
 
-            resolve(result);
-          },
-        );
+          resolve(result);
+        },
+      );
 
-        Readable.from(file.buffer).pipe(uploadStream);
-      },
-    );
+      Readable.from(file.buffer).pipe(uploadStream);
+    });
 
     return {
       fileUrl: cloundinaryResult.secure_url,
@@ -60,29 +47,20 @@ export class CloudinaryService {
       throw new BadRequestException("File không hợp lệ hoặc không tồn tại");
     }
 
-    const cloundinaryResult = await new Promise<UploadApiResponse>(
-      (resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: folder, resource_type: "auto" },
-          (error?: UploadApiErrorResponse, result?: UploadApiResponse) => {
-            if (error)
-              return reject(
-                new BadRequestException(`Upload thất bại: ${error.message}`),
-              );
-            if (!result)
-              return reject(
-                new BadRequestException(
-                  "Upload thất bại: Không nhận được phản hồi từ Cloudinary",
-                ),
-              );
+    const cloundinaryResult = await new Promise<UploadApiResponse>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { folder: folder, resource_type: "auto" },
+        (error?: UploadApiErrorResponse, result?: UploadApiResponse) => {
+          if (error) return reject(new BadRequestException(`Upload thất bại: ${error.message}`));
+          if (!result)
+            return reject(new BadRequestException("Upload thất bại: Không nhận được phản hồi từ Cloudinary"));
 
-            resolve(result);
-          },
-        );
+          resolve(result);
+        },
+      );
 
-        Readable.from(file.buffer).pipe(uploadStream);
-      },
-    );
+      Readable.from(file.buffer).pipe(uploadStream);
+    });
 
     const savedFile = await this.prisma.fileStore.create({
       data: {
@@ -102,9 +80,7 @@ export class CloudinaryService {
   /**
    * 2. Xóa ảnh bằng Public ID (Giữ nguyên)
    */
-  async deleteImage(
-    publicId: string,
-  ): Promise<{ success: boolean; message: string }> {
+  async deleteImage(publicId: string): Promise<{ success: boolean; message: string }> {
     if (!publicId) {
       throw new BadRequestException("Vui lòng cung cấp publicId để xóa ảnh");
     }
@@ -113,9 +89,7 @@ export class CloudinaryService {
       const result = await cloudinary.uploader.destroy(publicId);
 
       if (result.result !== "ok") {
-        throw new BadRequestException(
-          "Không tìm thấy ảnh hoặc xóa thất bại trên Cloudinary",
-        );
+        throw new BadRequestException("Không tìm thấy ảnh hoặc xóa thất bại trên Cloudinary");
       }
 
       return { success: true, message: "Xóa ảnh thành công!" };

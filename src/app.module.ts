@@ -18,7 +18,6 @@ import { CourseOfferModule } from "./courseOffer/classSubject.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
 import { CloudinaryModule } from "./upload/upload.module.js";
 import { DocumentProfileModule } from "./documentProfile/documentProfile.module.js";
-import { AdmissionProfileModule } from "./admission-profile/admission-profile.module.js";
 import { AssessmentModule } from "./assessment/assessment.module.js";
 import { AnalyticsModule } from "./analytic/analytic.module.js";
 import { TuitionModule } from "./tuition/tuition.module.js";
@@ -52,7 +51,6 @@ import { AdmissionModule } from "./admission/admission.module.js";
     CourseOfferModule,
     CloudinaryModule,
     DocumentProfileModule,
-    AdmissionProfileModule,
     AssessmentModule,
     AnalyticsModule,
     TuitionModule,

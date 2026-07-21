@@ -147,10 +147,10 @@ export type DirectAdmissionReason = (typeof DirectAdmissionReason)[keyof typeof 
 
 
 export const StudentStatus = {
-  studying: 'studying',
-  suspended: 'suspended',
-  dropped: 'dropped',
-  graduated: 'graduated'
+  STUDYING: 'STUDYING',
+  SUSPENDED: 'SUSPENDED',
+  DROPPED: 'DROPPED',
+  GRADUATED: 'GRADUATED'
 } as const
 
 export type StudentStatus = (typeof StudentStatus)[keyof typeof StudentStatus]

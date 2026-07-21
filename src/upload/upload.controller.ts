@@ -7,14 +7,14 @@ import {
   UploadedFile,
   UseInterceptors,
 } from "@nestjs/common";
-import { CloudinaryService } from "./upload.service";
+import { UploadFileService } from "./upload.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiResponse } from "@nestjs/swagger";
 import { FireStoreResponse } from "./fireStore.response";
 
 @Controller("fileStore")
 export class FileStoreController {
-  constructor(private cloudinaryService: CloudinaryService) {}
+  constructor(private cloudinaryService: UploadFileService) {}
 
   @Post("upload")
   @HttpCode(HttpStatus.OK)
