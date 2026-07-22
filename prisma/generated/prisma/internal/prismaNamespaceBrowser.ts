@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  AcademicYear: 'AcademicYear',
   Department: 'Department',
   Major: 'Major',
   Batch: 'Batch',
@@ -60,10 +61,15 @@ export const ModelName = {
   CurriculumSubject: 'CurriculumSubject',
   AdmissionCampaign: 'AdmissionCampaign',
   AdmissionCampaignMajor: 'AdmissionCampaignMajor',
+  SubjectCombination: 'SubjectCombination',
+  SubjectCombinationItem: 'SubjectCombinationItem',
   AdmissionProfile: 'AdmissionProfile',
   ExamScore: 'ExamScore',
+  TranscriptSubjectScore: 'TranscriptSubjectScore',
   AdmissionStatusLog: 'AdmissionStatusLog',
   AdmissionDocument: 'AdmissionDocument',
+  PriorityRule: 'PriorityRule',
+  AdmissionInterest: 'AdmissionInterest',
   Student: 'Student',
   DocumentConfig: 'DocumentConfig',
   DocumentConfigItem: 'DocumentConfigItem',
@@ -77,7 +83,6 @@ export const ModelName = {
   Province: 'Province',
   Ward: 'Ward',
   Village: 'Village',
-  AcademicYear: 'AcademicYear',
   GradeStudent: 'GradeStudent',
   TeacherSubject: 'TeacherSubject',
   TuitionPeriod: 'TuitionPeriod',
@@ -110,6 +115,18 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const AcademicYearScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isCurrent: 'isCurrent',
+  status: 'status'
+} as const
+
+export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
+
+
 export const DepartmentScalarFieldEnum = {
   id: 'id',
   deptCode: 'deptCode',
@@ -140,6 +157,7 @@ export const BatchScalarFieldEnum = {
   id: 'id',
   batchCode: 'batchCode',
   batchName: 'batchName',
+  academicYearId: 'academicYearId',
   startYear: 'startYear',
   endYear: 'endYear',
   endTerm: 'endTerm',
@@ -223,7 +241,6 @@ export const AdmissionCampaignScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
-  targetQuota: 'targetQuota',
   description: 'description',
   academicYearId: 'academicYearId',
   createdAt: 'createdAt',
@@ -237,22 +254,46 @@ export const AdmissionCampaignMajorScalarFieldEnum = {
   id: 'id',
   admissionCampaignId: 'admissionCampaignId',
   majorId: 'majorId',
+  trainingType: 'trainingType',
   quota: 'quota',
-  benchmarkScore: 'benchmarkScore'
+  acceptedAdmissionTypes: 'acceptedAdmissionTypes',
+  subjectCombinationId: 'subjectCombinationId',
+  minScorePerSubject: 'minScorePerSubject',
+  minTotalScore: 'minTotalScore',
+  minGpaAverage: 'minGpaAverage',
+  minConduct: 'minConduct',
+  transcriptScoreMethod: 'transcriptScoreMethod',
+  cutoffScore: 'cutoffScore'
 } as const
 
 export type AdmissionCampaignMajorScalarFieldEnum = (typeof AdmissionCampaignMajorScalarFieldEnum)[keyof typeof AdmissionCampaignMajorScalarFieldEnum]
 
 
+export const SubjectCombinationScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name'
+} as const
+
+export type SubjectCombinationScalarFieldEnum = (typeof SubjectCombinationScalarFieldEnum)[keyof typeof SubjectCombinationScalarFieldEnum]
+
+
+export const SubjectCombinationItemScalarFieldEnum = {
+  id: 'id',
+  subjectCombinationId: 'subjectCombinationId',
+  subjectCode: 'subjectCode'
+} as const
+
+export type SubjectCombinationItemScalarFieldEnum = (typeof SubjectCombinationItemScalarFieldEnum)[keyof typeof SubjectCombinationItemScalarFieldEnum]
+
+
 export const AdmissionProfileScalarFieldEnum = {
   id: 'id',
   applicationCode: 'applicationCode',
-  admissionCampaignId: 'admissionCampaignId',
-  majorId: 'majorId',
+  admissionCampaignMajorId: 'admissionCampaignMajorId',
   status: 'status',
   admissionType: 'admissionType',
   educationLevel: 'educationLevel',
-  trainingType: 'trainingType',
   fullName: 'fullName',
   identityNumber: 'identityNumber',
   dob: 'dob',
@@ -281,7 +322,11 @@ export const AdmissionProfileScalarFieldEnum = {
   gpa10: 'gpa10',
   gpa11: 'gpa11',
   gpa12: 'gpa12',
+  conduct10: 'conduct10',
+  conduct11: 'conduct11',
+  conduct12: 'conduct12',
   thptGradYear: 'thptGradYear',
+  subjectCombinationId: 'subjectCombinationId',
   totalExamScore: 'totalExamScore',
   priorityRegion: 'priorityRegion',
   priorityObject: 'priorityObject',
@@ -308,12 +353,24 @@ export const ExamScoreScalarFieldEnum = {
 export type ExamScoreScalarFieldEnum = (typeof ExamScoreScalarFieldEnum)[keyof typeof ExamScoreScalarFieldEnum]
 
 
+export const TranscriptSubjectScoreScalarFieldEnum = {
+  id: 'id',
+  admissionProfileId: 'admissionProfileId',
+  gradeLevel: 'gradeLevel',
+  subjectCode: 'subjectCode',
+  score: 'score'
+} as const
+
+export type TranscriptSubjectScoreScalarFieldEnum = (typeof TranscriptSubjectScoreScalarFieldEnum)[keyof typeof TranscriptSubjectScoreScalarFieldEnum]
+
+
 export const AdmissionStatusLogScalarFieldEnum = {
   id: 'id',
   admissionProfileId: 'admissionProfileId',
   fromStatus: 'fromStatus',
   toStatus: 'toStatus',
   byUserId: 'byUserId',
+  isSystem: 'isSystem',
   reason: 'reason',
   createdAt: 'createdAt'
 } as const
@@ -332,10 +389,37 @@ export const AdmissionDocumentScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   verifiedAt: 'verifiedAt',
   verifiedByUserId: 'verifiedByUserId',
+  isLatest: 'isLatest',
   uploadedAt: 'uploadedAt'
 } as const
 
 export type AdmissionDocumentScalarFieldEnum = (typeof AdmissionDocumentScalarFieldEnum)[keyof typeof AdmissionDocumentScalarFieldEnum]
+
+
+export const PriorityRuleScalarFieldEnum = {
+  id: 'id',
+  academicYearId: 'academicYearId',
+  priorityRegion: 'priorityRegion',
+  priorityObject: 'priorityObject',
+  bonusScore: 'bonusScore'
+} as const
+
+export type PriorityRuleScalarFieldEnum = (typeof PriorityRuleScalarFieldEnum)[keyof typeof PriorityRuleScalarFieldEnum]
+
+
+export const AdmissionInterestScalarFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  phone: 'phone',
+  identityNumber: 'identityNumber',
+  majorId: 'majorId',
+  trainingType: 'trainingType',
+  note: 'note',
+  notifiedAt: 'notifiedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AdmissionInterestScalarFieldEnum = (typeof AdmissionInterestScalarFieldEnum)[keyof typeof AdmissionInterestScalarFieldEnum]
 
 
 export const StudentScalarFieldEnum = {
@@ -519,18 +603,6 @@ export const VillageScalarFieldEnum = {
 } as const
 
 export type VillageScalarFieldEnum = (typeof VillageScalarFieldEnum)[keyof typeof VillageScalarFieldEnum]
-
-
-export const AcademicYearScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  isCurrent: 'isCurrent',
-  status: 'status'
-} as const
-
-export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
 
 
 export const GradeStudentScalarFieldEnum = {

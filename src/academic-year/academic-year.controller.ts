@@ -9,7 +9,7 @@ import {
   ResponseAcademicYearPaginationDto,
 } from "./academic-year.dto";
 
-@ApiTags("Academic Years")
+@ApiTags("Academic Years: Năm học")
 @Controller("academic-years")
 export class AcademicYearController {
   constructor(private readonly academicYearService: AcademicYearService) {}

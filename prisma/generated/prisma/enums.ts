@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const AcademicYearStatus = {
+  PLANNING: 'PLANNING',
+  ACTIVE: 'ACTIVE',
+  CLOSED: 'CLOSED'
+} as const
+
+export type AcademicYearStatus = (typeof AcademicYearStatus)[keyof typeof AcademicYearStatus]
+
+
 export const KnowledgeBlock = {
   GENERAL: 'GENERAL',
   BASE_MAJOR: 'BASE_MAJOR',
@@ -43,6 +52,14 @@ export const CampaignStatus = {
 } as const
 
 export type CampaignStatus = (typeof CampaignStatus)[keyof typeof CampaignStatus]
+
+
+export const TranscriptScoreMethod = {
+  LAST_YEAR_ONLY: 'LAST_YEAR_ONLY',
+  AVERAGE_ALL_YEARS: 'AVERAGE_ALL_YEARS'
+} as const
+
+export type TranscriptScoreMethod = (typeof TranscriptScoreMethod)[keyof typeof TranscriptScoreMethod]
 
 
 export const ApplicationStatus = {
@@ -100,7 +117,8 @@ export type PriorityObject = (typeof PriorityObject)[keyof typeof PriorityObject
 
 
 export const AdmissionType = {
-  ACADEMIC_TRANSCRIPT: 'ACADEMIC_TRANSCRIPT',
+  ACADEMIC_TRANSCRIPT_SUBJECT: 'ACADEMIC_TRANSCRIPT_SUBJECT',
+  ACADEMIC_TRANSCRIPT_GPA: 'ACADEMIC_TRANSCRIPT_GPA',
   EXAM_SCORE: 'EXAM_SCORE',
   DIRECT: 'DIRECT'
 } as const
@@ -211,15 +229,6 @@ export const AdmissionStatus = {
 } as const
 
 export type AdmissionStatus = (typeof AdmissionStatus)[keyof typeof AdmissionStatus]
-
-
-export const AcademicYearStatus = {
-  PLANNING: 'PLANNING',
-  ACTIVE: 'ACTIVE',
-  CLOSED: 'CLOSED'
-} as const
-
-export type AcademicYearStatus = (typeof AcademicYearStatus)[keyof typeof AcademicYearStatus]
 
 
 export const CourseOfferStatus = {

@@ -29,8 +29,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Departments
- * const departments = await prisma.department.findMany()
+ * // Fetch zero or more AcademicYears
+ * const academicYears = await prisma.academicYear.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,6 +39,11 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model AcademicYear
+ * 
+ */
+export type AcademicYear = Prisma.AcademicYearModel
 /**
  * Model Department
  * 
@@ -85,6 +90,16 @@ export type AdmissionCampaign = Prisma.AdmissionCampaignModel
  */
 export type AdmissionCampaignMajor = Prisma.AdmissionCampaignMajorModel
 /**
+ * Model SubjectCombination
+ * 
+ */
+export type SubjectCombination = Prisma.SubjectCombinationModel
+/**
+ * Model SubjectCombinationItem
+ * 
+ */
+export type SubjectCombinationItem = Prisma.SubjectCombinationItemModel
+/**
  * Model AdmissionProfile
  * 
  */
@@ -95,6 +110,11 @@ export type AdmissionProfile = Prisma.AdmissionProfileModel
  */
 export type ExamScore = Prisma.ExamScoreModel
 /**
+ * Model TranscriptSubjectScore
+ * 
+ */
+export type TranscriptSubjectScore = Prisma.TranscriptSubjectScoreModel
+/**
  * Model AdmissionStatusLog
  * 
  */
@@ -104,6 +124,16 @@ export type AdmissionStatusLog = Prisma.AdmissionStatusLogModel
  * 
  */
 export type AdmissionDocument = Prisma.AdmissionDocumentModel
+/**
+ * Model PriorityRule
+ * 
+ */
+export type PriorityRule = Prisma.PriorityRuleModel
+/**
+ * Model AdmissionInterest
+ * 
+ */
+export type AdmissionInterest = Prisma.AdmissionInterestModel
 /**
  * Model Student
  * 
@@ -169,11 +199,6 @@ export type Ward = Prisma.WardModel
  * 
  */
 export type Village = Prisma.VillageModel
-/**
- * Model AcademicYear
- * 
- */
-export type AcademicYear = Prisma.AcademicYearModel
 /**
  * Model GradeStudent
  * 

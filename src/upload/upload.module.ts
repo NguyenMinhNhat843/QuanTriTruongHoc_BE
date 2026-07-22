@@ -8,4 +8,4 @@ import { CloudinaryProvider } from "./upload.provider";
   controllers: [FileStoreController],
   exports: [UploadFileService, CloudinaryProvider],
 })
-export class CloudinaryModule {}
+export class UploadFileModule {}

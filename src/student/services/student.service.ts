@@ -1,29 +1,26 @@
 import { Injectable, NotFoundException, BadRequestException, ConflictException } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service.js";
+import { PrismaService } from "../../prisma/prisma.service.js";
 import {
   AssignStudentsToClassesDto,
   CreateStudentDto,
   FindOneStudentDto,
   SearchStudentDto,
   UpdateStudentDto,
-} from "./dto/student.dto.js";
+} from "../dtos/student.dto.js";
 import {
   QualifiedStudentResponseDto,
   ResponseStudentPaginationDto,
   StudentResponseDto,
-} from "./dto/student.response.js";
-import { Conduct, DocumentStatus, Prisma, StudentStatus } from "../../prisma/generated/prisma/client.js";
+} from "../dtos/student.response.js";
+import { Conduct, DocumentStatus, Prisma, StudentStatus, RoleType } from "../../../prisma/generated/prisma/client.js";
 import { plainToInstance } from "class-transformer";
+import bcrypt from "bcryptjs";
 
 @Injectable()
 export class StudentService {
   constructor(private prisma: PrismaService) {}
 
-  /**
-   * Tạo mới học sinh
-   */
   async create(dto: CreateStudentDto) {
-    // Kiểm tra trùng lặp mã học sinh, CCCD hoặc userId
     const existingStudent = await this.prisma.student.findFirst({
       where: {
         OR: [{ studentCode: dto.studentCode }, { identityNumber: dto.identityNumber }, { userId: dto.userId }],
@@ -45,40 +42,90 @@ export class StudentService {
     });
   }
 
+  /**
+   * Sinh Sinh viên + User từ hồ sơ trúng tuyển nhập học (ENROLLED)
+   */
+  async createStudentFromAdmissionProfile(admissionProfileId: number) {
+    const profile = await this.prisma.admissionProfile.findUnique({
+      where: { id: admissionProfileId },
+      include: {
+        admissionCampaignMajor: true,
+      },
+    });
+
+    if (!profile) {
+      throw new NotFoundException(`Hồ sơ tuyển sinh ID ${admissionProfileId} không tồn tại`);
+    }
+
+    if (profile.studentId) {
+      const existingStudent = await this.prisma.student.findUnique({
+        where: { id: profile.studentId },
+      });
+      if (existingStudent) return existingStudent;
+    }
+
+    const year = new Date().getFullYear();
+    const count = await this.prisma.student.count();
+    const studentCode = `SV${year}${(count + 1).toString().padStart(4, "0")}`;
+
+    let user = await this.prisma.user.findFirst({
+      where: { username: profile.identityNumber },
+    });
+
+    if (!user) {
+      const defaultPasswordHash = await bcrypt.hash("123456@Aa", 10);
+      user = await this.prisma.user.create({
+        data: {
+          username: profile.identityNumber,
+          passwordHash: defaultPasswordHash,
+          role: RoleType.student,
+        },
+      });
+    }
+
+    const student = await this.prisma.student.create({
+      data: {
+        studentCode,
+        identityNumber: profile.identityNumber,
+        userId: user.id,
+        majorId: profile.admissionCampaignMajor.majorId,
+        educationLevel: profile.educationLevel,
+        status: StudentStatus.STUDYING,
+        enrollmentDate: new Date(),
+        fullName: profile.fullName,
+        email: profile.email,
+        gender: profile.gender,
+        dob: profile.dob,
+        phone: profile.phone,
+      },
+    });
+
+    return student;
+  }
+
   async deleteStudentById(id: number) {
-    return await this.prisma.student.delete({
+    return this.prisma.student.delete({
       where: { id },
     });
   }
 
-  /**
-   * Tạo nhiều sinh viên
-   */
   async createManyStudents(data: CreateStudentDto[]) {
     const timestampPart = Date.now().toString().slice(-7);
 
-    // Hàm helper để chuẩn hóa chuỗi ngày tháng về múi giờ VN (+07:00)
     const formatToVnTimezone = (dateInput: any) => {
       if (!dateInput) return null;
-
-      // Nếu là chuỗi, lấy 10 ký tự đầu (YYYY-MM-DD)
       const dateStr = typeof dateInput === "string" ? dateInput.split("T")[0] : dateInput;
-
-      // Ép về định dạng ISO chuẩn múi giờ +07:00
       return new Date(`${dateStr}T00:00:00.000+07:00`);
     };
 
     const createdStudents = await this.prisma.student.createMany({
       data: data.map((item, i) => {
         const randomPart = Math.floor(10 + Math.random() * 90).toString();
-
         return {
           ...item,
-          // Ép kiểu Date chính xác cho ngày sinh và các ngày liên quan
           dob: formatToVnTimezone(item.dob),
           enrollmentDate: formatToVnTimezone(item.enrollmentDate),
           graduationDate: formatToVnTimezone(item.graduationDate),
-
           studentCode: `S${timestampPart}${randomPart}${i}`,
         };
       }),
@@ -91,9 +138,6 @@ export class StudentService {
     };
   }
 
-  /**
-   * Tìm sinh viên theo Ưu tiên: id -> identityNumber -> studentCode
-   */
   async findOne(query: FindOneStudentDto): Promise<StudentResponseDto> {
     const { id, identityNumber, studentCode } = query;
 
@@ -101,9 +145,7 @@ export class StudentService {
       throw new BadRequestException("Cần truyền ít nhất một trong các tham số: id, identityNumber, hoặc studentCode");
     }
 
-    // Xây dựng câu điều kiện Prisma theo đúng thứ tự ưu tiên
     const whereCondition: any = {};
-
     if (id) {
       whereCondition.id = Number(id);
     } else if (identityNumber) {
@@ -116,27 +158,9 @@ export class StudentService {
       where: whereCondition,
       include: {
         user: true,
-        batch: {
-          select: {
-            id: true,
-            batchCode: true,
-            batchName: true,
-          },
-        },
-        class: {
-          select: {
-            id: true,
-            classCode: true,
-            className: true,
-          },
-        },
-        major: {
-          select: {
-            id: true,
-            majorCode: true,
-            majorName: true,
-          },
-        },
+        batch: { select: { id: true, batchCode: true, batchName: true } },
+        class: { select: { id: true, classCode: true, className: true } },
+        major: { select: { id: true, majorCode: true, majorName: true } },
       },
     });
 
@@ -147,9 +171,6 @@ export class StudentService {
     return plainToInstance(StudentResponseDto, student);
   }
 
-  /**
-   * Cập nhật thông tin học sinh
-   */
   async update(id: number, dto: UpdateStudentDto) {
     await this.findOne({ id });
 
@@ -164,49 +185,15 @@ export class StudentService {
     });
   }
 
-  /**
-   * Lấy danh sách học sinh đủ điều kiện phân lớp (Schema mới)
-   */
   async getEligibleStudentsForAssignment(batchId: number): Promise<ResponseStudentPaginationDto> {
     const numericBatchId = Number(batchId);
 
-    // 1. Lấy đợt tuyển sinh tương ứng với Batch để tìm cấu hình tài liệu (DocumentConfig)
-    const campaign = await this.prisma.admissionCampaign.findFirst({
-      where: { batchId: numericBatchId },
-      select: { id: true },
-    });
-
-    // 2. Lấy cấu hình giấy tờ theo đợt tuyển sinh (hoặc cấu hình chung)
-    const docConfig = await this.prisma.documentConfig.findFirst({
-      where: {
-        OR: [
-          ...(campaign?.id ? [{ admissionCampaignId: campaign.id }] : []),
-          // Nếu không tìm thấy cấu hình theo campaign, rơi vào cấu hình mặc định/chung
-          { admissionCampaignId: null },
-        ],
-      },
-      include: {
-        items: {
-          where: { required: true },
-          orderBy: { sortOrder: "asc" },
-        },
-      },
-    });
-
-    const totalConfigItems = docConfig?.items || [];
-    const totalRequiredDocs = totalConfigItems.length;
-
-    // 2. Xây dựng điều kiện lọc Học sinh:
-    // - Thuộc khóa học (batchId)
-    // - Chưa được xếp lớp (classId = null)
-    // - Trạng thái đang theo học (STUDYING)
     const where: Prisma.StudentWhereInput = {
       batchId: numericBatchId,
       classId: null,
       status: StudentStatus.STUDYING,
     };
 
-    // 3. Thực thi truy vấn đồng thời
     const [total, items] = await Promise.all([
       this.prisma.student.count({ where }),
       this.prisma.student.findMany({
@@ -214,20 +201,12 @@ export class StudentService {
         include: {
           user: true,
           batch: true,
-          class: {
-            select: {
-              id: true,
-              classCode: true,
-              className: true,
-            },
-          },
+          class: { select: { id: true, classCode: true, className: true } },
           admissionProfile: {
             include: {
               documents: {
-                where: { status: DocumentStatus.APPROVED }, // Chỉ tính các giấy tờ đã duyệt
-                select: {
-                  documentConfigItemId: true,
-                },
+                where: { status: DocumentStatus.APPROVED },
+                select: { documentConfigItemId: true },
               },
             },
           },
@@ -236,30 +215,18 @@ export class StudentService {
       }),
     ]);
 
-    // 4. Map dữ liệu & tính toán Tiến độ hồ sơ + Tiêu chí xét đạt (isQualified)
     const formattedItems = items.map((student) => {
       const profile = student.admissionProfile;
-
-      // --- Tính tiến độ hồ sơ ---
-      const approvedDocItemIds = new Set(profile?.documents.map((doc) => doc.documentConfigItemId) || []);
-
-      const currentDocsCount = totalConfigItems.filter((configItem) => approvedDocItemIds.has(configItem.id)).length;
-
-      // --- Tính tiêu chí xét tuyển đạt (isQualified) ---
       let isQualified = false;
 
       if (profile) {
-        // Trường hợp 1: Được tuyển thẳng ➔ Đạt luôn
         if (profile.isDirectAdmission) {
           isQualified = true;
         } else {
-          // Trường hợp 2: Kiểm tra Học lực (GPA) & Hạnh kiểm THCS
           const gpaList = [profile.gpa6, profile.gpa7, profile.gpa8, profile.gpa9].filter(
             (gpa): gpa is number => gpa !== null && gpa !== undefined,
           );
-
           const avgGpa = gpaList.length > 0 ? gpaList.reduce((sum, val) => sum + val, 0) / gpaList.length : 0;
-
           const validConducts: Conduct[] = [Conduct.KHA, Conduct.TOT];
           const isConductPassed =
             profile.conduct6 &&
@@ -271,22 +238,16 @@ export class StudentService {
             profile.conduct9 &&
             validConducts.includes(profile.conduct9);
 
-          // Đạt nếu Điểm TB > 5.0 và Hạnh kiểm Khá trở lên (hoặc dựa trên scoreCalculated)
           isQualified = (avgGpa >= 5.0 && Boolean(isConductPassed)) || (profile.scoreCalculated ?? 0) >= 5.0;
         }
       }
 
       return {
         ...student,
-        documentProgress: {
-          current: currentDocsCount,
-          total: totalRequiredDocs,
-        },
         isQualified,
       };
     });
 
-    // 5. Chuyển đổi sang DTO trả về cho FE
     const students = formattedItems.map((item) =>
       plainToInstance(QualifiedStudentResponseDto, item, { excludeExtraneousValues: false }),
     );
@@ -297,16 +258,11 @@ export class StudentService {
     };
   }
 
-  /**
-   * Tự động phân lớp cho học sinh (Bảo đảm chống Race Condition & tương thích Schema mới)
-   */
   async assignStudentsToClasses(body: AssignStudentsToClassesDto) {
     const { batchId, studentsPerClass = 40 } = body;
     const numericBatchId = Number(batchId);
 
-    // Chạy trong Transaction để đảm bảo tính toàn vẹn dữ liệu
-    return await this.prisma.$transaction(async (tx) => {
-      // 1. Kiểm tra Khóa đào tạo (Batch)
+    return this.prisma.$transaction(async (tx) => {
       const batch = await tx.batch.findUnique({
         where: { id: numericBatchId },
         select: { id: true, batchCode: true, majorId: true },
@@ -316,12 +272,11 @@ export class StudentService {
         throw new NotFoundException(`Không tìm thấy Khóa đào tạo với ID ${numericBatchId}`);
       }
 
-      // 2. Lấy danh sách học sinh chưa có lớp trong khóa này
       let studentsPool = await tx.student.findMany({
         where: {
           batchId: numericBatchId,
           classId: null,
-          status: StudentStatus.STUDYING, // Theo Enum Prisma mới
+          status: StudentStatus.STUDYING,
         },
         orderBy: { fullName: "asc" },
       });
@@ -330,11 +285,8 @@ export class StudentService {
         throw new BadRequestException("Không có học sinh mới nào cần phân lớp.");
       }
 
-      // 3. Lấy danh sách lớp học hiện có của Khóa
       const existingClasses = await tx.class.findMany({
-        where: {
-          batchId: numericBatchId,
-        },
+        where: { batchId: numericBatchId },
         orderBy: { classCode: "asc" },
       });
 
@@ -346,9 +298,6 @@ export class StudentService {
         note: string;
       }> = [];
 
-      // ==========================================
-      // BƯỚC 1: LẤP ĐẦY CÁC LỚP CŨ CÒN TRỐNG CHỖ
-      // ==========================================
       for (const cls of existingClasses) {
         if (studentsPool.length === 0) break;
 
@@ -362,16 +311,13 @@ export class StudentService {
         if (needed > 0) {
           const assignedStudents = studentsPool.slice(0, needed);
           studentsPool = studentsPool.slice(needed);
-
           const studentIds = assignedStudents.map((s) => s.id);
 
-          // Cập nhật sĩ số lớp
           await tx.class.update({
             where: { id: cls.id },
             data: { currentSize: currentCount + studentIds.length },
           });
 
-          // Gán lớp cho học sinh
           await tx.student.updateMany({
             where: { id: { in: studentIds } },
             data: { classId: cls.id },
@@ -386,9 +332,6 @@ export class StudentService {
         }
       }
 
-      // ==========================================
-      // BƯỚC 2: TẠO LỚP MỚI CHO HỌC SINH CÒN DƯ
-      // ==========================================
       let maxLetterIdx = -1;
       existingClasses.forEach((cls) => {
         const lastChar = cls.classCode.slice(-1).toUpperCase();
@@ -401,14 +344,12 @@ export class StudentService {
       while (studentsPool.length > 0) {
         const assignedStudents = studentsPool.slice(0, studentsPerClass);
         studentsPool = studentsPool.slice(studentsPerClass);
-
         const studentIds = assignedStudents.map((s) => s.id);
 
         let classCode = "";
         let className = "";
         let isUnique = false;
 
-        // Sinh mã lớp đảm bảo không bị trùng lặp trong DB
         while (!isUnique) {
           const suffix = letters[classCounter] || `LOP-${classCounter + 1}`;
           classCode = `${batch.batchCode}${suffix}`.toUpperCase().replace(/\s+/g, "");
@@ -425,7 +366,6 @@ export class StudentService {
           }
         }
 
-        // Tạo lớp mới
         const newClass = await tx.class.create({
           data: {
             classCode,
@@ -438,7 +378,6 @@ export class StudentService {
           },
         });
 
-        // Gán lớp mới cho nhóm học sinh
         await tx.student.updateMany({
           where: { id: { in: studentIds } },
           data: { classId: newClass.id },
@@ -462,9 +401,6 @@ export class StudentService {
     });
   }
 
-  /**
-   * Tìm kiếm và phân trang danh sách Học sinh (Chuẩn hóa theo đúng DTO)
-   */
   async searchStudents(query: SearchStudentDto): Promise<ResponseStudentPaginationDto> {
     const {
       page = 1,
@@ -484,22 +420,29 @@ export class StudentService {
     const numericLimit = Number(limit) || 10;
     const skip = (numericPage - 1) * numericLimit;
 
-    // 1. Lấy đợt tuyển sinh tương ứng với batchId
-    let campaign: { id: number } | null = null;
-
+    let academicYearId: number | null = null;
     if (batchId) {
+      const batch = await this.prisma.batch.findUnique({
+        where: { id: Number(batchId) },
+        select: { academicYearId: true },
+      });
+      academicYearId = batch?.academicYearId ?? null;
+    }
+
+    let campaign: { id: number } | null = null;
+    if (academicYearId) {
       campaign = await this.prisma.admissionCampaign.findFirst({
-        where: { batchId: Number(batchId) },
-        select: { id: true }, // Chỉ lấy id, không select educationLevel nữa
+        where: { academicYearId },
+        select: { id: true },
+        orderBy: { createdAt: "desc" },
       });
     }
 
-    // 2. Lấy cấu hình giấy tờ bắt buộc theo campaignId (hoặc cấu hình mặc định)
     const docConfig = await this.prisma.documentConfig.findFirst({
       where: {
         OR: [
           ...(campaign ? [{ admissionCampaignId: campaign.id }] : []),
-          { id: 1 }, // Fallback về cấu hình chung/mẫu
+          { id: 1 },
         ],
       },
       include: {
@@ -513,7 +456,6 @@ export class StudentService {
     const totalConfigItems = docConfig?.items || [];
     const totalRequiredDocs = totalConfigItems.length;
 
-    // 2. Xây dựng điều kiện lọc (Where Clause) CHỈ DÙNG các trường trong DTO
     const where: Prisma.StudentWhereInput = {
       AND: [
         studentCode ? { studentCode: { contains: studentCode, mode: "insensitive" } } : {},
@@ -528,7 +470,6 @@ export class StudentService {
       ],
     };
 
-    // 3. Thực thi truy vấn đồng thời (Count & FindMany)
     const [total, items] = await Promise.all([
       this.prisma.student.count({ where }),
       this.prisma.student.findMany({
@@ -536,27 +477,13 @@ export class StudentService {
         include: {
           user: true,
           batch: true,
-          major: {
-            select: {
-              id: true,
-              majorCode: true,
-              majorName: true,
-            },
-          },
-          class: {
-            select: {
-              id: true,
-              classCode: true,
-              className: true,
-            },
-          },
+          major: { select: { id: true, majorCode: true, majorName: true } },
+          class: { select: { id: true, classCode: true, className: true } },
           admissionProfile: {
             include: {
               documents: {
-                where: { status: DocumentStatus.APPROVED }, // Chỉ tính các giấy tờ đã duyệt
-                select: {
-                  documentConfigItemId: true,
-                },
+                where: { status: DocumentStatus.APPROVED },
+                select: { documentConfigItemId: true },
               },
             },
           },
@@ -567,18 +494,12 @@ export class StudentService {
       }),
     ]);
 
-    // 4. Map dữ liệu để tính tiến độ hồ sơ & tiêu chí đạt (isQualified)
     const formattedItems = items.map((student) => {
       const profile = student.admissionProfile;
-
-      // --- Tính tiến độ hồ sơ ---
       const approvedDocItemIds = new Set(profile?.documents.map((doc) => doc.documentConfigItemId) || []);
-
       const currentDocsCount = totalConfigItems.filter((configItem) => approvedDocItemIds.has(configItem.id)).length;
 
-      // --- Tính tiêu chí đạt (isQualified) ---
       let isQualified = false;
-
       if (profile) {
         if (profile.isDirectAdmission) {
           isQualified = true;
@@ -586,9 +507,7 @@ export class StudentService {
           const gpaList = [profile.gpa6, profile.gpa7, profile.gpa8, profile.gpa9].filter(
             (gpa): gpa is number => gpa !== null && gpa !== undefined,
           );
-
           const avgGpa = gpaList.length > 0 ? gpaList.reduce((sum, val) => sum + val, 0) / gpaList.length : 0;
-
           const validConducts: Conduct[] = [Conduct.KHA, Conduct.TOT];
           const isConductPassed =
             profile.conduct6 &&
@@ -614,7 +533,6 @@ export class StudentService {
       };
     });
 
-    // 5. Transform sang Response DTO
     const students = formattedItems.map((item) =>
       plainToInstance(QualifiedStudentResponseDto, item, { excludeExtraneousValues: false }),
     );
@@ -625,3 +543,4 @@ export class StudentService {
     };
   }
 }
+

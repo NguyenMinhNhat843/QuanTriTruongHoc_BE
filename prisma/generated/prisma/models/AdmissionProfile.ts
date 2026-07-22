@@ -28,8 +28,7 @@ export type AggregateAdmissionProfile = {
 
 export type AdmissionProfileAvgAggregateOutputType = {
   id: number | null
-  admissionCampaignId: number | null
-  majorId: number | null
+  admissionCampaignMajorId: number | null
   villageId: number | null
   gpa6: number | null
   gpa7: number | null
@@ -40,6 +39,7 @@ export type AdmissionProfileAvgAggregateOutputType = {
   gpa11: number | null
   gpa12: number | null
   thptGradYear: number | null
+  subjectCombinationId: number | null
   totalExamScore: number | null
   priorityScore: number | null
   scoreCalculated: number | null
@@ -48,8 +48,7 @@ export type AdmissionProfileAvgAggregateOutputType = {
 
 export type AdmissionProfileSumAggregateOutputType = {
   id: number | null
-  admissionCampaignId: number | null
-  majorId: number | null
+  admissionCampaignMajorId: number | null
   villageId: number | null
   gpa6: number | null
   gpa7: number | null
@@ -60,6 +59,7 @@ export type AdmissionProfileSumAggregateOutputType = {
   gpa11: number | null
   gpa12: number | null
   thptGradYear: number | null
+  subjectCombinationId: number | null
   totalExamScore: number | null
   priorityScore: number | null
   scoreCalculated: number | null
@@ -69,12 +69,10 @@ export type AdmissionProfileSumAggregateOutputType = {
 export type AdmissionProfileMinAggregateOutputType = {
   id: number | null
   applicationCode: string | null
-  admissionCampaignId: number | null
-  majorId: number | null
+  admissionCampaignMajorId: number | null
   status: $Enums.ApplicationStatus | null
   admissionType: $Enums.AdmissionType | null
   educationLevel: $Enums.EducationLevel | null
-  trainingType: $Enums.TrainingType | null
   fullName: string | null
   identityNumber: string | null
   dob: Date | null
@@ -103,7 +101,11 @@ export type AdmissionProfileMinAggregateOutputType = {
   gpa10: number | null
   gpa11: number | null
   gpa12: number | null
+  conduct10: $Enums.Conduct | null
+  conduct11: $Enums.Conduct | null
+  conduct12: $Enums.Conduct | null
   thptGradYear: number | null
+  subjectCombinationId: number | null
   totalExamScore: number | null
   priorityRegion: $Enums.PriorityRegion | null
   priorityObject: $Enums.PriorityObject | null
@@ -120,12 +122,10 @@ export type AdmissionProfileMinAggregateOutputType = {
 export type AdmissionProfileMaxAggregateOutputType = {
   id: number | null
   applicationCode: string | null
-  admissionCampaignId: number | null
-  majorId: number | null
+  admissionCampaignMajorId: number | null
   status: $Enums.ApplicationStatus | null
   admissionType: $Enums.AdmissionType | null
   educationLevel: $Enums.EducationLevel | null
-  trainingType: $Enums.TrainingType | null
   fullName: string | null
   identityNumber: string | null
   dob: Date | null
@@ -154,7 +154,11 @@ export type AdmissionProfileMaxAggregateOutputType = {
   gpa10: number | null
   gpa11: number | null
   gpa12: number | null
+  conduct10: $Enums.Conduct | null
+  conduct11: $Enums.Conduct | null
+  conduct12: $Enums.Conduct | null
   thptGradYear: number | null
+  subjectCombinationId: number | null
   totalExamScore: number | null
   priorityRegion: $Enums.PriorityRegion | null
   priorityObject: $Enums.PriorityObject | null
@@ -171,12 +175,10 @@ export type AdmissionProfileMaxAggregateOutputType = {
 export type AdmissionProfileCountAggregateOutputType = {
   id: number
   applicationCode: number
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status: number
   admissionType: number
   educationLevel: number
-  trainingType: number
   fullName: number
   identityNumber: number
   dob: number
@@ -205,7 +207,11 @@ export type AdmissionProfileCountAggregateOutputType = {
   gpa10: number
   gpa11: number
   gpa12: number
+  conduct10: number
+  conduct11: number
+  conduct12: number
   thptGradYear: number
+  subjectCombinationId: number
   totalExamScore: number
   priorityRegion: number
   priorityObject: number
@@ -223,8 +229,7 @@ export type AdmissionProfileCountAggregateOutputType = {
 
 export type AdmissionProfileAvgAggregateInputType = {
   id?: true
-  admissionCampaignId?: true
-  majorId?: true
+  admissionCampaignMajorId?: true
   villageId?: true
   gpa6?: true
   gpa7?: true
@@ -235,6 +240,7 @@ export type AdmissionProfileAvgAggregateInputType = {
   gpa11?: true
   gpa12?: true
   thptGradYear?: true
+  subjectCombinationId?: true
   totalExamScore?: true
   priorityScore?: true
   scoreCalculated?: true
@@ -243,8 +249,7 @@ export type AdmissionProfileAvgAggregateInputType = {
 
 export type AdmissionProfileSumAggregateInputType = {
   id?: true
-  admissionCampaignId?: true
-  majorId?: true
+  admissionCampaignMajorId?: true
   villageId?: true
   gpa6?: true
   gpa7?: true
@@ -255,6 +260,7 @@ export type AdmissionProfileSumAggregateInputType = {
   gpa11?: true
   gpa12?: true
   thptGradYear?: true
+  subjectCombinationId?: true
   totalExamScore?: true
   priorityScore?: true
   scoreCalculated?: true
@@ -264,12 +270,10 @@ export type AdmissionProfileSumAggregateInputType = {
 export type AdmissionProfileMinAggregateInputType = {
   id?: true
   applicationCode?: true
-  admissionCampaignId?: true
-  majorId?: true
+  admissionCampaignMajorId?: true
   status?: true
   admissionType?: true
   educationLevel?: true
-  trainingType?: true
   fullName?: true
   identityNumber?: true
   dob?: true
@@ -298,7 +302,11 @@ export type AdmissionProfileMinAggregateInputType = {
   gpa10?: true
   gpa11?: true
   gpa12?: true
+  conduct10?: true
+  conduct11?: true
+  conduct12?: true
   thptGradYear?: true
+  subjectCombinationId?: true
   totalExamScore?: true
   priorityRegion?: true
   priorityObject?: true
@@ -315,12 +323,10 @@ export type AdmissionProfileMinAggregateInputType = {
 export type AdmissionProfileMaxAggregateInputType = {
   id?: true
   applicationCode?: true
-  admissionCampaignId?: true
-  majorId?: true
+  admissionCampaignMajorId?: true
   status?: true
   admissionType?: true
   educationLevel?: true
-  trainingType?: true
   fullName?: true
   identityNumber?: true
   dob?: true
@@ -349,7 +355,11 @@ export type AdmissionProfileMaxAggregateInputType = {
   gpa10?: true
   gpa11?: true
   gpa12?: true
+  conduct10?: true
+  conduct11?: true
+  conduct12?: true
   thptGradYear?: true
+  subjectCombinationId?: true
   totalExamScore?: true
   priorityRegion?: true
   priorityObject?: true
@@ -366,12 +376,10 @@ export type AdmissionProfileMaxAggregateInputType = {
 export type AdmissionProfileCountAggregateInputType = {
   id?: true
   applicationCode?: true
-  admissionCampaignId?: true
-  majorId?: true
+  admissionCampaignMajorId?: true
   status?: true
   admissionType?: true
   educationLevel?: true
-  trainingType?: true
   fullName?: true
   identityNumber?: true
   dob?: true
@@ -400,7 +408,11 @@ export type AdmissionProfileCountAggregateInputType = {
   gpa10?: true
   gpa11?: true
   gpa12?: true
+  conduct10?: true
+  conduct11?: true
+  conduct12?: true
   thptGradYear?: true
+  subjectCombinationId?: true
   totalExamScore?: true
   priorityRegion?: true
   priorityObject?: true
@@ -504,12 +516,10 @@ export type AdmissionProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions
 export type AdmissionProfileGroupByOutputType = {
   id: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status: $Enums.ApplicationStatus
   admissionType: $Enums.AdmissionType
   educationLevel: $Enums.EducationLevel
-  trainingType: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date
@@ -538,7 +548,11 @@ export type AdmissionProfileGroupByOutputType = {
   gpa10: number | null
   gpa11: number | null
   gpa12: number | null
+  conduct10: $Enums.Conduct | null
+  conduct11: $Enums.Conduct | null
+  conduct12: $Enums.Conduct | null
   thptGradYear: number | null
+  subjectCombinationId: number | null
   totalExamScore: number | null
   priorityRegion: $Enums.PriorityRegion | null
   priorityObject: $Enums.PriorityObject | null
@@ -578,12 +592,10 @@ export type AdmissionProfileWhereInput = {
   NOT?: Prisma.AdmissionProfileWhereInput | Prisma.AdmissionProfileWhereInput[]
   id?: Prisma.IntFilter<"AdmissionProfile"> | number
   applicationCode?: Prisma.StringFilter<"AdmissionProfile"> | string
-  admissionCampaignId?: Prisma.IntFilter<"AdmissionProfile"> | number
-  majorId?: Prisma.IntFilter<"AdmissionProfile"> | number
+  admissionCampaignMajorId?: Prisma.IntFilter<"AdmissionProfile"> | number
   status?: Prisma.EnumApplicationStatusFilter<"AdmissionProfile"> | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFilter<"AdmissionProfile"> | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFilter<"AdmissionProfile"> | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFilter<"AdmissionProfile"> | $Enums.TrainingType
   fullName?: Prisma.StringFilter<"AdmissionProfile"> | string
   identityNumber?: Prisma.StringFilter<"AdmissionProfile"> | string
   dob?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
@@ -612,7 +624,11 @@ export type AdmissionProfileWhereInput = {
   gpa10?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   gpa11?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   gpa12?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
+  conduct10?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct11?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct12?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
   thptGradYear?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
+  subjectCombinationId?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
   totalExamScore?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   priorityRegion?: Prisma.EnumPriorityRegionNullableFilter<"AdmissionProfile"> | $Enums.PriorityRegion | null
   priorityObject?: Prisma.EnumPriorityObjectNullableFilter<"AdmissionProfile"> | $Enums.PriorityObject | null
@@ -624,12 +640,13 @@ export type AdmissionProfileWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
   studentId?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
-  admissionCampaign?: Prisma.XOR<Prisma.AdmissionCampaignScalarRelationFilter, Prisma.AdmissionCampaignWhereInput>
-  major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
+  admissionCampaignMajor?: Prisma.XOR<Prisma.AdmissionCampaignMajorScalarRelationFilter, Prisma.AdmissionCampaignMajorWhereInput>
   province?: Prisma.XOR<Prisma.ProvinceNullableScalarRelationFilter, Prisma.ProvinceWhereInput> | null
   ward?: Prisma.XOR<Prisma.WardNullableScalarRelationFilter, Prisma.WardWhereInput> | null
   village?: Prisma.XOR<Prisma.VillageNullableScalarRelationFilter, Prisma.VillageWhereInput> | null
+  subjectCombination?: Prisma.XOR<Prisma.SubjectCombinationNullableScalarRelationFilter, Prisma.SubjectCombinationWhereInput> | null
   examScores?: Prisma.ExamScoreListRelationFilter
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreListRelationFilter
   documents?: Prisma.AdmissionDocumentListRelationFilter
   statusLogs?: Prisma.AdmissionStatusLogListRelationFilter
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
@@ -638,12 +655,10 @@ export type AdmissionProfileWhereInput = {
 export type AdmissionProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   applicationCode?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  majorId?: Prisma.SortOrder
+  admissionCampaignMajorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   admissionType?: Prisma.SortOrder
   educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   identityNumber?: Prisma.SortOrder
   dob?: Prisma.SortOrder
@@ -672,7 +687,11 @@ export type AdmissionProfileOrderByWithRelationInput = {
   gpa10?: Prisma.SortOrderInput | Prisma.SortOrder
   gpa11?: Prisma.SortOrderInput | Prisma.SortOrder
   gpa12?: Prisma.SortOrderInput | Prisma.SortOrder
+  conduct10?: Prisma.SortOrderInput | Prisma.SortOrder
+  conduct11?: Prisma.SortOrderInput | Prisma.SortOrder
+  conduct12?: Prisma.SortOrderInput | Prisma.SortOrder
   thptGradYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  subjectCombinationId?: Prisma.SortOrderInput | Prisma.SortOrder
   totalExamScore?: Prisma.SortOrderInput | Prisma.SortOrder
   priorityRegion?: Prisma.SortOrderInput | Prisma.SortOrder
   priorityObject?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -684,12 +703,13 @@ export type AdmissionProfileOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   studentId?: Prisma.SortOrderInput | Prisma.SortOrder
-  admissionCampaign?: Prisma.AdmissionCampaignOrderByWithRelationInput
-  major?: Prisma.MajorOrderByWithRelationInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorOrderByWithRelationInput
   province?: Prisma.ProvinceOrderByWithRelationInput
   ward?: Prisma.WardOrderByWithRelationInput
   village?: Prisma.VillageOrderByWithRelationInput
+  subjectCombination?: Prisma.SubjectCombinationOrderByWithRelationInput
   examScores?: Prisma.ExamScoreOrderByRelationAggregateInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreOrderByRelationAggregateInput
   documents?: Prisma.AdmissionDocumentOrderByRelationAggregateInput
   statusLogs?: Prisma.AdmissionStatusLogOrderByRelationAggregateInput
   student?: Prisma.StudentOrderByWithRelationInput
@@ -699,16 +719,14 @@ export type AdmissionProfileWhereUniqueInput = Prisma.AtLeast<{
   id?: number
   applicationCode?: string
   studentId?: number
-  admissionCampaignId_majorId_identityNumber?: Prisma.AdmissionProfileAdmissionCampaignIdMajorIdIdentityNumberCompoundUniqueInput
+  admissionCampaignMajorId_identityNumber?: Prisma.AdmissionProfileAdmissionCampaignMajorIdIdentityNumberCompoundUniqueInput
   AND?: Prisma.AdmissionProfileWhereInput | Prisma.AdmissionProfileWhereInput[]
   OR?: Prisma.AdmissionProfileWhereInput[]
   NOT?: Prisma.AdmissionProfileWhereInput | Prisma.AdmissionProfileWhereInput[]
-  admissionCampaignId?: Prisma.IntFilter<"AdmissionProfile"> | number
-  majorId?: Prisma.IntFilter<"AdmissionProfile"> | number
+  admissionCampaignMajorId?: Prisma.IntFilter<"AdmissionProfile"> | number
   status?: Prisma.EnumApplicationStatusFilter<"AdmissionProfile"> | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFilter<"AdmissionProfile"> | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFilter<"AdmissionProfile"> | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFilter<"AdmissionProfile"> | $Enums.TrainingType
   fullName?: Prisma.StringFilter<"AdmissionProfile"> | string
   identityNumber?: Prisma.StringFilter<"AdmissionProfile"> | string
   dob?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
@@ -737,7 +755,11 @@ export type AdmissionProfileWhereUniqueInput = Prisma.AtLeast<{
   gpa10?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   gpa11?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   gpa12?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
+  conduct10?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct11?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct12?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
   thptGradYear?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
+  subjectCombinationId?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
   totalExamScore?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   priorityRegion?: Prisma.EnumPriorityRegionNullableFilter<"AdmissionProfile"> | $Enums.PriorityRegion | null
   priorityObject?: Prisma.EnumPriorityObjectNullableFilter<"AdmissionProfile"> | $Enums.PriorityObject | null
@@ -748,26 +770,25 @@ export type AdmissionProfileWhereUniqueInput = Prisma.AtLeast<{
   note?: Prisma.StringNullableFilter<"AdmissionProfile"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
-  admissionCampaign?: Prisma.XOR<Prisma.AdmissionCampaignScalarRelationFilter, Prisma.AdmissionCampaignWhereInput>
-  major?: Prisma.XOR<Prisma.MajorScalarRelationFilter, Prisma.MajorWhereInput>
+  admissionCampaignMajor?: Prisma.XOR<Prisma.AdmissionCampaignMajorScalarRelationFilter, Prisma.AdmissionCampaignMajorWhereInput>
   province?: Prisma.XOR<Prisma.ProvinceNullableScalarRelationFilter, Prisma.ProvinceWhereInput> | null
   ward?: Prisma.XOR<Prisma.WardNullableScalarRelationFilter, Prisma.WardWhereInput> | null
   village?: Prisma.XOR<Prisma.VillageNullableScalarRelationFilter, Prisma.VillageWhereInput> | null
+  subjectCombination?: Prisma.XOR<Prisma.SubjectCombinationNullableScalarRelationFilter, Prisma.SubjectCombinationWhereInput> | null
   examScores?: Prisma.ExamScoreListRelationFilter
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreListRelationFilter
   documents?: Prisma.AdmissionDocumentListRelationFilter
   statusLogs?: Prisma.AdmissionStatusLogListRelationFilter
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
-}, "id" | "applicationCode" | "studentId" | "admissionCampaignId_majorId_identityNumber">
+}, "id" | "applicationCode" | "studentId" | "admissionCampaignMajorId_identityNumber">
 
 export type AdmissionProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   applicationCode?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  majorId?: Prisma.SortOrder
+  admissionCampaignMajorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   admissionType?: Prisma.SortOrder
   educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   identityNumber?: Prisma.SortOrder
   dob?: Prisma.SortOrder
@@ -796,7 +817,11 @@ export type AdmissionProfileOrderByWithAggregationInput = {
   gpa10?: Prisma.SortOrderInput | Prisma.SortOrder
   gpa11?: Prisma.SortOrderInput | Prisma.SortOrder
   gpa12?: Prisma.SortOrderInput | Prisma.SortOrder
+  conduct10?: Prisma.SortOrderInput | Prisma.SortOrder
+  conduct11?: Prisma.SortOrderInput | Prisma.SortOrder
+  conduct12?: Prisma.SortOrderInput | Prisma.SortOrder
   thptGradYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  subjectCombinationId?: Prisma.SortOrderInput | Prisma.SortOrder
   totalExamScore?: Prisma.SortOrderInput | Prisma.SortOrder
   priorityRegion?: Prisma.SortOrderInput | Prisma.SortOrder
   priorityObject?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -821,12 +846,10 @@ export type AdmissionProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AdmissionProfileScalarWhereWithAggregatesInput | Prisma.AdmissionProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"AdmissionProfile"> | number
   applicationCode?: Prisma.StringWithAggregatesFilter<"AdmissionProfile"> | string
-  admissionCampaignId?: Prisma.IntWithAggregatesFilter<"AdmissionProfile"> | number
-  majorId?: Prisma.IntWithAggregatesFilter<"AdmissionProfile"> | number
+  admissionCampaignMajorId?: Prisma.IntWithAggregatesFilter<"AdmissionProfile"> | number
   status?: Prisma.EnumApplicationStatusWithAggregatesFilter<"AdmissionProfile"> | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeWithAggregatesFilter<"AdmissionProfile"> | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelWithAggregatesFilter<"AdmissionProfile"> | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeWithAggregatesFilter<"AdmissionProfile"> | $Enums.TrainingType
   fullName?: Prisma.StringWithAggregatesFilter<"AdmissionProfile"> | string
   identityNumber?: Prisma.StringWithAggregatesFilter<"AdmissionProfile"> | string
   dob?: Prisma.DateTimeWithAggregatesFilter<"AdmissionProfile"> | Date | string
@@ -855,7 +878,11 @@ export type AdmissionProfileScalarWhereWithAggregatesInput = {
   gpa10?: Prisma.FloatNullableWithAggregatesFilter<"AdmissionProfile"> | number | null
   gpa11?: Prisma.FloatNullableWithAggregatesFilter<"AdmissionProfile"> | number | null
   gpa12?: Prisma.FloatNullableWithAggregatesFilter<"AdmissionProfile"> | number | null
+  conduct10?: Prisma.EnumConductNullableWithAggregatesFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct11?: Prisma.EnumConductNullableWithAggregatesFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct12?: Prisma.EnumConductNullableWithAggregatesFilter<"AdmissionProfile"> | $Enums.Conduct | null
   thptGradYear?: Prisma.IntNullableWithAggregatesFilter<"AdmissionProfile"> | number | null
+  subjectCombinationId?: Prisma.IntNullableWithAggregatesFilter<"AdmissionProfile"> | number | null
   totalExamScore?: Prisma.FloatNullableWithAggregatesFilter<"AdmissionProfile"> | number | null
   priorityRegion?: Prisma.EnumPriorityRegionNullableWithAggregatesFilter<"AdmissionProfile"> | $Enums.PriorityRegion | null
   priorityObject?: Prisma.EnumPriorityObjectNullableWithAggregatesFilter<"AdmissionProfile"> | $Enums.PriorityObject | null
@@ -874,7 +901,6 @@ export type AdmissionProfileCreateInput = {
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -900,6 +926,9 @@ export type AdmissionProfileCreateInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -911,12 +940,13 @@ export type AdmissionProfileCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
@@ -925,12 +955,10 @@ export type AdmissionProfileCreateInput = {
 export type AdmissionProfileUncheckedCreateInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -959,7 +987,11 @@ export type AdmissionProfileUncheckedCreateInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -972,6 +1004,7 @@ export type AdmissionProfileUncheckedCreateInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
@@ -981,7 +1014,6 @@ export type AdmissionProfileUpdateInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1007,6 +1039,9 @@ export type AdmissionProfileUpdateInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -1018,12 +1053,13 @@ export type AdmissionProfileUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
@@ -1032,12 +1068,10 @@ export type AdmissionProfileUpdateInput = {
 export type AdmissionProfileUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1066,7 +1100,11 @@ export type AdmissionProfileUncheckedUpdateInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -1079,6 +1117,7 @@ export type AdmissionProfileUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
@@ -1086,12 +1125,10 @@ export type AdmissionProfileUncheckedUpdateInput = {
 export type AdmissionProfileCreateManyInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -1120,7 +1157,11 @@ export type AdmissionProfileCreateManyInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -1139,7 +1180,6 @@ export type AdmissionProfileUpdateManyMutationInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1165,6 +1205,9 @@ export type AdmissionProfileUpdateManyMutationInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -1181,12 +1224,10 @@ export type AdmissionProfileUpdateManyMutationInput = {
 export type AdmissionProfileUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1215,7 +1256,11 @@ export type AdmissionProfileUncheckedUpdateManyInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -1239,21 +1284,18 @@ export type AdmissionProfileOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type AdmissionProfileAdmissionCampaignIdMajorIdIdentityNumberCompoundUniqueInput = {
-  admissionCampaignId: number
-  majorId: number
+export type AdmissionProfileAdmissionCampaignMajorIdIdentityNumberCompoundUniqueInput = {
+  admissionCampaignMajorId: number
   identityNumber: string
 }
 
 export type AdmissionProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   applicationCode?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  majorId?: Prisma.SortOrder
+  admissionCampaignMajorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   admissionType?: Prisma.SortOrder
   educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   identityNumber?: Prisma.SortOrder
   dob?: Prisma.SortOrder
@@ -1282,7 +1324,11 @@ export type AdmissionProfileCountOrderByAggregateInput = {
   gpa10?: Prisma.SortOrder
   gpa11?: Prisma.SortOrder
   gpa12?: Prisma.SortOrder
+  conduct10?: Prisma.SortOrder
+  conduct11?: Prisma.SortOrder
+  conduct12?: Prisma.SortOrder
   thptGradYear?: Prisma.SortOrder
+  subjectCombinationId?: Prisma.SortOrder
   totalExamScore?: Prisma.SortOrder
   priorityRegion?: Prisma.SortOrder
   priorityObject?: Prisma.SortOrder
@@ -1298,8 +1344,7 @@ export type AdmissionProfileCountOrderByAggregateInput = {
 
 export type AdmissionProfileAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  majorId?: Prisma.SortOrder
+  admissionCampaignMajorId?: Prisma.SortOrder
   villageId?: Prisma.SortOrder
   gpa6?: Prisma.SortOrder
   gpa7?: Prisma.SortOrder
@@ -1310,6 +1355,7 @@ export type AdmissionProfileAvgOrderByAggregateInput = {
   gpa11?: Prisma.SortOrder
   gpa12?: Prisma.SortOrder
   thptGradYear?: Prisma.SortOrder
+  subjectCombinationId?: Prisma.SortOrder
   totalExamScore?: Prisma.SortOrder
   priorityScore?: Prisma.SortOrder
   scoreCalculated?: Prisma.SortOrder
@@ -1319,12 +1365,10 @@ export type AdmissionProfileAvgOrderByAggregateInput = {
 export type AdmissionProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   applicationCode?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  majorId?: Prisma.SortOrder
+  admissionCampaignMajorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   admissionType?: Prisma.SortOrder
   educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   identityNumber?: Prisma.SortOrder
   dob?: Prisma.SortOrder
@@ -1353,7 +1397,11 @@ export type AdmissionProfileMaxOrderByAggregateInput = {
   gpa10?: Prisma.SortOrder
   gpa11?: Prisma.SortOrder
   gpa12?: Prisma.SortOrder
+  conduct10?: Prisma.SortOrder
+  conduct11?: Prisma.SortOrder
+  conduct12?: Prisma.SortOrder
   thptGradYear?: Prisma.SortOrder
+  subjectCombinationId?: Prisma.SortOrder
   totalExamScore?: Prisma.SortOrder
   priorityRegion?: Prisma.SortOrder
   priorityObject?: Prisma.SortOrder
@@ -1370,12 +1418,10 @@ export type AdmissionProfileMaxOrderByAggregateInput = {
 export type AdmissionProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   applicationCode?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  majorId?: Prisma.SortOrder
+  admissionCampaignMajorId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   admissionType?: Prisma.SortOrder
   educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   identityNumber?: Prisma.SortOrder
   dob?: Prisma.SortOrder
@@ -1404,7 +1450,11 @@ export type AdmissionProfileMinOrderByAggregateInput = {
   gpa10?: Prisma.SortOrder
   gpa11?: Prisma.SortOrder
   gpa12?: Prisma.SortOrder
+  conduct10?: Prisma.SortOrder
+  conduct11?: Prisma.SortOrder
+  conduct12?: Prisma.SortOrder
   thptGradYear?: Prisma.SortOrder
+  subjectCombinationId?: Prisma.SortOrder
   totalExamScore?: Prisma.SortOrder
   priorityRegion?: Prisma.SortOrder
   priorityObject?: Prisma.SortOrder
@@ -1420,8 +1470,7 @@ export type AdmissionProfileMinOrderByAggregateInput = {
 
 export type AdmissionProfileSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  majorId?: Prisma.SortOrder
+  admissionCampaignMajorId?: Prisma.SortOrder
   villageId?: Prisma.SortOrder
   gpa6?: Prisma.SortOrder
   gpa7?: Prisma.SortOrder
@@ -1432,6 +1481,7 @@ export type AdmissionProfileSumOrderByAggregateInput = {
   gpa11?: Prisma.SortOrder
   gpa12?: Prisma.SortOrder
   thptGradYear?: Prisma.SortOrder
+  subjectCombinationId?: Prisma.SortOrder
   totalExamScore?: Prisma.SortOrder
   priorityScore?: Prisma.SortOrder
   scoreCalculated?: Prisma.SortOrder
@@ -1448,87 +1498,87 @@ export type AdmissionProfileNullableScalarRelationFilter = {
   isNot?: Prisma.AdmissionProfileWhereInput | null
 }
 
-export type AdmissionProfileCreateNestedManyWithoutMajorInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput> | Prisma.AdmissionProfileCreateWithoutMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyMajorInputEnvelope
+export type AdmissionProfileCreateNestedManyWithoutAdmissionCampaignMajorInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput[]
+  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignMajorInputEnvelope
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
 }
 
-export type AdmissionProfileUncheckedCreateNestedManyWithoutMajorInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput> | Prisma.AdmissionProfileCreateWithoutMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyMajorInputEnvelope
+export type AdmissionProfileUncheckedCreateNestedManyWithoutAdmissionCampaignMajorInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput[]
+  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignMajorInputEnvelope
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
 }
 
-export type AdmissionProfileUpdateManyWithoutMajorNestedInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput> | Prisma.AdmissionProfileCreateWithoutMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput[]
-  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutMajorInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutMajorInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyMajorInputEnvelope
+export type AdmissionProfileUpdateManyWithoutAdmissionCampaignMajorNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput[]
+  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignMajorInput[]
+  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignMajorInputEnvelope
   set?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   disconnect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   delete?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
-  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutMajorInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutMajorInput[]
-  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutMajorInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutMajorInput[]
+  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignMajorInput[]
+  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignMajorInput[]
   deleteMany?: Prisma.AdmissionProfileScalarWhereInput | Prisma.AdmissionProfileScalarWhereInput[]
 }
 
-export type AdmissionProfileUncheckedUpdateManyWithoutMajorNestedInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput> | Prisma.AdmissionProfileCreateWithoutMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutMajorInput[]
-  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutMajorInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutMajorInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyMajorInputEnvelope
+export type AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignMajorNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput[]
+  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignMajorInput[]
+  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignMajorInputEnvelope
   set?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   disconnect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   delete?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
-  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutMajorInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutMajorInput[]
-  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutMajorInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutMajorInput[]
+  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignMajorInput[]
+  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignMajorInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignMajorInput[]
   deleteMany?: Prisma.AdmissionProfileScalarWhereInput | Prisma.AdmissionProfileScalarWhereInput[]
 }
 
-export type AdmissionProfileCreateNestedManyWithoutAdmissionCampaignInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignInputEnvelope
+export type AdmissionProfileCreateNestedManyWithoutSubjectCombinationInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput> | Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput | Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput[]
+  createMany?: Prisma.AdmissionProfileCreateManySubjectCombinationInputEnvelope
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
 }
 
-export type AdmissionProfileUncheckedCreateNestedManyWithoutAdmissionCampaignInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignInputEnvelope
+export type AdmissionProfileUncheckedCreateNestedManyWithoutSubjectCombinationInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput> | Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput | Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput[]
+  createMany?: Prisma.AdmissionProfileCreateManySubjectCombinationInputEnvelope
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
 }
 
-export type AdmissionProfileUpdateManyWithoutAdmissionCampaignNestedInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput[]
-  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignInputEnvelope
+export type AdmissionProfileUpdateManyWithoutSubjectCombinationNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput> | Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput | Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput[]
+  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutSubjectCombinationInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutSubjectCombinationInput[]
+  createMany?: Prisma.AdmissionProfileCreateManySubjectCombinationInputEnvelope
   set?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   disconnect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   delete?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
-  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignInput[]
-  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignInput[]
+  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutSubjectCombinationInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutSubjectCombinationInput[]
+  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutSubjectCombinationInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutSubjectCombinationInput[]
   deleteMany?: Prisma.AdmissionProfileScalarWhereInput | Prisma.AdmissionProfileScalarWhereInput[]
 }
 
-export type AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignNestedInput = {
-  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput | Prisma.AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput[]
-  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.AdmissionProfileCreateManyAdmissionCampaignInputEnvelope
+export type AdmissionProfileUncheckedUpdateManyWithoutSubjectCombinationNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput> | Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput[] | Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput[]
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput | Prisma.AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput[]
+  upsert?: Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutSubjectCombinationInput | Prisma.AdmissionProfileUpsertWithWhereUniqueWithoutSubjectCombinationInput[]
+  createMany?: Prisma.AdmissionProfileCreateManySubjectCombinationInputEnvelope
   set?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   disconnect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   delete?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
   connect?: Prisma.AdmissionProfileWhereUniqueInput | Prisma.AdmissionProfileWhereUniqueInput[]
-  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignInput[]
-  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignInput[]
+  update?: Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutSubjectCombinationInput | Prisma.AdmissionProfileUpdateWithWhereUniqueWithoutSubjectCombinationInput[]
+  updateMany?: Prisma.AdmissionProfileUpdateManyWithWhereWithoutSubjectCombinationInput | Prisma.AdmissionProfileUpdateManyWithWhereWithoutSubjectCombinationInput[]
   deleteMany?: Prisma.AdmissionProfileScalarWhereInput | Prisma.AdmissionProfileScalarWhereInput[]
 }
 
@@ -1544,16 +1594,8 @@ export type EnumEducationLevelFieldUpdateOperationsInput = {
   set?: $Enums.EducationLevel
 }
 
-export type EnumTrainingTypeFieldUpdateOperationsInput = {
-  set?: $Enums.TrainingType
-}
-
 export type EnumGenderFieldUpdateOperationsInput = {
   set?: $Enums.Gender
-}
-
-export type NullableEnumConductFieldUpdateOperationsInput = {
-  set?: $Enums.Conduct | null
 }
 
 export type NullableEnumPriorityRegionFieldUpdateOperationsInput = {
@@ -1580,6 +1622,20 @@ export type AdmissionProfileUpdateOneRequiredWithoutExamScoresNestedInput = {
   upsert?: Prisma.AdmissionProfileUpsertWithoutExamScoresInput
   connect?: Prisma.AdmissionProfileWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionProfileUpdateToOneWithWhereWithoutExamScoresInput, Prisma.AdmissionProfileUpdateWithoutExamScoresInput>, Prisma.AdmissionProfileUncheckedUpdateWithoutExamScoresInput>
+}
+
+export type AdmissionProfileCreateNestedOneWithoutTranscriptSubjectScoresInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutTranscriptSubjectScoresInput, Prisma.AdmissionProfileUncheckedCreateWithoutTranscriptSubjectScoresInput>
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutTranscriptSubjectScoresInput
+  connect?: Prisma.AdmissionProfileWhereUniqueInput
+}
+
+export type AdmissionProfileUpdateOneRequiredWithoutTranscriptSubjectScoresNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutTranscriptSubjectScoresInput, Prisma.AdmissionProfileUncheckedCreateWithoutTranscriptSubjectScoresInput>
+  connectOrCreate?: Prisma.AdmissionProfileCreateOrConnectWithoutTranscriptSubjectScoresInput
+  upsert?: Prisma.AdmissionProfileUpsertWithoutTranscriptSubjectScoresInput
+  connect?: Prisma.AdmissionProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionProfileUpdateToOneWithWhereWithoutTranscriptSubjectScoresInput, Prisma.AdmissionProfileUpdateWithoutTranscriptSubjectScoresInput>, Prisma.AdmissionProfileUncheckedUpdateWithoutTranscriptSubjectScoresInput>
 }
 
 export type AdmissionProfileCreateNestedOneWithoutStatusLogsInput = {
@@ -1768,12 +1824,11 @@ export type AdmissionProfileUncheckedUpdateManyWithoutVillageNestedInput = {
   deleteMany?: Prisma.AdmissionProfileScalarWhereInput | Prisma.AdmissionProfileScalarWhereInput[]
 }
 
-export type AdmissionProfileCreateWithoutMajorInput = {
+export type AdmissionProfileCreateWithoutAdmissionCampaignMajorInput = {
   applicationCode: string
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -1799,6 +1854,9 @@ export type AdmissionProfileCreateWithoutMajorInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -1810,24 +1868,23 @@ export type AdmissionProfileCreateWithoutMajorInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
 }
 
-export type AdmissionProfileUncheckedCreateWithoutMajorInput = {
+export type AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -1856,7 +1913,11 @@ export type AdmissionProfileUncheckedCreateWithoutMajorInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -1869,34 +1930,35 @@ export type AdmissionProfileUncheckedCreateWithoutMajorInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
 
-export type AdmissionProfileCreateOrConnectWithoutMajorInput = {
+export type AdmissionProfileCreateOrConnectWithoutAdmissionCampaignMajorInput = {
   where: Prisma.AdmissionProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput>
+  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput>
 }
 
-export type AdmissionProfileCreateManyMajorInputEnvelope = {
-  data: Prisma.AdmissionProfileCreateManyMajorInput | Prisma.AdmissionProfileCreateManyMajorInput[]
+export type AdmissionProfileCreateManyAdmissionCampaignMajorInputEnvelope = {
+  data: Prisma.AdmissionProfileCreateManyAdmissionCampaignMajorInput | Prisma.AdmissionProfileCreateManyAdmissionCampaignMajorInput[]
   skipDuplicates?: boolean
 }
 
-export type AdmissionProfileUpsertWithWhereUniqueWithoutMajorInput = {
+export type AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignMajorInput = {
   where: Prisma.AdmissionProfileWhereUniqueInput
-  update: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutMajorInput, Prisma.AdmissionProfileUncheckedUpdateWithoutMajorInput>
-  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutMajorInput>
+  update: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignMajorInput>
+  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignMajorInput>
 }
 
-export type AdmissionProfileUpdateWithWhereUniqueWithoutMajorInput = {
+export type AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignMajorInput = {
   where: Prisma.AdmissionProfileWhereUniqueInput
-  data: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutMajorInput, Prisma.AdmissionProfileUncheckedUpdateWithoutMajorInput>
+  data: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutAdmissionCampaignMajorInput, Prisma.AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignMajorInput>
 }
 
-export type AdmissionProfileUpdateManyWithWhereWithoutMajorInput = {
+export type AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignMajorInput = {
   where: Prisma.AdmissionProfileScalarWhereInput
-  data: Prisma.XOR<Prisma.AdmissionProfileUpdateManyMutationInput, Prisma.AdmissionProfileUncheckedUpdateManyWithoutMajorInput>
+  data: Prisma.XOR<Prisma.AdmissionProfileUpdateManyMutationInput, Prisma.AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignMajorInput>
 }
 
 export type AdmissionProfileScalarWhereInput = {
@@ -1905,12 +1967,10 @@ export type AdmissionProfileScalarWhereInput = {
   NOT?: Prisma.AdmissionProfileScalarWhereInput | Prisma.AdmissionProfileScalarWhereInput[]
   id?: Prisma.IntFilter<"AdmissionProfile"> | number
   applicationCode?: Prisma.StringFilter<"AdmissionProfile"> | string
-  admissionCampaignId?: Prisma.IntFilter<"AdmissionProfile"> | number
-  majorId?: Prisma.IntFilter<"AdmissionProfile"> | number
+  admissionCampaignMajorId?: Prisma.IntFilter<"AdmissionProfile"> | number
   status?: Prisma.EnumApplicationStatusFilter<"AdmissionProfile"> | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFilter<"AdmissionProfile"> | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFilter<"AdmissionProfile"> | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFilter<"AdmissionProfile"> | $Enums.TrainingType
   fullName?: Prisma.StringFilter<"AdmissionProfile"> | string
   identityNumber?: Prisma.StringFilter<"AdmissionProfile"> | string
   dob?: Prisma.DateTimeFilter<"AdmissionProfile"> | Date | string
@@ -1939,7 +1999,11 @@ export type AdmissionProfileScalarWhereInput = {
   gpa10?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   gpa11?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   gpa12?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
+  conduct10?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct11?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
+  conduct12?: Prisma.EnumConductNullableFilter<"AdmissionProfile"> | $Enums.Conduct | null
   thptGradYear?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
+  subjectCombinationId?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
   totalExamScore?: Prisma.FloatNullableFilter<"AdmissionProfile"> | number | null
   priorityRegion?: Prisma.EnumPriorityRegionNullableFilter<"AdmissionProfile"> | $Enums.PriorityRegion | null
   priorityObject?: Prisma.EnumPriorityObjectNullableFilter<"AdmissionProfile"> | $Enums.PriorityObject | null
@@ -1953,12 +2017,11 @@ export type AdmissionProfileScalarWhereInput = {
   studentId?: Prisma.IntNullableFilter<"AdmissionProfile"> | number | null
 }
 
-export type AdmissionProfileCreateWithoutAdmissionCampaignInput = {
+export type AdmissionProfileCreateWithoutSubjectCombinationInput = {
   applicationCode: string
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -1984,6 +2047,9 @@ export type AdmissionProfileCreateWithoutAdmissionCampaignInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -1995,24 +2061,24 @@ export type AdmissionProfileCreateWithoutAdmissionCampaignInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
 }
 
-export type AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput = {
+export type AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput = {
   id?: number
   applicationCode: string
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2041,6 +2107,9 @@ export type AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -2054,34 +2123,35 @@ export type AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
 
-export type AdmissionProfileCreateOrConnectWithoutAdmissionCampaignInput = {
+export type AdmissionProfileCreateOrConnectWithoutSubjectCombinationInput = {
   where: Prisma.AdmissionProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput>
+  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput>
 }
 
-export type AdmissionProfileCreateManyAdmissionCampaignInputEnvelope = {
-  data: Prisma.AdmissionProfileCreateManyAdmissionCampaignInput | Prisma.AdmissionProfileCreateManyAdmissionCampaignInput[]
+export type AdmissionProfileCreateManySubjectCombinationInputEnvelope = {
+  data: Prisma.AdmissionProfileCreateManySubjectCombinationInput | Prisma.AdmissionProfileCreateManySubjectCombinationInput[]
   skipDuplicates?: boolean
 }
 
-export type AdmissionProfileUpsertWithWhereUniqueWithoutAdmissionCampaignInput = {
+export type AdmissionProfileUpsertWithWhereUniqueWithoutSubjectCombinationInput = {
   where: Prisma.AdmissionProfileWhereUniqueInput
-  update: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignInput>
-  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedCreateWithoutAdmissionCampaignInput>
+  update: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedUpdateWithoutSubjectCombinationInput>
+  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedCreateWithoutSubjectCombinationInput>
 }
 
-export type AdmissionProfileUpdateWithWhereUniqueWithoutAdmissionCampaignInput = {
+export type AdmissionProfileUpdateWithWhereUniqueWithoutSubjectCombinationInput = {
   where: Prisma.AdmissionProfileWhereUniqueInput
-  data: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutAdmissionCampaignInput, Prisma.AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignInput>
+  data: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutSubjectCombinationInput, Prisma.AdmissionProfileUncheckedUpdateWithoutSubjectCombinationInput>
 }
 
-export type AdmissionProfileUpdateManyWithWhereWithoutAdmissionCampaignInput = {
+export type AdmissionProfileUpdateManyWithWhereWithoutSubjectCombinationInput = {
   where: Prisma.AdmissionProfileScalarWhereInput
-  data: Prisma.XOR<Prisma.AdmissionProfileUpdateManyMutationInput, Prisma.AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignInput>
+  data: Prisma.XOR<Prisma.AdmissionProfileUpdateManyMutationInput, Prisma.AdmissionProfileUncheckedUpdateManyWithoutSubjectCombinationInput>
 }
 
 export type AdmissionProfileCreateWithoutExamScoresInput = {
@@ -2089,7 +2159,6 @@ export type AdmissionProfileCreateWithoutExamScoresInput = {
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2115,6 +2184,9 @@ export type AdmissionProfileCreateWithoutExamScoresInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -2126,11 +2198,12 @@ export type AdmissionProfileCreateWithoutExamScoresInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
@@ -2139,12 +2212,10 @@ export type AdmissionProfileCreateWithoutExamScoresInput = {
 export type AdmissionProfileUncheckedCreateWithoutExamScoresInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2173,7 +2244,11 @@ export type AdmissionProfileUncheckedCreateWithoutExamScoresInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -2185,6 +2260,7 @@ export type AdmissionProfileUncheckedCreateWithoutExamScoresInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   studentId?: number | null
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
@@ -2210,7 +2286,6 @@ export type AdmissionProfileUpdateWithoutExamScoresInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2236,6 +2311,9 @@ export type AdmissionProfileUpdateWithoutExamScoresInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -2247,11 +2325,12 @@ export type AdmissionProfileUpdateWithoutExamScoresInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
@@ -2260,12 +2339,10 @@ export type AdmissionProfileUpdateWithoutExamScoresInput = {
 export type AdmissionProfileUncheckedUpdateWithoutExamScoresInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2294,7 +2371,11 @@ export type AdmissionProfileUncheckedUpdateWithoutExamScoresInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -2306,16 +2387,16 @@ export type AdmissionProfileUncheckedUpdateWithoutExamScoresInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
 
-export type AdmissionProfileCreateWithoutStatusLogsInput = {
+export type AdmissionProfileCreateWithoutTranscriptSubjectScoresInput = {
   applicationCode: string
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2341,6 +2422,9 @@ export type AdmissionProfileCreateWithoutStatusLogsInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -2352,25 +2436,24 @@ export type AdmissionProfileCreateWithoutStatusLogsInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
+  statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
 }
 
-export type AdmissionProfileUncheckedCreateWithoutStatusLogsInput = {
+export type AdmissionProfileUncheckedCreateWithoutTranscriptSubjectScoresInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2399,7 +2482,11 @@ export type AdmissionProfileUncheckedCreateWithoutStatusLogsInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -2412,6 +2499,245 @@ export type AdmissionProfileUncheckedCreateWithoutStatusLogsInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
+}
+
+export type AdmissionProfileCreateOrConnectWithoutTranscriptSubjectScoresInput = {
+  where: Prisma.AdmissionProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutTranscriptSubjectScoresInput, Prisma.AdmissionProfileUncheckedCreateWithoutTranscriptSubjectScoresInput>
+}
+
+export type AdmissionProfileUpsertWithoutTranscriptSubjectScoresInput = {
+  update: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutTranscriptSubjectScoresInput, Prisma.AdmissionProfileUncheckedUpdateWithoutTranscriptSubjectScoresInput>
+  create: Prisma.XOR<Prisma.AdmissionProfileCreateWithoutTranscriptSubjectScoresInput, Prisma.AdmissionProfileUncheckedCreateWithoutTranscriptSubjectScoresInput>
+  where?: Prisma.AdmissionProfileWhereInput
+}
+
+export type AdmissionProfileUpdateToOneWithWhereWithoutTranscriptSubjectScoresInput = {
+  where?: Prisma.AdmissionProfileWhereInput
+  data: Prisma.XOR<Prisma.AdmissionProfileUpdateWithoutTranscriptSubjectScoresInput, Prisma.AdmissionProfileUncheckedUpdateWithoutTranscriptSubjectScoresInput>
+}
+
+export type AdmissionProfileUpdateWithoutTranscriptSubjectScoresInput = {
+  applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fatherName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fatherPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motherName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motherPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guardianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guardianPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa6?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa7?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa8?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa9?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct6?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct7?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct8?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct9?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  thcsGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
+  priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
+  priorityScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isDirectAdmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  directReason?: Prisma.NullableEnumDirectAdmissionReasonFieldUpdateOperationsInput | $Enums.DirectAdmissionReason | null
+  scoreCalculated?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
+  ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
+  village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
+  examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
+  statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
+  student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
+}
+
+export type AdmissionProfileUncheckedUpdateWithoutTranscriptSubjectScoresInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provinceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  wardCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  villageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fatherName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fatherPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motherName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  motherPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guardianName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  guardianPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gpa6?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa7?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa8?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa9?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct6?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct7?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct8?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct9?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  thcsGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
+  priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
+  priorityScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  isDirectAdmission?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  directReason?: Prisma.NullableEnumDirectAdmissionReasonFieldUpdateOperationsInput | $Enums.DirectAdmissionReason | null
+  scoreCalculated?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+}
+
+export type AdmissionProfileCreateWithoutStatusLogsInput = {
+  applicationCode: string
+  status?: $Enums.ApplicationStatus
+  admissionType?: $Enums.AdmissionType
+  educationLevel?: $Enums.EducationLevel
+  fullName: string
+  identityNumber: string
+  dob: Date | string
+  gender: $Enums.Gender
+  phone: string
+  email?: string | null
+  addressDetail?: string | null
+  fatherName?: string | null
+  fatherPhone?: string | null
+  motherName?: string | null
+  motherPhone?: string | null
+  guardianName?: string | null
+  guardianPhone?: string | null
+  gpa6?: number | null
+  gpa7?: number | null
+  gpa8?: number | null
+  gpa9?: number | null
+  conduct6?: $Enums.Conduct | null
+  conduct7?: $Enums.Conduct | null
+  conduct8?: $Enums.Conduct | null
+  conduct9?: $Enums.Conduct | null
+  thcsGradYear?: number | null
+  gpa10?: number | null
+  gpa11?: number | null
+  gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
+  thptGradYear?: number | null
+  totalExamScore?: number | null
+  priorityRegion?: $Enums.PriorityRegion | null
+  priorityObject?: $Enums.PriorityObject | null
+  priorityScore?: number | null
+  isDirectAdmission?: boolean
+  directReason?: $Enums.DirectAdmissionReason | null
+  scoreCalculated?: number | null
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
+  province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
+  ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
+  village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
+  examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
+  documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
+  student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
+}
+
+export type AdmissionProfileUncheckedCreateWithoutStatusLogsInput = {
+  id?: number
+  applicationCode: string
+  admissionCampaignMajorId: number
+  status?: $Enums.ApplicationStatus
+  admissionType?: $Enums.AdmissionType
+  educationLevel?: $Enums.EducationLevel
+  fullName: string
+  identityNumber: string
+  dob: Date | string
+  gender: $Enums.Gender
+  phone: string
+  email?: string | null
+  addressDetail?: string | null
+  provinceCode?: string | null
+  wardCode?: string | null
+  villageId?: number | null
+  fatherName?: string | null
+  fatherPhone?: string | null
+  motherName?: string | null
+  motherPhone?: string | null
+  guardianName?: string | null
+  guardianPhone?: string | null
+  gpa6?: number | null
+  gpa7?: number | null
+  gpa8?: number | null
+  gpa9?: number | null
+  conduct6?: $Enums.Conduct | null
+  conduct7?: $Enums.Conduct | null
+  conduct8?: $Enums.Conduct | null
+  conduct9?: $Enums.Conduct | null
+  thcsGradYear?: number | null
+  gpa10?: number | null
+  gpa11?: number | null
+  gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
+  thptGradYear?: number | null
+  subjectCombinationId?: number | null
+  totalExamScore?: number | null
+  priorityRegion?: $Enums.PriorityRegion | null
+  priorityObject?: $Enums.PriorityObject | null
+  priorityScore?: number | null
+  isDirectAdmission?: boolean
+  directReason?: $Enums.DirectAdmissionReason | null
+  scoreCalculated?: number | null
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  studentId?: number | null
+  examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
 
@@ -2436,7 +2762,6 @@ export type AdmissionProfileUpdateWithoutStatusLogsInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2462,6 +2787,9 @@ export type AdmissionProfileUpdateWithoutStatusLogsInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -2473,12 +2801,13 @@ export type AdmissionProfileUpdateWithoutStatusLogsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
 }
@@ -2486,12 +2815,10 @@ export type AdmissionProfileUpdateWithoutStatusLogsInput = {
 export type AdmissionProfileUncheckedUpdateWithoutStatusLogsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2520,7 +2847,11 @@ export type AdmissionProfileUncheckedUpdateWithoutStatusLogsInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -2533,6 +2864,7 @@ export type AdmissionProfileUncheckedUpdateWithoutStatusLogsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
 
@@ -2541,7 +2873,6 @@ export type AdmissionProfileCreateWithoutDocumentsInput = {
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2567,6 +2898,9 @@ export type AdmissionProfileCreateWithoutDocumentsInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -2578,12 +2912,13 @@ export type AdmissionProfileCreateWithoutDocumentsInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
 }
@@ -2591,12 +2926,10 @@ export type AdmissionProfileCreateWithoutDocumentsInput = {
 export type AdmissionProfileUncheckedCreateWithoutDocumentsInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2625,7 +2958,11 @@ export type AdmissionProfileUncheckedCreateWithoutDocumentsInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -2638,6 +2975,7 @@ export type AdmissionProfileUncheckedCreateWithoutDocumentsInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
 
@@ -2662,7 +3000,6 @@ export type AdmissionProfileUpdateWithoutDocumentsInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2688,6 +3025,9 @@ export type AdmissionProfileUpdateWithoutDocumentsInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -2699,12 +3039,13 @@ export type AdmissionProfileUpdateWithoutDocumentsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
 }
@@ -2712,12 +3053,10 @@ export type AdmissionProfileUpdateWithoutDocumentsInput = {
 export type AdmissionProfileUncheckedUpdateWithoutDocumentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2746,7 +3085,11 @@ export type AdmissionProfileUncheckedUpdateWithoutDocumentsInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -2759,6 +3102,7 @@ export type AdmissionProfileUncheckedUpdateWithoutDocumentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
 
@@ -2767,7 +3111,6 @@ export type AdmissionProfileCreateWithoutStudentInput = {
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2793,6 +3136,9 @@ export type AdmissionProfileCreateWithoutStudentInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -2804,12 +3150,13 @@ export type AdmissionProfileCreateWithoutStudentInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
 }
@@ -2817,12 +3164,10 @@ export type AdmissionProfileCreateWithoutStudentInput = {
 export type AdmissionProfileUncheckedCreateWithoutStudentInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -2851,7 +3196,11 @@ export type AdmissionProfileUncheckedCreateWithoutStudentInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -2863,6 +3212,7 @@ export type AdmissionProfileUncheckedCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
@@ -2888,7 +3238,6 @@ export type AdmissionProfileUpdateWithoutStudentInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2914,6 +3263,9 @@ export type AdmissionProfileUpdateWithoutStudentInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -2925,12 +3277,13 @@ export type AdmissionProfileUpdateWithoutStudentInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
 }
@@ -2938,12 +3291,10 @@ export type AdmissionProfileUpdateWithoutStudentInput = {
 export type AdmissionProfileUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2972,7 +3323,11 @@ export type AdmissionProfileUncheckedUpdateWithoutStudentInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -2984,6 +3339,7 @@ export type AdmissionProfileUncheckedUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
@@ -2993,7 +3349,6 @@ export type AdmissionProfileCreateWithoutProvinceInput = {
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3019,6 +3374,9 @@ export type AdmissionProfileCreateWithoutProvinceInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -3030,11 +3388,12 @@ export type AdmissionProfileCreateWithoutProvinceInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
@@ -3043,12 +3402,10 @@ export type AdmissionProfileCreateWithoutProvinceInput = {
 export type AdmissionProfileUncheckedCreateWithoutProvinceInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3076,7 +3433,11 @@ export type AdmissionProfileUncheckedCreateWithoutProvinceInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -3089,6 +3450,7 @@ export type AdmissionProfileUncheckedCreateWithoutProvinceInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
@@ -3124,7 +3486,6 @@ export type AdmissionProfileCreateWithoutWardInput = {
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3150,6 +3511,9 @@ export type AdmissionProfileCreateWithoutWardInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -3161,11 +3525,12 @@ export type AdmissionProfileCreateWithoutWardInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   village?: Prisma.VillageCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
@@ -3174,12 +3539,10 @@ export type AdmissionProfileCreateWithoutWardInput = {
 export type AdmissionProfileUncheckedCreateWithoutWardInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3207,7 +3570,11 @@ export type AdmissionProfileUncheckedCreateWithoutWardInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -3220,6 +3587,7 @@ export type AdmissionProfileUncheckedCreateWithoutWardInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
@@ -3255,7 +3623,6 @@ export type AdmissionProfileCreateWithoutVillageInput = {
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3281,6 +3648,9 @@ export type AdmissionProfileCreateWithoutVillageInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -3292,11 +3662,12 @@ export type AdmissionProfileCreateWithoutVillageInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  admissionCampaign: Prisma.AdmissionCampaignCreateNestedOneWithoutAdmissionProfilesInput
-  major: Prisma.MajorCreateNestedOneWithoutAdmissionProfilesInput
+  admissionCampaignMajor: Prisma.AdmissionCampaignMajorCreateNestedOneWithoutAdmissionProfilesInput
   province?: Prisma.ProvinceCreateNestedOneWithoutAdmissionProfilesInput
   ward?: Prisma.WardCreateNestedOneWithoutAdmissionProfilesInput
+  subjectCombination?: Prisma.SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput
   examScores?: Prisma.ExamScoreCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogCreateNestedManyWithoutAdmissionProfileInput
   student?: Prisma.StudentCreateNestedOneWithoutAdmissionProfileInput
@@ -3305,12 +3676,10 @@ export type AdmissionProfileCreateWithoutVillageInput = {
 export type AdmissionProfileUncheckedCreateWithoutVillageInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3338,7 +3707,11 @@ export type AdmissionProfileUncheckedCreateWithoutVillageInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -3351,6 +3724,7 @@ export type AdmissionProfileUncheckedCreateWithoutVillageInput = {
   updatedAt?: Date | string
   studentId?: number | null
   examScores?: Prisma.ExamScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedCreateNestedManyWithoutAdmissionProfileInput
   documents?: Prisma.AdmissionDocumentUncheckedCreateNestedManyWithoutAdmissionProfileInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedCreateNestedManyWithoutAdmissionProfileInput
 }
@@ -3381,14 +3755,12 @@ export type AdmissionProfileUpdateManyWithWhereWithoutVillageInput = {
   data: Prisma.XOR<Prisma.AdmissionProfileUpdateManyMutationInput, Prisma.AdmissionProfileUncheckedUpdateManyWithoutVillageInput>
 }
 
-export type AdmissionProfileCreateManyMajorInput = {
+export type AdmissionProfileCreateManyAdmissionCampaignMajorInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3417,7 +3789,11 @@ export type AdmissionProfileCreateManyMajorInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -3431,12 +3807,11 @@ export type AdmissionProfileCreateManyMajorInput = {
   studentId?: number | null
 }
 
-export type AdmissionProfileUpdateWithoutMajorInput = {
+export type AdmissionProfileUpdateWithoutAdmissionCampaignMajorInput = {
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3462,6 +3837,9 @@ export type AdmissionProfileUpdateWithoutMajorInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -3473,24 +3851,23 @@ export type AdmissionProfileUpdateWithoutMajorInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
 }
 
-export type AdmissionProfileUncheckedUpdateWithoutMajorInput = {
+export type AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignMajorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3519,7 +3896,11 @@ export type AdmissionProfileUncheckedUpdateWithoutMajorInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -3532,18 +3913,17 @@ export type AdmissionProfileUncheckedUpdateWithoutMajorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
 
-export type AdmissionProfileUncheckedUpdateManyWithoutMajorInput = {
+export type AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignMajorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3572,7 +3952,11 @@ export type AdmissionProfileUncheckedUpdateManyWithoutMajorInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -3586,14 +3970,13 @@ export type AdmissionProfileUncheckedUpdateManyWithoutMajorInput = {
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
-export type AdmissionProfileCreateManyAdmissionCampaignInput = {
+export type AdmissionProfileCreateManySubjectCombinationInput = {
   id?: number
   applicationCode: string
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3622,6 +4005,9 @@ export type AdmissionProfileCreateManyAdmissionCampaignInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
@@ -3636,12 +4022,11 @@ export type AdmissionProfileCreateManyAdmissionCampaignInput = {
   studentId?: number | null
 }
 
-export type AdmissionProfileUpdateWithoutAdmissionCampaignInput = {
+export type AdmissionProfileUpdateWithoutSubjectCombinationInput = {
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3667,6 +4052,9 @@ export type AdmissionProfileUpdateWithoutAdmissionCampaignInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -3678,24 +4066,24 @@ export type AdmissionProfileUpdateWithoutAdmissionCampaignInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
 }
 
-export type AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignInput = {
+export type AdmissionProfileUncheckedUpdateWithoutSubjectCombinationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3724,6 +4112,9 @@ export type AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -3737,18 +4128,18 @@ export type AdmissionProfileUncheckedUpdateWithoutAdmissionCampaignInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
 
-export type AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignInput = {
+export type AdmissionProfileUncheckedUpdateManyWithoutSubjectCombinationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3777,6 +4168,9 @@ export type AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -3794,12 +4188,10 @@ export type AdmissionProfileUncheckedUpdateManyWithoutAdmissionCampaignInput = {
 export type AdmissionProfileCreateManyProvinceInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -3827,7 +4219,11 @@ export type AdmissionProfileCreateManyProvinceInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -3846,7 +4242,6 @@ export type AdmissionProfileUpdateWithoutProvinceInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3872,6 +4267,9 @@ export type AdmissionProfileUpdateWithoutProvinceInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -3883,11 +4281,12 @@ export type AdmissionProfileUpdateWithoutProvinceInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
@@ -3896,12 +4295,10 @@ export type AdmissionProfileUpdateWithoutProvinceInput = {
 export type AdmissionProfileUncheckedUpdateWithoutProvinceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3929,7 +4326,11 @@ export type AdmissionProfileUncheckedUpdateWithoutProvinceInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -3942,6 +4343,7 @@ export type AdmissionProfileUncheckedUpdateWithoutProvinceInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
@@ -3949,12 +4351,10 @@ export type AdmissionProfileUncheckedUpdateWithoutProvinceInput = {
 export type AdmissionProfileUncheckedUpdateManyWithoutProvinceInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3982,7 +4382,11 @@ export type AdmissionProfileUncheckedUpdateManyWithoutProvinceInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -3999,12 +4403,10 @@ export type AdmissionProfileUncheckedUpdateManyWithoutProvinceInput = {
 export type AdmissionProfileCreateManyWardInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -4032,7 +4434,11 @@ export type AdmissionProfileCreateManyWardInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -4051,7 +4457,6 @@ export type AdmissionProfileUpdateWithoutWardInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4077,6 +4482,9 @@ export type AdmissionProfileUpdateWithoutWardInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -4088,11 +4496,12 @@ export type AdmissionProfileUpdateWithoutWardInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   village?: Prisma.VillageUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
@@ -4101,12 +4510,10 @@ export type AdmissionProfileUpdateWithoutWardInput = {
 export type AdmissionProfileUncheckedUpdateWithoutWardInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4134,7 +4541,11 @@ export type AdmissionProfileUncheckedUpdateWithoutWardInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -4147,6 +4558,7 @@ export type AdmissionProfileUncheckedUpdateWithoutWardInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
@@ -4154,12 +4566,10 @@ export type AdmissionProfileUncheckedUpdateWithoutWardInput = {
 export type AdmissionProfileUncheckedUpdateManyWithoutWardInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4187,7 +4597,11 @@ export type AdmissionProfileUncheckedUpdateManyWithoutWardInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -4204,12 +4618,10 @@ export type AdmissionProfileUncheckedUpdateManyWithoutWardInput = {
 export type AdmissionProfileCreateManyVillageInput = {
   id?: number
   applicationCode: string
-  admissionCampaignId: number
-  majorId: number
+  admissionCampaignMajorId: number
   status?: $Enums.ApplicationStatus
   admissionType?: $Enums.AdmissionType
   educationLevel?: $Enums.EducationLevel
-  trainingType?: $Enums.TrainingType
   fullName: string
   identityNumber: string
   dob: Date | string
@@ -4237,7 +4649,11 @@ export type AdmissionProfileCreateManyVillageInput = {
   gpa10?: number | null
   gpa11?: number | null
   gpa12?: number | null
+  conduct10?: $Enums.Conduct | null
+  conduct11?: $Enums.Conduct | null
+  conduct12?: $Enums.Conduct | null
   thptGradYear?: number | null
+  subjectCombinationId?: number | null
   totalExamScore?: number | null
   priorityRegion?: $Enums.PriorityRegion | null
   priorityObject?: $Enums.PriorityObject | null
@@ -4256,7 +4672,6 @@ export type AdmissionProfileUpdateWithoutVillageInput = {
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4282,6 +4697,9 @@ export type AdmissionProfileUpdateWithoutVillageInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
@@ -4293,11 +4711,12 @@ export type AdmissionProfileUpdateWithoutVillageInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneRequiredWithoutAdmissionProfilesNestedInput
-  major?: Prisma.MajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
+  admissionCampaignMajor?: Prisma.AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNestedInput
   province?: Prisma.ProvinceUpdateOneWithoutAdmissionProfilesNestedInput
   ward?: Prisma.WardUpdateOneWithoutAdmissionProfilesNestedInput
+  subjectCombination?: Prisma.SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput
   examScores?: Prisma.ExamScoreUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUpdateManyWithoutAdmissionProfileNestedInput
   student?: Prisma.StudentUpdateOneWithoutAdmissionProfileNestedInput
@@ -4306,12 +4725,10 @@ export type AdmissionProfileUpdateWithoutVillageInput = {
 export type AdmissionProfileUncheckedUpdateWithoutVillageInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4339,7 +4756,11 @@ export type AdmissionProfileUncheckedUpdateWithoutVillageInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -4352,6 +4773,7 @@ export type AdmissionProfileUncheckedUpdateWithoutVillageInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   studentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   examScores?: Prisma.ExamScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
+  transcriptSubjectScores?: Prisma.TranscriptSubjectScoreUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   documents?: Prisma.AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileNestedInput
   statusLogs?: Prisma.AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileNestedInput
 }
@@ -4359,12 +4781,10 @@ export type AdmissionProfileUncheckedUpdateWithoutVillageInput = {
 export type AdmissionProfileUncheckedUpdateManyWithoutVillageInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   applicationCode?: Prisma.StringFieldUpdateOperationsInput | string
-  admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
-  majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionCampaignMajorId?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
   admissionType?: Prisma.EnumAdmissionTypeFieldUpdateOperationsInput | $Enums.AdmissionType
   educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
-  trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   identityNumber?: Prisma.StringFieldUpdateOperationsInput | string
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4392,7 +4812,11 @@ export type AdmissionProfileUncheckedUpdateManyWithoutVillageInput = {
   gpa10?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa11?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   gpa12?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  conduct10?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct11?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
+  conduct12?: Prisma.NullableEnumConductFieldUpdateOperationsInput | $Enums.Conduct | null
   thptGradYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectCombinationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalExamScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   priorityRegion?: Prisma.NullableEnumPriorityRegionFieldUpdateOperationsInput | $Enums.PriorityRegion | null
   priorityObject?: Prisma.NullableEnumPriorityObjectFieldUpdateOperationsInput | $Enums.PriorityObject | null
@@ -4413,12 +4837,14 @@ export type AdmissionProfileUncheckedUpdateManyWithoutVillageInput = {
 
 export type AdmissionProfileCountOutputType = {
   examScores: number
+  transcriptSubjectScores: number
   documents: number
   statusLogs: number
 }
 
 export type AdmissionProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   examScores?: boolean | AdmissionProfileCountOutputTypeCountExamScoresArgs
+  transcriptSubjectScores?: boolean | AdmissionProfileCountOutputTypeCountTranscriptSubjectScoresArgs
   documents?: boolean | AdmissionProfileCountOutputTypeCountDocumentsArgs
   statusLogs?: boolean | AdmissionProfileCountOutputTypeCountStatusLogsArgs
 }
@@ -4443,6 +4869,13 @@ export type AdmissionProfileCountOutputTypeCountExamScoresArgs<ExtArgs extends r
 /**
  * AdmissionProfileCountOutputType without action
  */
+export type AdmissionProfileCountOutputTypeCountTranscriptSubjectScoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TranscriptSubjectScoreWhereInput
+}
+
+/**
+ * AdmissionProfileCountOutputType without action
+ */
 export type AdmissionProfileCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AdmissionDocumentWhereInput
 }
@@ -4458,12 +4891,10 @@ export type AdmissionProfileCountOutputTypeCountStatusLogsArgs<ExtArgs extends r
 export type AdmissionProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   applicationCode?: boolean
-  admissionCampaignId?: boolean
-  majorId?: boolean
+  admissionCampaignMajorId?: boolean
   status?: boolean
   admissionType?: boolean
   educationLevel?: boolean
-  trainingType?: boolean
   fullName?: boolean
   identityNumber?: boolean
   dob?: boolean
@@ -4492,7 +4923,11 @@ export type AdmissionProfileSelect<ExtArgs extends runtime.Types.Extensions.Inte
   gpa10?: boolean
   gpa11?: boolean
   gpa12?: boolean
+  conduct10?: boolean
+  conduct11?: boolean
+  conduct12?: boolean
   thptGradYear?: boolean
+  subjectCombinationId?: boolean
   totalExamScore?: boolean
   priorityRegion?: boolean
   priorityObject?: boolean
@@ -4504,12 +4939,13 @@ export type AdmissionProfileSelect<ExtArgs extends runtime.Types.Extensions.Inte
   createdAt?: boolean
   updatedAt?: boolean
   studentId?: boolean
-  admissionCampaign?: boolean | Prisma.AdmissionCampaignDefaultArgs<ExtArgs>
-  major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
+  admissionCampaignMajor?: boolean | Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs>
   province?: boolean | Prisma.AdmissionProfile$provinceArgs<ExtArgs>
   ward?: boolean | Prisma.AdmissionProfile$wardArgs<ExtArgs>
   village?: boolean | Prisma.AdmissionProfile$villageArgs<ExtArgs>
+  subjectCombination?: boolean | Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs>
   examScores?: boolean | Prisma.AdmissionProfile$examScoresArgs<ExtArgs>
+  transcriptSubjectScores?: boolean | Prisma.AdmissionProfile$transcriptSubjectScoresArgs<ExtArgs>
   documents?: boolean | Prisma.AdmissionProfile$documentsArgs<ExtArgs>
   statusLogs?: boolean | Prisma.AdmissionProfile$statusLogsArgs<ExtArgs>
   student?: boolean | Prisma.AdmissionProfile$studentArgs<ExtArgs>
@@ -4519,12 +4955,10 @@ export type AdmissionProfileSelect<ExtArgs extends runtime.Types.Extensions.Inte
 export type AdmissionProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   applicationCode?: boolean
-  admissionCampaignId?: boolean
-  majorId?: boolean
+  admissionCampaignMajorId?: boolean
   status?: boolean
   admissionType?: boolean
   educationLevel?: boolean
-  trainingType?: boolean
   fullName?: boolean
   identityNumber?: boolean
   dob?: boolean
@@ -4553,7 +4987,11 @@ export type AdmissionProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   gpa10?: boolean
   gpa11?: boolean
   gpa12?: boolean
+  conduct10?: boolean
+  conduct11?: boolean
+  conduct12?: boolean
   thptGradYear?: boolean
+  subjectCombinationId?: boolean
   totalExamScore?: boolean
   priorityRegion?: boolean
   priorityObject?: boolean
@@ -4565,23 +5003,21 @@ export type AdmissionProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   createdAt?: boolean
   updatedAt?: boolean
   studentId?: boolean
-  admissionCampaign?: boolean | Prisma.AdmissionCampaignDefaultArgs<ExtArgs>
-  major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
+  admissionCampaignMajor?: boolean | Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs>
   province?: boolean | Prisma.AdmissionProfile$provinceArgs<ExtArgs>
   ward?: boolean | Prisma.AdmissionProfile$wardArgs<ExtArgs>
   village?: boolean | Prisma.AdmissionProfile$villageArgs<ExtArgs>
+  subjectCombination?: boolean | Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs>
   student?: boolean | Prisma.AdmissionProfile$studentArgs<ExtArgs>
 }, ExtArgs["result"]["admissionProfile"]>
 
 export type AdmissionProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   applicationCode?: boolean
-  admissionCampaignId?: boolean
-  majorId?: boolean
+  admissionCampaignMajorId?: boolean
   status?: boolean
   admissionType?: boolean
   educationLevel?: boolean
-  trainingType?: boolean
   fullName?: boolean
   identityNumber?: boolean
   dob?: boolean
@@ -4610,7 +5046,11 @@ export type AdmissionProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   gpa10?: boolean
   gpa11?: boolean
   gpa12?: boolean
+  conduct10?: boolean
+  conduct11?: boolean
+  conduct12?: boolean
   thptGradYear?: boolean
+  subjectCombinationId?: boolean
   totalExamScore?: boolean
   priorityRegion?: boolean
   priorityObject?: boolean
@@ -4622,23 +5062,21 @@ export type AdmissionProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   createdAt?: boolean
   updatedAt?: boolean
   studentId?: boolean
-  admissionCampaign?: boolean | Prisma.AdmissionCampaignDefaultArgs<ExtArgs>
-  major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
+  admissionCampaignMajor?: boolean | Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs>
   province?: boolean | Prisma.AdmissionProfile$provinceArgs<ExtArgs>
   ward?: boolean | Prisma.AdmissionProfile$wardArgs<ExtArgs>
   village?: boolean | Prisma.AdmissionProfile$villageArgs<ExtArgs>
+  subjectCombination?: boolean | Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs>
   student?: boolean | Prisma.AdmissionProfile$studentArgs<ExtArgs>
 }, ExtArgs["result"]["admissionProfile"]>
 
 export type AdmissionProfileSelectScalar = {
   id?: boolean
   applicationCode?: boolean
-  admissionCampaignId?: boolean
-  majorId?: boolean
+  admissionCampaignMajorId?: boolean
   status?: boolean
   admissionType?: boolean
   educationLevel?: boolean
-  trainingType?: boolean
   fullName?: boolean
   identityNumber?: boolean
   dob?: boolean
@@ -4667,7 +5105,11 @@ export type AdmissionProfileSelectScalar = {
   gpa10?: boolean
   gpa11?: boolean
   gpa12?: boolean
+  conduct10?: boolean
+  conduct11?: boolean
+  conduct12?: boolean
   thptGradYear?: boolean
+  subjectCombinationId?: boolean
   totalExamScore?: boolean
   priorityRegion?: boolean
   priorityObject?: boolean
@@ -4681,45 +5123,47 @@ export type AdmissionProfileSelectScalar = {
   studentId?: boolean
 }
 
-export type AdmissionProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "applicationCode" | "admissionCampaignId" | "majorId" | "status" | "admissionType" | "educationLevel" | "trainingType" | "fullName" | "identityNumber" | "dob" | "gender" | "phone" | "email" | "addressDetail" | "provinceCode" | "wardCode" | "villageId" | "fatherName" | "fatherPhone" | "motherName" | "motherPhone" | "guardianName" | "guardianPhone" | "gpa6" | "gpa7" | "gpa8" | "gpa9" | "conduct6" | "conduct7" | "conduct8" | "conduct9" | "thcsGradYear" | "gpa10" | "gpa11" | "gpa12" | "thptGradYear" | "totalExamScore" | "priorityRegion" | "priorityObject" | "priorityScore" | "isDirectAdmission" | "directReason" | "scoreCalculated" | "note" | "createdAt" | "updatedAt" | "studentId", ExtArgs["result"]["admissionProfile"]>
+export type AdmissionProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "applicationCode" | "admissionCampaignMajorId" | "status" | "admissionType" | "educationLevel" | "fullName" | "identityNumber" | "dob" | "gender" | "phone" | "email" | "addressDetail" | "provinceCode" | "wardCode" | "villageId" | "fatherName" | "fatherPhone" | "motherName" | "motherPhone" | "guardianName" | "guardianPhone" | "gpa6" | "gpa7" | "gpa8" | "gpa9" | "conduct6" | "conduct7" | "conduct8" | "conduct9" | "thcsGradYear" | "gpa10" | "gpa11" | "gpa12" | "conduct10" | "conduct11" | "conduct12" | "thptGradYear" | "subjectCombinationId" | "totalExamScore" | "priorityRegion" | "priorityObject" | "priorityScore" | "isDirectAdmission" | "directReason" | "scoreCalculated" | "note" | "createdAt" | "updatedAt" | "studentId", ExtArgs["result"]["admissionProfile"]>
 export type AdmissionProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionCampaign?: boolean | Prisma.AdmissionCampaignDefaultArgs<ExtArgs>
-  major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
+  admissionCampaignMajor?: boolean | Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs>
   province?: boolean | Prisma.AdmissionProfile$provinceArgs<ExtArgs>
   ward?: boolean | Prisma.AdmissionProfile$wardArgs<ExtArgs>
   village?: boolean | Prisma.AdmissionProfile$villageArgs<ExtArgs>
+  subjectCombination?: boolean | Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs>
   examScores?: boolean | Prisma.AdmissionProfile$examScoresArgs<ExtArgs>
+  transcriptSubjectScores?: boolean | Prisma.AdmissionProfile$transcriptSubjectScoresArgs<ExtArgs>
   documents?: boolean | Prisma.AdmissionProfile$documentsArgs<ExtArgs>
   statusLogs?: boolean | Prisma.AdmissionProfile$statusLogsArgs<ExtArgs>
   student?: boolean | Prisma.AdmissionProfile$studentArgs<ExtArgs>
   _count?: boolean | Prisma.AdmissionProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AdmissionProfileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionCampaign?: boolean | Prisma.AdmissionCampaignDefaultArgs<ExtArgs>
-  major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
+  admissionCampaignMajor?: boolean | Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs>
   province?: boolean | Prisma.AdmissionProfile$provinceArgs<ExtArgs>
   ward?: boolean | Prisma.AdmissionProfile$wardArgs<ExtArgs>
   village?: boolean | Prisma.AdmissionProfile$villageArgs<ExtArgs>
+  subjectCombination?: boolean | Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs>
   student?: boolean | Prisma.AdmissionProfile$studentArgs<ExtArgs>
 }
 export type AdmissionProfileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionCampaign?: boolean | Prisma.AdmissionCampaignDefaultArgs<ExtArgs>
-  major?: boolean | Prisma.MajorDefaultArgs<ExtArgs>
+  admissionCampaignMajor?: boolean | Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs>
   province?: boolean | Prisma.AdmissionProfile$provinceArgs<ExtArgs>
   ward?: boolean | Prisma.AdmissionProfile$wardArgs<ExtArgs>
   village?: boolean | Prisma.AdmissionProfile$villageArgs<ExtArgs>
+  subjectCombination?: boolean | Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs>
   student?: boolean | Prisma.AdmissionProfile$studentArgs<ExtArgs>
 }
 
 export type $AdmissionProfilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AdmissionProfile"
   objects: {
-    admissionCampaign: Prisma.$AdmissionCampaignPayload<ExtArgs>
-    major: Prisma.$MajorPayload<ExtArgs>
+    admissionCampaignMajor: Prisma.$AdmissionCampaignMajorPayload<ExtArgs>
     province: Prisma.$ProvincePayload<ExtArgs> | null
     ward: Prisma.$WardPayload<ExtArgs> | null
     village: Prisma.$VillagePayload<ExtArgs> | null
+    subjectCombination: Prisma.$SubjectCombinationPayload<ExtArgs> | null
     examScores: Prisma.$ExamScorePayload<ExtArgs>[]
+    transcriptSubjectScores: Prisma.$TranscriptSubjectScorePayload<ExtArgs>[]
     documents: Prisma.$AdmissionDocumentPayload<ExtArgs>[]
     statusLogs: Prisma.$AdmissionStatusLogPayload<ExtArgs>[]
     student: Prisma.$StudentPayload<ExtArgs> | null
@@ -4727,12 +5171,10 @@ export type $AdmissionProfilePayload<ExtArgs extends runtime.Types.Extensions.In
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     applicationCode: string
-    admissionCampaignId: number
-    majorId: number
+    admissionCampaignMajorId: number
     status: $Enums.ApplicationStatus
     admissionType: $Enums.AdmissionType
     educationLevel: $Enums.EducationLevel
-    trainingType: $Enums.TrainingType
     fullName: string
     identityNumber: string
     dob: Date
@@ -4761,7 +5203,11 @@ export type $AdmissionProfilePayload<ExtArgs extends runtime.Types.Extensions.In
     gpa10: number | null
     gpa11: number | null
     gpa12: number | null
+    conduct10: $Enums.Conduct | null
+    conduct11: $Enums.Conduct | null
+    conduct12: $Enums.Conduct | null
     thptGradYear: number | null
+    subjectCombinationId: number | null
     totalExamScore: number | null
     priorityRegion: $Enums.PriorityRegion | null
     priorityObject: $Enums.PriorityObject | null
@@ -5167,12 +5613,13 @@ readonly fields: AdmissionProfileFieldRefs;
  */
 export interface Prisma__AdmissionProfileClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  admissionCampaign<T extends Prisma.AdmissionCampaignDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionCampaignDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionCampaignClient<runtime.Types.Result.GetResult<Prisma.$AdmissionCampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  major<T extends Prisma.MajorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MajorDefaultArgs<ExtArgs>>): Prisma.Prisma__MajorClient<runtime.Types.Result.GetResult<Prisma.$MajorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  admissionCampaignMajor<T extends Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionCampaignMajorDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionCampaignMajorClient<runtime.Types.Result.GetResult<Prisma.$AdmissionCampaignMajorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   province<T extends Prisma.AdmissionProfile$provinceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$provinceArgs<ExtArgs>>): Prisma.Prisma__ProvinceClient<runtime.Types.Result.GetResult<Prisma.$ProvincePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ward<T extends Prisma.AdmissionProfile$wardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$wardArgs<ExtArgs>>): Prisma.Prisma__WardClient<runtime.Types.Result.GetResult<Prisma.$WardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   village<T extends Prisma.AdmissionProfile$villageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$villageArgs<ExtArgs>>): Prisma.Prisma__VillageClient<runtime.Types.Result.GetResult<Prisma.$VillagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  subjectCombination<T extends Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$subjectCombinationArgs<ExtArgs>>): Prisma.Prisma__SubjectCombinationClient<runtime.Types.Result.GetResult<Prisma.$SubjectCombinationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   examScores<T extends Prisma.AdmissionProfile$examScoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$examScoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transcriptSubjectScores<T extends Prisma.AdmissionProfile$transcriptSubjectScoresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$transcriptSubjectScoresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranscriptSubjectScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.AdmissionProfile$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   statusLogs<T extends Prisma.AdmissionProfile$statusLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$statusLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionStatusLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   student<T extends Prisma.AdmissionProfile$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfile$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -5207,12 +5654,10 @@ export interface Prisma__AdmissionProfileClient<T, Null = never, ExtArgs extends
 export interface AdmissionProfileFieldRefs {
   readonly id: Prisma.FieldRef<"AdmissionProfile", 'Int'>
   readonly applicationCode: Prisma.FieldRef<"AdmissionProfile", 'String'>
-  readonly admissionCampaignId: Prisma.FieldRef<"AdmissionProfile", 'Int'>
-  readonly majorId: Prisma.FieldRef<"AdmissionProfile", 'Int'>
+  readonly admissionCampaignMajorId: Prisma.FieldRef<"AdmissionProfile", 'Int'>
   readonly status: Prisma.FieldRef<"AdmissionProfile", 'ApplicationStatus'>
   readonly admissionType: Prisma.FieldRef<"AdmissionProfile", 'AdmissionType'>
   readonly educationLevel: Prisma.FieldRef<"AdmissionProfile", 'EducationLevel'>
-  readonly trainingType: Prisma.FieldRef<"AdmissionProfile", 'TrainingType'>
   readonly fullName: Prisma.FieldRef<"AdmissionProfile", 'String'>
   readonly identityNumber: Prisma.FieldRef<"AdmissionProfile", 'String'>
   readonly dob: Prisma.FieldRef<"AdmissionProfile", 'DateTime'>
@@ -5241,7 +5686,11 @@ export interface AdmissionProfileFieldRefs {
   readonly gpa10: Prisma.FieldRef<"AdmissionProfile", 'Float'>
   readonly gpa11: Prisma.FieldRef<"AdmissionProfile", 'Float'>
   readonly gpa12: Prisma.FieldRef<"AdmissionProfile", 'Float'>
+  readonly conduct10: Prisma.FieldRef<"AdmissionProfile", 'Conduct'>
+  readonly conduct11: Prisma.FieldRef<"AdmissionProfile", 'Conduct'>
+  readonly conduct12: Prisma.FieldRef<"AdmissionProfile", 'Conduct'>
   readonly thptGradYear: Prisma.FieldRef<"AdmissionProfile", 'Int'>
+  readonly subjectCombinationId: Prisma.FieldRef<"AdmissionProfile", 'Int'>
   readonly totalExamScore: Prisma.FieldRef<"AdmissionProfile", 'Float'>
   readonly priorityRegion: Prisma.FieldRef<"AdmissionProfile", 'PriorityRegion'>
   readonly priorityObject: Prisma.FieldRef<"AdmissionProfile", 'PriorityObject'>
@@ -5711,6 +6160,25 @@ export type AdmissionProfile$villageArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * AdmissionProfile.subjectCombination
+ */
+export type AdmissionProfile$subjectCombinationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubjectCombination
+   */
+  select?: Prisma.SubjectCombinationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubjectCombination
+   */
+  omit?: Prisma.SubjectCombinationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectCombinationInclude<ExtArgs> | null
+  where?: Prisma.SubjectCombinationWhereInput
+}
+
+/**
  * AdmissionProfile.examScores
  */
 export type AdmissionProfile$examScoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5732,6 +6200,30 @@ export type AdmissionProfile$examScoresArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.ExamScoreScalarFieldEnum | Prisma.ExamScoreScalarFieldEnum[]
+}
+
+/**
+ * AdmissionProfile.transcriptSubjectScores
+ */
+export type AdmissionProfile$transcriptSubjectScoresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TranscriptSubjectScore
+   */
+  select?: Prisma.TranscriptSubjectScoreSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TranscriptSubjectScore
+   */
+  omit?: Prisma.TranscriptSubjectScoreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TranscriptSubjectScoreInclude<ExtArgs> | null
+  where?: Prisma.TranscriptSubjectScoreWhereInput
+  orderBy?: Prisma.TranscriptSubjectScoreOrderByWithRelationInput | Prisma.TranscriptSubjectScoreOrderByWithRelationInput[]
+  cursor?: Prisma.TranscriptSubjectScoreWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TranscriptSubjectScoreScalarFieldEnum | Prisma.TranscriptSubjectScoreScalarFieldEnum[]
 }
 
 /**

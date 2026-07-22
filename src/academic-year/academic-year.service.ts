@@ -58,7 +58,8 @@ export class AcademicYearService {
         where,
         skip,
         take: Number(limit),
-        orderBy: { startDate: "desc" },
+        // Ưu tiên isCurrent = true lên đầu (desc), sau đó mới xếp theo startDate
+        orderBy: [{ isCurrent: "desc" }, { startDate: "desc" }],
       }),
       this.prisma.academicYear.count({ where }),
     ]);
@@ -66,9 +67,6 @@ export class AcademicYearService {
     return {
       data,
       total,
-      page: Number(page),
-      limit: Number(limit),
-      totalPages: Math.ceil(total / limit),
     };
   }
 

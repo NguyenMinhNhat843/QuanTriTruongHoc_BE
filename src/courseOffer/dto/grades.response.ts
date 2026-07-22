@@ -11,7 +11,7 @@ import {
   Max,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { StudentResponseDto } from "../../student/dto/student.response";
+import { StudentResponseDto } from "../../student/dtos/student.response.js";
 import { GradeStudent } from "../../../prisma/generated/prisma/client";
 
 // Giả sử bạn có Enum cho trạng thái đăng ký, nếu không có bạn có thể bỏ IsEnum và dùng IsString

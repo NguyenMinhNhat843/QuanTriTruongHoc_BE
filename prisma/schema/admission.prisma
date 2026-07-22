@@ -1,5 +1,5 @@
 // ==========================================
-// TUYỂN SINH — ĐỢT & CHỈ TIÊU
+// TUYỂN SINH — ĐỢT & NGÀNH & CHỈ TIÊU
 // ==========================================
 enum CampaignStatus {
   PLANNING   // Lập kế hoạch (chưa mở)
@@ -8,45 +8,104 @@ enum CampaignStatus {
   COMPLETED  // Đã hoàn tất công tác tuyển sinh đợt này
 }
 
+// Đợt tuyển sinh — KHÔNG gắn cứng với 1 hệ đào tạo cụ thể.
+// Một đợt có thể tuyển nhiều ngành, mỗi ngành lại mở nhiều hệ đào tạo khác nhau
+// (xem AdmissionCampaignMajor). Muốn tuyển sơ cấp riêng hàng tháng thì tạo
+// nhiều AdmissionCampaign với khoảng thời gian ngắn, tách biệt các đợt lớn (9+/TC).
 model AdmissionCampaign {
   id            Int            @id @default(autoincrement())
-  code          String         @unique // "D1-2026", "DOT-9PLUS-T6"
-  name          String         // "Tuyển sinh Đợt 1 - Hệ 9+ & CĐ K26"
+  code          String         @unique // "D1-2026"
+  name          String         // "Tuyển sinh Đợt 1 - Năm 2026"
 
   startDate     DateTime       @db.Date
   endDate       DateTime       @db.Date
   status        CampaignStatus @default(PLANNING)
-
-  targetQuota   Int?
+ 
   description   String?
 
   academicYearId Int
-  academicYear    AcademicYear   @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
-
+  academicYear    AcademicYear   @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
+  // Restrict thay vì Cascade: dữ liệu tuyển sinh phải lưu vĩnh viễn theo quy chế lưu trữ,
+  // không cho xóa năm học kéo theo xóa toàn bộ hồ sơ tuyển sinh liên quan.
 
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
-  admissionProfiles AdmissionProfile[]
-  campaignMajors    AdmissionCampaignMajor[]
-  documentConfigs   DocumentConfig[]
+  campaignMajors  AdmissionCampaignMajor[]
+  documentConfigs DocumentConfig[]
 
   @@map("admission_campaigns")
 }
 
-// Chỉ tiêu + điểm chuẩn riêng cho từng Ngành trong từng Đợt tuyển sinh
+// Cách tính điểm học bạ: lấy điểm/hạnh kiểm năm cuối, hay trung bình cả giai đoạn
+enum TranscriptScoreMethod {
+  LAST_YEAR_ONLY     // chỉ lấy điểm lớp 9 (hoặc lớp 12)
+  AVERAGE_ALL_YEARS  // trung bình các năm (6-9 hoặc 10-12)
+}
+
+// Cấu hình tuyển sinh cho 1 Ngành + 1 Hệ đào tạo, trong 1 Đợt cụ thể.
+// Đây là bảng trung tâm: mọi tiêu chí xét tuyển (chỉ tiêu, phương thức chấp nhận,
+// tổ hợp môn, điểm sàn, điểm chuẩn...) đều cấu hình ở cấp này, KHÔNG ở cấp Campaign,
+// vì cùng 1 ngành có thể có yêu cầu khác nhau giữa các hệ đào tạo trong cùng 1 đợt.
 model AdmissionCampaignMajor {
   id                  Int               @id @default(autoincrement())
   admissionCampaignId Int
   majorId             Int
+  trainingType        TrainingType      // 9+, sơ cấp, trung cấp, thường xuyên
+
   quota               Int
-  benchmarkScore      Float?            // Điểm chuẩn trúng tuyển — dùng để hệ thống tự xét khi vượt chỉ tiêu
+
+  // --- Phương thức xét tuyển được chấp nhận cho ngành/hệ này trong đợt này ---
+  acceptedAdmissionTypes AdmissionType[]
+
+  // --- Nhánh 1: xét theo tổ hợp 3 môn (điểm thi hoặc học bạ theo môn) ---
+  subjectCombinationId Int?
+  subjectCombination   SubjectCombination? @relation(fields: [subjectCombinationId], references: [id])
+  minScorePerSubject    Float?             // điểm sàn từng môn (chống liệt)
+  minTotalScore         Float?             // điểm sàn tổng 3 môn
+
+  // --- Nhánh 2: xét học bạ theo điểm TB chung + hạnh kiểm ---
+  minGpaAverage         Float?             // ngưỡng điểm TB chung (theo transcriptScoreMethod)
+  minConduct            Conduct?           // hạnh kiểm tối thiểu, áp dụng cho MỌI năm trong phạm vi xét
+
+  // --- Dùng chung cho cả 2 nhánh xét học bạ ---
+  transcriptScoreMethod TranscriptScoreMethod?
+
+  cutoffScore           Float?             // điểm chuẩn — set sau khi duyệt hồ sơ, dùng để tự động APPROVE/REJECT
 
   admissionCampaign   AdmissionCampaign @relation(fields: [admissionCampaignId], references: [id], onDelete: Cascade)
   major               Major             @relation(fields: [majorId], references: [id])
 
-  @@unique([admissionCampaignId, majorId])
+  admissionProfiles   AdmissionProfile[]
+
+  @@unique([admissionCampaignId, majorId, trainingType])
   @@map("admission_campaign_majors")
+}
+
+// ==========================================
+// TỔ HỢP MÔN XÉT TUYỂN
+// ==========================================
+model SubjectCombination {
+  id    Int                      @id @default(autoincrement())
+  code  String                   @unique // "A", "A1", "D01"
+  name  String                   // "Toán - Lý - Hóa"
+
+  items                  SubjectCombinationItem[]
+  admissionCampaignMajors AdmissionCampaignMajor[]
+  admissionProfiles       AdmissionProfile[]
+
+  @@map("subject_combinations")
+}
+
+model SubjectCombinationItem {
+  id                   Int                @id @default(autoincrement())
+  subjectCombinationId Int
+  subjectCode          String             // MATH, LITERATURE, ENGLISH, PHYSICS, CHEMISTRY, BIOLOGY...
+
+  subjectCombination   SubjectCombination @relation(fields: [subjectCombinationId], references: [id], onDelete: Cascade)
+
+  @@unique([subjectCombinationId, subjectCode])
+  @@map("subject_combination_items")
 }
 
 // ==========================================
@@ -55,10 +114,10 @@ model AdmissionCampaignMajor {
 enum ApplicationStatus {
   REGISTERED // Mới đăng ký online
   SUBMITTED  // Đã nộp đủ hồ sơ số hóa, chờ duyệt
-  APPROVED   // Đã trúng tuyển (đủ điều kiện), chờ xác nhận nhập học
-  CONFIRMED  // Thí sinh đã xác nhận nhập học / đóng phí giữ chỗ — chờ hoàn tất thủ tục
+  APPROVED   // Đã trúng tuyển (đủ điều kiện học lực), chờ xác nhận nhập học
+  CONFIRMED  // Thí sinh đã xác nhận nhập học / đóng phí giữ chỗ — hồ sơ giấy CHƯA chắc đã đối chiếu xong
   REJECTED   // Rớt / hồ sơ không hợp lệ
-  ENROLLED   // Đã hoàn tất thủ tục nhập học & đã tạo Student + User
+  ENROLLED   // Đã đối chiếu hồ sơ giấy đầy đủ & hợp lệ — TẠI ĐÂY mới tạo Student + User
   CANCELLED  // Thí sinh tự hủy đăng ký
 }
 
@@ -68,7 +127,8 @@ enum Gender {
   OTHER
 }
 
-// Hạnh kiểm
+// Hạnh kiểm — thứ tự khai báo có ý nghĩa: TOT > KHA > TB > YEU, dùng để so sánh
+// với minConduct ở tầng ứng dụng (ánh xạ TOT=4, KHA=3, TB=2, YEU=1)
 enum Conduct {
   TOT
   KHA
@@ -95,24 +155,24 @@ enum PriorityObject {
 }
 
 // ==========================================
-// ADMISSION PROFILE (Hồ sơ đăng ký xét tuyển ban đầu)
+// ADMISSION PROFILE (Hồ sơ đăng ký xét tuyển)
+// Mỗi hồ sơ = 1 thí sinh đăng ký 1 Ngành + 1 Hệ đào tạo trong 1 Đợt cụ thể.
+// Thí sinh có thể nộp NHIỀU bộ hồ sơ độc lập (không có khái niệm nguyện vọng
+// xếp hạng) — mỗi hồ sơ xét duyệt riêng, không loại trừ lẫn nhau.
 // ==========================================
 model AdmissionProfile {
-  id                  Int               @id @default(autoincrement())
-  applicationCode     String            @unique // "HS2026-0001"
+  id                       Int               @id @default(autoincrement())
+  applicationCode          String            @unique // "HS2026-0001"
 
-  // --- Đợt tuyển sinh & Ngành đăng ký ---
-  admissionCampaignId Int
-  admissionCampaign   AdmissionCampaign @relation(fields: [admissionCampaignId], references: [id])
+  // --- Ngành + Hệ đào tạo + Đợt tuyển sinh đăng ký (gộp qua 1 khóa ngoại
+  // để tránh lệch dữ liệu giữa campaignId/majorId/trainingType riêng lẻ) ---
+  admissionCampaignMajorId Int
+  admissionCampaignMajor   AdmissionCampaignMajor @relation(fields: [admissionCampaignMajorId], references: [id])
 
-  majorId             Int
-  major               Major             @relation(fields: [majorId], references: [id])
-
-  // --- Trạng thái hồ sơ ---
+  // --- Trạng thái & phương thức xét ---
   status              ApplicationStatus @default(REGISTERED)
-  admissionType       AdmissionType     @default(ACADEMIC_TRANSCRIPT)
+  admissionType       AdmissionType     @default(ACADEMIC_TRANSCRIPT_GPA)
   educationLevel      EducationLevel    @default(THCS)
-  trainingType        TrainingType      @default(VOCATIONAL_INTERMEDIATE)
 
   // --- Thông tin cá nhân thí sinh ---
   fullName            String
@@ -137,7 +197,8 @@ model AdmissionProfile {
   guardianName        String?
   guardianPhone       String?
 
-  // --- Học bạ THCS ---
+  // --- Học bạ THCS: điểm TB chung + hạnh kiểm từng năm
+  //     (dùng cho admissionType = ACADEMIC_TRANSCRIPT_GPA) ---
   gpa6                Float?
   gpa7                Float?
   gpa8                Float?
@@ -148,20 +209,32 @@ model AdmissionProfile {
   conduct9            Conduct?
   thcsGradYear        Int?
 
-  // --- Học bạ THPT ---
+  // --- Học bạ THPT: điểm TB chung + hạnh kiểm từng năm ---
   gpa10               Float?
   gpa11               Float?
   gpa12               Float?
+  conduct10           Conduct?
+  conduct11           Conduct?
+  conduct12           Conduct?
   thptGradYear        Int?
 
-  // --- Điểm thi: tách bảng con để hỗ trợ tổ hợp môn linh hoạt ---
+  // --- Tổ hợp môn đăng ký xét (dùng cho ACADEMIC_TRANSCRIPT_SUBJECT hoặc EXAM_SCORE) ---
+  subjectCombinationId Int?
+  subjectCombination   SubjectCombination? @relation(fields: [subjectCombinationId], references: [id])
+
+  // --- Điểm thi theo môn: dùng khi admissionType = EXAM_SCORE ---
   examScores          ExamScore[]
-  totalExamScore      Float?            // Tổng điểm theo tổ hợp đã chọn (tính toán, lưu cache)
+
+  // --- Điểm học bạ theo môn (chỉ 3 môn trong tổ hợp, theo từng năm áp dụng):
+  //     dùng khi admissionType = ACADEMIC_TRANSCRIPT_SUBJECT ---
+  transcriptSubjectScores TranscriptSubjectScore[]
+
+  totalExamScore      Float?            // Điểm tổng đã tính theo nguồn tương ứng (cache)
 
   // --- Ưu tiên theo quy chế GDNN ---
   priorityRegion      PriorityRegion?
   priorityObject      PriorityObject?   @default(NONE)
-  priorityScore       Float?            @default(0) // Điểm cộng ưu tiên
+  priorityScore       Float?            @default(0) // auto-fill từ PriorityRule, cho phép override có ghi log
 
   // --- Tuyển thẳng ---
   isDirectAdmission   Boolean           @default(false)
@@ -180,8 +253,9 @@ model AdmissionProfile {
   studentId           Int?              @unique
   student             Student?          @relation(fields: [studentId], references: [id])
 
-  // Chống 1 thí sinh nộp trùng nhiều hồ sơ cùng ngành trong cùng 1 đợt
-  @@unique([admissionCampaignId, majorId, identityNumber])
+  // Chống 1 thí sinh nộp trùng nhiều hồ sơ cùng ngành + hệ trong cùng 1 đợt
+  @@unique([admissionCampaignMajorId, identityNumber])
+  @@index([identityNumber]) // tra cứu "CCCD này đã từng nộp hồ sơ đợt nào" trên toàn hệ thống
   @@map("admission_profiles")
 }
 
@@ -198,18 +272,39 @@ model ExamScore {
   @@map("exam_scores")
 }
 
+// Điểm học bạ theo từng môn trong tổ hợp xét tuyển, theo từng năm học.
+// Chỉ nhập đúng các môn nằm trong subjectCombination đã chọn (validate ở tầng
+// ứng dụng), cho các năm mà transcriptScoreMethod của AdmissionCampaignMajor
+// yêu cầu (LAST_YEAR_ONLY: 1 năm / AVERAGE_ALL_YEARS: đủ 4 năm hoặc 3 năm).
+model TranscriptSubjectScore {
+  id                 Int              @id @default(autoincrement())
+  admissionProfileId Int
+  gradeLevel         Int              // 6,7,8,9 (THCS) hoặc 10,11,12 (THPT)
+  subjectCode        String
+  score              Float
+
+  admissionProfile   AdmissionProfile @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([admissionProfileId, gradeLevel, subjectCode])
+  @@map("transcript_subject_scores")
+}
+
 // Lịch sử duyệt/chuyển trạng thái hồ sơ — audit trail bắt buộc theo quy chế
 model AdmissionStatusLog {
   id                  Int               @id @default(autoincrement())
   admissionProfileId  Int
   fromStatus          ApplicationStatus?
   toStatus            ApplicationStatus
-  byUserId            Int
+
+  // Cho phép null khi hệ thống tự động chuyển trạng thái (vd: auto APPROVED
+  // theo cutoffScore) — không phải lúc nào cũng có 1 user thật thực hiện thao tác
+  byUserId            Int?
+  isSystem            Boolean           @default(false)
   reason              String?
   createdAt           DateTime          @default(now())
 
   admissionProfile    AdmissionProfile  @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
-  byUser              User              @relation(fields: [byUserId], references: [id])
+  byUser              User?             @relation(fields: [byUserId], references: [id])
 
   @@map("admission_status_logs")
 }
@@ -229,6 +324,11 @@ model AdmissionDocument {
   rejectionReason      String?
   verifiedAt           DateTime?
   verifiedByUserId     Int?
+  verifiedByUser       User?              @relation(fields: [verifiedByUserId], references: [id])
+
+  // Khi thí sinh tải lại giấy tờ bị REJECTED, bản cũ set isLatest = false
+  // thay vì để nhiều bản PENDING/REJECTED chồng chéo cùng 1 loại giấy tờ
+  isLatest             Boolean            @default(true)
 
   uploadedAt           DateTime           @default(now())
 
@@ -238,10 +338,13 @@ model AdmissionDocument {
   @@map("admission_documents")
 }
 
+// Phương thức xét tuyển — tách rõ 3 nhánh học bạ/điểm thi để mỗi nhánh có
+// công thức tính điểm và bộ dữ liệu đầu vào riêng
 enum AdmissionType {
-  ACADEMIC_TRANSCRIPT // Xét học bạ (THCS hoặc THPT)
-  EXAM_SCORE          // Xét điểm thi (Vào lớp 10 hoặc THPT QG)
-  DIRECT              // Xét tuyển thẳng (Theo quy chế GDNN)
+  ACADEMIC_TRANSCRIPT_SUBJECT // Xét học bạ theo tổ hợp 3 môn cụ thể
+  ACADEMIC_TRANSCRIPT_GPA     // Xét học bạ theo điểm TB chung + hạnh kiểm từng năm
+  EXAM_SCORE                  // Xét điểm thi (Vào lớp 10 hoặc THPT QG) theo tổ hợp môn
+  DIRECT                      // Xét tuyển thẳng (Theo quy chế GDNN)
 }
 
 enum EducationLevel {
@@ -273,8 +376,53 @@ enum DirectAdmissionReason {
 }
 
 // ==========================================
+// CẤU HÌNH ĐIỂM ƯU TIÊN
+// Thay vì nhập tay priorityScore trên từng hồ sơ (dễ lệch giữa các thí sinh
+// cùng diện ưu tiên), điểm cộng được cấu hình tập trung theo năm học,
+// hệ thống auto-fill, cho override có ghi log lý do.
+// ==========================================
+model PriorityRule {
+  id             Int             @id @default(autoincrement())
+  academicYearId Int
+  academicYear   AcademicYear    @relation(fields: [academicYearId], references: [id])
+  priorityRegion PriorityRegion?
+  priorityObject PriorityObject?
+  bonusScore     Float
+
+  @@unique([academicYearId, priorityRegion, priorityObject])
+  @@map("priority_rules")
+}
+
+// ==========================================
+// GHI NHẬN NHU CẦU KHI CHƯA CÓ ĐỢT TUYỂN PHÙ HỢP
+// Dùng khi tư vấn viên đã tư vấn ngành cho học sinh nhưng hiện chưa có
+// AdmissionCampaignMajor nào đang OPEN cho ngành/hệ đó — tránh mất data nhu cầu,
+// dùng để gọi lại / thông báo khi có đợt mới mở.
+// ==========================================
+model AdmissionInterest {
+  id             Int          @id @default(autoincrement())
+  fullName       String
+  phone          String
+  identityNumber String?
+  majorId        Int
+  trainingType   TrainingType
+  note           String?
+  notifiedAt     DateTime?    // đã báo cho HS khi có đợt mới mở chưa
+  createdAt      DateTime     @default(now())
+
+  major          Major        @relation(fields: [majorId], references: [id])
+
+  @@map("admission_interests")
+}
+
+// ==========================================
 // STUDENT (Định danh học sinh chính thức — KHÔNG lặp dữ liệu gia đình/địa chỉ,
 // các thông tin đó lấy qua admissionProfile để tránh trùng & lệch dữ liệu)
+//
+// QUAN TRỌNG: Student + User CHỈ được tạo tại thời điểm AdmissionProfile
+// chuyển sang status = ENROLLED (đã đối chiếu hồ sơ giấy xong), KHÔNG tạo
+// sớm hơn ở APPROVED hay CONFIRMED — tránh rác dữ liệu nếu hồ sơ giấy sai lệch
+// hoặc thí sinh đổi ý sau khi đã APPROVED/CONFIRMED.
 // ==========================================
 enum StudentStatus {
   STUDYING   // Đang theo học chính thức

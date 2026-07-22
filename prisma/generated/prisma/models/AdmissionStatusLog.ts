@@ -44,6 +44,7 @@ export type AdmissionStatusLogMinAggregateOutputType = {
   fromStatus: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus | null
   byUserId: number | null
+  isSystem: boolean | null
   reason: string | null
   createdAt: Date | null
 }
@@ -54,6 +55,7 @@ export type AdmissionStatusLogMaxAggregateOutputType = {
   fromStatus: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus | null
   byUserId: number | null
+  isSystem: boolean | null
   reason: string | null
   createdAt: Date | null
 }
@@ -64,6 +66,7 @@ export type AdmissionStatusLogCountAggregateOutputType = {
   fromStatus: number
   toStatus: number
   byUserId: number
+  isSystem: number
   reason: number
   createdAt: number
   _all: number
@@ -88,6 +91,7 @@ export type AdmissionStatusLogMinAggregateInputType = {
   fromStatus?: true
   toStatus?: true
   byUserId?: true
+  isSystem?: true
   reason?: true
   createdAt?: true
 }
@@ -98,6 +102,7 @@ export type AdmissionStatusLogMaxAggregateInputType = {
   fromStatus?: true
   toStatus?: true
   byUserId?: true
+  isSystem?: true
   reason?: true
   createdAt?: true
 }
@@ -108,6 +113,7 @@ export type AdmissionStatusLogCountAggregateInputType = {
   fromStatus?: true
   toStatus?: true
   byUserId?: true
+  isSystem?: true
   reason?: true
   createdAt?: true
   _all?: true
@@ -204,7 +210,8 @@ export type AdmissionStatusLogGroupByOutputType = {
   admissionProfileId: number
   fromStatus: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
-  byUserId: number
+  byUserId: number | null
+  isSystem: boolean
   reason: string | null
   createdAt: Date
   _count: AdmissionStatusLogCountAggregateOutputType | null
@@ -237,11 +244,12 @@ export type AdmissionStatusLogWhereInput = {
   admissionProfileId?: Prisma.IntFilter<"AdmissionStatusLog"> | number
   fromStatus?: Prisma.EnumApplicationStatusNullableFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntFilter<"AdmissionStatusLog"> | number
+  byUserId?: Prisma.IntNullableFilter<"AdmissionStatusLog"> | number | null
+  isSystem?: Prisma.BoolFilter<"AdmissionStatusLog"> | boolean
   reason?: Prisma.StringNullableFilter<"AdmissionStatusLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AdmissionStatusLog"> | Date | string
   admissionProfile?: Prisma.XOR<Prisma.AdmissionProfileScalarRelationFilter, Prisma.AdmissionProfileWhereInput>
-  byUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  byUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type AdmissionStatusLogOrderByWithRelationInput = {
@@ -249,7 +257,8 @@ export type AdmissionStatusLogOrderByWithRelationInput = {
   admissionProfileId?: Prisma.SortOrder
   fromStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   toStatus?: Prisma.SortOrder
-  byUserId?: Prisma.SortOrder
+  byUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   admissionProfile?: Prisma.AdmissionProfileOrderByWithRelationInput
@@ -264,11 +273,12 @@ export type AdmissionStatusLogWhereUniqueInput = Prisma.AtLeast<{
   admissionProfileId?: Prisma.IntFilter<"AdmissionStatusLog"> | number
   fromStatus?: Prisma.EnumApplicationStatusNullableFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntFilter<"AdmissionStatusLog"> | number
+  byUserId?: Prisma.IntNullableFilter<"AdmissionStatusLog"> | number | null
+  isSystem?: Prisma.BoolFilter<"AdmissionStatusLog"> | boolean
   reason?: Prisma.StringNullableFilter<"AdmissionStatusLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AdmissionStatusLog"> | Date | string
   admissionProfile?: Prisma.XOR<Prisma.AdmissionProfileScalarRelationFilter, Prisma.AdmissionProfileWhereInput>
-  byUser?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  byUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type AdmissionStatusLogOrderByWithAggregationInput = {
@@ -276,7 +286,8 @@ export type AdmissionStatusLogOrderByWithAggregationInput = {
   admissionProfileId?: Prisma.SortOrder
   fromStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   toStatus?: Prisma.SortOrder
-  byUserId?: Prisma.SortOrder
+  byUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
   reason?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AdmissionStatusLogCountOrderByAggregateInput
@@ -294,7 +305,8 @@ export type AdmissionStatusLogScalarWhereWithAggregatesInput = {
   admissionProfileId?: Prisma.IntWithAggregatesFilter<"AdmissionStatusLog"> | number
   fromStatus?: Prisma.EnumApplicationStatusNullableWithAggregatesFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusWithAggregatesFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntWithAggregatesFilter<"AdmissionStatusLog"> | number
+  byUserId?: Prisma.IntNullableWithAggregatesFilter<"AdmissionStatusLog"> | number | null
+  isSystem?: Prisma.BoolWithAggregatesFilter<"AdmissionStatusLog"> | boolean
   reason?: Prisma.StringNullableWithAggregatesFilter<"AdmissionStatusLog"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AdmissionStatusLog"> | Date | string
 }
@@ -302,10 +314,11 @@ export type AdmissionStatusLogScalarWhereWithAggregatesInput = {
 export type AdmissionStatusLogCreateInput = {
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
   admissionProfile: Prisma.AdmissionProfileCreateNestedOneWithoutStatusLogsInput
-  byUser: Prisma.UserCreateNestedOneWithoutAdmissionStatusLogsInput
+  byUser?: Prisma.UserCreateNestedOneWithoutAdmissionStatusLogsInput
 }
 
 export type AdmissionStatusLogUncheckedCreateInput = {
@@ -313,7 +326,8 @@ export type AdmissionStatusLogUncheckedCreateInput = {
   admissionProfileId: number
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
-  byUserId: number
+  byUserId?: number | null
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
 }
@@ -321,10 +335,11 @@ export type AdmissionStatusLogUncheckedCreateInput = {
 export type AdmissionStatusLogUpdateInput = {
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admissionProfile?: Prisma.AdmissionProfileUpdateOneRequiredWithoutStatusLogsNestedInput
-  byUser?: Prisma.UserUpdateOneRequiredWithoutAdmissionStatusLogsNestedInput
+  byUser?: Prisma.UserUpdateOneWithoutAdmissionStatusLogsNestedInput
 }
 
 export type AdmissionStatusLogUncheckedUpdateInput = {
@@ -332,7 +347,8 @@ export type AdmissionStatusLogUncheckedUpdateInput = {
   admissionProfileId?: Prisma.IntFieldUpdateOperationsInput | number
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  byUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -342,7 +358,8 @@ export type AdmissionStatusLogCreateManyInput = {
   admissionProfileId: number
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
-  byUserId: number
+  byUserId?: number | null
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
 }
@@ -350,6 +367,7 @@ export type AdmissionStatusLogCreateManyInput = {
 export type AdmissionStatusLogUpdateManyMutationInput = {
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -359,7 +377,8 @@ export type AdmissionStatusLogUncheckedUpdateManyInput = {
   admissionProfileId?: Prisma.IntFieldUpdateOperationsInput | number
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  byUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -380,6 +399,7 @@ export type AdmissionStatusLogCountOrderByAggregateInput = {
   fromStatus?: Prisma.SortOrder
   toStatus?: Prisma.SortOrder
   byUserId?: Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -396,6 +416,7 @@ export type AdmissionStatusLogMaxOrderByAggregateInput = {
   fromStatus?: Prisma.SortOrder
   toStatus?: Prisma.SortOrder
   byUserId?: Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -406,6 +427,7 @@ export type AdmissionStatusLogMinOrderByAggregateInput = {
   fromStatus?: Prisma.SortOrder
   toStatus?: Prisma.SortOrder
   byUserId?: Prisma.SortOrder
+  isSystem?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -507,16 +529,18 @@ export type AdmissionStatusLogUncheckedUpdateManyWithoutByUserNestedInput = {
 export type AdmissionStatusLogCreateWithoutAdmissionProfileInput = {
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
-  byUser: Prisma.UserCreateNestedOneWithoutAdmissionStatusLogsInput
+  byUser?: Prisma.UserCreateNestedOneWithoutAdmissionStatusLogsInput
 }
 
 export type AdmissionStatusLogUncheckedCreateWithoutAdmissionProfileInput = {
   id?: number
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
-  byUserId: number
+  byUserId?: number | null
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
 }
@@ -555,7 +579,8 @@ export type AdmissionStatusLogScalarWhereInput = {
   admissionProfileId?: Prisma.IntFilter<"AdmissionStatusLog"> | number
   fromStatus?: Prisma.EnumApplicationStatusNullableFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFilter<"AdmissionStatusLog"> | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntFilter<"AdmissionStatusLog"> | number
+  byUserId?: Prisma.IntNullableFilter<"AdmissionStatusLog"> | number | null
+  isSystem?: Prisma.BoolFilter<"AdmissionStatusLog"> | boolean
   reason?: Prisma.StringNullableFilter<"AdmissionStatusLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AdmissionStatusLog"> | Date | string
 }
@@ -563,6 +588,7 @@ export type AdmissionStatusLogScalarWhereInput = {
 export type AdmissionStatusLogCreateWithoutByUserInput = {
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
   admissionProfile: Prisma.AdmissionProfileCreateNestedOneWithoutStatusLogsInput
@@ -573,6 +599,7 @@ export type AdmissionStatusLogUncheckedCreateWithoutByUserInput = {
   admissionProfileId: number
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
 }
@@ -607,7 +634,8 @@ export type AdmissionStatusLogCreateManyAdmissionProfileInput = {
   id?: number
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
-  byUserId: number
+  byUserId?: number | null
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
 }
@@ -615,16 +643,18 @@ export type AdmissionStatusLogCreateManyAdmissionProfileInput = {
 export type AdmissionStatusLogUpdateWithoutAdmissionProfileInput = {
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  byUser?: Prisma.UserUpdateOneRequiredWithoutAdmissionStatusLogsNestedInput
+  byUser?: Prisma.UserUpdateOneWithoutAdmissionStatusLogsNestedInput
 }
 
 export type AdmissionStatusLogUncheckedUpdateWithoutAdmissionProfileInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  byUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -633,7 +663,8 @@ export type AdmissionStatusLogUncheckedUpdateManyWithoutAdmissionProfileInput = 
   id?: Prisma.IntFieldUpdateOperationsInput | number
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
-  byUserId?: Prisma.IntFieldUpdateOperationsInput | number
+  byUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -643,6 +674,7 @@ export type AdmissionStatusLogCreateManyByUserInput = {
   admissionProfileId: number
   fromStatus?: $Enums.ApplicationStatus | null
   toStatus: $Enums.ApplicationStatus
+  isSystem?: boolean
   reason?: string | null
   createdAt?: Date | string
 }
@@ -650,6 +682,7 @@ export type AdmissionStatusLogCreateManyByUserInput = {
 export type AdmissionStatusLogUpdateWithoutByUserInput = {
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admissionProfile?: Prisma.AdmissionProfileUpdateOneRequiredWithoutStatusLogsNestedInput
@@ -660,6 +693,7 @@ export type AdmissionStatusLogUncheckedUpdateWithoutByUserInput = {
   admissionProfileId?: Prisma.IntFieldUpdateOperationsInput | number
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -669,6 +703,7 @@ export type AdmissionStatusLogUncheckedUpdateManyWithoutByUserInput = {
   admissionProfileId?: Prisma.IntFieldUpdateOperationsInput | number
   fromStatus?: Prisma.NullableEnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus | null
   toStatus?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  isSystem?: Prisma.BoolFieldUpdateOperationsInput | boolean
   reason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -681,10 +716,11 @@ export type AdmissionStatusLogSelect<ExtArgs extends runtime.Types.Extensions.In
   fromStatus?: boolean
   toStatus?: boolean
   byUserId?: boolean
+  isSystem?: boolean
   reason?: boolean
   createdAt?: boolean
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
-  byUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  byUser?: boolean | Prisma.AdmissionStatusLog$byUserArgs<ExtArgs>
 }, ExtArgs["result"]["admissionStatusLog"]>
 
 export type AdmissionStatusLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -693,10 +729,11 @@ export type AdmissionStatusLogSelectCreateManyAndReturn<ExtArgs extends runtime.
   fromStatus?: boolean
   toStatus?: boolean
   byUserId?: boolean
+  isSystem?: boolean
   reason?: boolean
   createdAt?: boolean
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
-  byUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  byUser?: boolean | Prisma.AdmissionStatusLog$byUserArgs<ExtArgs>
 }, ExtArgs["result"]["admissionStatusLog"]>
 
 export type AdmissionStatusLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -705,10 +742,11 @@ export type AdmissionStatusLogSelectUpdateManyAndReturn<ExtArgs extends runtime.
   fromStatus?: boolean
   toStatus?: boolean
   byUserId?: boolean
+  isSystem?: boolean
   reason?: boolean
   createdAt?: boolean
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
-  byUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  byUser?: boolean | Prisma.AdmissionStatusLog$byUserArgs<ExtArgs>
 }, ExtArgs["result"]["admissionStatusLog"]>
 
 export type AdmissionStatusLogSelectScalar = {
@@ -717,36 +755,38 @@ export type AdmissionStatusLogSelectScalar = {
   fromStatus?: boolean
   toStatus?: boolean
   byUserId?: boolean
+  isSystem?: boolean
   reason?: boolean
   createdAt?: boolean
 }
 
-export type AdmissionStatusLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "admissionProfileId" | "fromStatus" | "toStatus" | "byUserId" | "reason" | "createdAt", ExtArgs["result"]["admissionStatusLog"]>
+export type AdmissionStatusLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "admissionProfileId" | "fromStatus" | "toStatus" | "byUserId" | "isSystem" | "reason" | "createdAt", ExtArgs["result"]["admissionStatusLog"]>
 export type AdmissionStatusLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
-  byUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  byUser?: boolean | Prisma.AdmissionStatusLog$byUserArgs<ExtArgs>
 }
 export type AdmissionStatusLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
-  byUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  byUser?: boolean | Prisma.AdmissionStatusLog$byUserArgs<ExtArgs>
 }
 export type AdmissionStatusLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
-  byUser?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  byUser?: boolean | Prisma.AdmissionStatusLog$byUserArgs<ExtArgs>
 }
 
 export type $AdmissionStatusLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AdmissionStatusLog"
   objects: {
     admissionProfile: Prisma.$AdmissionProfilePayload<ExtArgs>
-    byUser: Prisma.$UserPayload<ExtArgs>
+    byUser: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     admissionProfileId: number
     fromStatus: $Enums.ApplicationStatus | null
     toStatus: $Enums.ApplicationStatus
-    byUserId: number
+    byUserId: number | null
+    isSystem: boolean
     reason: string | null
     createdAt: Date
   }, ExtArgs["result"]["admissionStatusLog"]>
@@ -1144,7 +1184,7 @@ readonly fields: AdmissionStatusLogFieldRefs;
 export interface Prisma__AdmissionStatusLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   admissionProfile<T extends Prisma.AdmissionProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionProfileClient<runtime.Types.Result.GetResult<Prisma.$AdmissionProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  byUser<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  byUser<T extends Prisma.AdmissionStatusLog$byUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionStatusLog$byUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1179,6 +1219,7 @@ export interface AdmissionStatusLogFieldRefs {
   readonly fromStatus: Prisma.FieldRef<"AdmissionStatusLog", 'ApplicationStatus'>
   readonly toStatus: Prisma.FieldRef<"AdmissionStatusLog", 'ApplicationStatus'>
   readonly byUserId: Prisma.FieldRef<"AdmissionStatusLog", 'Int'>
+  readonly isSystem: Prisma.FieldRef<"AdmissionStatusLog", 'Boolean'>
   readonly reason: Prisma.FieldRef<"AdmissionStatusLog", 'String'>
   readonly createdAt: Prisma.FieldRef<"AdmissionStatusLog", 'DateTime'>
 }
@@ -1579,6 +1620,25 @@ export type AdmissionStatusLogDeleteManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many AdmissionStatusLogs to delete.
    */
   limit?: number
+}
+
+/**
+ * AdmissionStatusLog.byUser
+ */
+export type AdmissionStatusLog$byUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

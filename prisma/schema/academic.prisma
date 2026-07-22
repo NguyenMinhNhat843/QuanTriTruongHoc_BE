@@ -1,4 +1,26 @@
 
+// NĂM HỌC
+enum AcademicYearStatus {
+  PLANNING // Chưa mở, đang chuẩn bị
+  ACTIVE   // Đang áp dụng
+  CLOSED   // Đã khóa sổ
+}
+
+model AcademicYear {
+  id        Int                @id @default(autoincrement())
+  code      String             @unique // "2026-2027"
+  startDate DateTime           @db.Date
+  endDate   DateTime           @db.Date
+  isCurrent Boolean            @default(false)
+  status    AcademicYearStatus @default(PLANNING)
+
+  admissionCampaigns    AdmissionCampaign[]
+  batches               Batch[]
+  priorityRules         PriorityRule[]
+
+  @@map("academic_years")
+}
+
 // ==========================
 // 1. DEPARTMENTS (PHÒNG BAN / KHOA)
 // ==========================
@@ -12,7 +34,7 @@ model Department {
   headOfDepartmentId  Int?
   
   createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  updatedAt           DateTime  @updatedAt   @default(now())
 
   // Quan hệ
   majors              Major[]
@@ -37,7 +59,7 @@ model Major {
   description     String?    @db.Text
   
   createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+  updatedAt       DateTime   @updatedAt  @default(now())
 
   // Quan hệ
   classes         Class[]
@@ -46,7 +68,7 @@ model Major {
   students        Student[]
   tuitionConfigs  TuitionConfig[]
   admissionCampaignMajors AdmissionCampaignMajor[]
-  admissionProfiles       AdmissionProfile[]
+  admissionInterests      AdmissionInterest[]
 
   @@map("majors")
 }
@@ -59,6 +81,8 @@ model Batch {
   batchCode   String   @unique // Ví dụ: K1, K26, 2026
   batchName   String   // Ví dụ: Khóa 1, Khóa 2026
   
+  academicYearId      Int?
+  academicYear        AcademicYear?      @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
   startYear   Int      // Năm bắt đầu - mặc định là kỳ 1 
   endYear     Int      // Năm kết thúc dự kiến 
   endTerm     Int?    // Kỳ kết thúc

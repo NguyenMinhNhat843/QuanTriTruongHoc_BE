@@ -3,7 +3,7 @@ import { Exclude, Expose } from "class-transformer";
 import { RoleType } from "../../prisma/generated/prisma/enums.js";
 import { User } from "../../prisma/generated/prisma/client.js";
 import { IsOptional } from "class-validator";
-import { StudentResponseDto } from "../student/dto/student.response.js";
+import { StudentResponseDto } from "../student/dtos/student.response.js";
 import { StaffDto } from "../staff/staff.dto.js";
 
 export class UserResponseDto implements User {

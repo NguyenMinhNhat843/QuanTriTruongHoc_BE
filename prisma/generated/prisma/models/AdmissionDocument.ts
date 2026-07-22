@@ -53,6 +53,7 @@ export type AdmissionDocumentMinAggregateOutputType = {
   rejectionReason: string | null
   verifiedAt: Date | null
   verifiedByUserId: number | null
+  isLatest: boolean | null
   uploadedAt: Date | null
 }
 
@@ -67,6 +68,7 @@ export type AdmissionDocumentMaxAggregateOutputType = {
   rejectionReason: string | null
   verifiedAt: Date | null
   verifiedByUserId: number | null
+  isLatest: boolean | null
   uploadedAt: Date | null
 }
 
@@ -81,6 +83,7 @@ export type AdmissionDocumentCountAggregateOutputType = {
   rejectionReason: number
   verifiedAt: number
   verifiedByUserId: number
+  isLatest: number
   uploadedAt: number
   _all: number
 }
@@ -113,6 +116,7 @@ export type AdmissionDocumentMinAggregateInputType = {
   rejectionReason?: true
   verifiedAt?: true
   verifiedByUserId?: true
+  isLatest?: true
   uploadedAt?: true
 }
 
@@ -127,6 +131,7 @@ export type AdmissionDocumentMaxAggregateInputType = {
   rejectionReason?: true
   verifiedAt?: true
   verifiedByUserId?: true
+  isLatest?: true
   uploadedAt?: true
 }
 
@@ -141,6 +146,7 @@ export type AdmissionDocumentCountAggregateInputType = {
   rejectionReason?: true
   verifiedAt?: true
   verifiedByUserId?: true
+  isLatest?: true
   uploadedAt?: true
   _all?: true
 }
@@ -242,6 +248,7 @@ export type AdmissionDocumentGroupByOutputType = {
   rejectionReason: string | null
   verifiedAt: Date | null
   verifiedByUserId: number | null
+  isLatest: boolean
   uploadedAt: Date
   _count: AdmissionDocumentCountAggregateOutputType | null
   _avg: AdmissionDocumentAvgAggregateOutputType | null
@@ -279,7 +286,9 @@ export type AdmissionDocumentWhereInput = {
   rejectionReason?: Prisma.StringNullableFilter<"AdmissionDocument"> | string | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"AdmissionDocument"> | Date | string | null
   verifiedByUserId?: Prisma.IntNullableFilter<"AdmissionDocument"> | number | null
+  isLatest?: Prisma.BoolFilter<"AdmissionDocument"> | boolean
   uploadedAt?: Prisma.DateTimeFilter<"AdmissionDocument"> | Date | string
+  verifiedByUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   admissionProfile?: Prisma.XOR<Prisma.AdmissionProfileScalarRelationFilter, Prisma.AdmissionProfileWhereInput>
   documentConfigItem?: Prisma.XOR<Prisma.DocumentConfigItemScalarRelationFilter, Prisma.DocumentConfigItemWhereInput>
 }
@@ -295,7 +304,9 @@ export type AdmissionDocumentOrderByWithRelationInput = {
   rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isLatest?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrder
+  verifiedByUser?: Prisma.UserOrderByWithRelationInput
   admissionProfile?: Prisma.AdmissionProfileOrderByWithRelationInput
   documentConfigItem?: Prisma.DocumentConfigItemOrderByWithRelationInput
 }
@@ -314,7 +325,9 @@ export type AdmissionDocumentWhereUniqueInput = Prisma.AtLeast<{
   rejectionReason?: Prisma.StringNullableFilter<"AdmissionDocument"> | string | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"AdmissionDocument"> | Date | string | null
   verifiedByUserId?: Prisma.IntNullableFilter<"AdmissionDocument"> | number | null
+  isLatest?: Prisma.BoolFilter<"AdmissionDocument"> | boolean
   uploadedAt?: Prisma.DateTimeFilter<"AdmissionDocument"> | Date | string
+  verifiedByUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   admissionProfile?: Prisma.XOR<Prisma.AdmissionProfileScalarRelationFilter, Prisma.AdmissionProfileWhereInput>
   documentConfigItem?: Prisma.XOR<Prisma.DocumentConfigItemScalarRelationFilter, Prisma.DocumentConfigItemWhereInput>
 }, "id">
@@ -330,6 +343,7 @@ export type AdmissionDocumentOrderByWithAggregationInput = {
   rejectionReason?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isLatest?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrder
   _count?: Prisma.AdmissionDocumentCountOrderByAggregateInput
   _avg?: Prisma.AdmissionDocumentAvgOrderByAggregateInput
@@ -352,6 +366,7 @@ export type AdmissionDocumentScalarWhereWithAggregatesInput = {
   rejectionReason?: Prisma.StringNullableWithAggregatesFilter<"AdmissionDocument"> | string | null
   verifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AdmissionDocument"> | Date | string | null
   verifiedByUserId?: Prisma.IntNullableWithAggregatesFilter<"AdmissionDocument"> | number | null
+  isLatest?: Prisma.BoolWithAggregatesFilter<"AdmissionDocument"> | boolean
   uploadedAt?: Prisma.DateTimeWithAggregatesFilter<"AdmissionDocument"> | Date | string
 }
 
@@ -362,8 +377,9 @@ export type AdmissionDocumentCreateInput = {
   status?: $Enums.DocumentStatus
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
-  verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
+  verifiedByUser?: Prisma.UserCreateNestedOneWithoutVerifiedAdmissionDocumentsInput
   admissionProfile: Prisma.AdmissionProfileCreateNestedOneWithoutDocumentsInput
   documentConfigItem: Prisma.DocumentConfigItemCreateNestedOneWithoutAdmissionDocumentsInput
 }
@@ -379,6 +395,7 @@ export type AdmissionDocumentUncheckedCreateInput = {
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
   verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
 }
 
@@ -389,8 +406,9 @@ export type AdmissionDocumentUpdateInput = {
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  verifiedByUser?: Prisma.UserUpdateOneWithoutVerifiedAdmissionDocumentsNestedInput
   admissionProfile?: Prisma.AdmissionProfileUpdateOneRequiredWithoutDocumentsNestedInput
   documentConfigItem?: Prisma.DocumentConfigItemUpdateOneRequiredWithoutAdmissionDocumentsNestedInput
 }
@@ -406,6 +424,7 @@ export type AdmissionDocumentUncheckedUpdateInput = {
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -420,6 +439,7 @@ export type AdmissionDocumentCreateManyInput = {
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
   verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
 }
 
@@ -430,7 +450,7 @@ export type AdmissionDocumentUpdateManyMutationInput = {
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -445,6 +465,7 @@ export type AdmissionDocumentUncheckedUpdateManyInput = {
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -469,6 +490,7 @@ export type AdmissionDocumentCountOrderByAggregateInput = {
   rejectionReason?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
   verifiedByUserId?: Prisma.SortOrder
+  isLatest?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrder
 }
 
@@ -491,6 +513,7 @@ export type AdmissionDocumentMaxOrderByAggregateInput = {
   rejectionReason?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
   verifiedByUserId?: Prisma.SortOrder
+  isLatest?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrder
 }
 
@@ -505,6 +528,7 @@ export type AdmissionDocumentMinOrderByAggregateInput = {
   rejectionReason?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
   verifiedByUserId?: Prisma.SortOrder
+  isLatest?: Prisma.SortOrder
   uploadedAt?: Prisma.SortOrder
 }
 
@@ -608,6 +632,48 @@ export type AdmissionDocumentUncheckedUpdateManyWithoutDocumentConfigItemNestedI
   deleteMany?: Prisma.AdmissionDocumentScalarWhereInput | Prisma.AdmissionDocumentScalarWhereInput[]
 }
 
+export type AdmissionDocumentCreateNestedManyWithoutVerifiedByUserInput = {
+  create?: Prisma.XOR<Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput> | Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput[] | Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput[]
+  connectOrCreate?: Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput | Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput[]
+  createMany?: Prisma.AdmissionDocumentCreateManyVerifiedByUserInputEnvelope
+  connect?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+}
+
+export type AdmissionDocumentUncheckedCreateNestedManyWithoutVerifiedByUserInput = {
+  create?: Prisma.XOR<Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput> | Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput[] | Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput[]
+  connectOrCreate?: Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput | Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput[]
+  createMany?: Prisma.AdmissionDocumentCreateManyVerifiedByUserInputEnvelope
+  connect?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+}
+
+export type AdmissionDocumentUpdateManyWithoutVerifiedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput> | Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput[] | Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput[]
+  connectOrCreate?: Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput | Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput[]
+  upsert?: Prisma.AdmissionDocumentUpsertWithWhereUniqueWithoutVerifiedByUserInput | Prisma.AdmissionDocumentUpsertWithWhereUniqueWithoutVerifiedByUserInput[]
+  createMany?: Prisma.AdmissionDocumentCreateManyVerifiedByUserInputEnvelope
+  set?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  disconnect?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  delete?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  connect?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  update?: Prisma.AdmissionDocumentUpdateWithWhereUniqueWithoutVerifiedByUserInput | Prisma.AdmissionDocumentUpdateWithWhereUniqueWithoutVerifiedByUserInput[]
+  updateMany?: Prisma.AdmissionDocumentUpdateManyWithWhereWithoutVerifiedByUserInput | Prisma.AdmissionDocumentUpdateManyWithWhereWithoutVerifiedByUserInput[]
+  deleteMany?: Prisma.AdmissionDocumentScalarWhereInput | Prisma.AdmissionDocumentScalarWhereInput[]
+}
+
+export type AdmissionDocumentUncheckedUpdateManyWithoutVerifiedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput> | Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput[] | Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput[]
+  connectOrCreate?: Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput | Prisma.AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput[]
+  upsert?: Prisma.AdmissionDocumentUpsertWithWhereUniqueWithoutVerifiedByUserInput | Prisma.AdmissionDocumentUpsertWithWhereUniqueWithoutVerifiedByUserInput[]
+  createMany?: Prisma.AdmissionDocumentCreateManyVerifiedByUserInputEnvelope
+  set?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  disconnect?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  delete?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  connect?: Prisma.AdmissionDocumentWhereUniqueInput | Prisma.AdmissionDocumentWhereUniqueInput[]
+  update?: Prisma.AdmissionDocumentUpdateWithWhereUniqueWithoutVerifiedByUserInput | Prisma.AdmissionDocumentUpdateWithWhereUniqueWithoutVerifiedByUserInput[]
+  updateMany?: Prisma.AdmissionDocumentUpdateManyWithWhereWithoutVerifiedByUserInput | Prisma.AdmissionDocumentUpdateManyWithWhereWithoutVerifiedByUserInput[]
+  deleteMany?: Prisma.AdmissionDocumentScalarWhereInput | Prisma.AdmissionDocumentScalarWhereInput[]
+}
+
 export type AdmissionDocumentCreateWithoutAdmissionProfileInput = {
   fileUrl: string
   fileName: string
@@ -615,8 +681,9 @@ export type AdmissionDocumentCreateWithoutAdmissionProfileInput = {
   status?: $Enums.DocumentStatus
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
-  verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
+  verifiedByUser?: Prisma.UserCreateNestedOneWithoutVerifiedAdmissionDocumentsInput
   documentConfigItem: Prisma.DocumentConfigItemCreateNestedOneWithoutAdmissionDocumentsInput
 }
 
@@ -630,6 +697,7 @@ export type AdmissionDocumentUncheckedCreateWithoutAdmissionProfileInput = {
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
   verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
 }
 
@@ -673,6 +741,7 @@ export type AdmissionDocumentScalarWhereInput = {
   rejectionReason?: Prisma.StringNullableFilter<"AdmissionDocument"> | string | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"AdmissionDocument"> | Date | string | null
   verifiedByUserId?: Prisma.IntNullableFilter<"AdmissionDocument"> | number | null
+  isLatest?: Prisma.BoolFilter<"AdmissionDocument"> | boolean
   uploadedAt?: Prisma.DateTimeFilter<"AdmissionDocument"> | Date | string
 }
 
@@ -683,8 +752,9 @@ export type AdmissionDocumentCreateWithoutDocumentConfigItemInput = {
   status?: $Enums.DocumentStatus
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
-  verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
+  verifiedByUser?: Prisma.UserCreateNestedOneWithoutVerifiedAdmissionDocumentsInput
   admissionProfile: Prisma.AdmissionProfileCreateNestedOneWithoutDocumentsInput
 }
 
@@ -698,6 +768,7 @@ export type AdmissionDocumentUncheckedCreateWithoutDocumentConfigItemInput = {
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
   verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
 }
 
@@ -727,6 +798,59 @@ export type AdmissionDocumentUpdateManyWithWhereWithoutDocumentConfigItemInput =
   data: Prisma.XOR<Prisma.AdmissionDocumentUpdateManyMutationInput, Prisma.AdmissionDocumentUncheckedUpdateManyWithoutDocumentConfigItemInput>
 }
 
+export type AdmissionDocumentCreateWithoutVerifiedByUserInput = {
+  fileUrl: string
+  fileName: string
+  fileSize: number
+  status?: $Enums.DocumentStatus
+  rejectionReason?: string | null
+  verifiedAt?: Date | string | null
+  isLatest?: boolean
+  uploadedAt?: Date | string
+  admissionProfile: Prisma.AdmissionProfileCreateNestedOneWithoutDocumentsInput
+  documentConfigItem: Prisma.DocumentConfigItemCreateNestedOneWithoutAdmissionDocumentsInput
+}
+
+export type AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput = {
+  id?: number
+  admissionProfileId: number
+  documentConfigItemId: number
+  fileUrl: string
+  fileName: string
+  fileSize: number
+  status?: $Enums.DocumentStatus
+  rejectionReason?: string | null
+  verifiedAt?: Date | string | null
+  isLatest?: boolean
+  uploadedAt?: Date | string
+}
+
+export type AdmissionDocumentCreateOrConnectWithoutVerifiedByUserInput = {
+  where: Prisma.AdmissionDocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput>
+}
+
+export type AdmissionDocumentCreateManyVerifiedByUserInputEnvelope = {
+  data: Prisma.AdmissionDocumentCreateManyVerifiedByUserInput | Prisma.AdmissionDocumentCreateManyVerifiedByUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type AdmissionDocumentUpsertWithWhereUniqueWithoutVerifiedByUserInput = {
+  where: Prisma.AdmissionDocumentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AdmissionDocumentUpdateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedUpdateWithoutVerifiedByUserInput>
+  create: Prisma.XOR<Prisma.AdmissionDocumentCreateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedCreateWithoutVerifiedByUserInput>
+}
+
+export type AdmissionDocumentUpdateWithWhereUniqueWithoutVerifiedByUserInput = {
+  where: Prisma.AdmissionDocumentWhereUniqueInput
+  data: Prisma.XOR<Prisma.AdmissionDocumentUpdateWithoutVerifiedByUserInput, Prisma.AdmissionDocumentUncheckedUpdateWithoutVerifiedByUserInput>
+}
+
+export type AdmissionDocumentUpdateManyWithWhereWithoutVerifiedByUserInput = {
+  where: Prisma.AdmissionDocumentScalarWhereInput
+  data: Prisma.XOR<Prisma.AdmissionDocumentUpdateManyMutationInput, Prisma.AdmissionDocumentUncheckedUpdateManyWithoutVerifiedByUserInput>
+}
+
 export type AdmissionDocumentCreateManyAdmissionProfileInput = {
   id?: number
   documentConfigItemId: number
@@ -737,6 +861,7 @@ export type AdmissionDocumentCreateManyAdmissionProfileInput = {
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
   verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
 }
 
@@ -747,8 +872,9 @@ export type AdmissionDocumentUpdateWithoutAdmissionProfileInput = {
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  verifiedByUser?: Prisma.UserUpdateOneWithoutVerifiedAdmissionDocumentsNestedInput
   documentConfigItem?: Prisma.DocumentConfigItemUpdateOneRequiredWithoutAdmissionDocumentsNestedInput
 }
 
@@ -762,6 +888,7 @@ export type AdmissionDocumentUncheckedUpdateWithoutAdmissionProfileInput = {
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -775,6 +902,7 @@ export type AdmissionDocumentUncheckedUpdateManyWithoutAdmissionProfileInput = {
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -788,6 +916,7 @@ export type AdmissionDocumentCreateManyDocumentConfigItemInput = {
   rejectionReason?: string | null
   verifiedAt?: Date | string | null
   verifiedByUserId?: number | null
+  isLatest?: boolean
   uploadedAt?: Date | string
 }
 
@@ -798,8 +927,9 @@ export type AdmissionDocumentUpdateWithoutDocumentConfigItemInput = {
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  verifiedByUser?: Prisma.UserUpdateOneWithoutVerifiedAdmissionDocumentsNestedInput
   admissionProfile?: Prisma.AdmissionProfileUpdateOneRequiredWithoutDocumentsNestedInput
 }
 
@@ -813,6 +943,7 @@ export type AdmissionDocumentUncheckedUpdateWithoutDocumentConfigItemInput = {
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -826,6 +957,62 @@ export type AdmissionDocumentUncheckedUpdateManyWithoutDocumentConfigItemInput =
   rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   verifiedByUserId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AdmissionDocumentCreateManyVerifiedByUserInput = {
+  id?: number
+  admissionProfileId: number
+  documentConfigItemId: number
+  fileUrl: string
+  fileName: string
+  fileSize: number
+  status?: $Enums.DocumentStatus
+  rejectionReason?: string | null
+  verifiedAt?: Date | string | null
+  isLatest?: boolean
+  uploadedAt?: Date | string
+}
+
+export type AdmissionDocumentUpdateWithoutVerifiedByUserInput = {
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  admissionProfile?: Prisma.AdmissionProfileUpdateOneRequiredWithoutDocumentsNestedInput
+  documentConfigItem?: Prisma.DocumentConfigItemUpdateOneRequiredWithoutAdmissionDocumentsNestedInput
+}
+
+export type AdmissionDocumentUncheckedUpdateWithoutVerifiedByUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionProfileId?: Prisma.IntFieldUpdateOperationsInput | number
+  documentConfigItemId?: Prisma.IntFieldUpdateOperationsInput | number
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AdmissionDocumentUncheckedUpdateManyWithoutVerifiedByUserInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  admissionProfileId?: Prisma.IntFieldUpdateOperationsInput | number
+  documentConfigItemId?: Prisma.IntFieldUpdateOperationsInput | number
+  fileUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  fileName?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  rejectionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -842,7 +1029,9 @@ export type AdmissionDocumentSelect<ExtArgs extends runtime.Types.Extensions.Int
   rejectionReason?: boolean
   verifiedAt?: boolean
   verifiedByUserId?: boolean
+  isLatest?: boolean
   uploadedAt?: boolean
+  verifiedByUser?: boolean | Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs>
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
   documentConfigItem?: boolean | Prisma.DocumentConfigItemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admissionDocument"]>
@@ -858,7 +1047,9 @@ export type AdmissionDocumentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   rejectionReason?: boolean
   verifiedAt?: boolean
   verifiedByUserId?: boolean
+  isLatest?: boolean
   uploadedAt?: boolean
+  verifiedByUser?: boolean | Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs>
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
   documentConfigItem?: boolean | Prisma.DocumentConfigItemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admissionDocument"]>
@@ -874,7 +1065,9 @@ export type AdmissionDocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   rejectionReason?: boolean
   verifiedAt?: boolean
   verifiedByUserId?: boolean
+  isLatest?: boolean
   uploadedAt?: boolean
+  verifiedByUser?: boolean | Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs>
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
   documentConfigItem?: boolean | Prisma.DocumentConfigItemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admissionDocument"]>
@@ -890,19 +1083,23 @@ export type AdmissionDocumentSelectScalar = {
   rejectionReason?: boolean
   verifiedAt?: boolean
   verifiedByUserId?: boolean
+  isLatest?: boolean
   uploadedAt?: boolean
 }
 
-export type AdmissionDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "admissionProfileId" | "documentConfigItemId" | "fileUrl" | "fileName" | "fileSize" | "status" | "rejectionReason" | "verifiedAt" | "verifiedByUserId" | "uploadedAt", ExtArgs["result"]["admissionDocument"]>
+export type AdmissionDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "admissionProfileId" | "documentConfigItemId" | "fileUrl" | "fileName" | "fileSize" | "status" | "rejectionReason" | "verifiedAt" | "verifiedByUserId" | "isLatest" | "uploadedAt", ExtArgs["result"]["admissionDocument"]>
 export type AdmissionDocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  verifiedByUser?: boolean | Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs>
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
   documentConfigItem?: boolean | Prisma.DocumentConfigItemDefaultArgs<ExtArgs>
 }
 export type AdmissionDocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  verifiedByUser?: boolean | Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs>
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
   documentConfigItem?: boolean | Prisma.DocumentConfigItemDefaultArgs<ExtArgs>
 }
 export type AdmissionDocumentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  verifiedByUser?: boolean | Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs>
   admissionProfile?: boolean | Prisma.AdmissionProfileDefaultArgs<ExtArgs>
   documentConfigItem?: boolean | Prisma.DocumentConfigItemDefaultArgs<ExtArgs>
 }
@@ -910,6 +1107,7 @@ export type AdmissionDocumentIncludeUpdateManyAndReturn<ExtArgs extends runtime.
 export type $AdmissionDocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AdmissionDocument"
   objects: {
+    verifiedByUser: Prisma.$UserPayload<ExtArgs> | null
     admissionProfile: Prisma.$AdmissionProfilePayload<ExtArgs>
     documentConfigItem: Prisma.$DocumentConfigItemPayload<ExtArgs>
   }
@@ -924,6 +1122,7 @@ export type $AdmissionDocumentPayload<ExtArgs extends runtime.Types.Extensions.I
     rejectionReason: string | null
     verifiedAt: Date | null
     verifiedByUserId: number | null
+    isLatest: boolean
     uploadedAt: Date
   }, ExtArgs["result"]["admissionDocument"]>
   composites: {}
@@ -1319,6 +1518,7 @@ readonly fields: AdmissionDocumentFieldRefs;
  */
 export interface Prisma__AdmissionDocumentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  verifiedByUser<T extends Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionDocument$verifiedByUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   admissionProfile<T extends Prisma.AdmissionProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__AdmissionProfileClient<runtime.Types.Result.GetResult<Prisma.$AdmissionProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   documentConfigItem<T extends Prisma.DocumentConfigItemDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentConfigItemDefaultArgs<ExtArgs>>): Prisma.Prisma__DocumentConfigItemClient<runtime.Types.Result.GetResult<Prisma.$DocumentConfigItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1360,6 +1560,7 @@ export interface AdmissionDocumentFieldRefs {
   readonly rejectionReason: Prisma.FieldRef<"AdmissionDocument", 'String'>
   readonly verifiedAt: Prisma.FieldRef<"AdmissionDocument", 'DateTime'>
   readonly verifiedByUserId: Prisma.FieldRef<"AdmissionDocument", 'Int'>
+  readonly isLatest: Prisma.FieldRef<"AdmissionDocument", 'Boolean'>
   readonly uploadedAt: Prisma.FieldRef<"AdmissionDocument", 'DateTime'>
 }
     
@@ -1759,6 +1960,25 @@ export type AdmissionDocumentDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many AdmissionDocuments to delete.
    */
   limit?: number
+}
+
+/**
+ * AdmissionDocument.verifiedByUser
+ */
+export type AdmissionDocument$verifiedByUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

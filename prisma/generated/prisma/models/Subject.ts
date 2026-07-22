@@ -632,10 +632,6 @@ export type SubjectUncheckedUpdateManyWithoutDepartmentNestedInput = {
   deleteMany?: Prisma.SubjectScalarWhereInput | Prisma.SubjectScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type EnumKnowledgeBlockFieldUpdateOperationsInput = {
   set?: $Enums.KnowledgeBlock
 }

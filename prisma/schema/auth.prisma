@@ -18,6 +18,7 @@ model User {
   staff         Staff?
   posts         Post[]
   admissionStatusLogs AdmissionStatusLog[]
+  verifiedAdmissionDocuments AdmissionDocument[]
 
   @@map("users")
 }

@@ -13,35 +13,32 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       throw new Error("❌ DATABASE_URL is missing in .env");
     }
 
-    // Sử dụng URL object để parse các thành phần của Aiven URL
     const url = new URL(dbUrl);
-    const connectionLimit = parseInt(
-      url.searchParams.get("connection_limit") || "2",
-      10,
-    );
+    const connectionLimit = parseInt(url.searchParams.get("connection_limit") || "2", 10);
+
+    // Kiểm tra xem có tắt SSL không (dùng cho Localhost / Postgres không có TLS)
+    const isSslDisabled =
+      url.searchParams.get("sslmode") === "disable" || url.hostname === "localhost" || url.hostname === "127.0.0.1";
 
     const pool = new Pool({
       user: url.username,
       password: decodeURIComponent(url.password),
       host: url.hostname,
-      port: parseInt(url.port),
+      port: parseInt(url.port || "5432"),
       database: url.pathname.substring(1),
       max: connectionLimit,
       idleTimeoutMillis: 30000,
-      ssl: {
-        rejectUnauthorized: false, // Bắt buộc cho Aiven
-      },
+      // Nếu là Localhost hoặc sslmode=disable thì TẮT SSL (false), ngược lại mới dùng cấu hình Aiven
+      ssl: isSslDisabled
+        ? false
+        : {
+            rejectUnauthorized: false, // Bắt buộc cho Aiven / Cloud Postgres
+          },
     });
 
     const adapter = new PrismaPg(pool);
     super({
       adapter,
-      // log: [
-      //   { emit: "stdout", level: "query" }, 
-      //   { emit: "stdout", level: "info" },
-      //   { emit: "stdout", level: "warn" }, 
-      //   { emit: "stdout", level: "error" }, 
-      // ],
     });
   }
 

@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model AcademicYear
+ * 
+ */
+export type AcademicYear = Prisma.AcademicYearModel
+/**
  * Model Department
  * 
  */
@@ -63,6 +68,16 @@ export type AdmissionCampaign = Prisma.AdmissionCampaignModel
  */
 export type AdmissionCampaignMajor = Prisma.AdmissionCampaignMajorModel
 /**
+ * Model SubjectCombination
+ * 
+ */
+export type SubjectCombination = Prisma.SubjectCombinationModel
+/**
+ * Model SubjectCombinationItem
+ * 
+ */
+export type SubjectCombinationItem = Prisma.SubjectCombinationItemModel
+/**
  * Model AdmissionProfile
  * 
  */
@@ -73,6 +88,11 @@ export type AdmissionProfile = Prisma.AdmissionProfileModel
  */
 export type ExamScore = Prisma.ExamScoreModel
 /**
+ * Model TranscriptSubjectScore
+ * 
+ */
+export type TranscriptSubjectScore = Prisma.TranscriptSubjectScoreModel
+/**
  * Model AdmissionStatusLog
  * 
  */
@@ -82,6 +102,16 @@ export type AdmissionStatusLog = Prisma.AdmissionStatusLogModel
  * 
  */
 export type AdmissionDocument = Prisma.AdmissionDocumentModel
+/**
+ * Model PriorityRule
+ * 
+ */
+export type PriorityRule = Prisma.PriorityRuleModel
+/**
+ * Model AdmissionInterest
+ * 
+ */
+export type AdmissionInterest = Prisma.AdmissionInterestModel
 /**
  * Model Student
  * 
@@ -147,11 +177,6 @@ export type Ward = Prisma.WardModel
  * 
  */
 export type Village = Prisma.VillageModel
-/**
- * Model AcademicYear
- * 
- */
-export type AcademicYear = Prisma.AcademicYearModel
 /**
  * Model GradeStudent
  * 

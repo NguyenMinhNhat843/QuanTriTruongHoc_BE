@@ -2,7 +2,7 @@ import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { IsDate, IsInt, IsNumber, IsString, Min } from "class-validator";
 import { FeeInvoice } from "../../../prisma/generated/prisma/client";
 import { PaymentDto } from "./payment.dto";
-import { StudentDto } from "../../student/dto/student.dto";
+import { StudentDto } from "../../student/dtos/student.dto.js";
 import { MajorDto } from "../../major/major.dto";
 import { BatchDto } from "../../batch/batch.dto";
 import { ClassDto } from "../../class/class.dto";

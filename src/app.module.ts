@@ -16,7 +16,7 @@ import { PostModule } from "./post/post.module.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { CourseOfferModule } from "./courseOffer/classSubject.module.js";
 import { StudyScheduleModule } from "./schedule/studySchedule.module.js";
-import { CloudinaryModule } from "./upload/upload.module.js";
+import { UploadFileModule } from "./upload/upload.module.js";
 import { AssessmentModule } from "./assessment/assessment.module.js";
 import { AnalyticsModule } from "./analytic/analytic.module.js";
 import { TuitionModule } from "./tuition/tuition.module.js";
@@ -49,7 +49,7 @@ import { AcademicYearModule } from "./academic-year/academic-year.module.js";
     StudyScheduleModule,
     PostModule,
     CourseOfferModule,
-    CloudinaryModule,
+    UploadFileModule,
     AssessmentModule,
     AnalyticsModule,
     TuitionModule,

@@ -1,11 +1,12 @@
-import { Module } from "@nestjs/common";
-import { StudentService } from "./student.service.js";
-import { StudentController } from "./student.controller.js";
+import { Module, forwardRef } from "@nestjs/common";
 import { PrismaModule } from "../prisma/prisma.module.js";
+import { AdmissionModule } from "../admission/admission.module.js";
+import { StudentController } from "./controllers/student.controller.js";
+import { StudentService } from "./services/student.service.js";
 import { StudentQuery } from "./student.query.js";
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, forwardRef(() => AdmissionModule)],
   controllers: [StudentController],
   providers: [StudentService, StudentQuery],
   exports: [StudentService, StudentQuery],
