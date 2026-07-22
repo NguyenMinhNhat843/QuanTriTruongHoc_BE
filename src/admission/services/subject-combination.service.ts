@@ -58,7 +58,7 @@ export class SubjectCombinationService {
       this.prisma.subjectCombination.count({ where }),
     ]);
 
-    return { data, total, page, limit };
+    return { data, total };
   }
 
   async findOne(id: number) {
@@ -110,4 +110,3 @@ export class SubjectCombinationService {
     });
   }
 }
-

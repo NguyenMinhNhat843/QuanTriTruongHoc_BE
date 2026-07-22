@@ -1,6 +1,7 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, PartialType, PickType } from "@nestjs/swagger";
+import { SubjectCombination, SubjectCombinationItem } from "../../../prisma/generated/prisma/client";
 
-export class SubjectCombinationItemDto {
+export class SubjectCombinationItemDto implements SubjectCombinationItem {
   @ApiProperty()
   id: number;
 
@@ -11,12 +12,9 @@ export class SubjectCombinationItemDto {
   subjectCode: string;
 }
 
-export class CreateSubjectCombinationItemDto {
-  @ApiProperty()
-  subjectCode: string;
-}
+export class CreateSubjectCombinationItemDto extends PickType(SubjectCombinationItemDto, ["subjectCode"]) {}
 
-export class SubjectCombinationDto {
+export class SubjectCombinationDto implements SubjectCombination {
   @ApiProperty()
   id: number;
 
@@ -25,44 +23,35 @@ export class SubjectCombinationDto {
 
   @ApiProperty()
   name: string;
+}
 
+export class SubjectCombinationDetailDto extends SubjectCombinationDto {
   @ApiPropertyOptional({ type: [SubjectCombinationItemDto] })
   items?: SubjectCombinationItemDto[];
 }
 
-export class CreateSubjectCombinationDto {
-  @ApiProperty()
-  code: string;
+export class SubjectCombinationPaginationDto {
+  @ApiProperty({ type: [SubjectCombinationDetailDto] })
+  data: SubjectCombinationDetailDto[];
 
   @ApiProperty()
-  name: string;
+  total: number;
+}
 
+// CREATE DTO
+export class CreateSubjectCombinationDto extends PickType(SubjectCombinationDto, ["code", "name"]) {
   @ApiPropertyOptional({ type: [CreateSubjectCombinationItemDto] })
   items?: CreateSubjectCombinationItemDto[];
 }
 
-export class UpdateSubjectCombinationDto {
-  @ApiPropertyOptional()
-  code?: string;
+// UPDATE DTO
+export class UpdateSubjectCombinationDto extends PartialType(CreateSubjectCombinationDto) {}
 
-  @ApiPropertyOptional()
-  name?: string;
-
-  @ApiPropertyOptional({ type: [CreateSubjectCombinationItemDto] })
-  items?: CreateSubjectCombinationItemDto[];
-}
-
-export class SearchSubjectCombinationDto {
-  @ApiPropertyOptional()
-  code?: string;
-
-  @ApiPropertyOptional()
-  name?: string;
-
+// SEARCH DTO
+export class SearchSubjectCombinationDto extends PartialType(PickType(SubjectCombinationDto, ["code", "name"])) {
   @ApiPropertyOptional({ default: 1 })
   page?: number;
 
   @ApiPropertyOptional({ default: 10 })
   limit?: number;
 }
-

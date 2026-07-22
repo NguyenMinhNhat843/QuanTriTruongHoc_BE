@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  ParseIntPipe,
-  UseGuards,
-} from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard.js";
 import { RolesGuard } from "../../auth/guard/role.guard.js";
@@ -21,14 +10,13 @@ import {
   UpdateSubjectCombinationDto,
   SearchSubjectCombinationDto,
   SubjectCombinationDto,
+  SubjectCombinationPaginationDto,
 } from "../dtos/subject-combination.dto.js";
 
 @ApiTags("Subject Combinations")
 @Controller("subject-combinations")
 export class SubjectCombinationController {
-  constructor(
-    private readonly subjectCombinationService: SubjectCombinationService,
-  ) {}
+  constructor(private readonly subjectCombinationService: SubjectCombinationService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -42,7 +30,7 @@ export class SubjectCombinationController {
 
   @Get()
   @ApiOperation({ summary: "Danh sách tổ hợp môn xét tuyển" })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: SubjectCombinationPaginationDto })
   findAll(@Query() query: SearchSubjectCombinationDto) {
     return this.subjectCombinationService.findAll(query);
   }
@@ -60,10 +48,7 @@ export class SubjectCombinationController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Cập nhật tổ hợp môn" })
   @ApiResponse({ status: 200, type: SubjectCombinationDto })
-  update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() dto: UpdateSubjectCombinationDto,
-  ) {
+  update(@Param("id", ParseIntPipe) id: number, @Body() dto: UpdateSubjectCombinationDto) {
     return this.subjectCombinationService.update(id, dto);
   }
 
@@ -77,4 +62,3 @@ export class SubjectCombinationController {
     return this.subjectCombinationService.remove(id);
   }
 }
-
