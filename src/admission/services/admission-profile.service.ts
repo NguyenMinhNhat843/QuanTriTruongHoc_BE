@@ -1,6 +1,14 @@
-import { Injectable, NotFoundException, BadRequestException, Inject, forwardRef } from "@nestjs/common";
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  Inject,
+  forwardRef,
+  Logger,
+  InternalServerErrorException,
+} from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service.js";
-import { ApplicationStatus, AdmissionType } from "../../../prisma/generated/prisma/client.js";
+import { ApplicationStatus } from "../../../prisma/generated/prisma/client.js";
 import {
   CreateAdmissionProfileDto,
   UpdateAdmissionProfileDto,
@@ -37,6 +45,7 @@ export class AdmissionProfileService {
   }
 
   async create(dto: CreateAdmissionProfileDto) {
+    // 1. Kiểm tra AdmissionCampaignMajor có tồn tại hay không
     const campaignMajor = await this.prisma.admissionCampaignMajor.findUnique({
       where: { id: dto.admissionCampaignMajorId },
       include: { admissionCampaign: true },
@@ -47,6 +56,7 @@ export class AdmissionProfileService {
       );
     }
 
+    // 2. Kiểm tra trùng lặp hồ sơ (1 CCCD chỉ đăng ký 1 lần / ngành / đợt)
     const existing = await this.prisma.admissionProfile.findUnique({
       where: {
         admissionCampaignMajorId_identityNumber: {
@@ -61,66 +71,63 @@ export class AdmissionProfileService {
       );
     }
 
-    // Auto calculate priority score if not provided
-    let priorityBonus = dto.priorityScore || 0;
-    if (!dto.priorityScore && (dto.priorityRegion || dto.priorityObject)) {
-      const priorityRule = await this.prisma.priorityRule.findFirst({
-        where: {
-          academicYearId: campaignMajor.admissionCampaign.academicYearId,
-          priorityRegion: dto.priorityRegion || null,
-          priorityObject: dto.priorityObject || null,
-        },
-      });
-      if (priorityRule) {
-        priorityBonus = priorityRule.bonusScore;
-      }
-    }
-
+    // 3. Tạo mã hồ sơ & Tách mảng điểm học bạ ra khỏi DTO
     const applicationCode = await this.generateApplicationCode();
-    const { examScores, transcriptSubjectScores, ...data } = dto;
+    const { transcriptSubjectScores, ...profileData } = dto;
 
-    const profile = await this.prisma.$transaction(async (tx) => {
-      const created = await tx.admissionProfile.create({
-        data: {
-          ...data,
-          applicationCode,
-          priorityScore: priorityBonus,
-          status: ApplicationStatus.REGISTERED,
-          examScores: examScores?.length
-            ? {
-                create: examScores.map((item) => ({
-                  subjectCode: item.subjectCode,
-                  score: item.score,
-                })),
-              }
-            : undefined,
-          transcriptSubjectScores: transcriptSubjectScores?.length
-            ? {
-                create: transcriptSubjectScores.map((item) => ({
-                  gradeLevel: item.gradeLevel,
-                  subjectCode: item.subjectCode,
-                  score: item.score,
-                })),
-              }
-            : undefined,
-        },
+    const totalScore =
+      transcriptSubjectScores?.reduce((sum, item) => sum + item.score, 0) / (transcriptSubjectScores?.length / 3) || 0;
+    console.log("Total Score:", totalScore);
+
+    try {
+      const profile = await this.prisma.$transaction(async (tx) => {
+        // Step A: Tạo Hồ sơ tuyển sinh (AdmissionProfile)
+        const createdProfile = await tx.admissionProfile.create({
+          data: {
+            ...profileData,
+            avgSubjectScore: totalScore,
+            applicationCode,
+            status: ApplicationStatus.REGISTERED,
+          },
+        });
+
+        // Step B: Tạo danh sách Điểm học bạ (TranscriptSubjectScores) nếu có
+        if (transcriptSubjectScores && transcriptSubjectScores.length > 0) {
+          const scoresToCreate = transcriptSubjectScores.map((item) => ({
+            admissionProfileId: createdProfile.id,
+            gradeLevel: item.gradeLevel,
+            subjectCode: item.subjectCode,
+            score: item.score,
+          }));
+
+          await tx.transcriptSubjectScore.createMany({
+            data: scoresToCreate,
+          });
+        }
+
+        // Step C: Ghi Log trạng thái ban đầu
+        await tx.admissionStatusLog.create({
+          data: {
+            admissionProfileId: createdProfile.id,
+            fromStatus: null,
+            toStatus: ApplicationStatus.REGISTERED,
+            isSystem: true,
+            reason: "Thí sinh đăng ký hồ sơ mới",
+          },
+        });
+
+        return createdProfile;
       });
 
-      await tx.admissionStatusLog.create({
-        data: {
-          admissionProfileId: created.id,
-          fromStatus: null,
-          toStatus: ApplicationStatus.REGISTERED,
-          isSystem: true,
-          reason: "Thí sinh đăng ký hồ sơ mới",
-        },
-      });
+      // 4. Tính toán lại điểm trung bình cache (avgSubjectScore)
+      await this.recalculateScore(profile.id);
 
-      return created;
-    });
-
-    await this.recalculateScore(profile.id);
-    return this.findOne(profile.id);
+      // 5. Trả về thông tin chi tiết hồ sơ vừa tạo
+      return this.findOne(profile.id);
+    } catch (error) {
+      Logger.error("Error creating admission profile:", error);
+      throw new InternalServerErrorException("Có lỗi xảy ra khi tạo hồ sơ tuyển sinh.");
+    }
   }
 
   async findAll(query: SearchAdmissionProfileDto) {
@@ -175,94 +182,66 @@ export class AdmissionProfileService {
       this.prisma.admissionProfile.count({ where }),
     ]);
 
-    return { data, total, page, limit };
+    return { data, total };
   }
 
   async findOne(id: number) {
-    // 1. Query thông tin cơ bản của Profile (đơn lẻ, không join dư thừa)
     const profile = await this.prisma.admissionProfile.findUnique({
       where: { id },
+      include: {
+        admissionCampaignMajor: {
+          include: {
+            major: true,
+            subjectCombination: {
+              include: { items: true },
+            },
+            admissionCampaign: true,
+          },
+        },
+        // Địa giới hành chính
+        province: true,
+        ward: true,
+        village: true,
+        // Điểm học bạ
+        transcriptSubjectScores: true,
+        // Giấy tờ đính kèm (chỉ lấy bản mới nhất)
+        documents: {
+          where: { isLatest: true },
+          include: { documentConfigItem: true },
+        },
+        // Lịch sử chuyển trạng thái
+        statusLogs: {
+          orderBy: { createdAt: "desc" },
+          include: {
+            byUser: {
+              select: { id: true, username: true },
+            },
+          },
+        },
+      },
     });
 
     if (!profile) {
       throw new NotFoundException(`Hồ sơ đăng ký xét tuyển ID ${id} không tồn tại`);
     }
 
-    const [campaignData, examScores, transcriptSubjectScores, documents, statusLogs] = await Promise.all([
-      // Lấy Đợt tuyển sinh (Root) lồng cấp theo chiều dọc: Campaign -> CampaignMajor -> Major & SubjectCombination
-      this.prisma.admissionCampaignMajor.findUnique({
-        where: { id: profile.admissionCampaignMajorId },
-        include: {
-          admissionCampaign: {
-            include: {
-              campaignMajors: {
-                include: {
-                  major: true,
-                  subjectCombination: {
-                    include: { items: true },
-                  },
-                },
-              },
-            },
-          },
-        },
-      }),
-
-      // Lấy danh sách điểm thi (độc lập)
-      this.prisma.examScore.findMany({
-        where: { admissionProfileId: id },
-      }),
-
-      // Lấy danh sách điểm học bạ (độc lập)
-      this.prisma.transcriptSubjectScore.findMany({
-        where: { admissionProfileId: id },
-      }),
-
-      // Lấy danh sách giấy tờ đính kèm (độc lập)
-      this.prisma.admissionDocument.findMany({
-        where: { admissionProfileId: id, isLatest: true },
-        include: { documentConfigItem: true },
-      }),
-
-      // Lấy lịch sử chuyển trạng thái (độc lập)
-      this.prisma.admissionStatusLog.findMany({
-        where: { admissionProfileId: id },
-        orderBy: { createdAt: "desc" },
-        include: {
-          byUser: {
-            select: { id: true, username: true },
-          },
-        },
-      }),
-    ]);
+    const { admissionCampaignMajor, ...profileData } = profile;
 
     return {
-      profile,
-      admissionCampaign: campaignData?.admissionCampaign ?? null,
-      examScores,
-      transcriptSubjectScores,
-      documents,
-      statusLogs,
+      profile: profileData,
+      admissionCampaignMajor,
+      transcriptSubjectScores: profile.transcriptSubjectScores,
+      documents: profile.documents,
+      statusLogs: profile.statusLogs,
     };
   }
 
   async update(id: number, dto: UpdateAdmissionProfileDto) {
     await this.findOne(id);
 
-    const { examScores, transcriptSubjectScores, ...data } = dto;
+    const { transcriptSubjectScores, ...data } = dto;
 
     await this.prisma.$transaction(async (tx) => {
-      if (examScores) {
-        await tx.examScore.deleteMany({ where: { admissionProfileId: id } });
-        await tx.examScore.createMany({
-          data: examScores.map((item) => ({
-            admissionProfileId: id,
-            subjectCode: item.subjectCode,
-            score: item.score,
-          })),
-        });
-      }
-
       if (transcriptSubjectScores) {
         await tx.transcriptSubjectScore.deleteMany({ where: { admissionProfileId: id } });
         await tx.transcriptSubjectScore.createMany({
@@ -330,52 +309,38 @@ export class AdmissionProfileService {
     const profile = await this.prisma.admissionProfile.findUnique({
       where: { id },
       include: {
-        examScores: true,
         transcriptSubjectScores: true,
       },
     });
+
     if (!profile) return;
 
-    let rawTotalScore = 0;
+    const scores = profile.transcriptSubjectScores;
 
-    if (profile.isDirectAdmission) {
-      rawTotalScore = 10;
-    } else if (profile.admissionType === AdmissionType.EXAM_SCORE) {
-      rawTotalScore = profile.examScores.reduce((sum, item) => sum + item.score, 0);
-    } else if (profile.admissionType === AdmissionType.ACADEMIC_TRANSCRIPT_SUBJECT) {
-      rawTotalScore = profile.transcriptSubjectScores.reduce((sum, item) => sum + item.score, 0);
-    } else if (profile.admissionType === AdmissionType.ACADEMIC_TRANSCRIPT_GPA) {
-      // Average GPA from reported years
-      const gpas = [
-        profile.gpa9,
-        profile.gpa8,
-        profile.gpa7,
-        profile.gpa6,
-        profile.gpa12,
-        profile.gpa11,
-        profile.gpa10,
-      ].filter((val): val is number => val !== null && val !== undefined);
-      if (gpas.length > 0) {
-        rawTotalScore = gpas.reduce((sum, val) => sum + val, 0) / gpas.length;
-      }
+    let avgSubjectScore: number | null = null;
+
+    if (scores && scores.length > 0) {
+      const totalScore = scores.reduce((sum, item) => sum + item.score, 0);
+      const rawAvg = totalScore / (scores.length / 3);
+      avgSubjectScore = Number(rawAvg.toFixed(2));
     }
-
-    const priority = profile.priorityScore || 0;
-    const finalScore = Number((rawTotalScore + priority).toFixed(2));
 
     await this.prisma.admissionProfile.update({
       where: { id },
       data: {
-        totalExamScore: rawTotalScore,
-        scoreCalculated: finalScore,
+        avgSubjectScore,
       },
     });
   }
 
   async remove(id: number) {
-    await this.findOne(id);
-    return this.prisma.admissionProfile.delete({
-      where: { id },
-    });
+    try {
+      return await this.prisma.admissionProfile.delete({
+        where: { id },
+      });
+    } catch (error) {
+      Logger.error(`Error deleting admission profile ID ${id}:`, error);
+      throw new InternalServerErrorException("Có lỗi xảy ra khi xóa hồ sơ tuyển sinh.");
+    }
   }
 }

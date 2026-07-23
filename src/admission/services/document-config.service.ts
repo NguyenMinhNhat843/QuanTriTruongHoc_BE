@@ -21,52 +21,65 @@ export class DocumentConfigService {
                 name: item.name,
                 code: item.code,
                 required: item.required ?? true,
-                sortOrder: item.sortOrder || 0,
+                sortOrder: item.sortOrder ?? 0,
               })),
             }
           : undefined,
       },
-      include: { items: true, admissionCampaign: true },
+      include: { items: true },
     });
   }
 
   async findAll(query: SearchDocumentConfigDto) {
-    const page = Number(query.page) || 1;
-    const limit = Number(query.limit) || 10;
-    const skip = (page - 1) * limit;
-
     const where: any = {};
+    if (query.id) {
+      where.id = Number(query.id);
+    }
     if (query.name) {
       where.name = { contains: query.name, mode: "insensitive" };
     }
-    if (query.admissionCampaignId) {
-      where.admissionCampaignId = Number(query.admissionCampaignId);
-    }
-    if (query.educationLevel) {
-      where.educationLevel = query.educationLevel;
-    }
-    if (query.trainingType) {
-      where.trainingType = query.trainingType;
-    }
 
-    const [data, total] = await Promise.all([
+    const [data] = await Promise.all([
       this.prisma.documentConfig.findMany({
         where,
-        skip,
-        take: limit,
         orderBy: { id: "desc" },
-        include: { items: true, admissionCampaign: true },
+        include: { items: { orderBy: { sortOrder: "asc" } } },
       }),
-      this.prisma.documentConfig.count({ where }),
     ]);
 
-    return { data, total, page, limit };
+    return data;
+  }
+
+  async findLatestBeforeDate(targetDateInput: Date | string) {
+    const targetDate = new Date(targetDateInput);
+
+    const config = await this.prisma.documentConfig.findFirst({
+      where: {
+        startDate: {
+          lt: targetDate,
+        },
+      },
+      orderBy: {
+        startDate: "desc",
+      },
+      include: {
+        items: {
+          orderBy: { sortOrder: "asc" },
+        },
+      },
+    });
+
+    if (!config) {
+      throw new NotFoundException(`Không tìm thấy cấu hình hồ sơ nào trước ngày ${targetDate.toISOString()}`);
+    }
+
+    return config;
   }
 
   async findOne(id: number) {
     const config = await this.prisma.documentConfig.findUnique({
       where: { id },
-      include: { items: { orderBy: { sortOrder: "asc" } }, admissionCampaign: true },
+      include: { items: { orderBy: { sortOrder: "asc" } } },
     });
     if (!config) {
       throw new NotFoundException(`Cấu hình hồ sơ ID ${id} không tồn tại`);
@@ -90,11 +103,11 @@ export class DocumentConfigService {
                 name: item.name,
                 code: item.code,
                 required: item.required ?? true,
-                sortOrder: item.sortOrder || 0,
+                sortOrder: item.sortOrder ?? 0,
               })),
             },
           },
-          include: { items: true, admissionCampaign: true },
+          include: { items: true },
         });
       });
     }
@@ -102,7 +115,7 @@ export class DocumentConfigService {
     return this.prisma.documentConfig.update({
       where: { id },
       data,
-      include: { items: true, admissionCampaign: true },
+      include: { items: true },
     });
   }
 
@@ -111,4 +124,3 @@ export class DocumentConfigService {
     return this.prisma.documentConfig.delete({ where: { id } });
   }
 }
-

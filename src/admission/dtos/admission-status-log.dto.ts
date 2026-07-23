@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { AdmissionStatusLog, ApplicationStatus } from "../../../prisma/generated/prisma/client";
+import { UserResponseDto } from "../../user/user.response";
 
 export class AdmissionStatusLogDto implements AdmissionStatusLog {
   @ApiProperty()
@@ -31,4 +32,9 @@ export class AdmissionStatusLogDto implements AdmissionStatusLog {
   @ApiProperty({ type: Date })
   @Type(() => Date)
   createdAt: Date;
+}
+
+export class AdmissionStatusLogDetailDto extends AdmissionStatusLogDto {
+  @ApiPropertyOptional({ type: () => UserResponseDto, nullable: true })
+  byUser?: UserResponseDto;
 }

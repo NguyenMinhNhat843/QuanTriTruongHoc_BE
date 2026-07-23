@@ -30,6 +30,7 @@ export type AdmissionCampaignMajorAvgAggregateOutputType = {
   id: number | null
   admissionCampaignId: number | null
   majorId: number | null
+  batchId: number | null
   quota: number | null
   subjectCombinationId: number | null
   minScorePerSubject: number | null
@@ -41,6 +42,7 @@ export type AdmissionCampaignMajorSumAggregateOutputType = {
   id: number | null
   admissionCampaignId: number | null
   majorId: number | null
+  batchId: number | null
   quota: number | null
   subjectCombinationId: number | null
   minScorePerSubject: number | null
@@ -52,6 +54,7 @@ export type AdmissionCampaignMajorMinAggregateOutputType = {
   id: number | null
   admissionCampaignId: number | null
   majorId: number | null
+  batchId: number | null
   trainingType: $Enums.TrainingType | null
   quota: number | null
   subjectCombinationId: number | null
@@ -65,6 +68,7 @@ export type AdmissionCampaignMajorMaxAggregateOutputType = {
   id: number | null
   admissionCampaignId: number | null
   majorId: number | null
+  batchId: number | null
   trainingType: $Enums.TrainingType | null
   quota: number | null
   subjectCombinationId: number | null
@@ -78,6 +82,7 @@ export type AdmissionCampaignMajorCountAggregateOutputType = {
   id: number
   admissionCampaignId: number
   majorId: number
+  batchId: number
   trainingType: number
   quota: number
   subjectCombinationId: number
@@ -93,6 +98,7 @@ export type AdmissionCampaignMajorAvgAggregateInputType = {
   id?: true
   admissionCampaignId?: true
   majorId?: true
+  batchId?: true
   quota?: true
   subjectCombinationId?: true
   minScorePerSubject?: true
@@ -104,6 +110,7 @@ export type AdmissionCampaignMajorSumAggregateInputType = {
   id?: true
   admissionCampaignId?: true
   majorId?: true
+  batchId?: true
   quota?: true
   subjectCombinationId?: true
   minScorePerSubject?: true
@@ -115,6 +122,7 @@ export type AdmissionCampaignMajorMinAggregateInputType = {
   id?: true
   admissionCampaignId?: true
   majorId?: true
+  batchId?: true
   trainingType?: true
   quota?: true
   subjectCombinationId?: true
@@ -128,6 +136,7 @@ export type AdmissionCampaignMajorMaxAggregateInputType = {
   id?: true
   admissionCampaignId?: true
   majorId?: true
+  batchId?: true
   trainingType?: true
   quota?: true
   subjectCombinationId?: true
@@ -141,6 +150,7 @@ export type AdmissionCampaignMajorCountAggregateInputType = {
   id?: true
   admissionCampaignId?: true
   majorId?: true
+  batchId?: true
   trainingType?: true
   quota?: true
   subjectCombinationId?: true
@@ -241,6 +251,7 @@ export type AdmissionCampaignMajorGroupByOutputType = {
   id: number
   admissionCampaignId: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -277,6 +288,7 @@ export type AdmissionCampaignMajorWhereInput = {
   id?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   admissionCampaignId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   majorId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
+  batchId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   trainingType?: Prisma.EnumTrainingTypeFilter<"AdmissionCampaignMajor"> | $Enums.TrainingType
   quota?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   subjectCombinationId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
@@ -294,6 +306,7 @@ export type AdmissionCampaignMajorOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   admissionCampaignId?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   trainingType?: Prisma.SortOrder
   quota?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
@@ -315,6 +328,7 @@ export type AdmissionCampaignMajorWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AdmissionCampaignMajorWhereInput | Prisma.AdmissionCampaignMajorWhereInput[]
   admissionCampaignId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   majorId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
+  batchId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   trainingType?: Prisma.EnumTrainingTypeFilter<"AdmissionCampaignMajor"> | $Enums.TrainingType
   quota?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   subjectCombinationId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
@@ -332,6 +346,7 @@ export type AdmissionCampaignMajorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   admissionCampaignId?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   trainingType?: Prisma.SortOrder
   quota?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
@@ -353,6 +368,7 @@ export type AdmissionCampaignMajorScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"AdmissionCampaignMajor"> | number
   admissionCampaignId?: Prisma.IntWithAggregatesFilter<"AdmissionCampaignMajor"> | number
   majorId?: Prisma.IntWithAggregatesFilter<"AdmissionCampaignMajor"> | number
+  batchId?: Prisma.IntWithAggregatesFilter<"AdmissionCampaignMajor"> | number
   trainingType?: Prisma.EnumTrainingTypeWithAggregatesFilter<"AdmissionCampaignMajor"> | $Enums.TrainingType
   quota?: Prisma.IntWithAggregatesFilter<"AdmissionCampaignMajor"> | number
   subjectCombinationId?: Prisma.IntWithAggregatesFilter<"AdmissionCampaignMajor"> | number
@@ -363,6 +379,7 @@ export type AdmissionCampaignMajorScalarWhereWithAggregatesInput = {
 }
 
 export type AdmissionCampaignMajorCreateInput = {
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   minScorePerSubject?: number | null
@@ -379,6 +396,7 @@ export type AdmissionCampaignMajorUncheckedCreateInput = {
   id?: number
   admissionCampaignId: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -390,6 +408,7 @@ export type AdmissionCampaignMajorUncheckedCreateInput = {
 }
 
 export type AdmissionCampaignMajorUpdateInput = {
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -406,6 +425,7 @@ export type AdmissionCampaignMajorUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -420,6 +440,7 @@ export type AdmissionCampaignMajorCreateManyInput = {
   id?: number
   admissionCampaignId: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -430,6 +451,7 @@ export type AdmissionCampaignMajorCreateManyInput = {
 }
 
 export type AdmissionCampaignMajorUpdateManyMutationInput = {
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -442,6 +464,7 @@ export type AdmissionCampaignMajorUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -471,6 +494,7 @@ export type AdmissionCampaignMajorCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   admissionCampaignId?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   trainingType?: Prisma.SortOrder
   quota?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
@@ -484,6 +508,7 @@ export type AdmissionCampaignMajorAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   admissionCampaignId?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   quota?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
   minScorePerSubject?: Prisma.SortOrder
@@ -495,6 +520,7 @@ export type AdmissionCampaignMajorMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   admissionCampaignId?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   trainingType?: Prisma.SortOrder
   quota?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
@@ -508,6 +534,7 @@ export type AdmissionCampaignMajorMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   admissionCampaignId?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   trainingType?: Prisma.SortOrder
   quota?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
@@ -521,6 +548,7 @@ export type AdmissionCampaignMajorSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   admissionCampaignId?: Prisma.SortOrder
   majorId?: Prisma.SortOrder
+  batchId?: Prisma.SortOrder
   quota?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
   minScorePerSubject?: Prisma.SortOrder
@@ -690,6 +718,7 @@ export type AdmissionCampaignMajorUpdateOneRequiredWithoutAdmissionProfilesNeste
 }
 
 export type AdmissionCampaignMajorCreateWithoutMajorInput = {
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   minScorePerSubject?: number | null
@@ -704,6 +733,7 @@ export type AdmissionCampaignMajorCreateWithoutMajorInput = {
 export type AdmissionCampaignMajorUncheckedCreateWithoutMajorInput = {
   id?: number
   admissionCampaignId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -747,6 +777,7 @@ export type AdmissionCampaignMajorScalarWhereInput = {
   id?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   admissionCampaignId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   majorId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
+  batchId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   trainingType?: Prisma.EnumTrainingTypeFilter<"AdmissionCampaignMajor"> | $Enums.TrainingType
   quota?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
   subjectCombinationId?: Prisma.IntFilter<"AdmissionCampaignMajor"> | number
@@ -757,6 +788,7 @@ export type AdmissionCampaignMajorScalarWhereInput = {
 }
 
 export type AdmissionCampaignMajorCreateWithoutAdmissionCampaignInput = {
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   minScorePerSubject?: number | null
@@ -771,6 +803,7 @@ export type AdmissionCampaignMajorCreateWithoutAdmissionCampaignInput = {
 export type AdmissionCampaignMajorUncheckedCreateWithoutAdmissionCampaignInput = {
   id?: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -808,6 +841,7 @@ export type AdmissionCampaignMajorUpdateManyWithWhereWithoutAdmissionCampaignInp
 }
 
 export type AdmissionCampaignMajorCreateWithoutSubjectCombinationInput = {
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   minScorePerSubject?: number | null
@@ -823,6 +857,7 @@ export type AdmissionCampaignMajorUncheckedCreateWithoutSubjectCombinationInput 
   id?: number
   admissionCampaignId: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   minScorePerSubject?: number | null
@@ -859,6 +894,7 @@ export type AdmissionCampaignMajorUpdateManyWithWhereWithoutSubjectCombinationIn
 }
 
 export type AdmissionCampaignMajorCreateWithoutAdmissionProfilesInput = {
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   minScorePerSubject?: number | null
@@ -874,6 +910,7 @@ export type AdmissionCampaignMajorUncheckedCreateWithoutAdmissionProfilesInput =
   id?: number
   admissionCampaignId: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -900,6 +937,7 @@ export type AdmissionCampaignMajorUpdateToOneWithWhereWithoutAdmissionProfilesIn
 }
 
 export type AdmissionCampaignMajorUpdateWithoutAdmissionProfilesInput = {
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -915,6 +953,7 @@ export type AdmissionCampaignMajorUncheckedUpdateWithoutAdmissionProfilesInput =
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -927,6 +966,7 @@ export type AdmissionCampaignMajorUncheckedUpdateWithoutAdmissionProfilesInput =
 export type AdmissionCampaignMajorCreateManyMajorInput = {
   id?: number
   admissionCampaignId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -937,6 +977,7 @@ export type AdmissionCampaignMajorCreateManyMajorInput = {
 }
 
 export type AdmissionCampaignMajorUpdateWithoutMajorInput = {
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -951,6 +992,7 @@ export type AdmissionCampaignMajorUpdateWithoutMajorInput = {
 export type AdmissionCampaignMajorUncheckedUpdateWithoutMajorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -964,6 +1006,7 @@ export type AdmissionCampaignMajorUncheckedUpdateWithoutMajorInput = {
 export type AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -976,6 +1019,7 @@ export type AdmissionCampaignMajorUncheckedUpdateManyWithoutMajorInput = {
 export type AdmissionCampaignMajorCreateManyAdmissionCampaignInput = {
   id?: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   subjectCombinationId: number
@@ -986,6 +1030,7 @@ export type AdmissionCampaignMajorCreateManyAdmissionCampaignInput = {
 }
 
 export type AdmissionCampaignMajorUpdateWithoutAdmissionCampaignInput = {
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1000,6 +1045,7 @@ export type AdmissionCampaignMajorUpdateWithoutAdmissionCampaignInput = {
 export type AdmissionCampaignMajorUncheckedUpdateWithoutAdmissionCampaignInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1013,6 +1059,7 @@ export type AdmissionCampaignMajorUncheckedUpdateWithoutAdmissionCampaignInput =
 export type AdmissionCampaignMajorUncheckedUpdateManyWithoutAdmissionCampaignInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1026,6 +1073,7 @@ export type AdmissionCampaignMajorCreateManySubjectCombinationInput = {
   id?: number
   admissionCampaignId: number
   majorId: number
+  batchId: number
   trainingType: $Enums.TrainingType
   quota: number
   minScorePerSubject?: number | null
@@ -1035,6 +1083,7 @@ export type AdmissionCampaignMajorCreateManySubjectCombinationInput = {
 }
 
 export type AdmissionCampaignMajorUpdateWithoutSubjectCombinationInput = {
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1050,6 +1099,7 @@ export type AdmissionCampaignMajorUncheckedUpdateWithoutSubjectCombinationInput 
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1063,6 +1113,7 @@ export type AdmissionCampaignMajorUncheckedUpdateManyWithoutSubjectCombinationIn
   id?: Prisma.IntFieldUpdateOperationsInput | number
   admissionCampaignId?: Prisma.IntFieldUpdateOperationsInput | number
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
+  batchId?: Prisma.IntFieldUpdateOperationsInput | number
   trainingType?: Prisma.EnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType
   quota?: Prisma.IntFieldUpdateOperationsInput | number
   minScorePerSubject?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1106,6 +1157,7 @@ export type AdmissionCampaignMajorSelect<ExtArgs extends runtime.Types.Extension
   id?: boolean
   admissionCampaignId?: boolean
   majorId?: boolean
+  batchId?: boolean
   trainingType?: boolean
   quota?: boolean
   subjectCombinationId?: boolean
@@ -1124,6 +1176,7 @@ export type AdmissionCampaignMajorSelectCreateManyAndReturn<ExtArgs extends runt
   id?: boolean
   admissionCampaignId?: boolean
   majorId?: boolean
+  batchId?: boolean
   trainingType?: boolean
   quota?: boolean
   subjectCombinationId?: boolean
@@ -1140,6 +1193,7 @@ export type AdmissionCampaignMajorSelectUpdateManyAndReturn<ExtArgs extends runt
   id?: boolean
   admissionCampaignId?: boolean
   majorId?: boolean
+  batchId?: boolean
   trainingType?: boolean
   quota?: boolean
   subjectCombinationId?: boolean
@@ -1156,6 +1210,7 @@ export type AdmissionCampaignMajorSelectScalar = {
   id?: boolean
   admissionCampaignId?: boolean
   majorId?: boolean
+  batchId?: boolean
   trainingType?: boolean
   quota?: boolean
   subjectCombinationId?: boolean
@@ -1165,7 +1220,7 @@ export type AdmissionCampaignMajorSelectScalar = {
   cutoffScore?: boolean
 }
 
-export type AdmissionCampaignMajorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "admissionCampaignId" | "majorId" | "trainingType" | "quota" | "subjectCombinationId" | "minScorePerSubject" | "minTotalScore" | "minConduct" | "cutoffScore", ExtArgs["result"]["admissionCampaignMajor"]>
+export type AdmissionCampaignMajorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "admissionCampaignId" | "majorId" | "batchId" | "trainingType" | "quota" | "subjectCombinationId" | "minScorePerSubject" | "minTotalScore" | "minConduct" | "cutoffScore", ExtArgs["result"]["admissionCampaignMajor"]>
 export type AdmissionCampaignMajorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subjectCombination?: boolean | Prisma.SubjectCombinationDefaultArgs<ExtArgs>
   admissionCampaign?: boolean | Prisma.AdmissionCampaignDefaultArgs<ExtArgs>
@@ -1196,6 +1251,7 @@ export type $AdmissionCampaignMajorPayload<ExtArgs extends runtime.Types.Extensi
     id: number
     admissionCampaignId: number
     majorId: number
+    batchId: number
     trainingType: $Enums.TrainingType
     quota: number
     subjectCombinationId: number
@@ -1633,6 +1689,7 @@ export interface AdmissionCampaignMajorFieldRefs {
   readonly id: Prisma.FieldRef<"AdmissionCampaignMajor", 'Int'>
   readonly admissionCampaignId: Prisma.FieldRef<"AdmissionCampaignMajor", 'Int'>
   readonly majorId: Prisma.FieldRef<"AdmissionCampaignMajor", 'Int'>
+  readonly batchId: Prisma.FieldRef<"AdmissionCampaignMajor", 'Int'>
   readonly trainingType: Prisma.FieldRef<"AdmissionCampaignMajor", 'TrainingType'>
   readonly quota: Prisma.FieldRef<"AdmissionCampaignMajor", 'Int'>
   readonly subjectCombinationId: Prisma.FieldRef<"AdmissionCampaignMajor", 'Int'>

@@ -251,6 +251,7 @@ export const AdmissionCampaignMajorScalarFieldEnum = {
   id: 'id',
   admissionCampaignId: 'admissionCampaignId',
   majorId: 'majorId',
+  batchId: 'batchId',
   trainingType: 'trainingType',
   quota: 'quota',
   subjectCombinationId: 'subjectCombinationId',

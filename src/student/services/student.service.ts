@@ -12,7 +12,14 @@ import {
   ResponseStudentPaginationDto,
   StudentResponseDto,
 } from "../dtos/student.response.js";
-import { Conduct, DocumentStatus, Prisma, StudentStatus, RoleType } from "../../../prisma/generated/prisma/client.js";
+import {
+  Conduct,
+  DocumentStatus,
+  Prisma,
+  StudentStatus,
+  RoleType,
+  EducationLevel,
+} from "../../../prisma/generated/prisma/client.js";
 import { plainToInstance } from "class-transformer";
 import bcrypt from "bcryptjs";
 
@@ -185,6 +192,7 @@ export class StudentService {
     });
   }
 
+  // Lấy danh sách học sinh đủ điều kiện phân lớp
   async getEligibleStudentsForAssignment(batchId: number): Promise<ResponseStudentPaginationDto> {
     const numericBatchId = Number(batchId);
 
@@ -204,6 +212,11 @@ export class StudentService {
           class: { select: { id: true, classCode: true, className: true } },
           admissionProfile: {
             include: {
+              // Cần lấy minConduct/cutoffScore/minTotalScore đã cấu hình cho ngành + hệ
+              // mà thí sinh này trúng tuyển, để so sánh thay vì hardcode ngưỡng.
+              admissionCampaignMajor: {
+                select: { minConduct: true, cutoffScore: true, minTotalScore: true },
+              },
               documents: {
                 where: { status: DocumentStatus.APPROVED },
                 select: { documentConfigItemId: true },
@@ -220,26 +233,28 @@ export class StudentService {
       let isQualified = false;
 
       if (profile) {
-        if (profile.isDirectAdmission) {
-          isQualified = true;
-        } else {
-          const gpaList = [profile.gpa6, profile.gpa7, profile.gpa8, profile.gpa9].filter(
-            (gpa): gpa is number => gpa !== null && gpa !== undefined,
-          );
-          const avgGpa = gpaList.length > 0 ? gpaList.reduce((sum, val) => sum + val, 0) / gpaList.length : 0;
-          const validConducts: Conduct[] = [Conduct.KHA, Conduct.TOT];
-          const isConductPassed =
-            profile.conduct6 &&
-            validConducts.includes(profile.conduct6) &&
-            profile.conduct7 &&
-            validConducts.includes(profile.conduct7) &&
-            profile.conduct8 &&
-            validConducts.includes(profile.conduct8) &&
-            profile.conduct9 &&
-            validConducts.includes(profile.conduct9);
+        // Lấy đúng bộ hạnh kiểm theo trình độ học vấn của thí sinh:
+        // THCS -> lớp 6,7,8,9 | THPT -> lớp 10,11,12
+        const conducts =
+          profile.educationLevel === EducationLevel.THCS
+            ? [profile.conduct6, profile.conduct7, profile.conduct8, profile.conduct9]
+            : [profile.conduct10, profile.conduct11, profile.conduct12];
 
-          isQualified = (avgGpa >= 5.0 && Boolean(isConductPassed)) || (profile.scoreCalculated ?? 0) >= 5.0;
-        }
+        const requiredConduct = profile.admissionCampaignMajor?.minConduct ?? null;
+        const isConductPassed = requiredConduct
+          ? conducts.every(
+              (conduct): conduct is Conduct =>
+                conduct !== null && conduct !== undefined && this.compareConduct(conduct, requiredConduct) >= 0,
+            )
+          : conducts.every((conduct) => conduct !== null && conduct !== undefined);
+
+        // Ưu tiên điểm chuẩn (cutoffScore) nếu Phòng Đào tạo đã set sau khi duyệt hồ sơ;
+        // nếu chưa có thì tạm dùng điểm sàn (minTotalScore) làm ngưỡng xét.
+        const requiredScore =
+          profile.admissionCampaignMajor?.cutoffScore ?? profile.admissionCampaignMajor?.minTotalScore;
+        const isScorePassed = requiredScore != null && (profile.avgSubjectScore ?? 0) >= requiredScore;
+
+        isQualified = isScorePassed && isConductPassed;
       }
 
       return {
@@ -256,6 +271,18 @@ export class StudentService {
       students,
       total,
     };
+  }
+
+  // Hạnh kiểm: TOT > KHA > TB > YEU. So sánh conduct đạt được với mức tối thiểu yêu cầu.
+  // Trả về >= 0 nếu conduct đạt hoặc vượt yêu cầu.
+  private compareConduct(conduct: Conduct, minConduct: Conduct): number {
+    const rank: Record<Conduct, number> = {
+      [Conduct.TOT]: 4,
+      [Conduct.KHA]: 3,
+      [Conduct.TB]: 2,
+      [Conduct.YEU]: 1,
+    };
+    return rank[conduct] - rank[minConduct];
   }
 
   async assignStudentsToClasses(body: AssignStudentsToClassesDto) {
@@ -420,31 +447,11 @@ export class StudentService {
     const numericLimit = Number(limit) || 10;
     const skip = (numericPage - 1) * numericLimit;
 
-    let academicYearId: number | null = null;
-    if (batchId) {
-      const batch = await this.prisma.batch.findUnique({
-        where: { id: Number(batchId) },
-        select: { academicYearId: true },
-      });
-      academicYearId = batch?.academicYearId ?? null;
-    }
-
-    let campaign: { id: number } | null = null;
-    if (academicYearId) {
-      campaign = await this.prisma.admissionCampaign.findFirst({
-        where: { academicYearId },
-        select: { id: true },
-        orderBy: { createdAt: "desc" },
-      });
-    }
-
+    // DocumentConfig không còn gắn theo đợt/hệ đào tạo nữa — chỉ cần lấy checklist
+    // đang áp dụng tại thời điểm hiện tại (startDate gần nhất, <= hôm nay).
     const docConfig = await this.prisma.documentConfig.findFirst({
-      where: {
-        OR: [
-          ...(campaign ? [{ admissionCampaignId: campaign.id }] : []),
-          { id: 1 },
-        ],
-      },
+      where: { startDate: { lte: new Date() } },
+      orderBy: { startDate: "desc" },
       include: {
         items: {
           where: { required: true },
@@ -481,6 +488,11 @@ export class StudentService {
           class: { select: { id: true, classCode: true, className: true } },
           admissionProfile: {
             include: {
+              // Cần minConduct/cutoffScore/minTotalScore của ngành + hệ thí sinh
+              // trúng tuyển để xét đạt/không đạt, thay vì hardcode ngưỡng.
+              admissionCampaignMajor: {
+                select: { minConduct: true, cutoffScore: true, minTotalScore: true },
+              },
               documents: {
                 where: { status: DocumentStatus.APPROVED },
                 select: { documentConfigItemId: true },
@@ -501,26 +513,28 @@ export class StudentService {
 
       let isQualified = false;
       if (profile) {
-        if (profile.isDirectAdmission) {
-          isQualified = true;
-        } else {
-          const gpaList = [profile.gpa6, profile.gpa7, profile.gpa8, profile.gpa9].filter(
-            (gpa): gpa is number => gpa !== null && gpa !== undefined,
-          );
-          const avgGpa = gpaList.length > 0 ? gpaList.reduce((sum, val) => sum + val, 0) / gpaList.length : 0;
-          const validConducts: Conduct[] = [Conduct.KHA, Conduct.TOT];
-          const isConductPassed =
-            profile.conduct6 &&
-            validConducts.includes(profile.conduct6) &&
-            profile.conduct7 &&
-            validConducts.includes(profile.conduct7) &&
-            profile.conduct8 &&
-            validConducts.includes(profile.conduct8) &&
-            profile.conduct9 &&
-            validConducts.includes(profile.conduct9);
+        // Lấy đúng bộ hạnh kiểm theo trình độ học vấn của thí sinh:
+        // THCS -> lớp 6,7,8,9 | THPT -> lớp 10,11,12
+        const conducts =
+          profile.educationLevel === EducationLevel.THCS
+            ? [profile.conduct6, profile.conduct7, profile.conduct8, profile.conduct9]
+            : [profile.conduct10, profile.conduct11, profile.conduct12];
 
-          isQualified = (avgGpa >= 5.0 && Boolean(isConductPassed)) || (profile.scoreCalculated ?? 0) >= 5.0;
-        }
+        const requiredConduct = profile.admissionCampaignMajor?.minConduct ?? null;
+        const isConductPassed = requiredConduct
+          ? conducts.every(
+              (conduct): conduct is Conduct =>
+                conduct !== null && conduct !== undefined && this.compareConduct(conduct, requiredConduct) >= 0,
+            )
+          : conducts.every((conduct) => conduct !== null && conduct !== undefined);
+
+        // Ưu tiên điểm chuẩn (cutoffScore) nếu Phòng Đào tạo đã set sau khi duyệt hồ sơ;
+        // nếu chưa có thì tạm dùng điểm sàn (minTotalScore) làm ngưỡng xét.
+        const requiredScore =
+          profile.admissionCampaignMajor?.cutoffScore ?? profile.admissionCampaignMajor?.minTotalScore;
+        const isScorePassed = requiredScore != null && (profile.avgSubjectScore ?? 0) >= requiredScore;
+
+        isQualified = isScorePassed && isConductPassed;
       }
 
       return {
@@ -543,4 +557,3 @@ export class StudentService {
     };
   }
 }
-

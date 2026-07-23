@@ -1,21 +1,19 @@
 import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import {
   ApplicationStatus,
-  AdmissionType,
   EducationLevel,
   Gender,
   Conduct,
-  PriorityRegion,
-  PriorityObject,
-  DirectAdmissionReason,
   AdmissionProfile,
 } from "../../../prisma/generated/prisma/client.js";
-import { CreateExamScoreDto, ExamScoreDto } from "./exam-score.dto.js";
 import { CreateTranscriptSubjectScoreDto, TranscriptSubjectScoreDto } from "./transcript-subject-score.dto.js";
 import { Type } from "class-transformer";
-import { AdmissionCampaignDetailDto } from "./admission-campaign.dto.js";
+import { AdmissionCampaignDto } from "./admission-campaign.dto.js";
 import { AdmissionDocumentDto } from "./admission-document.dto.js";
-import { AdmissionStatusLogDto } from "./admission-status-log.dto.js";
+import { AdmissionStatusLogDetailDto } from "./admission-status-log.dto.js";
+import { AdmissionCampaignMajorDto } from "./admission-campaign-major.dto.js";
+import { MajorDto } from "../../major/major.dto.js";
+import { SubjectCombinationDetailDto } from "./subject-combination.dto.js";
 
 export class AdmissionProfileDto implements AdmissionProfile {
   @ApiProperty()
@@ -31,9 +29,6 @@ export class AdmissionProfileDto implements AdmissionProfile {
 
   @ApiProperty({ enum: ApplicationStatus })
   status: ApplicationStatus;
-
-  @ApiProperty({ enum: AdmissionType })
-  admissionType: AdmissionType;
 
   @ApiProperty({ enum: EducationLevel })
   educationLevel: EducationLevel;
@@ -83,9 +78,6 @@ export class AdmissionProfileDto implements AdmissionProfile {
 
   @ApiPropertyOptional({ enum: Conduct, nullable: true })
   conduct9: Conduct | null;
-
-  @ApiPropertyOptional({ enum: DirectAdmissionReason, nullable: true })
-  directReason: DirectAdmissionReason | null;
 
   @ApiPropertyOptional({ type: String, nullable: true })
   fatherName: string | null;
@@ -140,12 +132,6 @@ export class AdmissionProfileDto implements AdmissionProfile {
   @ApiPropertyOptional({ type: String, nullable: true })
   note: string | null;
 
-  @ApiPropertyOptional({ enum: PriorityObject, nullable: true })
-  priorityObject: PriorityObject | null;
-
-  @ApiPropertyOptional({ enum: PriorityRegion, nullable: true })
-  priorityRegion: PriorityRegion | null;
-
   @ApiPropertyOptional({ type: Number, nullable: true })
   @Type(() => Number)
   priorityScore: number | null;
@@ -160,10 +146,6 @@ export class AdmissionProfileDto implements AdmissionProfile {
 
   @ApiPropertyOptional({ type: Number, nullable: true })
   @Type(() => Number)
-  subjectCombinationId: number | null;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @Type(() => Number)
   thcsGradYear: number | null;
 
   @ApiPropertyOptional({ type: Number, nullable: true })
@@ -172,14 +154,17 @@ export class AdmissionProfileDto implements AdmissionProfile {
 
   @ApiPropertyOptional({ type: Number, nullable: true })
   @Type(() => Number)
-  totalExamScore: number | null;
-
-  @ApiPropertyOptional({ type: Number, nullable: true })
-  @Type(() => Number)
   villageId: number | null;
 
   @ApiPropertyOptional({ type: String, nullable: true })
   wardCode: string | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  avgSubjectScore: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  subjectCombinationId: number;
 
   @ApiProperty({ type: Date })
   @Type(() => Date)
@@ -190,15 +175,23 @@ export class AdmissionProfileDto implements AdmissionProfile {
   updatedAt: Date;
 }
 
+// RESPONSE DETAIL DTO
+export class NestedAdmissionCampaignMajorDto extends AdmissionCampaignMajorDto {
+  @ApiProperty({ type: () => MajorDto })
+  major: MajorDto;
+
+  @ApiProperty({ type: () => SubjectCombinationDetailDto })
+  subjectCombination: SubjectCombinationDetailDto;
+
+  @ApiProperty({ type: () => AdmissionCampaignDto })
+  admissionCampaign: AdmissionCampaignDto;
+}
 export class AdmissionProfileDetailDto {
   @ApiProperty({ type: () => AdmissionProfileDto })
   profile: AdmissionProfileDto;
 
-  @ApiPropertyOptional({ type: () => AdmissionCampaignDetailDto })
-  admissionCampaign?: AdmissionCampaignDetailDto;
-
-  @ApiProperty({ type: () => [ExamScoreDto] })
-  examScores: ExamScoreDto[];
+  @ApiProperty({ type: () => NestedAdmissionCampaignMajorDto })
+  admissionCampaignMajor: NestedAdmissionCampaignMajorDto;
 
   @ApiProperty({ type: () => [TranscriptSubjectScoreDto] })
   transcriptSubjectScores: TranscriptSubjectScoreDto[];
@@ -206,14 +199,11 @@ export class AdmissionProfileDetailDto {
   @ApiProperty({ type: () => [AdmissionDocumentDto] })
   documents: AdmissionDocumentDto[];
 
-  @ApiProperty({ type: () => [AdmissionStatusLogDto] })
-  statusLogs: AdmissionStatusLogDto[];
+  @ApiProperty({ type: () => [AdmissionStatusLogDetailDto] })
+  statusLogs: AdmissionStatusLogDetailDto[];
 }
 
 export class CreateAdmissionProfileDto extends OmitType(AdmissionProfileDto, ["id", "createdAt", "updatedAt"]) {
-  @ApiProperty({ type: [CreateExamScoreDto] })
-  examScores: CreateExamScoreDto[];
-
   @ApiProperty({ type: [CreateTranscriptSubjectScoreDto] })
   transcriptSubjectScores: CreateTranscriptSubjectScoreDto[];
 }
@@ -228,7 +218,6 @@ export class SearchAdmissionProfileDto extends PartialType(
     "phone",
     "status",
     "admissionCampaignMajorId",
-    "admissionType",
   ] as const),
 ) {
   @ApiPropertyOptional()

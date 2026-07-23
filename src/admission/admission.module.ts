@@ -9,8 +9,6 @@ import { SubjectCombinationController } from "./controllers/subject-combination.
 import { AdmissionProfileController } from "./controllers/admission-profile.controller.js";
 import { AdmissionDocumentController } from "./controllers/admission-document.controller.js";
 import { DocumentConfigController } from "./controllers/document-config.controller.js";
-import { PriorityRuleController } from "./controllers/priority-rule.controller.js";
-import { AdmissionInterestController } from "./controllers/admission-interest.controller.js";
 
 // Services
 import { AdmissionCampaignService } from "./services/admission-campaign.service.js";
@@ -19,11 +17,10 @@ import { SubjectCombinationService } from "./services/subject-combination.servic
 import { AdmissionProfileService } from "./services/admission-profile.service.js";
 import { AdmissionDocumentService } from "./services/admission-document.service.js";
 import { DocumentConfigService } from "./services/document-config.service.js";
-import { PriorityRuleService } from "./services/priority-rule.service.js";
-import { AdmissionInterestService } from "./services/admission-interest.service.js";
+import { UploadFileModule } from "../upload/upload.module.js";
 
 @Module({
-  imports: [PrismaModule, forwardRef(() => StudentModule)],
+  imports: [PrismaModule, forwardRef(() => StudentModule), UploadFileModule],
   controllers: [
     AdmissionCampaignController,
     AdmissionCampaignMajorController,
@@ -31,8 +28,6 @@ import { AdmissionInterestService } from "./services/admission-interest.service.
     AdmissionProfileController,
     AdmissionDocumentController,
     DocumentConfigController,
-    PriorityRuleController,
-    AdmissionInterestController,
   ],
   providers: [
     AdmissionCampaignService,
@@ -41,8 +36,6 @@ import { AdmissionInterestService } from "./services/admission-interest.service.
     AdmissionProfileService,
     AdmissionDocumentService,
     DocumentConfigService,
-    PriorityRuleService,
-    AdmissionInterestService,
   ],
   exports: [
     AdmissionCampaignService,
@@ -51,9 +44,6 @@ import { AdmissionInterestService } from "./services/admission-interest.service.
     AdmissionProfileService,
     AdmissionDocumentService,
     DocumentConfigService,
-    PriorityRuleService,
-    AdmissionInterestService,
   ],
 })
 export class AdmissionModule {}
-

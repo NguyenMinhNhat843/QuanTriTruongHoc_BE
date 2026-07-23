@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  ParseIntPipe,
-  UseGuards,
-} from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard.js";
 import { RolesGuard } from "../../auth/guard/role.guard.js";
@@ -21,6 +10,8 @@ import {
   UpdateDocumentConfigDto,
   SearchDocumentConfigDto,
   DocumentConfigDto,
+  DocumentConfigDetailDto,
+  FindLatestDocumentConfigQueryDto,
 } from "../dtos/document-config.dto.js";
 
 @ApiTags("Document Configs")
@@ -40,14 +31,21 @@ export class DocumentConfigController {
 
   @Get()
   @ApiOperation({ summary: "Danh sách cấu hình checklist tài liệu" })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: [DocumentConfigDetailDto] })
   findAll(@Query() query: SearchDocumentConfigDto) {
     return this.documentConfigService.findAll(query);
   }
 
+  @Get("latest-before-date")
+  @ApiOperation({ summary: "Lấy cấu hình hồ sơ mới nhất trước ngày chỉ định" })
+  @ApiResponse({ status: 200, type: DocumentConfigDetailDto })
+  findLatestBeforeDate(@Query() query: FindLatestDocumentConfigQueryDto) {
+    return this.documentConfigService.findLatestBeforeDate(query.targetDateInput);
+  }
+
   @Get(":id")
   @ApiOperation({ summary: "Chi tiết cấu hình checklist tài liệu" })
-  @ApiResponse({ status: 200, type: DocumentConfigDto })
+  @ApiResponse({ status: 200, type: DocumentConfigDetailDto })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.documentConfigService.findOne(id);
   }
@@ -58,10 +56,7 @@ export class DocumentConfigController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Cập nhật cấu hình checklist" })
   @ApiResponse({ status: 200, type: DocumentConfigDto })
-  update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() dto: UpdateDocumentConfigDto,
-  ) {
+  update(@Param("id", ParseIntPipe) id: number, @Body() dto: UpdateDocumentConfigDto) {
     return this.documentConfigService.update(id, dto);
   }
 
@@ -75,4 +70,3 @@ export class DocumentConfigController {
     return this.documentConfigService.remove(id);
   }
 }
-

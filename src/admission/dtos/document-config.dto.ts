@@ -1,7 +1,8 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { EducationLevel, TrainingType } from "../../../prisma/generated/prisma/client.js";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
+import { DocumentConfig, DocumentConfigItem } from "../../../prisma/generated/prisma/client.js";
+import { Type } from "class-transformer";
 
-export class DocumentConfigItemDto {
+export class DocumentConfigItemDto implements DocumentConfigItem {
   @ApiProperty()
   id: number;
 
@@ -11,31 +12,19 @@ export class DocumentConfigItemDto {
   @ApiProperty()
   name: string;
 
-  @ApiPropertyOptional()
-  code?: string;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  code: string | null;
 
-  @ApiPropertyOptional()
-  required?: boolean;
+  @ApiPropertyOptional({ type: Boolean, nullable: true })
+  required: boolean | null;
 
-  @ApiPropertyOptional()
-  sortOrder?: number;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  sortOrder: number | null;
 }
 
-export class CreateDocumentConfigItemDto {
-  @ApiProperty()
-  name: string;
+export class CreateDocumentConfigItemDto extends OmitType(DocumentConfigItemDto, ["id", "documentConfigId"] as const) {}
 
-  @ApiPropertyOptional()
-  code?: string;
-
-  @ApiPropertyOptional({ default: true })
-  required?: boolean;
-
-  @ApiPropertyOptional()
-  sortOrder?: number;
-}
-
-export class DocumentConfigDto {
+export class DocumentConfigDto implements DocumentConfig {
   @ApiProperty()
   id: number;
 
@@ -44,77 +33,26 @@ export class DocumentConfigDto {
 
   @ApiProperty()
   startDate: Date;
+}
 
-  @ApiPropertyOptional()
-  admissionCampaignId?: number;
-
-  @ApiPropertyOptional({ enum: EducationLevel })
-  educationLevel?: EducationLevel;
-
-  @ApiPropertyOptional({ enum: TrainingType })
-  trainingType?: TrainingType;
-
+export class DocumentConfigDetailDto extends DocumentConfigDto {
   @ApiPropertyOptional({ type: [DocumentConfigItemDto] })
   items?: DocumentConfigItemDto[];
 }
 
-export class CreateDocumentConfigDto {
-  @ApiProperty()
-  name: string;
-
-  @ApiPropertyOptional()
-  startDate?: Date;
-
-  @ApiPropertyOptional()
-  admissionCampaignId?: number;
-
-  @ApiPropertyOptional({ enum: EducationLevel })
-  educationLevel?: EducationLevel;
-
-  @ApiPropertyOptional({ enum: TrainingType })
-  trainingType?: TrainingType;
-
+export class CreateDocumentConfigDto extends OmitType(DocumentConfigDto, ["id"] as const) {
   @ApiPropertyOptional({ type: [CreateDocumentConfigItemDto] })
   items?: CreateDocumentConfigItemDto[];
 }
 
-export class UpdateDocumentConfigDto {
-  @ApiPropertyOptional()
-  name?: string;
+export class UpdateDocumentConfigDto extends PartialType(CreateDocumentConfigDto) {}
 
-  @ApiPropertyOptional()
-  startDate?: Date;
+export class SearchDocumentConfigDto extends PartialType(
+  PickType(DocumentConfigDto, ["id", "name", "startDate"] as const),
+) {}
 
-  @ApiPropertyOptional()
-  admissionCampaignId?: number;
-
-  @ApiPropertyOptional({ enum: EducationLevel })
-  educationLevel?: EducationLevel;
-
-  @ApiPropertyOptional({ enum: TrainingType })
-  trainingType?: TrainingType;
-
-  @ApiPropertyOptional({ type: [CreateDocumentConfigItemDto] })
-  items?: CreateDocumentConfigItemDto[];
+export class FindLatestDocumentConfigQueryDto {
+  @ApiProperty({ type: Date })
+  @Type(() => Date)
+  targetDateInput: Date | string;
 }
-
-export class SearchDocumentConfigDto {
-  @ApiPropertyOptional()
-  name?: string;
-
-  @ApiPropertyOptional()
-  admissionCampaignId?: number;
-
-  @ApiPropertyOptional({ enum: EducationLevel })
-  educationLevel?: EducationLevel;
-
-  @ApiPropertyOptional({ enum: TrainingType })
-  trainingType?: TrainingType;
-
-  @ApiPropertyOptional({ default: 1 })
-  page?: number;
-
-  @ApiPropertyOptional({ default: 10 })
-  limit?: number;
-}
-

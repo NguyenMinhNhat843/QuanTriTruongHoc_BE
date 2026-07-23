@@ -9,10 +9,10 @@ export class SubjectCombinationItemDto implements SubjectCombinationItem {
   subjectCombinationId: number;
 
   @ApiProperty()
-  subjectCode: string;
+  subjectName: string;
 }
 
-export class CreateSubjectCombinationItemDto extends PickType(SubjectCombinationItemDto, ["subjectCode"]) {}
+export class CreateSubjectCombinationItemDto extends PickType(SubjectCombinationItemDto, ["subjectName"]) {}
 
 export class SubjectCombinationDto implements SubjectCombination {
   @ApiProperty()

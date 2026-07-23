@@ -25,7 +25,7 @@ export class SubjectCombinationService {
         items: dto.items?.length
           ? {
               create: dto.items.map((item) => ({
-                subjectCode: item.subjectCode,
+                subjectName: item.subjectName,
               })),
             }
           : undefined,
@@ -87,7 +87,7 @@ export class SubjectCombinationService {
             ...data,
             items: {
               create: items.map((item) => ({
-                subjectCode: item.subjectCode,
+                subjectName: item.subjectName,
               })),
             },
           },

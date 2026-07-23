@@ -1,6 +1,11 @@
 import { Injectable, NotFoundException, InternalServerErrorException, Logger } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service.js";
-import { AcademicYearStatus, CampaignStatus, Prisma } from "../../../prisma/generated/prisma/client.js";
+import {
+  AcademicYearStatus,
+  ApplicationStatus,
+  CampaignStatus,
+  Prisma,
+} from "../../../prisma/generated/prisma/client.js";
 import {
   CreateAdmissionCampaignDto,
   UpdateAdmissionCampaignDto,
@@ -51,6 +56,146 @@ export class AdmissionCampaignService {
     } catch (error) {
       Logger.error("Error creating admission campaign:", error);
       throw new InternalServerErrorException("Có lỗi xảy ra khi tạo đợt tuyển sinh.");
+    }
+  }
+
+  async approveAdmissionCampaign(id: number) {
+    // 1. Kiểm tra Đợt tuyển sinh có tồn tại không
+    const campaign = await this.prisma.admissionCampaign.findUnique({
+      where: { id },
+      include: {
+        campaignMajors: true,
+      },
+    });
+
+    if (!campaign) {
+      throw new NotFoundException(`Đợt tuyển sinh ID ${id} không tồn tại.`);
+    }
+
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const approvedProfileIds: number[] = [];
+        const rejectedProfileIds: number[] = [];
+
+        // 2. Xét duyệt theo từng Ngành (AdmissionCampaignMajor) trong Đợt
+        for (const campaignMajor of campaign.campaignMajors) {
+          const { id: campaignMajorId, quota, minTotalScore = 0, minScorePerSubject = 1.0 } = campaignMajor;
+
+          // Lấy tất cả hồ sơ đang REGISTERED của Ngành này
+          const profiles = await tx.admissionProfile.findMany({
+            where: {
+              admissionCampaignMajorId: campaignMajorId,
+              status: ApplicationStatus.REGISTERED,
+            },
+            include: {
+              transcriptSubjectScores: true, // Lấy danh sách điểm học bạ các môn
+            },
+          });
+
+          if (!profiles.length) continue;
+
+          // 3. Lọc các hồ sơ ĐỦ ĐIỀU KIỆN ĐIỂM (Điểm sàn & Điểm chống liệt)
+          const eligibleProfiles = profiles.filter((profile) => {
+            // Check 1: Điểm trung bình xét tuyển >= Điểm sàn ngành
+            if ((profile.avgSubjectScore ?? 0) < (minTotalScore || 0)) {
+              return false;
+            }
+
+            // Check 2: Điểm trung bình từng môn >= Điểm liệt
+            // Nhóm điểm theo môn (subjectCode) để tính điểm trung bình môn đó qua các năm/kỳ
+            const subjectScoreMap = new Map<string, { total: number; count: number }>();
+
+            for (const item of profile.transcriptSubjectScores) {
+              const current = subjectScoreMap.get(item.subjectCode) || { total: 0, count: 0 };
+              subjectScoreMap.set(item.subjectCode, {
+                total: current.total + item.score,
+                count: current.count + 1,
+              });
+            }
+
+            // Kiểm tra xem có môn nào bị dính điểm liệt không
+            for (const [, data] of subjectScoreMap.entries()) {
+              const avgSubject = data.total / data.count;
+              if (avgSubject < (minScorePerSubject || 0)) {
+                return false; // Bị liệt môn này
+              }
+            }
+
+            return true;
+          });
+
+          // Các hồ sơ không đạt điều kiện điểm -> Đưa vào danh sách loại (Rejected)
+          const ineligibleProfileIds = profiles
+            .filter((p) => !eligibleProfiles.some((ep) => ep.id === p.id))
+            .map((p) => p.id);
+          rejectedProfileIds.push(...ineligibleProfileIds);
+
+          // 4. Sắp xếp danh sách đạt điều kiện theo thứ tự ưu tiên:
+          // Điểm cao hơn > Hạnh kiểm tốt hơn > Thời gian nộp sớm hơn
+          eligibleProfiles.sort((a, b) => {
+            // Ưu tiên 1: avgSubjectScore (Giảm dần)
+            if ((b.avgSubjectScore ?? 0) !== (a.avgSubjectScore ?? 0)) {
+              return (b.avgSubjectScore ?? 0) - (a.avgSubjectScore ?? 0);
+            }
+
+            // Ưu tiên 3: Thời gian đăng ký (Tăng dần - Nộp trước ưu tiên trước)
+            return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+          });
+
+          // 5. Cắt danh sách theo Chỉ tiêu (Quota)
+          const passedProfiles = eligibleProfiles.slice(0, quota);
+          const failedProfiles = eligibleProfiles.slice(quota);
+
+          approvedProfileIds.push(...passedProfiles.map((p) => p.id));
+          rejectedProfileIds.push(...failedProfiles.map((p) => p.id));
+        }
+
+        // 6. Cập nhật Database & Ghi Log Trạng Thái
+
+        // A. Cập nhật Hồ sơ ĐẬU (APPROVED)
+        if (approvedProfileIds.length > 0) {
+          await tx.admissionProfile.updateMany({
+            where: { id: { in: approvedProfileIds } },
+            data: { status: ApplicationStatus.APPROVED },
+          });
+
+          await tx.admissionStatusLog.createMany({
+            data: approvedProfileIds.map((id) => ({
+              admissionProfileId: id,
+              fromStatus: ApplicationStatus.REGISTERED,
+              toStatus: ApplicationStatus.APPROVED,
+              isSystem: true,
+              reason: "Tự động duyệt: Đạt điểm sàn và nằm trong chỉ tiêu xét tuyển",
+            })),
+          });
+        }
+
+        // B. Cập nhật Hồ sơ RỚT / KHÔNG ĐẠT (REJECTED)
+        if (rejectedProfileIds.length > 0) {
+          await tx.admissionProfile.updateMany({
+            where: { id: { in: rejectedProfileIds } },
+            data: { status: ApplicationStatus.REJECTED },
+          });
+
+          await tx.admissionStatusLog.createMany({
+            data: rejectedProfileIds.map((id) => ({
+              admissionProfileId: id,
+              fromStatus: ApplicationStatus.REGISTERED,
+              toStatus: ApplicationStatus.REJECTED,
+              isSystem: true,
+              reason: "Tự động từ chối: Không đạt điểm sàn/điểm liệt hoặc vượt quá chỉ tiêu",
+            })),
+          });
+        }
+
+        return {
+          message: "Xét duyệt đợt tuyển sinh thành công",
+          totalApproved: approvedProfileIds.length,
+          totalRejected: rejectedProfileIds.length,
+        };
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(`Lỗi trong quá trình xét duyệt đợt tuyển sinh: ${error}`);
     }
   }
 
@@ -145,9 +290,6 @@ export class AdmissionCampaignService {
         campaignMajors: {
           include: { major: true, subjectCombination: true },
         },
-        documentConfigs: {
-          include: { items: true },
-        },
       },
     });
     if (!campaign) {
@@ -172,6 +314,7 @@ export class AdmissionCampaignService {
             campaignMajors: {
               create: campaignMajors.map((item) => ({
                 majorId: item.majorId,
+                batchId: item.batchId,
                 trainingType: item.trainingType,
                 quota: item.quota,
                 subjectCombinationId: item.subjectCombinationId,

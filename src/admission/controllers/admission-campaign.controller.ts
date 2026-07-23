@@ -30,6 +30,17 @@ export class AdmissionCampaignController {
     return this.admissionCampaignService.create(dto);
   }
 
+  @Post(":id/approve-auto")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(RoleType.admin, RoleType.staff)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Duyệt tự động đợt tuyển sinh theo chỉ tiêu và điểm sàn" })
+  @ApiResponse({ status: 200, description: "Xét duyệt đợt tuyển sinh thành công" })
+  @ApiResponse({ status: 404, description: "Đợt tuyển sinh không tồn tại" })
+  approveAdmissionCampaign(@Param("id", ParseIntPipe) id: number) {
+    return this.admissionCampaignService.approveAdmissionCampaign(id);
+  }
+
   @Get()
   @ApiOperation({ summary: "Danh sách đợt tuyển sinh" })
   @ApiResponse({ status: 200, type: ResponseAdmissionCampaignPaginationDto })

@@ -78,7 +78,7 @@ export class UploadFileService {
   }
 
   /**
-   * 2. Xóa ảnh bằng Public ID (Giữ nguyên)
+   * 2. Xóa ảnh bằng Public ID
    */
   async deleteImage(publicId: string): Promise<{ success: boolean; message: string }> {
     if (!publicId) {

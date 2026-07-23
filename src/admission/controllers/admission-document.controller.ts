@@ -8,8 +8,13 @@ import {
   Delete,
   ParseIntPipe,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiConsumes } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard.js";
 import { RolesGuard } from "../../auth/guard/role.guard.js";
 import { Roles } from "../../common/decorators/role.decorator.js";
@@ -21,6 +26,7 @@ import {
   VerifyAdmissionDocumentDto,
   AdmissionDocumentDto,
 } from "../dtos/admission-document.dto.js";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("Admission Documents")
 @Controller("admission-documents")
@@ -29,9 +35,24 @@ export class AdmissionDocumentController {
 
   @Post()
   @ApiOperation({ summary: "Tải lên tài liệu số hóa cho hồ sơ" })
+  @ApiConsumes("multipart/form-data")
   @ApiResponse({ status: 201, type: AdmissionDocumentDto })
-  uploadDocument(@Body() dto: CreateAdmissionDocumentDto) {
-    return this.admissionDocumentService.uploadDocument(dto);
+  @UseInterceptors(FileInterceptor("file"))
+  uploadDocument(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          // Giới hạn 5MB (tùy chỉnh theo nhu cầu)
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 }),
+          // Chấp nhận ảnh và pdf
+          new FileTypeValidator({ fileType: /(jpg|jpeg|png|pdf)$/ }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @Body() dto: CreateAdmissionDocumentDto,
+  ) {
+    return this.admissionDocumentService.uploadDocument(file, dto);
   }
 
   @Get("profile/:profileId")
@@ -47,11 +68,7 @@ export class AdmissionDocumentController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Duyệt hoặc từ chối tài liệu số hóa" })
   @ApiResponse({ status: 200, type: AdmissionDocumentDto })
-  verifyDocument(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() dto: VerifyAdmissionDocumentDto,
-    @GetUser() user: any,
-  ) {
+  verifyDocument(@Param("id", ParseIntPipe) id: number, @Body() dto: VerifyAdmissionDocumentDto, @GetUser() user: any) {
     return this.admissionDocumentService.verifyDocument(id, dto, user?.id);
   }
 
@@ -65,4 +82,3 @@ export class AdmissionDocumentController {
     return this.admissionDocumentService.remove(id);
   }
 }
-
