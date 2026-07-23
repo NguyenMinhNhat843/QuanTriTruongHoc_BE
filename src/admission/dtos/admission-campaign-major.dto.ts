@@ -1,12 +1,9 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import {
-  TrainingType,
-  AdmissionType,
-  Conduct,
-  TranscriptScoreMethod,
-} from "../../../prisma/generated/prisma/client.js";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
+import { TrainingType, Conduct } from "../../../prisma/generated/prisma/client.js";
+import { MajorDto } from "../../major/major.dto.js";
+import { SubjectCombinationDetailDto } from "./subject-combination.dto.js";
 
-export class AdmissionCampaignMajorDto {
+export class AdmissionCampaignMajorDto implements AdmissionCampaignMajorDto {
   @ApiProperty()
   id: number;
 
@@ -22,11 +19,8 @@ export class AdmissionCampaignMajorDto {
   @ApiProperty()
   quota: number;
 
-  @ApiProperty({ enum: AdmissionType, isArray: true })
-  acceptedAdmissionTypes: AdmissionType[];
-
-  @ApiPropertyOptional()
-  subjectCombinationId?: number;
+  @ApiProperty()
+  subjectCombinationId: number;
 
   @ApiPropertyOptional()
   minScorePerSubject?: number;
@@ -34,100 +28,37 @@ export class AdmissionCampaignMajorDto {
   @ApiPropertyOptional()
   minTotalScore?: number;
 
-  @ApiPropertyOptional()
-  minGpaAverage?: number;
-
   @ApiPropertyOptional({ enum: Conduct })
   minConduct?: Conduct;
-
-  @ApiPropertyOptional({ enum: TranscriptScoreMethod })
-  transcriptScoreMethod?: TranscriptScoreMethod;
 
   @ApiPropertyOptional()
   cutoffScore?: number;
 }
 
-export class CreateAdmissionCampaignMajorDto {
-  @ApiProperty()
-  admissionCampaignId: number;
+export class AdmissionCampaignMajorDetailDto extends AdmissionCampaignMajorDto {
+  @ApiPropertyOptional({ type: MajorDto })
+  major?: MajorDto;
 
-  @ApiProperty()
-  majorId: number;
-
-  @ApiProperty({ enum: TrainingType })
-  trainingType: TrainingType;
-
-  @ApiProperty()
-  quota: number;
-
-  @ApiProperty({ enum: AdmissionType, isArray: true })
-  acceptedAdmissionTypes: AdmissionType[];
-
-  @ApiPropertyOptional()
-  subjectCombinationId?: number;
-
-  @ApiPropertyOptional()
-  minScorePerSubject?: number;
-
-  @ApiPropertyOptional()
-  minTotalScore?: number;
-
-  @ApiPropertyOptional()
-  minGpaAverage?: number;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  minConduct?: Conduct;
-
-  @ApiPropertyOptional({ enum: TranscriptScoreMethod })
-  transcriptScoreMethod?: TranscriptScoreMethod;
-
-  @ApiPropertyOptional()
-  cutoffScore?: number;
+  @ApiPropertyOptional({ type: SubjectCombinationDetailDto })
+  subjectCombination?: SubjectCombinationDetailDto;
 }
 
-export class UpdateAdmissionCampaignMajorDto {
-  @ApiPropertyOptional()
-  quota?: number;
+// CREATE DTO
+export class CreateAdmissionCampaignMajorDto extends OmitType(AdmissionCampaignMajorDto, [
+  "id",
+  "admissionCampaignId",
+] as const) {}
 
-  @ApiPropertyOptional({ enum: AdmissionType, isArray: true })
-  acceptedAdmissionTypes?: AdmissionType[];
+// UPDATE DTO
+export class UpdateAdmissionCampaignMajorDto extends PartialType(CreateAdmissionCampaignMajorDto) {}
 
-  @ApiPropertyOptional()
-  subjectCombinationId?: number;
-
-  @ApiPropertyOptional()
-  minScorePerSubject?: number;
-
-  @ApiPropertyOptional()
-  minTotalScore?: number;
-
-  @ApiPropertyOptional()
-  minGpaAverage?: number;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  minConduct?: Conduct;
-
-  @ApiPropertyOptional({ enum: TranscriptScoreMethod })
-  transcriptScoreMethod?: TranscriptScoreMethod;
-
-  @ApiPropertyOptional()
-  cutoffScore?: number;
-}
-
-export class SearchAdmissionCampaignMajorDto {
-  @ApiPropertyOptional()
-  admissionCampaignId?: number;
-
-  @ApiPropertyOptional()
-  majorId?: number;
-
-  @ApiPropertyOptional({ enum: TrainingType })
-  trainingType?: TrainingType;
-
+// SEARCH DTO
+export class SearchAdmissionCampaignMajorDto extends PartialType(
+  PickType(AdmissionCampaignMajorDto, ["admissionCampaignId", "majorId", "trainingType"] as const),
+) {
   @ApiPropertyOptional({ default: 1 })
   page?: number;
 
   @ApiPropertyOptional({ default: 10 })
   limit?: number;
 }
-

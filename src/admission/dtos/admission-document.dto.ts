@@ -1,7 +1,7 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { DocumentStatus } from "../../../prisma/generated/prisma/client.js";
+import { ApiProperty, ApiPropertyOptional, OmitType } from "@nestjs/swagger";
+import { AdmissionDocument, DocumentStatus } from "../../../prisma/generated/prisma/client.js";
 
-export class AdmissionDocumentDto {
+export class AdmissionDocumentDto implements AdmissionDocument {
   @ApiProperty()
   id: number;
 
@@ -23,14 +23,14 @@ export class AdmissionDocumentDto {
   @ApiProperty({ enum: DocumentStatus })
   status: DocumentStatus;
 
-  @ApiPropertyOptional()
-  rejectionReason?: string;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  rejectionReason: string | null;
 
-  @ApiPropertyOptional()
-  verifiedAt?: Date;
+  @ApiPropertyOptional({ type: Date, nullable: true })
+  verifiedAt: Date | null;
 
-  @ApiPropertyOptional()
-  verifiedByUserId?: number;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  verifiedByUserId: number | null;
 
   @ApiProperty()
   isLatest: boolean;
@@ -39,22 +39,15 @@ export class AdmissionDocumentDto {
   uploadedAt: Date;
 }
 
-export class CreateAdmissionDocumentDto {
-  @ApiProperty()
-  admissionProfileId: number;
-
-  @ApiProperty()
-  documentConfigItemId: number;
-
-  @ApiProperty()
-  fileUrl: string;
-
-  @ApiProperty()
-  fileName: string;
-
-  @ApiProperty()
-  fileSize: number;
-}
+export class CreateAdmissionDocumentDto extends OmitType(AdmissionDocumentDto, [
+  "id",
+  "status",
+  "rejectionReason",
+  "verifiedAt",
+  "verifiedByUserId",
+  "isLatest",
+  "uploadedAt",
+]) {}
 
 export class VerifyAdmissionDocumentDto {
   @ApiProperty({ enum: DocumentStatus })
@@ -63,4 +56,3 @@ export class VerifyAdmissionDocumentDto {
   @ApiPropertyOptional()
   rejectionReason?: string;
 }
-

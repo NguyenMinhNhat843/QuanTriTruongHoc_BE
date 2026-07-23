@@ -39,19 +39,19 @@ export type SubjectCombinationItemSumAggregateOutputType = {
 export type SubjectCombinationItemMinAggregateOutputType = {
   id: number | null
   subjectCombinationId: number | null
-  subjectCode: string | null
+  subjectName: string | null
 }
 
 export type SubjectCombinationItemMaxAggregateOutputType = {
   id: number | null
   subjectCombinationId: number | null
-  subjectCode: string | null
+  subjectName: string | null
 }
 
 export type SubjectCombinationItemCountAggregateOutputType = {
   id: number
   subjectCombinationId: number
-  subjectCode: number
+  subjectName: number
   _all: number
 }
 
@@ -69,19 +69,19 @@ export type SubjectCombinationItemSumAggregateInputType = {
 export type SubjectCombinationItemMinAggregateInputType = {
   id?: true
   subjectCombinationId?: true
-  subjectCode?: true
+  subjectName?: true
 }
 
 export type SubjectCombinationItemMaxAggregateInputType = {
   id?: true
   subjectCombinationId?: true
-  subjectCode?: true
+  subjectName?: true
 }
 
 export type SubjectCombinationItemCountAggregateInputType = {
   id?: true
   subjectCombinationId?: true
-  subjectCode?: true
+  subjectName?: true
   _all?: true
 }
 
@@ -174,7 +174,7 @@ export type SubjectCombinationItemGroupByArgs<ExtArgs extends runtime.Types.Exte
 export type SubjectCombinationItemGroupByOutputType = {
   id: number
   subjectCombinationId: number
-  subjectCode: string
+  subjectName: string
   _count: SubjectCombinationItemCountAggregateOutputType | null
   _avg: SubjectCombinationItemAvgAggregateOutputType | null
   _sum: SubjectCombinationItemSumAggregateOutputType | null
@@ -203,32 +203,32 @@ export type SubjectCombinationItemWhereInput = {
   NOT?: Prisma.SubjectCombinationItemWhereInput | Prisma.SubjectCombinationItemWhereInput[]
   id?: Prisma.IntFilter<"SubjectCombinationItem"> | number
   subjectCombinationId?: Prisma.IntFilter<"SubjectCombinationItem"> | number
-  subjectCode?: Prisma.StringFilter<"SubjectCombinationItem"> | string
+  subjectName?: Prisma.StringFilter<"SubjectCombinationItem"> | string
   subjectCombination?: Prisma.XOR<Prisma.SubjectCombinationScalarRelationFilter, Prisma.SubjectCombinationWhereInput>
 }
 
 export type SubjectCombinationItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
-  subjectCode?: Prisma.SortOrder
+  subjectName?: Prisma.SortOrder
   subjectCombination?: Prisma.SubjectCombinationOrderByWithRelationInput
 }
 
 export type SubjectCombinationItemWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  subjectCombinationId_subjectCode?: Prisma.SubjectCombinationItemSubjectCombinationIdSubjectCodeCompoundUniqueInput
+  subjectCombinationId_subjectName?: Prisma.SubjectCombinationItemSubjectCombinationIdSubjectNameCompoundUniqueInput
   AND?: Prisma.SubjectCombinationItemWhereInput | Prisma.SubjectCombinationItemWhereInput[]
   OR?: Prisma.SubjectCombinationItemWhereInput[]
   NOT?: Prisma.SubjectCombinationItemWhereInput | Prisma.SubjectCombinationItemWhereInput[]
   subjectCombinationId?: Prisma.IntFilter<"SubjectCombinationItem"> | number
-  subjectCode?: Prisma.StringFilter<"SubjectCombinationItem"> | string
+  subjectName?: Prisma.StringFilter<"SubjectCombinationItem"> | string
   subjectCombination?: Prisma.XOR<Prisma.SubjectCombinationScalarRelationFilter, Prisma.SubjectCombinationWhereInput>
-}, "id" | "subjectCombinationId_subjectCode">
+}, "id" | "subjectCombinationId_subjectName">
 
 export type SubjectCombinationItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
-  subjectCode?: Prisma.SortOrder
+  subjectName?: Prisma.SortOrder
   _count?: Prisma.SubjectCombinationItemCountOrderByAggregateInput
   _avg?: Prisma.SubjectCombinationItemAvgOrderByAggregateInput
   _max?: Prisma.SubjectCombinationItemMaxOrderByAggregateInput
@@ -242,45 +242,45 @@ export type SubjectCombinationItemScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SubjectCombinationItemScalarWhereWithAggregatesInput | Prisma.SubjectCombinationItemScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"SubjectCombinationItem"> | number
   subjectCombinationId?: Prisma.IntWithAggregatesFilter<"SubjectCombinationItem"> | number
-  subjectCode?: Prisma.StringWithAggregatesFilter<"SubjectCombinationItem"> | string
+  subjectName?: Prisma.StringWithAggregatesFilter<"SubjectCombinationItem"> | string
 }
 
 export type SubjectCombinationItemCreateInput = {
-  subjectCode: string
+  subjectName: string
   subjectCombination: Prisma.SubjectCombinationCreateNestedOneWithoutItemsInput
 }
 
 export type SubjectCombinationItemUncheckedCreateInput = {
   id?: number
   subjectCombinationId: number
-  subjectCode: string
+  subjectName: string
 }
 
 export type SubjectCombinationItemUpdateInput = {
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
   subjectCombination?: Prisma.SubjectCombinationUpdateOneRequiredWithoutItemsNestedInput
 }
 
 export type SubjectCombinationItemUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectCombinationItemCreateManyInput = {
   id?: number
   subjectCombinationId: number
-  subjectCode: string
+  subjectName: string
 }
 
 export type SubjectCombinationItemUpdateManyMutationInput = {
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectCombinationItemUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   subjectCombinationId?: Prisma.IntFieldUpdateOperationsInput | number
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectCombinationItemListRelationFilter = {
@@ -293,15 +293,15 @@ export type SubjectCombinationItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SubjectCombinationItemSubjectCombinationIdSubjectCodeCompoundUniqueInput = {
+export type SubjectCombinationItemSubjectCombinationIdSubjectNameCompoundUniqueInput = {
   subjectCombinationId: number
-  subjectCode: string
+  subjectName: string
 }
 
 export type SubjectCombinationItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
-  subjectCode?: Prisma.SortOrder
+  subjectName?: Prisma.SortOrder
 }
 
 export type SubjectCombinationItemAvgOrderByAggregateInput = {
@@ -312,13 +312,13 @@ export type SubjectCombinationItemAvgOrderByAggregateInput = {
 export type SubjectCombinationItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
-  subjectCode?: Prisma.SortOrder
+  subjectName?: Prisma.SortOrder
 }
 
 export type SubjectCombinationItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subjectCombinationId?: Prisma.SortOrder
-  subjectCode?: Prisma.SortOrder
+  subjectName?: Prisma.SortOrder
 }
 
 export type SubjectCombinationItemSumOrderByAggregateInput = {
@@ -369,12 +369,12 @@ export type SubjectCombinationItemUncheckedUpdateManyWithoutSubjectCombinationNe
 }
 
 export type SubjectCombinationItemCreateWithoutSubjectCombinationInput = {
-  subjectCode: string
+  subjectName: string
 }
 
 export type SubjectCombinationItemUncheckedCreateWithoutSubjectCombinationInput = {
   id?: number
-  subjectCode: string
+  subjectName: string
 }
 
 export type SubjectCombinationItemCreateOrConnectWithoutSubjectCombinationInput = {
@@ -409,26 +409,26 @@ export type SubjectCombinationItemScalarWhereInput = {
   NOT?: Prisma.SubjectCombinationItemScalarWhereInput | Prisma.SubjectCombinationItemScalarWhereInput[]
   id?: Prisma.IntFilter<"SubjectCombinationItem"> | number
   subjectCombinationId?: Prisma.IntFilter<"SubjectCombinationItem"> | number
-  subjectCode?: Prisma.StringFilter<"SubjectCombinationItem"> | string
+  subjectName?: Prisma.StringFilter<"SubjectCombinationItem"> | string
 }
 
 export type SubjectCombinationItemCreateManySubjectCombinationInput = {
   id?: number
-  subjectCode: string
+  subjectName: string
 }
 
 export type SubjectCombinationItemUpdateWithoutSubjectCombinationInput = {
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectCombinationItemUncheckedUpdateWithoutSubjectCombinationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SubjectCombinationItemUncheckedUpdateManyWithoutSubjectCombinationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  subjectCode?: Prisma.StringFieldUpdateOperationsInput | string
+  subjectName?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -436,31 +436,31 @@ export type SubjectCombinationItemUncheckedUpdateManyWithoutSubjectCombinationIn
 export type SubjectCombinationItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectCombinationId?: boolean
-  subjectCode?: boolean
+  subjectName?: boolean
   subjectCombination?: boolean | Prisma.SubjectCombinationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectCombinationItem"]>
 
 export type SubjectCombinationItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectCombinationId?: boolean
-  subjectCode?: boolean
+  subjectName?: boolean
   subjectCombination?: boolean | Prisma.SubjectCombinationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectCombinationItem"]>
 
 export type SubjectCombinationItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   subjectCombinationId?: boolean
-  subjectCode?: boolean
+  subjectName?: boolean
   subjectCombination?: boolean | Prisma.SubjectCombinationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectCombinationItem"]>
 
 export type SubjectCombinationItemSelectScalar = {
   id?: boolean
   subjectCombinationId?: boolean
-  subjectCode?: boolean
+  subjectName?: boolean
 }
 
-export type SubjectCombinationItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCombinationId" | "subjectCode", ExtArgs["result"]["subjectCombinationItem"]>
+export type SubjectCombinationItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectCombinationId" | "subjectName", ExtArgs["result"]["subjectCombinationItem"]>
 export type SubjectCombinationItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subjectCombination?: boolean | Prisma.SubjectCombinationDefaultArgs<ExtArgs>
 }
@@ -479,7 +479,7 @@ export type $SubjectCombinationItemPayload<ExtArgs extends runtime.Types.Extensi
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     subjectCombinationId: number
-    subjectCode: string
+    subjectName: string
   }, ExtArgs["result"]["subjectCombinationItem"]>
   composites: {}
 }
@@ -906,7 +906,7 @@ export interface Prisma__SubjectCombinationItemClient<T, Null = never, ExtArgs e
 export interface SubjectCombinationItemFieldRefs {
   readonly id: Prisma.FieldRef<"SubjectCombinationItem", 'Int'>
   readonly subjectCombinationId: Prisma.FieldRef<"SubjectCombinationItem", 'Int'>
-  readonly subjectCode: Prisma.FieldRef<"SubjectCombinationItem", 'String'>
+  readonly subjectName: Prisma.FieldRef<"SubjectCombinationItem", 'String'>
 }
     
 

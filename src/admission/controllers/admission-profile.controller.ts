@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  ParseIntPipe,
-  UseGuards,
-} from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard.js";
 import { RolesGuard } from "../../auth/guard/role.guard.js";
@@ -24,6 +13,7 @@ import {
   ChangeProfileStatusDto,
   AdmissionProfileDto,
   ResponseAdmissionProfilePaginationDto,
+  AdmissionProfileDetailDto,
 } from "../dtos/admission-profile.dto.js";
 
 @ApiTags("Admission Profiles")
@@ -50,7 +40,7 @@ export class AdmissionProfileController {
 
   @Get(":id")
   @ApiOperation({ summary: "Chi tiết hồ sơ xét tuyển" })
-  @ApiResponse({ status: 200, type: AdmissionProfileDto })
+  @ApiResponse({ status: 200, type: AdmissionProfileDetailDto })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.admissionProfileService.findOne(id);
   }
@@ -61,10 +51,7 @@ export class AdmissionProfileController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Cập nhật hồ sơ xét tuyển" })
   @ApiResponse({ status: 200, type: AdmissionProfileDto })
-  update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() dto: UpdateAdmissionProfileDto,
-  ) {
+  update(@Param("id", ParseIntPipe) id: number, @Body() dto: UpdateAdmissionProfileDto) {
     return this.admissionProfileService.update(id, dto);
   }
 
@@ -74,11 +61,7 @@ export class AdmissionProfileController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Duyệt / Chuyển trạng thái hồ sơ (Ví dụ: ENROLLED)" })
   @ApiResponse({ status: 200, type: AdmissionProfileDto })
-  changeStatus(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() dto: ChangeProfileStatusDto,
-    @GetUser() user: any,
-  ) {
+  changeStatus(@Param("id", ParseIntPipe) id: number, @Body() dto: ChangeProfileStatusDto, @GetUser() user: any) {
     return this.admissionProfileService.changeStatus(id, dto, user?.id);
   }
 
@@ -103,4 +86,3 @@ export class AdmissionProfileController {
     return this.admissionProfileService.remove(id);
   }
 }
-

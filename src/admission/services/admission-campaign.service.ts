@@ -1,53 +1,57 @@
-import { Injectable, NotFoundException, BadRequestException } from "@nestjs/common";
+import { Injectable, NotFoundException, InternalServerErrorException, Logger } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service.js";
-import { AcademicYearStatus } from "../../../prisma/generated/prisma/client.js";
+import { AcademicYearStatus, CampaignStatus, Prisma } from "../../../prisma/generated/prisma/client.js";
 import {
   CreateAdmissionCampaignDto,
   UpdateAdmissionCampaignDto,
   SearchAdmissionCampaignDto,
+  FindActiveCampaignDto,
 } from "../dtos/admission-campaign.dto.js";
 
 @Injectable()
 export class AdmissionCampaignService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: CreateAdmissionCampaignDto) {
-    const existing = await this.prisma.admissionCampaign.findUnique({
-      where: { code: dto.code },
-    });
-    if (existing) {
-      throw new BadRequestException(`Đợt tuyển sinh với mã ${dto.code} đã tồn tại`);
-    }
+  async create(createDto: CreateAdmissionCampaignDto) {
+    const { campaignMajors, ...campaignData } = createDto;
 
-    const { campaignMajors, ...data } = dto;
-    return this.prisma.admissionCampaign.create({
-      data: {
-        ...data,
-        campaignMajors: campaignMajors?.length
-          ? {
-              create: campaignMajors.map((item) => ({
-                majorId: item.majorId,
-                trainingType: item.trainingType,
-                quota: item.quota,
-                acceptedAdmissionTypes: item.acceptedAdmissionTypes,
-                subjectCombinationId: item.subjectCombinationId,
-                minScorePerSubject: item.minScorePerSubject,
-                minTotalScore: item.minTotalScore,
-                minGpaAverage: item.minGpaAverage,
-                minConduct: item.minConduct,
-                transcriptScoreMethod: item.transcriptScoreMethod,
-                cutoffScore: item.cutoffScore,
-              })),
-            }
-          : undefined,
-      },
-      include: {
-        academicYear: true,
-        campaignMajors: {
-          include: { major: true, subjectCombination: true },
-        },
-      },
-    });
+    try {
+      // Bọc toàn bộ vào 1 Transaction
+      return await this.prisma.$transaction(async (tx) => {
+        // 1. Tạo AdmissionCampaign trước
+        const campaign = await tx.admissionCampaign.create({
+          data: campaignData,
+        });
+
+        // 2. Tạo danh sách CampaignMajors sau (nếu có)
+        if (campaignMajors && campaignMajors.length > 0) {
+          const majorsToCreate = campaignMajors.map((major) => ({
+            ...major,
+            admissionCampaignId: campaign.id,
+            subjectCombinationId: major.subjectCombinationId,
+            minScorePerSubject: major.minScorePerSubject ?? null,
+            minTotalScore: major.minTotalScore ?? null,
+            minConduct: major.minConduct ?? null,
+            cutoffScore: major.cutoffScore ?? null,
+          }));
+
+          await tx.admissionCampaignMajor.createMany({
+            data: majorsToCreate,
+          });
+        }
+
+        // 3. Trả về campaign kèm theo danh sách majors vừa tạo
+        return tx.admissionCampaign.findUnique({
+          where: { id: campaign.id },
+          include: {
+            campaignMajors: true,
+          },
+        });
+      });
+    } catch (error) {
+      Logger.error("Error creating admission campaign:", error);
+      throw new InternalServerErrorException("Có lỗi xảy ra khi tạo đợt tuyển sinh.");
+    }
   }
 
   async findAll(query: SearchAdmissionCampaignDto) {
@@ -76,31 +80,58 @@ export class AdmissionCampaignService {
           academicYear: {
             select: { id: true, code: true, status: true, isCurrent: true },
           },
-          campaignMajors: {
-            include: { major: true, subjectCombination: true },
-          },
         },
       }),
       this.prisma.admissionCampaign.count({ where }),
     ]);
 
-    return { data, total, page, limit };
+    return { data, total };
   }
 
-  async findActiveCampaigns() {
-    return this.prisma.admissionCampaign.findMany({
-      where: {
-        academicYear: {
-          status: AcademicYearStatus.ACTIVE,
-        },
+  async findActiveCampaigns(query?: FindActiveCampaignDto) {
+    const { majorId, trainingType } = query || {};
+
+    // 1. Điều kiện chung: Năm học ACTIVE và Đợt tuyển sinh đang mở (OPEN)
+    const whereCondition: Prisma.AdmissionCampaignWhereInput = {
+      status: CampaignStatus.OPEN, // Lọc các đợt đang nhận hồ sơ
+      academicYear: {
+        status: AcademicYearStatus.ACTIVE,
       },
+    };
+
+    // 2. Nếu truyền majorId hoặc trainingType -> Lọc thông qua bảng trung gian campaignMajors (some)
+    if (majorId || trainingType) {
+      whereCondition.campaignMajors = {
+        some: {
+          ...(majorId && { majorId: Number(majorId) }),
+          ...(trainingType && { trainingType }),
+        },
+      };
+    }
+
+    return this.prisma.admissionCampaign.findMany({
+      where: whereCondition,
       orderBy: { startDate: "asc" },
       include: {
         academicYear: {
           select: { id: true, code: true, status: true, isCurrent: true },
         },
+        // Trả về luôn thông tin Ngành & Hệ mở trong đợt này (có filter theo query nếu có)
         campaignMajors: {
-          include: { major: true, subjectCombination: true },
+          where: {
+            ...(majorId && { majorId: Number(majorId) }),
+            ...(trainingType && { trainingType }),
+          },
+          include: {
+            major: {
+              select: { id: true, majorCode: true, majorName: true },
+            },
+            subjectCombination: {
+              include: {
+                items: true,
+              },
+            },
+          },
         },
       },
     });
@@ -143,13 +174,10 @@ export class AdmissionCampaignService {
                 majorId: item.majorId,
                 trainingType: item.trainingType,
                 quota: item.quota,
-                acceptedAdmissionTypes: item.acceptedAdmissionTypes,
                 subjectCombinationId: item.subjectCombinationId,
                 minScorePerSubject: item.minScorePerSubject,
                 minTotalScore: item.minTotalScore,
-                minGpaAverage: item.minGpaAverage,
                 minConduct: item.minConduct,
-                transcriptScoreMethod: item.transcriptScoreMethod,
                 cutoffScore: item.cutoffScore,
               })),
             },
@@ -179,4 +207,3 @@ export class AdmissionCampaignService {
     });
   }
 }
-

@@ -262,7 +262,6 @@ export type AdmissionCampaignWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"AdmissionCampaign"> | Date | string
   academicYear?: Prisma.XOR<Prisma.AcademicYearScalarRelationFilter, Prisma.AcademicYearWhereInput>
   campaignMajors?: Prisma.AdmissionCampaignMajorListRelationFilter
-  documentConfigs?: Prisma.DocumentConfigListRelationFilter
 }
 
 export type AdmissionCampaignOrderByWithRelationInput = {
@@ -278,7 +277,6 @@ export type AdmissionCampaignOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   academicYear?: Prisma.AcademicYearOrderByWithRelationInput
   campaignMajors?: Prisma.AdmissionCampaignMajorOrderByRelationAggregateInput
-  documentConfigs?: Prisma.DocumentConfigOrderByRelationAggregateInput
 }
 
 export type AdmissionCampaignWhereUniqueInput = Prisma.AtLeast<{
@@ -297,7 +295,6 @@ export type AdmissionCampaignWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"AdmissionCampaign"> | Date | string
   academicYear?: Prisma.XOR<Prisma.AcademicYearScalarRelationFilter, Prisma.AcademicYearWhereInput>
   campaignMajors?: Prisma.AdmissionCampaignMajorListRelationFilter
-  documentConfigs?: Prisma.DocumentConfigListRelationFilter
 }, "id" | "code">
 
 export type AdmissionCampaignOrderByWithAggregationInput = {
@@ -345,7 +342,6 @@ export type AdmissionCampaignCreateInput = {
   updatedAt?: Date | string
   academicYear: Prisma.AcademicYearCreateNestedOneWithoutAdmissionCampaignsInput
   campaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutAdmissionCampaignInput
-  documentConfigs?: Prisma.DocumentConfigCreateNestedManyWithoutAdmissionCampaignInput
 }
 
 export type AdmissionCampaignUncheckedCreateInput = {
@@ -360,7 +356,6 @@ export type AdmissionCampaignUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   campaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutAdmissionCampaignInput
-  documentConfigs?: Prisma.DocumentConfigUncheckedCreateNestedManyWithoutAdmissionCampaignInput
 }
 
 export type AdmissionCampaignUpdateInput = {
@@ -374,7 +369,6 @@ export type AdmissionCampaignUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneRequiredWithoutAdmissionCampaignsNestedInput
   campaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutAdmissionCampaignNestedInput
-  documentConfigs?: Prisma.DocumentConfigUpdateManyWithoutAdmissionCampaignNestedInput
 }
 
 export type AdmissionCampaignUncheckedUpdateInput = {
@@ -389,7 +383,6 @@ export type AdmissionCampaignUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutAdmissionCampaignNestedInput
-  documentConfigs?: Prisma.DocumentConfigUncheckedUpdateManyWithoutAdmissionCampaignNestedInput
 }
 
 export type AdmissionCampaignCreateManyInput = {
@@ -493,11 +486,6 @@ export type AdmissionCampaignScalarRelationFilter = {
   isNot?: Prisma.AdmissionCampaignWhereInput
 }
 
-export type AdmissionCampaignNullableScalarRelationFilter = {
-  is?: Prisma.AdmissionCampaignWhereInput | null
-  isNot?: Prisma.AdmissionCampaignWhereInput | null
-}
-
 export type AdmissionCampaignCreateNestedManyWithoutAcademicYearInput = {
   create?: Prisma.XOR<Prisma.AdmissionCampaignCreateWithoutAcademicYearInput, Prisma.AdmissionCampaignUncheckedCreateWithoutAcademicYearInput> | Prisma.AdmissionCampaignCreateWithoutAcademicYearInput[] | Prisma.AdmissionCampaignUncheckedCreateWithoutAcademicYearInput[]
   connectOrCreate?: Prisma.AdmissionCampaignCreateOrConnectWithoutAcademicYearInput | Prisma.AdmissionCampaignCreateOrConnectWithoutAcademicYearInput[]
@@ -558,22 +546,6 @@ export type AdmissionCampaignUpdateOneRequiredWithoutCampaignMajorsNestedInput =
   update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionCampaignUpdateToOneWithWhereWithoutCampaignMajorsInput, Prisma.AdmissionCampaignUpdateWithoutCampaignMajorsInput>, Prisma.AdmissionCampaignUncheckedUpdateWithoutCampaignMajorsInput>
 }
 
-export type AdmissionCampaignCreateNestedOneWithoutDocumentConfigsInput = {
-  create?: Prisma.XOR<Prisma.AdmissionCampaignCreateWithoutDocumentConfigsInput, Prisma.AdmissionCampaignUncheckedCreateWithoutDocumentConfigsInput>
-  connectOrCreate?: Prisma.AdmissionCampaignCreateOrConnectWithoutDocumentConfigsInput
-  connect?: Prisma.AdmissionCampaignWhereUniqueInput
-}
-
-export type AdmissionCampaignUpdateOneWithoutDocumentConfigsNestedInput = {
-  create?: Prisma.XOR<Prisma.AdmissionCampaignCreateWithoutDocumentConfigsInput, Prisma.AdmissionCampaignUncheckedCreateWithoutDocumentConfigsInput>
-  connectOrCreate?: Prisma.AdmissionCampaignCreateOrConnectWithoutDocumentConfigsInput
-  upsert?: Prisma.AdmissionCampaignUpsertWithoutDocumentConfigsInput
-  disconnect?: Prisma.AdmissionCampaignWhereInput | boolean
-  delete?: Prisma.AdmissionCampaignWhereInput | boolean
-  connect?: Prisma.AdmissionCampaignWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AdmissionCampaignUpdateToOneWithWhereWithoutDocumentConfigsInput, Prisma.AdmissionCampaignUpdateWithoutDocumentConfigsInput>, Prisma.AdmissionCampaignUncheckedUpdateWithoutDocumentConfigsInput>
-}
-
 export type AdmissionCampaignCreateWithoutAcademicYearInput = {
   code: string
   name: string
@@ -584,7 +556,6 @@ export type AdmissionCampaignCreateWithoutAcademicYearInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   campaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutAdmissionCampaignInput
-  documentConfigs?: Prisma.DocumentConfigCreateNestedManyWithoutAdmissionCampaignInput
 }
 
 export type AdmissionCampaignUncheckedCreateWithoutAcademicYearInput = {
@@ -598,7 +569,6 @@ export type AdmissionCampaignUncheckedCreateWithoutAcademicYearInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   campaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutAdmissionCampaignInput
-  documentConfigs?: Prisma.DocumentConfigUncheckedCreateNestedManyWithoutAdmissionCampaignInput
 }
 
 export type AdmissionCampaignCreateOrConnectWithoutAcademicYearInput = {
@@ -653,7 +623,6 @@ export type AdmissionCampaignCreateWithoutCampaignMajorsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   academicYear: Prisma.AcademicYearCreateNestedOneWithoutAdmissionCampaignsInput
-  documentConfigs?: Prisma.DocumentConfigCreateNestedManyWithoutAdmissionCampaignInput
 }
 
 export type AdmissionCampaignUncheckedCreateWithoutCampaignMajorsInput = {
@@ -667,7 +636,6 @@ export type AdmissionCampaignUncheckedCreateWithoutCampaignMajorsInput = {
   academicYearId: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  documentConfigs?: Prisma.DocumentConfigUncheckedCreateNestedManyWithoutAdmissionCampaignInput
 }
 
 export type AdmissionCampaignCreateOrConnectWithoutCampaignMajorsInput = {
@@ -696,7 +664,6 @@ export type AdmissionCampaignUpdateWithoutCampaignMajorsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneRequiredWithoutAdmissionCampaignsNestedInput
-  documentConfigs?: Prisma.DocumentConfigUpdateManyWithoutAdmissionCampaignNestedInput
 }
 
 export type AdmissionCampaignUncheckedUpdateWithoutCampaignMajorsInput = {
@@ -710,77 +677,6 @@ export type AdmissionCampaignUncheckedUpdateWithoutCampaignMajorsInput = {
   academicYearId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  documentConfigs?: Prisma.DocumentConfigUncheckedUpdateManyWithoutAdmissionCampaignNestedInput
-}
-
-export type AdmissionCampaignCreateWithoutDocumentConfigsInput = {
-  code: string
-  name: string
-  startDate: Date | string
-  endDate: Date | string
-  status?: $Enums.CampaignStatus
-  description?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  academicYear: Prisma.AcademicYearCreateNestedOneWithoutAdmissionCampaignsInput
-  campaignMajors?: Prisma.AdmissionCampaignMajorCreateNestedManyWithoutAdmissionCampaignInput
-}
-
-export type AdmissionCampaignUncheckedCreateWithoutDocumentConfigsInput = {
-  id?: number
-  code: string
-  name: string
-  startDate: Date | string
-  endDate: Date | string
-  status?: $Enums.CampaignStatus
-  description?: string | null
-  academicYearId: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  campaignMajors?: Prisma.AdmissionCampaignMajorUncheckedCreateNestedManyWithoutAdmissionCampaignInput
-}
-
-export type AdmissionCampaignCreateOrConnectWithoutDocumentConfigsInput = {
-  where: Prisma.AdmissionCampaignWhereUniqueInput
-  create: Prisma.XOR<Prisma.AdmissionCampaignCreateWithoutDocumentConfigsInput, Prisma.AdmissionCampaignUncheckedCreateWithoutDocumentConfigsInput>
-}
-
-export type AdmissionCampaignUpsertWithoutDocumentConfigsInput = {
-  update: Prisma.XOR<Prisma.AdmissionCampaignUpdateWithoutDocumentConfigsInput, Prisma.AdmissionCampaignUncheckedUpdateWithoutDocumentConfigsInput>
-  create: Prisma.XOR<Prisma.AdmissionCampaignCreateWithoutDocumentConfigsInput, Prisma.AdmissionCampaignUncheckedCreateWithoutDocumentConfigsInput>
-  where?: Prisma.AdmissionCampaignWhereInput
-}
-
-export type AdmissionCampaignUpdateToOneWithWhereWithoutDocumentConfigsInput = {
-  where?: Prisma.AdmissionCampaignWhereInput
-  data: Prisma.XOR<Prisma.AdmissionCampaignUpdateWithoutDocumentConfigsInput, Prisma.AdmissionCampaignUncheckedUpdateWithoutDocumentConfigsInput>
-}
-
-export type AdmissionCampaignUpdateWithoutDocumentConfigsInput = {
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  academicYear?: Prisma.AcademicYearUpdateOneRequiredWithoutAdmissionCampaignsNestedInput
-  campaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutAdmissionCampaignNestedInput
-}
-
-export type AdmissionCampaignUncheckedUpdateWithoutDocumentConfigsInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumCampaignStatusFieldUpdateOperationsInput | $Enums.CampaignStatus
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  academicYearId?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  campaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutAdmissionCampaignNestedInput
 }
 
 export type AdmissionCampaignCreateManyAcademicYearInput = {
@@ -805,7 +701,6 @@ export type AdmissionCampaignUpdateWithoutAcademicYearInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaignMajors?: Prisma.AdmissionCampaignMajorUpdateManyWithoutAdmissionCampaignNestedInput
-  documentConfigs?: Prisma.DocumentConfigUpdateManyWithoutAdmissionCampaignNestedInput
 }
 
 export type AdmissionCampaignUncheckedUpdateWithoutAcademicYearInput = {
@@ -819,7 +714,6 @@ export type AdmissionCampaignUncheckedUpdateWithoutAcademicYearInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   campaignMajors?: Prisma.AdmissionCampaignMajorUncheckedUpdateManyWithoutAdmissionCampaignNestedInput
-  documentConfigs?: Prisma.DocumentConfigUncheckedUpdateManyWithoutAdmissionCampaignNestedInput
 }
 
 export type AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearInput = {
@@ -841,12 +735,10 @@ export type AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearInput = {
 
 export type AdmissionCampaignCountOutputType = {
   campaignMajors: number
-  documentConfigs: number
 }
 
 export type AdmissionCampaignCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   campaignMajors?: boolean | AdmissionCampaignCountOutputTypeCountCampaignMajorsArgs
-  documentConfigs?: boolean | AdmissionCampaignCountOutputTypeCountDocumentConfigsArgs
 }
 
 /**
@@ -866,13 +758,6 @@ export type AdmissionCampaignCountOutputTypeCountCampaignMajorsArgs<ExtArgs exte
   where?: Prisma.AdmissionCampaignMajorWhereInput
 }
 
-/**
- * AdmissionCampaignCountOutputType without action
- */
-export type AdmissionCampaignCountOutputTypeCountDocumentConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DocumentConfigWhereInput
-}
-
 
 export type AdmissionCampaignSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -887,7 +772,6 @@ export type AdmissionCampaignSelect<ExtArgs extends runtime.Types.Extensions.Int
   updatedAt?: boolean
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
   campaignMajors?: boolean | Prisma.AdmissionCampaign$campaignMajorsArgs<ExtArgs>
-  documentConfigs?: boolean | Prisma.AdmissionCampaign$documentConfigsArgs<ExtArgs>
   _count?: boolean | Prisma.AdmissionCampaignCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admissionCampaign"]>
 
@@ -936,7 +820,6 @@ export type AdmissionCampaignOmit<ExtArgs extends runtime.Types.Extensions.Inter
 export type AdmissionCampaignInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
   campaignMajors?: boolean | Prisma.AdmissionCampaign$campaignMajorsArgs<ExtArgs>
-  documentConfigs?: boolean | Prisma.AdmissionCampaign$documentConfigsArgs<ExtArgs>
   _count?: boolean | Prisma.AdmissionCampaignCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AdmissionCampaignIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -951,7 +834,6 @@ export type $AdmissionCampaignPayload<ExtArgs extends runtime.Types.Extensions.I
   objects: {
     academicYear: Prisma.$AcademicYearPayload<ExtArgs>
     campaignMajors: Prisma.$AdmissionCampaignMajorPayload<ExtArgs>[]
-    documentConfigs: Prisma.$DocumentConfigPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1360,7 +1242,6 @@ export interface Prisma__AdmissionCampaignClient<T, Null = never, ExtArgs extend
   readonly [Symbol.toStringTag]: "PrismaPromise"
   academicYear<T extends Prisma.AcademicYearDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYearDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicYearClient<runtime.Types.Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   campaignMajors<T extends Prisma.AdmissionCampaign$campaignMajorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionCampaign$campaignMajorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionCampaignMajorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  documentConfigs<T extends Prisma.AdmissionCampaign$documentConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdmissionCampaign$documentConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1822,30 +1703,6 @@ export type AdmissionCampaign$campaignMajorsArgs<ExtArgs extends runtime.Types.E
   take?: number
   skip?: number
   distinct?: Prisma.AdmissionCampaignMajorScalarFieldEnum | Prisma.AdmissionCampaignMajorScalarFieldEnum[]
-}
-
-/**
- * AdmissionCampaign.documentConfigs
- */
-export type AdmissionCampaign$documentConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DocumentConfig
-   */
-  select?: Prisma.DocumentConfigSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DocumentConfig
-   */
-  omit?: Prisma.DocumentConfigOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DocumentConfigInclude<ExtArgs> | null
-  where?: Prisma.DocumentConfigWhereInput
-  orderBy?: Prisma.DocumentConfigOrderByWithRelationInput | Prisma.DocumentConfigOrderByWithRelationInput[]
-  cursor?: Prisma.DocumentConfigWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DocumentConfigScalarFieldEnum | Prisma.DocumentConfigScalarFieldEnum[]
 }
 
 /**

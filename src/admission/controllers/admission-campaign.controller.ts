@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  ParseIntPipe,
-  UseGuards,
-} from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard.js";
 import { RolesGuard } from "../../auth/guard/role.guard.js";
@@ -22,6 +11,8 @@ import {
   SearchAdmissionCampaignDto,
   AdmissionCampaignDto,
   ResponseAdmissionCampaignPaginationDto,
+  AdmissionCampaignDetailDto,
+  FindActiveCampaignDto,
 } from "../dtos/admission-campaign.dto.js";
 
 @ApiTags("Admission Campaigns")
@@ -34,7 +25,7 @@ export class AdmissionCampaignController {
   @Roles(RoleType.admin, RoleType.staff)
   @ApiBearerAuth()
   @ApiOperation({ summary: "Tạo đợt tuyển sinh mới" })
-  @ApiResponse({ status: 201, type: AdmissionCampaignDto })
+  @ApiResponse({ status: 201 })
   create(@Body() dto: CreateAdmissionCampaignDto) {
     return this.admissionCampaignService.create(dto);
   }
@@ -48,14 +39,14 @@ export class AdmissionCampaignController {
 
   @Get("active")
   @ApiOperation({ summary: "Danh sách đợt tuyển sinh đang mở theo năm học active" })
-  @ApiResponse({ status: 200, type: [AdmissionCampaignDto] })
-  findActive() {
-    return this.admissionCampaignService.findActiveCampaigns();
+  @ApiResponse({ status: 200, type: [AdmissionCampaignDetailDto] })
+  findActive(@Query() query: FindActiveCampaignDto) {
+    return this.admissionCampaignService.findActiveCampaigns(query);
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Chi tiết đợt tuyển sinh" })
-  @ApiResponse({ status: 200, type: AdmissionCampaignDto })
+  @ApiResponse({ status: 200, type: AdmissionCampaignDetailDto })
   findOne(@Param("id", ParseIntPipe) id: number) {
     return this.admissionCampaignService.findOne(id);
   }
@@ -66,10 +57,7 @@ export class AdmissionCampaignController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Cập nhật đợt tuyển sinh" })
   @ApiResponse({ status: 200, type: AdmissionCampaignDto })
-  update(
-    @Param("id", ParseIntPipe) id: number,
-    @Body() dto: UpdateAdmissionCampaignDto,
-  ) {
+  update(@Param("id", ParseIntPipe) id: number, @Body() dto: UpdateAdmissionCampaignDto) {
     return this.admissionCampaignService.update(id, dto);
   }
 
@@ -83,4 +71,3 @@ export class AdmissionCampaignController {
     return this.admissionCampaignService.remove(id);
   }
 }
-

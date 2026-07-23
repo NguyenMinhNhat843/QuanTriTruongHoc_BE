@@ -16,7 +16,6 @@ model AcademicYear {
 
   admissionCampaigns    AdmissionCampaign[]
   batches               Batch[]
-  priorityRules         PriorityRule[]
 
   @@map("academic_years")
 }
@@ -42,7 +41,7 @@ model Department {
   staffs              Staff[]
 
   @@map("departments")
-}
+}  
 
 // ==========================
 // 2. MAJORS (NGÀNH ĐÀO TẠO)
@@ -68,7 +67,6 @@ model Major {
   students        Student[]
   tuitionConfigs  TuitionConfig[]
   admissionCampaignMajors AdmissionCampaignMajor[]
-  admissionInterests      AdmissionInterest[]
 
   @@map("majors")
 }

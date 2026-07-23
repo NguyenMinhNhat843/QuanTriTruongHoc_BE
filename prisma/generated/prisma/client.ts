@@ -105,11 +105,6 @@ export type SubjectCombinationItem = Prisma.SubjectCombinationItemModel
  */
 export type AdmissionProfile = Prisma.AdmissionProfileModel
 /**
- * Model ExamScore
- * 
- */
-export type ExamScore = Prisma.ExamScoreModel
-/**
  * Model TranscriptSubjectScore
  * 
  */
@@ -124,16 +119,6 @@ export type AdmissionStatusLog = Prisma.AdmissionStatusLogModel
  * 
  */
 export type AdmissionDocument = Prisma.AdmissionDocumentModel
-/**
- * Model PriorityRule
- * 
- */
-export type PriorityRule = Prisma.PriorityRuleModel
-/**
- * Model AdmissionInterest
- * 
- */
-export type AdmissionInterest = Prisma.AdmissionInterestModel
 /**
  * Model Student
  * 

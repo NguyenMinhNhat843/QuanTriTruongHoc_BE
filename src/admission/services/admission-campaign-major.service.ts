@@ -1,7 +1,6 @@
-import { Injectable, NotFoundException, BadRequestException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service.js";
 import {
-  CreateAdmissionCampaignMajorDto,
   UpdateAdmissionCampaignMajorDto,
   SearchAdmissionCampaignMajorDto,
 } from "../dtos/admission-campaign-major.dto.js";
@@ -9,32 +8,6 @@ import {
 @Injectable()
 export class AdmissionCampaignMajorService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async create(dto: CreateAdmissionCampaignMajorDto) {
-    const existing = await this.prisma.admissionCampaignMajor.findUnique({
-      where: {
-        admissionCampaignId_majorId_trainingType: {
-          admissionCampaignId: dto.admissionCampaignId,
-          majorId: dto.majorId,
-          trainingType: dto.trainingType,
-        },
-      },
-    });
-    if (existing) {
-      throw new BadRequestException(
-        "Cấu hình cho Ngành và Hệ đào tạo này trong đợt tuyển sinh đã tồn tại",
-      );
-    }
-
-    return this.prisma.admissionCampaignMajor.create({
-      data: dto,
-      include: {
-        admissionCampaign: true,
-        major: true,
-        subjectCombination: { include: { items: true } },
-      },
-    });
-  }
 
   async findAll(query: SearchAdmissionCampaignMajorDto) {
     const page = Number(query.page) || 1;
@@ -107,4 +80,3 @@ export class AdmissionCampaignMajorService {
     });
   }
 }
-

@@ -179,35 +179,71 @@ export class AdmissionProfileService {
   }
 
   async findOne(id: number) {
+    // 1. Query thông tin cơ bản của Profile (đơn lẻ, không join dư thừa)
     const profile = await this.prisma.admissionProfile.findUnique({
       where: { id },
-      include: {
-        admissionCampaignMajor: {
-          include: { admissionCampaign: true, major: true, subjectCombination: true },
-        },
-        subjectCombination: { include: { items: true } },
-        examScores: true,
-        transcriptSubjectScores: true,
-        documents: {
-          where: { isLatest: true },
-          include: { documentConfigItem: true },
-        },
-        statusLogs: {
-          orderBy: { createdAt: "desc" },
-          include: { byUser: { select: { id: true, username: true } } },
-        },
-        province: true,
-        ward: true,
-        village: true,
-        student: true,
-      },
     });
 
     if (!profile) {
       throw new NotFoundException(`Hồ sơ đăng ký xét tuyển ID ${id} không tồn tại`);
     }
 
-    return profile;
+    const [campaignData, examScores, transcriptSubjectScores, documents, statusLogs] = await Promise.all([
+      // Lấy Đợt tuyển sinh (Root) lồng cấp theo chiều dọc: Campaign -> CampaignMajor -> Major & SubjectCombination
+      this.prisma.admissionCampaignMajor.findUnique({
+        where: { id: profile.admissionCampaignMajorId },
+        include: {
+          admissionCampaign: {
+            include: {
+              campaignMajors: {
+                include: {
+                  major: true,
+                  subjectCombination: {
+                    include: { items: true },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }),
+
+      // Lấy danh sách điểm thi (độc lập)
+      this.prisma.examScore.findMany({
+        where: { admissionProfileId: id },
+      }),
+
+      // Lấy danh sách điểm học bạ (độc lập)
+      this.prisma.transcriptSubjectScore.findMany({
+        where: { admissionProfileId: id },
+      }),
+
+      // Lấy danh sách giấy tờ đính kèm (độc lập)
+      this.prisma.admissionDocument.findMany({
+        where: { admissionProfileId: id, isLatest: true },
+        include: { documentConfigItem: true },
+      }),
+
+      // Lấy lịch sử chuyển trạng thái (độc lập)
+      this.prisma.admissionStatusLog.findMany({
+        where: { admissionProfileId: id },
+        orderBy: { createdAt: "desc" },
+        include: {
+          byUser: {
+            select: { id: true, username: true },
+          },
+        },
+      }),
+    ]);
+
+    return {
+      profile,
+      admissionCampaign: campaignData?.admissionCampaign ?? null,
+      examScores,
+      transcriptSubjectScores,
+      documents,
+      statusLogs,
+    };
   }
 
   async update(id: number, dto: UpdateAdmissionProfileDto) {
@@ -251,14 +287,14 @@ export class AdmissionProfileService {
 
   async changeStatus(id: number, dto: ChangeProfileStatusDto, byUserId?: number) {
     const profile = await this.findOne(id);
-    const oldStatus = profile.status;
+    const oldStatus = profile.profile.status;
     const newStatus = dto.status;
 
     if (oldStatus === newStatus) {
       return profile;
     }
 
-    const updatedProfile = await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx) => {
       const updated = await tx.admissionProfile.update({
         where: { id },
         data: { status: newStatus },
@@ -279,7 +315,7 @@ export class AdmissionProfileService {
     });
 
     // Workflow check: When status becomes ENROLLED, create Student & User account!
-    if (newStatus === ApplicationStatus.ENROLLED && !profile.studentId) {
+    if (newStatus === ApplicationStatus.ENROLLED && !profile.profile.studentId) {
       const student = await this.studentService.createStudentFromAdmissionProfile(id);
       await this.prisma.admissionProfile.update({
         where: { id },
@@ -310,9 +346,15 @@ export class AdmissionProfileService {
       rawTotalScore = profile.transcriptSubjectScores.reduce((sum, item) => sum + item.score, 0);
     } else if (profile.admissionType === AdmissionType.ACADEMIC_TRANSCRIPT_GPA) {
       // Average GPA from reported years
-      const gpas = [profile.gpa9, profile.gpa8, profile.gpa7, profile.gpa6, profile.gpa12, profile.gpa11, profile.gpa10].filter(
-        (val): val is number => val !== null && val !== undefined,
-      );
+      const gpas = [
+        profile.gpa9,
+        profile.gpa8,
+        profile.gpa7,
+        profile.gpa6,
+        profile.gpa12,
+        profile.gpa11,
+        profile.gpa10,
+      ].filter((val): val is number => val !== null && val !== undefined);
       if (gpas.length > 0) {
         rawTotalScore = gpas.reduce((sum, val) => sum + val, 0) / gpas.length;
       }
@@ -337,4 +379,3 @@ export class AdmissionProfileService {
     });
   }
 }
-

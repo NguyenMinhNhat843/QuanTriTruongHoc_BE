@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import {
   ApplicationStatus,
   AdmissionType,
@@ -8,60 +8,25 @@ import {
   PriorityRegion,
   PriorityObject,
   DirectAdmissionReason,
+  AdmissionProfile,
 } from "../../../prisma/generated/prisma/client.js";
+import { CreateExamScoreDto, ExamScoreDto } from "./exam-score.dto.js";
+import { CreateTranscriptSubjectScoreDto, TranscriptSubjectScoreDto } from "./transcript-subject-score.dto.js";
+import { Type } from "class-transformer";
+import { AdmissionCampaignDetailDto } from "./admission-campaign.dto.js";
+import { AdmissionDocumentDto } from "./admission-document.dto.js";
+import { AdmissionStatusLogDto } from "./admission-status-log.dto.js";
 
-export class ExamScoreDto {
+export class AdmissionProfileDto implements AdmissionProfile {
   @ApiProperty()
-  id: number;
-
-  @ApiProperty()
-  subjectCode: string;
-
-  @ApiProperty()
-  score: number;
-}
-
-export class CreateExamScoreDto {
-  @ApiProperty()
-  subjectCode: string;
-
-  @ApiProperty()
-  score: number;
-}
-
-export class TranscriptSubjectScoreDto {
-  @ApiProperty()
-  id: number;
-
-  @ApiProperty()
-  gradeLevel: number;
-
-  @ApiProperty()
-  subjectCode: string;
-
-  @ApiProperty()
-  score: number;
-}
-
-export class CreateTranscriptSubjectScoreDto {
-  @ApiProperty()
-  gradeLevel: number;
-
-  @ApiProperty()
-  subjectCode: string;
-
-  @ApiProperty()
-  score: number;
-}
-
-export class AdmissionProfileDto {
-  @ApiProperty()
+  @Type(() => Number)
   id: number;
 
   @ApiProperty()
   applicationCode: string;
 
   @ApiProperty()
+  @Type(() => Number)
   admissionCampaignMajorId: number;
 
   @ApiProperty({ enum: ApplicationStatus })
@@ -79,7 +44,8 @@ export class AdmissionProfileDto {
   @ApiProperty()
   identityNumber: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date })
+  @Type(() => Date)
   dob: Date;
 
   @ApiProperty({ enum: Gender })
@@ -88,412 +54,197 @@ export class AdmissionProfileDto {
   @ApiProperty()
   phone: string;
 
-  @ApiPropertyOptional()
-  email?: string;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  email: string | null;
 
-  @ApiPropertyOptional()
-  addressDetail?: string;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  addressDetail: string | null;
 
-  @ApiPropertyOptional()
-  provinceCode?: string;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  provinceCode: string | null;
 
-  @ApiPropertyOptional()
-  wardCode?: string;
+  @ApiPropertyOptional({ enum: Conduct, nullable: true })
+  conduct10: Conduct | null;
 
-  @ApiPropertyOptional()
-  villageId?: number;
+  @ApiPropertyOptional({ enum: Conduct, nullable: true })
+  conduct11: Conduct | null;
 
-  @ApiPropertyOptional()
-  fatherName?: string;
+  @ApiPropertyOptional({ enum: Conduct, nullable: true })
+  conduct12: Conduct | null;
 
-  @ApiPropertyOptional()
-  fatherPhone?: string;
+  @ApiPropertyOptional({ enum: Conduct, nullable: true })
+  conduct6: Conduct | null;
 
-  @ApiPropertyOptional()
-  motherName?: string;
+  @ApiPropertyOptional({ enum: Conduct, nullable: true })
+  conduct7: Conduct | null;
 
-  @ApiPropertyOptional()
-  motherPhone?: string;
+  @ApiPropertyOptional({ enum: Conduct, nullable: true })
+  conduct8: Conduct | null;
 
-  @ApiPropertyOptional()
-  guardianName?: string;
+  @ApiPropertyOptional({ enum: Conduct, nullable: true })
+  conduct9: Conduct | null;
 
-  @ApiPropertyOptional()
-  guardianPhone?: string;
+  @ApiPropertyOptional({ enum: DirectAdmissionReason, nullable: true })
+  directReason: DirectAdmissionReason | null;
 
-  @ApiPropertyOptional()
-  gpa6?: number;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  fatherName: string | null;
 
-  @ApiPropertyOptional()
-  gpa7?: number;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  fatherPhone: string | null;
 
-  @ApiPropertyOptional()
-  gpa8?: number;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  gpa10: number | null;
 
-  @ApiPropertyOptional()
-  gpa9?: number;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  gpa11: number | null;
 
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct6?: Conduct;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  gpa12: number | null;
 
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct7?: Conduct;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  gpa6: number | null;
 
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct8?: Conduct;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  gpa7: number | null;
 
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct9?: Conduct;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  gpa8: number | null;
 
-  @ApiPropertyOptional()
-  thcsGradYear?: number;
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  gpa9: number | null;
 
-  @ApiPropertyOptional()
-  gpa10?: number;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  guardianName: string | null;
 
-  @ApiPropertyOptional()
-  gpa11?: number;
-
-  @ApiPropertyOptional()
-  gpa12?: number;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct10?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct11?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct12?: Conduct;
-
-  @ApiPropertyOptional()
-  thptGradYear?: number;
-
-  @ApiPropertyOptional()
-  subjectCombinationId?: number;
-
-  @ApiPropertyOptional()
-  totalExamScore?: number;
-
-  @ApiPropertyOptional({ enum: PriorityRegion })
-  priorityRegion?: PriorityRegion;
-
-  @ApiPropertyOptional({ enum: PriorityObject })
-  priorityObject?: PriorityObject;
-
-  @ApiPropertyOptional()
-  priorityScore?: number;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  guardianPhone: string | null;
 
   @ApiProperty()
+  @Type(() => Boolean)
   isDirectAdmission: boolean;
 
-  @ApiPropertyOptional({ enum: DirectAdmissionReason })
-  directReason?: DirectAdmissionReason;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  motherName: string | null;
 
-  @ApiPropertyOptional()
-  scoreCalculated?: number;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  motherPhone: string | null;
 
-  @ApiPropertyOptional()
-  note?: string;
+  @ApiPropertyOptional({ type: String, nullable: true })
+  note: string | null;
 
-  @ApiPropertyOptional()
-  studentId?: number;
+  @ApiPropertyOptional({ enum: PriorityObject, nullable: true })
+  priorityObject: PriorityObject | null;
 
-  @ApiProperty()
+  @ApiPropertyOptional({ enum: PriorityRegion, nullable: true })
+  priorityRegion: PriorityRegion | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  priorityScore: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  scoreCalculated: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  studentId: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  subjectCombinationId: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  thcsGradYear: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  thptGradYear: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  totalExamScore: number | null;
+
+  @ApiPropertyOptional({ type: Number, nullable: true })
+  @Type(() => Number)
+  villageId: number | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
+  wardCode: string | null;
+
+  @ApiProperty({ type: Date })
+  @Type(() => Date)
   createdAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date })
+  @Type(() => Date)
   updatedAt: Date;
 }
 
-export class CreateAdmissionProfileDto {
-  @ApiProperty()
-  admissionCampaignMajorId: number;
+export class AdmissionProfileDetailDto {
+  @ApiProperty({ type: () => AdmissionProfileDto })
+  profile: AdmissionProfileDto;
 
-  @ApiPropertyOptional({ enum: AdmissionType, default: AdmissionType.ACADEMIC_TRANSCRIPT_GPA })
-  admissionType?: AdmissionType;
+  @ApiPropertyOptional({ type: () => AdmissionCampaignDetailDto })
+  admissionCampaign?: AdmissionCampaignDetailDto;
 
-  @ApiPropertyOptional({ enum: EducationLevel, default: EducationLevel.THCS })
-  educationLevel?: EducationLevel;
+  @ApiProperty({ type: () => [ExamScoreDto] })
+  examScores: ExamScoreDto[];
 
-  @ApiProperty()
-  fullName: string;
+  @ApiProperty({ type: () => [TranscriptSubjectScoreDto] })
+  transcriptSubjectScores: TranscriptSubjectScoreDto[];
 
-  @ApiProperty()
-  identityNumber: string;
+  @ApiProperty({ type: () => [AdmissionDocumentDto] })
+  documents: AdmissionDocumentDto[];
 
-  @ApiProperty()
-  dob: Date;
-
-  @ApiProperty({ enum: Gender })
-  gender: Gender;
-
-  @ApiProperty()
-  phone: string;
-
-  @ApiPropertyOptional()
-  email?: string;
-
-  @ApiPropertyOptional()
-  addressDetail?: string;
-
-  @ApiPropertyOptional()
-  provinceCode?: string;
-
-  @ApiPropertyOptional()
-  wardCode?: string;
-
-  @ApiPropertyOptional()
-  villageId?: number;
-
-  @ApiPropertyOptional()
-  fatherName?: string;
-
-  @ApiPropertyOptional()
-  fatherPhone?: string;
-
-  @ApiPropertyOptional()
-  motherName?: string;
-
-  @ApiPropertyOptional()
-  motherPhone?: string;
-
-  @ApiPropertyOptional()
-  guardianName?: string;
-
-  @ApiPropertyOptional()
-  guardianPhone?: string;
-
-  @ApiPropertyOptional()
-  gpa6?: number;
-
-  @ApiPropertyOptional()
-  gpa7?: number;
-
-  @ApiPropertyOptional()
-  gpa8?: number;
-
-  @ApiPropertyOptional()
-  gpa9?: number;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct6?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct7?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct8?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct9?: Conduct;
-
-  @ApiPropertyOptional()
-  thcsGradYear?: number;
-
-  @ApiPropertyOptional()
-  gpa10?: number;
-
-  @ApiPropertyOptional()
-  gpa11?: number;
-
-  @ApiPropertyOptional()
-  gpa12?: number;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct10?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct11?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct12?: Conduct;
-
-  @ApiPropertyOptional()
-  thptGradYear?: number;
-
-  @ApiPropertyOptional()
-  subjectCombinationId?: number;
-
-  @ApiPropertyOptional({ type: [CreateExamScoreDto] })
-  examScores?: CreateExamScoreDto[];
-
-  @ApiPropertyOptional({ type: [CreateTranscriptSubjectScoreDto] })
-  transcriptSubjectScores?: CreateTranscriptSubjectScoreDto[];
-
-  @ApiPropertyOptional({ enum: PriorityRegion })
-  priorityRegion?: PriorityRegion;
-
-  @ApiPropertyOptional({ enum: PriorityObject })
-  priorityObject?: PriorityObject;
-
-  @ApiPropertyOptional()
-  priorityScore?: number;
-
-  @ApiPropertyOptional({ default: false })
-  isDirectAdmission?: boolean;
-
-  @ApiPropertyOptional({ enum: DirectAdmissionReason })
-  directReason?: DirectAdmissionReason;
-
-  @ApiPropertyOptional()
-  note?: string;
+  @ApiProperty({ type: () => [AdmissionStatusLogDto] })
+  statusLogs: AdmissionStatusLogDto[];
 }
 
-export class UpdateAdmissionProfileDto {
-  @ApiPropertyOptional()
-  fullName?: string;
+export class CreateAdmissionProfileDto extends OmitType(AdmissionProfileDto, ["id", "createdAt", "updatedAt"]) {
+  @ApiProperty({ type: [CreateExamScoreDto] })
+  examScores: CreateExamScoreDto[];
 
-  @ApiPropertyOptional()
-  identityNumber?: string;
-
-  @ApiPropertyOptional()
-  dob?: Date;
-
-  @ApiPropertyOptional({ enum: Gender })
-  gender?: Gender;
-
-  @ApiPropertyOptional()
-  phone?: string;
-
-  @ApiPropertyOptional()
-  email?: string;
-
-  @ApiPropertyOptional()
-  addressDetail?: string;
-
-  @ApiPropertyOptional()
-  provinceCode?: string;
-
-  @ApiPropertyOptional()
-  wardCode?: string;
-
-  @ApiPropertyOptional()
-  villageId?: number;
-
-  @ApiPropertyOptional()
-  fatherName?: string;
-
-  @ApiPropertyOptional()
-  fatherPhone?: string;
-
-  @ApiPropertyOptional()
-  motherName?: string;
-
-  @ApiPropertyOptional()
-  motherPhone?: string;
-
-  @ApiPropertyOptional()
-  guardianName?: string;
-
-  @ApiPropertyOptional()
-  guardianPhone?: string;
-
-  @ApiPropertyOptional()
-  gpa6?: number;
-
-  @ApiPropertyOptional()
-  gpa7?: number;
-
-  @ApiPropertyOptional()
-  gpa8?: number;
-
-  @ApiPropertyOptional()
-  gpa9?: number;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct6?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct7?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct8?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct9?: Conduct;
-
-  @ApiPropertyOptional()
-  thcsGradYear?: number;
-
-  @ApiPropertyOptional()
-  gpa10?: number;
-
-  @ApiPropertyOptional()
-  gpa11?: number;
-
-  @ApiPropertyOptional()
-  gpa12?: number;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct10?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct11?: Conduct;
-
-  @ApiPropertyOptional({ enum: Conduct })
-  conduct12?: Conduct;
-
-  @ApiPropertyOptional()
-  thptGradYear?: number;
-
-  @ApiPropertyOptional()
-  subjectCombinationId?: number;
-
-  @ApiPropertyOptional({ type: [CreateExamScoreDto] })
-  examScores?: CreateExamScoreDto[];
-
-  @ApiPropertyOptional({ type: [CreateTranscriptSubjectScoreDto] })
-  transcriptSubjectScores?: CreateTranscriptSubjectScoreDto[];
-
-  @ApiPropertyOptional({ enum: PriorityRegion })
-  priorityRegion?: PriorityRegion;
-
-  @ApiPropertyOptional({ enum: PriorityObject })
-  priorityObject?: PriorityObject;
-
-  @ApiPropertyOptional()
-  priorityScore?: number;
-
-  @ApiPropertyOptional()
-  isDirectAdmission?: boolean;
-
-  @ApiPropertyOptional({ enum: DirectAdmissionReason })
-  directReason?: DirectAdmissionReason;
-
-  @ApiPropertyOptional()
-  note?: string;
+  @ApiProperty({ type: [CreateTranscriptSubjectScoreDto] })
+  transcriptSubjectScores: CreateTranscriptSubjectScoreDto[];
 }
 
-export class SearchAdmissionProfileDto {
-  @ApiPropertyOptional()
-  applicationCode?: string;
+export class UpdateAdmissionProfileDto extends PartialType(CreateAdmissionProfileDto) {}
 
+export class SearchAdmissionProfileDto extends PartialType(
+  PickType(AdmissionProfileDto, [
+    "applicationCode",
+    "fullName",
+    "identityNumber",
+    "phone",
+    "status",
+    "admissionCampaignMajorId",
+    "admissionType",
+  ] as const),
+) {
   @ApiPropertyOptional()
-  fullName?: string;
-
-  @ApiPropertyOptional()
-  identityNumber?: string;
-
-  @ApiPropertyOptional()
-  phone?: string;
-
-  @ApiPropertyOptional({ enum: ApplicationStatus })
-  status?: ApplicationStatus;
-
-  @ApiPropertyOptional()
-  admissionCampaignMajorId?: number;
-
-  @ApiPropertyOptional()
+  @Type(() => Number)
   admissionCampaignId?: number;
 
   @ApiPropertyOptional()
+  @Type(() => Number)
   majorId?: number;
 
   @ApiPropertyOptional({ default: 1 })
+  @Type(() => Number)
   page?: number;
 
   @ApiPropertyOptional({ default: 10 })
+  @Type(() => Number)
   limit?: number;
 }
 
@@ -512,4 +263,3 @@ export class ResponseAdmissionProfilePaginationDto {
   @ApiProperty()
   total: number;
 }
-

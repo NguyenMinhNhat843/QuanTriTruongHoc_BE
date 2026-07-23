@@ -226,7 +226,6 @@ export type AcademicYearWhereInput = {
   status?: Prisma.EnumAcademicYearStatusFilter<"AcademicYear"> | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignListRelationFilter
   batches?: Prisma.BatchListRelationFilter
-  priorityRules?: Prisma.PriorityRuleListRelationFilter
 }
 
 export type AcademicYearOrderByWithRelationInput = {
@@ -238,7 +237,6 @@ export type AcademicYearOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   admissionCampaigns?: Prisma.AdmissionCampaignOrderByRelationAggregateInput
   batches?: Prisma.BatchOrderByRelationAggregateInput
-  priorityRules?: Prisma.PriorityRuleOrderByRelationAggregateInput
 }
 
 export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
@@ -253,7 +251,6 @@ export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumAcademicYearStatusFilter<"AcademicYear"> | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignListRelationFilter
   batches?: Prisma.BatchListRelationFilter
-  priorityRules?: Prisma.PriorityRuleListRelationFilter
 }, "id" | "code">
 
 export type AcademicYearOrderByWithAggregationInput = {
@@ -290,7 +287,6 @@ export type AcademicYearCreateInput = {
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignCreateNestedManyWithoutAcademicYearInput
   batches?: Prisma.BatchCreateNestedManyWithoutAcademicYearInput
-  priorityRules?: Prisma.PriorityRuleCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUncheckedCreateInput = {
@@ -302,7 +298,6 @@ export type AcademicYearUncheckedCreateInput = {
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedCreateNestedManyWithoutAcademicYearInput
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutAcademicYearInput
-  priorityRules?: Prisma.PriorityRuleUncheckedCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUpdateInput = {
@@ -313,7 +308,6 @@ export type AcademicYearUpdateInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUpdateManyWithoutAcademicYearNestedInput
   batches?: Prisma.BatchUpdateManyWithoutAcademicYearNestedInput
-  priorityRules?: Prisma.PriorityRuleUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearUncheckedUpdateInput = {
@@ -325,7 +319,6 @@ export type AcademicYearUncheckedUpdateInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearNestedInput
   batches?: Prisma.BatchUncheckedUpdateManyWithoutAcademicYearNestedInput
-  priorityRules?: Prisma.PriorityRuleUncheckedUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearCreateManyInput = {
@@ -453,20 +446,6 @@ export type AcademicYearUpdateOneRequiredWithoutAdmissionCampaignsNestedInput = 
   update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicYearUpdateToOneWithWhereWithoutAdmissionCampaignsInput, Prisma.AcademicYearUpdateWithoutAdmissionCampaignsInput>, Prisma.AcademicYearUncheckedUpdateWithoutAdmissionCampaignsInput>
 }
 
-export type AcademicYearCreateNestedOneWithoutPriorityRulesInput = {
-  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutPriorityRulesInput, Prisma.AcademicYearUncheckedCreateWithoutPriorityRulesInput>
-  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutPriorityRulesInput
-  connect?: Prisma.AcademicYearWhereUniqueInput
-}
-
-export type AcademicYearUpdateOneRequiredWithoutPriorityRulesNestedInput = {
-  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutPriorityRulesInput, Prisma.AcademicYearUncheckedCreateWithoutPriorityRulesInput>
-  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutPriorityRulesInput
-  upsert?: Prisma.AcademicYearUpsertWithoutPriorityRulesInput
-  connect?: Prisma.AcademicYearWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicYearUpdateToOneWithWhereWithoutPriorityRulesInput, Prisma.AcademicYearUpdateWithoutPriorityRulesInput>, Prisma.AcademicYearUncheckedUpdateWithoutPriorityRulesInput>
-}
-
 export type AcademicYearCreateWithoutBatchesInput = {
   code: string
   startDate: Date | string
@@ -474,7 +453,6 @@ export type AcademicYearCreateWithoutBatchesInput = {
   isCurrent?: boolean
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignCreateNestedManyWithoutAcademicYearInput
-  priorityRules?: Prisma.PriorityRuleCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUncheckedCreateWithoutBatchesInput = {
@@ -485,7 +463,6 @@ export type AcademicYearUncheckedCreateWithoutBatchesInput = {
   isCurrent?: boolean
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedCreateNestedManyWithoutAcademicYearInput
-  priorityRules?: Prisma.PriorityRuleUncheckedCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearCreateOrConnectWithoutBatchesInput = {
@@ -511,7 +488,6 @@ export type AcademicYearUpdateWithoutBatchesInput = {
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUpdateManyWithoutAcademicYearNestedInput
-  priorityRules?: Prisma.PriorityRuleUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearUncheckedUpdateWithoutBatchesInput = {
@@ -522,7 +498,6 @@ export type AcademicYearUncheckedUpdateWithoutBatchesInput = {
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearNestedInput
-  priorityRules?: Prisma.PriorityRuleUncheckedUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearCreateWithoutAdmissionCampaignsInput = {
@@ -532,7 +507,6 @@ export type AcademicYearCreateWithoutAdmissionCampaignsInput = {
   isCurrent?: boolean
   status?: $Enums.AcademicYearStatus
   batches?: Prisma.BatchCreateNestedManyWithoutAcademicYearInput
-  priorityRules?: Prisma.PriorityRuleCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUncheckedCreateWithoutAdmissionCampaignsInput = {
@@ -543,7 +517,6 @@ export type AcademicYearUncheckedCreateWithoutAdmissionCampaignsInput = {
   isCurrent?: boolean
   status?: $Enums.AcademicYearStatus
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutAcademicYearInput
-  priorityRules?: Prisma.PriorityRuleUncheckedCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearCreateOrConnectWithoutAdmissionCampaignsInput = {
@@ -569,7 +542,6 @@ export type AcademicYearUpdateWithoutAdmissionCampaignsInput = {
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   batches?: Prisma.BatchUpdateManyWithoutAcademicYearNestedInput
-  priorityRules?: Prisma.PriorityRuleUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearUncheckedUpdateWithoutAdmissionCampaignsInput = {
@@ -579,65 +551,6 @@ export type AcademicYearUncheckedUpdateWithoutAdmissionCampaignsInput = {
   endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
-  batches?: Prisma.BatchUncheckedUpdateManyWithoutAcademicYearNestedInput
-  priorityRules?: Prisma.PriorityRuleUncheckedUpdateManyWithoutAcademicYearNestedInput
-}
-
-export type AcademicYearCreateWithoutPriorityRulesInput = {
-  code: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  status?: $Enums.AcademicYearStatus
-  admissionCampaigns?: Prisma.AdmissionCampaignCreateNestedManyWithoutAcademicYearInput
-  batches?: Prisma.BatchCreateNestedManyWithoutAcademicYearInput
-}
-
-export type AcademicYearUncheckedCreateWithoutPriorityRulesInput = {
-  id?: number
-  code: string
-  startDate: Date | string
-  endDate: Date | string
-  isCurrent?: boolean
-  status?: $Enums.AcademicYearStatus
-  admissionCampaigns?: Prisma.AdmissionCampaignUncheckedCreateNestedManyWithoutAcademicYearInput
-  batches?: Prisma.BatchUncheckedCreateNestedManyWithoutAcademicYearInput
-}
-
-export type AcademicYearCreateOrConnectWithoutPriorityRulesInput = {
-  where: Prisma.AcademicYearWhereUniqueInput
-  create: Prisma.XOR<Prisma.AcademicYearCreateWithoutPriorityRulesInput, Prisma.AcademicYearUncheckedCreateWithoutPriorityRulesInput>
-}
-
-export type AcademicYearUpsertWithoutPriorityRulesInput = {
-  update: Prisma.XOR<Prisma.AcademicYearUpdateWithoutPriorityRulesInput, Prisma.AcademicYearUncheckedUpdateWithoutPriorityRulesInput>
-  create: Prisma.XOR<Prisma.AcademicYearCreateWithoutPriorityRulesInput, Prisma.AcademicYearUncheckedCreateWithoutPriorityRulesInput>
-  where?: Prisma.AcademicYearWhereInput
-}
-
-export type AcademicYearUpdateToOneWithWhereWithoutPriorityRulesInput = {
-  where?: Prisma.AcademicYearWhereInput
-  data: Prisma.XOR<Prisma.AcademicYearUpdateWithoutPriorityRulesInput, Prisma.AcademicYearUncheckedUpdateWithoutPriorityRulesInput>
-}
-
-export type AcademicYearUpdateWithoutPriorityRulesInput = {
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
-  admissionCampaigns?: Prisma.AdmissionCampaignUpdateManyWithoutAcademicYearNestedInput
-  batches?: Prisma.BatchUpdateManyWithoutAcademicYearNestedInput
-}
-
-export type AcademicYearUncheckedUpdateWithoutPriorityRulesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
-  admissionCampaigns?: Prisma.AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearNestedInput
   batches?: Prisma.BatchUncheckedUpdateManyWithoutAcademicYearNestedInput
 }
 
@@ -649,13 +562,11 @@ export type AcademicYearUncheckedUpdateWithoutPriorityRulesInput = {
 export type AcademicYearCountOutputType = {
   admissionCampaigns: number
   batches: number
-  priorityRules: number
 }
 
 export type AcademicYearCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionCampaigns?: boolean | AcademicYearCountOutputTypeCountAdmissionCampaignsArgs
   batches?: boolean | AcademicYearCountOutputTypeCountBatchesArgs
-  priorityRules?: boolean | AcademicYearCountOutputTypeCountPriorityRulesArgs
 }
 
 /**
@@ -682,13 +593,6 @@ export type AcademicYearCountOutputTypeCountBatchesArgs<ExtArgs extends runtime.
   where?: Prisma.BatchWhereInput
 }
 
-/**
- * AcademicYearCountOutputType without action
- */
-export type AcademicYearCountOutputTypeCountPriorityRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PriorityRuleWhereInput
-}
-
 
 export type AcademicYearSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -699,7 +603,6 @@ export type AcademicYearSelect<ExtArgs extends runtime.Types.Extensions.Internal
   status?: boolean
   admissionCampaigns?: boolean | Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs>
   batches?: boolean | Prisma.AcademicYear$batchesArgs<ExtArgs>
-  priorityRules?: boolean | Prisma.AcademicYear$priorityRulesArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicYear"]>
 
@@ -734,7 +637,6 @@ export type AcademicYearOmit<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type AcademicYearInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionCampaigns?: boolean | Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs>
   batches?: boolean | Prisma.AcademicYear$batchesArgs<ExtArgs>
-  priorityRules?: boolean | Prisma.AcademicYear$priorityRulesArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AcademicYearIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -745,7 +647,6 @@ export type $AcademicYearPayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     admissionCampaigns: Prisma.$AdmissionCampaignPayload<ExtArgs>[]
     batches: Prisma.$BatchPayload<ExtArgs>[]
-    priorityRules: Prisma.$PriorityRulePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1150,7 +1051,6 @@ export interface Prisma__AcademicYearClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   admissionCampaigns<T extends Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionCampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   batches<T extends Prisma.AcademicYear$batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  priorityRules<T extends Prisma.AcademicYear$priorityRulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$priorityRulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PriorityRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1624,30 +1524,6 @@ export type AcademicYear$batchesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.BatchScalarFieldEnum | Prisma.BatchScalarFieldEnum[]
-}
-
-/**
- * AcademicYear.priorityRules
- */
-export type AcademicYear$priorityRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PriorityRule
-   */
-  select?: Prisma.PriorityRuleSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PriorityRule
-   */
-  omit?: Prisma.PriorityRuleOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PriorityRuleInclude<ExtArgs> | null
-  where?: Prisma.PriorityRuleWhereInput
-  orderBy?: Prisma.PriorityRuleOrderByWithRelationInput | Prisma.PriorityRuleOrderByWithRelationInput[]
-  cursor?: Prisma.PriorityRuleWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PriorityRuleScalarFieldEnum | Prisma.PriorityRuleScalarFieldEnum[]
 }
 
 /**

@@ -297,9 +297,9 @@ export type SubjectCombinationUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type SubjectCombinationNullableScalarRelationFilter = {
-  is?: Prisma.SubjectCombinationWhereInput | null
-  isNot?: Prisma.SubjectCombinationWhereInput | null
+export type SubjectCombinationScalarRelationFilter = {
+  is?: Prisma.SubjectCombinationWhereInput
+  isNot?: Prisma.SubjectCombinationWhereInput
 }
 
 export type SubjectCombinationCountOrderByAggregateInput = {
@@ -328,23 +328,16 @@ export type SubjectCombinationSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
-export type SubjectCombinationScalarRelationFilter = {
-  is?: Prisma.SubjectCombinationWhereInput
-  isNot?: Prisma.SubjectCombinationWhereInput
-}
-
 export type SubjectCombinationCreateNestedOneWithoutAdmissionCampaignMajorsInput = {
   create?: Prisma.XOR<Prisma.SubjectCombinationCreateWithoutAdmissionCampaignMajorsInput, Prisma.SubjectCombinationUncheckedCreateWithoutAdmissionCampaignMajorsInput>
   connectOrCreate?: Prisma.SubjectCombinationCreateOrConnectWithoutAdmissionCampaignMajorsInput
   connect?: Prisma.SubjectCombinationWhereUniqueInput
 }
 
-export type SubjectCombinationUpdateOneWithoutAdmissionCampaignMajorsNestedInput = {
+export type SubjectCombinationUpdateOneRequiredWithoutAdmissionCampaignMajorsNestedInput = {
   create?: Prisma.XOR<Prisma.SubjectCombinationCreateWithoutAdmissionCampaignMajorsInput, Prisma.SubjectCombinationUncheckedCreateWithoutAdmissionCampaignMajorsInput>
   connectOrCreate?: Prisma.SubjectCombinationCreateOrConnectWithoutAdmissionCampaignMajorsInput
   upsert?: Prisma.SubjectCombinationUpsertWithoutAdmissionCampaignMajorsInput
-  disconnect?: Prisma.SubjectCombinationWhereInput | boolean
-  delete?: Prisma.SubjectCombinationWhereInput | boolean
   connect?: Prisma.SubjectCombinationWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectCombinationUpdateToOneWithWhereWithoutAdmissionCampaignMajorsInput, Prisma.SubjectCombinationUpdateWithoutAdmissionCampaignMajorsInput>, Prisma.SubjectCombinationUncheckedUpdateWithoutAdmissionCampaignMajorsInput>
 }
@@ -369,12 +362,10 @@ export type SubjectCombinationCreateNestedOneWithoutAdmissionProfilesInput = {
   connect?: Prisma.SubjectCombinationWhereUniqueInput
 }
 
-export type SubjectCombinationUpdateOneWithoutAdmissionProfilesNestedInput = {
+export type SubjectCombinationUpdateOneRequiredWithoutAdmissionProfilesNestedInput = {
   create?: Prisma.XOR<Prisma.SubjectCombinationCreateWithoutAdmissionProfilesInput, Prisma.SubjectCombinationUncheckedCreateWithoutAdmissionProfilesInput>
   connectOrCreate?: Prisma.SubjectCombinationCreateOrConnectWithoutAdmissionProfilesInput
   upsert?: Prisma.SubjectCombinationUpsertWithoutAdmissionProfilesInput
-  disconnect?: Prisma.SubjectCombinationWhereInput | boolean
-  delete?: Prisma.SubjectCombinationWhereInput | boolean
   connect?: Prisma.SubjectCombinationWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubjectCombinationUpdateToOneWithWhereWithoutAdmissionProfilesInput, Prisma.SubjectCombinationUpdateWithoutAdmissionProfilesInput>, Prisma.SubjectCombinationUncheckedUpdateWithoutAdmissionProfilesInput>
 }

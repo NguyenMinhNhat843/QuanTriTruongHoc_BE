@@ -54,14 +54,6 @@ export const CampaignStatus = {
 export type CampaignStatus = (typeof CampaignStatus)[keyof typeof CampaignStatus]
 
 
-export const TranscriptScoreMethod = {
-  LAST_YEAR_ONLY: 'LAST_YEAR_ONLY',
-  AVERAGE_ALL_YEARS: 'AVERAGE_ALL_YEARS'
-} as const
-
-export type TranscriptScoreMethod = (typeof TranscriptScoreMethod)[keyof typeof TranscriptScoreMethod]
-
-
 export const ApplicationStatus = {
   REGISTERED: 'REGISTERED',
   SUBMITTED: 'SUBMITTED',
@@ -94,38 +86,6 @@ export const Conduct = {
 export type Conduct = (typeof Conduct)[keyof typeof Conduct]
 
 
-export const PriorityRegion = {
-  KV1: 'KV1',
-  KV2_NT: 'KV2_NT',
-  KV2: 'KV2',
-  KV3: 'KV3'
-} as const
-
-export type PriorityRegion = (typeof PriorityRegion)[keyof typeof PriorityRegion]
-
-
-export const PriorityObject = {
-  NONE: 'NONE',
-  CON_THUONG_BINH_LIET_SI: 'CON_THUONG_BINH_LIET_SI',
-  DAN_TOC_THIEU_SO: 'DAN_TOC_THIEU_SO',
-  HO_NGHEO: 'HO_NGHEO',
-  KHUYET_TAT: 'KHUYET_TAT',
-  KHAC: 'KHAC'
-} as const
-
-export type PriorityObject = (typeof PriorityObject)[keyof typeof PriorityObject]
-
-
-export const AdmissionType = {
-  ACADEMIC_TRANSCRIPT_SUBJECT: 'ACADEMIC_TRANSCRIPT_SUBJECT',
-  ACADEMIC_TRANSCRIPT_GPA: 'ACADEMIC_TRANSCRIPT_GPA',
-  EXAM_SCORE: 'EXAM_SCORE',
-  DIRECT: 'DIRECT'
-} as const
-
-export type AdmissionType = (typeof AdmissionType)[keyof typeof AdmissionType]
-
-
 export const EducationLevel = {
   THCS: 'THCS',
   THPT: 'THPT'
@@ -135,10 +95,8 @@ export type EducationLevel = (typeof EducationLevel)[keyof typeof EducationLevel
 
 
 export const TrainingType = {
-  DUAL_PROGRAM_9PLUS: 'DUAL_PROGRAM_9PLUS',
   VOCATIONAL_INTERMEDIATE: 'VOCATIONAL_INTERMEDIATE',
-  VOCATIONAL_ELEMENTARY: 'VOCATIONAL_ELEMENTARY',
-  CONTINUING_EDUCATION: 'CONTINUING_EDUCATION'
+  VOCATIONAL_ELEMENTARY: 'VOCATIONAL_ELEMENTARY'
 } as const
 
 export type TrainingType = (typeof TrainingType)[keyof typeof TrainingType]
@@ -151,17 +109,6 @@ export const DocumentStatus = {
 } as const
 
 export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus]
-
-
-export const DirectAdmissionReason = {
-  HSG_QUOC_GIA: 'HSG_QUOC_GIA',
-  HSG_CAP_TINH: 'HSG_CAP_TINH',
-  CHUNG_CHI_NGHE: 'CHUNG_CHI_NGHE',
-  CON_DIEN_CHINH_SACH: 'CON_DIEN_CHINH_SACH',
-  KHAC: 'KHAC'
-} as const
-
-export type DirectAdmissionReason = (typeof DirectAdmissionReason)[keyof typeof DirectAdmissionReason]
 
 
 export const StudentStatus = {

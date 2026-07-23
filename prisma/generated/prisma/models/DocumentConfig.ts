@@ -28,78 +28,56 @@ export type AggregateDocumentConfig = {
 
 export type DocumentConfigAvgAggregateOutputType = {
   id: number | null
-  admissionCampaignId: number | null
 }
 
 export type DocumentConfigSumAggregateOutputType = {
   id: number | null
-  admissionCampaignId: number | null
 }
 
 export type DocumentConfigMinAggregateOutputType = {
   id: number | null
   name: string | null
   startDate: Date | null
-  admissionCampaignId: number | null
-  educationLevel: $Enums.EducationLevel | null
-  trainingType: $Enums.TrainingType | null
 }
 
 export type DocumentConfigMaxAggregateOutputType = {
   id: number | null
   name: string | null
   startDate: Date | null
-  admissionCampaignId: number | null
-  educationLevel: $Enums.EducationLevel | null
-  trainingType: $Enums.TrainingType | null
 }
 
 export type DocumentConfigCountAggregateOutputType = {
   id: number
   name: number
   startDate: number
-  admissionCampaignId: number
-  educationLevel: number
-  trainingType: number
   _all: number
 }
 
 
 export type DocumentConfigAvgAggregateInputType = {
   id?: true
-  admissionCampaignId?: true
 }
 
 export type DocumentConfigSumAggregateInputType = {
   id?: true
-  admissionCampaignId?: true
 }
 
 export type DocumentConfigMinAggregateInputType = {
   id?: true
   name?: true
   startDate?: true
-  admissionCampaignId?: true
-  educationLevel?: true
-  trainingType?: true
 }
 
 export type DocumentConfigMaxAggregateInputType = {
   id?: true
   name?: true
   startDate?: true
-  admissionCampaignId?: true
-  educationLevel?: true
-  trainingType?: true
 }
 
 export type DocumentConfigCountAggregateInputType = {
   id?: true
   name?: true
   startDate?: true
-  admissionCampaignId?: true
-  educationLevel?: true
-  trainingType?: true
   _all?: true
 }
 
@@ -193,9 +171,6 @@ export type DocumentConfigGroupByOutputType = {
   id: number
   name: string
   startDate: Date
-  admissionCampaignId: number | null
-  educationLevel: $Enums.EducationLevel | null
-  trainingType: $Enums.TrainingType | null
   _count: DocumentConfigCountAggregateOutputType | null
   _avg: DocumentConfigAvgAggregateOutputType | null
   _sum: DocumentConfigSumAggregateOutputType | null
@@ -225,10 +200,6 @@ export type DocumentConfigWhereInput = {
   id?: Prisma.IntFilter<"DocumentConfig"> | number
   name?: Prisma.StringFilter<"DocumentConfig"> | string
   startDate?: Prisma.DateTimeFilter<"DocumentConfig"> | Date | string
-  admissionCampaignId?: Prisma.IntNullableFilter<"DocumentConfig"> | number | null
-  educationLevel?: Prisma.EnumEducationLevelNullableFilter<"DocumentConfig"> | $Enums.EducationLevel | null
-  trainingType?: Prisma.EnumTrainingTypeNullableFilter<"DocumentConfig"> | $Enums.TrainingType | null
-  admissionCampaign?: Prisma.XOR<Prisma.AdmissionCampaignNullableScalarRelationFilter, Prisma.AdmissionCampaignWhereInput> | null
   items?: Prisma.DocumentConfigItemListRelationFilter
 }
 
@@ -236,10 +207,6 @@ export type DocumentConfigOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrderInput | Prisma.SortOrder
-  educationLevel?: Prisma.SortOrderInput | Prisma.SortOrder
-  trainingType?: Prisma.SortOrderInput | Prisma.SortOrder
-  admissionCampaign?: Prisma.AdmissionCampaignOrderByWithRelationInput
   items?: Prisma.DocumentConfigItemOrderByRelationAggregateInput
 }
 
@@ -250,10 +217,6 @@ export type DocumentConfigWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.DocumentConfigWhereInput | Prisma.DocumentConfigWhereInput[]
   name?: Prisma.StringFilter<"DocumentConfig"> | string
   startDate?: Prisma.DateTimeFilter<"DocumentConfig"> | Date | string
-  admissionCampaignId?: Prisma.IntNullableFilter<"DocumentConfig"> | number | null
-  educationLevel?: Prisma.EnumEducationLevelNullableFilter<"DocumentConfig"> | $Enums.EducationLevel | null
-  trainingType?: Prisma.EnumTrainingTypeNullableFilter<"DocumentConfig"> | $Enums.TrainingType | null
-  admissionCampaign?: Prisma.XOR<Prisma.AdmissionCampaignNullableScalarRelationFilter, Prisma.AdmissionCampaignWhereInput> | null
   items?: Prisma.DocumentConfigItemListRelationFilter
 }, "id">
 
@@ -261,9 +224,6 @@ export type DocumentConfigOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrderInput | Prisma.SortOrder
-  educationLevel?: Prisma.SortOrderInput | Prisma.SortOrder
-  trainingType?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DocumentConfigCountOrderByAggregateInput
   _avg?: Prisma.DocumentConfigAvgOrderByAggregateInput
   _max?: Prisma.DocumentConfigMaxOrderByAggregateInput
@@ -278,17 +238,11 @@ export type DocumentConfigScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"DocumentConfig"> | number
   name?: Prisma.StringWithAggregatesFilter<"DocumentConfig"> | string
   startDate?: Prisma.DateTimeWithAggregatesFilter<"DocumentConfig"> | Date | string
-  admissionCampaignId?: Prisma.IntNullableWithAggregatesFilter<"DocumentConfig"> | number | null
-  educationLevel?: Prisma.EnumEducationLevelNullableWithAggregatesFilter<"DocumentConfig"> | $Enums.EducationLevel | null
-  trainingType?: Prisma.EnumTrainingTypeNullableWithAggregatesFilter<"DocumentConfig"> | $Enums.TrainingType | null
 }
 
 export type DocumentConfigCreateInput = {
   name: string
   startDate?: Date | string
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
-  admissionCampaign?: Prisma.AdmissionCampaignCreateNestedOneWithoutDocumentConfigsInput
   items?: Prisma.DocumentConfigItemCreateNestedManyWithoutDocumentConfigInput
 }
 
@@ -296,18 +250,12 @@ export type DocumentConfigUncheckedCreateInput = {
   id?: number
   name: string
   startDate?: Date | string
-  admissionCampaignId?: number | null
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
   items?: Prisma.DocumentConfigItemUncheckedCreateNestedManyWithoutDocumentConfigInput
 }
 
 export type DocumentConfigUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneWithoutDocumentConfigsNestedInput
   items?: Prisma.DocumentConfigItemUpdateManyWithoutDocumentConfigNestedInput
 }
 
@@ -315,9 +263,6 @@ export type DocumentConfigUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaignId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
   items?: Prisma.DocumentConfigItemUncheckedUpdateManyWithoutDocumentConfigNestedInput
 }
 
@@ -325,127 +270,48 @@ export type DocumentConfigCreateManyInput = {
   id?: number
   name: string
   startDate?: Date | string
-  admissionCampaignId?: number | null
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
 }
 
 export type DocumentConfigUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
 }
 
 export type DocumentConfigUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaignId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
-}
-
-export type DocumentConfigListRelationFilter = {
-  every?: Prisma.DocumentConfigWhereInput
-  some?: Prisma.DocumentConfigWhereInput
-  none?: Prisma.DocumentConfigWhereInput
-}
-
-export type DocumentConfigOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type DocumentConfigCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
 }
 
 export type DocumentConfigAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
 }
 
 export type DocumentConfigMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
 }
 
 export type DocumentConfigMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
-  trainingType?: Prisma.SortOrder
 }
 
 export type DocumentConfigSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  admissionCampaignId?: Prisma.SortOrder
 }
 
 export type DocumentConfigScalarRelationFilter = {
   is?: Prisma.DocumentConfigWhereInput
   isNot?: Prisma.DocumentConfigWhereInput
-}
-
-export type DocumentConfigCreateNestedManyWithoutAdmissionCampaignInput = {
-  create?: Prisma.XOR<Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput[] | Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput | Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.DocumentConfigCreateManyAdmissionCampaignInputEnvelope
-  connect?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-}
-
-export type DocumentConfigUncheckedCreateNestedManyWithoutAdmissionCampaignInput = {
-  create?: Prisma.XOR<Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput[] | Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput | Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.DocumentConfigCreateManyAdmissionCampaignInputEnvelope
-  connect?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-}
-
-export type DocumentConfigUpdateManyWithoutAdmissionCampaignNestedInput = {
-  create?: Prisma.XOR<Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput[] | Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput | Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput[]
-  upsert?: Prisma.DocumentConfigUpsertWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.DocumentConfigUpsertWithWhereUniqueWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.DocumentConfigCreateManyAdmissionCampaignInputEnvelope
-  set?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  disconnect?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  delete?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  connect?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  update?: Prisma.DocumentConfigUpdateWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.DocumentConfigUpdateWithWhereUniqueWithoutAdmissionCampaignInput[]
-  updateMany?: Prisma.DocumentConfigUpdateManyWithWhereWithoutAdmissionCampaignInput | Prisma.DocumentConfigUpdateManyWithWhereWithoutAdmissionCampaignInput[]
-  deleteMany?: Prisma.DocumentConfigScalarWhereInput | Prisma.DocumentConfigScalarWhereInput[]
-}
-
-export type DocumentConfigUncheckedUpdateManyWithoutAdmissionCampaignNestedInput = {
-  create?: Prisma.XOR<Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput> | Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput[] | Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput[]
-  connectOrCreate?: Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput | Prisma.DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput[]
-  upsert?: Prisma.DocumentConfigUpsertWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.DocumentConfigUpsertWithWhereUniqueWithoutAdmissionCampaignInput[]
-  createMany?: Prisma.DocumentConfigCreateManyAdmissionCampaignInputEnvelope
-  set?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  disconnect?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  delete?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  connect?: Prisma.DocumentConfigWhereUniqueInput | Prisma.DocumentConfigWhereUniqueInput[]
-  update?: Prisma.DocumentConfigUpdateWithWhereUniqueWithoutAdmissionCampaignInput | Prisma.DocumentConfigUpdateWithWhereUniqueWithoutAdmissionCampaignInput[]
-  updateMany?: Prisma.DocumentConfigUpdateManyWithWhereWithoutAdmissionCampaignInput | Prisma.DocumentConfigUpdateManyWithWhereWithoutAdmissionCampaignInput[]
-  deleteMany?: Prisma.DocumentConfigScalarWhereInput | Prisma.DocumentConfigScalarWhereInput[]
-}
-
-export type NullableEnumEducationLevelFieldUpdateOperationsInput = {
-  set?: $Enums.EducationLevel | null
-}
-
-export type NullableEnumTrainingTypeFieldUpdateOperationsInput = {
-  set?: $Enums.TrainingType | null
 }
 
 export type DocumentConfigCreateNestedOneWithoutItemsInput = {
@@ -462,76 +328,15 @@ export type DocumentConfigUpdateOneRequiredWithoutItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentConfigUpdateToOneWithWhereWithoutItemsInput, Prisma.DocumentConfigUpdateWithoutItemsInput>, Prisma.DocumentConfigUncheckedUpdateWithoutItemsInput>
 }
 
-export type DocumentConfigCreateWithoutAdmissionCampaignInput = {
-  name: string
-  startDate?: Date | string
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
-  items?: Prisma.DocumentConfigItemCreateNestedManyWithoutDocumentConfigInput
-}
-
-export type DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput = {
-  id?: number
-  name: string
-  startDate?: Date | string
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
-  items?: Prisma.DocumentConfigItemUncheckedCreateNestedManyWithoutDocumentConfigInput
-}
-
-export type DocumentConfigCreateOrConnectWithoutAdmissionCampaignInput = {
-  where: Prisma.DocumentConfigWhereUniqueInput
-  create: Prisma.XOR<Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput>
-}
-
-export type DocumentConfigCreateManyAdmissionCampaignInputEnvelope = {
-  data: Prisma.DocumentConfigCreateManyAdmissionCampaignInput | Prisma.DocumentConfigCreateManyAdmissionCampaignInput[]
-  skipDuplicates?: boolean
-}
-
-export type DocumentConfigUpsertWithWhereUniqueWithoutAdmissionCampaignInput = {
-  where: Prisma.DocumentConfigWhereUniqueInput
-  update: Prisma.XOR<Prisma.DocumentConfigUpdateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedUpdateWithoutAdmissionCampaignInput>
-  create: Prisma.XOR<Prisma.DocumentConfigCreateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedCreateWithoutAdmissionCampaignInput>
-}
-
-export type DocumentConfigUpdateWithWhereUniqueWithoutAdmissionCampaignInput = {
-  where: Prisma.DocumentConfigWhereUniqueInput
-  data: Prisma.XOR<Prisma.DocumentConfigUpdateWithoutAdmissionCampaignInput, Prisma.DocumentConfigUncheckedUpdateWithoutAdmissionCampaignInput>
-}
-
-export type DocumentConfigUpdateManyWithWhereWithoutAdmissionCampaignInput = {
-  where: Prisma.DocumentConfigScalarWhereInput
-  data: Prisma.XOR<Prisma.DocumentConfigUpdateManyMutationInput, Prisma.DocumentConfigUncheckedUpdateManyWithoutAdmissionCampaignInput>
-}
-
-export type DocumentConfigScalarWhereInput = {
-  AND?: Prisma.DocumentConfigScalarWhereInput | Prisma.DocumentConfigScalarWhereInput[]
-  OR?: Prisma.DocumentConfigScalarWhereInput[]
-  NOT?: Prisma.DocumentConfigScalarWhereInput | Prisma.DocumentConfigScalarWhereInput[]
-  id?: Prisma.IntFilter<"DocumentConfig"> | number
-  name?: Prisma.StringFilter<"DocumentConfig"> | string
-  startDate?: Prisma.DateTimeFilter<"DocumentConfig"> | Date | string
-  admissionCampaignId?: Prisma.IntNullableFilter<"DocumentConfig"> | number | null
-  educationLevel?: Prisma.EnumEducationLevelNullableFilter<"DocumentConfig"> | $Enums.EducationLevel | null
-  trainingType?: Prisma.EnumTrainingTypeNullableFilter<"DocumentConfig"> | $Enums.TrainingType | null
-}
-
 export type DocumentConfigCreateWithoutItemsInput = {
   name: string
   startDate?: Date | string
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
-  admissionCampaign?: Prisma.AdmissionCampaignCreateNestedOneWithoutDocumentConfigsInput
 }
 
 export type DocumentConfigUncheckedCreateWithoutItemsInput = {
   id?: number
   name: string
   startDate?: Date | string
-  admissionCampaignId?: number | null
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
 }
 
 export type DocumentConfigCreateOrConnectWithoutItemsInput = {
@@ -553,51 +358,12 @@ export type DocumentConfigUpdateToOneWithWhereWithoutItemsInput = {
 export type DocumentConfigUpdateWithoutItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
-  admissionCampaign?: Prisma.AdmissionCampaignUpdateOneWithoutDocumentConfigsNestedInput
 }
 
 export type DocumentConfigUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  admissionCampaignId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
-}
-
-export type DocumentConfigCreateManyAdmissionCampaignInput = {
-  id?: number
-  name: string
-  startDate?: Date | string
-  educationLevel?: $Enums.EducationLevel | null
-  trainingType?: $Enums.TrainingType | null
-}
-
-export type DocumentConfigUpdateWithoutAdmissionCampaignInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
-  items?: Prisma.DocumentConfigItemUpdateManyWithoutDocumentConfigNestedInput
-}
-
-export type DocumentConfigUncheckedUpdateWithoutAdmissionCampaignInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
-  items?: Prisma.DocumentConfigItemUncheckedUpdateManyWithoutDocumentConfigNestedInput
-}
-
-export type DocumentConfigUncheckedUpdateManyWithoutAdmissionCampaignInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  educationLevel?: Prisma.NullableEnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel | null
-  trainingType?: Prisma.NullableEnumTrainingTypeFieldUpdateOperationsInput | $Enums.TrainingType | null
 }
 
 
@@ -635,10 +401,6 @@ export type DocumentConfigSelect<ExtArgs extends runtime.Types.Extensions.Intern
   id?: boolean
   name?: boolean
   startDate?: boolean
-  admissionCampaignId?: boolean
-  educationLevel?: boolean
-  trainingType?: boolean
-  admissionCampaign?: boolean | Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs>
   items?: boolean | Prisma.DocumentConfig$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentConfigCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentConfig"]>
@@ -647,57 +409,37 @@ export type DocumentConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   name?: boolean
   startDate?: boolean
-  admissionCampaignId?: boolean
-  educationLevel?: boolean
-  trainingType?: boolean
-  admissionCampaign?: boolean | Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs>
 }, ExtArgs["result"]["documentConfig"]>
 
 export type DocumentConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   startDate?: boolean
-  admissionCampaignId?: boolean
-  educationLevel?: boolean
-  trainingType?: boolean
-  admissionCampaign?: boolean | Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs>
 }, ExtArgs["result"]["documentConfig"]>
 
 export type DocumentConfigSelectScalar = {
   id?: boolean
   name?: boolean
   startDate?: boolean
-  admissionCampaignId?: boolean
-  educationLevel?: boolean
-  trainingType?: boolean
 }
 
-export type DocumentConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "startDate" | "admissionCampaignId" | "educationLevel" | "trainingType", ExtArgs["result"]["documentConfig"]>
+export type DocumentConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "startDate", ExtArgs["result"]["documentConfig"]>
 export type DocumentConfigInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionCampaign?: boolean | Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs>
   items?: boolean | Prisma.DocumentConfig$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentConfigCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type DocumentConfigIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionCampaign?: boolean | Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs>
-}
-export type DocumentConfigIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  admissionCampaign?: boolean | Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs>
-}
+export type DocumentConfigIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type DocumentConfigIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $DocumentConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DocumentConfig"
   objects: {
-    admissionCampaign: Prisma.$AdmissionCampaignPayload<ExtArgs> | null
     items: Prisma.$DocumentConfigItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
     startDate: Date
-    admissionCampaignId: number | null
-    educationLevel: $Enums.EducationLevel | null
-    trainingType: $Enums.TrainingType | null
   }, ExtArgs["result"]["documentConfig"]>
   composites: {}
 }
@@ -1092,7 +834,6 @@ readonly fields: DocumentConfigFieldRefs;
  */
 export interface Prisma__DocumentConfigClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  admissionCampaign<T extends Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentConfig$admissionCampaignArgs<ExtArgs>>): Prisma.Prisma__AdmissionCampaignClient<runtime.Types.Result.GetResult<Prisma.$AdmissionCampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.DocumentConfig$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentConfig$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentConfigItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1126,9 +867,6 @@ export interface DocumentConfigFieldRefs {
   readonly id: Prisma.FieldRef<"DocumentConfig", 'Int'>
   readonly name: Prisma.FieldRef<"DocumentConfig", 'String'>
   readonly startDate: Prisma.FieldRef<"DocumentConfig", 'DateTime'>
-  readonly admissionCampaignId: Prisma.FieldRef<"DocumentConfig", 'Int'>
-  readonly educationLevel: Prisma.FieldRef<"DocumentConfig", 'EducationLevel'>
-  readonly trainingType: Prisma.FieldRef<"DocumentConfig", 'TrainingType'>
 }
     
 
@@ -1383,10 +1121,6 @@ export type DocumentConfigCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.DocumentConfigCreateManyInput | Prisma.DocumentConfigCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DocumentConfigIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1457,10 +1191,6 @@ export type DocumentConfigUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many DocumentConfigs to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DocumentConfigIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1527,25 +1257,6 @@ export type DocumentConfigDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many DocumentConfigs to delete.
    */
   limit?: number
-}
-
-/**
- * DocumentConfig.admissionCampaign
- */
-export type DocumentConfig$admissionCampaignArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AdmissionCampaign
-   */
-  select?: Prisma.AdmissionCampaignSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the AdmissionCampaign
-   */
-  omit?: Prisma.AdmissionCampaignOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdmissionCampaignInclude<ExtArgs> | null
-  where?: Prisma.AdmissionCampaignWhereInput
 }
 
 /**

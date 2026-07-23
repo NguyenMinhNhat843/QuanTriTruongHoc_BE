@@ -1,8 +1,11 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { CampaignStatus } from "../../../prisma/generated/prisma/client.js";
-import { CreateAdmissionCampaignMajorDto } from "./admission-campaign-major.dto.js";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
+import { AdmissionCampaign, CampaignStatus, TrainingType } from "../../../prisma/generated/prisma/client.js";
+import { AdmissionCampaignMajorDetailDto, CreateAdmissionCampaignMajorDto } from "./admission-campaign-major.dto.js";
+import { AcademicYearDto } from "../../academic-year/academic-year.dto.js";
+import { DocumentConfigDto } from "./document-config.dto.js";
+import { Type } from "class-transformer";
 
-export class AdmissionCampaignDto {
+export class AdmissionCampaignDto implements AdmissionCampaign {
   @ApiProperty()
   id: number;
 
@@ -13,16 +16,18 @@ export class AdmissionCampaignDto {
   name: string;
 
   @ApiProperty()
+  @Type(() => Date)
   startDate: Date;
 
   @ApiProperty()
+  @Type(() => Date)
   endDate: Date;
 
   @ApiProperty({ enum: CampaignStatus })
   status: CampaignStatus;
 
-  @ApiPropertyOptional()
-  description?: string;
+  @ApiProperty({ required: false, nullable: true, type: String })
+  description: string | null;
 
   @ApiProperty()
   academicYearId: number;
@@ -34,68 +39,34 @@ export class AdmissionCampaignDto {
   updatedAt: Date;
 }
 
-export class CreateAdmissionCampaignDto {
-  @ApiProperty()
-  code: string;
+export class AdmissionCampaignDetailDto extends AdmissionCampaignDto {
+  @ApiProperty({ type: AcademicYearDto })
+  academicYear: AcademicYearDto;
 
-  @ApiProperty()
-  name: string;
+  @ApiPropertyOptional({ type: [AdmissionCampaignMajorDetailDto] })
+  campaignMajors?: AdmissionCampaignMajorDetailDto[];
 
-  @ApiProperty()
-  startDate: Date;
+  @ApiPropertyOptional({ type: [DocumentConfigDto] })
+  documentConfigs?: DocumentConfigDto[];
+}
 
-  @ApiProperty()
-  endDate: Date;
-
-  @ApiPropertyOptional({ enum: CampaignStatus, default: CampaignStatus.PLANNING })
-  status?: CampaignStatus;
-
-  @ApiPropertyOptional()
-  description?: string;
-
-  @ApiProperty()
-  academicYearId: number;
-
+// CREATE DTO
+export class CreateAdmissionCampaignDto extends OmitType(AdmissionCampaignDto, [
+  "id",
+  "createdAt",
+  "updatedAt",
+] as const) {
   @ApiPropertyOptional({ type: [CreateAdmissionCampaignMajorDto] })
   campaignMajors?: CreateAdmissionCampaignMajorDto[];
 }
 
-export class UpdateAdmissionCampaignDto {
-  @ApiPropertyOptional()
-  code?: string;
+// UPDATE DTO
+export class UpdateAdmissionCampaignDto extends PartialType(CreateAdmissionCampaignDto) {}
 
-  @ApiPropertyOptional()
-  name?: string;
-
-  @ApiPropertyOptional()
-  startDate?: Date;
-
-  @ApiPropertyOptional()
-  endDate?: Date;
-
-  @ApiPropertyOptional({ enum: CampaignStatus })
-  status?: CampaignStatus;
-
-  @ApiPropertyOptional()
-  description?: string;
-
-  @ApiPropertyOptional()
-  academicYearId?: number;
-
-  @ApiPropertyOptional({ type: [CreateAdmissionCampaignMajorDto] })
-  campaignMajors?: CreateAdmissionCampaignMajorDto[];
-}
-
-export class SearchAdmissionCampaignDto {
-  @ApiPropertyOptional()
-  name?: string;
-
-  @ApiPropertyOptional({ enum: CampaignStatus })
-  status?: CampaignStatus;
-
-  @ApiPropertyOptional()
-  academicYearId?: number;
-
+// SEARCH DTO
+export class SearchAdmissionCampaignDto extends PartialType(
+  PickType(AdmissionCampaignDto, ["code", "name", "status", "academicYearId"] as const),
+) {
   @ApiPropertyOptional({ default: 1 })
   page?: number;
 
@@ -103,11 +74,27 @@ export class SearchAdmissionCampaignDto {
   limit?: number;
 }
 
+// SEARCH ĐỢT TUYỂN SINH ĐANG ACTIVE THEO NGÀNH< HỆ ĐÀO TẠO
+export class FindActiveCampaignDto {
+  @ApiPropertyOptional({
+    description: "ID Ngành học cần lọc",
+    example: 1,
+  })
+  @Type(() => Number)
+  majorId?: number;
+
+  @ApiPropertyOptional({
+    description: "Hệ đào tạo Trung cấp, Sơ cấp",
+    enum: TrainingType,
+  })
+  trainingType?: TrainingType;
+}
+
+// RESPONSE PAGINATION DTO
 export class ResponseAdmissionCampaignPaginationDto {
-  @ApiProperty({ type: [AdmissionCampaignDto] })
-  data: AdmissionCampaignDto[];
+  @ApiProperty({ type: [AdmissionCampaignDetailDto] })
+  data: AdmissionCampaignDetailDto[];
 
   @ApiProperty()
   total: number;
 }
-

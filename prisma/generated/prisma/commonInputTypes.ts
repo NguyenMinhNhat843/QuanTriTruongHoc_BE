@@ -297,13 +297,6 @@ export type EnumConductNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumConductNullableFilter<$PrismaModel> | $Enums.Conduct | null
 }
 
-export type EnumTranscriptScoreMethodNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.TranscriptScoreMethod | Prisma.EnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTranscriptScoreMethodNullableFilter<$PrismaModel> | $Enums.TranscriptScoreMethod | null
-}
-
 export type EnumTrainingTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.TrainingType | Prisma.EnumTrainingTypeFieldRefInput<$PrismaModel>
   in?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel>
@@ -340,28 +333,11 @@ export type EnumConductNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumConductNullableFilter<$PrismaModel>
 }
 
-export type EnumTranscriptScoreMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TranscriptScoreMethod | Prisma.EnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTranscriptScoreMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.TranscriptScoreMethod | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTranscriptScoreMethodNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTranscriptScoreMethodNullableFilter<$PrismaModel>
-}
-
 export type EnumApplicationStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ApplicationStatus | Prisma.EnumApplicationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ApplicationStatus[] | Prisma.ListEnumApplicationStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.ApplicationStatus[] | Prisma.ListEnumApplicationStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumApplicationStatusFilter<$PrismaModel> | $Enums.ApplicationStatus
-}
-
-export type EnumAdmissionTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.AdmissionType | Prisma.EnumAdmissionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAdmissionTypeFilter<$PrismaModel> | $Enums.AdmissionType
 }
 
 export type EnumEducationLevelFilter<$PrismaModel = never> = {
@@ -378,27 +354,6 @@ export type EnumGenderFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
 }
 
-export type EnumPriorityRegionNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityRegion | Prisma.EnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityRegionNullableFilter<$PrismaModel> | $Enums.PriorityRegion | null
-}
-
-export type EnumPriorityObjectNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityObject | Prisma.EnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityObjectNullableFilter<$PrismaModel> | $Enums.PriorityObject | null
-}
-
-export type EnumDirectAdmissionReasonNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.DirectAdmissionReason | Prisma.EnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  in?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumDirectAdmissionReasonNullableFilter<$PrismaModel> | $Enums.DirectAdmissionReason | null
-}
-
 export type EnumApplicationStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ApplicationStatus | Prisma.EnumApplicationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ApplicationStatus[] | Prisma.ListEnumApplicationStatusFieldRefInput<$PrismaModel>
@@ -407,16 +362,6 @@ export type EnumApplicationStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumApplicationStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumApplicationStatusFilter<$PrismaModel>
-}
-
-export type EnumAdmissionTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.AdmissionType | Prisma.EnumAdmissionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAdmissionTypeWithAggregatesFilter<$PrismaModel> | $Enums.AdmissionType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumAdmissionTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumAdmissionTypeFilter<$PrismaModel>
 }
 
 export type EnumEducationLevelWithAggregatesFilter<$PrismaModel = never> = {
@@ -437,36 +382,6 @@ export type EnumGenderWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumGenderFilter<$PrismaModel>
   _max?: Prisma.NestedEnumGenderFilter<$PrismaModel>
-}
-
-export type EnumPriorityRegionNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityRegion | Prisma.EnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityRegionNullableWithAggregatesFilter<$PrismaModel> | $Enums.PriorityRegion | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumPriorityRegionNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumPriorityRegionNullableFilter<$PrismaModel>
-}
-
-export type EnumPriorityObjectNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityObject | Prisma.EnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityObjectNullableWithAggregatesFilter<$PrismaModel> | $Enums.PriorityObject | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumPriorityObjectNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumPriorityObjectNullableFilter<$PrismaModel>
-}
-
-export type EnumDirectAdmissionReasonNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.DirectAdmissionReason | Prisma.EnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  in?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumDirectAdmissionReasonNullableWithAggregatesFilter<$PrismaModel> | $Enums.DirectAdmissionReason | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumDirectAdmissionReasonNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumDirectAdmissionReasonNullableFilter<$PrismaModel>
 }
 
 export type EnumApplicationStatusNullableFilter<$PrismaModel = never> = {
@@ -560,40 +475,6 @@ export type EnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumGenderNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumGenderNullableFilter<$PrismaModel>
-}
-
-export type EnumEducationLevelNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.EducationLevel | Prisma.EnumEducationLevelFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumEducationLevelNullableFilter<$PrismaModel> | $Enums.EducationLevel | null
-}
-
-export type EnumTrainingTypeNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.TrainingType | Prisma.EnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTrainingTypeNullableFilter<$PrismaModel> | $Enums.TrainingType | null
-}
-
-export type EnumEducationLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.EducationLevel | Prisma.EnumEducationLevelFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumEducationLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.EducationLevel | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumEducationLevelNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumEducationLevelNullableFilter<$PrismaModel>
-}
-
-export type EnumTrainingTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TrainingType | Prisma.EnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTrainingTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.TrainingType | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTrainingTypeNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTrainingTypeNullableFilter<$PrismaModel>
 }
 
 export type BoolNullableFilter<$PrismaModel = never> = {
@@ -1019,13 +900,6 @@ export type NestedEnumConductNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumConductNullableFilter<$PrismaModel> | $Enums.Conduct | null
 }
 
-export type NestedEnumTranscriptScoreMethodNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.TranscriptScoreMethod | Prisma.EnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTranscriptScoreMethodNullableFilter<$PrismaModel> | $Enums.TranscriptScoreMethod | null
-}
-
 export type NestedEnumTrainingTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.TrainingType | Prisma.EnumTrainingTypeFieldRefInput<$PrismaModel>
   in?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel>
@@ -1062,28 +936,11 @@ export type NestedEnumConductNullableWithAggregatesFilter<$PrismaModel = never> 
   _max?: Prisma.NestedEnumConductNullableFilter<$PrismaModel>
 }
 
-export type NestedEnumTranscriptScoreMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TranscriptScoreMethod | Prisma.EnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TranscriptScoreMethod[] | Prisma.ListEnumTranscriptScoreMethodFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTranscriptScoreMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.TranscriptScoreMethod | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTranscriptScoreMethodNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTranscriptScoreMethodNullableFilter<$PrismaModel>
-}
-
 export type NestedEnumApplicationStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ApplicationStatus | Prisma.EnumApplicationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ApplicationStatus[] | Prisma.ListEnumApplicationStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.ApplicationStatus[] | Prisma.ListEnumApplicationStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumApplicationStatusFilter<$PrismaModel> | $Enums.ApplicationStatus
-}
-
-export type NestedEnumAdmissionTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.AdmissionType | Prisma.EnumAdmissionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAdmissionTypeFilter<$PrismaModel> | $Enums.AdmissionType
 }
 
 export type NestedEnumEducationLevelFilter<$PrismaModel = never> = {
@@ -1100,27 +957,6 @@ export type NestedEnumGenderFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
 }
 
-export type NestedEnumPriorityRegionNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityRegion | Prisma.EnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityRegionNullableFilter<$PrismaModel> | $Enums.PriorityRegion | null
-}
-
-export type NestedEnumPriorityObjectNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityObject | Prisma.EnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityObjectNullableFilter<$PrismaModel> | $Enums.PriorityObject | null
-}
-
-export type NestedEnumDirectAdmissionReasonNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.DirectAdmissionReason | Prisma.EnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  in?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumDirectAdmissionReasonNullableFilter<$PrismaModel> | $Enums.DirectAdmissionReason | null
-}
-
 export type NestedEnumApplicationStatusWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ApplicationStatus | Prisma.EnumApplicationStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ApplicationStatus[] | Prisma.ListEnumApplicationStatusFieldRefInput<$PrismaModel>
@@ -1129,16 +965,6 @@ export type NestedEnumApplicationStatusWithAggregatesFilter<$PrismaModel = never
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumApplicationStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumApplicationStatusFilter<$PrismaModel>
-}
-
-export type NestedEnumAdmissionTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.AdmissionType | Prisma.EnumAdmissionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.AdmissionType[] | Prisma.ListEnumAdmissionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumAdmissionTypeWithAggregatesFilter<$PrismaModel> | $Enums.AdmissionType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumAdmissionTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumAdmissionTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumEducationLevelWithAggregatesFilter<$PrismaModel = never> = {
@@ -1159,36 +985,6 @@ export type NestedEnumGenderWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumGenderFilter<$PrismaModel>
   _max?: Prisma.NestedEnumGenderFilter<$PrismaModel>
-}
-
-export type NestedEnumPriorityRegionNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityRegion | Prisma.EnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityRegion[] | Prisma.ListEnumPriorityRegionFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityRegionNullableWithAggregatesFilter<$PrismaModel> | $Enums.PriorityRegion | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumPriorityRegionNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumPriorityRegionNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumPriorityObjectNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.PriorityObject | Prisma.EnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  in?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.PriorityObject[] | Prisma.ListEnumPriorityObjectFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumPriorityObjectNullableWithAggregatesFilter<$PrismaModel> | $Enums.PriorityObject | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumPriorityObjectNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumPriorityObjectNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumDirectAdmissionReasonNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.DirectAdmissionReason | Prisma.EnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  in?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.DirectAdmissionReason[] | Prisma.ListEnumDirectAdmissionReasonFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumDirectAdmissionReasonNullableWithAggregatesFilter<$PrismaModel> | $Enums.DirectAdmissionReason | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumDirectAdmissionReasonNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumDirectAdmissionReasonNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumApplicationStatusNullableFilter<$PrismaModel = never> = {
@@ -1282,40 +1078,6 @@ export type NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumGenderNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumGenderNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumEducationLevelNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.EducationLevel | Prisma.EnumEducationLevelFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumEducationLevelNullableFilter<$PrismaModel> | $Enums.EducationLevel | null
-}
-
-export type NestedEnumTrainingTypeNullableFilter<$PrismaModel = never> = {
-  equals?: $Enums.TrainingType | Prisma.EnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTrainingTypeNullableFilter<$PrismaModel> | $Enums.TrainingType | null
-}
-
-export type NestedEnumEducationLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.EducationLevel | Prisma.EnumEducationLevelFieldRefInput<$PrismaModel> | null
-  in?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.EducationLevel[] | Prisma.ListEnumEducationLevelFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumEducationLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.EducationLevel | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumEducationLevelNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumEducationLevelNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumTrainingTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TrainingType | Prisma.EnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  in?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  notIn?: $Enums.TrainingType[] | Prisma.ListEnumTrainingTypeFieldRefInput<$PrismaModel> | null
-  not?: Prisma.NestedEnumTrainingTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.TrainingType | null
-  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTrainingTypeNullableFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTrainingTypeNullableFilter<$PrismaModel>
 }
 
 export type NestedBoolNullableFilter<$PrismaModel = never> = {
