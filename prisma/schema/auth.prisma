@@ -19,6 +19,7 @@ model User {
   posts                      Post[]
   admissionStatusLogs        AdmissionStatusLog[]
   verifiedAdmissionDocuments AdmissionDocument[]
+  attendancesRecorded        Attendance[]
 
   @@map("users")
 }

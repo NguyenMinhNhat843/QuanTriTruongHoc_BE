@@ -31,8 +31,6 @@ export type AttendanceSummaryAvgAggregateOutputType = {
   studentId: number | null
   classSubjectId: number | null
   totalPeriods: number | null
-  absentUnfreePeriods: number | null
-  absentFreePeriods: number | null
   totalAbsentPeriods: number | null
   absentPercentage: number | null
 }
@@ -42,8 +40,6 @@ export type AttendanceSummarySumAggregateOutputType = {
   studentId: number | null
   classSubjectId: number | null
   totalPeriods: number | null
-  absentUnfreePeriods: number | null
-  absentFreePeriods: number | null
   totalAbsentPeriods: number | null
   absentPercentage: number | null
 }
@@ -53,8 +49,6 @@ export type AttendanceSummaryMinAggregateOutputType = {
   studentId: number | null
   classSubjectId: number | null
   totalPeriods: number | null
-  absentUnfreePeriods: number | null
-  absentFreePeriods: number | null
   totalAbsentPeriods: number | null
   absentPercentage: number | null
   examStatus: $Enums.ExamEligibilityStatus | null
@@ -69,8 +63,6 @@ export type AttendanceSummaryMaxAggregateOutputType = {
   studentId: number | null
   classSubjectId: number | null
   totalPeriods: number | null
-  absentUnfreePeriods: number | null
-  absentFreePeriods: number | null
   totalAbsentPeriods: number | null
   absentPercentage: number | null
   examStatus: $Enums.ExamEligibilityStatus | null
@@ -85,8 +77,6 @@ export type AttendanceSummaryCountAggregateOutputType = {
   studentId: number
   classSubjectId: number
   totalPeriods: number
-  absentUnfreePeriods: number
-  absentFreePeriods: number
   totalAbsentPeriods: number
   absentPercentage: number
   examStatus: number
@@ -103,8 +93,6 @@ export type AttendanceSummaryAvgAggregateInputType = {
   studentId?: true
   classSubjectId?: true
   totalPeriods?: true
-  absentUnfreePeriods?: true
-  absentFreePeriods?: true
   totalAbsentPeriods?: true
   absentPercentage?: true
 }
@@ -114,8 +102,6 @@ export type AttendanceSummarySumAggregateInputType = {
   studentId?: true
   classSubjectId?: true
   totalPeriods?: true
-  absentUnfreePeriods?: true
-  absentFreePeriods?: true
   totalAbsentPeriods?: true
   absentPercentage?: true
 }
@@ -125,8 +111,6 @@ export type AttendanceSummaryMinAggregateInputType = {
   studentId?: true
   classSubjectId?: true
   totalPeriods?: true
-  absentUnfreePeriods?: true
-  absentFreePeriods?: true
   totalAbsentPeriods?: true
   absentPercentage?: true
   examStatus?: true
@@ -141,8 +125,6 @@ export type AttendanceSummaryMaxAggregateInputType = {
   studentId?: true
   classSubjectId?: true
   totalPeriods?: true
-  absentUnfreePeriods?: true
-  absentFreePeriods?: true
   totalAbsentPeriods?: true
   absentPercentage?: true
   examStatus?: true
@@ -157,8 +139,6 @@ export type AttendanceSummaryCountAggregateInputType = {
   studentId?: true
   classSubjectId?: true
   totalPeriods?: true
-  absentUnfreePeriods?: true
-  absentFreePeriods?: true
   totalAbsentPeriods?: true
   absentPercentage?: true
   examStatus?: true
@@ -260,8 +240,6 @@ export type AttendanceSummaryGroupByOutputType = {
   studentId: number
   classSubjectId: number
   totalPeriods: number
-  absentUnfreePeriods: number
-  absentFreePeriods: number
   totalAbsentPeriods: number
   absentPercentage: number
   examStatus: $Enums.ExamEligibilityStatus
@@ -299,8 +277,6 @@ export type AttendanceSummaryWhereInput = {
   studentId?: Prisma.IntFilter<"AttendanceSummary"> | number
   classSubjectId?: Prisma.IntFilter<"AttendanceSummary"> | number
   totalPeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
-  absentUnfreePeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
-  absentFreePeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
   totalAbsentPeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
   absentPercentage?: Prisma.FloatFilter<"AttendanceSummary"> | number
   examStatus?: Prisma.EnumExamEligibilityStatusFilter<"AttendanceSummary"> | $Enums.ExamEligibilityStatus
@@ -317,8 +293,6 @@ export type AttendanceSummaryOrderByWithRelationInput = {
   studentId?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   totalPeriods?: Prisma.SortOrder
-  absentUnfreePeriods?: Prisma.SortOrder
-  absentFreePeriods?: Prisma.SortOrder
   totalAbsentPeriods?: Prisma.SortOrder
   absentPercentage?: Prisma.SortOrder
   examStatus?: Prisma.SortOrder
@@ -339,8 +313,6 @@ export type AttendanceSummaryWhereUniqueInput = Prisma.AtLeast<{
   studentId?: Prisma.IntFilter<"AttendanceSummary"> | number
   classSubjectId?: Prisma.IntFilter<"AttendanceSummary"> | number
   totalPeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
-  absentUnfreePeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
-  absentFreePeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
   totalAbsentPeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
   absentPercentage?: Prisma.FloatFilter<"AttendanceSummary"> | number
   examStatus?: Prisma.EnumExamEligibilityStatusFilter<"AttendanceSummary"> | $Enums.ExamEligibilityStatus
@@ -357,8 +329,6 @@ export type AttendanceSummaryOrderByWithAggregationInput = {
   studentId?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   totalPeriods?: Prisma.SortOrder
-  absentUnfreePeriods?: Prisma.SortOrder
-  absentFreePeriods?: Prisma.SortOrder
   totalAbsentPeriods?: Prisma.SortOrder
   absentPercentage?: Prisma.SortOrder
   examStatus?: Prisma.SortOrder
@@ -381,8 +351,6 @@ export type AttendanceSummaryScalarWhereWithAggregatesInput = {
   studentId?: Prisma.IntWithAggregatesFilter<"AttendanceSummary"> | number
   classSubjectId?: Prisma.IntWithAggregatesFilter<"AttendanceSummary"> | number
   totalPeriods?: Prisma.IntWithAggregatesFilter<"AttendanceSummary"> | number
-  absentUnfreePeriods?: Prisma.IntWithAggregatesFilter<"AttendanceSummary"> | number
-  absentFreePeriods?: Prisma.IntWithAggregatesFilter<"AttendanceSummary"> | number
   totalAbsentPeriods?: Prisma.IntWithAggregatesFilter<"AttendanceSummary"> | number
   absentPercentage?: Prisma.FloatWithAggregatesFilter<"AttendanceSummary"> | number
   examStatus?: Prisma.EnumExamEligibilityStatusWithAggregatesFilter<"AttendanceSummary"> | $Enums.ExamEligibilityStatus
@@ -394,8 +362,6 @@ export type AttendanceSummaryScalarWhereWithAggregatesInput = {
 
 export type AttendanceSummaryCreateInput = {
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -412,8 +378,6 @@ export type AttendanceSummaryUncheckedCreateInput = {
   studentId: number
   classSubjectId: number
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -425,8 +389,6 @@ export type AttendanceSummaryUncheckedCreateInput = {
 
 export type AttendanceSummaryUpdateInput = {
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -443,8 +405,6 @@ export type AttendanceSummaryUncheckedUpdateInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -459,8 +419,6 @@ export type AttendanceSummaryCreateManyInput = {
   studentId: number
   classSubjectId: number
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -472,8 +430,6 @@ export type AttendanceSummaryCreateManyInput = {
 
 export type AttendanceSummaryUpdateManyMutationInput = {
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -488,8 +444,6 @@ export type AttendanceSummaryUncheckedUpdateManyInput = {
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -519,8 +473,6 @@ export type AttendanceSummaryCountOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   totalPeriods?: Prisma.SortOrder
-  absentUnfreePeriods?: Prisma.SortOrder
-  absentFreePeriods?: Prisma.SortOrder
   totalAbsentPeriods?: Prisma.SortOrder
   absentPercentage?: Prisma.SortOrder
   examStatus?: Prisma.SortOrder
@@ -535,8 +487,6 @@ export type AttendanceSummaryAvgOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   totalPeriods?: Prisma.SortOrder
-  absentUnfreePeriods?: Prisma.SortOrder
-  absentFreePeriods?: Prisma.SortOrder
   totalAbsentPeriods?: Prisma.SortOrder
   absentPercentage?: Prisma.SortOrder
 }
@@ -546,8 +496,6 @@ export type AttendanceSummaryMaxOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   totalPeriods?: Prisma.SortOrder
-  absentUnfreePeriods?: Prisma.SortOrder
-  absentFreePeriods?: Prisma.SortOrder
   totalAbsentPeriods?: Prisma.SortOrder
   absentPercentage?: Prisma.SortOrder
   examStatus?: Prisma.SortOrder
@@ -562,8 +510,6 @@ export type AttendanceSummaryMinOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   totalPeriods?: Prisma.SortOrder
-  absentUnfreePeriods?: Prisma.SortOrder
-  absentFreePeriods?: Prisma.SortOrder
   totalAbsentPeriods?: Prisma.SortOrder
   absentPercentage?: Prisma.SortOrder
   examStatus?: Prisma.SortOrder
@@ -578,8 +524,6 @@ export type AttendanceSummarySumOrderByAggregateInput = {
   studentId?: Prisma.SortOrder
   classSubjectId?: Prisma.SortOrder
   totalPeriods?: Prisma.SortOrder
-  absentUnfreePeriods?: Prisma.SortOrder
-  absentFreePeriods?: Prisma.SortOrder
   totalAbsentPeriods?: Prisma.SortOrder
   absentPercentage?: Prisma.SortOrder
 }
@@ -674,8 +618,6 @@ export type AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput =
 
 export type AttendanceSummaryCreateWithoutStudentInput = {
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -690,8 +632,6 @@ export type AttendanceSummaryUncheckedCreateWithoutStudentInput = {
   id?: number
   classSubjectId: number
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -735,8 +675,6 @@ export type AttendanceSummaryScalarWhereInput = {
   studentId?: Prisma.IntFilter<"AttendanceSummary"> | number
   classSubjectId?: Prisma.IntFilter<"AttendanceSummary"> | number
   totalPeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
-  absentUnfreePeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
-  absentFreePeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
   totalAbsentPeriods?: Prisma.IntFilter<"AttendanceSummary"> | number
   absentPercentage?: Prisma.FloatFilter<"AttendanceSummary"> | number
   examStatus?: Prisma.EnumExamEligibilityStatusFilter<"AttendanceSummary"> | $Enums.ExamEligibilityStatus
@@ -748,8 +686,6 @@ export type AttendanceSummaryScalarWhereInput = {
 
 export type AttendanceSummaryCreateWithoutClassSubjectInput = {
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -764,8 +700,6 @@ export type AttendanceSummaryUncheckedCreateWithoutClassSubjectInput = {
   id?: number
   studentId: number
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -805,8 +739,6 @@ export type AttendanceSummaryCreateManyStudentInput = {
   id?: number
   classSubjectId: number
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -818,8 +750,6 @@ export type AttendanceSummaryCreateManyStudentInput = {
 
 export type AttendanceSummaryUpdateWithoutStudentInput = {
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -834,8 +764,6 @@ export type AttendanceSummaryUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -849,8 +777,6 @@ export type AttendanceSummaryUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   classSubjectId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -864,8 +790,6 @@ export type AttendanceSummaryCreateManyClassSubjectInput = {
   id?: number
   studentId: number
   totalPeriods?: number
-  absentUnfreePeriods?: number
-  absentFreePeriods?: number
   totalAbsentPeriods?: number
   absentPercentage?: number
   examStatus?: $Enums.ExamEligibilityStatus
@@ -877,8 +801,6 @@ export type AttendanceSummaryCreateManyClassSubjectInput = {
 
 export type AttendanceSummaryUpdateWithoutClassSubjectInput = {
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -893,8 +815,6 @@ export type AttendanceSummaryUncheckedUpdateWithoutClassSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -908,8 +828,6 @@ export type AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   studentId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentUnfreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
-  absentFreePeriods?: Prisma.IntFieldUpdateOperationsInput | number
   totalAbsentPeriods?: Prisma.IntFieldUpdateOperationsInput | number
   absentPercentage?: Prisma.FloatFieldUpdateOperationsInput | number
   examStatus?: Prisma.EnumExamEligibilityStatusFieldUpdateOperationsInput | $Enums.ExamEligibilityStatus
@@ -926,8 +844,6 @@ export type AttendanceSummarySelect<ExtArgs extends runtime.Types.Extensions.Int
   studentId?: boolean
   classSubjectId?: boolean
   totalPeriods?: boolean
-  absentUnfreePeriods?: boolean
-  absentFreePeriods?: boolean
   totalAbsentPeriods?: boolean
   absentPercentage?: boolean
   examStatus?: boolean
@@ -944,8 +860,6 @@ export type AttendanceSummarySelectCreateManyAndReturn<ExtArgs extends runtime.T
   studentId?: boolean
   classSubjectId?: boolean
   totalPeriods?: boolean
-  absentUnfreePeriods?: boolean
-  absentFreePeriods?: boolean
   totalAbsentPeriods?: boolean
   absentPercentage?: boolean
   examStatus?: boolean
@@ -962,8 +876,6 @@ export type AttendanceSummarySelectUpdateManyAndReturn<ExtArgs extends runtime.T
   studentId?: boolean
   classSubjectId?: boolean
   totalPeriods?: boolean
-  absentUnfreePeriods?: boolean
-  absentFreePeriods?: boolean
   totalAbsentPeriods?: boolean
   absentPercentage?: boolean
   examStatus?: boolean
@@ -980,8 +892,6 @@ export type AttendanceSummarySelectScalar = {
   studentId?: boolean
   classSubjectId?: boolean
   totalPeriods?: boolean
-  absentUnfreePeriods?: boolean
-  absentFreePeriods?: boolean
   totalAbsentPeriods?: boolean
   absentPercentage?: boolean
   examStatus?: boolean
@@ -991,7 +901,7 @@ export type AttendanceSummarySelectScalar = {
   updatedAt?: boolean
 }
 
-export type AttendanceSummaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "classSubjectId" | "totalPeriods" | "absentUnfreePeriods" | "absentFreePeriods" | "totalAbsentPeriods" | "absentPercentage" | "examStatus" | "isManuallyLocked" | "lockReason" | "createdAt" | "updatedAt", ExtArgs["result"]["attendanceSummary"]>
+export type AttendanceSummaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "classSubjectId" | "totalPeriods" | "totalAbsentPeriods" | "absentPercentage" | "examStatus" | "isManuallyLocked" | "lockReason" | "createdAt" | "updatedAt", ExtArgs["result"]["attendanceSummary"]>
 export type AttendanceSummaryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
@@ -1016,8 +926,6 @@ export type $AttendanceSummaryPayload<ExtArgs extends runtime.Types.Extensions.I
     studentId: number
     classSubjectId: number
     totalPeriods: number
-    absentUnfreePeriods: number
-    absentFreePeriods: number
     totalAbsentPeriods: number
     absentPercentage: number
     examStatus: $Enums.ExamEligibilityStatus
@@ -1454,8 +1362,6 @@ export interface AttendanceSummaryFieldRefs {
   readonly studentId: Prisma.FieldRef<"AttendanceSummary", 'Int'>
   readonly classSubjectId: Prisma.FieldRef<"AttendanceSummary", 'Int'>
   readonly totalPeriods: Prisma.FieldRef<"AttendanceSummary", 'Int'>
-  readonly absentUnfreePeriods: Prisma.FieldRef<"AttendanceSummary", 'Int'>
-  readonly absentFreePeriods: Prisma.FieldRef<"AttendanceSummary", 'Int'>
   readonly totalAbsentPeriods: Prisma.FieldRef<"AttendanceSummary", 'Int'>
   readonly absentPercentage: Prisma.FieldRef<"AttendanceSummary", 'Float'>
   readonly examStatus: Prisma.FieldRef<"AttendanceSummary", 'ExamEligibilityStatus'>

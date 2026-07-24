@@ -4299,8 +4299,6 @@ export const AttendanceSummaryScalarFieldEnum = {
   studentId: 'studentId',
   classSubjectId: 'classSubjectId',
   totalPeriods: 'totalPeriods',
-  absentUnfreePeriods: 'absentUnfreePeriods',
-  absentFreePeriods: 'absentFreePeriods',
   totalAbsentPeriods: 'totalAbsentPeriods',
   absentPercentage: 'absentPercentage',
   examStatus: 'examStatus',

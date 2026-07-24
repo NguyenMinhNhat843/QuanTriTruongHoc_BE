@@ -70,8 +70,9 @@ model Attendance {
   classSubject   ClassSubject @relation(fields: [classSubjectId], references: [id])
 
   status       AttendanceStatus @default(PRESENT)
-  note         String? // lý do nghỉ (nếu có) — chỉ để tham khảo, KHÔNG ảnh hưởng cách tính
+  note         String? // lý do nghỉ (nếu có)
   recordedById Int?
+  recordedBy   User?   @relation(fields: [recordedById], references: [id])
   recordedAt   DateTime         @default(now())
 
   @@unique([studentId, scheduleDetailId])
@@ -99,9 +100,7 @@ model AttendanceSummary {
 
   // Con số thống kê tổng hợp
   totalPeriods        Int @default(0) // Tổng số tiết môn học đã diễn ra
-  absentUnfreePeriods Int @default(0) // Số tiết vắng KHÔNG phép
-  absentFreePeriods   Int @default(0) // Số tiết vắng CÓ phép
-  totalAbsentPeriods  Int @default(0) // Tổng tiết vắng (Unfree + Free * hệ số)
+  totalAbsentPeriods  Int @default(0) // Số tiết vắng
 
   absentPercentage Float @default(0) // Tỷ lệ % vắng: (totalAbsentPeriods / totalPeriods) * 100
 
