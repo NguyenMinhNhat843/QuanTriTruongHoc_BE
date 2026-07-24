@@ -4,12 +4,11 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
   previewFeatures = ["prismaSchemaFolder"]
   moduleFormat    = "cjs"
 }
-
 
 datasource db {
   provider = "postgresql"
@@ -33,8 +32,8 @@ enum PaymentMethod {
 }
 
 enum AdmissionStatus {
-  OPEN 
-  CLOSE 
+  OPEN
+  CLOSE
   ARCHIVED
 }
 
@@ -43,12 +42,12 @@ enum AdmissionStatus {
 // ==========================
 
 model Province {
-  code        String   @id // Mã tỉnh/thành phố (ví dụ: "56" cho Khánh Hòa)
-  name        String   // Tên tỉnh (ví dụ: "Tỉnh Khánh Hòa")
-  fullName    String   // Tên đầy đủ
-  codeName    String   // Mã định danh dạng chữ (ví dụ: "khanh_hoa")
+  code     String @id // Mã tỉnh/thành phố (ví dụ: "56" cho Khánh Hòa)
+  name     String // Tên tỉnh (ví dụ: "Tỉnh Khánh Hòa")
+  fullName String // Tên đầy đủ
+  codeName String // Mã định danh dạng chữ (ví dụ: "khanh_hoa")
 
-  wards       Ward[]   // Một Tỉnh có nhiều Xã/Phường trực thuộc
+  wards Ward[] // Một Tỉnh có nhiều Xã/Phường trực thuộc
 
   admissionProfiles AdmissionProfile[]
 
@@ -56,14 +55,14 @@ model Province {
 }
 
 model Ward {
-  code         String   @id // Mã xã/phường/thị trấn
-  name         String   // Tên xã/phường (ví dụ: "Phường Diên Khánh")
-  fullName     String   
-  codeName     String   // (ví dụ: "dien_khanh")
-  provinceCode String   // Khóa ngoại nối thẳng lên Tỉnh
+  code         String @id // Mã xã/phường/thị trấn
+  name         String // Tên xã/phường (ví dụ: "Phường Diên Khánh")
+  fullName     String
+  codeName     String // (ví dụ: "dien_khanh")
+  provinceCode String // Khóa ngoại nối thẳng lên Tỉnh
 
-  province     Province @relation(fields: [provinceCode], references: [code], onDelete: Cascade)
-  villages     Village[] // Một Xã có nhiều Thôn/Xóm/Bản/Tổ
+  province Province  @relation(fields: [provinceCode], references: [code], onDelete: Cascade)
+  villages Village[] // Một Xã có nhiều Thôn/Xóm/Bản/Tổ
 
   admissionProfiles AdmissionProfile[]
 
@@ -72,11 +71,11 @@ model Ward {
 }
 
 model Village {
-  id           Int      @id @default(autoincrement()) // Thôn dùng ID tự tăng
-  name         String   // Tên thôn/xóm/ấp/bản/tổ dân phố
-  wardCode     String   // Khóa ngoại nối lên Xã
+  id       Int    @id @default(autoincrement()) // Thôn dùng ID tự tăng
+  name     String // Tên thôn/xóm/ấp/bản/tổ dân phố
+  wardCode String // Khóa ngoại nối lên Xã
 
-  ward         Ward     @relation(fields: [wardCode], references: [code], onDelete: Cascade)
+  ward Ward @relation(fields: [wardCode], references: [code], onDelete: Cascade)
 
   admissionProfiles AdmissionProfile[]
 

@@ -1,9 +1,8 @@
-
 // NĂM HỌC
 enum AcademicYearStatus {
   PLANNING // Chưa mở, đang chuẩn bị
-  ACTIVE   // Đang áp dụng
-  CLOSED   // Đã khóa sổ
+  ACTIVE // Đang áp dụng
+  CLOSED // Đã khóa sổ
 }
 
 model AcademicYear {
@@ -14,8 +13,8 @@ model AcademicYear {
   isCurrent Boolean            @default(false)
   status    AcademicYearStatus @default(PLANNING)
 
-  admissionCampaigns    AdmissionCampaign[]
-  batches               Batch[]
+  admissionCampaigns AdmissionCampaign[]
+  batches            Batch[]
 
   @@map("academic_years")
 }
@@ -24,48 +23,48 @@ model AcademicYear {
 // 1. DEPARTMENTS (PHÒNG BAN / KHOA)
 // ==========================
 model Department {
-  id                  Int       @id @default(autoincrement())
-  deptCode            String    @unique
-  deptName            String
-  description         String?   @db.Text
+  id          Int     @id @default(autoincrement())
+  deptCode    String  @unique
+  deptName    String
+  description String? @db.Text
 
   // Trưởng khoa (Nối đến bảng Staff)
-  headOfDepartmentId  Int?
-  
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt   @default(now())
+  headOfDepartmentId Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   // Quan hệ
-  majors              Major[]
-  subjects            Subject[]
-  staffs              Staff[]
+  majors   Major[]
+  subjects Subject[]
+  staffs   Staff[]
 
   @@map("departments")
-}  
+}
 
 // ==========================
 // 2. MAJORS (NGÀNH ĐÀO TẠO)
 // ==========================
 model Major {
-  id              Int        @id @default(autoincrement())
-  majorCode       String     @unique
-  majorName       String
-  
+  id        Int    @id @default(autoincrement())
+  majorCode String @unique
+  majorName String
+
   // Thuộc về phòng ban/khoa nào
-  deptId          Int
-  department      Department @relation(fields: [deptId], references: [id])
-  
-  description     String?    @db.Text
-  
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt  @default(now())
+  deptId     Int
+  department Department @relation(fields: [deptId], references: [id])
+
+  description String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   // Quan hệ
-  classes         Class[]
-  curriculumn     Curriculum[]
-  batches         Batch[]
-  students        Student[]
-  tuitionConfigs  TuitionConfig[]
+  classes                 Class[]
+  curriculumn             Curriculum[]
+  batches                 Batch[]
+  students                Student[]
+  tuitionConfigs          TuitionConfig[]
   admissionCampaignMajors AdmissionCampaignMajor[]
 
   @@map("majors")
@@ -75,33 +74,33 @@ model Major {
 // 2.5 BATCHES (KHÓA ĐÀO TẠO)
 // ==========================
 model Batch {
-  id          Int      @id @default(autoincrement())
-  batchCode   String   @unique // Ví dụ: K1, K26, 2026
-  batchName   String   // Ví dụ: Khóa 1, Khóa 2026
-  
-  academicYearId      Int?
-  academicYear        AcademicYear?      @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
-  startYear   Int      // Năm bắt đầu - mặc định là kỳ 1 
-  endYear     Int      // Năm kết thúc dự kiến 
-  endTerm     Int?    // Kỳ kết thúc
+  id        Int    @id @default(autoincrement())
+  batchCode String @unique // Ví dụ: K1, K26, 2026
+  batchName String // Ví dụ: Khóa 1, Khóa 2026
+
+  academicYearId Int?
+  academicYear   AcademicYear? @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
+  startYear      Int // Năm bắt đầu - mặc định là kỳ 1 
+  endYear        Int // Năm kết thúc dự kiến 
+  endTerm        Int? // Kỳ kết thúc
 
   description String?
 
-  majorId     Int
-  major       Major    @relation(fields: [majorId], references: [id])
+  majorId Int
+  major   Major @relation(fields: [majorId], references: [id])
 
-  curriculumId  Int?    @unique
-  curriculum    Curriculum? @relation(fields: [curriculumId], references: [id])
+  curriculumId Int?        @unique
+  curriculum   Curriculum? @relation(fields: [curriculumId], references: [id])
 
   // Trạng thái khóa học: ADMISSION (đang tuyển), ACTIVE (đang học), GRADUATED (đã tốt nghiệp)
-  status      String   @default("ACTIVE")
+  status String @default("ACTIVE")
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Quan hệ: Một khóa có nhiều lớp
-  classes     Class[]
-  students    Student[]
+  classes        Class[]
+  students       Student[]
   tuitionConfigs TuitionConfig[]
 
   @@map("batches")
@@ -111,28 +110,28 @@ model Batch {
 // 3. CLASSES (LỚP HỌC)
 // ==========================
 model Class {
-  id            Int      @id @default(autoincrement())
-  classCode     String   @unique // CNTTK1A
-  className     String
-  
+  id        Int    @id @default(autoincrement())
+  classCode String @unique // CNTTK1A
+  className String
+
   // Thuộc về 1 ngành
-  majorId       Int
-  major         Major    @relation(fields: [majorId], references: [id])
-  
+  majorId Int
+  major   Major @relation(fields: [majorId], references: [id])
+
   // Liên kết với Khóa đào tạo
-  batchId       Int?
-  batch         Batch?    @relation(fields: [batchId], references: [id])
-  
+  batchId Int?
+  batch   Batch? @relation(fields: [batchId], references: [id])
+
   // Giáo viên chủ nhiệm
   formTeacherId Int?
-  
-  maxStudents   Int      @default(40)
-  currentSize   Int      @default(0) // Nên có trường này để track sĩ số nhanh
-  
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
 
-  classSubjects  ClassSubject[]
+  maxStudents Int @default(40)
+  currentSize Int @default(0) // Nên có trường này để track sĩ số nhanh
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  classSubjects ClassSubject[]
   students      Student[] // Một lớp có nhiều học sinh
 
   @@map("classes")
@@ -142,35 +141,35 @@ model Class {
 // 4. SUBJECTS (MÔN HỌC)
 // ==========================
 enum KnowledgeBlock {
-  GENERAL      // Khối kiến thức đại cương / Môn chung
-  BASE_MAJOR   // Khối kiến thức cơ sở ngành
-  SPECIALIZED  // Khối kiến thức chuyên ngành
+  GENERAL // Khối kiến thức đại cương / Môn chung
+  BASE_MAJOR // Khối kiến thức cơ sở ngành
+  SPECIALIZED // Khối kiến thức chuyên ngành
 }
 
 model Subject {
-  id            Int            @id @default(autoincrement())
-  subjectCode   String         @unique
-  subjectName   String
-  
-  departmentId  Int?
-  department    Department?    @relation(fields: [departmentId], references: [id])
-  
-  credits       Int            @default(0)
-  theoryHours   Int            @default(0)
-  practiceHours Int            @default(0)
-  testHours     Int?           @default(0)
-  description   String?        @db.Text
+  id          Int    @id @default(autoincrement())
+  subjectCode String @unique
+  subjectName String
 
-  isThucTap     Boolean   @default(false) // Field này đánh dấu ClassSubject này có phải báo cáo thực tập ko
+  departmentId Int?
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  credits       Int     @default(0)
+  theoryHours   Int     @default(0)
+  practiceHours Int     @default(0)
+  testHours     Int?    @default(0)
+  description   String? @db.Text
+
+  isThucTap Boolean @default(false) // Field này đánh dấu ClassSubject này có phải báo cáo thực tập ko
 
   knowledgeBlock KnowledgeBlock @default(GENERAL)
-  
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Quan hệ
   curriculumSubjects CurriculumSubject[]
-  classSubjects       ClassSubject[]
+  classSubjects      ClassSubject[]
   teacherSubjects    TeacherSubject[]
 
   @@map("subjects")
@@ -180,18 +179,18 @@ model Subject {
 // 6. CURRICULUMS (CHƯƠNG TRÌNH KHUNG)
 // ==========================
 model Curriculum {
-  id             Int       @id @default(autoincrement())
-  curriculumCode String    @unique // Ví dụ: CTK-CNTT-2023
+  id             Int    @id @default(autoincrement())
+  curriculumCode String @unique // Ví dụ: CTK-CNTT-2023
   curriculumName String
-  
-  majorId        Int
-  major          Major     @relation(fields: [majorId], references: [id])
 
-  totalCredits   Int       @default(0)
-  isActive       Boolean   @default(true)
-  
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  majorId Int
+  major   Major @relation(fields: [majorId], references: [id])
+
+  totalCredits Int     @default(0)
+  isActive     Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Quan hệ
   curriculumSubjects CurriculumSubject[]
@@ -205,23 +204,23 @@ model Curriculum {
 // ==========================
 enum EnrollmentType {
   COMPULSORY // Bắt buộc
-  ELECTIVE   // Tự chọn
+  ELECTIVE // Tự chọn
 }
 
 model CurriculumSubject {
-  id             Int            @id @default(autoincrement())
-  
-  curriculumId   Int
-  curriculum     Curriculum     @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
-  
-  subjectId      Int
-  subject        Subject        @relation(fields: [subjectId], references: [id], onDelete: Restrict)
-  
-  semesterNumber Int            // Học kỳ gợi ý
+  id Int @id @default(autoincrement())
+
+  curriculumId Int
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [id], onDelete: Cascade)
+
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+
+  semesterNumber Int // Học kỳ gợi ý
   enrollmentType EnrollmentType @default(COMPULSORY) // Mặc định là bắt buộc
-  
-  minGrade       Float          @default(5.0) // Điểm tối thiểu để qua môn
-  createdAt      DateTime       @default(now())
+
+  minGrade  Float    @default(5.0) // Điểm tối thiểu để qua môn
+  createdAt DateTime @default(now())
 
   @@unique([curriculumId, subjectId])
   @@map("curriculum_subjects")

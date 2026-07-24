@@ -81,6 +81,8 @@ export const ModelName = {
   Ward: 'Ward',
   Village: 'Village',
   GradeStudent: 'GradeStudent',
+  Attendance: 'Attendance',
+  AttendanceSummary: 'AttendanceSummary',
   TeacherSubject: 'TeacherSubject',
   TuitionPeriod: 'TuitionPeriod',
   TuitionConfig: 'TuitionConfig',
@@ -573,6 +575,39 @@ export const GradeStudentScalarFieldEnum = {
 } as const
 
 export type GradeStudentScalarFieldEnum = (typeof GradeStudentScalarFieldEnum)[keyof typeof GradeStudentScalarFieldEnum]
+
+
+export const AttendanceScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  scheduleDetailId: 'scheduleDetailId',
+  classSubjectId: 'classSubjectId',
+  status: 'status',
+  note: 'note',
+  recordedById: 'recordedById',
+  recordedAt: 'recordedAt'
+} as const
+
+export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
+
+
+export const AttendanceSummaryScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  classSubjectId: 'classSubjectId',
+  totalPeriods: 'totalPeriods',
+  absentUnfreePeriods: 'absentUnfreePeriods',
+  absentFreePeriods: 'absentFreePeriods',
+  totalAbsentPeriods: 'totalAbsentPeriods',
+  absentPercentage: 'absentPercentage',
+  examStatus: 'examStatus',
+  isManuallyLocked: 'isManuallyLocked',
+  lockReason: 'lockReason',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AttendanceSummaryScalarFieldEnum = (typeof AttendanceSummaryScalarFieldEnum)[keyof typeof AttendanceSummaryScalarFieldEnum]
 
 
 export const TeacherSubjectScalarFieldEnum = {

@@ -2,22 +2,22 @@
 // USERS (AUTH + COMMON PROFILE)
 // ==========================
 model User {
-  id            Int       @id @default(autoincrement())
-  username      String    @unique
-  staffId       Int?      @unique
-  studentId     Int?      @unique
-  passwordHash  String
-  lastLoginAt   DateTime?
-  role          RoleType
-  isActive      Boolean   @default(true)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  deletedAt     DateTime? // Soft delete
+  id           Int       @id @default(autoincrement())
+  username     String    @unique
+  staffId      Int?      @unique
+  studentId    Int?      @unique
+  passwordHash String
+  lastLoginAt  DateTime?
+  role         RoleType
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime? // Soft delete
 
-  student       Student?
-  staff         Staff?
-  posts         Post[]
-  admissionStatusLogs AdmissionStatusLog[]
+  student                    Student?
+  staff                      Staff?
+  posts                      Post[]
+  admissionStatusLogs        AdmissionStatusLog[]
   verifiedAdmissionDocuments AdmissionDocument[]
 
   @@map("users")
@@ -32,30 +32,30 @@ enum EmployeeRole {
 }
 
 model Staff {
-  id                Int         @id @default(autoincrement())
-  staffCode         String      @unique
-  userId            Int?        @unique
-  user              User?       @relation(fields: [userId], references: [id])
-  email             String?     @unique
+  id                Int           @id @default(autoincrement())
+  staffCode         String        @unique
+  userId            Int?          @unique
+  user              User?         @relation(fields: [userId], references: [id])
+  email             String?       @unique
   fullName          String?
-  gender            Boolean?    // true: male, false: female
-  dob               DateTime?   @db.Date
-  phone             String?    
+  gender            Boolean? // true: male, false: female
+  dob               DateTime?     @db.Date
+  phone             String?
   avatarUrl         String?
   address           String?
-  identityNumber    String?     @unique // CCCD
+  identityNumber    String?       @unique // CCCD
   departmentId      Int?
-  department        Department? @relation(fields: [departmentId], references: [id])
-  position          String?     // Ví dụ: Nhân viên kế toán, hiệu trưởng...
-  hireDate          DateTime?   @db.Date
-  contractType      String?     // full-time, part-time
-  salaryCoefficient Float?      // Hệ số lương
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  department        Department?   @relation(fields: [departmentId], references: [id])
+  position          String? // Ví dụ: Nhân viên kế toán, hiệu trưởng...
+  hireDate          DateTime?     @db.Date
+  contractType      String? // full-time, part-time
+  salaryCoefficient Float? // Hệ số lương
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
   EmployeeRole      EmployeeRole?
 
-  classSubjects      ClassSubject[]
-  teacherSubjects   TeacherSubject[]
+  classSubjects   ClassSubject[]
+  teacherSubjects TeacherSubject[]
 
   @@map("staffs")
 }

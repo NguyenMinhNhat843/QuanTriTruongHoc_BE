@@ -201,6 +201,23 @@ export const DayOfWeek = {
 export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
 
 
+export const AttendanceStatus = {
+  PRESENT: 'PRESENT',
+  ABSENT: 'ABSENT'
+} as const
+
+export type AttendanceStatus = (typeof AttendanceStatus)[keyof typeof AttendanceStatus]
+
+
+export const ExamEligibilityStatus = {
+  ELIGIBLE: 'ELIGIBLE',
+  INELIGIBLE: 'INELIGIBLE',
+  PENDING: 'PENDING'
+} as const
+
+export type ExamEligibilityStatus = (typeof ExamEligibilityStatus)[keyof typeof ExamEligibilityStatus]
+
+
 export const PostType = {
   NEWS: 'NEWS',
   ADMISSION: 'ADMISSION',

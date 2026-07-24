@@ -168,6 +168,16 @@ export type Village = Prisma.VillageModel
  */
 export type GradeStudent = Prisma.GradeStudentModel
 /**
+ * Model Attendance
+ * 
+ */
+export type Attendance = Prisma.AttendanceModel
+/**
+ * Model AttendanceSummary
+ * 
+ */
+export type AttendanceSummary = Prisma.AttendanceSummaryModel
+/**
  * Model TeacherSubject
  * 
  */

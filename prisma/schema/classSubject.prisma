@@ -1,4 +1,3 @@
-
 enum ClassSubjectStatus {
   planned
   open
@@ -17,50 +16,116 @@ enum DayOfWeek {
 }
 
 model GradeStudent {
-  id             Int         @id @default(autoincrement())
-  
-  studentId      Int
-  student        Student     @relation(fields: [studentId], references: [id])
-  
-  classSubjectId  Int
-  classSubject    ClassSubject @relation(fields: [classSubjectId], references: [id])
-  
-  kttx1           Float?
-  kttx2           Float?
-  kttx3           Float?
-  ktdk1           Float?
-  ktdk2           Float?
-  ktdk3           Float?
-  ktdk4           Float?
-  diemTB          Float?
-  diemKiemTra1    Float?
-  diemKiemTra2    Float?
-  diemTongKet1    Float?
-  diemTongKet2    Float?
-  rating          String?
+  id Int @id @default(autoincrement())
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  classSubjectId Int
+  classSubject   ClassSubject @relation(fields: [classSubjectId], references: [id])
+
+  kttx1        Float?
+  kttx2        Float?
+  kttx3        Float?
+  ktdk1        Float?
+  ktdk2        Float?
+  ktdk3        Float?
+  ktdk4        Float?
+  diemTB       Float?
+  diemKiemTra1 Float?
+  diemKiemTra2 Float?
+  diemTongKet1 Float?
+  diemTongKet2 Float?
+  rating       String?
 
   // Điểm cho báo cáo thực tập
-  diemYThuc       Float?
-  diemChuyenMon   Float?
-  diemBaoCao      Float?
+  diemYThuc     Float?
+  diemChuyenMon Float?
+  diemBaoCao    Float?
 
-  note           String?     @db.Text
-  
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  note String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([studentId, classSubjectId])
   @@map("grade_student")
 }
 
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+}
+
+model Attendance {
+  id Int @id @default(autoincrement())
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  scheduleDetailId Int
+  scheduleDetail   ClassSubjectScheduleDetail @relation(fields: [scheduleDetailId], references: [id])
+
+  classSubjectId Int
+  classSubject   ClassSubject @relation(fields: [classSubjectId], references: [id])
+
+  status       AttendanceStatus @default(PRESENT)
+  note         String? // lý do nghỉ (nếu có) — chỉ để tham khảo, KHÔNG ảnh hưởng cách tính
+  recordedById Int?
+  recordedAt   DateTime         @default(now())
+
+  @@unique([studentId, scheduleDetailId])
+  @@index([classSubjectId, studentId])
+  @@map("attendance")
+}
+
+enum ExamEligibilityStatus {
+  ELIGIBLE // Đủ điều kiện thi
+  INELIGIBLE // Cấm thi (Vắng quá % quy định)
+  PENDING // Chờ xét duyệt
+}
+
+// ==========================================
+// BẢNG TỔNG HỢP & XÉT DUYỆT ĐIỀU KIỆN THI
+// ==========================================
+model AttendanceSummary {
+  id Int @id @default(autoincrement())
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  classSubjectId Int
+  classSubject   ClassSubject @relation(fields: [classSubjectId], references: [id], onDelete: Cascade)
+
+  // Con số thống kê tổng hợp
+  totalPeriods        Int @default(0) // Tổng số tiết môn học đã diễn ra
+  absentUnfreePeriods Int @default(0) // Số tiết vắng KHÔNG phép
+  absentFreePeriods   Int @default(0) // Số tiết vắng CÓ phép
+  totalAbsentPeriods  Int @default(0) // Tổng tiết vắng (Unfree + Free * hệ số)
+
+  absentPercentage Float @default(0) // Tỷ lệ % vắng: (totalAbsentPeriods / totalPeriods) * 100
+
+  // Xét duyệt thi
+  examStatus       ExamEligibilityStatus @default(ELIGIBLE)
+  isManuallyLocked Boolean               @default(false) // Đánh dấu nếu Admin/Phòng đào tạo chốt tay
+  lockReason       String? // Ghi chú lý do cấm thi hoặc điều chỉnh đặc biệt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, classSubjectId])
+  @@index([classSubjectId])
+  @@map("attendance_summaries")
+}
+
 model TeacherSubject {
-  id        Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   teacherId Int
   subjectId Int
 
-  teacher   Staff   @relation(fields: [teacherId], references: [id])
-  subject   Subject @relation(fields: [subjectId], references: [id])
+  teacher Staff   @relation(fields: [teacherId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
 
   createdAt DateTime @default(now())
 

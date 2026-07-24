@@ -53,6 +53,7 @@ export class ClassSubjectService {
           select: {
             className: true,
             classCode: true,
+            currentSize: true,
           },
         },
         teacher: true,
@@ -135,7 +136,11 @@ export class ClassSubjectService {
       select: {
         classId: true,
         subject: { select: { isThucTap: true } },
-        gradeStudents: { select: { studentId: true } },
+        gradeStudents: {
+          include: {
+            student: true,
+          },
+        },
         baseClass: {
           select: {
             students: {

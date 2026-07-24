@@ -254,6 +254,8 @@ export type ClassSubjectWhereInput = {
   semester?: Prisma.XOR<Prisma.SemesterScalarRelationFilter, Prisma.SemesterWhereInput>
   gradeStudents?: Prisma.GradeStudentListRelationFilter
   classSubjectSessions?: Prisma.ClassSubjectSessionListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
+  attendanceSummaries?: Prisma.AttendanceSummaryListRelationFilter
 }
 
 export type ClassSubjectOrderByWithRelationInput = {
@@ -270,6 +272,8 @@ export type ClassSubjectOrderByWithRelationInput = {
   semester?: Prisma.SemesterOrderByWithRelationInput
   gradeStudents?: Prisma.GradeStudentOrderByRelationAggregateInput
   classSubjectSessions?: Prisma.ClassSubjectSessionOrderByRelationAggregateInput
+  attendances?: Prisma.AttendanceOrderByRelationAggregateInput
+  attendanceSummaries?: Prisma.AttendanceSummaryOrderByRelationAggregateInput
 }
 
 export type ClassSubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -290,6 +294,8 @@ export type ClassSubjectWhereUniqueInput = Prisma.AtLeast<{
   semester?: Prisma.XOR<Prisma.SemesterScalarRelationFilter, Prisma.SemesterWhereInput>
   gradeStudents?: Prisma.GradeStudentListRelationFilter
   classSubjectSessions?: Prisma.ClassSubjectSessionListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
+  attendanceSummaries?: Prisma.AttendanceSummaryListRelationFilter
 }, "id" | "subjectId_classId">
 
 export type ClassSubjectOrderByWithAggregationInput = {
@@ -329,6 +335,8 @@ export type ClassSubjectCreateInput = {
   semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
   gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUncheckedCreateInput = {
@@ -341,6 +349,8 @@ export type ClassSubjectUncheckedCreateInput = {
   updatedAt?: Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUpdateInput = {
@@ -352,6 +362,8 @@ export type ClassSubjectUpdateInput = {
   semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
   gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateInput = {
@@ -364,6 +376,8 @@ export type ClassSubjectUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectCreateManyInput = {
@@ -597,6 +611,34 @@ export type ClassSubjectUpdateOneRequiredWithoutGradeStudentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClassSubjectUpdateToOneWithWhereWithoutGradeStudentsInput, Prisma.ClassSubjectUpdateWithoutGradeStudentsInput>, Prisma.ClassSubjectUncheckedUpdateWithoutGradeStudentsInput>
 }
 
+export type ClassSubjectCreateNestedOneWithoutAttendancesInput = {
+  create?: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendancesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.ClassSubjectCreateOrConnectWithoutAttendancesInput
+  connect?: Prisma.ClassSubjectWhereUniqueInput
+}
+
+export type ClassSubjectUpdateOneRequiredWithoutAttendancesNestedInput = {
+  create?: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendancesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.ClassSubjectCreateOrConnectWithoutAttendancesInput
+  upsert?: Prisma.ClassSubjectUpsertWithoutAttendancesInput
+  connect?: Prisma.ClassSubjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClassSubjectUpdateToOneWithWhereWithoutAttendancesInput, Prisma.ClassSubjectUpdateWithoutAttendancesInput>, Prisma.ClassSubjectUncheckedUpdateWithoutAttendancesInput>
+}
+
+export type ClassSubjectCreateNestedOneWithoutAttendanceSummariesInput = {
+  create?: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendanceSummariesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendanceSummariesInput>
+  connectOrCreate?: Prisma.ClassSubjectCreateOrConnectWithoutAttendanceSummariesInput
+  connect?: Prisma.ClassSubjectWhereUniqueInput
+}
+
+export type ClassSubjectUpdateOneRequiredWithoutAttendanceSummariesNestedInput = {
+  create?: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendanceSummariesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendanceSummariesInput>
+  connectOrCreate?: Prisma.ClassSubjectCreateOrConnectWithoutAttendanceSummariesInput
+  upsert?: Prisma.ClassSubjectUpsertWithoutAttendanceSummariesInput
+  connect?: Prisma.ClassSubjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClassSubjectUpdateToOneWithWhereWithoutAttendanceSummariesInput, Prisma.ClassSubjectUpdateWithoutAttendanceSummariesInput>, Prisma.ClassSubjectUncheckedUpdateWithoutAttendanceSummariesInput>
+}
+
 export type ClassSubjectCreateNestedManyWithoutSemesterInput = {
   create?: Prisma.XOR<Prisma.ClassSubjectCreateWithoutSemesterInput, Prisma.ClassSubjectUncheckedCreateWithoutSemesterInput> | Prisma.ClassSubjectCreateWithoutSemesterInput[] | Prisma.ClassSubjectUncheckedCreateWithoutSemesterInput[]
   connectOrCreate?: Prisma.ClassSubjectCreateOrConnectWithoutSemesterInput | Prisma.ClassSubjectCreateOrConnectWithoutSemesterInput[]
@@ -661,6 +703,8 @@ export type ClassSubjectCreateWithoutBaseClassInput = {
   semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
   gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutBaseClassInput = {
@@ -672,6 +716,8 @@ export type ClassSubjectUncheckedCreateWithoutBaseClassInput = {
   updatedAt?: Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutBaseClassInput = {
@@ -721,6 +767,8 @@ export type ClassSubjectCreateWithoutSubjectInput = {
   semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
   gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutSubjectInput = {
@@ -732,6 +780,8 @@ export type ClassSubjectUncheckedCreateWithoutSubjectInput = {
   updatedAt?: Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutSubjectInput = {
@@ -768,6 +818,8 @@ export type ClassSubjectCreateWithoutTeacherInput = {
   semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
   gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutTeacherInput = {
@@ -779,6 +831,8 @@ export type ClassSubjectUncheckedCreateWithoutTeacherInput = {
   updatedAt?: Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutTeacherInput = {
@@ -815,6 +869,8 @@ export type ClassSubjectCreateWithoutGradeStudentsInput = {
   baseClass?: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
   semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
   classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutGradeStudentsInput = {
@@ -826,6 +882,8 @@ export type ClassSubjectUncheckedCreateWithoutGradeStudentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutGradeStudentsInput = {
@@ -852,6 +910,8 @@ export type ClassSubjectUpdateWithoutGradeStudentsInput = {
   baseClass?: Prisma.ClassUpdateOneWithoutClassSubjectsNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutGradeStudentsInput = {
@@ -863,6 +923,140 @@ export type ClassSubjectUncheckedUpdateWithoutGradeStudentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
+}
+
+export type ClassSubjectCreateWithoutAttendancesInput = {
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  teacher?: Prisma.StaffCreateNestedOneWithoutClassSubjectsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutClassSubjectsInput
+  baseClass?: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
+  semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
+  gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
+}
+
+export type ClassSubjectUncheckedCreateWithoutAttendancesInput = {
+  id?: number
+  teacherId?: number | null
+  subjectId: number
+  classId?: number | null
+  semesterId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
+}
+
+export type ClassSubjectCreateOrConnectWithoutAttendancesInput = {
+  where: Prisma.ClassSubjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendancesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendancesInput>
+}
+
+export type ClassSubjectUpsertWithoutAttendancesInput = {
+  update: Prisma.XOR<Prisma.ClassSubjectUpdateWithoutAttendancesInput, Prisma.ClassSubjectUncheckedUpdateWithoutAttendancesInput>
+  create: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendancesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendancesInput>
+  where?: Prisma.ClassSubjectWhereInput
+}
+
+export type ClassSubjectUpdateToOneWithWhereWithoutAttendancesInput = {
+  where?: Prisma.ClassSubjectWhereInput
+  data: Prisma.XOR<Prisma.ClassSubjectUpdateWithoutAttendancesInput, Prisma.ClassSubjectUncheckedUpdateWithoutAttendancesInput>
+}
+
+export type ClassSubjectUpdateWithoutAttendancesInput = {
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher?: Prisma.StaffUpdateOneWithoutClassSubjectsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutClassSubjectsNestedInput
+  baseClass?: Prisma.ClassUpdateOneWithoutClassSubjectsNestedInput
+  semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
+  gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
+}
+
+export type ClassSubjectUncheckedUpdateWithoutAttendancesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectId?: Prisma.IntFieldUpdateOperationsInput | number
+  classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  semesterId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
+}
+
+export type ClassSubjectCreateWithoutAttendanceSummariesInput = {
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  teacher?: Prisma.StaffCreateNestedOneWithoutClassSubjectsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutClassSubjectsInput
+  baseClass?: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
+  semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
+  gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+}
+
+export type ClassSubjectUncheckedCreateWithoutAttendanceSummariesInput = {
+  id?: number
+  teacherId?: number | null
+  subjectId: number
+  classId?: number | null
+  semesterId: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+}
+
+export type ClassSubjectCreateOrConnectWithoutAttendanceSummariesInput = {
+  where: Prisma.ClassSubjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendanceSummariesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendanceSummariesInput>
+}
+
+export type ClassSubjectUpsertWithoutAttendanceSummariesInput = {
+  update: Prisma.XOR<Prisma.ClassSubjectUpdateWithoutAttendanceSummariesInput, Prisma.ClassSubjectUncheckedUpdateWithoutAttendanceSummariesInput>
+  create: Prisma.XOR<Prisma.ClassSubjectCreateWithoutAttendanceSummariesInput, Prisma.ClassSubjectUncheckedCreateWithoutAttendanceSummariesInput>
+  where?: Prisma.ClassSubjectWhereInput
+}
+
+export type ClassSubjectUpdateToOneWithWhereWithoutAttendanceSummariesInput = {
+  where?: Prisma.ClassSubjectWhereInput
+  data: Prisma.XOR<Prisma.ClassSubjectUpdateWithoutAttendanceSummariesInput, Prisma.ClassSubjectUncheckedUpdateWithoutAttendanceSummariesInput>
+}
+
+export type ClassSubjectUpdateWithoutAttendanceSummariesInput = {
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  teacher?: Prisma.StaffUpdateOneWithoutClassSubjectsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutClassSubjectsNestedInput
+  baseClass?: Prisma.ClassUpdateOneWithoutClassSubjectsNestedInput
+  semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
+  gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+}
+
+export type ClassSubjectUncheckedUpdateWithoutAttendanceSummariesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  teacherId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  subjectId?: Prisma.IntFieldUpdateOperationsInput | number
+  classId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  semesterId?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
+  classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectCreateWithoutSemesterInput = {
@@ -873,6 +1067,8 @@ export type ClassSubjectCreateWithoutSemesterInput = {
   baseClass?: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
   gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutSemesterInput = {
@@ -884,6 +1080,8 @@ export type ClassSubjectUncheckedCreateWithoutSemesterInput = {
   updatedAt?: Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutSemesterInput = {
@@ -920,6 +1118,8 @@ export type ClassSubjectCreateWithoutClassSubjectSessionsInput = {
   baseClass?: Prisma.ClassCreateNestedOneWithoutClassSubjectsInput
   semester: Prisma.SemesterCreateNestedOneWithoutClassSubjectsInput
   gradeStudents?: Prisma.GradeStudentCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectUncheckedCreateWithoutClassSubjectSessionsInput = {
@@ -931,6 +1131,8 @@ export type ClassSubjectUncheckedCreateWithoutClassSubjectSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutClassSubjectInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedCreateNestedManyWithoutClassSubjectInput
 }
 
 export type ClassSubjectCreateOrConnectWithoutClassSubjectSessionsInput = {
@@ -957,6 +1159,8 @@ export type ClassSubjectUpdateWithoutClassSubjectSessionsInput = {
   baseClass?: Prisma.ClassUpdateOneWithoutClassSubjectsNestedInput
   semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
   gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutClassSubjectSessionsInput = {
@@ -968,6 +1172,8 @@ export type ClassSubjectUncheckedUpdateWithoutClassSubjectSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectCreateManyBaseClassInput = {
@@ -987,6 +1193,8 @@ export type ClassSubjectUpdateWithoutBaseClassInput = {
   semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
   gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutBaseClassInput = {
@@ -998,6 +1206,8 @@ export type ClassSubjectUncheckedUpdateWithoutBaseClassInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateManyWithoutBaseClassInput = {
@@ -1026,6 +1236,8 @@ export type ClassSubjectUpdateWithoutSubjectInput = {
   semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
   gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutSubjectInput = {
@@ -1037,6 +1249,8 @@ export type ClassSubjectUncheckedUpdateWithoutSubjectInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateManyWithoutSubjectInput = {
@@ -1065,6 +1279,8 @@ export type ClassSubjectUpdateWithoutTeacherInput = {
   semester?: Prisma.SemesterUpdateOneRequiredWithoutClassSubjectsNestedInput
   gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutTeacherInput = {
@@ -1076,6 +1292,8 @@ export type ClassSubjectUncheckedUpdateWithoutTeacherInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateManyWithoutTeacherInput = {
@@ -1104,6 +1322,8 @@ export type ClassSubjectUpdateWithoutSemesterInput = {
   baseClass?: Prisma.ClassUpdateOneWithoutClassSubjectsNestedInput
   gradeStudents?: Prisma.GradeStudentUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateWithoutSemesterInput = {
@@ -1115,6 +1335,8 @@ export type ClassSubjectUncheckedUpdateWithoutSemesterInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   gradeStudents?: Prisma.GradeStudentUncheckedUpdateManyWithoutClassSubjectNestedInput
   classSubjectSessions?: Prisma.ClassSubjectSessionUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutClassSubjectNestedInput
+  attendanceSummaries?: Prisma.AttendanceSummaryUncheckedUpdateManyWithoutClassSubjectNestedInput
 }
 
 export type ClassSubjectUncheckedUpdateManyWithoutSemesterInput = {
@@ -1134,11 +1356,15 @@ export type ClassSubjectUncheckedUpdateManyWithoutSemesterInput = {
 export type ClassSubjectCountOutputType = {
   gradeStudents: number
   classSubjectSessions: number
+  attendances: number
+  attendanceSummaries: number
 }
 
 export type ClassSubjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   gradeStudents?: boolean | ClassSubjectCountOutputTypeCountGradeStudentsArgs
   classSubjectSessions?: boolean | ClassSubjectCountOutputTypeCountClassSubjectSessionsArgs
+  attendances?: boolean | ClassSubjectCountOutputTypeCountAttendancesArgs
+  attendanceSummaries?: boolean | ClassSubjectCountOutputTypeCountAttendanceSummariesArgs
 }
 
 /**
@@ -1165,6 +1391,20 @@ export type ClassSubjectCountOutputTypeCountClassSubjectSessionsArgs<ExtArgs ext
   where?: Prisma.ClassSubjectSessionWhereInput
 }
 
+/**
+ * ClassSubjectCountOutputType without action
+ */
+export type ClassSubjectCountOutputTypeCountAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttendanceWhereInput
+}
+
+/**
+ * ClassSubjectCountOutputType without action
+ */
+export type ClassSubjectCountOutputTypeCountAttendanceSummariesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttendanceSummaryWhereInput
+}
+
 
 export type ClassSubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1180,6 +1420,8 @@ export type ClassSubjectSelect<ExtArgs extends runtime.Types.Extensions.Internal
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
   gradeStudents?: boolean | Prisma.ClassSubject$gradeStudentsArgs<ExtArgs>
   classSubjectSessions?: boolean | Prisma.ClassSubject$classSubjectSessionsArgs<ExtArgs>
+  attendances?: boolean | Prisma.ClassSubject$attendancesArgs<ExtArgs>
+  attendanceSummaries?: boolean | Prisma.ClassSubject$attendanceSummariesArgs<ExtArgs>
   _count?: boolean | Prisma.ClassSubjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["classSubject"]>
 
@@ -1229,6 +1471,8 @@ export type ClassSubjectInclude<ExtArgs extends runtime.Types.Extensions.Interna
   semester?: boolean | Prisma.SemesterDefaultArgs<ExtArgs>
   gradeStudents?: boolean | Prisma.ClassSubject$gradeStudentsArgs<ExtArgs>
   classSubjectSessions?: boolean | Prisma.ClassSubject$classSubjectSessionsArgs<ExtArgs>
+  attendances?: boolean | Prisma.ClassSubject$attendancesArgs<ExtArgs>
+  attendanceSummaries?: boolean | Prisma.ClassSubject$attendanceSummariesArgs<ExtArgs>
   _count?: boolean | Prisma.ClassSubjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClassSubjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1253,6 +1497,8 @@ export type $ClassSubjectPayload<ExtArgs extends runtime.Types.Extensions.Intern
     semester: Prisma.$SemesterPayload<ExtArgs>
     gradeStudents: Prisma.$GradeStudentPayload<ExtArgs>[]
     classSubjectSessions: Prisma.$ClassSubjectSessionPayload<ExtArgs>[]
+    attendances: Prisma.$AttendancePayload<ExtArgs>[]
+    attendanceSummaries: Prisma.$AttendanceSummaryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1662,6 +1908,8 @@ export interface Prisma__ClassSubjectClient<T, Null = never, ExtArgs extends run
   semester<T extends Prisma.SemesterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SemesterDefaultArgs<ExtArgs>>): Prisma.Prisma__SemesterClient<runtime.Types.Result.GetResult<Prisma.$SemesterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   gradeStudents<T extends Prisma.ClassSubject$gradeStudentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubject$gradeStudentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradeStudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   classSubjectSessions<T extends Prisma.ClassSubject$classSubjectSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubject$classSubjectSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassSubjectSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attendances<T extends Prisma.ClassSubject$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubject$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attendanceSummaries<T extends Prisma.ClassSubject$attendanceSummariesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubject$attendanceSummariesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendanceSummaryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2182,6 +2430,54 @@ export type ClassSubject$classSubjectSessionsArgs<ExtArgs extends runtime.Types.
   take?: number
   skip?: number
   distinct?: Prisma.ClassSubjectSessionScalarFieldEnum | Prisma.ClassSubjectSessionScalarFieldEnum[]
+}
+
+/**
+ * ClassSubject.attendances
+ */
+export type ClassSubject$attendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attendance
+   */
+  select?: Prisma.AttendanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attendance
+   */
+  omit?: Prisma.AttendanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceInclude<ExtArgs> | null
+  where?: Prisma.AttendanceWhereInput
+  orderBy?: Prisma.AttendanceOrderByWithRelationInput | Prisma.AttendanceOrderByWithRelationInput[]
+  cursor?: Prisma.AttendanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttendanceScalarFieldEnum | Prisma.AttendanceScalarFieldEnum[]
+}
+
+/**
+ * ClassSubject.attendanceSummaries
+ */
+export type ClassSubject$attendanceSummariesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AttendanceSummary
+   */
+  select?: Prisma.AttendanceSummarySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AttendanceSummary
+   */
+  omit?: Prisma.AttendanceSummaryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceSummaryInclude<ExtArgs> | null
+  where?: Prisma.AttendanceSummaryWhereInput
+  orderBy?: Prisma.AttendanceSummaryOrderByWithRelationInput | Prisma.AttendanceSummaryOrderByWithRelationInput[]
+  cursor?: Prisma.AttendanceSummaryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttendanceSummaryScalarFieldEnum | Prisma.AttendanceSummaryScalarFieldEnum[]
 }
 
 /**

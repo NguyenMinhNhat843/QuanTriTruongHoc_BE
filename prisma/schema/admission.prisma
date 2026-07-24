@@ -2,33 +2,33 @@
 // TUYỂN SINH — ĐỢT & NGÀNH & CHỈ TIÊU (ĐÃ ĐƠN GIẢN HÓA)
 // ==========================================
 enum CampaignStatus {
-  PLANNING   // Lập kế hoạch (chưa mở)
-  OPEN       // Đang nhận hồ sơ
-  CLOSED     // Đã hết hạn nhận hồ sơ
-  COMPLETED  // Đã hoàn tất công tác tuyển sinh đợt này
+  PLANNING // Lập kế hoạch (chưa mở)
+  OPEN // Đang nhận hồ sơ
+  CLOSED // Đã hết hạn nhận hồ sơ
+  COMPLETED // Đã hoàn tất công tác tuyển sinh đợt này
 }
 
 // Mỗi năm học CHỈ tạo 1 đợt tuyển sinh (1 AdmissionCampaign / năm).
 // Nếu cần nhận hồ sơ thêm, chỉ cần gia hạn endDate của đợt hiện tại,
 // KHÔNG tạo đợt mới.
 model AdmissionCampaign {
-  id             Int            @id @default(autoincrement())
-  code           String         @unique // "TS-2026"
-  name           String         // "Tuyển sinh Năm học 2026"
+  id   Int    @id @default(autoincrement())
+  code String @unique // "TS-2026"
+  name String // "Tuyển sinh Năm học 2026"
 
-  startDate      DateTime       @db.Date
-  endDate        DateTime       @db.Date
-  status         CampaignStatus @default(PLANNING)
+  startDate DateTime       @db.Date
+  endDate   DateTime       @db.Date
+  status    CampaignStatus @default(PLANNING)
 
-  description    String?
+  description String?
 
   academicYearId Int
-  academicYear   AcademicYear   @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Restrict)
   // Restrict thay vì Cascade: dữ liệu tuyển sinh phải lưu vĩnh viễn theo quy chế
   // lưu trữ, không cho xóa năm học kéo theo xóa toàn bộ hồ sơ tuyển sinh liên quan.
 
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   campaignMajors AdmissionCampaignMajor[]
 
@@ -39,28 +39,28 @@ model AdmissionCampaign {
 // đợt tuyển sinh của năm đó. Xét tuyển CHỈ theo 1 phương thức duy nhất:
 // học bạ theo tổ hợp 3 môn + hạnh kiểm
 model AdmissionCampaignMajor {
-  id                    Int                 @id @default(autoincrement())
-  admissionCampaignId   Int
-  majorId               Int
-  batchId               Int
-  trainingType          TrainingType        // Trung cấp hoặc Sơ cấp
+  id                  Int          @id @default(autoincrement())
+  admissionCampaignId Int
+  majorId             Int
+  batchId             Int
+  trainingType        TrainingType // Trung cấp hoặc Sơ cấp
 
-  quota                 Int
+  quota Int
 
   // --- Tổ hợp 3 môn xét tuyển (bắt buộc, vd Nghề Tin học ứng dụng: Toán-Lý-Hóa) ---
-  subjectCombinationId  Int
-  subjectCombination    SubjectCombination  @relation(fields: [subjectCombinationId], references: [id])
+  subjectCombinationId Int
+  subjectCombination   SubjectCombination @relation(fields: [subjectCombinationId], references: [id])
 
-  minScorePerSubject    Float?              // điểm sàn từng môn (chống liệt)
-  minTotalScore         Float?              // điểm sàn điểm TB 3 môn
-  minConduct            Conduct?            // hạnh kiểm tối thiểu, áp dụng cho mọi năm xét
+  minScorePerSubject Float? // điểm sàn từng môn (chống liệt)
+  minTotalScore      Float? // điểm sàn điểm TB 3 môn
+  minConduct         Conduct? // hạnh kiểm tối thiểu, áp dụng cho mọi năm xét
 
-  cutoffScore           Float?              // điểm chuẩn — set sau khi duyệt hồ sơ, dùng để tự động APPROVE/REJECT
+  cutoffScore Float? // điểm chuẩn — set sau khi duyệt hồ sơ, dùng để tự động APPROVE/REJECT
 
-  admissionCampaign     AdmissionCampaign   @relation(fields: [admissionCampaignId], references: [id], onDelete: Cascade)
-  major                 Major               @relation(fields: [majorId], references: [id])
+  admissionCampaign AdmissionCampaign @relation(fields: [admissionCampaignId], references: [id], onDelete: Cascade)
+  major             Major             @relation(fields: [majorId], references: [id])
 
-  admissionProfiles     AdmissionProfile[]
+  admissionProfiles AdmissionProfile[]
 
   @@unique([admissionCampaignId, majorId, trainingType])
   @@map("admission_campaign_majors")
@@ -82,11 +82,11 @@ model SubjectCombination {
 }
 
 model SubjectCombinationItem {
-  id                   Int                @id @default(autoincrement())
+  id                   Int    @id @default(autoincrement())
   subjectCombinationId Int
   subjectName          String
 
-  subjectCombination   SubjectCombination @relation(fields: [subjectCombinationId], references: [id], onDelete: Cascade)
+  subjectCombination SubjectCombination @relation(fields: [subjectCombinationId], references: [id], onDelete: Cascade)
 
   @@unique([subjectCombinationId, subjectName])
   @@map("subject_combination_items")
@@ -97,12 +97,12 @@ model SubjectCombinationItem {
 // ==========================================
 enum ApplicationStatus {
   REGISTERED // Mới đăng ký online
-  SUBMITTED  // Đã nộp đủ hồ sơ số hóa, chờ duyệt
-  APPROVED   // Đã trúng tuyển (đủ điều kiện học lực), chờ xác nhận nhập học
-  CONFIRMED  // Thí sinh đã xác nhận nhập học / đóng phí giữ chỗ — hồ sơ giấy CHƯA chắc đã đối chiếu xong
-  REJECTED   // Rớt / hồ sơ không hợp lệ
-  ENROLLED   // Đã đối chiếu hồ sơ giấy đầy đủ & hợp lệ — TẠI ĐÂY mới tạo Student + User
-  CANCELLED  // Thí sinh tự hủy đăng ký
+  SUBMITTED // Đã nộp đủ hồ sơ số hóa, chờ duyệt
+  APPROVED // Đã trúng tuyển (đủ điều kiện học lực), chờ xác nhận nhập học
+  CONFIRMED // Thí sinh đã xác nhận nhập học / đóng phí giữ chỗ — hồ sơ giấy CHƯA chắc đã đối chiếu xong
+  REJECTED // Rớt / hồ sơ không hợp lệ
+  ENROLLED // Đã đối chiếu hồ sơ giấy đầy đủ & hợp lệ — TẠI ĐÂY mới tạo Student + User
+  CANCELLED // Thí sinh tự hủy đăng ký
 }
 
 enum Gender {
@@ -126,70 +126,70 @@ enum Conduct {
 // của năm đó. Xét tuyển CHỈ theo học bạ tổ hợp 3 môn + hạnh kiểm.
 // ==========================================
 model AdmissionProfile {
-  id                       Int                    @id @default(autoincrement())
-  applicationCode          String                 @unique // "HS2026-0001"
+  id              Int    @id @default(autoincrement())
+  applicationCode String @unique // "HS2026-0001"
 
   admissionCampaignMajorId Int
   admissionCampaignMajor   AdmissionCampaignMajor @relation(fields: [admissionCampaignMajorId], references: [id])
 
-  status                   ApplicationStatus      @default(REGISTERED)
-  educationLevel           EducationLevel         // THCS hoặc THPT — quyết định lấy học bạ 4 năm cấp 2 hay 3 năm cấp 3
+  status         ApplicationStatus @default(REGISTERED)
+  educationLevel EducationLevel // THCS hoặc THPT — quyết định lấy học bạ 4 năm cấp 2 hay 3 năm cấp 3
 
   // --- Thông tin cá nhân thí sinh ---
-  fullName                 String
-  identityNumber           String                 // CCCD / Mã định danh
-  dob                      DateTime               @db.Date
-  gender                   Gender
-  phone                    String
-  email                    String?
-  addressDetail            String?
-  provinceCode             String?
-  province                 Province?              @relation(fields: [provinceCode], references: [code])
-  wardCode                 String?
-  ward                     Ward?                  @relation(fields: [wardCode], references: [code])
-  villageId                Int?
-  village                  Village?               @relation(fields: [villageId], references: [id])
+  fullName       String
+  identityNumber String // CCCD / Mã định danh
+  dob            DateTime  @db.Date
+  gender         Gender
+  phone          String
+  email          String?
+  addressDetail  String?
+  provinceCode   String?
+  province       Province? @relation(fields: [provinceCode], references: [code])
+  wardCode       String?
+  ward           Ward?     @relation(fields: [wardCode], references: [code])
+  villageId      Int?
+  village        Village?  @relation(fields: [villageId], references: [id])
 
   // --- Thông tin Phụ huynh / Người giám hộ ---
-  fatherName               String?
-  fatherPhone              String?
-  motherName               String?
-  motherPhone              String?
-  guardianName             String?
-  guardianPhone            String?
+  fatherName    String?
+  fatherPhone   String?
+  motherName    String?
+  motherPhone   String?
+  guardianName  String?
+  guardianPhone String?
 
   // --- Hạnh kiểm từng năm học, dùng năm nào tùy educationLevel ---
-  conduct6                 Conduct?               // THCS
-  conduct7                 Conduct?
-  conduct8                 Conduct?
-  conduct9                 Conduct?
-  thcsGradYear             Int?
+  conduct6     Conduct? // THCS
+  conduct7     Conduct?
+  conduct8     Conduct?
+  conduct9     Conduct?
+  thcsGradYear Int?
 
-  conduct10                Conduct?               // THPT
-  conduct11                Conduct?
-  conduct12                Conduct?
-  thptGradYear             Int?
+  conduct10    Conduct? // THPT
+  conduct11    Conduct?
+  conduct12    Conduct?
+  thptGradYear Int?
 
   // --- Tổ hợp môn đăng ký xét (phải khớp AdmissionCampaignMajor.subjectCombination) ---
-  subjectCombinationId     Int
-  subjectCombination       SubjectCombination       @relation(fields: [subjectCombinationId], references: [id])
+  subjectCombinationId Int
+  subjectCombination   SubjectCombination @relation(fields: [subjectCombinationId], references: [id])
 
   // --- Điểm học bạ theo môn trong tổ hợp, theo từng năm (nguồn dữ liệu gốc) ---
-  transcriptSubjectScores  TranscriptSubjectScore[]
+  transcriptSubjectScores TranscriptSubjectScore[]
 
-  avgSubjectScore          Float?                 // điểm TB 3 môn tổ hợp, đã tính trung bình các năm — cache dùng để so sánh cutoffScore
+  avgSubjectScore Float? // điểm TB 3 môn tổ hợp, đã tính trung bình các năm — cache dùng để so sánh cutoffScore
 
-  note                     String?
+  note String?
 
-  createdAt                DateTime               @default(now())
-  updatedAt                DateTime               @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  documents                AdmissionDocument[]
-  statusLogs               AdmissionStatusLog[]
+  documents  AdmissionDocument[]
+  statusLogs AdmissionStatusLog[]
 
   // --- Liên kết ngược sang Student (chỉ có giá trị khi status = ENROLLED) ---
-  studentId                Int?                   @unique
-  student                  Student?               @relation(fields: [studentId], references: [id])
+  studentId Int?     @unique
+  student   Student? @relation(fields: [studentId], references: [id])
 
   // Chống 1 thí sinh nộp trùng nhiều hồ sơ cùng ngành + hệ trong cùng 1 đợt
   @@unique([admissionCampaignMajorId, identityNumber])
@@ -201,13 +201,13 @@ model AdmissionProfile {
 // Chỉ nhập đúng 3 môn nằm trong subjectCombination đã chọn (validate ở tầng
 // ứng dụng), đủ 4 năm (6-9) nếu educationLevel=THCS hoặc 3 năm (10-12) nếu THPT.
 model TranscriptSubjectScore {
-  id                 Int              @id @default(autoincrement())
+  id                 Int    @id @default(autoincrement())
   admissionProfileId Int
-  gradeLevel         Int              // 6,7,8,9 (THCS) hoặc 10,11,12 (THPT)
+  gradeLevel         Int // 6,7,8,9 (THCS) hoặc 10,11,12 (THPT)
   subjectCode        String
   score              Float
 
-  admissionProfile   AdmissionProfile @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
+  admissionProfile AdmissionProfile @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
 
   @@unique([admissionProfileId, gradeLevel, subjectCode])
   @@map("transcript_subject_scores")
@@ -222,13 +222,13 @@ model AdmissionStatusLog {
 
   // Cho phép null khi hệ thống tự động chuyển trạng thái (vd: auto APPROVED
   // theo cutoffScore) — không phải lúc nào cũng có 1 user thật thực hiện thao tác
-  byUserId           Int?
-  isSystem           Boolean            @default(false)
-  reason             String?
-  createdAt          DateTime           @default(now())
+  byUserId  Int?
+  isSystem  Boolean  @default(false)
+  reason    String?
+  createdAt DateTime @default(now())
 
-  admissionProfile   AdmissionProfile   @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
-  byUser             User?              @relation(fields: [byUserId], references: [id])
+  admissionProfile AdmissionProfile @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
+  byUser           User?            @relation(fields: [byUserId], references: [id])
 
   @@map("admission_status_logs")
 }
@@ -237,27 +237,27 @@ model AdmissionStatusLog {
 // TÀI LIỆU ĐÍNH KÈM THEO HỒ SƠ ĐĂNG KÝ
 // ==========================================
 model AdmissionDocument {
-  id                   Int                @id @default(autoincrement())
+  id                   Int    @id @default(autoincrement())
   admissionProfileId   Int
   documentConfigItemId Int
   fileUrl              String
   fileName             String
   fileSize             Int
 
-  status               DocumentStatus     @default(PENDING)
-  rejectionReason      String?
-  verifiedAt           DateTime?
-  verifiedByUserId     Int?
-  verifiedByUser       User?              @relation(fields: [verifiedByUserId], references: [id])
+  status           DocumentStatus @default(PENDING)
+  rejectionReason  String?
+  verifiedAt       DateTime?
+  verifiedByUserId Int?
+  verifiedByUser   User?          @relation(fields: [verifiedByUserId], references: [id])
 
   // Khi thí sinh tải lại giấy tờ bị REJECTED, bản cũ set isLatest = false
   // thay vì để nhiều bản PENDING/REJECTED chồng chéo cùng 1 loại giấy tờ
-  isLatest             Boolean            @default(true)
+  isLatest Boolean @default(true)
 
-  uploadedAt           DateTime           @default(now())
+  uploadedAt DateTime @default(now())
 
-  admissionProfile     AdmissionProfile   @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
-  documentConfigItem   DocumentConfigItem @relation(fields: [documentConfigItemId], references: [id])
+  admissionProfile   AdmissionProfile   @relation(fields: [admissionProfileId], references: [id], onDelete: Cascade)
+  documentConfigItem DocumentConfigItem @relation(fields: [documentConfigItemId], references: [id])
 
   @@map("admission_documents")
 }
@@ -270,13 +270,13 @@ enum EducationLevel {
 // Chỉ còn Trung cấp + Sơ cấp
 enum TrainingType {
   VOCATIONAL_INTERMEDIATE // Trung cấp Nghề
-  VOCATIONAL_ELEMENTARY   // Sơ cấp Nghề (dưới 1 năm)
+  VOCATIONAL_ELEMENTARY // Sơ cấp Nghề (dưới 1 năm)
 }
 
 enum DocumentStatus {
-  PENDING   // Mới tải lên
-  APPROVED  // Phòng Đào tạo đã duyệt
-  REJECTED  // Giấy tờ mờ, sai thông tin... cần tải lại
+  PENDING // Mới tải lên
+  APPROVED // Phòng Đào tạo đã duyệt
+  REJECTED // Giấy tờ mờ, sai thông tin... cần tải lại
 }
 
 // ==========================================
@@ -289,43 +289,43 @@ enum DocumentStatus {
 // hoặc thí sinh đổi ý sau khi đã APPROVED/CONFIRMED.
 // ==========================================
 enum StudentStatus {
-  STUDYING   // Đang theo học chính thức
-  SUSPENDED  // Bảo lưu
-  DROPPED    // Đã thôi học
-  GRADUATED  // Đã tốt nghiệp
+  STUDYING // Đang theo học chính thức
+  SUSPENDED // Bảo lưu
+  DROPPED // Đã thôi học
+  GRADUATED // Đã tốt nghiệp
 }
 
 model Student {
-  id                  Int               @id @default(autoincrement())
-  studentCode         String            @unique // "SV2026001"
-  identityNumber      String            @unique // CCCD
+  id             Int    @id @default(autoincrement())
+  studentCode    String @unique // "SV2026001"
+  identityNumber String @unique // CCCD
 
-  userId              Int               @unique
-  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Thông tin phân luồng & đào tạo
-  batchId             Int?
-  batch               Batch?            @relation(fields: [batchId], references: [id])
-  majorId             Int?
-  major               Major?            @relation(fields: [majorId], references: [id])
-  classId             Int?
-  class               Class?            @relation(fields: [classId], references: [id])
+  batchId Int?
+  batch   Batch? @relation(fields: [batchId], references: [id])
+  majorId Int?
+  major   Major? @relation(fields: [majorId], references: [id])
+  classId Int?
+  class   Class? @relation(fields: [classId], references: [id])
 
-  educationLevel      EducationLevel    @default(THCS)
-  status              StudentStatus     @default(STUDYING)
-  enrollmentDate      DateTime?         @db.Date
-  graduationDate      DateTime?         @db.Date
+  educationLevel EducationLevel @default(THCS)
+  status         StudentStatus  @default(STUDYING)
+  enrollmentDate DateTime?      @db.Date
+  graduationDate DateTime?      @db.Date
 
   // Thông tin cá nhân hiện hành — có thể thay đổi độc lập với hồ sơ tuyển sinh gốc
-  fullName            String
-  email               String?
-  gender              Gender?
-  dob                 DateTime?         @db.Date
-  phone               String?
-  avatarUrl           String?
+  fullName  String
+  email     String?
+  gender    Gender?
+  dob       DateTime? @db.Date
+  phone     String?
+  avatarUrl String?
 
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Mối quan hệ
   // -> Địa chỉ, thông tin cha mẹ: xem qua admissionProfile.province/ward/village/fatherName...
@@ -334,6 +334,8 @@ model Student {
   feeInvoices         FeeInvoice[]
   payments            Payment[]
   assessments         Assessment[]
+  attendances         Attendance[]
+  attendanceSummaries AttendanceSummary[]
 
   @@map("students")
 }
@@ -344,21 +346,21 @@ model Student {
 // DocumentConfig mới với startDate mới, không sửa bản cũ (giữ lịch sử áp dụng).
 // ==========================================
 model DocumentConfig {
-  id        Int                  @id @default(autoincrement())
-  name      String               // "Hồ sơ nhập học chuẩn"
-  startDate DateTime             @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String // "Hồ sơ nhập học chuẩn"
+  startDate DateTime @default(now())
 
-  items     DocumentConfigItem[]
+  items DocumentConfigItem[]
 
   @@map("document_configs")
 }
 
 model DocumentConfigItem {
-  id               Int                 @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   documentConfigId Int
-  name             String              // "Ảnh 3x4", "Giấy khám sức khỏe", "CCCD", "Học bạ (Cấp 2/Cấp 3)", "Bằng tốt nghiệp (Cấp 2/Cấp 3)"
-  code             String?             // 'PHOTO_3X4', 'HEALTH_CERT', 'CCCD', 'TRANSCRIPT', 'DIPLOMA'
-  required         Boolean?            @default(true)
+  name             String // "Ảnh 3x4", "Giấy khám sức khỏe", "CCCD", "Học bạ (Cấp 2/Cấp 3)", "Bằng tốt nghiệp (Cấp 2/Cấp 3)"
+  code             String? // 'PHOTO_3X4', 'HEALTH_CERT', 'CCCD', 'TRANSCRIPT', 'DIPLOMA'
+  required         Boolean? @default(true)
   sortOrder        Int?
 
   documentConfig     DocumentConfig      @relation(fields: [documentConfigId], references: [id])

@@ -4,79 +4,79 @@
 
 // 2. Đợt thu học phí tổng thể (Ví dụ: Học kỳ 1 năm 2026)
 model TuitionPeriod {
-  id          Int             @id @default(autoincrement())
-  name        String          // "Đợt thu học phí Học kỳ 1 - 2026"
-  semesterId  Int
-  semester    Semester        @relation(fields: [semesterId], references: [id])
-  
-  startDate   DateTime        // Ngày bắt đầu cho đóng
-  endDate     DateTime        // Hạn chót đóng tiền
-  isActive    Boolean         @default(true)
-  createdAt   DateTime        @default(now())
+  id         Int      @id @default(autoincrement())
+  name       String // "Đợt thu học phí Học kỳ 1 - 2026"
+  semesterId Int
+  semester   Semester @relation(fields: [semesterId], references: [id])
 
-  configs     TuitionConfig[] // Các cấu hình tiền cho từng ngành/khóa thuộc đợt này
-  invoices    FeeInvoice[]    // Các hóa đơn phát sinh cho học sinh
+  startDate DateTime // Ngày bắt đầu cho đóng
+  endDate   DateTime // Hạn chót đóng tiền
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  configs  TuitionConfig[] // Các cấu hình tiền cho từng ngành/khóa thuộc đợt này
+  invoices FeeInvoice[] // Các hóa đơn phát sinh cho học sinh
 
   @@map("tuition_periods")
 }
 
 // 3. Cấu hình số tiền cho từng đối tượng (Ngành, Khóa) trong một đợt
 model TuitionConfig {
-  id              Int              @id @default(autoincrement())
-  periodId        Int
-  period          TuitionPeriod    @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  id       Int           @id @default(autoincrement())
+  periodId Int
+  period   TuitionPeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
 
-  majorId         Int?             // Áp dụng cho ngành nào (Null nếu áp dụng toàn trường)
-  major           Major?           @relation(fields: [majorId], references: [id])
-  
-  batchId         Int?             // Áp dụng cho khóa/khóa tuyển sinh nào (Null nếu áp dụng mọi khóa)
-  batch           Batch?           @relation(fields: [batchId], references: [id])
+  majorId Int? // Áp dụng cho ngành nào (Null nếu áp dụng toàn trường)
+  major   Major? @relation(fields: [majorId], references: [id])
 
-  totalAmount     Float            // Tổng số tiền của cả đợt này cho đối tượng này (Tính tổng tự động hoặc nhập tay)
-  minRequiredAmount Float          @default(0) // SỐ TIỀN TỐI THIỂU PHẢI ĐÓNG TRƯỚC (Ví dụ: 300,000)
+  batchId Int? // Áp dụng cho khóa/khóa tuyển sinh nào (Null nếu áp dụng mọi khóa)
+  batch   Batch? @relation(fields: [batchId], references: [id])
 
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  totalAmount       Float // Tổng số tiền của cả đợt này cho đối tượng này (Tính tổng tự động hoặc nhập tay)
+  minRequiredAmount Float @default(0) // SỐ TIỀN TỐI THIỂU PHẢI ĐÓNG TRƯỚC (Ví dụ: 300,000)
 
-  items           TuitionConfigItem[] // Chi tiết các khoản phí cấu thành (Học phí, BHYT...)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items TuitionConfigItem[] // Chi tiết các khoản phí cấu thành (Học phí, BHYT...)
 
   @@map("tuition_configs")
 }
 
 // 4. Chi tiết từng hạng mục tiền trong cấu hình (Ví dụ: Tin học ứng dụng -> BHYT 500k)
 model TuitionConfigItem {
-  id              Int           @id @default(autoincrement())
-  configId        Int
-  config          TuitionConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
-  
-  name            String        // "Học phí chính khóa", "BHYT", "Cơ sở vật chất"
-  amount          Float         // Số tiền hiển thị: 6,000,000; 600,000...
-  
+  id       Int           @id @default(autoincrement())
+  configId Int
+  config   TuitionConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+
+  name   String // "Học phí chính khóa", "BHYT", "Cơ sở vật chất"
+  amount Float // Số tiền hiển thị: 6,000,000; 600,000...
+
   @@map("tuition_config_items")
 }
 
 // 5. Hóa đơn cụ thể của từng Học sinh cho đợt đó
 model FeeInvoice {
-  id              Int             @id @default(autoincrement())
-  studentId       Int
-  student         Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  
-  periodId        Int
-  period          TuitionPeriod   @relation(fields: [periodId], references: [id])
-  
-  totalAmount     Float           // Tổng tiền phải đóng (Copy từ TuitionConfig qua)
-  minRequiredAmount Float         // Số tiền tối thiểu phải đóng (Copy từ TuitionConfig qua)
+  id        Int     @id @default(autoincrement())
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
-  paidAmount      Float           @default(0)  // Tổng số tiền LŨY KẾ đã đóng qua các lần (Ví dụ: Lần 1 đóng 2tr -> paidAmount = 2tr)
-  remainingAmount Float           // Số tiền CÒN THIẾU (Mới tạo = totalAmount, đóng tới đâu trừ tới đó)
-  
+  periodId Int
+  period   TuitionPeriod @relation(fields: [periodId], references: [id])
+
+  totalAmount       Float // Tổng tiền phải đóng (Copy từ TuitionConfig qua)
+  minRequiredAmount Float // Số tiền tối thiểu phải đóng (Copy từ TuitionConfig qua)
+
+  paidAmount      Float @default(0) // Tổng số tiền LŨY KẾ đã đóng qua các lần (Ví dụ: Lần 1 đóng 2tr -> paidAmount = 2tr)
+  remainingAmount Float // Số tiền CÒN THIẾU (Mới tạo = totalAmount, đóng tới đâu trừ tới đó)
+
   // status: unpaid (chưa đóng), partial (mới đóng 1 phần), paid (đã hoàn thành)
-  status          String          @default("unpaid") 
-  
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  status String @default("unpaid")
 
-  payments        Payment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  payments Payment[]
 
   @@unique([studentId, periodId])
   @@map("fee_invoices")
@@ -84,20 +84,20 @@ model FeeInvoice {
 
 // 7. Giao dịch thanh toán (Học sinh ra nộp tiền)
 model Payment {
-  id              Int                 @id @default(autoincrement())
-  invoiceId       Int
-  invoice         FeeInvoice          @relation(fields: [invoiceId], references: [id])
-  
-  studentId       Int
-  student         Student             @relation(fields: [studentId], references: [id])
-  
-  amountPaid      Float               // Số tiền nộp lần này (Có thể nộp lẻ 500k, 1M,...)
-  paymentDate     DateTime            @default(now())
-  method          String              // "CASH", "BANK_TRANSFER", "VNPAY"
-  transactionRef  String?             // Mã giao dịch ngân hàng / đối soát
-  
-  status          String              // "SUCCESS", "FAILED", "PENDING"
-  createdBy       String?             // Ai thu tiền (nếu thu tại quầy) hoặc hệ thống
+  id        Int        @id @default(autoincrement())
+  invoiceId Int
+  invoice   FeeInvoice @relation(fields: [invoiceId], references: [id])
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  amountPaid     Float // Số tiền nộp lần này (Có thể nộp lẻ 500k, 1M,...)
+  paymentDate    DateTime @default(now())
+  method         String // "CASH", "BANK_TRANSFER", "VNPAY"
+  transactionRef String? // Mã giao dịch ngân hàng / đối soát
+
+  status    String // "SUCCESS", "FAILED", "PENDING"
+  createdBy String? // Ai thu tiền (nếu thu tại quầy) hoặc hệ thống
 
   @@map("payments")
 }

@@ -22,6 +22,7 @@ import { ClassDto } from "../../class/class.dto";
 import { SemesterDto } from "../../semester/semester.dto";
 import { GradeStudentDto } from "./grades.response";
 import { ClassSubjectSessionDto } from "../../schedule/dto/classSubjectSession.dto";
+import { StudentDto } from "../../student/dtos/student.dto";
 
 export class ClassSubjectDto implements ClassSubject {
   @ApiProperty()
@@ -63,6 +64,10 @@ export class ClassSubjectDto implements ClassSubject {
   updatedAt: Date;
 }
 
+export class NestedGradeStudentDto extends GradeStudentDto {
+  @ApiPropertyOptional({ type: () => StudentDto })
+  student?: StudentDto;
+}
 export class ClassSubjectDetailDto extends ClassSubjectDto {
   @ApiPropertyOptional({ type: () => StaffDto })
   teacher?: StaffDto;
@@ -76,8 +81,8 @@ export class ClassSubjectDetailDto extends ClassSubjectDto {
   @ApiPropertyOptional({ type: () => SemesterDto })
   semester?: SemesterDto;
 
-  @ApiPropertyOptional({ type: () => GradeStudentDto, isArray: true })
-  gradeStudents?: GradeStudentDto[];
+  @ApiPropertyOptional({ type: () => NestedGradeStudentDto, isArray: true })
+  gradeStudents?: NestedGradeStudentDto[];
 
   @ApiPropertyOptional({ type: () => ClassSubjectSessionDto, isArray: true })
   classSubjectSessions?: ClassSubjectSessionDto[];

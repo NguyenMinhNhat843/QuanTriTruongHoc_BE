@@ -101,10 +101,10 @@ export class GradeStudentDto implements GradeStudent {
 }
 
 export class GradeStudentDeailDto extends GradeStudentDto {
-  @ApiPropertyOptional({ type: StudentDto })
+  @ApiPropertyOptional({ type: () => StudentDto })
   student?: StudentDto;
 
-  @ApiPropertyOptional({ type: ClassSubjectDto })
+  @ApiPropertyOptional({ type: () => ClassSubjectDto })
   classSubject?: ClassSubjectDto;
 }
 
