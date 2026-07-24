@@ -91,7 +91,7 @@ export const ModelName = {
   FileStore: 'FileStore',
   Semester: 'Semester',
   Room: 'Room',
-  CourseOffer: 'CourseOffer',
+  ClassSubject: 'ClassSubject',
   ClassSubjectSession: 'ClassSubjectSession',
   ClassSubjectScheduleDetail: 'ClassSubjectScheduleDetail'
 } as const
@@ -550,7 +550,7 @@ export type VillageScalarFieldEnum = (typeof VillageScalarFieldEnum)[keyof typeo
 export const GradeStudentScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
-  courseOfferId: 'courseOfferId',
+  classSubjectId: 'classSubjectId',
   kttx1: 'kttx1',
   kttx2: 'kttx2',
   kttx3: 'kttx3',
@@ -715,7 +715,7 @@ export const RoomScalarFieldEnum = {
 export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
 
 
-export const CourseOfferScalarFieldEnum = {
+export const ClassSubjectScalarFieldEnum = {
   id: 'id',
   teacherId: 'teacherId',
   subjectId: 'subjectId',
@@ -725,7 +725,7 @@ export const CourseOfferScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type CourseOfferScalarFieldEnum = (typeof CourseOfferScalarFieldEnum)[keyof typeof CourseOfferScalarFieldEnum]
+export type ClassSubjectScalarFieldEnum = (typeof ClassSubjectScalarFieldEnum)[keyof typeof ClassSubjectScalarFieldEnum]
 
 
 export const ClassSubjectSessionScalarFieldEnum = {

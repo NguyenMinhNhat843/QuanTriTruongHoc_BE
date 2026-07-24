@@ -58,7 +58,7 @@ export class GradeImportService {
       }
 
       // Tìm lớp học phần (CourseOffer) tương ứng
-      const courseOffer = await this.prisma.courseOffer.findFirst({
+      const courseOffer = await this.prisma.classSubject.findFirst({
         where: {
           classId: classObj.id,
           subjectId: subject.id,
@@ -120,11 +120,7 @@ export class GradeImportService {
         const stt = row.getCell(1).value; // Cột A (STT)
 
         // Dừng lại nếu hết danh sách hoặc gặp dòng tổng kết cuối bảng
-        if (
-          !stt ||
-          stt.toString().trim() === "" ||
-          stt.toString().includes("Tổng số")
-        ) {
+        if (!stt || stt.toString().trim() === "" || stt.toString().includes("Tổng số")) {
           break;
         }
 
@@ -174,12 +170,8 @@ export class GradeImportService {
           .map((col) => parseScore(row.getCell(col).value))
           .filter((v) => v !== null) as number[];
 
-        const diemKiemTra1 = ktktCols[0]
-          ? parseScore(row.getCell(ktktCols[0]).value)
-          : null;
-        const diemKiemTra2 = ktktCols[1]
-          ? parseScore(row.getCell(ktktCols[1]).value)
-          : null;
+        const diemKiemTra1 = ktktCols[0] ? parseScore(row.getCell(ktktCols[0]).value) : null;
+        const diemKiemTra2 = ktktCols[1] ? parseScore(row.getCell(ktktCols[1]).value) : null;
 
         // --- 4. TỰ ĐỘNG TÍNH TOÁN ĐIỂM THEO CÔNG THỨC ---
 
@@ -208,9 +200,7 @@ export class GradeImportService {
           diemTongKet2 = Math.round(rawTK2 * 10) / 10;
         }
 
-        const note = noteCol
-          ? row.getCell(noteCol).value?.toString() || null
-          : null;
+        const note = noteCol ? row.getCell(noteCol).value?.toString() || null : null;
 
         // Gán các biến điểm cụ thể để lưu trữ vào database
         const kttx1 = kttxScores[0] ?? null;
@@ -225,9 +215,9 @@ export class GradeImportService {
         // Lưu / Cập nhật vào DB bằng upsert
         await this.prisma.gradeStudent.upsert({
           where: {
-            studentId_courseOfferId: {
+            studentId_classSubjectId: {
               studentId: student.id,
-              courseOfferId: courseOffer.id,
+              classSubjectId: courseOffer.id,
             },
           },
           update: {
@@ -247,7 +237,7 @@ export class GradeImportService {
           },
           create: {
             studentId: student.id,
-            courseOfferId: courseOffer.id,
+            classSubjectId: courseOffer.id,
             kttx1,
             kttx2,
             kttx3,
@@ -297,23 +287,16 @@ export class GradeImportService {
     });
 
     if (!period) {
-      throw new BadRequestException(
-        `Không tìm thấy đợt đánh giá có ID: ${periodId}`,
-      );
+      throw new BadRequestException(`Không tìm thấy đợt đánh giá có ID: ${periodId}`);
     }
 
     const periodCriteria = period.periodCriteria;
     if (periodCriteria.length === 0) {
-      throw new BadRequestException(
-        "Đợt đánh giá này chưa được cấu hình tiêu chí chấm điểm!",
-      );
+      throw new BadRequestException("Đợt đánh giá này chưa được cấu hình tiêu chí chấm điểm!");
     }
 
     // Tính tổng số điểm tối đa của toàn bộ đợt này
-    const totalMaxScoreOfPeriod = periodCriteria.reduce(
-      (sum, pc) => sum + pc.criterion.maxScore,
-      0,
-    );
+    const totalMaxScoreOfPeriod = periodCriteria.reduce((sum, pc) => sum + pc.criterion.maxScore, 0);
 
     // 2. Đọc file Excel bằng ExcelJS
     const workbook = new ExcelJS.Workbook();
@@ -351,23 +334,15 @@ export class GradeImportService {
 
       const lastName = row.getCell("C").value?.toString().trim() || "";
       const firstName = row.getCell("D").value?.toString().trim() || "";
-      const fullNameFromExcel = `${lastName} ${firstName}`
-        .replace(/\s+/g, " ")
-        .trim();
+      const fullNameFromExcel = `${lastName} ${firstName}`.replace(/\s+/g, " ").trim();
 
       // Điểm tổng đọc từ Excel
       const rawStudentScore = Number(row.getCell("E").value ?? 0);
       const rawTeacherScore = Number(row.getCell("G").value ?? 0);
 
       // Giới hạn điểm tối đa không vượt quá cấu hình đợt
-      const totalStudentScore = Math.min(
-        rawStudentScore,
-        totalMaxScoreOfPeriod,
-      );
-      const totalTeacherScore = Math.min(
-        rawTeacherScore,
-        totalMaxScoreOfPeriod,
-      );
+      const totalStudentScore = Math.min(rawStudentScore, totalMaxScoreOfPeriod);
+      const totalTeacherScore = Math.min(rawTeacherScore, totalMaxScoreOfPeriod);
 
       try {
         // 4. Tìm kiếm học sinh
@@ -476,9 +451,7 @@ export class GradeImportService {
         results.successCount++;
       } catch (error: any) {
         results.failedCount++;
-        results.errors.push(
-          `Dòng ${i} (Học sinh ${fullNameFromExcel}): Lỗi hệ thống khi lưu - ${error.message}`,
-        );
+        results.errors.push(`Dòng ${i} (Học sinh ${fullNameFromExcel}): Lỗi hệ thống khi lưu - ${error.message}`);
       }
     }
 

@@ -260,7 +260,7 @@ export type ClassSubjectSessionWhereInput = {
   endPeriod?: Prisma.IntFilter<"ClassSubjectSession"> | number
   countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSession"> | number | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSession"> | number | null
-  classSubject?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
+  classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
   room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   schedules?: Prisma.ClassSubjectScheduleDetailListRelationFilter
 }
@@ -274,7 +274,7 @@ export type ClassSubjectSessionOrderByWithRelationInput = {
   endPeriod?: Prisma.SortOrder
   countPeriod?: Prisma.SortOrderInput | Prisma.SortOrder
   roomId?: Prisma.SortOrderInput | Prisma.SortOrder
-  classSubject?: Prisma.CourseOfferOrderByWithRelationInput
+  classSubject?: Prisma.ClassSubjectOrderByWithRelationInput
   room?: Prisma.RoomOrderByWithRelationInput
   schedules?: Prisma.ClassSubjectScheduleDetailOrderByRelationAggregateInput
 }
@@ -292,7 +292,7 @@ export type ClassSubjectSessionWhereUniqueInput = Prisma.AtLeast<{
   endPeriod?: Prisma.IntFilter<"ClassSubjectSession"> | number
   countPeriod?: Prisma.IntNullableFilter<"ClassSubjectSession"> | number | null
   roomId?: Prisma.IntNullableFilter<"ClassSubjectSession"> | number | null
-  classSubject?: Prisma.XOR<Prisma.CourseOfferScalarRelationFilter, Prisma.CourseOfferWhereInput>
+  classSubject?: Prisma.XOR<Prisma.ClassSubjectScalarRelationFilter, Prisma.ClassSubjectWhereInput>
   room?: Prisma.XOR<Prisma.RoomNullableScalarRelationFilter, Prisma.RoomWhereInput> | null
   schedules?: Prisma.ClassSubjectScheduleDetailListRelationFilter
 }, "id" | "classSubjectId_dayOfWeek_shift_startPeriod_endPeriod">
@@ -333,7 +333,7 @@ export type ClassSubjectSessionCreateInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
-  classSubject: Prisma.CourseOfferCreateNestedOneWithoutClassSubjectSessionsInput
+  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutClassSubjectSessionsInput
   room?: Prisma.RoomCreateNestedOneWithoutClassSubjectSessionsInput
   schedules?: Prisma.ClassSubjectScheduleDetailCreateNestedManyWithoutSessionInput
 }
@@ -356,7 +356,7 @@ export type ClassSubjectSessionUpdateInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  classSubject?: Prisma.CourseOfferUpdateOneRequiredWithoutClassSubjectSessionsNestedInput
+  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutClassSubjectSessionsNestedInput
   room?: Prisma.RoomUpdateOneWithoutClassSubjectSessionsNestedInput
   schedules?: Prisma.ClassSubjectScheduleDetailUpdateManyWithoutSessionNestedInput
 }
@@ -585,7 +585,7 @@ export type ClassSubjectSessionCreateWithoutRoomInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
-  classSubject: Prisma.CourseOfferCreateNestedOneWithoutClassSubjectSessionsInput
+  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutClassSubjectSessionsInput
   schedules?: Prisma.ClassSubjectScheduleDetailCreateNestedManyWithoutSessionInput
 }
 
@@ -693,7 +693,7 @@ export type ClassSubjectSessionCreateWithoutSchedulesInput = {
   startPeriod: number
   endPeriod: number
   countPeriod?: number | null
-  classSubject: Prisma.CourseOfferCreateNestedOneWithoutClassSubjectSessionsInput
+  classSubject: Prisma.ClassSubjectCreateNestedOneWithoutClassSubjectSessionsInput
   room?: Prisma.RoomCreateNestedOneWithoutClassSubjectSessionsInput
 }
 
@@ -730,7 +730,7 @@ export type ClassSubjectSessionUpdateWithoutSchedulesInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  classSubject?: Prisma.CourseOfferUpdateOneRequiredWithoutClassSubjectSessionsNestedInput
+  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutClassSubjectSessionsNestedInput
   room?: Prisma.RoomUpdateOneWithoutClassSubjectSessionsNestedInput
 }
 
@@ -761,7 +761,7 @@ export type ClassSubjectSessionUpdateWithoutRoomInput = {
   startPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   endPeriod?: Prisma.IntFieldUpdateOperationsInput | number
   countPeriod?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  classSubject?: Prisma.CourseOfferUpdateOneRequiredWithoutClassSubjectSessionsNestedInput
+  classSubject?: Prisma.ClassSubjectUpdateOneRequiredWithoutClassSubjectSessionsNestedInput
   schedules?: Prisma.ClassSubjectScheduleDetailUpdateManyWithoutSessionNestedInput
 }
 
@@ -867,7 +867,7 @@ export type ClassSubjectSessionSelect<ExtArgs extends runtime.Types.Extensions.I
   endPeriod?: boolean
   countPeriod?: boolean
   roomId?: boolean
-  classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSession$roomArgs<ExtArgs>
   schedules?: boolean | Prisma.ClassSubjectSession$schedulesArgs<ExtArgs>
   _count?: boolean | Prisma.ClassSubjectSessionCountOutputTypeDefaultArgs<ExtArgs>
@@ -882,7 +882,7 @@ export type ClassSubjectSessionSelectCreateManyAndReturn<ExtArgs extends runtime
   endPeriod?: boolean
   countPeriod?: boolean
   roomId?: boolean
-  classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSession$roomArgs<ExtArgs>
 }, ExtArgs["result"]["classSubjectSession"]>
 
@@ -895,7 +895,7 @@ export type ClassSubjectSessionSelectUpdateManyAndReturn<ExtArgs extends runtime
   endPeriod?: boolean
   countPeriod?: boolean
   roomId?: boolean
-  classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSession$roomArgs<ExtArgs>
 }, ExtArgs["result"]["classSubjectSession"]>
 
@@ -912,24 +912,24 @@ export type ClassSubjectSessionSelectScalar = {
 
 export type ClassSubjectSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "classSubjectId" | "dayOfWeek" | "shift" | "startPeriod" | "endPeriod" | "countPeriod" | "roomId", ExtArgs["result"]["classSubjectSession"]>
 export type ClassSubjectSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSession$roomArgs<ExtArgs>
   schedules?: boolean | Prisma.ClassSubjectSession$schedulesArgs<ExtArgs>
   _count?: boolean | Prisma.ClassSubjectSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClassSubjectSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSession$roomArgs<ExtArgs>
 }
 export type ClassSubjectSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  classSubject?: boolean | Prisma.CourseOfferDefaultArgs<ExtArgs>
+  classSubject?: boolean | Prisma.ClassSubjectDefaultArgs<ExtArgs>
   room?: boolean | Prisma.ClassSubjectSession$roomArgs<ExtArgs>
 }
 
 export type $ClassSubjectSessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ClassSubjectSession"
   objects: {
-    classSubject: Prisma.$CourseOfferPayload<ExtArgs>
+    classSubject: Prisma.$ClassSubjectPayload<ExtArgs>
     room: Prisma.$RoomPayload<ExtArgs> | null
     schedules: Prisma.$ClassSubjectScheduleDetailPayload<ExtArgs>[]
   }
@@ -1336,7 +1336,7 @@ readonly fields: ClassSubjectSessionFieldRefs;
  */
 export interface Prisma__ClassSubjectSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  classSubject<T extends Prisma.CourseOfferDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOfferDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseOfferClient<runtime.Types.Result.GetResult<Prisma.$CourseOfferPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  classSubject<T extends Prisma.ClassSubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ClassSubjectClient<runtime.Types.Result.GetResult<Prisma.$ClassSubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   room<T extends Prisma.ClassSubjectSession$roomArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubjectSession$roomArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   schedules<T extends Prisma.ClassSubjectSession$schedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClassSubjectSession$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassSubjectScheduleDetailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**

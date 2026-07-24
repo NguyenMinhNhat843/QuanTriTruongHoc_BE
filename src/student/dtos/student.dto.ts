@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
-import { EducationLevel, StudentStatus, Gender } from "../../../prisma/generated/prisma/client.js";
+import { EducationLevel, StudentStatus, Gender, Student } from "../../../prisma/generated/prisma/client.js";
 import { Type } from "class-transformer";
 
-export class StudentDto {
+export class StudentDto implements Student {
   @ApiProperty()
   id: number;
 
@@ -15,44 +15,44 @@ export class StudentDto {
   @ApiProperty()
   userId: number;
 
-  @ApiPropertyOptional()
-  batchId?: number;
-
-  @ApiPropertyOptional()
-  majorId?: number;
-
-  @ApiPropertyOptional()
-  classId?: number;
-
   @ApiProperty({ enum: EducationLevel, default: EducationLevel.THCS })
   educationLevel: EducationLevel;
 
   @ApiProperty({ enum: StudentStatus, default: StudentStatus.STUDYING })
   status: StudentStatus;
 
-  @ApiPropertyOptional()
-  enrollmentDate?: Date;
-
-  @ApiPropertyOptional()
-  graduationDate?: Date;
-
   @ApiProperty()
   fullName: string;
 
-  @ApiPropertyOptional()
-  email?: string;
+  @ApiProperty({ type: String, nullable: true })
+  avatarUrl: string | null;
 
-  @ApiPropertyOptional({ enum: Gender })
-  gender?: Gender;
+  @ApiProperty({ type: Number, nullable: true })
+  batchId: number | null;
 
-  @ApiPropertyOptional()
-  dob?: Date;
+  @ApiProperty({ type: Number, nullable: true })
+  classId: number | null;
 
-  @ApiPropertyOptional()
-  phone?: string;
+  @ApiProperty({ type: Date, nullable: true })
+  dob: Date | null;
 
-  @ApiPropertyOptional()
-  avatarUrl?: string;
+  @ApiProperty({ type: String, nullable: true })
+  email: string | null;
+
+  @ApiProperty({ type: Date, nullable: true })
+  enrollmentDate: Date | null;
+
+  @ApiProperty({ enum: Gender, nullable: true })
+  gender: Gender | null;
+
+  @ApiProperty({ type: Date, nullable: true })
+  graduationDate: Date | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  majorId: number | null;
+
+  @ApiProperty({ type: String, nullable: true })
+  phone: string | null;
 
   @ApiProperty()
   createdAt: Date;

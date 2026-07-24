@@ -1,26 +1,8 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Query,
-  UseGuards,
-} from "@nestjs/common";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBearerAuth,
-  ApiQuery,
-} from "@nestjs/swagger";
-import { SaveGradesDto } from "../dto/grades.dto";
+import { Controller, Get, Post, Body, Param, ParseIntPipe, Patch, Query, UseGuards } from "@nestjs/common";
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth, ApiQuery } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { AcademicSummaryResponseDto } from "../dto/stat.dto";
-import { StudentTranscriptResponseDto } from "../dto/grades.response";
+import { SaveGradesDto, StudentTranscriptResponseDto } from "../dto/grades.response";
 import { GradeService } from "../service/grades.service";
 
 @ApiTags("Quản lý Điểm (grade)")
@@ -72,9 +54,7 @@ export class GradeController {
     status: 200,
     type: AcademicSummaryResponseDto,
   })
-  async getAcademicSummaryWidget(
-    @Param("userId", ParseIntPipe) userId: number,
-  ) {
+  async getAcademicSummaryWidget(@Param("userId", ParseIntPipe) userId: number) {
     const result = await this.gradeService.getAcademicSummaryWidget(userId);
 
     // NestJS tự động map return object thành HTTP 200 JSON response

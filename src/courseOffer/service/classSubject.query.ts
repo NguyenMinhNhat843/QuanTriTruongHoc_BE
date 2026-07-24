@@ -13,7 +13,7 @@ export class ClassSubjectQuery {
   };
 
   async queryDataForExportExcel(classSubjectId: number) {
-    const courseOffer = await this.prisma.courseOffer.findUnique({
+    const courseOffer = await this.prisma.classSubject.findUnique({
       where: { id: classSubjectId },
       include: {
         teacher: true,
@@ -62,9 +62,7 @@ export class ClassSubjectQuery {
     });
 
     if (!courseOffer) {
-      throw new NotFoundException(
-        `Không tìm thấy đợt mở môn với ID #${classSubjectId}`,
-      );
+      throw new NotFoundException(`Không tìm thấy đợt mở môn với ID #${classSubjectId}`);
     }
 
     // Gom dữ liệu vào object để map thông tin chung
@@ -84,7 +82,7 @@ export class ClassSubjectQuery {
 
     const gradeTable = await this.prisma.gradeStudent.findMany({
       where: {
-        courseOfferId: classSubjectId,
+        classSubjectId: classSubjectId,
       },
       include: {
         student: {
@@ -111,10 +109,7 @@ export class ClassSubjectQuery {
         return compareLastName;
       }
 
-      return (a.student?.fullName || "").localeCompare(
-        b.student?.fullName || "",
-        "vi",
-      );
+      return (a.student?.fullName || "").localeCompare(b.student?.fullName || "", "vi");
     });
 
     return {

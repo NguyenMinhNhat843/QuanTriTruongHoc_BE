@@ -27,7 +27,7 @@ import {
   SearchStudentDto,
   UpdateStudentDto,
 } from "../dtos/student.dto.js";
-import { ResponseStudentPaginationDto, StudentResponseDto } from "../dtos/student.response.js";
+import { ResponseStudentPaginationDto, StudentDetailDto } from "../dtos/student.response.js";
 
 @ApiTags("Students")
 @ApiBearerAuth()
@@ -69,7 +69,7 @@ export class StudentController {
   @Get("me")
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: "Lấy profile của sinh viên hiện tại dựa trên token JWT" })
-  @ApiOkResponse({ type: StudentResponseDto })
+  @ApiOkResponse({ type: StudentDetailDto })
   async getMe(@GetUser() user: any) {
     if (user.role !== "student" || !user.studentId) {
       throw new UnauthorizedException("Tài khoản của bạn không có quyền truy cập thông tin sinh viên");
@@ -82,8 +82,8 @@ export class StudentController {
 
   @Get("search-by-code")
   @ApiOperation({ summary: "Tìm sinh viên theo mã sinh viên" })
-  @ApiOkResponse({ type: StudentResponseDto })
-  async findByStudentCode(@Query("studentCode") studentCode: string): Promise<StudentResponseDto> {
+  @ApiOkResponse({ type: StudentDetailDto })
+  async findByStudentCode(@Query("studentCode") studentCode: string): Promise<StudentDetailDto> {
     return this.studentService.findOne({
       studentCode,
     });
@@ -92,7 +92,7 @@ export class StudentController {
   @Get("eligible-for-assignment")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Lấy danh sách học sinh đủ điều kiện phân lớp" })
-  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 200, type: ResponseStudentPaginationDto })
   async getEligibleStudentsForAssignment(@Query() query: GetEligibleStudentsDto) {
     return this.studentService.getEligibleStudentsForAssignment(query.batchId);
   }

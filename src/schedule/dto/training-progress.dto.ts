@@ -1,23 +1,14 @@
 import { ApiProperty, ApiPropertyOptional, OmitType } from "@nestjs/swagger";
-import {
-  ClassSubjectSessionDto,
-  ClassSubjectSessionWithRelationDto,
-} from "./classSubjectSession.dto";
-import { ClassSubjectDto } from "../../courseOffer/dto/classSubject.response";
+import { ClassSubjectSessionDto, ClassSubjectSessionWithRelationDto } from "./classSubjectSession.dto";
 import { SubjectDto } from "../../subject/dto/subject.dto";
 import { StaffResponseDto } from "../../staff/staff.response";
 import { ClassSubjectScheduleDetailDto } from "./classSubjectScheduleDetail";
+import { ClassSubjectDto } from "../../courseOffer/dto/classSubject.dto";
 
 // Payload cho api upsert training plan với danh sách classSubject có nhiều session, 1 sesion có nhiều schedules
-export class SchedulesPayload extends OmitType(ClassSubjectScheduleDetailDto, [
-  "id",
-  "sessionId",
-]) {}
+export class SchedulesPayload extends OmitType(ClassSubjectScheduleDetailDto, ["id", "sessionId"]) {}
 
-export class SessionPayload extends OmitType(ClassSubjectSessionDto, [
-  "id",
-  "classSubjectId",
-]) {
+export class SessionPayload extends OmitType(ClassSubjectSessionDto, ["id", "classSubjectId"]) {
   @ApiProperty({ type: [SchedulesPayload] })
   schedules: SchedulesPayload[];
 }

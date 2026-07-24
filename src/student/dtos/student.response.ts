@@ -1,36 +1,23 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { CreateStudentDto } from "./student.dto.js";
+import { StudentDto } from "./student.dto.js";
+import { BatchDto } from "../../batch/batch.dto.js";
+import { ClassDto } from "../../class/class.dto.js";
+import { MajorDto } from "../../major/major.dto.js";
 
-class DocumentProgressDto {
-  @ApiProperty()
-  current: number;
+export class StudentDetailDto extends StudentDto {
+  @ApiPropertyOptional({ type: BatchDto })
+  batch?: BatchDto | null;
 
-  @ApiProperty()
-  total: number;
-}
+  @ApiPropertyOptional({ type: ClassDto })
+  class?: ClassDto | null;
 
-export class StudentResponseDto extends CreateStudentDto {
-  @ApiPropertyOptional()
-  batch?: any;
-
-  @ApiPropertyOptional()
-  class?: any;
-
-  @ApiPropertyOptional()
-  major?: any;
-
-  @ApiPropertyOptional({ type: DocumentProgressDto })
-  documentProgress?: DocumentProgressDto;
-}
-
-export class QualifiedStudentResponseDto extends StudentResponseDto {
-  @ApiProperty()
-  isQualified: boolean;
+  @ApiPropertyOptional({ type: MajorDto })
+  major?: MajorDto | null;
 }
 
 export class ResponseStudentPaginationDto {
-  @ApiProperty({ type: [QualifiedStudentResponseDto] })
-  students: QualifiedStudentResponseDto[];
+  @ApiProperty({ type: [StudentDetailDto] })
+  data: StudentDetailDto[];
 
   @ApiProperty()
   total: number;

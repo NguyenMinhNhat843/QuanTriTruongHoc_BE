@@ -218,10 +218,10 @@ export type Semester = Prisma.SemesterModel
  */
 export type Room = Prisma.RoomModel
 /**
- * Model CourseOffer
+ * Model ClassSubject
  * 
  */
-export type CourseOffer = Prisma.CourseOfferModel
+export type ClassSubject = Prisma.ClassSubjectModel
 /**
  * Model ClassSubjectSession
  * 

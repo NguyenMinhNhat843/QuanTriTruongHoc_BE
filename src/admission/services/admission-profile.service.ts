@@ -77,7 +77,6 @@ export class AdmissionProfileService {
 
     const totalScore =
       transcriptSubjectScores?.reduce((sum, item) => sum + item.score, 0) / (transcriptSubjectScores?.length / 3) || 0;
-    console.log("Total Score:", totalScore);
 
     try {
       const profile = await this.prisma.$transaction(async (tx) => {
@@ -185,9 +184,17 @@ export class AdmissionProfileService {
     return { data, total };
   }
 
-  async findOne(id: number) {
-    const profile = await this.prisma.admissionProfile.findUnique({
-      where: { id },
+  async findOne(id?: number, studentId?: number) {
+    // Validate đầu vào: Phải có ít nhất 1 trong 2 id
+    if (!id && !studentId) {
+      throw new BadRequestException("Cần cung cấp id hoặc studentId để tìm kiếm hồ sơ");
+    }
+
+    // Nếu có id thì tìm theo id, không có id thì tìm theo studentId
+    const whereCondition = id ? { id } : { studentId };
+
+    const profile = await this.prisma.admissionProfile.findFirst({
+      where: whereCondition,
       include: {
         admissionCampaignMajor: {
           include: {
@@ -222,7 +229,10 @@ export class AdmissionProfileService {
     });
 
     if (!profile) {
-      throw new NotFoundException(`Hồ sơ đăng ký xét tuyển ID ${id} không tồn tại`);
+      const errorMsg = id
+        ? `Hồ sơ đăng ký xét tuyển ID ${id} không tồn tại`
+        : `Không tìm thấy hồ sơ đăng ký xét tuyển của học sinh ID ${studentId}`;
+      throw new NotFoundException(errorMsg);
     }
 
     const { admissionCampaignMajor, ...profileData } = profile;
@@ -274,11 +284,13 @@ export class AdmissionProfileService {
     }
 
     await this.prisma.$transaction(async (tx) => {
-      const updated = await tx.admissionProfile.update({
+      // 1. Cập nhật trạng thái Hồ sơ
+      await tx.admissionProfile.update({
         where: { id },
         data: { status: newStatus },
       });
 
+      // 2. Ghi Log thay đổi trạng thái
       await tx.admissionStatusLog.create({
         data: {
           admissionProfileId: id,
@@ -290,17 +302,18 @@ export class AdmissionProfileService {
         },
       });
 
-      return updated;
-    });
+      // 3. Nếu chuyển sang APPROVED (Đậu) và chưa có Student -> Tạo Student mới
+      if (newStatus === ApplicationStatus.APPROVED && !profile.profile.studentId) {
+        // Gọi service tạo student (truyền tx nếu studentService hỗ trợ transaction client)
+        const student = await this.studentService.createStudentFromAdmissionProfile(id, tx);
 
-    // Workflow check: When status becomes ENROLLED, create Student & User account!
-    if (newStatus === ApplicationStatus.ENROLLED && !profile.profile.studentId) {
-      const student = await this.studentService.createStudentFromAdmissionProfile(id);
-      await this.prisma.admissionProfile.update({
-        where: { id },
-        data: { studentId: student.id },
-      });
-    }
+        // Cập nhật studentId ngược lại cho hồ sơ
+        await tx.admissionProfile.update({
+          where: { id },
+          data: { studentId: student.id },
+        });
+      }
+    });
 
     return this.findOne(id);
   }

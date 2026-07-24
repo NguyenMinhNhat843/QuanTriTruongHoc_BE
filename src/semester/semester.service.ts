@@ -7,11 +7,7 @@ import {
   BadRequestException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import {
-  CreateSemesterDto,
-  FindAllSemestersQueryDto,
-  UpdateSemesterDto,
-} from "./semester.dto";
+import { CreateSemesterDto, FindAllSemestersQueryDto, UpdateSemesterDto } from "./semester.dto";
 import { SemesterResponseDto } from "./semester.response";
 import { Prisma } from "../../prisma/generated/prisma/client";
 import { plainToInstance } from "class-transformer";
@@ -20,16 +16,11 @@ import { plainToInstance } from "class-transformer";
 export class SemesterService {
   constructor(private prisma: PrismaService) {}
 
-  async create(
-    data: CreateSemesterDto,
-    tx?: Prisma.TransactionClient,
-  ): Promise<SemesterResponseDto> {
+  async create(data: CreateSemesterDto, tx?: Prisma.TransactionClient): Promise<SemesterResponseDto> {
     const client = tx || this.prisma;
 
     try {
-      const status = data.isCurrent
-        ? ("ACTIVE" as any)
-        : data.status || ("UPCOMING" as any);
+      const status = data.isCurrent ? ("ACTIVE" as any) : data.status || ("UPCOMING" as any);
 
       if (data.isCurrent) {
         await client.semester.updateMany({
@@ -66,22 +57,15 @@ export class SemesterService {
 
       return plainToInstance(SemesterResponseDto, semester);
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
-        throw new ConflictException(
-          `Học kỳ ${data.term} năm ${data.year} đã tồn tại trong hệ thống`,
-        );
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        throw new ConflictException(`Học kỳ ${data.term} năm ${data.year} đã tồn tại trong hệ thống`);
       }
 
       console.error("Lỗi khi tạo học kỳ:", error);
       throw new InternalServerErrorException("Lỗi hệ thống khi tạo học kỳ");
     }
   }
-  async findAll(
-    query?: FindAllSemestersQueryDto,
-  ): Promise<SemesterResponseDto[]> {
+  async findAll(query?: FindAllSemestersQueryDto): Promise<SemesterResponseDto[]> {
     // 1. Thêm classId vào phần bóc tách dữ liệu từ query
     const { studentId, batchId, classId } = query || {};
     let targetBatchId = batchId ? Number(batchId) : undefined;
@@ -137,27 +121,21 @@ export class SemesterService {
       });
 
       if (!batch) {
-        throw new BadRequestException(
-          "Không tìm thấy thông tin khóa học (Batch).",
-        );
+        throw new BadRequestException("Không tìm thấy thông tin khóa học (Batch).");
       }
 
       const startYear = batch.startYear;
       const startTerm = 1; // Theo đặc tả: Mặc định kỳ 1 của khóa học bắt đầu tại Term 1
 
       // Tìm học kỳ lớn nhất (semesterNumberMax) có trong chương trình khung
-      const semesterNumbers =
-        batch.curriculum?.curriculumSubjects.map((cs) => cs.semesterNumber) ||
-        [];
-      const maxSemesterNumber =
-        semesterNumbers.length > 0 ? Math.max(...semesterNumbers) : 4; // Mặc định là 4 nếu CTK trống
+      const semesterNumbers = batch.curriculum?.curriculumSubjects.map((cs) => cs.semesterNumber) || [];
+      const maxSemesterNumber = semesterNumbers.length > 0 ? Math.max(...semesterNumbers) : 4; // Mặc định là 4 nếu CTK trống
 
       // Tổng số bước nhảy kỳ tính từ kỳ gốc (kỳ 1 tương đương bước nhảy 0)
       const totalTermSteps = maxSemesterNumber - 1;
 
       // Tính toán năm kết thúc và kỳ kết thúc
-      const endYear =
-        startYear + Math.floor((startTerm - 1 + totalTermSteps) / 2);
+      const endYear = startYear + Math.floor((startTerm - 1 + totalTermSteps) / 2);
       const endTerm = ((startTerm - 1 + totalTermSteps) % 2) + 1; // Trả về 1 hoặc 2
 
       // Xây dựng điều kiện lọc chính xác cho bảng Semester
@@ -189,7 +167,7 @@ export class SemesterService {
       where: whereCondition,
       orderBy: [{ year: "asc" }, { term: "asc" }],
       include: {
-        _count: { select: { courseOffers: true } },
+        _count: { select: { classSubjects: true } },
       },
     });
 
@@ -200,7 +178,7 @@ export class SemesterService {
     const semester = await this.prisma.semester.findUnique({
       where: { id },
       include: {
-        _count: { select: { courseOffers: true } },
+        _count: { select: { classSubjects: true } },
       },
     });
 
@@ -210,10 +188,7 @@ export class SemesterService {
     return plainToInstance(SemesterResponseDto, semester);
   }
 
-  async update(
-    id: number,
-    data: UpdateSemesterDto,
-  ): Promise<SemesterResponseDto> {
+  async update(id: number, data: UpdateSemesterDto): Promise<SemesterResponseDto> {
     await this.findOne(id); // Check existence
 
     try {
@@ -251,8 +226,7 @@ export class SemesterService {
     const semester = await this.prisma.semester.findFirst({
       where: { isCurrent: true },
     });
-    if (!semester)
-      throw new NotFoundException("Chưa thiết lập học kỳ hiện tại");
+    if (!semester) throw new NotFoundException("Chưa thiết lập học kỳ hiện tại");
     return plainToInstance(SemesterResponseDto, semester);
   }
 }

@@ -424,7 +424,7 @@ export const ModelName = {
   FileStore: 'FileStore',
   Semester: 'Semester',
   Room: 'Room',
-  CourseOffer: 'CourseOffer',
+  ClassSubject: 'ClassSubject',
   ClassSubjectSession: 'ClassSubjectSession',
   ClassSubjectScheduleDetail: 'ClassSubjectScheduleDetail'
 } as const
@@ -442,7 +442,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "academicYear" | "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "subjectCombination" | "subjectCombinationItem" | "admissionProfile" | "transcriptSubjectScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "province" | "ward" | "village" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "courseOffer" | "classSubjectSession" | "classSubjectScheduleDetail"
+    modelProps: "academicYear" | "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "subjectCombination" | "subjectCombinationItem" | "admissionProfile" | "transcriptSubjectScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "province" | "ward" | "village" | "gradeStudent" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "classSubject" | "classSubjectSession" | "classSubjectScheduleDetail"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3406,77 +3406,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    CourseOffer: {
-      payload: Prisma.$CourseOfferPayload<ExtArgs>
-      fields: Prisma.CourseOfferFieldRefs
+    ClassSubject: {
+      payload: Prisma.$ClassSubjectPayload<ExtArgs>
+      fields: Prisma.ClassSubjectFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.CourseOfferFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload> | null
+          args: Prisma.ClassSubjectFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.CourseOfferFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>
+          args: Prisma.ClassSubjectFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>
         }
         findFirst: {
-          args: Prisma.CourseOfferFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload> | null
+          args: Prisma.ClassSubjectFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.CourseOfferFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>
+          args: Prisma.ClassSubjectFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>
         }
         findMany: {
-          args: Prisma.CourseOfferFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>[]
+          args: Prisma.ClassSubjectFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>[]
         }
         create: {
-          args: Prisma.CourseOfferCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>
+          args: Prisma.ClassSubjectCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>
         }
         createMany: {
-          args: Prisma.CourseOfferCreateManyArgs<ExtArgs>
+          args: Prisma.ClassSubjectCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.CourseOfferCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>[]
+          args: Prisma.ClassSubjectCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>[]
         }
         delete: {
-          args: Prisma.CourseOfferDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>
+          args: Prisma.ClassSubjectDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>
         }
         update: {
-          args: Prisma.CourseOfferUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>
+          args: Prisma.ClassSubjectUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>
         }
         deleteMany: {
-          args: Prisma.CourseOfferDeleteManyArgs<ExtArgs>
+          args: Prisma.ClassSubjectDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.CourseOfferUpdateManyArgs<ExtArgs>
+          args: Prisma.ClassSubjectUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.CourseOfferUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>[]
+          args: Prisma.ClassSubjectUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>[]
         }
         upsert: {
-          args: Prisma.CourseOfferUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CourseOfferPayload>
+          args: Prisma.ClassSubjectUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClassSubjectPayload>
         }
         aggregate: {
-          args: Prisma.CourseOfferAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCourseOffer>
+          args: Prisma.ClassSubjectAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClassSubject>
         }
         groupBy: {
-          args: Prisma.CourseOfferGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseOfferGroupByOutputType>[]
+          args: Prisma.ClassSubjectGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClassSubjectGroupByOutputType>[]
         }
         count: {
-          args: Prisma.CourseOfferCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CourseOfferCountAggregateOutputType> | number
+          args: Prisma.ClassSubjectCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClassSubjectCountAggregateOutputType> | number
         }
       }
     }
@@ -4105,7 +4105,7 @@ export type VillageScalarFieldEnum = (typeof VillageScalarFieldEnum)[keyof typeo
 export const GradeStudentScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
-  courseOfferId: 'courseOfferId',
+  classSubjectId: 'classSubjectId',
   kttx1: 'kttx1',
   kttx2: 'kttx2',
   kttx3: 'kttx3',
@@ -4270,7 +4270,7 @@ export const RoomScalarFieldEnum = {
 export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
 
 
-export const CourseOfferScalarFieldEnum = {
+export const ClassSubjectScalarFieldEnum = {
   id: 'id',
   teacherId: 'teacherId',
   subjectId: 'subjectId',
@@ -4280,7 +4280,7 @@ export const CourseOfferScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type CourseOfferScalarFieldEnum = (typeof CourseOfferScalarFieldEnum)[keyof typeof CourseOfferScalarFieldEnum]
+export type ClassSubjectScalarFieldEnum = (typeof ClassSubjectScalarFieldEnum)[keyof typeof ClassSubjectScalarFieldEnum]
 
 
 export const ClassSubjectSessionScalarFieldEnum = {
@@ -4801,7 +4801,7 @@ export type GlobalOmitConfig = {
   fileStore?: Prisma.FileStoreOmit
   semester?: Prisma.SemesterOmit
   room?: Prisma.RoomOmit
-  courseOffer?: Prisma.CourseOfferOmit
+  classSubject?: Prisma.ClassSubjectOmit
   classSubjectSession?: Prisma.ClassSubjectSessionOmit
   classSubjectScheduleDetail?: Prisma.ClassSubjectScheduleDetailOmit
 }

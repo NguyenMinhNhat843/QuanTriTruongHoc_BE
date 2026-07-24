@@ -1,10 +1,7 @@
 import { Injectable, BadRequestException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import { resolveCurriculumSemesterNumber } from "../../utils/academic.util";
-import {
-  ResponseTrainingProgress,
-  UpsertTrainingPlanDto,
-} from "../dto/training-progress.dto";
+import { ResponseTrainingProgress, UpsertTrainingPlanDto } from "../dto/training-progress.dto";
 import { plainToInstance } from "class-transformer";
 import * as ExcelJS from "exceljs";
 import { Response } from "express";
@@ -35,9 +32,7 @@ export class TrainingPlanService {
     });
 
     if (!classInfo?.batch?.curriculumId) {
-      throw new BadRequestException(
-        "Lớp học hoặc Khóa học chưa được cấu hình Chương trình khung.",
-      );
+      throw new BadRequestException("Lớp học hoặc Khóa học chưa được cấu hình Chương trình khung.");
     }
 
     // 3. Lấy tất cả môn học thuộc kỳ khung này trong Chương trình khung
@@ -52,7 +47,7 @@ export class TrainingPlanService {
     });
 
     // 4. Lấy tất cả các kế hoạch (ClassSubject) thực tế ĐÃ TẠO của lớp trong học kỳ này
-    const existingClasSubject = await this.prisma.courseOffer.findMany({
+    const existingClasSubject = await this.prisma.classSubject.findMany({
       where: {
         classId: classId,
         semesterId: semesterId,
@@ -71,9 +66,7 @@ export class TrainingPlanService {
         subject: true,
       },
     });
-    let subjects = existingClasSubject.map(
-      (classSubject) => classSubject.subject,
-    );
+    let subjects = existingClasSubject.map((classSubject) => classSubject.subject);
     if (!subjects || subjects.length === 0) {
       subjects = curriculumSubjects.map((cs) => cs.subject);
     }
@@ -81,9 +74,7 @@ export class TrainingPlanService {
     // 5. Trộn dữ liệu (Map): Môn nào chưa có CourseOffer thì trả về null/rỗng
     const trainingPlan = subjects.map((subject) => {
       // Tìm xem môn này đã được kích hoạt lập lịch chưa
-      const classSubject = existingClasSubject.find(
-        (cs) => cs.subjectId === subject.id,
-      );
+      const classSubject = existingClasSubject.find((cs) => cs.subjectId === subject.id);
 
       return {
         classSubject: classSubject || null,
@@ -137,14 +128,10 @@ export class TrainingPlanService {
         const a = extractedSessions[i];
         const b = extractedSessions[j];
 
-        const isSameRoomAndDay =
-          a.roomId === b.roomId &&
-          a.dayOfWeek === b.dayOfWeek &&
-          a.shift === b.shift;
+        const isSameRoomAndDay = a.roomId === b.roomId && a.dayOfWeek === b.dayOfWeek && a.shift === b.shift;
 
         // Công thức kiểm tra 2 khoảng tiết [start, end] có giao nhau không
-        const isPeriodOverlap =
-          a.startPeriod <= b.endPeriod && a.endPeriod >= b.startPeriod;
+        const isPeriodOverlap = a.startPeriod <= b.endPeriod && a.endPeriod >= b.startPeriod;
 
         if (isSameRoomAndDay && isPeriodOverlap) {
           throw new BadRequestException(
@@ -160,7 +147,7 @@ export class TrainingPlanService {
     return await this.prisma.$transaction(
       async (tx) => {
         // Lấy danh sách ID của các CourseOffer thuộc lớp này và kỳ này (để loại trừ khi update)
-        const existingOffers = await tx.courseOffer.findMany({
+        const existingOffers = await tx.classSubject.findMany({
           where: { classId, semesterId },
           select: { id: true, subjectId: true },
         });
@@ -209,12 +196,9 @@ export class TrainingPlanService {
             );
 
             if (conflict) {
-              const roomName =
-                conflict.room?.roomCode || `ID ${conflict.roomId}`;
-              const className =
-                conflict.classSubject.baseClass?.className || "Lớp khác";
-              const subjectName =
-                conflict.classSubject.subject.subjectName || "Môn khác";
+              const roomName = conflict.room?.roomCode || `ID ${conflict.roomId}`;
+              const className = conflict.classSubject.baseClass?.className || "Lớp khác";
+              const subjectName = conflict.classSubject.subject.subjectName || "Môn khác";
 
               throw new BadRequestException(
                 `Trùng lịch phòng học: Phòng ${roomName} vào Thứ ${newSess.dayOfWeek} (Ca ${newSess.shift}, Tiết ${newSess.startPeriod}-${newSess.endPeriod}) đã được sử dụng bởi ${className} (${subjectName} - Tiết ${conflict.startPeriod}-${conflict.endPeriod}).`,
@@ -229,9 +213,7 @@ export class TrainingPlanService {
         for (const item of items) {
           const { sessions, subjectId, teacherId } = item;
 
-          const classSubject = existingOffers.find(
-            (o) => o.subjectId === subjectId,
-          );
+          const classSubject = existingOffers.find((o) => o.subjectId === subjectId);
 
           // Standardize lồng dữ liệu session + schedule
           const sessionsCreateData = sessions.map((session) => {
@@ -244,9 +226,7 @@ export class TrainingPlanService {
                   ? {
                       create: schedules.map((schedule) => ({
                         weekNumber: schedule.weekNumber,
-                        studyDate: schedule.studyDate
-                          ? new Date(schedule.studyDate)
-                          : null,
+                        studyDate: schedule.studyDate ? new Date(schedule.studyDate) : null,
                         roomId: schedule.roomId || null,
                       })),
                     }
@@ -256,7 +236,7 @@ export class TrainingPlanService {
 
           if (!classSubject) {
             // TẠO MỚI
-            await tx.courseOffer.create({
+            await tx.classSubject.create({
               data: {
                 classId,
                 semesterId,
@@ -273,7 +253,7 @@ export class TrainingPlanService {
               where: { classSubjectId: classSubject.id },
             });
 
-            await tx.courseOffer.update({
+            await tx.classSubject.update({
               where: { id: classSubject.id },
               data: {
                 teacherId: teacherId || null,
@@ -292,11 +272,7 @@ export class TrainingPlanService {
     );
   }
 
-  async exportTrainingPlanExcel(
-    classId: number,
-    semesterId: number,
-    res: Response,
-  ) {
+  async exportTrainingPlanExcel(classId: number, semesterId: number, res: Response) {
     // -------------------------------------------------------------
     // 1. LẤY THÔNG TIN HỌC KỲ & SỐ TUẦN (n)
     // -------------------------------------------------------------
@@ -329,9 +305,7 @@ export class TrainingPlanService {
     });
 
     if (!classInfo?.batch?.curriculumId) {
-      throw new BadRequestException(
-        "Lớp học hoặc Khóa học chưa được cấu hình Chương trình khung.",
-      );
+      throw new BadRequestException("Lớp học hoặc Khóa học chưa được cấu hình Chương trình khung.");
     }
 
     const curriculumSubjects = await this.prisma.curriculumSubject.findMany({
@@ -342,7 +316,7 @@ export class TrainingPlanService {
       include: { subject: true },
     });
 
-    const existingClassSubject = await this.prisma.courseOffer.findMany({
+    const existingClassSubject = await this.prisma.classSubject.findMany({
       where: { classId: classId, semesterId: semesterId },
       include: {
         teacher: true,
@@ -384,19 +358,8 @@ export class TrainingPlanService {
     subTitleCell.alignment = { horizontal: "left" };
 
     // Dòng 4: Định nghĩa Header của Bảng
-    const baseHeaders = [
-      "STT",
-      "TÊN MÔN HỌC",
-      "GIÁO VIÊN GIẢNG DẠY",
-      "TỔNG SỐ TIẾT",
-      "PHÒNG",
-      "THỨ",
-      "TIẾT",
-    ];
-    const weekHeaders = Array.from(
-      { length: totalWeeks },
-      (_, i) => `TUẦN ${i + 1}`,
-    );
+    const baseHeaders = ["STT", "TÊN MÔN HỌC", "GIÁO VIÊN GIẢNG DẠY", "TỔNG SỐ TIẾT", "PHÒNG", "THỨ", "TIẾT"];
+    const weekHeaders = Array.from({ length: totalWeeks }, (_, i) => `TUẦN ${i + 1}`);
     const allHeaders = [...baseHeaders, ...weekHeaders];
 
     worksheet.getRow(4).values = allHeaders;
@@ -435,9 +398,7 @@ export class TrainingPlanService {
     let currentRowIndex = 5; // Bắt đầu ghi từ dòng 5 do 4 dòng đầu làm header
 
     subjects.forEach((subject, index) => {
-      const classSubject = existingClassSubject.find(
-        (cs) => cs.subjectId === subject.id,
-      );
+      const classSubject = existingClassSubject.find((cs) => cs.subjectId === subject.id);
       const sessions = classSubject?.classSubjectSessions || [];
 
       // Tổng số tiết (Lấy từ curriculum hoặc định nghĩa sẵn, tạm để 0 nếu trống)
@@ -465,14 +426,9 @@ export class TrainingPlanService {
 
           // Điền số tiết vào các cột tuần tương ứng
           for (let w = 1; w <= totalWeeks; w++) {
-            const hasSchedule = session.schedules.some(
-              (s) => s.weekNumber === w,
-            );
+            const hasSchedule = session.schedules.some((s) => s.weekNumber === w);
             // Cột tuần bắt đầu từ vị trí thứ 8 (Index 8 trong mảng rowData tương đương cột H)
-            rowData[7 + w] = hasSchedule
-              ? session.countPeriod ||
-                session.endPeriod - session.startPeriod + 1
-              : "";
+            rowData[7 + w] = hasSchedule ? session.countPeriod || session.endPeriod - session.startPeriod + 1 : "";
           }
         } else {
           rowData[5] = "Chưa chọn";
@@ -535,14 +491,8 @@ export class TrainingPlanService {
     // -------------------------------------------------------------
     // 6. PHẢN HỒI THÔNG TIN FILE VỀ CLIENT
     // -------------------------------------------------------------
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=Tien_Do_Dao_Tao_${className}.xlsx`,
-    );
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    res.setHeader("Content-Disposition", `attachment; filename=Tien_Do_Dao_Tao_${className}.xlsx`);
 
     await workbook.xlsx.write(res);
     res.end();

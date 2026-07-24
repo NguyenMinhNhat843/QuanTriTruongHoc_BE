@@ -20,7 +20,7 @@ import { DocumentConfigService } from "./services/document-config.service.js";
 import { UploadFileModule } from "../upload/upload.module.js";
 
 @Module({
-  imports: [PrismaModule, forwardRef(() => StudentModule), UploadFileModule],
+  imports: [PrismaModule, forwardRef(() => StudentModule), UploadFileModule, forwardRef(() => StudentModule)],
   controllers: [
     AdmissionCampaignController,
     AdmissionCampaignMajorController,

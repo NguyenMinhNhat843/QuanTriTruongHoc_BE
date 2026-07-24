@@ -1,9 +1,4 @@
-import {
-  ApiProperty,
-  ApiPropertyOptional,
-  OmitType,
-  PartialType,
-} from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
 import {
   ArrayMinSize,
@@ -20,9 +15,15 @@ import {
   ValidateNested,
 } from "class-validator";
 import { DayOfWeek } from "../../../prisma/generated/prisma/enums";
-import { ClassSubjectDto } from "./classSubject.response";
+import { ClassSubject } from "../../../prisma/generated/prisma/client";
+import { StaffDto } from "../../staff/staff.dto";
+import { SubjectDto } from "../../subject/dto/subject.dto";
+import { ClassDto } from "../../class/class.dto";
+import { SemesterDto } from "../../semester/semester.dto";
+import { GradeStudentDto } from "./grades.response";
+import { ClassSubjectSessionDto } from "../../schedule/dto/classSubjectSession.dto";
 
-export class ClassSubject implements ClassSubjectDto {
+export class ClassSubjectDto implements ClassSubject {
   @ApiProperty()
   @IsInt()
   @IsNotEmpty()
@@ -62,15 +63,36 @@ export class ClassSubject implements ClassSubjectDto {
   updatedAt: Date;
 }
 
-export class CreateClassSubjectDto extends OmitType(ClassSubject, [
-  "id",
-  "createdAt",
-  "updatedAt",
-] as const) {}
+export class ClassSubjectDetailDto extends ClassSubjectDto {
+  @ApiPropertyOptional({ type: () => StaffDto })
+  teacher?: StaffDto;
 
+  @ApiPropertyOptional({ type: () => SubjectDto })
+  subject?: SubjectDto;
+
+  @ApiPropertyOptional({ type: () => ClassDto })
+  baseClass?: ClassDto;
+
+  @ApiPropertyOptional({ type: () => SemesterDto })
+  semester?: SemesterDto;
+
+  @ApiPropertyOptional({ type: () => GradeStudentDto, isArray: true })
+  gradeStudents?: GradeStudentDto[];
+
+  @ApiPropertyOptional({ type: () => ClassSubjectSessionDto, isArray: true })
+  classSubjectSessions?: ClassSubjectSessionDto[];
+}
+
+// CREATE DTO
+export class CreateClassSubjectDto extends OmitType(ClassSubjectDto, ["id", "createdAt", "updatedAt"] as const) {}
+
+// UPDATE DTO
 export class UpdateClassSubjectDto extends PartialType(CreateClassSubjectDto) {}
 
-export class SearchClassSubjectDto extends PartialType(ClassSubject) {
+//SEARCH DTO
+export class SearchClassSubjectDto extends PartialType(
+  PickType(ClassSubjectDto, ["classId", "semesterId", "teacherId", "subjectId"] as const),
+) {
   @ApiPropertyOptional()
   @IsOptional()
   @IsInt()
@@ -101,10 +123,7 @@ export class CreateBulkClassSubjectDto {
   @IsOptional()
   endTime?: string;
 
-  @ApiPropertyOptional({
-    example: 50,
-    description: "Số lượng sinh viên tối đa mặc định nếu lớp không có dữ liệu",
-  })
+  @ApiPropertyOptional()
   @IsInt()
   @IsOptional()
   @Type(() => Number)

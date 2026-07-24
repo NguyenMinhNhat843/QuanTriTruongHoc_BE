@@ -204,8 +204,7 @@ export class ExportGradeTableService {
 
     // Dòng 3: Thông tin Meta của môn học
     sheet.getRow(3).height = 22;
-    sheet.getCell("A3").value =
-      `Môn học/Mô đun: ${keyValueData?.subjectName || ""}`;
+    sheet.getCell("A3").value = `Môn học/Mô đun: ${keyValueData?.subjectName || ""}`;
     sheet.getCell("A3").font = this.BOLD_FONT;
     sheet.mergeCells("A3:E3");
 
@@ -282,10 +281,7 @@ export class ExportGradeTableService {
   /**
    * Hàm xử lý tính toán và dựng cấu trúc dữ liệu cho Sheet Tổng Kết
    */
-  private buildSummarySheet(
-    summarySheet: ExcelJS.Worksheet,
-    allSubjectsData: any[],
-  ) {
+  private buildSummarySheet(summarySheet: ExcelJS.Worksheet, allSubjectsData: any[]) {
     // 1. DỰNG LAYOUT HEADER CHO SHEET TỔNG KẾT
     summarySheet.mergeCells("A1:J1");
     const titleCell = summarySheet.getCell("A1");
@@ -330,17 +326,14 @@ export class ExportGradeTableService {
     });
 
     // Lấy danh sách tên môn học phần động
-    const subjectsName =
-      allSubjectsData?.map((s) => s.keyValueData?.subjectName) || [];
+    const subjectsName = allSubjectsData?.map((s) => s.keyValueData?.subjectName) || [];
     const columnForSubjects = 11; // Bắt đầu chèn từ cột K (Cột số 11)
     const totalSubjectColumns = subjectsName.length * 2;
 
     // Vẽ khối Group tiêu đề lớn "Tên Module / Môn học" nằm tại dòng 3 173]
     if (subjectsName.length > 0) {
       const startColLetter = summarySheet.getColumn(columnForSubjects).letter;
-      const endColLetter = summarySheet.getColumn(
-        columnForSubjects + totalSubjectColumns - 1,
-      ).letter;
+      const endColLetter = summarySheet.getColumn(columnForSubjects + totalSubjectColumns - 1).letter;
       summarySheet.mergeCells(`${startColLetter}3:${endColLetter}3`);
 
       const mainSubjectHeaderCell = summarySheet.getCell(`${startColLetter}3`);
@@ -391,32 +384,24 @@ export class ExportGradeTableService {
       let tongTinChi = 0;
 
       const diemTongKetTungMon = allSubjectsData?.map((subject) => {
-        const grade = subject?.gradeTable?.filter(
-          (g) => g.student.studentCode === student.student.studentCode,
-        )[0];
+        const grade = subject?.gradeTable?.filter((g) => g.student.studentCode === student.student.studentCode)[0];
         const rawDiem =
-          grade?.diemTongKet2 !== null &&
-          grade?.diemTongKet2 !== undefined &&
-          grade?.diemTongKet2 !== ""
+          grade?.diemTongKet2 !== null && grade?.diemTongKet2 !== undefined && grade?.diemTongKet2 !== ""
             ? grade.diemTongKet2
             : grade?.diemTongKet1; // Ưu tiên lấy điểm tổng kết 2
 
         tongDiemHe10 += Number(rawDiem) * subject?.keyValueData?.credits;
         // Thực hiện đổi sang Điểm chữ trước rồi mới từ Điểm chữ đổi sang Hệ 4 đúng như bạn mong muốn 201]
         tongDiemHe4 +=
-          this.convertDiemChuToHe4(this.convertHe10ToDiemChu(Number(rawDiem))) *
-          subject?.keyValueData?.credits;
+          this.convertDiemChuToHe4(this.convertHe10ToDiemChu(Number(rawDiem))) * subject?.keyValueData?.credits;
         tongTinChi += subject?.keyValueData?.credits || 0;
 
-        return rawDiem !== null && rawDiem !== undefined && rawDiem !== ""
-          ? Number(rawDiem)
-          : "";
+        return rawDiem !== null && rawDiem !== undefined && rawDiem !== "" ? Number(rawDiem) : "";
       });
 
       const diemTBRaw = tongDiemHe10 / tongTinChi;
       const diemTBHe10 = tongTinChi > 0 ? Math.round(diemTBRaw * 10) / 10 : 0;
-      const diemTBHe4 =
-        tongTinChi > 0 ? Math.round((tongDiemHe4 / tongTinChi) * 100) / 100 : 0;
+      const diemTBHe4 = tongTinChi > 0 ? Math.round((tongDiemHe4 / tongTinChi) * 100) / 100 : 0;
       const diemChu = this.convertHe10ToDiemChu(diemTBHe10);
 
       return {
@@ -500,10 +485,7 @@ export class ExportGradeTableService {
   /**
    * Hàm xuất chính tập hợp nhiều môn và đính kèm sheet Tổng kết học kỳ
    */
-  async exportMultipleSubjectsToExcel(
-    classSubjectIds: number[],
-    haveTongKetSheet: boolean = false,
-  ): Promise<Buffer> {
+  async exportMultipleSubjectsToExcel(classSubjectIds: number[], haveTongKetSheet: boolean = false): Promise<Buffer> {
     // Khởi tạo Workbook trắng mới tinh
     const workbook = new ExcelJS.Workbook();
 
@@ -585,20 +567,7 @@ export class ExportGradeTableService {
           row.getCell("O").value = item.diemTongKet2;
           row.getCell("P").value = item.note || "";
 
-          scoreCols = [
-            "D",
-            "E",
-            "F",
-            "G",
-            "H",
-            "I",
-            "J",
-            "K",
-            "L",
-            "M",
-            "N",
-            "O",
-          ];
+          scoreCols = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"];
           maxColumnIndex = 16; // ĐÃ SỬA: Khớp chính xác với cột P (16)
         }
 
@@ -676,7 +645,7 @@ export class ExportGradeTableService {
             diemTongKet2: true,
             rating: true,
             note: true,
-            courseOffer: {
+            classSubject: {
               select: {
                 subject: {
                   select: {
@@ -701,9 +670,7 @@ export class ExportGradeTableService {
     });
 
     if (!studentTranscript) {
-      throw new NotFoundException(
-        `Không tìm thấy học sinh có ID:  ${studentId}`,
-      );
+      throw new NotFoundException(`Không tìm thấy học sinh có ID:  ${studentId}`);
     }
 
     // ==========================================
@@ -712,10 +679,10 @@ export class ExportGradeTableService {
     const semesterMap = new Map<number, any>();
 
     studentTranscript.gradeStudents.forEach((grade) => {
-      const courseOffer = grade.courseOffer;
-      if (!courseOffer || !courseOffer.semester) return;
+      const classSubject = grade.classSubject;
+      if (!classSubject || !classSubject.semester) return;
 
-      const semester = courseOffer.semester;
+      const semester = classSubject.semester;
       const semesterId = semester.id;
 
       if (!semesterMap.has(semesterId)) {
@@ -728,7 +695,7 @@ export class ExportGradeTableService {
         });
       }
 
-      const subjectInfo = courseOffer.subject;
+      const subjectInfo = classSubject.subject;
 
       // Giữ nguyên giá trị điểm gốc, nếu null thì hiển thị dấu "-"
       semesterMap.get(semesterId).grades.push({
@@ -810,8 +777,7 @@ export class ExportGradeTableService {
 
     worksheet.getCell("H3").value = "Lớp học:";
     worksheet.getCell("H3").font = { bold: true };
-    worksheet.getCell("I3").value =
-      studentTranscript.class?.className || "Chưa xếp lớp";
+    worksheet.getCell("I3").value = studentTranscript.class?.className || "Chưa xếp lớp";
 
     let currentRow = 5;
 

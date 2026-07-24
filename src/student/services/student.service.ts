@@ -7,21 +7,10 @@ import {
   SearchStudentDto,
   UpdateStudentDto,
 } from "../dtos/student.dto.js";
-import {
-  QualifiedStudentResponseDto,
-  ResponseStudentPaginationDto,
-  StudentResponseDto,
-} from "../dtos/student.response.js";
-import {
-  Conduct,
-  DocumentStatus,
-  Prisma,
-  StudentStatus,
-  RoleType,
-  EducationLevel,
-} from "../../../prisma/generated/prisma/client.js";
+import { DocumentStatus, Prisma, StudentStatus, RoleType } from "../../../prisma/generated/prisma/client.js";
 import { plainToInstance } from "class-transformer";
 import bcrypt from "bcryptjs";
+import { StudentDetailDto } from "../dtos/student.response.js";
 
 @Injectable()
 export class StudentService {
@@ -52,8 +41,10 @@ export class StudentService {
   /**
    * Sinh Sinh viên + User từ hồ sơ trúng tuyển nhập học (ENROLLED)
    */
-  async createStudentFromAdmissionProfile(admissionProfileId: number) {
-    const profile = await this.prisma.admissionProfile.findUnique({
+  async createStudentFromAdmissionProfile(admissionProfileId: number, tx?: Prisma.TransactionClient) {
+    const db = tx || this.prisma;
+
+    const profile = await db.admissionProfile.findUnique({
       where: { id: admissionProfileId },
       include: {
         admissionCampaignMajor: true,
@@ -65,23 +56,23 @@ export class StudentService {
     }
 
     if (profile.studentId) {
-      const existingStudent = await this.prisma.student.findUnique({
+      const existingStudent = await db.student.findUnique({
         where: { id: profile.studentId },
       });
       if (existingStudent) return existingStudent;
     }
 
     const year = new Date().getFullYear();
-    const count = await this.prisma.student.count();
+    const count = await db.student.count();
     const studentCode = `SV${year}${(count + 1).toString().padStart(4, "0")}`;
 
-    let user = await this.prisma.user.findFirst({
+    let user = await db.user.findFirst({
       where: { username: profile.identityNumber },
     });
 
     if (!user) {
       const defaultPasswordHash = await bcrypt.hash("123456@Aa", 10);
-      user = await this.prisma.user.create({
+      user = await db.user.create({
         data: {
           username: profile.identityNumber,
           passwordHash: defaultPasswordHash,
@@ -90,12 +81,13 @@ export class StudentService {
       });
     }
 
-    const student = await this.prisma.student.create({
+    const student = await db.student.create({
       data: {
         studentCode,
         identityNumber: profile.identityNumber,
         userId: user.id,
         majorId: profile.admissionCampaignMajor.majorId,
+        batchId: profile.admissionCampaignMajor.batchId,
         educationLevel: profile.educationLevel,
         status: StudentStatus.STUDYING,
         enrollmentDate: new Date(),
@@ -145,7 +137,7 @@ export class StudentService {
     };
   }
 
-  async findOne(query: FindOneStudentDto): Promise<StudentResponseDto> {
+  async findOne(query: FindOneStudentDto): Promise<StudentDetailDto> {
     const { id, identityNumber, studentCode } = query;
 
     if (!id && !identityNumber && !studentCode) {
@@ -175,7 +167,7 @@ export class StudentService {
       throw new NotFoundException("Không tìm thấy sinh viên");
     }
 
-    return plainToInstance(StudentResponseDto, student);
+    return plainToInstance(StudentDetailDto, student);
   }
 
   async update(id: number, dto: UpdateStudentDto) {
@@ -193,7 +185,7 @@ export class StudentService {
   }
 
   // Lấy danh sách học sinh đủ điều kiện phân lớp
-  async getEligibleStudentsForAssignment(batchId: number): Promise<ResponseStudentPaginationDto> {
+  async getEligibleStudentsForAssignment(batchId: number) {
     const numericBatchId = Number(batchId);
 
     const where: Prisma.StudentWhereInput = {
@@ -202,7 +194,7 @@ export class StudentService {
       status: StudentStatus.STUDYING,
     };
 
-    const [total, items] = await Promise.all([
+    const [total, students] = await Promise.all([
       this.prisma.student.count({ where }),
       this.prisma.student.findMany({
         where,
@@ -210,6 +202,7 @@ export class StudentService {
           user: true,
           batch: true,
           class: { select: { id: true, classCode: true, className: true } },
+          major: { select: { id: true, majorCode: true, majorName: true } },
           admissionProfile: {
             include: {
               // Cần lấy minConduct/cutoffScore/minTotalScore đã cấu hình cho ngành + hệ
@@ -228,61 +221,10 @@ export class StudentService {
       }),
     ]);
 
-    const formattedItems = items.map((student) => {
-      const profile = student.admissionProfile;
-      let isQualified = false;
-
-      if (profile) {
-        // Lấy đúng bộ hạnh kiểm theo trình độ học vấn của thí sinh:
-        // THCS -> lớp 6,7,8,9 | THPT -> lớp 10,11,12
-        const conducts =
-          profile.educationLevel === EducationLevel.THCS
-            ? [profile.conduct6, profile.conduct7, profile.conduct8, profile.conduct9]
-            : [profile.conduct10, profile.conduct11, profile.conduct12];
-
-        const requiredConduct = profile.admissionCampaignMajor?.minConduct ?? null;
-        const isConductPassed = requiredConduct
-          ? conducts.every(
-              (conduct): conduct is Conduct =>
-                conduct !== null && conduct !== undefined && this.compareConduct(conduct, requiredConduct) >= 0,
-            )
-          : conducts.every((conduct) => conduct !== null && conduct !== undefined);
-
-        // Ưu tiên điểm chuẩn (cutoffScore) nếu Phòng Đào tạo đã set sau khi duyệt hồ sơ;
-        // nếu chưa có thì tạm dùng điểm sàn (minTotalScore) làm ngưỡng xét.
-        const requiredScore =
-          profile.admissionCampaignMajor?.cutoffScore ?? profile.admissionCampaignMajor?.minTotalScore;
-        const isScorePassed = requiredScore != null && (profile.avgSubjectScore ?? 0) >= requiredScore;
-
-        isQualified = isScorePassed && isConductPassed;
-      }
-
-      return {
-        ...student,
-        isQualified,
-      };
-    });
-
-    const students = formattedItems.map((item) =>
-      plainToInstance(QualifiedStudentResponseDto, item, { excludeExtraneousValues: false }),
-    );
-
     return {
-      students,
+      data: students,
       total,
     };
-  }
-
-  // Hạnh kiểm: TOT > KHA > TB > YEU. So sánh conduct đạt được với mức tối thiểu yêu cầu.
-  // Trả về >= 0 nếu conduct đạt hoặc vượt yêu cầu.
-  private compareConduct(conduct: Conduct, minConduct: Conduct): number {
-    const rank: Record<Conduct, number> = {
-      [Conduct.TOT]: 4,
-      [Conduct.KHA]: 3,
-      [Conduct.TB]: 2,
-      [Conduct.YEU]: 1,
-    };
-    return rank[conduct] - rank[minConduct];
   }
 
   async assignStudentsToClasses(body: AssignStudentsToClassesDto) {
@@ -428,7 +370,7 @@ export class StudentService {
     });
   }
 
-  async searchStudents(query: SearchStudentDto): Promise<ResponseStudentPaginationDto> {
+  async searchStudents(query: SearchStudentDto) {
     const {
       page = 1,
       limit = 10,
@@ -447,22 +389,6 @@ export class StudentService {
     const numericLimit = Number(limit) || 10;
     const skip = (numericPage - 1) * numericLimit;
 
-    // DocumentConfig không còn gắn theo đợt/hệ đào tạo nữa — chỉ cần lấy checklist
-    // đang áp dụng tại thời điểm hiện tại (startDate gần nhất, <= hôm nay).
-    const docConfig = await this.prisma.documentConfig.findFirst({
-      where: { startDate: { lte: new Date() } },
-      orderBy: { startDate: "desc" },
-      include: {
-        items: {
-          where: { required: true },
-          orderBy: { sortOrder: "asc" },
-        },
-      },
-    });
-
-    const totalConfigItems = docConfig?.items || [];
-    const totalRequiredDocs = totalConfigItems.length;
-
     const where: Prisma.StudentWhereInput = {
       AND: [
         studentCode ? { studentCode: { contains: studentCode, mode: "insensitive" } } : {},
@@ -477,7 +403,7 @@ export class StudentService {
       ],
     };
 
-    const [total, items] = await Promise.all([
+    const [total, students] = await Promise.all([
       this.prisma.student.count({ where }),
       this.prisma.student.findMany({
         where,
@@ -488,8 +414,6 @@ export class StudentService {
           class: { select: { id: true, classCode: true, className: true } },
           admissionProfile: {
             include: {
-              // Cần minConduct/cutoffScore/minTotalScore của ngành + hệ thí sinh
-              // trúng tuyển để xét đạt/không đạt, thay vì hardcode ngưỡng.
               admissionCampaignMajor: {
                 select: { minConduct: true, cutoffScore: true, minTotalScore: true },
               },
@@ -506,53 +430,8 @@ export class StudentService {
       }),
     ]);
 
-    const formattedItems = items.map((student) => {
-      const profile = student.admissionProfile;
-      const approvedDocItemIds = new Set(profile?.documents.map((doc) => doc.documentConfigItemId) || []);
-      const currentDocsCount = totalConfigItems.filter((configItem) => approvedDocItemIds.has(configItem.id)).length;
-
-      let isQualified = false;
-      if (profile) {
-        // Lấy đúng bộ hạnh kiểm theo trình độ học vấn của thí sinh:
-        // THCS -> lớp 6,7,8,9 | THPT -> lớp 10,11,12
-        const conducts =
-          profile.educationLevel === EducationLevel.THCS
-            ? [profile.conduct6, profile.conduct7, profile.conduct8, profile.conduct9]
-            : [profile.conduct10, profile.conduct11, profile.conduct12];
-
-        const requiredConduct = profile.admissionCampaignMajor?.minConduct ?? null;
-        const isConductPassed = requiredConduct
-          ? conducts.every(
-              (conduct): conduct is Conduct =>
-                conduct !== null && conduct !== undefined && this.compareConduct(conduct, requiredConduct) >= 0,
-            )
-          : conducts.every((conduct) => conduct !== null && conduct !== undefined);
-
-        // Ưu tiên điểm chuẩn (cutoffScore) nếu Phòng Đào tạo đã set sau khi duyệt hồ sơ;
-        // nếu chưa có thì tạm dùng điểm sàn (minTotalScore) làm ngưỡng xét.
-        const requiredScore =
-          profile.admissionCampaignMajor?.cutoffScore ?? profile.admissionCampaignMajor?.minTotalScore;
-        const isScorePassed = requiredScore != null && (profile.avgSubjectScore ?? 0) >= requiredScore;
-
-        isQualified = isScorePassed && isConductPassed;
-      }
-
-      return {
-        ...student,
-        documentProgress: {
-          current: currentDocsCount,
-          total: totalRequiredDocs,
-        },
-        isQualified,
-      };
-    });
-
-    const students = formattedItems.map((item) =>
-      plainToInstance(QualifiedStudentResponseDto, item, { excludeExtraneousValues: false }),
-    );
-
     return {
-      students,
+      data: students,
       total,
     };
   }

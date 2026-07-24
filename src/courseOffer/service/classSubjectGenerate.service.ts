@@ -11,8 +11,10 @@ export class ClassSubjectGenerateService {
    */
   async previewGenClassSubjects(dto: CreateBulkClassSubjectDto) {
     const { semesterId, batchId } = dto;
-    const { nominalClasses, semester, subjectsInTerm, semesterNumber } =
-      await this.getGenerationContext(semesterId, batchId);
+    const { nominalClasses, semester, subjectsInTerm, semesterNumber } = await this.getGenerationContext(
+      semesterId,
+      batchId,
+    );
 
     const previewData: any = [];
     for (const subItem of subjectsInTerm) {
@@ -44,8 +46,7 @@ export class ClassSubjectGenerateService {
   async genClassSubjects(dto: CreateBulkClassSubjectDto) {
     const { semesterId, batchId, startTime, endTime } = dto;
 
-    const { subjectsInTerm, nominalClasses, semester } =
-      await this.getGenerationContext(semesterId, batchId);
+    const { subjectsInTerm, nominalClasses, semester } = await this.getGenerationContext(semesterId, batchId);
 
     const courseOffersToCreate: any = [];
     for (const subItem of subjectsInTerm) {
@@ -65,7 +66,7 @@ export class ClassSubjectGenerateService {
       }
     }
 
-    const result = await this.prisma.courseOffer.createMany({
+    const result = await this.prisma.classSubject.createMany({
       data: courseOffersToCreate,
       skipDuplicates: true,
     });
@@ -98,17 +99,12 @@ export class ClassSubjectGenerateService {
       where: { id: semesterId },
     });
 
-    if (!batch || !semester)
-      throw new NotFoundException("Dữ liệu không hợp lệ");
+    if (!batch || !semester) throw new NotFoundException("Dữ liệu không hợp lệ");
 
     // Tính semesterNumber
-    const semesterNumber =
-      (semester.year! - batch.startYear) * 2 + semester.term!;
+    const semesterNumber = (semester.year! - batch.startYear) * 2 + semester.term!;
 
-    if (!curriculum)
-      throw new NotFoundException(
-        "Không tìm thấy Chương trình khung cho ngành này",
-      );
+    if (!curriculum) throw new NotFoundException("Không tìm thấy Chương trình khung cho ngành này");
 
     // Lấy danh sách môn học theo học kỳ trong chương trình khung
     const subjectsInTerm = await this.prisma.curriculumSubject.findMany({

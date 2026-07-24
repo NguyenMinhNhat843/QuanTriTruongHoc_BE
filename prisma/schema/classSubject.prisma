@@ -1,5 +1,5 @@
 
-enum CourseOfferStatus {
+enum ClassSubjectStatus {
   planned
   open
   closed
@@ -22,8 +22,8 @@ model GradeStudent {
   studentId      Int
   student        Student     @relation(fields: [studentId], references: [id])
   
-  courseOfferId  Int
-  courseOffer    CourseOffer @relation(fields: [courseOfferId], references: [id])
+  classSubjectId  Int
+  classSubject    ClassSubject @relation(fields: [classSubjectId], references: [id])
   
   kttx1           Float?
   kttx2           Float?
@@ -49,7 +49,7 @@ model GradeStudent {
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
-  @@unique([studentId, courseOfferId])
+  @@unique([studentId, classSubjectId])
   @@map("grade_student")
 }
 

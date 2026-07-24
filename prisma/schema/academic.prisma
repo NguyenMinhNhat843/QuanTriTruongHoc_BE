@@ -132,7 +132,7 @@ model Class {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  courseOffers  CourseOffer[]
+  classSubjects  ClassSubject[]
   students      Student[] // Một lớp có nhiều học sinh
 
   @@map("classes")
@@ -170,7 +170,7 @@ model Subject {
 
   // Quan hệ
   curriculumSubjects CurriculumSubject[]
-  courseOffers       CourseOffer[]
+  classSubjects       ClassSubject[]
   teacherSubjects    TeacherSubject[]
 
   @@map("subjects")

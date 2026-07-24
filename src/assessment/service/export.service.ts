@@ -16,11 +16,7 @@ import { ExcelHelper } from "../../common/helpers/excels.helper";
 export class ExportExcelService {
   constructor(private prisma: PrismaService) {}
 
-  async exportBangDiemRenLuyenHocKy(
-    classId: number,
-    semesterId: number,
-    res: Response,
-  ) {
+  async exportBangDiemRenLuyenHocKy(classId: number, semesterId: number, res: Response) {
     // 1. Tối ưu hóa truy vấn thông tin chung (Parallel Queries)
     const [classInfo, semesterInfo] = await Promise.all([
       this.prisma.class.findUnique({
@@ -32,10 +28,8 @@ export class ExportExcelService {
       }),
     ]);
 
-    if (!classInfo)
-      throw new NotFoundException("Không tìm thấy thông tin lớp học.");
-    if (!semesterInfo)
-      throw new NotFoundException("Không tìm thấy thông tin học kỳ.");
+    if (!classInfo) throw new NotFoundException("Không tìm thấy thông tin lớp học.");
+    if (!semesterInfo) throw new NotFoundException("Không tìm thấy thông tin học kỳ.");
 
     // 2. Lấy danh sách học sinh kèm thông tin điểm và đánh giá bằng 1 truy vấn SQL duy nhất (Tránh N+1 query)
     const students = await this.prisma.student.findMany({
@@ -43,8 +37,8 @@ export class ExportExcelService {
       orderBy: { studentCode: "asc" },
       include: {
         gradeStudents: {
-          where: { courseOffer: { semesterId } },
-          include: { courseOffer: { include: { subject: true } } },
+          where: { classSubject: { semesterId } },
+          include: { classSubject: { include: { subject: true } } },
         },
         assessments: {
           where: { period: { semesterId } },
@@ -106,9 +100,7 @@ export class ExportExcelService {
       row.height = 22;
 
       // Xử lý chuỗi tên học sinh an toàn
-      const nameParts = student.fullName
-        ? student.fullName.trim().split(/\s+/)
-        : [];
+      const nameParts = student.fullName ? student.fullName.trim().split(/\s+/) : [];
       const lastName = nameParts.pop() || "";
       const firstName = nameParts.join(" ") || "";
 
@@ -117,23 +109,19 @@ export class ExportExcelService {
       let totalWeightedScore = 0;
 
       student.gradeStudents.forEach((grade) => {
-        const credits = grade.courseOffer.subject.credits || 0;
+        const credits = grade.classSubject.subject.credits || 0;
         const finalScore = grade.diemTongKet2 ?? grade.diemTongKet1 ?? 0;
         totalCredits += credits;
         totalWeightedScore += finalScore * credits;
       });
 
-      const gpaHocKy =
-        totalCredits > 0
-          ? Math.round((totalWeightedScore / totalCredits) * 10) / 10
-          : 0;
+      const gpaHocKy = totalCredits > 0 ? Math.round((totalWeightedScore / totalCredits) * 10) / 10 : 0;
 
       // Trích xuất điểm đánh giá rèn luyện
       const assessment = student.assessments[0];
       const diemTuDanhGia = assessment?.totalStudentScore || 0;
       const diemGvDanhGia = assessment?.totalTeacherScore || 0;
-      const diemRenLuyenTongKet =
-        (diemTuDanhGia + gpaHocKy + (diemGvDanhGia + gpaHocKy)) / 2;
+      const diemRenLuyenTongKet = (diemTuDanhGia + gpaHocKy + (diemGvDanhGia + gpaHocKy)) / 2;
 
       // Chuẩn bị mảng giá trị cho hàng
       const rowValues = [
@@ -169,9 +157,7 @@ export class ExportExcelService {
         cell.fill = rowFill;
 
         // Định dạng căn lề dựa trên mục đích dữ liệu (Cột Họ tên, đệm, ghi chú -> Căn trái)
-        cell.alignment = [2, 3, 10].includes(colIdx)
-          ? LEFT_ALIGNMENT
-          : CENTER_ALIGNMENT;
+        cell.alignment = [2, 3, 10].includes(colIdx) ? LEFT_ALIGNMENT : CENTER_ALIGNMENT;
 
         // Định dạng số thập phân hiển thị cho các cột điểm học tập GPA (Cột F và H)
         if ([5, 7].includes(colIdx) && typeof val === "number") {
@@ -183,14 +169,8 @@ export class ExportExcelService {
     });
 
     // 7. Thiết lập Headers và trả luồng file nhị phân về phía Client
-    res.setHeader(
-      "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    );
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=TongHop_DiemRenLuyen_${classInfo.classCode}.xlsx`,
-    );
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    res.setHeader("Content-Disposition", `attachment; filename=TongHop_DiemRenLuyen_${classInfo.classCode}.xlsx`);
 
     const buffer = await excel.toBuffer();
     res.status(200).send(buffer);

@@ -1,11 +1,5 @@
 import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsInt,
-  IsDate,
-} from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsInt, IsDate } from "class-validator";
 import { Department } from "../../prisma/generated/prisma/client";
 import { Type } from "class-transformer";
 
@@ -48,7 +42,7 @@ export class DepartmentDto implements Department {
 }
 
 export class ResponseDepartmentDto extends DepartmentDto {
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ type: String, required: false, nullable: true })
   @IsOptional()
   headOfDepartmentName: string | null;
 
@@ -65,10 +59,6 @@ export class ResponseDepartmentDto extends DepartmentDto {
   totalStudents: number;
 }
 
-export class CreateDepartmentDto extends OmitType(DepartmentDto, [
-  "id",
-  "createdAt",
-  "updatedAt",
-]) {}
+export class CreateDepartmentDto extends OmitType(DepartmentDto, ["id", "createdAt", "updatedAt"]) {}
 
 export class UpdateDepartmentDto extends PartialType(CreateDepartmentDto) {}

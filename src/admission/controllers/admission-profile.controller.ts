@@ -45,6 +45,14 @@ export class AdmissionProfileController {
     return this.admissionProfileService.findOne(id);
   }
 
+  // Lấy chi tiết hồ sơ theo ID học sinh
+  @Get("student/:studentId")
+  @ApiOperation({ summary: "Chi tiết hồ sơ xét tuyển theo ID học sinh" })
+  @ApiResponse({ status: 200, type: AdmissionProfileDetailDto })
+  findByStudentId(@Param("studentId", ParseIntPipe) studentId: number) {
+    return this.admissionProfileService.findOne(undefined, studentId);
+  }
+
   @Patch(":id")
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(RoleType.admin, RoleType.staff)

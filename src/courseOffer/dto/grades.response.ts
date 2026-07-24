@@ -1,18 +1,9 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import {
-  IsInt,
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsDate,
-  ValidateNested,
-  IsNumber,
-  Min,
-  Max,
-} from "class-validator";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { StudentResponseDto } from "../../student/dtos/student.response.js";
 import { GradeStudent } from "../../../prisma/generated/prisma/client";
+import { StudentDto } from "../../student/dtos/student.dto";
+import { ClassSubjectDto } from "./classSubject.dto";
+import { IsArray, IsInt, ValidateNested } from "class-validator";
 
 // Giả sử bạn có Enum cho trạng thái đăng ký, nếu không có bạn có thể bỏ IsEnum và dùng IsString
 export enum RegistrationStatus {
@@ -22,185 +13,120 @@ export enum RegistrationStatus {
 }
 
 export class GradeStudentDto implements GradeStudent {
-  @ApiProperty()
-  @IsInt()
-  @IsNotEmpty()
+  @ApiProperty({ type: Number })
+  @Type(() => Number)
   id: number;
 
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  kttx1!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  kttx2!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  kttx3!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  ktdk1!: number | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  ktdk2!: number | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  ktdk3!: number | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  ktdk4!: number | null;
-
-  @ApiPropertyOptional({
-    type: String,
-  })
-  @IsOptional()
-  @IsString()
-  rating: string | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber({})
-  @Min(0)
-  @Max(10)
-  diemKiemTra1!: number | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  diemKiemTra2!: number | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  diemTB!: number | null;
-
-  @ApiPropertyOptional({
-    type: Number,
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  diemTongKet1!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  diemTongKet2!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  finalScore!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  diemBaoCao!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  diemChuyenMon!: number | null;
-
-  @ApiPropertyOptional({ type: Number })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Max(10)
-  diemYThuc!: number | null;
-
-  @ApiProperty()
-  @IsInt()
-  @IsNotEmpty()
-  courseOfferId: number;
-
-  @ApiProperty({ example: 20260001, description: "ID của sinh viên đăng ký" })
-  @IsInt()
-  @IsNotEmpty()
+  @ApiProperty({ type: Number })
+  @Type(() => Number)
   studentId: number;
 
-  @ApiPropertyOptional({
-    nullable: true,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
+  @ApiProperty({ type: Number })
+  @Type(() => Number)
+  classSubjectId: number;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  kttx1: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  kttx2: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  kttx3: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  ktdk1: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  ktdk2: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  ktdk3: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  ktdk4: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemKiemTra1: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemKiemTra2: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemBaoCao: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemChuyenMon: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemYThuc: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemTongKet1: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemTongKet2: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  @Type(() => Number)
+  diemTB: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
+  rating: string | null;
+
+  @ApiProperty({ type: String, nullable: true })
   note: string | null;
 
-  @ApiProperty({
-    example: "2026-05-16T02:15:00.000Z",
-    description: "Thời điểm tạo bản ghi",
-  })
-  @IsDate()
+  @ApiProperty({ type: Date })
   @Type(() => Date)
   createdAt: Date;
 
-  @ApiProperty({
-    example: "2026-05-16T03:00:00.000Z",
-    description: "Thời điểm cập nhật bản ghi gần nhất",
-  })
-  @IsDate()
+  @ApiProperty({ type: Date })
   @Type(() => Date)
   updatedAt: Date;
+}
 
-  @ApiProperty({
-    type: () => StudentResponseDto,
-    description: "Thông tin chi tiết của sinh viên đăng ký",
+export class GradeStudentDeailDto extends GradeStudentDto {
+  @ApiPropertyOptional({ type: StudentDto })
+  student?: StudentDto;
+
+  @ApiPropertyOptional({ type: ClassSubjectDto })
+  classSubject?: ClassSubjectDto;
+}
+
+// CREATE GRADE DTO
+export class CreateGradeDto extends OmitType(GradeStudentDto, ["id", "createdAt", "updatedAt"] as const) {}
+
+// UPDATE GRADE DTO
+export class UpdateGradeDto extends PartialType(GradeStudentDto) {}
+
+// SAVE GRADE TABLE DTO
+export class SaveGradesDto {
+  @ApiProperty()
+  @IsInt()
+  classSubjectId: number;
+
+  @ApiPropertyOptional({
+    type: [UpdateGradeDto],
   })
-  @ValidateNested()
-  @Type(() => StudentResponseDto)
-  student: StudentResponseDto;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => UpdateGradeDto)
+  grades?: UpdateGradeDto[];
 }
 
 export class SubjectGradeResponseDto {

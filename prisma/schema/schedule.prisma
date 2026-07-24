@@ -21,7 +21,7 @@ model Semester {
   createdAt   DateTime @default(now())
 
   // quan hệ
-  courseOffers        CourseOffer[]
+  classSubjects       ClassSubject[]
   evaluationPeriod    EvaluationPeriod?
   tuitionPeriods      TuitionPeriod[]
 
@@ -48,12 +48,7 @@ model Room {
   @@map("rooms")
 }
 
-// ==========================
-// 3. CLASS SUBJECT (Bảng trung gian giữa môn học và lớp học --> để phân giáo viên)
-// Lưu ý: Bảng này là ClassSubject chứ không phải CourseOffer
-// Vì ban đầu thiết kế theo hướng lớp học phần, bây giờ đổi lại sẽ lỗi nhiều chỗ nên để tạm đây
-// ==========================
-model CourseOffer {
+model ClassSubject {
   id                Int       @id @default(autoincrement())
   teacherId         Int?
   teacher           Staff?    @relation(fields: [teacherId], references: [id])
@@ -87,7 +82,7 @@ model CourseOffer {
 model ClassSubjectSession {
   id              Int         @id @default(autoincrement())
   classSubjectId  Int
-  classSubject    CourseOffer @relation(fields: [classSubjectId], references: [id])
+  classSubject    ClassSubject @relation(fields: [classSubjectId], references: [id])
 
   dayOfWeek       DayOfWeek   // 2 -> 8 (Thứ 2 đến Chủ Nhật)
   shift           String      // S - C - T: sáng - chiều - tối

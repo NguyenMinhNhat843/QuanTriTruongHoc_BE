@@ -7,8 +7,7 @@ export class ChartService {
 
   async getStudentGrowthCharts() {
     // 1. Lấy dữ liệu tăng trưởng học sinh ĐĂNG KÝ TƯ VẤN (status = 'register')
-    const registerGrowth: { month: string; count: number }[] = await this.prisma
-      .$queryRaw`
+    const registerGrowth: { month: string; count: number }[] = await this.prisma.$queryRaw`
       SELECT 
         TO_CHAR("createdAt", 'YYYY-MM') AS "month",
         COUNT(id)::int AS "count"
@@ -20,8 +19,7 @@ export class ChartService {
 
     // 2. Lấy dữ liệu tăng trưởng học sinh NHẬP HỌC THÀNH CÔNG (status = 'studying')
     // Note: Nếu bạn muốn chuẩn xác tính theo ngày họ bắt đầu học, có thể đổi "createdAt" thành "enrollmentDate"
-    const studyingGrowth: { month: string; count: number }[] = await this.prisma
-      .$queryRaw`
+    const studyingGrowth: { month: string; count: number }[] = await this.prisma.$queryRaw`
       SELECT 
         TO_CHAR("createdAt", 'YYYY-MM') AS "month",
         COUNT(id)::int AS "count"
@@ -39,9 +37,7 @@ export class ChartService {
 
   async getMajorDistribution() {
     // Thực hiện Raw Query để gộp nhóm, tính toán fallback majorId và lấy luôn tên ngành
-    const result = await this.prisma.$queryRaw<
-      { majorName: string; studentCount: number }[]
-    >`
+    const result = await this.prisma.$queryRaw<{ majorName: string; studentCount: number }[]>`
     SELECT 
       m."majorName" AS "majorName",
       COUNT(s.id)::int AS "studentCount"
@@ -65,27 +61,25 @@ export class ChartService {
   }
 
   async getAcademicPerformanceByClass() {
-    // 1. Tìm học kỳ hiện tại
     const currentSemester = await this.prisma.semester.findFirst({
       where: { isCurrent: true },
     });
 
     if (!currentSemester) return [];
 
-    // 2. Đi xuyên qua quan hệ courseOffer để lọc điểm thuộc học kỳ này
     const gradesData = await this.prisma.gradeStudent.findMany({
       where: {
-        courseOffer: {
-          semesterId: currentSemester.id, // Lọc theo semesterId nằm trong bảng CourseOffer
+        classSubject: {
+          semesterId: currentSemester.id,
         },
       },
       select: {
         rating: true, // Lấy xếp loại (Xuất sắc, Giỏi, Khá...)
-        courseOffer: {
+        classSubject: {
           select: {
             baseClass: {
               select: {
-                className: true, // Lấy tên lớp gốc (ví dụ: CNTT-K26A) từ bảng Class
+                className: true,
               },
             },
           },
@@ -98,7 +92,7 @@ export class ChartService {
 
     gradesData.forEach((item) => {
       // Kiểm tra xem bản ghi có gắn với lớp học nào không (phòng trường hợp baseClass bị null)
-      const className = item.courseOffer?.baseClass?.className;
+      const className = item.classSubject?.baseClass?.className;
       if (!className) return;
 
       const rate = item.rating || "Chưa xếp loại";

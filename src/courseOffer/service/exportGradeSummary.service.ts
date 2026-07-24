@@ -65,12 +65,7 @@ export class ExportGradeTableSummaryService {
   // =========================================================================
   // HELPER DỰNG CẤU TRÚC GIAO DIỆN EXCEL DÙNG CHUNG
   // =========================================================================
-  private drawHeader(
-    sheet: ExcelJS.Worksheet,
-    title: string,
-    metaRight: string,
-    subjects: { name: string }[],
-  ) {
+  private drawHeader(sheet: ExcelJS.Worksheet, title: string, metaRight: string, subjects: { name: string }[]) {
     // 1. Tiêu đề lớn dòng 1
     sheet.mergeCells("A1:J1");
     const titleCell = sheet.getCell("A1");
@@ -116,9 +111,7 @@ export class ExportGradeTableSummaryService {
     const startSubjectCol = 11;
     if (subjects.length > 0) {
       const startLetter = sheet.getColumn(startSubjectCol).letter;
-      const endLetter = sheet.getColumn(
-        startSubjectCol + subjects.length * 2 - 1,
-      ).letter;
+      const endLetter = sheet.getColumn(startSubjectCol + subjects.length * 2 - 1).letter;
       sheet.mergeCells(`${startLetter}3:${endLetter}3`);
       const mainSubCell = sheet.getCell(`${startLetter}3`);
       mainSubCell.value = "DANH SÁCH MÔN HỌC / MÔ ĐUN";
@@ -195,9 +188,7 @@ export class ExportGradeTableSummaryService {
         })) || [];
 
     // Loại bỏ các môn trùng lặp nếu có
-    const uniqueSubjects: any = Array.from(
-      new Map(currentSubjects.map((s: any) => [s.id, s])).values(),
-    );
+    const uniqueSubjects: any = Array.from(new Map(currentSubjects.map((s: any) => [s.id, s])).values());
 
     // 2. Vẽ giao diện Header
     this.drawHeader(sheet, sheetTitle, metaRight, uniqueSubjects);
@@ -231,14 +222,8 @@ export class ExportGradeTableSummaryService {
         }
       });
 
-      const gpa10 =
-        totalCredits > 0
-          ? Math.round((totalWeightedScore10 / totalCredits) * 10) / 10
-          : 0;
-      const gpa4 =
-        totalCredits > 0
-          ? Math.round((totalWeightedScore4 / totalCredits) * 100) / 100
-          : 0;
+      const gpa10 = totalCredits > 0 ? Math.round((totalWeightedScore10 / totalCredits) * 10) / 10 : 0;
+      const gpa4 = totalCredits > 0 ? Math.round((totalWeightedScore4 / totalCredits) * 100) / 100 : 0;
       const finalLetter = this.convertHe10ToDiemChu(gpa10);
       const xepLoaiHL = this.convertDiem4ToXepLoai(gpa4);
 
@@ -276,10 +261,7 @@ export class ExportGradeTableSummaryService {
   // =========================================================================
   // XUẤT BẢNG ĐIỂM TỔNG HỢP TOÀN DIỆN CHO MỘT LỚP HỌC (NHIỀU SHEET NHƯ YÊU CẦU)
   // =========================================================================
-  async exportClassComprehensiveTranscripts(
-    classId: number,
-    batchId: number,
-  ): Promise<Buffer> {
+  async exportClassComprehensiveTranscripts(classId: number, batchId: number): Promise<Buffer> {
     const workbook = new ExcelJS.Workbook();
 
     // 1. Lấy danh sách các học kỳ mà khóa (Batch) này trải qua
@@ -287,13 +269,11 @@ export class ExportGradeTableSummaryService {
     const validSemesters = semesters.filter((s) => s !== null);
 
     if (validSemesters.length === 0) {
-      throw new NotFoundException(
-        "Không tìm thấy cấu hình học kỳ hợp lệ cho lớp học này.",
-      );
+      throw new NotFoundException("Không tìm thấy cấu hình học kỳ hợp lệ cho lớp học này.");
     }
 
     // 2. Truy vấn tất cả các lớp môn học (classSubject) thuộc lớp này chạy qua các học kỳ trên
-    const classSubject = await this.prisma.courseOffer.findMany({
+    const classSubject = await this.prisma.classSubject.findMany({
       where: {
         classId: classId,
         semesterId: { in: validSemesters.map((s) => s.id) },
@@ -311,17 +291,12 @@ export class ExportGradeTableSummaryService {
     });
 
     if (classSubject.length === 0) {
-      throw new NotFoundException(
-        "Lớp học này hiện tại chưa có dữ liệu điểm môn học nào.",
-      );
+      throw new NotFoundException("Lớp học này hiện tại chưa có dữ liệu điểm môn học nào.");
     }
 
     // 3. Xây dựng cấu trúc Map dùng ID dạng Number làm khóa chính đồng nhất
     const rawGradeMap = new Map<number, Map<number, any>>();
-    const studentsMasterMap = new Map<
-      number,
-      { id: number; fullName: string; dob: string; grades: any[] }
-    >();
+    const studentsMasterMap = new Map<number, { id: number; fullName: string; dob: string; grades: any[] }>();
 
     classSubject.forEach((cs) => {
       cs.gradeStudents.forEach((gs) => {
@@ -333,9 +308,7 @@ export class ExportGradeTableSummaryService {
           studentsMasterMap.set(studentId, {
             id: studentId,
             fullName: gs.student.fullName || "",
-            dob: gs.student.dob
-              ? new Date(gs.student.dob).toLocaleDateString("vi-VN")
-              : "",
+            dob: gs.student.dob ? new Date(gs.student.dob).toLocaleDateString("vi-VN") : "",
             // format định dạng dd/mm/yyyy hiển thị trên excel cho đẹp mắt
             grades: [],
           });
@@ -357,40 +330,25 @@ export class ExportGradeTableSummaryService {
     });
 
     // Sắp xếp danh sách học sinh theo bảng chữ cái chuẩn Tiếng Việt
-    const sortedStudents = Array.from(studentsMasterMap.values()).sort(
-      (a, b) => {
-        const getLastName = (name: string) => {
-          const p = name.trim().split(/\s+/);
-          return p[p.length - 1] || "";
-        };
-        const cmp = getLastName(a.fullName).localeCompare(
-          getLastName(b.fullName),
-          "vi",
-        );
-        return cmp !== 0 ? cmp : a.fullName.localeCompare(b.fullName, "vi");
-      },
-    );
+    const sortedStudents = Array.from(studentsMasterMap.values()).sort((a, b) => {
+      const getLastName = (name: string) => {
+        const p = name.trim().split(/\s+/);
+        return p[p.length - 1] || "";
+      };
+      const cmp = getLastName(a.fullName).localeCompare(getLastName(b.fullName), "vi");
+      return cmp !== 0 ? cmp : a.fullName.localeCompare(b.fullName, "vi");
+    });
 
     // 4. Phân nhóm các CourseOfferId theo cấu trúc thời gian của hệ thống
-    const sortedSemesters = [...validSemesters].sort((a, b) =>
-      a.year !== b.year ? a.year - b.year : a.term - b.term,
-    );
+    const sortedSemesters = [...validSemesters].sort((a, b) => (a.year !== b.year ? a.year - b.year : a.term - b.term));
 
     const coIdsBySemester: Record<number, number[]> = {};
     sortedSemesters.forEach((sem, idx) => {
-      coIdsBySemester[idx + 1] = classSubject
-        .filter((cs) => cs.semesterId === sem.id)
-        .map((cs) => cs.id);
+      coIdsBySemester[idx + 1] = classSubject.filter((cs) => cs.semesterId === sem.id).map((cs) => cs.id);
     });
 
-    const coIdsYear1 = [
-      ...(coIdsBySemester[1] || []),
-      ...(coIdsBySemester[2] || []),
-    ];
-    const coIdsYear2 = [
-      ...(coIdsBySemester[3] || []),
-      ...(coIdsBySemester[4] || []),
-    ];
+    const coIdsYear1 = [...(coIdsBySemester[1] || []), ...(coIdsBySemester[2] || [])];
+    const coIdsYear2 = [...(coIdsBySemester[3] || []), ...(coIdsBySemester[4] || [])];
     const coIdsAllKhoa = classSubject.map((cs) => cs.id);
 
     // 5. TIẾN HÀNH GENERATE CÁC SHEET THEO ĐÚNG THỨ TỰ YÊU CẦU

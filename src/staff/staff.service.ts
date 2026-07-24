@@ -1,15 +1,6 @@
-import {
-  Injectable,
-  ConflictException,
-  InternalServerErrorException,
-  NotFoundException,
-  Logger,
-} from "@nestjs/common";
+import { Injectable, ConflictException, InternalServerErrorException, NotFoundException, Logger } from "@nestjs/common";
 import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
-import {
-  StaffResponseDto,
-  TeacherDashboardStatsResponseDto,
-} from "./staff.response.js";
+import { StaffResponseDto, TeacherDashboardStatsResponseDto } from "./staff.response.js";
 import { plainToInstance } from "class-transformer";
 import { PrismaService } from "../prisma/prisma.service.js";
 import { generateId } from "../utils/generateId.js";
@@ -42,10 +33,7 @@ export class StaffService {
   /**
    * Cập nhật thông tin nhân viên và tài khoản liên quan
    */
-  async updateStaff(
-    id: number,
-    data: UpdateStaffDto,
-  ): Promise<StaffResponseDto> {
+  async updateStaff(id: number, data: UpdateStaffDto): Promise<StaffResponseDto> {
     // 1. Kiểm tra staff có tồn tại không
     const staff = await this.prisma.staff.findUnique({
       where: { id },
@@ -84,17 +72,10 @@ export class StaffService {
 
       return plainToInstance(StaffResponseDto, staff);
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
-        throw new ConflictException(
-          "Username hoặc Email đã tồn tại trên hệ thống",
-        );
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        throw new ConflictException("Username hoặc Email đã tồn tại trên hệ thống");
       }
-      throw new InternalServerErrorException(
-        "Lỗi khi cập nhật thông tin nhân viên",
-      );
+      throw new InternalServerErrorException("Lỗi khi cập nhật thông tin nhân viên");
     }
   }
 
@@ -134,9 +115,7 @@ export class StaffService {
             }
           : {},
         departmentId ? { departmentId } : {},
-        position
-          ? { position: { contains: position, mode: "insensitive" } }
-          : {},
+        position ? { position: { contains: position, mode: "insensitive" } } : {},
         employeeRole ? { EmployeeRole: employeeRole } : {},
       ],
     };
@@ -187,10 +166,7 @@ export class StaffService {
   /**
    * Lấy thống kê cho trang home của giáo viên
    */
-  async getTeacherDasboardStats(
-    teacherId: number,
-    semesterId?: number,
-  ): Promise<TeacherDashboardStatsResponseDto> {
+  async getTeacherDasboardStats(teacherId: number, semesterId?: number): Promise<TeacherDashboardStatsResponseDto> {
     const profile = await this.prisma.staff.findUnique({
       where: { id: teacherId },
       include: {
@@ -205,7 +181,7 @@ export class StaffService {
     });
     const soLuongLopHocChuNhiem = lopHocDangChuNhiem.length;
 
-    const monHocDangGiangDay = await this.prisma.courseOffer.findMany({
+    const monHocDangGiangDay = await this.prisma.classSubject.findMany({
       where: {
         teacherId,
         semesterId: semesterId || undefined,

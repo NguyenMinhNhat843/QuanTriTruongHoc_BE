@@ -1,12 +1,8 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
-import { SaveGradesDto } from "../dto/grades.dto";
 import { Prisma } from "../../../prisma/generated/prisma/client";
 import { convertToGradeSystem } from "../../utils/grade-convert";
+import { SaveGradesDto } from "../dto/grades.response";
 
 @Injectable()
 export class GradeService {
@@ -15,11 +11,7 @@ export class GradeService {
   /**
    * Tạo mới toàn bộ bảng điểm cho 1 classSubject
    */
-  async createGradeTable(
-    classId: number,
-    classSubjectId: number,
-    tx?: Prisma.TransactionClient,
-  ) {
+  async createGradeTable(classId: number, classSubjectId: number, tx?: Prisma.TransactionClient) {
     const client = tx || this.prisma;
 
     // Lấy danh sách sinh viên trong class
@@ -33,7 +25,7 @@ export class GradeService {
     const createGrades = await client.gradeStudent.createMany({
       data: students.map((s) => ({
         studentId: s.id,
-        courseOfferId: classSubjectId,
+        classSubjectId: classSubjectId,
       })),
       skipDuplicates: true,
     });
@@ -52,7 +44,7 @@ export class GradeService {
             id: true,
           },
         },
-        courseOffer: {
+        classSubject: {
           select: {
             id: true,
           },
@@ -72,7 +64,7 @@ export class GradeService {
       where: { id },
       include: {
         student: true,
-        courseOffer: {
+        classSubject: {
           include: {
             subject: true,
             semester: true,
@@ -91,9 +83,7 @@ export class GradeService {
   /**
    * Hàm helper quy đổi điểm hệ 10 sang điểm chữ theo tiêu chuẩn chung
    */
-  private calculateRatingGrade(
-    diemTK: number | null | undefined,
-  ): string | null {
+  private calculateRatingGrade(diemTK: number | null | undefined): string | null {
     if (diemTK === null || diemTK === undefined) return null;
 
     if (diemTK >= 8.5) return "A";
@@ -116,7 +106,7 @@ export class GradeService {
     const updatePromises = grades.map((grade) => {
       return this.prisma.gradeStudent.updateMany({
         where: {
-          courseOfferId: classSubjectId,
+          classSubjectId: classSubjectId,
           studentId: grade.studentId,
         },
         data: {
@@ -168,7 +158,7 @@ export class GradeService {
       const grades = await this.prisma.gradeStudent.findMany({
         where: { studentId: studentId },
         include: {
-          courseOffer: {
+          classSubject: {
             include: {
               subject: true,
               semester: true,
@@ -176,7 +166,7 @@ export class GradeService {
           },
         },
         orderBy: {
-          courseOffer: {
+          classSubject: {
             semester: {
               startDate: "asc",
             },
@@ -203,10 +193,10 @@ export class GradeService {
       // 4. Duyệt qua danh sách điểm để tính toán
       grades.forEach((grade) => {
         const finalGrade = grade.diemTongKet2 ?? grade.diemTB;
-        const credits = grade.courseOffer.subject.credits || 0;
+        const credits = grade.classSubject.subject.credits || 0;
 
-        const semesterId = grade.courseOffer.semester.id;
-        const semesterName = grade.courseOffer.semester.name;
+        const semesterId = grade.classSubject.semester.id;
+        const semesterName = grade.classSubject.semester.name;
 
         if (!semesterDataMap[semesterId]) {
           semesterDataMap[semesterId] = {
@@ -222,8 +212,7 @@ export class GradeService {
           totalWeightedScore += finalGrade * credits;
           totalCreditsForGpa += credits;
 
-          semesterDataMap[semesterId].totalWeightedScore +=
-            finalGrade * credits;
+          semesterDataMap[semesterId].totalWeightedScore += finalGrade * credits;
           semesterDataMap[semesterId].totalCredits += credits;
 
           if (finalGrade >= 5.0) {
@@ -234,20 +223,13 @@ export class GradeService {
 
       // 5. Tính toán GPA Tích lũy tổng và định dạng lại mảng học kỳ
       const cumulativeGpa =
-        totalCreditsForGpa > 0
-          ? parseFloat((totalWeightedScore / totalCreditsForGpa).toFixed(2))
-          : 0;
+        totalCreditsForGpa > 0 ? parseFloat((totalWeightedScore / totalCreditsForGpa).toFixed(2)) : 0;
 
       const semesterHistory = Object.keys(semesterDataMap).map((key) => {
         const sem = semesterDataMap[key];
         return {
           semesterName: sem.semesterName,
-          gpa:
-            sem.totalCredits > 0
-              ? parseFloat(
-                  (sem.totalWeightedScore / sem.totalCredits).toFixed(2),
-                )
-              : 0,
+          gpa: sem.totalCredits > 0 ? parseFloat((sem.totalWeightedScore / sem.totalCredits).toFixed(2)) : 0,
           credits: sem.totalCredits,
         };
       });
@@ -268,9 +250,7 @@ export class GradeService {
       }
 
       console.error("Error fetching academic summary widget:", error);
-      throw new InternalServerErrorException(
-        "Lỗi hệ thống khi tải tóm tắt học tập.",
-      );
+      throw new InternalServerErrorException("Lỗi hệ thống khi tải tóm tắt học tập.");
     }
   }
 
@@ -289,7 +269,7 @@ export class GradeService {
     const grades = await this.prisma.gradeStudent.findMany({
       where: { studentId: studentId },
       include: {
-        courseOffer: {
+        classSubject: {
           include: {
             subject: {
               select: {
@@ -312,10 +292,7 @@ export class GradeService {
         },
       },
       // Sắp xếp theo học kỳ tăng dần để tiện tính CPA tích lũy cộng dồn
-      orderBy: [
-        { courseOffer: { semester: { year: "asc" } } },
-        { courseOffer: { semester: { term: "asc" } } },
-      ],
+      orderBy: [{ classSubject: { semester: { year: "asc" } } }, { classSubject: { semester: { term: "asc" } } }],
     });
 
     // 3. Phân nhóm điểm theo từng Học kỳ và tính toán GPA, CPA
@@ -326,18 +303,14 @@ export class GradeService {
     let totalAccumulatedWeightedScore = 0;
 
     for (const gradeItem of grades) {
-      const courseOffer = gradeItem.courseOffer;
-      const semester = courseOffer.semester;
-      const subject = courseOffer.subject;
+      const classSubject = gradeItem.classSubject;
+      const semester = classSubject.semester;
+      const subject = classSubject.subject;
 
       if (!semester || !subject) continue;
 
       // Lấy điểm tổng kết (ưu tiên điểm tổng kết thi lần 2 nếu có, không thì lấy lần 1)
-      const finalScore =
-        gradeItem.diemTongKet2 ??
-        gradeItem.diemTongKet1 ??
-        gradeItem.diemTB ??
-        null;
+      const finalScore = gradeItem.diemTongKet2 ?? gradeItem.diemTongKet1 ?? gradeItem.diemTB ?? null;
       const { gradeFour, gradeLetter } = convertToGradeSystem(finalScore);
 
       // Định dạng thông tin môn học
@@ -362,17 +335,14 @@ export class GradeService {
         finalScore: finalScore,
         gradeFour: gradeFour,
         gradeLetter: gradeLetter,
-        isPassed:
-          gradeLetter !== "F" && finalScore !== null && finalScore >= 4.0,
+        isPassed: gradeLetter !== "F" && finalScore !== null && finalScore >= 4.0,
       };
 
       // Khởi tạo học kỳ trong Map nếu chưa có
       if (!semestersMap.has(semester.id)) {
         semestersMap.set(semester.id, {
           semesterId: semester.id,
-          semesterName:
-            semester.name ||
-            `Học kỳ ${semester.term} (${semester.schoolYear || semester.year})`,
+          semesterName: semester.name || `Học kỳ ${semester.term} (${semester.schoolYear || semester.year})`,
           term: semester.term,
           year: semester.year,
           schoolYear: semester.schoolYear,
@@ -413,25 +383,13 @@ export class GradeService {
 
       // Gán chỉ số GPA của học kỳ này
       sem.semesterCredits = termTotalCredits;
-      sem.semesterGPA10 =
-        termTotalCredits > 0
-          ? Number((termWeightedScore10 / termTotalCredits).toFixed(2))
-          : 0;
-      sem.semesterGPA4 =
-        termTotalCredits > 0
-          ? Number((termWeightedScore4 / termTotalCredits).toFixed(2))
-          : 0;
+      sem.semesterGPA10 = termTotalCredits > 0 ? Number((termWeightedScore10 / termTotalCredits).toFixed(2)) : 0;
+      sem.semesterGPA4 = termTotalCredits > 0 ? Number((termWeightedScore4 / termTotalCredits).toFixed(2)) : 0;
 
       // Cộng dồn tích lũy tính đến thời điểm kết thúc học kỳ này (CPA)
       sem.cumulativeCredits = totalAccumulatedCredits;
       sem.cumulativeCPA4 =
-        totalAccumulatedCredits > 0
-          ? Number(
-              (totalAccumulatedWeightedScore / totalAccumulatedCredits).toFixed(
-                2,
-              ),
-            )
-          : 0;
+        totalAccumulatedCredits > 0 ? Number((totalAccumulatedWeightedScore / totalAccumulatedCredits).toFixed(2)) : 0;
     });
 
     return {

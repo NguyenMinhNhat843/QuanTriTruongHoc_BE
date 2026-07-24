@@ -1,50 +1,34 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import {
+  ClassSubjectDetailDto,
   CreateClassSubjectDto,
   SearchClassSubjectDto,
   updateClassSubjectDto,
 } from "../dto/classSubject.dto";
 import { Prisma, RoleType } from "../../../prisma/generated/prisma/client";
 import { plainToInstance } from "class-transformer";
-import { ClassSubjectResponseDto } from "../dto/classSubject.response";
-import { CourseOfferDetailResponseDto } from "../dto/classSubjectDetail.response";
 
 @Injectable()
 export class ClassSubjectService {
   constructor(private prisma: PrismaService) {}
 
   /**
-   * Lấy danh sách lớp học phần theo các tham số bộ lọc (Không phân trang)
+   * Lấy danh sách môn - lớp học theo các tham số bộ lọc (Không phân trang)
    */
   async findAll(query: SearchClassSubjectDto, user?: any) {
-    const { classId, semesterId, teacherId } = query;
+    const { classId, semesterId, teacherId, subjectId } = query;
 
-    const where: Prisma.CourseOfferWhereInput = {};
+    const where: Prisma.ClassSubjectWhereInput = {
+      ...(classId && { classId: Number(classId) }),
+      ...(semesterId && { semesterId: Number(semesterId) }),
+      ...(teacherId && { teacherId: Number(teacherId) }),
+      ...(subjectId && { subjectId: Number(subjectId) }),
+    };
 
-    // 1. Áp dụng các bộ lọc cơ bản từ Query
-    if (classId) {
-      where.classId = classId;
-    }
-
-    if (semesterId) {
-      where.semesterId = semesterId;
-    }
-
-    if (teacherId) {
-      where.teacherId = teacherId;
-    }
-
-    // 2. Kẹp thêm điều kiện bảo mật dựa vào Phân Quyền (Business Role Rule)
-    if (user.role === RoleType.teacher) {
-      // Nếu là Giáo viên: Chỉ xem được các lớp học phần mà mình được phân công giảng dạy
+    if (user?.role === RoleType.teacher) {
       where.teacherId = user.staffId;
-    } else if (user.role === RoleType.student) {
-      // Nếu là Học sinh: Chỉ xem được các môn thuộc về lớp (baseClass) của chính mình
+    } else if (user?.role === RoleType.student) {
       where.baseClass = {
         students: {
           some: {
@@ -53,10 +37,8 @@ export class ClassSubjectService {
         },
       };
     }
-    // Admin và Staff giữ nguyên (không gán thêm điều kiện) để có quyền xem toàn bộ dữ liệu hệ thống
 
-    // 3. Thực hiện truy vấn database
-    const result = await this.prisma.courseOffer.findMany({
+    const result = await this.prisma.classSubject.findMany({
       where,
       include: {
         subject: true,
@@ -82,17 +64,14 @@ export class ClassSubjectService {
       },
     });
 
-    return plainToInstance(ClassSubjectResponseDto, result);
+    return plainToInstance(ClassSubjectDetailDto, result);
   }
 
   /**
    * Cập nhật classSubject
    */
-  async updateClassSubject(
-    classSubjectId: number,
-    data: updateClassSubjectDto,
-  ) {
-    const result = await this.prisma.courseOffer.update({
+  async updateClassSubject(classSubjectId: number, data: updateClassSubjectDto) {
+    const result = await this.prisma.classSubject.update({
       where: {
         id: classSubjectId,
       },
@@ -105,10 +84,7 @@ export class ClassSubjectService {
   /**
    * Tạo ClassSubject
    */
-  async createOptionalSection(
-    dto: CreateClassSubjectDto,
-    tx?: Prisma.TransactionClient,
-  ) {
+  async createOptionalSection(dto: CreateClassSubjectDto, tx?: Prisma.TransactionClient) {
     const prismaClient = tx || this.prisma;
 
     const { semesterId, subjectId, classId, teacherId } = dto;
@@ -125,7 +101,7 @@ export class ClassSubjectService {
 
     // 2. Sinh mã lớp học phần tùy chọn
     try {
-      const data = await prismaClient.courseOffer.create({
+      const data = await prismaClient.classSubject.create({
         data: {
           subjectId: subjectId,
           semesterId: semesterId,
@@ -140,9 +116,7 @@ export class ClassSubjectService {
       };
     } catch (error: any) {
       console.error("Lỗi khi tạo lớp học phần tùy chọn: ", error);
-      throw new BadRequestException(
-        "Lỗi khi tạo lớp học phần tùy chọn: " + error.message,
-      );
+      throw new BadRequestException("Lỗi khi tạo lớp học phần tùy chọn: " + error.message);
     }
   }
 
@@ -154,86 +128,73 @@ export class ClassSubjectService {
   /**
    * Chi tiết classSubject
    */
-  async getCourseOfferDetail(
-    classSubjectId: number,
-  ): Promise<CourseOfferDetailResponseDto | null> {
-    // 1. Lấy thông tin lớp học phần, classId liên kết VÀ kiểm tra xem môn học có phải thực tập không
-    const classSubject = await this.prisma.courseOffer.findUnique({
+  async getCourseOfferDetail(classSubjectId: number): Promise<ClassSubjectDetailDto | null> {
+    // 1. Query thông tin cơ bản của lớp học phần + danh sách gradeStudents hiện có + danh sách sinh viên hiện tại của lớp
+    const initialData = await this.prisma.classSubject.findUnique({
       where: { id: classSubjectId },
       select: {
         classId: true,
-        subject: {
-          select: { isThucTap: true },
+        subject: { select: { isThucTap: true } },
+        gradeStudents: { select: { studentId: true } },
+        baseClass: {
+          select: {
+            students: {
+              where: { status: "STUDYING" }, // Chỉ đồng bộ những sinh viên đang học
+              select: { id: true },
+            },
+          },
         },
       },
     });
 
-    const classId = classSubject?.classId;
-    if (!classId) {
-      throw new NotFoundException("Không tìm thấy lớp học");
+    if (!initialData || !initialData.classId) {
+      throw new NotFoundException("Không tìm thấy lớp học phần hoặc lớp hành chính tương ứng");
     }
 
-    const isThucTap = classSubject?.subject?.isThucTap ?? false;
+    const isThucTap = initialData.subject?.isThucTap ?? false;
 
-    // 2. Lấy danh sách toàn bộ học sinh đang ở trong lớp hành chính này
-    const studentsInClass = await this.prisma.student.findMany({
-      where: { classId: classId },
-      select: { id: true },
-    });
-    const currentStudentIds = new Set(studentsInClass.map((s) => s.id));
+    // 2. Tính toán danh sách học sinh thiếu / thừa bằng Set
+    const currentStudents = initialData.baseClass?.students || [];
+    const currentStudentIds = new Set(currentStudents.map((s) => s.id));
 
-    // 3. Lấy các học sinh hiện đang có bản ghi điểm trong lớp học phần này
-    const existingGrades = await this.prisma.gradeStudent.findMany({
-      where: { courseOfferId: classSubjectId },
-      select: { studentId: true },
-    });
-    const existingStudentIds = new Set(existingGrades.map((g) => g.studentId));
+    const existingGradeStudentIds = new Set(initialData.gradeStudents.map((g) => g.studentId));
 
-    // =================================================================
-    // 4. [LOGIC ĐỒNG BỘ 2 CHIỀU] - XỬ LÝ HỌC SINH THIẾU & HỌC SINH THỪA
-    // =================================================================
-
-    // Hướng A: Tìm học sinh mới vào lớp mà CHƯA có bản ghi điểm (THIẾU)
-    const missingStudents = studentsInClass.filter(
-      (student) => !existingStudentIds.has(student.id),
-    );
-
-    // Hướng B: Tìm studentId có điểm nhưng KHÔNG CÒN thuộc lớp này nữa (THỪA)
-    const extraStudentIds = existingGrades
+    const missingStudents = currentStudents.filter((s) => !existingGradeStudentIds.has(s.id));
+    const extraStudentIds = initialData.gradeStudents
       .map((g) => g.studentId)
       .filter((id) => !currentStudentIds.has(id));
 
-    // 5. Thực thi đồng bộ vào Database nếu có biến động dữ liệu
+    // 3. Thực thi đồng bộ Database nếu có sự chênh lệch
     if (missingStudents.length > 0 || extraStudentIds.length > 0) {
-      await this.prisma.$transaction([
-        // Hành động 1: Tạo bù nếu thiếu
-        ...(missingStudents.length > 0
-          ? [
-              this.prisma.gradeStudent.createMany({
-                data: missingStudents.map((student) => ({
-                  studentId: student.id,
-                  courseOfferId: classSubjectId,
-                })),
-                skipDuplicates: true,
-              }),
-            ]
-          : []),
+      const syncOperations: any = [];
 
-        // Hành động 2: Xóa bỏ nếu thừa (Học sinh đã bị xóa khỏi lớp)
-        ...(extraStudentIds.length > 0
-          ? [
-              this.prisma.gradeStudent.deleteMany({
-                where: {
-                  courseOfferId: classSubjectId,
-                  studentId: { in: extraStudentIds },
-                },
-              }),
-            ]
-          : []),
-      ]);
+      if (missingStudents.length > 0) {
+        syncOperations.push(
+          this.prisma.gradeStudent.createMany({
+            data: missingStudents.map((student) => ({
+              studentId: student.id,
+              classSubjectId: classSubjectId,
+            })),
+            skipDuplicates: true,
+          }),
+        );
+      }
+
+      if (extraStudentIds.length > 0) {
+        syncOperations.push(
+          this.prisma.gradeStudent.deleteMany({
+            where: {
+              classSubjectId: classSubjectId,
+              studentId: { in: extraStudentIds },
+            },
+          }),
+        );
+      }
+
+      await this.prisma.$transaction(syncOperations);
     }
 
-    // Định nghĩa các trường điểm dựa theo loại hình môn học
+    // 4. Dynamic select các trường điểm
     const gradeSelectFields = isThucTap
       ? {
           diemYThuc: true,
@@ -257,8 +218,8 @@ export class ClassSubjectService {
           diemTongKet2: true,
         };
 
-    // 6. Sau khi đã đồng bộ hoàn tất, tiến hành lấy toàn bộ thông tin chi tiết để trả về
-    const courseOffer = await this.prisma.courseOffer.findUnique({
+    // 5. Query lấy dữ liệu hoàn chỉnh để trả về
+    const classSubjectDetail = await this.prisma.classSubject.findUnique({
       where: { id: classSubjectId },
       include: {
         gradeStudents: {
@@ -292,35 +253,33 @@ export class ClassSubjectService {
       },
     });
 
-    if (!courseOffer) {
+    if (!classSubjectDetail) {
       throw new NotFoundException("Không tìm thấy lớp học phần");
     }
 
-    // 7. Xếp điểm học sinh theo thứ tự bảng chữ cái tiếng Việt
-    const getLastName = (fullName: string) => {
-      if (!fullName) return "";
-      const parts = fullName.trim().split(/\s+/);
-      return parts[parts.length - 1];
-    };
+    // 6. Sắp xếp danh sách học sinh theo Tên -> Họ tên đầy đủ (Chuẩn tiếng Việt)
+    if (classSubjectDetail.gradeStudents?.length > 0) {
+      const getLastName = (fullName?: string) => {
+        if (!fullName) return "";
+        const parts = fullName.trim().split(/\s+/);
+        return parts[parts.length - 1];
+      };
 
-    if (courseOffer.gradeStudents) {
-      courseOffer.gradeStudents.sort((a, b) => {
-        const nameA = getLastName(a.student?.fullName || "");
-        const nameB = getLastName(b.student?.fullName || "");
+      classSubjectDetail.gradeStudents.sort((a, b) => {
+        const fullNameA = a.student?.fullName || "";
+        const fullNameB = b.student?.fullName || "";
 
-        const compareName = nameA.localeCompare(nameB, "vi", {
-          sensitivity: "base",
-        });
-        if (compareName !== 0) return compareName;
+        const lastNameA = getLastName(fullNameA);
+        const lastNameB = getLastName(fullNameB);
 
-        return (a.student?.fullName || "").localeCompare(
-          b.student?.fullName || "",
-          "vi",
-        );
+        const compareLastName = lastNameA.localeCompare(lastNameB, "vi", { sensitivity: "base" });
+        if (compareLastName !== 0) return compareLastName;
+
+        return fullNameA.localeCompare(fullNameB, "vi", { sensitivity: "base" });
       });
     }
 
-    return plainToInstance(CourseOfferDetailResponseDto, courseOffer, {
+    return plainToInstance(ClassSubjectDetailDto, classSubjectDetail, {
       excludeExtraneousValues: false,
     });
   }
@@ -341,12 +300,7 @@ export class ClassSubjectService {
   /**
    * Hàm tạo danh sách ClassSubject dựa theo khung chương trình
    */
-  async createClassSubject(
-    classData: any,
-    semester: any,
-    curriculumSubjects: any[],
-    tx?: any,
-  ) {
+  async createClassSubject(classData: any, semester: any, curriculumSubjects: any[], tx?: any) {
     const prismaClient = tx || this.prisma;
 
     // Chuẩn bị dữ liệu để Bulk Insert
@@ -374,11 +328,7 @@ export class ClassSubjectService {
   /**
    * 2. Hàm tự động đăng ký học phần và khởi tạo bảng điểm cho sinh viên trong lớp
    */
-  async registerStudentsToCourses(
-    studentsInClass: { id: number }[],
-    validCourseOffers: { id: number }[],
-    tx?: any,
-  ) {
+  async registerStudentsToCourses(studentsInClass: { id: number }[], validCourseOffers: { id: number }[], tx?: any) {
     const prismaClient = tx || this.prisma;
     let totalRegistrations = 0;
 
@@ -420,9 +370,7 @@ export class ClassSubjectService {
     }
     const batch = classData.batch;
     if (!batch?.curriculum) {
-      throw new BadRequestException(
-        "Lớp học chưa được gắn khung chương trình đào tạo!",
-      );
+      throw new BadRequestException("Lớp học chưa được gắn khung chương trình đào tạo!");
     }
 
     const semester = await prismaClient.semester.findUnique({
@@ -437,15 +385,10 @@ export class ClassSubjectService {
     const currentYear = semester.year || 0;
     const currentTerm = semester.term || 0;
 
-    const semesterNo =
-      startYear > 0 && currentYear >= startYear
-        ? (currentYear - startYear) * 2 + currentTerm
-        : 0;
+    const semesterNo = startYear > 0 && currentYear >= startYear ? (currentYear - startYear) * 2 + currentTerm : 0;
 
     if (semesterNo === 0) {
-      throw new BadRequestException(
-        "Tính toán số học kỳ chương trình khung không hợp lệ!",
-      );
+      throw new BadRequestException("Tính toán số học kỳ chương trình khung không hợp lệ!");
     }
 
     // Bước 3: Lấy danh sách các môn học phân bổ cho học kỳ này
@@ -470,18 +413,9 @@ export class ClassSubjectService {
       select: { id: true },
     });
 
-    const validCourseOffers = await this.createClassSubject(
-      classData,
-      semester,
-      curriculumSubjects,
-      tx,
-    );
+    const validCourseOffers = await this.createClassSubject(classData, semester, curriculumSubjects, tx);
 
-    const totalRegistrations = await this.registerStudentsToCourses(
-      studentsInClass,
-      validCourseOffers,
-      tx,
-    );
+    const totalRegistrations = await this.registerStudentsToCourses(studentsInClass, validCourseOffers, tx);
 
     return {
       success: true,

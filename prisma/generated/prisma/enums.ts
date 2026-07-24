@@ -178,14 +178,14 @@ export const AdmissionStatus = {
 export type AdmissionStatus = (typeof AdmissionStatus)[keyof typeof AdmissionStatus]
 
 
-export const CourseOfferStatus = {
+export const ClassSubjectStatus = {
   planned: 'planned',
   open: 'open',
   closed: 'closed',
   cancelled: 'cancelled'
 } as const
 
-export type CourseOfferStatus = (typeof CourseOfferStatus)[keyof typeof CourseOfferStatus]
+export type ClassSubjectStatus = (typeof ClassSubjectStatus)[keyof typeof ClassSubjectStatus]
 
 
 export const DayOfWeek = {
