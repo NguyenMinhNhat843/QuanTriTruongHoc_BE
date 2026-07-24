@@ -30,7 +30,7 @@ export class AttendanceService {
         student: true,
         scheduleDetail: true,
         classSubject: true,
-        recordBy: true,
+        recordedBy: true,
       },
       orderBy: { recordedAt: "desc" },
     });
@@ -46,7 +46,7 @@ export class AttendanceService {
         student: true,
         scheduleDetail: true,
         classSubject: true,
-        recordBy: true,
+        recordedBy: true,
       },
     });
 
@@ -195,5 +195,139 @@ export class AttendanceService {
     await this.attendanceSummaryService.recalculateSummary(oldRecord.studentId, oldRecord.classSubjectId);
 
     return { message: `Xóa thành công bản ghi điểm danh #${id}` };
+  }
+
+  /**
+   * Lấy bảng điểm danh của classSubject
+   */
+  async getAttendanceSheet(classSubjectId: number) {
+    // 1. Kiểm tra Lớp học phần có tồn tại không
+    const classSubject = await this.prisma.classSubject.findUnique({
+      where: { id: classSubjectId },
+      include: {
+        subject: true,
+        baseClass: true,
+        teacher: true,
+        semester: true,
+      },
+    });
+
+    if (!classSubject) {
+      throw new NotFoundException("Không tìm thấy lớp học phần này");
+    }
+
+    // 2. Lấy danh sách các BUỔI HỌC CỤ THỂ (Các cột trên bảng điểm danh)
+    const schedules = await this.prisma.classSubjectScheduleDetail.findMany({
+      where: {
+        session: {
+          classSubjectId,
+        },
+      },
+      include: {
+        session: {
+          select: {
+            dayOfWeek: true,
+            shift: true,
+            startPeriod: true,
+            endPeriod: true,
+            countPeriod: true,
+          },
+        },
+        room: {
+          select: { roomCode: true },
+        },
+      },
+      orderBy: [{ weekNumber: "asc" }, { studyDate: "asc" }],
+    });
+
+    // 3. Lấy danh sách SINH VIÊN thuộc Lớp học phần
+    const gradeStudents = await this.prisma.gradeStudent.findMany({
+      where: { classSubjectId },
+      include: {
+        student: {
+          select: {
+            id: true,
+            studentCode: true,
+            fullName: true,
+            dob: true,
+          },
+        },
+      },
+      orderBy: { student: { studentCode: "asc" } },
+    });
+
+    // 4. Lấy toàn bộ BẢN GHI ĐIỂM DANH của lớp này
+    const attendances = await this.prisma.attendance.findMany({
+      where: { classSubjectId },
+    });
+
+    // 5. Lấy BẢNG TỔNG HỢP CHUYÊN CẦN & XÉT THI
+    const summaries = await this.prisma.attendanceSummary.findMany({
+      where: { classSubjectId },
+    });
+
+    // --- MAP DỮ LIỆU ĐỂ TRẢ VỀ CHO FRONTEND --- //
+
+    // Map danh sách buổi học
+    const formattedSchedules = schedules.map((item) => ({
+      scheduleDetailId: item.id,
+      weekNumber: item.weekNumber,
+      studyDate: item.studyDate,
+      dayOfWeek: item.session.dayOfWeek,
+      shift: item.session.shift,
+      startPeriod: item.session.startPeriod,
+      endPeriod: item.session.endPeriod,
+      countPeriod: item.session.countPeriod,
+      roomCode: item.room?.roomCode || null,
+    }));
+
+    // Map danh sách sinh viên kèm điểm danh dạng Object Map
+    const formattedStudents = gradeStudents.map((gs) => {
+      const studentId = gs.studentId;
+
+      // Tìm tất cả điểm danh của sinh viên này trong lớp
+      const studentAttendances = attendances.filter((a) => a.studentId === studentId);
+
+      // Convert thành dạng Object Key-Value: { [scheduleDetailId]: status }
+      const attendanceMap: Record<number, { status: string; note: string | null }> = {};
+      studentAttendances.forEach((a) => {
+        attendanceMap[a.scheduleDetailId] = {
+          status: a.status,
+          note: a.note,
+        };
+      });
+
+      // Lấy summary tương ứng
+      const summary = summaries.find((s) => s.studentId === studentId);
+
+      return {
+        studentId: gs.student.id,
+        studentCode: gs.student.studentCode,
+        fullName: gs.student.fullName,
+        dob: gs.student.dob,
+        attendances: attendanceMap,
+        summary: summary
+          ? {
+              totalPeriods: summary.totalPeriods,
+              totalAbsentPeriods: summary.totalAbsentPeriods,
+              absentPercentage: summary.absentPercentage,
+              examStatus: summary.examStatus,
+              isManuallyLocked: summary.isManuallyLocked,
+            }
+          : null,
+      };
+    });
+
+    return {
+      info: {
+        classSubjectId: classSubject.id,
+        subjectName: classSubject.subject.subjectName,
+        className: classSubject.baseClass?.className || null,
+        teacherName: classSubject.teacher?.fullName || null,
+        semesterName: classSubject.semester.name,
+      },
+      schedules: formattedSchedules,
+      students: formattedStudents,
+    };
   }
 }

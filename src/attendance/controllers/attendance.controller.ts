@@ -3,7 +3,12 @@ import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from "@ne
 import { RoleType } from "../../../prisma/generated/prisma/enums.js";
 import { GetUser } from "../../common/decorators/get-user.decorator"; // Bổ sung đúng đường dẫn của bạn
 import { Roles } from "../../common/decorators/role.decorator"; // Bổ sung đúng đường dẫn của bạn
-import { AttendanceDetailDto, AttendanceDto, CreateAttendanceDto } from "../dto/attendance.dto";
+import {
+  AttendanceDetailDto,
+  AttendanceDto,
+  AttendanceSheetResponseDto,
+  CreateAttendanceDto,
+} from "../dto/attendance.dto";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard.js";
 import { RolesGuard } from "../../auth/guard/role.guard.js";
 import { AttendanceService } from "../services/attendance.service.js";
@@ -35,6 +40,17 @@ export class AttendanceController {
       scheduleDetailId: scheduleDetailId ? Number(scheduleDetailId) : undefined,
       studentId: studentId ? Number(studentId) : undefined,
     });
+  }
+
+  /**
+   * Lấy bảng điểm danh của 1 classSubject (Ma trận điểm danh) cho Frontend
+   */
+  @Get("sheet/:classSubjectId")
+  @Roles(RoleType.admin, RoleType.teacher, RoleType.staff)
+  @ApiOperation({ summary: "Lấy ma trận/bảng điểm danh cho Frontend" })
+  @ApiResponse({ status: 200, type: AttendanceSheetResponseDto })
+  async getAttendanceSheet(@Param("classSubjectId", ParseIntPipe) classSubjectId: number) {
+    return this.attendanceService.getAttendanceSheet(classSubjectId);
   }
 
   /**
