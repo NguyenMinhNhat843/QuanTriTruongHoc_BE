@@ -6,11 +6,21 @@ import { StaffService } from "./service/staff.service.js";
 import { TeacherSubjectService } from "./service/teacherSubject.service.js";
 import { TeachingLevelController } from "./controller/teaching-level.controller.js";
 import { TeachingLevelService } from "./service/teaching-level.service.js";
+import { TeachingQuotaController } from "./controller/teaching-quota.controller.js";
+import { TeachingQuotaService } from "./service/teaching-quota.service.js";
+import { StaffPositionController } from "./controller/staff-position.js";
+import { StaffPositionService } from "./service/staff-position.service.js";
 
 @Module({
   imports: [PrismaModule],
-  controllers: [StaffController, TeacherSubjectController, TeachingLevelController],
-  providers: [StaffService, TeacherSubjectService, TeachingLevelService],
-  exports: [StaffService, TeacherSubjectService, TeachingLevelService],
+  controllers: [
+    StaffController,
+    TeacherSubjectController,
+    TeachingLevelController,
+    TeachingQuotaController,
+    StaffPositionController,
+  ],
+  providers: [StaffService, TeacherSubjectService, TeachingLevelService, TeachingQuotaService, StaffPositionService],
+  exports: [StaffService, TeacherSubjectService, TeachingLevelService, TeachingQuotaService, StaffPositionService],
 })
 export class StaffModule {}
