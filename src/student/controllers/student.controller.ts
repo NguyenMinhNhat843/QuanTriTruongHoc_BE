@@ -27,7 +27,11 @@ import {
   SearchStudentDto,
   UpdateStudentDto,
 } from "../dtos/student.dto.js";
-import { ResponseStudentPaginationDto, StudentDetailDto } from "../dtos/student.response.js";
+import {
+  ResponseStudentPaginationDto,
+  StudentDetailDto,
+  StudentExamDetailForExamScheduleDto,
+} from "../dtos/student.response.js";
 
 @ApiTags("Students")
 @ApiBearerAuth()
@@ -64,6 +68,12 @@ export class StudentController {
   @ApiResponse({ status: 200, type: ResponseStudentPaginationDto })
   async searchStudent(@Query() query: SearchStudentDto) {
     return this.studentService.searchStudents(query);
+  }
+
+  @Get("class-subject/:classSubjectId/for-exam")
+  @ApiResponse({ status: 200, type: [StudentExamDetailForExamScheduleDto] })
+  async getStudentsForExam(@Param("classSubjectId", ParseIntPipe) classSubjectId: number) {
+    return this.studentService.getStudentsForExam(classSubjectId);
   }
 
   @Get("me")

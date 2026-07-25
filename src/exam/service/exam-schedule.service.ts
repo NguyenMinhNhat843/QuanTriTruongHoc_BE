@@ -21,9 +21,49 @@ export class ExamScheduleService {
     // Chuyển đổi kiểu dữ liệu examDate nếu gửi dạng String
     const examDate = dto.examDate ? new Date(dto.examDate) : new Date();
 
-    // Thực hiện Transaction: Tạo ExamSchedule + Tự động thêm StudentExamDetail
     return this.prisma.$transaction(async (tx) => {
-      // Tạo bản ghi Lịch thi
+      // 1. Lấy danh sách ID sinh viên có điểm TB >= 5 trong lớp học phần này
+      const qualifiedGradeStudents = await tx.gradeStudent.findMany({
+        where: {
+          classSubjectId: dto.classSubjectId,
+          diemTB: {
+            gte: 5.0, // Điểm TB >= 5.0
+          },
+        },
+        select: {
+          studentId: true,
+        },
+      });
+
+      const eligibleStudentIds = qualifiedGradeStudents.map((g) => g.studentId);
+
+      // Nếu không có sinh viên nào đạt điểm TB >= 5, ta không cần tìm tiếp
+      let eligibleSummaries: any = [];
+      if (eligibleStudentIds.length > 0) {
+        // 2. Lấy danh sách SV thỏa mãn cả chuyên cần VÀ nằm trong danh sách điểm TB >= 5
+        eligibleSummaries = await tx.attendanceSummary.findMany({
+          where: {
+            classSubjectId: dto.classSubjectId,
+            studentId: {
+              in: eligibleStudentIds, // Lọc theo danh sách SV đạt điểm ở trên
+            },
+            OR: [
+              { examStatus: "ELIGIBLE" },
+              {
+                isManuallyLocked: false,
+                absentPercentage: { lte: 20 }, // Vắng <= 20%
+              },
+            ],
+          },
+          select: {
+            studentId: true,
+          },
+        });
+      }
+
+      console.log("eligibleSummaries count:", eligibleSummaries.length);
+
+      // 3. Tạo bản ghi Lịch thi
       const examSchedule = await tx.examSchedule.create({
         data: {
           ...dto,
@@ -31,25 +71,7 @@ export class ExamScheduleService {
         },
       });
 
-      // Lấy danh sách SV đủ điều kiện từ AttendanceSummary
-      // Tiêu chí: ELIGIBLE HOẶC (Chưa chốt tay + vắng <= 20%)
-      const eligibleSummaries = await tx.attendanceSummary.findMany({
-        where: {
-          classSubjectId: dto.classSubjectId,
-          OR: [
-            { examStatus: "ELIGIBLE" },
-            {
-              isManuallyLocked: false,
-              absentPercentage: { lte: 20 }, // Vắng <= 20%
-            },
-          ],
-        },
-        select: {
-          studentId: true,
-        },
-      });
-
-      // Nếu có SV đủ điều kiện -> Tạo danh sách StudentExamDetail
+      // 4. Nếu có SV đủ cả 2 điều kiện -> Tạo danh sách StudentExamDetail
       if (eligibleSummaries.length > 0) {
         const studentExamRecords = eligibleSummaries.map((summary) => ({
           examScheduleId: examSchedule.id,
@@ -64,7 +86,7 @@ export class ExamScheduleService {
         });
       }
 
-      // Trả về Lịch thi vừa tạo kèm danh sách SV dự thi
+      // 5. Trả về Lịch thi vừa tạo kèm danh sách SV dự thi
       return tx.examSchedule.findUnique({
         where: { id: examSchedule.id },
         include: {
@@ -83,7 +105,7 @@ export class ExamScheduleService {
   /**
    * 2. Lấy danh sách Đợt thi (Có lọc & Phân trang)
    */
-  async findAll(query: SearchExamScheduleDto & { page?: number; limit?: number }) {
+  async findAll(query: SearchExamScheduleDto) {
     const { classSubjectId, examDate, examTurn, shift, roomId, page = 1, limit = 50 } = query;
     const skip = (page - 1) * limit;
 
@@ -108,7 +130,7 @@ export class ExamScheduleService {
         take: Number(limit),
         include: {
           classSubject: {
-            include: { subject: true },
+            include: { subject: true, baseClass: true },
           },
           room: true,
           _count: {
@@ -122,12 +144,7 @@ export class ExamScheduleService {
 
     return {
       data,
-      meta: {
-        total,
-        page: Number(page),
-        limit: Number(limit),
-        totalPages: Math.ceil(total / limit),
-      },
+      total,
     };
   }
 

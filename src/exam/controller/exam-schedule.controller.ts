@@ -4,6 +4,7 @@ import {
   AddStudentToExamDto,
   CreateExamScheduleDto,
   ExamScheduleDetailDto,
+  ExamSchedulePaginationDto,
   SearchExamScheduleDto,
   UpdateExamScheduleDto,
 } from "../dto/exam-schedule.dto";
@@ -23,12 +24,10 @@ export class ExamScheduleController {
 
   @Get()
   @ApiOperation({ summary: "Lấy danh sách các Đợt thi / Lịch thi (Có lọc & phân trang)" })
-  @ApiResponse({ status: 200 })
-  async findAll(@Query() query: SearchExamScheduleDto, @Query("page") page?: number, @Query("limit") limit?: number) {
+  @ApiResponse({ status: 200, type: ExamSchedulePaginationDto })
+  async findAll(@Query() query: SearchExamScheduleDto) {
     return this.examScheduleService.findAll({
       ...query,
-      page,
-      limit,
     });
   }
 

@@ -5,6 +5,8 @@ import { ClassSubjectDto } from "../../courseOffer/dto/classSubject.dto";
 import { RoomDto } from "../../room/room.dto";
 import { StudentExamDetailDetailDto } from "./student-exam-detail.dto";
 import { IsNotEmpty, IsNumber } from "class-validator";
+import { SubjectDto } from "../../subject/dto/subject.dto";
+import { ClassDto } from "../../class/class.dto";
 
 export class ExamScheduleDto implements ExamSchedule {
   @ApiProperty()
@@ -48,15 +50,31 @@ export class ExamScheduleDto implements ExamSchedule {
   updatedAt: Date;
 }
 
+// RESPONSE DETAIL DTO
+class NestedClassSubjectForExamScheduleDto extends ClassSubjectDto {
+  @ApiProperty({ type: SubjectDto, nullable: true })
+  subject?: SubjectDto;
+
+  @ApiProperty({ type: ClassDto, nullable: true })
+  baseClass?: ClassDto;
+}
 export class ExamScheduleDetailDto extends ExamScheduleDto {
-  @ApiProperty({ type: ClassSubjectDto, nullable: true })
-  classSubject?: ClassSubjectDto;
+  @ApiProperty({ type: NestedClassSubjectForExamScheduleDto, nullable: true })
+  classSubject?: NestedClassSubjectForExamScheduleDto;
 
   @ApiProperty({ type: RoomDto, nullable: true })
   room?: RoomDto;
 
   @ApiProperty({ type: [StudentExamDetailDetailDto], nullable: true })
   studentExams?: StudentExamDetailDetailDto[];
+}
+
+export class ExamSchedulePaginationDto {
+  @ApiProperty({ type: [ExamScheduleDetailDto] })
+  data: ExamScheduleDetailDto[];
+
+  @ApiProperty()
+  total: number;
 }
 
 // CREATE DTO
@@ -68,7 +86,15 @@ export class UpdateExamScheduleDto extends PartialType(CreateExamScheduleDto) {}
 // SEARCH DTO
 export class SearchExamScheduleDto extends PartialType(
   PickType(ExamScheduleDto, ["classSubjectId", "examDate", "examTurn", "shift", "roomId"] as const),
-) {}
+) {
+  @ApiProperty()
+  @Type(() => Number)
+  page?: number;
+
+  @ApiProperty()
+  @Type(() => Number)
+  limit?: number;
+}
 
 // THÊM 1 HỌC SINH THỦ CÔNG VÔ ĐỢT THI
 export class AddStudentToExamDto {

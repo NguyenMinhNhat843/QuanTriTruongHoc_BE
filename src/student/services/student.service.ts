@@ -7,7 +7,13 @@ import {
   SearchStudentDto,
   UpdateStudentDto,
 } from "../dtos/student.dto.js";
-import { DocumentStatus, Prisma, StudentStatus, RoleType } from "../../../prisma/generated/prisma/client.js";
+import {
+  DocumentStatus,
+  Prisma,
+  StudentStatus,
+  RoleType,
+  ExamEligibilityStatus,
+} from "../../../prisma/generated/prisma/client.js";
 import { plainToInstance } from "class-transformer";
 import bcrypt from "bcryptjs";
 import { StudentDetailDto } from "../dtos/student.response.js";
@@ -434,5 +440,94 @@ export class StudentService {
       data: students,
       total,
     };
+  }
+
+  async getStudentsForExam(classSubjectId: number) {
+    const classSubject = await this.prisma.classSubject.findUnique({
+      where: { id: classSubjectId },
+      include: {
+        subject: true,
+      },
+    });
+
+    if (!classSubject) {
+      throw new NotFoundException(`Lớp học phần với ID ${classSubjectId} không tồn tại.`);
+    }
+
+    // 2. Lấy danh sách GradeStudent thuộc ClassSubject
+    // (Bảng GradeStudent quản lý danh sách học sinh và điểm số của môn học đó)
+    const gradeStudents = await this.prisma.gradeStudent.findMany({
+      where: { classSubjectId },
+      include: {
+        student: true,
+      },
+      orderBy: {
+        student: {
+          fullName: "asc",
+        },
+      },
+    });
+
+    if (gradeStudents.length === 0) {
+      return [];
+    }
+
+    const studentIds = gradeStudents.map((gs) => gs.studentId);
+
+    // 3. Lấy dữ liệu tổng hợp điểm danh từ bảng AttendanceSummary
+    const attendanceSummaries = await this.prisma.attendanceSummary.findMany({
+      where: {
+        classSubjectId,
+        studentId: { in: studentIds },
+      },
+    });
+
+    // Tạo Map để tra cứu AttendanceSummary theo studentId cho nhanh
+    const summaryMap = new Map(attendanceSummaries.map((s) => [s.studentId, s]));
+
+    // 4. Map dữ liệu trả về cho client
+    const result = gradeStudents.map((gs) => {
+      const student = gs.student;
+      const summary = summaryMap.get(student.id);
+
+      // Tính toán các con số điểm danh
+      const totalPeriods = summary?.totalPeriods ?? 0;
+      const absentPeriods = summary?.totalAbsentPeriods ?? 0;
+      const absentPercentage = summary?.absentPercentage ?? 0;
+      let examStatus = summary?.examStatus ?? ExamEligibilityStatus.ELIGIBLE;
+      const isManuallyLocked = summary?.isManuallyLocked ?? false;
+      const lockReason = summary?.lockReason ?? null;
+
+      // quy định: Vắng quá 20% và diemTB <=5 thì CẤM THI
+      if (!isManuallyLocked && totalPeriods > 0) {
+        if (absentPercentage > 20 && (gs?.diemTB || 0) <= 5) {
+          examStatus = ExamEligibilityStatus.INELIGIBLE;
+        } else {
+          examStatus = ExamEligibilityStatus.ELIGIBLE;
+        }
+      }
+
+      return {
+        id: student.id,
+        studentCode: student.studentCode,
+        fullName: student.fullName,
+        phone: student.phone,
+        gender: student.gender,
+        dob: student.dob,
+
+        // Thông tin điểm số
+        diemTB: gs.diemTB,
+
+        // Thông tin chuyên cần
+        totalPeriods,
+        absentPeriods,
+        absentPercentage,
+        examStatus,
+        isManuallyLocked,
+        lockReason,
+      };
+    });
+
+    return result;
   }
 }
