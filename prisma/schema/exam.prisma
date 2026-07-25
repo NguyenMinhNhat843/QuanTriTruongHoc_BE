@@ -1,0 +1,54 @@
+// ==========================================
+// 2. LỊCH THI & ĐƠT THI KẾT THÚC MÔN (Rất gọn)
+// ==========================================
+
+// Lịch thi cho từng Lớp học phần
+model ExamSchedule {
+  id Int @id @default(autoincrement())
+
+  classSubjectId Int
+  classSubject   ClassSubject @relation(fields: [classSubjectId], references: [id], onDelete: Cascade)
+
+  roomId Int?
+  room   Room? @relation(fields: [roomId], references: [id])
+
+  examDate  DateTime @db.Date // Ngày thi
+  shift     String? // Ca thi / Buổi thi (Sáng, Chiều, Ca 1, Ca 2)
+  startTime String? // VD: "07:30"
+  endTime   String? // VD: "09:00"
+
+  examTurn Int     @default(1) // Thi lần 1 hay Thi lại (1 hoặc 2)
+  note     String? // Ghi chú (VD: Thi trắc nghiệm máy tính)
+
+  studentExams StudentExamDetail[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([classSubjectId])
+  @@map("exam_schedules")
+}
+
+// Danh sách phòng thi & Số báo danh của Sinh viên
+model StudentExamDetail {
+  id Int @id @default(autoincrement())
+
+  examScheduleId Int
+  examSchedule   ExamSchedule @relation(fields: [examScheduleId], references: [id], onDelete: Cascade)
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  identificationNum String? // Số báo danh (SBD)
+  deskNumber        String? // Số ghế / Thứ tự ngồi trong phòng thi
+
+  // Điểm danh buổi thi & Vi phạm
+  isAttended    Boolean @default(true) // Có đi thi không
+  isViolated    Boolean @default(false) // Vi phạm quy chế thi (mang tài liệu...)
+  violationNote String? // Lý do vi phạm (Kỷ luật, Lập biên bản...)
+
+  createdAt DateTime @default(now())
+
+  @@unique([examScheduleId, studentId])
+  @@map("student_exam_details")
+}

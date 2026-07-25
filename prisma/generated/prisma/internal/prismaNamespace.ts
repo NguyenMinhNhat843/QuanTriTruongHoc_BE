@@ -417,6 +417,8 @@ export const ModelName = {
   Attendance: 'Attendance',
   AttendanceSummary: 'AttendanceSummary',
   TeacherSubject: 'TeacherSubject',
+  ExamSchedule: 'ExamSchedule',
+  StudentExamDetail: 'StudentExamDetail',
   TuitionPeriod: 'TuitionPeriod',
   TuitionConfig: 'TuitionConfig',
   TuitionConfigItem: 'TuitionConfigItem',
@@ -444,7 +446,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "academicYear" | "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "subjectCombination" | "subjectCombinationItem" | "admissionProfile" | "transcriptSubjectScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "province" | "ward" | "village" | "gradeStudent" | "attendance" | "attendanceSummary" | "teacherSubject" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "classSubject" | "classSubjectSession" | "classSubjectScheduleDetail"
+    modelProps: "academicYear" | "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "subjectCombination" | "subjectCombinationItem" | "admissionProfile" | "transcriptSubjectScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "province" | "ward" | "village" | "gradeStudent" | "attendance" | "attendanceSummary" | "teacherSubject" | "examSchedule" | "studentExamDetail" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "classSubject" | "classSubjectSession" | "classSubjectScheduleDetail"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2890,6 +2892,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ExamSchedule: {
+      payload: Prisma.$ExamSchedulePayload<ExtArgs>
+      fields: Prisma.ExamScheduleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExamScheduleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExamScheduleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>
+        }
+        findFirst: {
+          args: Prisma.ExamScheduleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExamScheduleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>
+        }
+        findMany: {
+          args: Prisma.ExamScheduleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>[]
+        }
+        create: {
+          args: Prisma.ExamScheduleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>
+        }
+        createMany: {
+          args: Prisma.ExamScheduleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExamScheduleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>[]
+        }
+        delete: {
+          args: Prisma.ExamScheduleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>
+        }
+        update: {
+          args: Prisma.ExamScheduleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>
+        }
+        deleteMany: {
+          args: Prisma.ExamScheduleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExamScheduleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExamScheduleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>[]
+        }
+        upsert: {
+          args: Prisma.ExamScheduleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSchedulePayload>
+        }
+        aggregate: {
+          args: Prisma.ExamScheduleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExamSchedule>
+        }
+        groupBy: {
+          args: Prisma.ExamScheduleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExamScheduleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExamScheduleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExamScheduleCountAggregateOutputType> | number
+        }
+      }
+    }
+    StudentExamDetail: {
+      payload: Prisma.$StudentExamDetailPayload<ExtArgs>
+      fields: Prisma.StudentExamDetailFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudentExamDetailFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudentExamDetailFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>
+        }
+        findFirst: {
+          args: Prisma.StudentExamDetailFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudentExamDetailFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>
+        }
+        findMany: {
+          args: Prisma.StudentExamDetailFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>[]
+        }
+        create: {
+          args: Prisma.StudentExamDetailCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>
+        }
+        createMany: {
+          args: Prisma.StudentExamDetailCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudentExamDetailCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>[]
+        }
+        delete: {
+          args: Prisma.StudentExamDetailDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>
+        }
+        update: {
+          args: Prisma.StudentExamDetailUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudentExamDetailDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudentExamDetailUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudentExamDetailUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudentExamDetailUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentExamDetailPayload>
+        }
+        aggregate: {
+          args: Prisma.StudentExamDetailAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudentExamDetail>
+        }
+        groupBy: {
+          args: Prisma.StudentExamDetailGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentExamDetailGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudentExamDetailCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentExamDetailCountAggregateOutputType> | number
+        }
+      }
+    }
     TuitionPeriod: {
       payload: Prisma.$TuitionPeriodPayload<ExtArgs>
       fields: Prisma.TuitionPeriodFieldRefs
@@ -4321,6 +4471,38 @@ export const TeacherSubjectScalarFieldEnum = {
 export type TeacherSubjectScalarFieldEnum = (typeof TeacherSubjectScalarFieldEnum)[keyof typeof TeacherSubjectScalarFieldEnum]
 
 
+export const ExamScheduleScalarFieldEnum = {
+  id: 'id',
+  classSubjectId: 'classSubjectId',
+  roomId: 'roomId',
+  examDate: 'examDate',
+  shift: 'shift',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  examTurn: 'examTurn',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExamScheduleScalarFieldEnum = (typeof ExamScheduleScalarFieldEnum)[keyof typeof ExamScheduleScalarFieldEnum]
+
+
+export const StudentExamDetailScalarFieldEnum = {
+  id: 'id',
+  examScheduleId: 'examScheduleId',
+  studentId: 'studentId',
+  identificationNum: 'identificationNum',
+  deskNumber: 'deskNumber',
+  isAttended: 'isAttended',
+  isViolated: 'isViolated',
+  violationNote: 'violationNote',
+  createdAt: 'createdAt'
+} as const
+
+export type StudentExamDetailScalarFieldEnum = (typeof StudentExamDetailScalarFieldEnum)[keyof typeof StudentExamDetailScalarFieldEnum]
+
+
 export const TuitionPeriodScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -5003,6 +5185,8 @@ export type GlobalOmitConfig = {
   attendance?: Prisma.AttendanceOmit
   attendanceSummary?: Prisma.AttendanceSummaryOmit
   teacherSubject?: Prisma.TeacherSubjectOmit
+  examSchedule?: Prisma.ExamScheduleOmit
+  studentExamDetail?: Prisma.StudentExamDetailOmit
   tuitionPeriod?: Prisma.TuitionPeriodOmit
   tuitionConfig?: Prisma.TuitionConfigOmit
   tuitionConfigItem?: Prisma.TuitionConfigItemOmit

@@ -1,4 +1,12 @@
-import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
+import {
+  ApiExtraModels,
+  ApiProperty,
+  ApiPropertyOptional,
+  getSchemaPath,
+  OmitType,
+  PartialType,
+  PickType,
+} from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsInt, IsOptional, IsString } from "class-validator";
 import { Attendance, AttendanceStatus, ExamEligibilityStatus } from "../../../prisma/generated/prisma/client";
@@ -64,6 +72,21 @@ export class AttendanceDetailDto extends AttendanceDto {
 
 // CRUD DTO
 export class CreateAttendanceDto extends OmitType(AttendanceDto, ["id", "recordedAt", "recordedById"]) {}
+
+// CREATE BULK DTO
+export class NestedAttendanceForCreateBulkDto extends PickType(AttendanceDto, ["studentId", "status", "note"]) {}
+export class CreateBulkAttendanceDto {
+  @ApiProperty({ type: Number })
+  scheduleDetailId: number;
+
+  @ApiProperty({ type: Number })
+  classSubjectId: number;
+
+  @ApiProperty({ type: [NestedAttendanceForCreateBulkDto] })
+  attendances: NestedAttendanceForCreateBulkDto[];
+}
+
+// UPDATE DTO
 export class UpdateAttendanceDto extends PartialType(OmitType(AttendanceDto, ["id", "recordedAt", "recordedById"])) {}
 export class SearchAttendanceDto extends PartialType(
   PickType(AttendanceDto, ["studentId", "classSubjectId", "scheduleDetailId", "status"]),
@@ -155,6 +178,7 @@ export class AttendanceSummaryShortDto {
 }
 
 // Thông tin Sinh viên + Map Điểm danh (Dòng của ma trận)
+@ApiExtraModels(AttendanceItemDto)
 export class AttendanceSheetStudentDto {
   @ApiProperty()
   @Type(() => Number)
@@ -172,7 +196,9 @@ export class AttendanceSheetStudentDto {
 
   @ApiProperty({
     type: "object",
-    additionalProperties: { $ref: "#/components/schemas/AttendanceItemDto" },
+    additionalProperties: {
+      $ref: getSchemaPath(AttendanceItemDto),
+    },
     description: "Map dạng: { [scheduleDetailId]: { status, note } }",
   })
   attendances: Record<number, AttendanceItemDto>;

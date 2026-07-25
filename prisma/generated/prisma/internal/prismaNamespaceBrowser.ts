@@ -84,6 +84,8 @@ export const ModelName = {
   Attendance: 'Attendance',
   AttendanceSummary: 'AttendanceSummary',
   TeacherSubject: 'TeacherSubject',
+  ExamSchedule: 'ExamSchedule',
+  StudentExamDetail: 'StudentExamDetail',
   TuitionPeriod: 'TuitionPeriod',
   TuitionConfig: 'TuitionConfig',
   TuitionConfigItem: 'TuitionConfigItem',
@@ -616,6 +618,38 @@ export const TeacherSubjectScalarFieldEnum = {
 } as const
 
 export type TeacherSubjectScalarFieldEnum = (typeof TeacherSubjectScalarFieldEnum)[keyof typeof TeacherSubjectScalarFieldEnum]
+
+
+export const ExamScheduleScalarFieldEnum = {
+  id: 'id',
+  classSubjectId: 'classSubjectId',
+  roomId: 'roomId',
+  examDate: 'examDate',
+  shift: 'shift',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  examTurn: 'examTurn',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExamScheduleScalarFieldEnum = (typeof ExamScheduleScalarFieldEnum)[keyof typeof ExamScheduleScalarFieldEnum]
+
+
+export const StudentExamDetailScalarFieldEnum = {
+  id: 'id',
+  examScheduleId: 'examScheduleId',
+  studentId: 'studentId',
+  identificationNum: 'identificationNum',
+  deskNumber: 'deskNumber',
+  isAttended: 'isAttended',
+  isViolated: 'isViolated',
+  violationNote: 'violationNote',
+  createdAt: 'createdAt'
+} as const
+
+export type StudentExamDetailScalarFieldEnum = (typeof StudentExamDetailScalarFieldEnum)[keyof typeof StudentExamDetailScalarFieldEnum]
 
 
 export const TuitionPeriodScalarFieldEnum = {

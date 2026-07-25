@@ -1,5 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { AttendanceDetailDto, AttendanceDto, CreateAttendanceDto } from "../dto/attendance.dto";
+import {
+  AttendanceDetailDto,
+  AttendanceDto,
+  CreateAttendanceDto,
+  CreateBulkAttendanceDto,
+} from "../dto/attendance.dto";
 import { PrismaService } from "../../prisma/prisma.service";
 import { AttendanceSummaryService } from "./attendance-summary.service";
 
@@ -93,12 +98,8 @@ export class AttendanceService {
   /**
    * 4. ĐIỂM DANH HÀNG LOẠT (BULK UPSERT - giáo viên lưu cả lớp)
    */
-  async bulkAttendance(
-    scheduleDetailId: number,
-    classSubjectId: number,
-    recordedById: number,
-    attendances: Array<{ studentId: number; status: any; note?: string }>,
-  ) {
+  async bulkAttendance(body: CreateBulkAttendanceDto, recordedById: number) {
+    const { scheduleDetailId, classSubjectId, attendances } = body;
     // Lấy danh sách điểm danh hiện tại để so sánh status thay đổi
     const existingAttendances = await this.prisma.attendance.findMany({
       where: {

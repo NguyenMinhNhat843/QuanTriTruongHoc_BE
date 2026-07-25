@@ -183,6 +183,16 @@ export type AttendanceSummary = Prisma.AttendanceSummaryModel
  */
 export type TeacherSubject = Prisma.TeacherSubjectModel
 /**
+ * Model ExamSchedule
+ * 
+ */
+export type ExamSchedule = Prisma.ExamScheduleModel
+/**
+ * Model StudentExamDetail
+ * 
+ */
+export type StudentExamDetail = Prisma.StudentExamDetailModel
+/**
  * Model TuitionPeriod
  * 
  */

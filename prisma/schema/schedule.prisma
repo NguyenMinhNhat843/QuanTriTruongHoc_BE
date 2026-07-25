@@ -45,6 +45,7 @@ model Room {
 
   classSubjectSessions  ClassSubjectSession[]
   classSubjectSchedules ClassSubjectScheduleDetail[]
+  examSchedules         ExamSchedule[]
 
   @@map("rooms")
 }
@@ -68,6 +69,7 @@ model ClassSubject {
   classSubjectSessions ClassSubjectSession[]
   attendances          Attendance[]
   attendanceSummaries  AttendanceSummary[]
+  examSchedules        ExamSchedule[]
 
   @@unique([subjectId, classId])
   @@index([subjectId, semesterId])

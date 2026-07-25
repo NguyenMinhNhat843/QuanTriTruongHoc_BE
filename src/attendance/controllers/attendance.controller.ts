@@ -8,6 +8,7 @@ import {
   AttendanceDto,
   AttendanceSheetResponseDto,
   CreateAttendanceDto,
+  CreateBulkAttendanceDto,
 } from "../dto/attendance.dto";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard.js";
 import { RolesGuard } from "../../auth/guard/role.guard.js";
@@ -85,17 +86,9 @@ export class AttendanceController {
   async bulkAttendance(
     @GetUser("userId") userId: number,
     @Body()
-    body: {
-      scheduleDetailId: number;
-      classSubjectId: number;
-      attendances: Array<{
-        studentId: number;
-        status: any;
-        note?: string;
-      }>;
-    },
+    body: CreateBulkAttendanceDto,
   ) {
-    return this.attendanceService.bulkAttendance(body.scheduleDetailId, body.classSubjectId, userId, body.attendances);
+    return this.attendanceService.bulkAttendance(body, userId);
   }
 
   /**

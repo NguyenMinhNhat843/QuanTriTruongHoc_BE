@@ -336,6 +336,7 @@ model Student {
   assessments         Assessment[]
   attendances         Attendance[]
   attendanceSummaries AttendanceSummary[]
+  studentExams        StudentExamDetail[]
 
   @@map("students")
 }
