@@ -1,22 +1,10 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Patch,
-  Param,
-  ParseIntPipe,
-  Get,
-  Query,
-} from "@nestjs/common";
-import { StaffService } from "./staff.service.js";
-import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
+import { Controller, Post, Body, Patch, Param, ParseIntPipe, Get, Query } from "@nestjs/common";
+import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "../dto/staff.dto.js";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import {
-  StaffResponseDto,
-  TeacherDashboardStatsResponseDto,
-} from "./staff.response.js";
-import { Roles } from "../common/decorators/role.decorator.js";
-import { RoleType } from "../../prisma/generated/prisma/enums.js";
+import { StaffResponseDto, TeacherDashboardStatsResponseDto } from "../dto/staff.response.js";
+import { Roles } from "../../common/decorators/role.decorator.js";
+import { RoleType } from "../../../prisma/generated/prisma/enums.js";
+import { StaffService } from "../service/staff.service.js";
 
 @ApiTags("Staffs")
 @Controller("staffs")
@@ -30,9 +18,7 @@ export class StaffController {
   @Post()
   @ApiOperation({ summary: "Tạo nhân viên kèm tài khoản đăng nhập" })
   @Roles(RoleType.admin)
-  async create(
-    @Body() createStaffDto: CreateStaffDto,
-  ): Promise<StaffResponseDto> {
+  async create(@Body() createStaffDto: CreateStaffDto): Promise<StaffResponseDto> {
     return this.staffService.createStaff(createStaffDto);
   }
 
@@ -66,8 +52,7 @@ export class StaffController {
 
   @Get(":staffCode")
   @ApiOperation({
-    summary:
-      "Lấy thông tin chi tiết nhân viên kèm thông tin tài khoản (nếu có)",
+    summary: "Lấy thông tin chi tiết nhân viên kèm thông tin tài khoản (nếu có)",
   })
   @ApiResponse({ status: 200, type: StaffResponseDto })
   async getDetail(@Param("staffCode") staffCode: string) {

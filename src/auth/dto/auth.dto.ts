@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { RoleType } from "../../../prisma/generated/prisma/enums";
 import { Type } from "class-transformer";
-import { StaffDto } from "../../staff/staff.dto.js";
+import { StaffDto } from "../../staff/dto/staff.dto.js";
 import { StudentDto } from "../../student/dtos/student.dto.js";
 import { DepartmentDto } from "../../department/department.dto.js";
 

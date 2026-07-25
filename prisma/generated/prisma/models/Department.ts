@@ -239,6 +239,7 @@ export type DepartmentWhereInput = {
   majors?: Prisma.MajorListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
   staffs?: Prisma.StaffListRelationFilter
+  staffPositions?: Prisma.StaffPositionListRelationFilter
 }
 
 export type DepartmentOrderByWithRelationInput = {
@@ -252,6 +253,7 @@ export type DepartmentOrderByWithRelationInput = {
   majors?: Prisma.MajorOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
   staffs?: Prisma.StaffOrderByRelationAggregateInput
+  staffPositions?: Prisma.StaffPositionOrderByRelationAggregateInput
 }
 
 export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
   majors?: Prisma.MajorListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
   staffs?: Prisma.StaffListRelationFilter
+  staffPositions?: Prisma.StaffPositionListRelationFilter
 }, "id" | "deptCode">
 
 export type DepartmentOrderByWithAggregationInput = {
@@ -308,6 +311,7 @@ export type DepartmentCreateInput = {
   majors?: Prisma.MajorCreateNestedManyWithoutDepartmentInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutDepartmentInput
   staffs?: Prisma.StaffCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateInput = {
@@ -321,6 +325,7 @@ export type DepartmentUncheckedCreateInput = {
   majors?: Prisma.MajorUncheckedCreateNestedManyWithoutDepartmentInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutDepartmentInput
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUpdateInput = {
@@ -333,6 +338,7 @@ export type DepartmentUpdateInput = {
   majors?: Prisma.MajorUpdateManyWithoutDepartmentNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutDepartmentNestedInput
   staffs?: Prisma.StaffUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateInput = {
@@ -346,6 +352,7 @@ export type DepartmentUncheckedUpdateInput = {
   majors?: Prisma.MajorUncheckedUpdateManyWithoutDepartmentNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutDepartmentNestedInput
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateManyInput = {
@@ -485,6 +492,22 @@ export type DepartmentUpdateOneWithoutStaffsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DepartmentUpdateToOneWithWhereWithoutStaffsInput, Prisma.DepartmentUpdateWithoutStaffsInput>, Prisma.DepartmentUncheckedUpdateWithoutStaffsInput>
 }
 
+export type DepartmentCreateNestedOneWithoutStaffPositionsInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutStaffPositionsInput, Prisma.DepartmentUncheckedCreateWithoutStaffPositionsInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutStaffPositionsInput
+  connect?: Prisma.DepartmentWhereUniqueInput
+}
+
+export type DepartmentUpdateOneWithoutStaffPositionsNestedInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutStaffPositionsInput, Prisma.DepartmentUncheckedCreateWithoutStaffPositionsInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutStaffPositionsInput
+  upsert?: Prisma.DepartmentUpsertWithoutStaffPositionsInput
+  disconnect?: Prisma.DepartmentWhereInput | boolean
+  delete?: Prisma.DepartmentWhereInput | boolean
+  connect?: Prisma.DepartmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DepartmentUpdateToOneWithWhereWithoutStaffPositionsInput, Prisma.DepartmentUpdateWithoutStaffPositionsInput>, Prisma.DepartmentUncheckedUpdateWithoutStaffPositionsInput>
+}
+
 export type DepartmentCreateWithoutMajorsInput = {
   deptCode: string
   deptName: string
@@ -494,6 +517,7 @@ export type DepartmentCreateWithoutMajorsInput = {
   updatedAt?: Date | string
   subjects?: Prisma.SubjectCreateNestedManyWithoutDepartmentInput
   staffs?: Prisma.StaffCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateWithoutMajorsInput = {
@@ -506,6 +530,7 @@ export type DepartmentUncheckedCreateWithoutMajorsInput = {
   updatedAt?: Date | string
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutDepartmentInput
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentCreateOrConnectWithoutMajorsInput = {
@@ -533,6 +558,7 @@ export type DepartmentUpdateWithoutMajorsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectUpdateManyWithoutDepartmentNestedInput
   staffs?: Prisma.StaffUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutMajorsInput = {
@@ -545,6 +571,7 @@ export type DepartmentUncheckedUpdateWithoutMajorsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutDepartmentNestedInput
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateWithoutSubjectsInput = {
@@ -556,6 +583,7 @@ export type DepartmentCreateWithoutSubjectsInput = {
   updatedAt?: Date | string
   majors?: Prisma.MajorCreateNestedManyWithoutDepartmentInput
   staffs?: Prisma.StaffCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateWithoutSubjectsInput = {
@@ -568,6 +596,7 @@ export type DepartmentUncheckedCreateWithoutSubjectsInput = {
   updatedAt?: Date | string
   majors?: Prisma.MajorUncheckedCreateNestedManyWithoutDepartmentInput
   staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentCreateOrConnectWithoutSubjectsInput = {
@@ -595,6 +624,7 @@ export type DepartmentUpdateWithoutSubjectsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   majors?: Prisma.MajorUpdateManyWithoutDepartmentNestedInput
   staffs?: Prisma.StaffUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutSubjectsInput = {
@@ -607,6 +637,7 @@ export type DepartmentUncheckedUpdateWithoutSubjectsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   majors?: Prisma.MajorUncheckedUpdateManyWithoutDepartmentNestedInput
   staffs?: Prisma.StaffUncheckedUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateWithoutStaffsInput = {
@@ -618,6 +649,7 @@ export type DepartmentCreateWithoutStaffsInput = {
   updatedAt?: Date | string
   majors?: Prisma.MajorCreateNestedManyWithoutDepartmentInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateWithoutStaffsInput = {
@@ -630,6 +662,7 @@ export type DepartmentUncheckedCreateWithoutStaffsInput = {
   updatedAt?: Date | string
   majors?: Prisma.MajorUncheckedCreateNestedManyWithoutDepartmentInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutDepartmentInput
+  staffPositions?: Prisma.StaffPositionUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentCreateOrConnectWithoutStaffsInput = {
@@ -657,6 +690,7 @@ export type DepartmentUpdateWithoutStaffsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   majors?: Prisma.MajorUpdateManyWithoutDepartmentNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutStaffsInput = {
@@ -669,6 +703,73 @@ export type DepartmentUncheckedUpdateWithoutStaffsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   majors?: Prisma.MajorUncheckedUpdateManyWithoutDepartmentNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutDepartmentNestedInput
+  staffPositions?: Prisma.StaffPositionUncheckedUpdateManyWithoutDepartmentNestedInput
+}
+
+export type DepartmentCreateWithoutStaffPositionsInput = {
+  deptCode: string
+  deptName: string
+  description?: string | null
+  headOfDepartmentId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  majors?: Prisma.MajorCreateNestedManyWithoutDepartmentInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutDepartmentInput
+  staffs?: Prisma.StaffCreateNestedManyWithoutDepartmentInput
+}
+
+export type DepartmentUncheckedCreateWithoutStaffPositionsInput = {
+  id?: number
+  deptCode: string
+  deptName: string
+  description?: string | null
+  headOfDepartmentId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  majors?: Prisma.MajorUncheckedCreateNestedManyWithoutDepartmentInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutDepartmentInput
+  staffs?: Prisma.StaffUncheckedCreateNestedManyWithoutDepartmentInput
+}
+
+export type DepartmentCreateOrConnectWithoutStaffPositionsInput = {
+  where: Prisma.DepartmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutStaffPositionsInput, Prisma.DepartmentUncheckedCreateWithoutStaffPositionsInput>
+}
+
+export type DepartmentUpsertWithoutStaffPositionsInput = {
+  update: Prisma.XOR<Prisma.DepartmentUpdateWithoutStaffPositionsInput, Prisma.DepartmentUncheckedUpdateWithoutStaffPositionsInput>
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutStaffPositionsInput, Prisma.DepartmentUncheckedCreateWithoutStaffPositionsInput>
+  where?: Prisma.DepartmentWhereInput
+}
+
+export type DepartmentUpdateToOneWithWhereWithoutStaffPositionsInput = {
+  where?: Prisma.DepartmentWhereInput
+  data: Prisma.XOR<Prisma.DepartmentUpdateWithoutStaffPositionsInput, Prisma.DepartmentUncheckedUpdateWithoutStaffPositionsInput>
+}
+
+export type DepartmentUpdateWithoutStaffPositionsInput = {
+  deptCode?: Prisma.StringFieldUpdateOperationsInput | string
+  deptName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headOfDepartmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  majors?: Prisma.MajorUpdateManyWithoutDepartmentNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutDepartmentNestedInput
+  staffs?: Prisma.StaffUpdateManyWithoutDepartmentNestedInput
+}
+
+export type DepartmentUncheckedUpdateWithoutStaffPositionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  deptCode?: Prisma.StringFieldUpdateOperationsInput | string
+  deptName?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headOfDepartmentId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  majors?: Prisma.MajorUncheckedUpdateManyWithoutDepartmentNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutDepartmentNestedInput
+  staffs?: Prisma.StaffUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 
@@ -680,12 +781,14 @@ export type DepartmentCountOutputType = {
   majors: number
   subjects: number
   staffs: number
+  staffPositions: number
 }
 
 export type DepartmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   majors?: boolean | DepartmentCountOutputTypeCountMajorsArgs
   subjects?: boolean | DepartmentCountOutputTypeCountSubjectsArgs
   staffs?: boolean | DepartmentCountOutputTypeCountStaffsArgs
+  staffPositions?: boolean | DepartmentCountOutputTypeCountStaffPositionsArgs
 }
 
 /**
@@ -719,6 +822,13 @@ export type DepartmentCountOutputTypeCountStaffsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.StaffWhereInput
 }
 
+/**
+ * DepartmentCountOutputType without action
+ */
+export type DepartmentCountOutputTypeCountStaffPositionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StaffPositionWhereInput
+}
+
 
 export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -731,6 +841,7 @@ export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   majors?: boolean | Prisma.Department$majorsArgs<ExtArgs>
   subjects?: boolean | Prisma.Department$subjectsArgs<ExtArgs>
   staffs?: boolean | Prisma.Department$staffsArgs<ExtArgs>
+  staffPositions?: boolean | Prisma.Department$staffPositionsArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["department"]>
 
@@ -769,6 +880,7 @@ export type DepartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   majors?: boolean | Prisma.Department$majorsArgs<ExtArgs>
   subjects?: boolean | Prisma.Department$subjectsArgs<ExtArgs>
   staffs?: boolean | Prisma.Department$staffsArgs<ExtArgs>
+  staffPositions?: boolean | Prisma.Department$staffPositionsArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DepartmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -780,6 +892,7 @@ export type $DepartmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     majors: Prisma.$MajorPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
     staffs: Prisma.$StaffPayload<ExtArgs>[]
+    staffPositions: Prisma.$StaffPositionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1186,6 +1299,7 @@ export interface Prisma__DepartmentClient<T, Null = never, ExtArgs extends runti
   majors<T extends Prisma.Department$majorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$majorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MajorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.Department$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   staffs<T extends Prisma.Department$staffsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$staffsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  staffPositions<T extends Prisma.Department$staffPositionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$staffPositionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StaffPositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1684,6 +1798,30 @@ export type Department$staffsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.StaffScalarFieldEnum | Prisma.StaffScalarFieldEnum[]
+}
+
+/**
+ * Department.staffPositions
+ */
+export type Department$staffPositionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StaffPosition
+   */
+  select?: Prisma.StaffPositionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StaffPosition
+   */
+  omit?: Prisma.StaffPositionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StaffPositionInclude<ExtArgs> | null
+  where?: Prisma.StaffPositionWhereInput
+  orderBy?: Prisma.StaffPositionOrderByWithRelationInput | Prisma.StaffPositionOrderByWithRelationInput[]
+  cursor?: Prisma.StaffPositionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StaffPositionScalarFieldEnum | Prisma.StaffPositionScalarFieldEnum[]
 }
 
 /**

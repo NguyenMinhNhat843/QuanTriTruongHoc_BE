@@ -13,7 +13,7 @@ import { Attendance, AttendanceStatus, ExamEligibilityStatus } from "../../../pr
 import { StudentDto } from "../../student/dtos/student.dto";
 import { ClassSubjectScheduleDetailDto } from "../../schedule/dto/classSubjectScheduleDetail";
 import { ClassSubjectDto } from "../../courseOffer/dto/classSubject.dto";
-import { StaffDto } from "../../staff/staff.dto";
+import { StaffDto } from "../../staff/dto/staff.dto";
 
 export class AttendanceDto implements Attendance {
   @ApiProperty()

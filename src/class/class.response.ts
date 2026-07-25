@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { StaffResponseDto } from "../staff/staff.response";
+import { StaffResponseDto } from "../staff/dto/staff.response";
 import { BatchResponseDto } from "../batch/batch.response";
 import { MajorDto } from "../major/major.dto";
 import { ClassDto } from "./class.dto";

@@ -170,6 +170,26 @@ export type User = Prisma.UserModel
  */
 export type Staff = Prisma.StaffModel
 /**
+ * Model ManagementPosition
+ * 
+ */
+export type ManagementPosition = Prisma.ManagementPositionModel
+/**
+ * Model StaffPosition
+ * 
+ */
+export type StaffPosition = Prisma.StaffPositionModel
+/**
+ * Model TeachingLevel
+ * 
+ */
+export type TeachingLevel = Prisma.TeachingLevelModel
+/**
+ * Model TeachingQuota
+ * 
+ */
+export type TeachingQuota = Prisma.TeachingQuotaModel
+/**
  * Model Province
  * 
  */

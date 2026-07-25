@@ -1,29 +1,12 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Put,
-  ParseIntPipe,
-  HttpCode,
-  HttpStatus,
-} from "@nestjs/common";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBody,
-} from "@nestjs/swagger";
-import { TeacherSubjectService } from "./teacherSubject.service";
+import { Controller, Get, Post, Body, Param, Delete, Put, ParseIntPipe, HttpCode, HttpStatus } from "@nestjs/common";
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBody } from "@nestjs/swagger";
+import { TeacherSubjectService } from "../service/teacherSubject.service";
 import {
   CreateTeacherSubjectDto,
   CreateTeacherSubjectManyDto,
   TeacherSubjectResponseDto,
   UpdateTeacherSubjectDto,
-} from "./teacherSubject.dto";
+} from "../dto/teacherSubject.dto";
 
 @ApiTags("Teacher Subjects (Phân Công Môn Học)")
 @Controller("teacher-subjects")
@@ -36,9 +19,7 @@ export class TeacherSubjectController {
     status: HttpStatus.CREATED,
     type: TeacherSubjectResponseDto,
   })
-  async create(
-    @Body() createDto: CreateTeacherSubjectDto,
-  ): Promise<TeacherSubjectResponseDto> {
+  async create(@Body() createDto: CreateTeacherSubjectDto): Promise<TeacherSubjectResponseDto> {
     return this.teacherSubjectService.create(createDto);
   }
 
@@ -56,12 +37,9 @@ export class TeacherSubjectController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
-    description:
-      "Dữ liệu đầu vào không hợp lệ hoặc tất cả các môn học đã được phân công từ trước.",
+    description: "Dữ liệu đầu vào không hợp lệ hoặc tất cả các môn học đã được phân công từ trước.",
   })
-  async createMany(
-    @Body() body: CreateTeacherSubjectManyDto,
-  ): Promise<TeacherSubjectResponseDto[]> {
+  async createMany(@Body() body: CreateTeacherSubjectManyDto): Promise<TeacherSubjectResponseDto[]> {
     return this.teacherSubjectService.createMany(body);
   }
 
@@ -91,9 +69,7 @@ export class TeacherSubjectController {
     status: HttpStatus.NOT_FOUND,
     description: "Không tìm thấy ID phân công.",
   })
-  async findOne(
-    @Param("id", ParseIntPipe) id: number,
-  ): Promise<TeacherSubjectResponseDto> {
+  async findOne(@Param("id", ParseIntPipe) id: number): Promise<TeacherSubjectResponseDto> {
     return this.teacherSubjectService.findOne(id);
   }
 
@@ -111,9 +87,7 @@ export class TeacherSubjectController {
     description: "Danh sách môn học của giáo viên.",
     type: [TeacherSubjectResponseDto],
   })
-  async findByTeacher(
-    @Param("teacherId", ParseIntPipe) teacherId: number,
-  ): Promise<TeacherSubjectResponseDto[]> {
+  async findByTeacher(@Param("teacherId", ParseIntPipe) teacherId: number): Promise<TeacherSubjectResponseDto[]> {
     return this.teacherSubjectService.findByTeacher(teacherId);
   }
 
@@ -164,8 +138,7 @@ export class TeacherSubjectController {
   @Delete("remove-pair/:teacherId/:subjectId")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary:
-      "Hủy phân công dựa theo cặp trùng mã Giáo viên & Môn học (Không cần ID bảng trung gian)",
+    summary: "Hủy phân công dựa theo cặp trùng mã Giáo viên & Môn học (Không cần ID bảng trung gian)",
   })
   @ApiParam({
     name: "teacherId",

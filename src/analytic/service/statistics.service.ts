@@ -14,7 +14,7 @@ export class StatisticsService {
       // 2. Tổng số giáo viên (Staff có EmployeeRole = TEACHER)
       this.prisma.staff.count({
         where: {
-          EmployeeRole: "TEACHER",
+          employeeRole: "TEACHER",
         },
       }),
 

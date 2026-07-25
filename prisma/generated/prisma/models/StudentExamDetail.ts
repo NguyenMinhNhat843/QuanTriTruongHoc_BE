@@ -30,12 +30,14 @@ export type StudentExamDetailAvgAggregateOutputType = {
   id: number | null
   examScheduleId: number | null
   studentId: number | null
+  examScore: number | null
 }
 
 export type StudentExamDetailSumAggregateOutputType = {
   id: number | null
   examScheduleId: number | null
   studentId: number | null
+  examScore: number | null
 }
 
 export type StudentExamDetailMinAggregateOutputType = {
@@ -47,6 +49,7 @@ export type StudentExamDetailMinAggregateOutputType = {
   isAttended: boolean | null
   isViolated: boolean | null
   violationNote: string | null
+  examScore: number | null
   createdAt: Date | null
 }
 
@@ -59,6 +62,7 @@ export type StudentExamDetailMaxAggregateOutputType = {
   isAttended: boolean | null
   isViolated: boolean | null
   violationNote: string | null
+  examScore: number | null
   createdAt: Date | null
 }
 
@@ -71,6 +75,7 @@ export type StudentExamDetailCountAggregateOutputType = {
   isAttended: number
   isViolated: number
   violationNote: number
+  examScore: number
   createdAt: number
   _all: number
 }
@@ -80,12 +85,14 @@ export type StudentExamDetailAvgAggregateInputType = {
   id?: true
   examScheduleId?: true
   studentId?: true
+  examScore?: true
 }
 
 export type StudentExamDetailSumAggregateInputType = {
   id?: true
   examScheduleId?: true
   studentId?: true
+  examScore?: true
 }
 
 export type StudentExamDetailMinAggregateInputType = {
@@ -97,6 +104,7 @@ export type StudentExamDetailMinAggregateInputType = {
   isAttended?: true
   isViolated?: true
   violationNote?: true
+  examScore?: true
   createdAt?: true
 }
 
@@ -109,6 +117,7 @@ export type StudentExamDetailMaxAggregateInputType = {
   isAttended?: true
   isViolated?: true
   violationNote?: true
+  examScore?: true
   createdAt?: true
 }
 
@@ -121,6 +130,7 @@ export type StudentExamDetailCountAggregateInputType = {
   isAttended?: true
   isViolated?: true
   violationNote?: true
+  examScore?: true
   createdAt?: true
   _all?: true
 }
@@ -220,6 +230,7 @@ export type StudentExamDetailGroupByOutputType = {
   isAttended: boolean
   isViolated: boolean
   violationNote: string | null
+  examScore: number | null
   createdAt: Date
   _count: StudentExamDetailCountAggregateOutputType | null
   _avg: StudentExamDetailAvgAggregateOutputType | null
@@ -255,6 +266,7 @@ export type StudentExamDetailWhereInput = {
   isAttended?: Prisma.BoolFilter<"StudentExamDetail"> | boolean
   isViolated?: Prisma.BoolFilter<"StudentExamDetail"> | boolean
   violationNote?: Prisma.StringNullableFilter<"StudentExamDetail"> | string | null
+  examScore?: Prisma.FloatNullableFilter<"StudentExamDetail"> | number | null
   createdAt?: Prisma.DateTimeFilter<"StudentExamDetail"> | Date | string
   examSchedule?: Prisma.XOR<Prisma.ExamScheduleScalarRelationFilter, Prisma.ExamScheduleWhereInput>
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
@@ -269,6 +281,7 @@ export type StudentExamDetailOrderByWithRelationInput = {
   isAttended?: Prisma.SortOrder
   isViolated?: Prisma.SortOrder
   violationNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  examScore?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   examSchedule?: Prisma.ExamScheduleOrderByWithRelationInput
   student?: Prisma.StudentOrderByWithRelationInput
@@ -287,6 +300,7 @@ export type StudentExamDetailWhereUniqueInput = Prisma.AtLeast<{
   isAttended?: Prisma.BoolFilter<"StudentExamDetail"> | boolean
   isViolated?: Prisma.BoolFilter<"StudentExamDetail"> | boolean
   violationNote?: Prisma.StringNullableFilter<"StudentExamDetail"> | string | null
+  examScore?: Prisma.FloatNullableFilter<"StudentExamDetail"> | number | null
   createdAt?: Prisma.DateTimeFilter<"StudentExamDetail"> | Date | string
   examSchedule?: Prisma.XOR<Prisma.ExamScheduleScalarRelationFilter, Prisma.ExamScheduleWhereInput>
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
@@ -301,6 +315,7 @@ export type StudentExamDetailOrderByWithAggregationInput = {
   isAttended?: Prisma.SortOrder
   isViolated?: Prisma.SortOrder
   violationNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  examScore?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.StudentExamDetailCountOrderByAggregateInput
   _avg?: Prisma.StudentExamDetailAvgOrderByAggregateInput
@@ -321,6 +336,7 @@ export type StudentExamDetailScalarWhereWithAggregatesInput = {
   isAttended?: Prisma.BoolWithAggregatesFilter<"StudentExamDetail"> | boolean
   isViolated?: Prisma.BoolWithAggregatesFilter<"StudentExamDetail"> | boolean
   violationNote?: Prisma.StringNullableWithAggregatesFilter<"StudentExamDetail"> | string | null
+  examScore?: Prisma.FloatNullableWithAggregatesFilter<"StudentExamDetail"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StudentExamDetail"> | Date | string
 }
 
@@ -330,6 +346,7 @@ export type StudentExamDetailCreateInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
   examSchedule: Prisma.ExamScheduleCreateNestedOneWithoutStudentExamsInput
   student: Prisma.StudentCreateNestedOneWithoutStudentExamsInput
@@ -344,6 +361,7 @@ export type StudentExamDetailUncheckedCreateInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
 }
 
@@ -353,6 +371,7 @@ export type StudentExamDetailUpdateInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   examSchedule?: Prisma.ExamScheduleUpdateOneRequiredWithoutStudentExamsNestedInput
   student?: Prisma.StudentUpdateOneRequiredWithoutStudentExamsNestedInput
@@ -367,6 +386,7 @@ export type StudentExamDetailUncheckedUpdateInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -379,6 +399,7 @@ export type StudentExamDetailCreateManyInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
 }
 
@@ -388,6 +409,7 @@ export type StudentExamDetailUpdateManyMutationInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -400,6 +422,7 @@ export type StudentExamDetailUncheckedUpdateManyInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -427,6 +450,7 @@ export type StudentExamDetailCountOrderByAggregateInput = {
   isAttended?: Prisma.SortOrder
   isViolated?: Prisma.SortOrder
   violationNote?: Prisma.SortOrder
+  examScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -434,6 +458,7 @@ export type StudentExamDetailAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   examScheduleId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
+  examScore?: Prisma.SortOrder
 }
 
 export type StudentExamDetailMaxOrderByAggregateInput = {
@@ -445,6 +470,7 @@ export type StudentExamDetailMaxOrderByAggregateInput = {
   isAttended?: Prisma.SortOrder
   isViolated?: Prisma.SortOrder
   violationNote?: Prisma.SortOrder
+  examScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -457,6 +483,7 @@ export type StudentExamDetailMinOrderByAggregateInput = {
   isAttended?: Prisma.SortOrder
   isViolated?: Prisma.SortOrder
   violationNote?: Prisma.SortOrder
+  examScore?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -464,6 +491,7 @@ export type StudentExamDetailSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   examScheduleId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
+  examScore?: Prisma.SortOrder
 }
 
 export type StudentExamDetailCreateNestedManyWithoutStudentInput = {
@@ -556,6 +584,7 @@ export type StudentExamDetailCreateWithoutStudentInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
   examSchedule: Prisma.ExamScheduleCreateNestedOneWithoutStudentExamsInput
 }
@@ -568,6 +597,7 @@ export type StudentExamDetailUncheckedCreateWithoutStudentInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
 }
 
@@ -609,6 +639,7 @@ export type StudentExamDetailScalarWhereInput = {
   isAttended?: Prisma.BoolFilter<"StudentExamDetail"> | boolean
   isViolated?: Prisma.BoolFilter<"StudentExamDetail"> | boolean
   violationNote?: Prisma.StringNullableFilter<"StudentExamDetail"> | string | null
+  examScore?: Prisma.FloatNullableFilter<"StudentExamDetail"> | number | null
   createdAt?: Prisma.DateTimeFilter<"StudentExamDetail"> | Date | string
 }
 
@@ -618,6 +649,7 @@ export type StudentExamDetailCreateWithoutExamScheduleInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutStudentExamsInput
 }
@@ -630,6 +662,7 @@ export type StudentExamDetailUncheckedCreateWithoutExamScheduleInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
 }
 
@@ -667,6 +700,7 @@ export type StudentExamDetailCreateManyStudentInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
 }
 
@@ -676,6 +710,7 @@ export type StudentExamDetailUpdateWithoutStudentInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   examSchedule?: Prisma.ExamScheduleUpdateOneRequiredWithoutStudentExamsNestedInput
 }
@@ -688,6 +723,7 @@ export type StudentExamDetailUncheckedUpdateWithoutStudentInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -699,6 +735,7 @@ export type StudentExamDetailUncheckedUpdateManyWithoutStudentInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -710,6 +747,7 @@ export type StudentExamDetailCreateManyExamScheduleInput = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: string | null
+  examScore?: number | null
   createdAt?: Date | string
 }
 
@@ -719,6 +757,7 @@ export type StudentExamDetailUpdateWithoutExamScheduleInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutStudentExamsNestedInput
 }
@@ -731,6 +770,7 @@ export type StudentExamDetailUncheckedUpdateWithoutExamScheduleInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -742,6 +782,7 @@ export type StudentExamDetailUncheckedUpdateManyWithoutExamScheduleInput = {
   isAttended?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isViolated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   violationNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -756,6 +797,7 @@ export type StudentExamDetailSelect<ExtArgs extends runtime.Types.Extensions.Int
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: boolean
+  examScore?: boolean
   createdAt?: boolean
   examSchedule?: boolean | Prisma.ExamScheduleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -770,6 +812,7 @@ export type StudentExamDetailSelectCreateManyAndReturn<ExtArgs extends runtime.T
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: boolean
+  examScore?: boolean
   createdAt?: boolean
   examSchedule?: boolean | Prisma.ExamScheduleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -784,6 +827,7 @@ export type StudentExamDetailSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: boolean
+  examScore?: boolean
   createdAt?: boolean
   examSchedule?: boolean | Prisma.ExamScheduleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -798,10 +842,11 @@ export type StudentExamDetailSelectScalar = {
   isAttended?: boolean
   isViolated?: boolean
   violationNote?: boolean
+  examScore?: boolean
   createdAt?: boolean
 }
 
-export type StudentExamDetailOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "examScheduleId" | "studentId" | "identificationNum" | "deskNumber" | "isAttended" | "isViolated" | "violationNote" | "createdAt", ExtArgs["result"]["studentExamDetail"]>
+export type StudentExamDetailOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "examScheduleId" | "studentId" | "identificationNum" | "deskNumber" | "isAttended" | "isViolated" | "violationNote" | "examScore" | "createdAt", ExtArgs["result"]["studentExamDetail"]>
 export type StudentExamDetailInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   examSchedule?: boolean | Prisma.ExamScheduleDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -830,6 +875,7 @@ export type $StudentExamDetailPayload<ExtArgs extends runtime.Types.Extensions.I
     isAttended: boolean
     isViolated: boolean
     violationNote: string | null
+    examScore: number | null
     createdAt: Date
   }, ExtArgs["result"]["studentExamDetail"]>
   composites: {}
@@ -1264,6 +1310,7 @@ export interface StudentExamDetailFieldRefs {
   readonly isAttended: Prisma.FieldRef<"StudentExamDetail", 'Boolean'>
   readonly isViolated: Prisma.FieldRef<"StudentExamDetail", 'Boolean'>
   readonly violationNote: Prisma.FieldRef<"StudentExamDetail", 'String'>
+  readonly examScore: Prisma.FieldRef<"StudentExamDetail", 'Float'>
   readonly createdAt: Prisma.FieldRef<"StudentExamDetail", 'DateTime'>
 }
     

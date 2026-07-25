@@ -33,6 +33,9 @@ export class StudentExamDetailDto implements StudentExamDetail {
   @ApiProperty({ type: String, nullable: true })
   violationNote: string | null;
 
+  @ApiProperty({ type: Number, nullable: true })
+  examScore: number | null;
+
   @ApiProperty()
   @Type(() => Date)
   createdAt: Date;
@@ -48,6 +51,32 @@ export class CreateStudentExamDetailDto extends OmitType(StudentExamDetailDto, [
 
 // UPDATE DTO
 export class UpdateStudentExamDetailDto extends PartialType(StudentExamDetailDto) {}
+
+// UPDATE BULK, NHẬP ĐIỂM THI CUỐI KỲ CHO HỌC SINH
+export class StudentScoreItem {
+  @ApiProperty()
+  studentExamDetailId: number;
+
+  @ApiProperty()
+  examScore: number;
+}
+export class UpdateBulkExamScoreDto {
+  @ApiProperty({ type: [StudentScoreItem] })
+  scores: StudentScoreItem[];
+}
+
+// ĐIỂM DANH THI
+export class AttendanceItemDto {
+  @ApiProperty()
+  studentExamDetailId: number;
+
+  @ApiProperty()
+  isAttended: boolean;
+}
+export class UpdateAttendanceDto {
+  @ApiProperty({ type: [AttendanceItemDto] })
+  attendances: AttendanceItemDto[];
+}
 
 // SEARCH DTO
 export class SearchStudentExamDetailDto extends PartialType(

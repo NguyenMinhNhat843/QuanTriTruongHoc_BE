@@ -1,9 +1,24 @@
-import { Body, Controller, Delete, Get, Param, ParseArrayPipe, ParseIntPipe, Patch, Post, Query } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseArrayPipe,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+} from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import {
   CreateStudentExamDetailDto,
   SearchStudentExamDetailDto,
   StudentExamDetailDetailDto,
+  UpdateAttendanceDto,
+  UpdateBulkExamScoreDto,
   UpdateStudentExamDetailDto,
 } from "../dto/student-exam-detail.dto";
 import { StudentExamDetailService } from "../service/student-exam-detail.service";
@@ -64,6 +79,20 @@ export class StudentExamDetailController {
   })
   async findOne(@Param("id", ParseIntPipe) id: number) {
     return this.studentExamDetailService.findOne(id);
+  }
+
+  @Patch("attendance")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Cập nhật điểm danh hàng loạt" })
+  async updateAttendance(@Body() dto: UpdateAttendanceDto) {
+    return await this.studentExamDetailService.updateAttendance(dto);
+  }
+
+  @Patch("scores")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Cập nhật điểm thi hàng loạt" })
+  async updateScores(@Body() dto: UpdateBulkExamScoreDto) {
+    return await this.studentExamDetailService.updateBulkExamScores(dto);
   }
 
   @Patch(":id")

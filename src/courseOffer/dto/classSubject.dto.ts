@@ -16,7 +16,7 @@ import {
 } from "class-validator";
 import { DayOfWeek } from "../../../prisma/generated/prisma/enums";
 import { ClassSubject } from "../../../prisma/generated/prisma/client";
-import { StaffDto } from "../../staff/staff.dto";
+import { StaffDto } from "../../staff/dto/staff.dto";
 import { SubjectDto } from "../../subject/dto/subject.dto";
 import { ClassDto } from "../../class/class.dto";
 import { SemesterDto } from "../../semester/semester.dto";

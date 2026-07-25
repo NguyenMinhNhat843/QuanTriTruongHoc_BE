@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, OmitType } from "@nestjs/swagger";
 import { ClassSubjectSessionDto, ClassSubjectSessionWithRelationDto } from "./classSubjectSession.dto";
 import { SubjectDto } from "../../subject/dto/subject.dto";
-import { StaffResponseDto } from "../../staff/staff.response";
+import { StaffResponseDto } from "../../staff/dto/staff.response";
 import { ClassSubjectScheduleDetailDto } from "./classSubjectScheduleDetail";
 import { ClassSubjectDto } from "../../courseOffer/dto/classSubject.dto";
 

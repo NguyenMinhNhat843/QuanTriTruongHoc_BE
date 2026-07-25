@@ -47,16 +47,94 @@ model Staff {
   identityNumber    String?       @unique // CCCD
   departmentId      Int?
   department        Department?   @relation(fields: [departmentId], references: [id])
-  position          String? // Ví dụ: Nhân viên kế toán, hiệu trưởng...
+  employeeRole      EmployeeRole?
   hireDate          DateTime?     @db.Date
   contractType      String? // full-time, part-time
   salaryCoefficient Float? // Hệ số lương
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
-  EmployeeRole      EmployeeRole?
 
   classSubjects   ClassSubject[]
   teacherSubjects TeacherSubject[]
+  positions       StaffPosition[] // các chức vụ quản lý đang/đã giữ
+  teachingQuotas  TeachingQuota[] // định mức giảng dạy theo từng năm học
 
   @@map("staffs")
+}
+
+// ==========================
+// CHỨC VỤ QUẢN LÝ
+// (áp dụng % giảm định mức giờ giảng theo quy định)
+// ==========================
+model ManagementPosition {
+  id               Int      @id @default(autoincrement())
+  code             String   @unique // HIEU_TRUONG, PHO_HIEU_TRUONG, TRUONG_KHOA, PHO_KHOA, TRUONG_PHONG, PHO_PHONG, KHAC
+  name             String // "Hiệu trưởng", "Trưởng khoa"...
+  reductionPercent Float // % giảm định mức giờ giảng/năm
+  priority         Int // dùng để chọn mức giảm cao nhất khi 1 người kiêm nhiều chức vụ
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  assignments StaffPosition[]
+
+  @@map("management_positions")
+}
+
+// Gán chức vụ cho staff — có thời hạn, cho phép kiêm nhiều chức vụ song song
+model StaffPosition {
+  id           Int                @id @default(autoincrement())
+  staffId      Int
+  staff        Staff              @relation(fields: [staffId], references: [id])
+  positionId   Int
+  position     ManagementPosition @relation(fields: [positionId], references: [id])
+  departmentId Int? // trưởng/phó khoa của khoa nào (null nếu là chức vụ cấp trường, VD hiệu trưởng)
+  department   Department?        @relation(fields: [departmentId], references: [id])
+  startDate    DateTime           @db.Date
+  endDate      DateTime?          @db.Date // null = đang giữ chức
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  @@index([staffId, endDate])
+  @@map("staff_positions")
+}
+
+// ==========================
+// KHUNG ĐỊNH MỨC GIẢNG DẠY THEO TRÌNH ĐỘ, THEO NĂM HỌC
+// ==========================
+model TeachingLevel {
+  id             Int          @id @default(autoincrement())
+  code           String // TRUNG_CAP, SO_CAP
+  name           String
+  minHours       Int // sàn khung theo quy định
+  maxHours       Int // trần khung theo quy định
+  academicYearId Int
+  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  quotas TeachingQuota[]
+
+  @@unique([code, academicYearId])
+  @@map("teaching_levels")
+}
+
+// ==========================
+// ĐỊNH MỨC GIẢNG DẠY ÁP CHO TỪNG GIÁO VIÊN, THEO NĂM HỌC
+// ==========================
+model TeachingQuota {
+  id               Int           @id @default(autoincrement())
+  staffId          Int
+  staff            Staff         @relation(fields: [staffId], references: [id])
+  teachingLevelId  Int
+  teachingLevel    TeachingLevel @relation(fields: [teachingLevelId], references: [id])
+  baseHours        Float // định mức gốc hiệu trưởng chọn trong khung (VD 450)
+  reductionPercent Float         @default(0) // % giảm trừ áp dụng, chốt tại thời điểm tính (lấy max từ StaffPosition)
+  finalHours       Float // = baseHours * (1 - reductionPercent)
+  actualHours      Float         @default(0) // cộng dồn từ phân công giảng dạy thực tế
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@unique([staffId, teachingLevelId])
+  @@map("teaching_quotas")
 }

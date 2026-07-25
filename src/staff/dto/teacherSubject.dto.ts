@@ -1,9 +1,9 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from "@nestjs/swagger";
-import { TeacherSubject } from "../../prisma/generated/prisma/client";
 import { IsArray, IsInt, IsNumber, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { TeacherSubject } from "../../../prisma/generated/prisma/client";
 import { StaffResponseDto } from "./staff.response";
-import { ResponseSubjectDto } from "../subject/dto/subject.dto";
+import { ResponseSubjectDto } from "../../subject/dto/subject.dto";
 
 export class TeacherSubjectResponseDto implements TeacherSubject {
   @ApiPropertyOptional({
@@ -63,9 +63,7 @@ export class CreateTeacherSubjectDto {
   subjectId: number;
 }
 
-export class UpdateTeacherSubjectDto extends PartialType(
-  CreateTeacherSubjectDto,
-) {}
+export class UpdateTeacherSubjectDto extends PartialType(CreateTeacherSubjectDto) {}
 
 export class CreateTeacherSubjectManyDto {
   @ApiProperty({

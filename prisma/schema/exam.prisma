@@ -47,6 +47,8 @@ model StudentExamDetail {
   isViolated    Boolean @default(false) // Vi phạm quy chế thi (mang tài liệu...)
   violationNote String? // Lý do vi phạm (Kỷ luật, Lập biên bản...)
 
+  examScore Float? // Điểm thi
+
   createdAt DateTime @default(now())
 
   @@unique([examScheduleId, studentId])

@@ -1,16 +1,12 @@
-import {
-  Injectable,
-  BadRequestException,
-  NotFoundException,
-} from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
+import { Injectable, BadRequestException, NotFoundException } from "@nestjs/common";
+import { plainToInstance } from "class-transformer";
+import { PrismaService } from "../../prisma/prisma.service";
 import {
   CreateTeacherSubjectDto,
   CreateTeacherSubjectManyDto,
   TeacherSubjectResponseDto,
-} from "./teacherSubject.dto";
-import { plainToInstance } from "class-transformer";
-import { Prisma } from "../../prisma/generated/prisma/client";
+} from "../dto/teacherSubject.dto";
+import { Prisma } from "../../../prisma/generated/prisma/client";
 
 @Injectable()
 export class TeacherSubjectService {
@@ -20,9 +16,7 @@ export class TeacherSubjectService {
    * 1. CREATE: Gán một môn học cho giáo viên
    * Kiểm tra trùng lặp dựa trên unique constraint [teacherId, subjectId]
    */
-  async create(
-    body: CreateTeacherSubjectDto,
-  ): Promise<TeacherSubjectResponseDto> {
+  async create(body: CreateTeacherSubjectDto): Promise<TeacherSubjectResponseDto> {
     const { teacherId, subjectId } = body;
 
     // Kiểm tra xem liên kết này đã tồn tại chưa để tránh crash db
@@ -33,9 +27,7 @@ export class TeacherSubjectService {
     });
 
     if (existing) {
-      throw new BadRequestException(
-        "Giáo viên này đã được phân công môn học này rồi.",
-      );
+      throw new BadRequestException("Giáo viên này đã được phân công môn học này rồi.");
     }
 
     const result = await this.prisma.teacherSubject.create({
@@ -53,15 +45,11 @@ export class TeacherSubjectService {
     return plainToInstance(TeacherSubjectResponseDto, result);
   }
 
-  async createMany(
-    body: CreateTeacherSubjectManyDto,
-  ): Promise<TeacherSubjectResponseDto[]> {
+  async createMany(body: CreateTeacherSubjectManyDto): Promise<TeacherSubjectResponseDto[]> {
     const { teacherId, subjectIds } = body;
 
     if (!subjectIds || subjectIds.length === 0) {
-      throw new BadRequestException(
-        "Danh sách môn học chọn phân công không được để trống.",
-      );
+      throw new BadRequestException("Danh sách môn học chọn phân công không được để trống.");
     }
 
     const existingAssignments = await this.prisma.teacherSubject.findMany({
@@ -74,14 +62,10 @@ export class TeacherSubjectService {
 
     const existingSubjectIds = existingAssignments.map((a) => a.subjectId);
 
-    const newSubjectIds = subjectIds.filter(
-      (id) => !existingSubjectIds.includes(id),
-    );
+    const newSubjectIds = subjectIds.filter((id) => !existingSubjectIds.includes(id));
 
     if (newSubjectIds.length === 0) {
-      throw new BadRequestException(
-        "Tất cả các môn học được chọn đều đã được phân công cho giáo viên này từ trước.",
-      );
+      throw new BadRequestException("Tất cả các môn học được chọn đều đã được phân công cho giáo viên này từ trước.");
     }
 
     const results = await this.prisma.$transaction(
@@ -100,9 +84,7 @@ export class TeacherSubjectService {
     );
 
     // 4. Map kết quả trả về thông qua plainToInstance
-    return results.map((result) =>
-      plainToInstance(TeacherSubjectResponseDto, result),
-    );
+    return results.map((result) => plainToInstance(TeacherSubjectResponseDto, result));
   }
 
   /**
@@ -118,9 +100,7 @@ export class TeacherSubjectService {
         createdAt: "desc",
       },
     });
-    return records.map((record) =>
-      plainToInstance(TeacherSubjectResponseDto, record),
-    );
+    return records.map((record) => plainToInstance(TeacherSubjectResponseDto, record));
   }
 
   /**
@@ -136,9 +116,7 @@ export class TeacherSubjectService {
     });
 
     if (!record) {
-      throw new NotFoundException(
-        `Không tìm thấy bản ghi phân công với ID ${id}`,
-      );
+      throw new NotFoundException(`Không tìm thấy bản ghi phân công với ID ${id}`);
     }
 
     return plainToInstance(TeacherSubjectResponseDto, record);
@@ -154,18 +132,13 @@ export class TeacherSubjectService {
         subject: true,
       },
     });
-    return records.map((record) =>
-      plainToInstance(TeacherSubjectResponseDto, record),
-    );
+    return records.map((record) => plainToInstance(TeacherSubjectResponseDto, record));
   }
 
   /**
    * 3. UPDATE: Cập nhật thông tin phân công theo ID
    */
-  async update(
-    id: number,
-    data: { teacherId?: number; subjectId?: number },
-  ): Promise<TeacherSubjectResponseDto> {
+  async update(id: number, data: { teacherId?: number; subjectId?: number }): Promise<TeacherSubjectResponseDto> {
     await this.findOne(id);
 
     try {
@@ -180,13 +153,8 @@ export class TeacherSubjectService {
       return plainToInstance(TeacherSubjectResponseDto, result);
     } catch (error) {
       // Xử lý trường hợp update thông tin trùng với một cặp unique có sẵn
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2002"
-      ) {
-        throw new BadRequestException(
-          "Cặp Giáo viên và Môn học này đã tồn tại trong hệ thống.",
-        );
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        throw new BadRequestException("Cặp Giáo viên và Môn học này đã tồn tại trong hệ thống.");
       }
       throw error;
     }
@@ -209,10 +177,7 @@ export class TeacherSubjectService {
   /**
    * 4b. DELETE: Xóa dựa vào cặp unique (Không cần biết ID của bảng trung gian)
    */
-  async removeByUniquePair(
-    teacherId: number,
-    subjectId: number,
-  ): Promise<{ message: string }> {
+  async removeByUniquePair(teacherId: number, subjectId: number): Promise<{ message: string }> {
     try {
       await this.prisma.teacherSubject.delete({
         where: {
@@ -221,13 +186,8 @@ export class TeacherSubjectService {
       });
       return { message: "Hủy phân công môn học thành công." };
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === "P2025"
-      ) {
-        throw new NotFoundException(
-          "Không tìm thấy dữ liệu phân công phù hợp để xóa.",
-        );
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+        throw new NotFoundException("Không tìm thấy dữ liệu phân công phù hợp để xóa.");
       }
       throw error;
     }

@@ -1,10 +1,10 @@
 import { Injectable, ConflictException, InternalServerErrorException, NotFoundException, Logger } from "@nestjs/common";
-import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "./staff.dto.js";
-import { StaffResponseDto, TeacherDashboardStatsResponseDto } from "./staff.response.js";
 import { plainToInstance } from "class-transformer";
-import { PrismaService } from "../prisma/prisma.service.js";
-import { generateId } from "../utils/generateId.js";
-import { Prisma } from "../../prisma/generated/prisma/client.js";
+import { PrismaService } from "../../prisma/prisma.service";
+import { StaffResponseDto, TeacherDashboardStatsResponseDto } from "../dto/staff.response";
+import { CreateStaffDto, SearchStaffDto, UpdateStaffDto } from "../dto/staff.dto";
+import { generateId } from "../../utils/generateId";
+import { Prisma } from "../../../prisma/generated/prisma/client";
 
 @Injectable()
 export class StaffService {
@@ -88,7 +88,6 @@ export class StaffService {
       limit = 10,
       keyword,
       departmentId,
-      position,
       sortBy = "createdAt",
       sortOrder = "desc",
       employeeRole,
@@ -115,8 +114,7 @@ export class StaffService {
             }
           : {},
         departmentId ? { departmentId } : {},
-        position ? { position: { contains: position, mode: "insensitive" } } : {},
-        employeeRole ? { EmployeeRole: employeeRole } : {},
+        employeeRole ? { employeeRole: employeeRole } : {},
       ],
     };
 
@@ -192,7 +190,7 @@ export class StaffService {
     return plainToInstance(TeacherDashboardStatsResponseDto, {
       id: teacherId,
       name: profile?.fullName,
-      role: profile?.EmployeeRole,
+      role: profile?.employeeRole,
       maGiaoVien: profile?.staffCode,
       department: profile?.department?.deptName,
       totalClasses: soLuongLopHocChuNhiem,

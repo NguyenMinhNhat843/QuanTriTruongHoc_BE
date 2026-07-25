@@ -15,6 +15,7 @@ model AcademicYear {
 
   admissionCampaigns AdmissionCampaign[]
   batches            Batch[]
+  teachingLevels     TeachingLevel[]
 
   @@map("academic_years")
 }
@@ -35,9 +36,10 @@ model Department {
   updatedAt DateTime @default(now()) @updatedAt
 
   // Quan hệ
-  majors   Major[]
-  subjects Subject[]
-  staffs   Staff[]
+  majors         Major[]
+  subjects       Subject[]
+  staffs         Staff[]
+  staffPositions StaffPosition[]
 
   @@map("departments")
 }
