@@ -29,57 +29,57 @@ export type AggregateTeachingQuota = {
 export type TeachingQuotaAvgAggregateOutputType = {
   id: number | null
   staffId: number | null
-  teachingLevelId: number | null
   baseHours: number | null
   reductionPercent: number | null
   finalHours: number | null
   actualHours: number | null
+  academicYearId: number | null
 }
 
 export type TeachingQuotaSumAggregateOutputType = {
   id: number | null
   staffId: number | null
-  teachingLevelId: number | null
   baseHours: number | null
   reductionPercent: number | null
   finalHours: number | null
   actualHours: number | null
+  academicYearId: number | null
 }
 
 export type TeachingQuotaMinAggregateOutputType = {
   id: number | null
   staffId: number | null
-  teachingLevelId: number | null
   baseHours: number | null
   reductionPercent: number | null
   finalHours: number | null
   actualHours: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  academicYearId: number | null
 }
 
 export type TeachingQuotaMaxAggregateOutputType = {
   id: number | null
   staffId: number | null
-  teachingLevelId: number | null
   baseHours: number | null
   reductionPercent: number | null
   finalHours: number | null
   actualHours: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  academicYearId: number | null
 }
 
 export type TeachingQuotaCountAggregateOutputType = {
   id: number
   staffId: number
-  teachingLevelId: number
   baseHours: number
   reductionPercent: number
   finalHours: number
   actualHours: number
   createdAt: number
   updatedAt: number
+  academicYearId: number
   _all: number
 }
 
@@ -87,57 +87,57 @@ export type TeachingQuotaCountAggregateOutputType = {
 export type TeachingQuotaAvgAggregateInputType = {
   id?: true
   staffId?: true
-  teachingLevelId?: true
   baseHours?: true
   reductionPercent?: true
   finalHours?: true
   actualHours?: true
+  academicYearId?: true
 }
 
 export type TeachingQuotaSumAggregateInputType = {
   id?: true
   staffId?: true
-  teachingLevelId?: true
   baseHours?: true
   reductionPercent?: true
   finalHours?: true
   actualHours?: true
+  academicYearId?: true
 }
 
 export type TeachingQuotaMinAggregateInputType = {
   id?: true
   staffId?: true
-  teachingLevelId?: true
   baseHours?: true
   reductionPercent?: true
   finalHours?: true
   actualHours?: true
   createdAt?: true
   updatedAt?: true
+  academicYearId?: true
 }
 
 export type TeachingQuotaMaxAggregateInputType = {
   id?: true
   staffId?: true
-  teachingLevelId?: true
   baseHours?: true
   reductionPercent?: true
   finalHours?: true
   actualHours?: true
   createdAt?: true
   updatedAt?: true
+  academicYearId?: true
 }
 
 export type TeachingQuotaCountAggregateInputType = {
   id?: true
   staffId?: true
-  teachingLevelId?: true
   baseHours?: true
   reductionPercent?: true
   finalHours?: true
   actualHours?: true
   createdAt?: true
   updatedAt?: true
+  academicYearId?: true
   _all?: true
 }
 
@@ -230,13 +230,13 @@ export type TeachingQuotaGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type TeachingQuotaGroupByOutputType = {
   id: number
   staffId: number
-  teachingLevelId: number
   baseHours: number
   reductionPercent: number
   finalHours: number
   actualHours: number
   createdAt: Date
   updatedAt: Date
+  academicYearId: number
   _count: TeachingQuotaCountAggregateOutputType | null
   _avg: TeachingQuotaAvgAggregateOutputType | null
   _sum: TeachingQuotaSumAggregateOutputType | null
@@ -265,59 +265,59 @@ export type TeachingQuotaWhereInput = {
   NOT?: Prisma.TeachingQuotaWhereInput | Prisma.TeachingQuotaWhereInput[]
   id?: Prisma.IntFilter<"TeachingQuota"> | number
   staffId?: Prisma.IntFilter<"TeachingQuota"> | number
-  teachingLevelId?: Prisma.IntFilter<"TeachingQuota"> | number
   baseHours?: Prisma.FloatFilter<"TeachingQuota"> | number
   reductionPercent?: Prisma.FloatFilter<"TeachingQuota"> | number
   finalHours?: Prisma.FloatFilter<"TeachingQuota"> | number
   actualHours?: Prisma.FloatFilter<"TeachingQuota"> | number
   createdAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
+  academicYearId?: Prisma.IntFilter<"TeachingQuota"> | number
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
-  teachingLevel?: Prisma.XOR<Prisma.TeachingLevelScalarRelationFilter, Prisma.TeachingLevelWhereInput>
+  academicYear?: Prisma.XOR<Prisma.AcademicYearScalarRelationFilter, Prisma.AcademicYearWhereInput>
 }
 
 export type TeachingQuotaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
-  teachingLevelId?: Prisma.SortOrder
   baseHours?: Prisma.SortOrder
   reductionPercent?: Prisma.SortOrder
   finalHours?: Prisma.SortOrder
   actualHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  academicYearId?: Prisma.SortOrder
   staff?: Prisma.StaffOrderByWithRelationInput
-  teachingLevel?: Prisma.TeachingLevelOrderByWithRelationInput
+  academicYear?: Prisma.AcademicYearOrderByWithRelationInput
 }
 
 export type TeachingQuotaWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  staffId_teachingLevelId?: Prisma.TeachingQuotaStaffIdTeachingLevelIdCompoundUniqueInput
+  staffId_academicYearId?: Prisma.TeachingQuotaStaffIdAcademicYearIdCompoundUniqueInput
   AND?: Prisma.TeachingQuotaWhereInput | Prisma.TeachingQuotaWhereInput[]
   OR?: Prisma.TeachingQuotaWhereInput[]
   NOT?: Prisma.TeachingQuotaWhereInput | Prisma.TeachingQuotaWhereInput[]
   staffId?: Prisma.IntFilter<"TeachingQuota"> | number
-  teachingLevelId?: Prisma.IntFilter<"TeachingQuota"> | number
   baseHours?: Prisma.FloatFilter<"TeachingQuota"> | number
   reductionPercent?: Prisma.FloatFilter<"TeachingQuota"> | number
   finalHours?: Prisma.FloatFilter<"TeachingQuota"> | number
   actualHours?: Prisma.FloatFilter<"TeachingQuota"> | number
   createdAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
+  academicYearId?: Prisma.IntFilter<"TeachingQuota"> | number
   staff?: Prisma.XOR<Prisma.StaffScalarRelationFilter, Prisma.StaffWhereInput>
-  teachingLevel?: Prisma.XOR<Prisma.TeachingLevelScalarRelationFilter, Prisma.TeachingLevelWhereInput>
-}, "id" | "staffId_teachingLevelId">
+  academicYear?: Prisma.XOR<Prisma.AcademicYearScalarRelationFilter, Prisma.AcademicYearWhereInput>
+}, "id" | "staffId_academicYearId">
 
 export type TeachingQuotaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
-  teachingLevelId?: Prisma.SortOrder
   baseHours?: Prisma.SortOrder
   reductionPercent?: Prisma.SortOrder
   finalHours?: Prisma.SortOrder
   actualHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  academicYearId?: Prisma.SortOrder
   _count?: Prisma.TeachingQuotaCountOrderByAggregateInput
   _avg?: Prisma.TeachingQuotaAvgOrderByAggregateInput
   _max?: Prisma.TeachingQuotaMaxOrderByAggregateInput
@@ -331,13 +331,13 @@ export type TeachingQuotaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.TeachingQuotaScalarWhereWithAggregatesInput | Prisma.TeachingQuotaScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"TeachingQuota"> | number
   staffId?: Prisma.IntWithAggregatesFilter<"TeachingQuota"> | number
-  teachingLevelId?: Prisma.IntWithAggregatesFilter<"TeachingQuota"> | number
   baseHours?: Prisma.FloatWithAggregatesFilter<"TeachingQuota"> | number
   reductionPercent?: Prisma.FloatWithAggregatesFilter<"TeachingQuota"> | number
   finalHours?: Prisma.FloatWithAggregatesFilter<"TeachingQuota"> | number
   actualHours?: Prisma.FloatWithAggregatesFilter<"TeachingQuota"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TeachingQuota"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TeachingQuota"> | Date | string
+  academicYearId?: Prisma.IntWithAggregatesFilter<"TeachingQuota"> | number
 }
 
 export type TeachingQuotaCreateInput = {
@@ -348,19 +348,19 @@ export type TeachingQuotaCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   staff: Prisma.StaffCreateNestedOneWithoutTeachingQuotasInput
-  teachingLevel: Prisma.TeachingLevelCreateNestedOneWithoutQuotasInput
+  academicYear: Prisma.AcademicYearCreateNestedOneWithoutTeachingQuotasInput
 }
 
 export type TeachingQuotaUncheckedCreateInput = {
   id?: number
   staffId: number
-  teachingLevelId: number
   baseHours: number
   reductionPercent?: number
   finalHours: number
   actualHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  academicYearId: number
 }
 
 export type TeachingQuotaUpdateInput = {
@@ -371,31 +371,31 @@ export type TeachingQuotaUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   staff?: Prisma.StaffUpdateOneRequiredWithoutTeachingQuotasNestedInput
-  teachingLevel?: Prisma.TeachingLevelUpdateOneRequiredWithoutQuotasNestedInput
+  academicYear?: Prisma.AcademicYearUpdateOneRequiredWithoutTeachingQuotasNestedInput
 }
 
 export type TeachingQuotaUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffId?: Prisma.IntFieldUpdateOperationsInput | number
-  teachingLevelId?: Prisma.IntFieldUpdateOperationsInput | number
   baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
   reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
   finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
   actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academicYearId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type TeachingQuotaCreateManyInput = {
   id?: number
   staffId: number
-  teachingLevelId: number
   baseHours: number
   reductionPercent?: number
   finalHours: number
   actualHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  academicYearId: number
 }
 
 export type TeachingQuotaUpdateManyMutationInput = {
@@ -410,13 +410,13 @@ export type TeachingQuotaUpdateManyMutationInput = {
 export type TeachingQuotaUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffId?: Prisma.IntFieldUpdateOperationsInput | number
-  teachingLevelId?: Prisma.IntFieldUpdateOperationsInput | number
   baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
   reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
   finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
   actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academicYearId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type TeachingQuotaListRelationFilter = {
@@ -429,65 +429,107 @@ export type TeachingQuotaOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type TeachingQuotaStaffIdTeachingLevelIdCompoundUniqueInput = {
+export type TeachingQuotaStaffIdAcademicYearIdCompoundUniqueInput = {
   staffId: number
-  teachingLevelId: number
+  academicYearId: number
 }
 
 export type TeachingQuotaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
-  teachingLevelId?: Prisma.SortOrder
   baseHours?: Prisma.SortOrder
   reductionPercent?: Prisma.SortOrder
   finalHours?: Prisma.SortOrder
   actualHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  academicYearId?: Prisma.SortOrder
 }
 
 export type TeachingQuotaAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
-  teachingLevelId?: Prisma.SortOrder
   baseHours?: Prisma.SortOrder
   reductionPercent?: Prisma.SortOrder
   finalHours?: Prisma.SortOrder
   actualHours?: Prisma.SortOrder
+  academicYearId?: Prisma.SortOrder
 }
 
 export type TeachingQuotaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
-  teachingLevelId?: Prisma.SortOrder
   baseHours?: Prisma.SortOrder
   reductionPercent?: Prisma.SortOrder
   finalHours?: Prisma.SortOrder
   actualHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  academicYearId?: Prisma.SortOrder
 }
 
 export type TeachingQuotaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
-  teachingLevelId?: Prisma.SortOrder
   baseHours?: Prisma.SortOrder
   reductionPercent?: Prisma.SortOrder
   finalHours?: Prisma.SortOrder
   actualHours?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  academicYearId?: Prisma.SortOrder
 }
 
 export type TeachingQuotaSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   staffId?: Prisma.SortOrder
-  teachingLevelId?: Prisma.SortOrder
   baseHours?: Prisma.SortOrder
   reductionPercent?: Prisma.SortOrder
   finalHours?: Prisma.SortOrder
   actualHours?: Prisma.SortOrder
+  academicYearId?: Prisma.SortOrder
+}
+
+export type TeachingQuotaCreateNestedManyWithoutAcademicYearInput = {
+  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput> | Prisma.TeachingQuotaCreateWithoutAcademicYearInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput[]
+  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput | Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput[]
+  createMany?: Prisma.TeachingQuotaCreateManyAcademicYearInputEnvelope
+  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+}
+
+export type TeachingQuotaUncheckedCreateNestedManyWithoutAcademicYearInput = {
+  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput> | Prisma.TeachingQuotaCreateWithoutAcademicYearInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput[]
+  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput | Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput[]
+  createMany?: Prisma.TeachingQuotaCreateManyAcademicYearInputEnvelope
+  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+}
+
+export type TeachingQuotaUpdateManyWithoutAcademicYearNestedInput = {
+  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput> | Prisma.TeachingQuotaCreateWithoutAcademicYearInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput[]
+  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput | Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput[]
+  upsert?: Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutAcademicYearInput | Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutAcademicYearInput[]
+  createMany?: Prisma.TeachingQuotaCreateManyAcademicYearInputEnvelope
+  set?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  disconnect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  delete?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  update?: Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutAcademicYearInput | Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutAcademicYearInput[]
+  updateMany?: Prisma.TeachingQuotaUpdateManyWithWhereWithoutAcademicYearInput | Prisma.TeachingQuotaUpdateManyWithWhereWithoutAcademicYearInput[]
+  deleteMany?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
+}
+
+export type TeachingQuotaUncheckedUpdateManyWithoutAcademicYearNestedInput = {
+  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput> | Prisma.TeachingQuotaCreateWithoutAcademicYearInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput[]
+  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput | Prisma.TeachingQuotaCreateOrConnectWithoutAcademicYearInput[]
+  upsert?: Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutAcademicYearInput | Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutAcademicYearInput[]
+  createMany?: Prisma.TeachingQuotaCreateManyAcademicYearInputEnvelope
+  set?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  disconnect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  delete?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+  update?: Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutAcademicYearInput | Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutAcademicYearInput[]
+  updateMany?: Prisma.TeachingQuotaUpdateManyWithWhereWithoutAcademicYearInput | Prisma.TeachingQuotaUpdateManyWithWhereWithoutAcademicYearInput[]
+  deleteMany?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
 }
 
 export type TeachingQuotaCreateNestedManyWithoutStaffInput = {
@@ -532,46 +574,66 @@ export type TeachingQuotaUncheckedUpdateManyWithoutStaffNestedInput = {
   deleteMany?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
 }
 
-export type TeachingQuotaCreateNestedManyWithoutTeachingLevelInput = {
-  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput> | Prisma.TeachingQuotaCreateWithoutTeachingLevelInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput[]
-  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput | Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput[]
-  createMany?: Prisma.TeachingQuotaCreateManyTeachingLevelInputEnvelope
-  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+export type TeachingQuotaCreateWithoutAcademicYearInput = {
+  baseHours: number
+  reductionPercent?: number
+  finalHours: number
+  actualHours?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  staff: Prisma.StaffCreateNestedOneWithoutTeachingQuotasInput
 }
 
-export type TeachingQuotaUncheckedCreateNestedManyWithoutTeachingLevelInput = {
-  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput> | Prisma.TeachingQuotaCreateWithoutTeachingLevelInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput[]
-  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput | Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput[]
-  createMany?: Prisma.TeachingQuotaCreateManyTeachingLevelInputEnvelope
-  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
+export type TeachingQuotaUncheckedCreateWithoutAcademicYearInput = {
+  id?: number
+  staffId: number
+  baseHours: number
+  reductionPercent?: number
+  finalHours: number
+  actualHours?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
-export type TeachingQuotaUpdateManyWithoutTeachingLevelNestedInput = {
-  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput> | Prisma.TeachingQuotaCreateWithoutTeachingLevelInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput[]
-  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput | Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput[]
-  upsert?: Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutTeachingLevelInput | Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutTeachingLevelInput[]
-  createMany?: Prisma.TeachingQuotaCreateManyTeachingLevelInputEnvelope
-  set?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  disconnect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  delete?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  update?: Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutTeachingLevelInput | Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutTeachingLevelInput[]
-  updateMany?: Prisma.TeachingQuotaUpdateManyWithWhereWithoutTeachingLevelInput | Prisma.TeachingQuotaUpdateManyWithWhereWithoutTeachingLevelInput[]
-  deleteMany?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
+export type TeachingQuotaCreateOrConnectWithoutAcademicYearInput = {
+  where: Prisma.TeachingQuotaWhereUniqueInput
+  create: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput>
 }
 
-export type TeachingQuotaUncheckedUpdateManyWithoutTeachingLevelNestedInput = {
-  create?: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput> | Prisma.TeachingQuotaCreateWithoutTeachingLevelInput[] | Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput[]
-  connectOrCreate?: Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput | Prisma.TeachingQuotaCreateOrConnectWithoutTeachingLevelInput[]
-  upsert?: Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutTeachingLevelInput | Prisma.TeachingQuotaUpsertWithWhereUniqueWithoutTeachingLevelInput[]
-  createMany?: Prisma.TeachingQuotaCreateManyTeachingLevelInputEnvelope
-  set?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  disconnect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  delete?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  connect?: Prisma.TeachingQuotaWhereUniqueInput | Prisma.TeachingQuotaWhereUniqueInput[]
-  update?: Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutTeachingLevelInput | Prisma.TeachingQuotaUpdateWithWhereUniqueWithoutTeachingLevelInput[]
-  updateMany?: Prisma.TeachingQuotaUpdateManyWithWhereWithoutTeachingLevelInput | Prisma.TeachingQuotaUpdateManyWithWhereWithoutTeachingLevelInput[]
-  deleteMany?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
+export type TeachingQuotaCreateManyAcademicYearInputEnvelope = {
+  data: Prisma.TeachingQuotaCreateManyAcademicYearInput | Prisma.TeachingQuotaCreateManyAcademicYearInput[]
+  skipDuplicates?: boolean
+}
+
+export type TeachingQuotaUpsertWithWhereUniqueWithoutAcademicYearInput = {
+  where: Prisma.TeachingQuotaWhereUniqueInput
+  update: Prisma.XOR<Prisma.TeachingQuotaUpdateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedUpdateWithoutAcademicYearInput>
+  create: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedCreateWithoutAcademicYearInput>
+}
+
+export type TeachingQuotaUpdateWithWhereUniqueWithoutAcademicYearInput = {
+  where: Prisma.TeachingQuotaWhereUniqueInput
+  data: Prisma.XOR<Prisma.TeachingQuotaUpdateWithoutAcademicYearInput, Prisma.TeachingQuotaUncheckedUpdateWithoutAcademicYearInput>
+}
+
+export type TeachingQuotaUpdateManyWithWhereWithoutAcademicYearInput = {
+  where: Prisma.TeachingQuotaScalarWhereInput
+  data: Prisma.XOR<Prisma.TeachingQuotaUpdateManyMutationInput, Prisma.TeachingQuotaUncheckedUpdateManyWithoutAcademicYearInput>
+}
+
+export type TeachingQuotaScalarWhereInput = {
+  AND?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
+  OR?: Prisma.TeachingQuotaScalarWhereInput[]
+  NOT?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
+  id?: Prisma.IntFilter<"TeachingQuota"> | number
+  staffId?: Prisma.IntFilter<"TeachingQuota"> | number
+  baseHours?: Prisma.FloatFilter<"TeachingQuota"> | number
+  reductionPercent?: Prisma.FloatFilter<"TeachingQuota"> | number
+  finalHours?: Prisma.FloatFilter<"TeachingQuota"> | number
+  actualHours?: Prisma.FloatFilter<"TeachingQuota"> | number
+  createdAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
+  academicYearId?: Prisma.IntFilter<"TeachingQuota"> | number
 }
 
 export type TeachingQuotaCreateWithoutStaffInput = {
@@ -581,18 +643,18 @@ export type TeachingQuotaCreateWithoutStaffInput = {
   actualHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  teachingLevel: Prisma.TeachingLevelCreateNestedOneWithoutQuotasInput
+  academicYear: Prisma.AcademicYearCreateNestedOneWithoutTeachingQuotasInput
 }
 
 export type TeachingQuotaUncheckedCreateWithoutStaffInput = {
   id?: number
-  teachingLevelId: number
   baseHours: number
   reductionPercent?: number
   finalHours: number
   actualHours?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  academicYearId: number
 }
 
 export type TeachingQuotaCreateOrConnectWithoutStaffInput = {
@@ -621,32 +683,7 @@ export type TeachingQuotaUpdateManyWithWhereWithoutStaffInput = {
   data: Prisma.XOR<Prisma.TeachingQuotaUpdateManyMutationInput, Prisma.TeachingQuotaUncheckedUpdateManyWithoutStaffInput>
 }
 
-export type TeachingQuotaScalarWhereInput = {
-  AND?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
-  OR?: Prisma.TeachingQuotaScalarWhereInput[]
-  NOT?: Prisma.TeachingQuotaScalarWhereInput | Prisma.TeachingQuotaScalarWhereInput[]
-  id?: Prisma.IntFilter<"TeachingQuota"> | number
-  staffId?: Prisma.IntFilter<"TeachingQuota"> | number
-  teachingLevelId?: Prisma.IntFilter<"TeachingQuota"> | number
-  baseHours?: Prisma.FloatFilter<"TeachingQuota"> | number
-  reductionPercent?: Prisma.FloatFilter<"TeachingQuota"> | number
-  finalHours?: Prisma.FloatFilter<"TeachingQuota"> | number
-  actualHours?: Prisma.FloatFilter<"TeachingQuota"> | number
-  createdAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"TeachingQuota"> | Date | string
-}
-
-export type TeachingQuotaCreateWithoutTeachingLevelInput = {
-  baseHours: number
-  reductionPercent?: number
-  finalHours: number
-  actualHours?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  staff: Prisma.StaffCreateNestedOneWithoutTeachingQuotasInput
-}
-
-export type TeachingQuotaUncheckedCreateWithoutTeachingLevelInput = {
+export type TeachingQuotaCreateManyAcademicYearInput = {
   id?: number
   staffId: number
   baseHours: number
@@ -657,87 +694,7 @@ export type TeachingQuotaUncheckedCreateWithoutTeachingLevelInput = {
   updatedAt?: Date | string
 }
 
-export type TeachingQuotaCreateOrConnectWithoutTeachingLevelInput = {
-  where: Prisma.TeachingQuotaWhereUniqueInput
-  create: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput>
-}
-
-export type TeachingQuotaCreateManyTeachingLevelInputEnvelope = {
-  data: Prisma.TeachingQuotaCreateManyTeachingLevelInput | Prisma.TeachingQuotaCreateManyTeachingLevelInput[]
-  skipDuplicates?: boolean
-}
-
-export type TeachingQuotaUpsertWithWhereUniqueWithoutTeachingLevelInput = {
-  where: Prisma.TeachingQuotaWhereUniqueInput
-  update: Prisma.XOR<Prisma.TeachingQuotaUpdateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedUpdateWithoutTeachingLevelInput>
-  create: Prisma.XOR<Prisma.TeachingQuotaCreateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedCreateWithoutTeachingLevelInput>
-}
-
-export type TeachingQuotaUpdateWithWhereUniqueWithoutTeachingLevelInput = {
-  where: Prisma.TeachingQuotaWhereUniqueInput
-  data: Prisma.XOR<Prisma.TeachingQuotaUpdateWithoutTeachingLevelInput, Prisma.TeachingQuotaUncheckedUpdateWithoutTeachingLevelInput>
-}
-
-export type TeachingQuotaUpdateManyWithWhereWithoutTeachingLevelInput = {
-  where: Prisma.TeachingQuotaScalarWhereInput
-  data: Prisma.XOR<Prisma.TeachingQuotaUpdateManyMutationInput, Prisma.TeachingQuotaUncheckedUpdateManyWithoutTeachingLevelInput>
-}
-
-export type TeachingQuotaCreateManyStaffInput = {
-  id?: number
-  teachingLevelId: number
-  baseHours: number
-  reductionPercent?: number
-  finalHours: number
-  actualHours?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TeachingQuotaUpdateWithoutStaffInput = {
-  baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
-  finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  teachingLevel?: Prisma.TeachingLevelUpdateOneRequiredWithoutQuotasNestedInput
-}
-
-export type TeachingQuotaUncheckedUpdateWithoutStaffInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  teachingLevelId?: Prisma.IntFieldUpdateOperationsInput | number
-  baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
-  finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TeachingQuotaUncheckedUpdateManyWithoutStaffInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  teachingLevelId?: Prisma.IntFieldUpdateOperationsInput | number
-  baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
-  finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TeachingQuotaCreateManyTeachingLevelInput = {
-  id?: number
-  staffId: number
-  baseHours: number
-  reductionPercent?: number
-  finalHours: number
-  actualHours?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TeachingQuotaUpdateWithoutTeachingLevelInput = {
+export type TeachingQuotaUpdateWithoutAcademicYearInput = {
   baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
   reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
   finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -747,7 +704,7 @@ export type TeachingQuotaUpdateWithoutTeachingLevelInput = {
   staff?: Prisma.StaffUpdateOneRequiredWithoutTeachingQuotasNestedInput
 }
 
-export type TeachingQuotaUncheckedUpdateWithoutTeachingLevelInput = {
+export type TeachingQuotaUncheckedUpdateWithoutAcademicYearInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffId?: Prisma.IntFieldUpdateOperationsInput | number
   baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -758,7 +715,7 @@ export type TeachingQuotaUncheckedUpdateWithoutTeachingLevelInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type TeachingQuotaUncheckedUpdateManyWithoutTeachingLevelInput = {
+export type TeachingQuotaUncheckedUpdateManyWithoutAcademicYearInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   staffId?: Prisma.IntFieldUpdateOperationsInput | number
   baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -767,6 +724,49 @@ export type TeachingQuotaUncheckedUpdateManyWithoutTeachingLevelInput = {
   actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TeachingQuotaCreateManyStaffInput = {
+  id?: number
+  baseHours: number
+  reductionPercent?: number
+  finalHours: number
+  actualHours?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  academicYearId: number
+}
+
+export type TeachingQuotaUpdateWithoutStaffInput = {
+  baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
+  finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academicYear?: Prisma.AcademicYearUpdateOneRequiredWithoutTeachingQuotasNestedInput
+}
+
+export type TeachingQuotaUncheckedUpdateWithoutStaffInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
+  finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academicYearId?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type TeachingQuotaUncheckedUpdateManyWithoutStaffInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  baseHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  reductionPercent?: Prisma.FloatFieldUpdateOperationsInput | number
+  finalHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  actualHours?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academicYearId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -774,87 +774,87 @@ export type TeachingQuotaUncheckedUpdateManyWithoutTeachingLevelInput = {
 export type TeachingQuotaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   staffId?: boolean
-  teachingLevelId?: boolean
   baseHours?: boolean
   reductionPercent?: boolean
   finalHours?: boolean
   actualHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  academicYearId?: boolean
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  teachingLevel?: boolean | Prisma.TeachingLevelDefaultArgs<ExtArgs>
+  academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teachingQuota"]>
 
 export type TeachingQuotaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   staffId?: boolean
-  teachingLevelId?: boolean
   baseHours?: boolean
   reductionPercent?: boolean
   finalHours?: boolean
   actualHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  academicYearId?: boolean
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  teachingLevel?: boolean | Prisma.TeachingLevelDefaultArgs<ExtArgs>
+  academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teachingQuota"]>
 
 export type TeachingQuotaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   staffId?: boolean
-  teachingLevelId?: boolean
   baseHours?: boolean
   reductionPercent?: boolean
   finalHours?: boolean
   actualHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  academicYearId?: boolean
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  teachingLevel?: boolean | Prisma.TeachingLevelDefaultArgs<ExtArgs>
+  academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teachingQuota"]>
 
 export type TeachingQuotaSelectScalar = {
   id?: boolean
   staffId?: boolean
-  teachingLevelId?: boolean
   baseHours?: boolean
   reductionPercent?: boolean
   finalHours?: boolean
   actualHours?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  academicYearId?: boolean
 }
 
-export type TeachingQuotaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "teachingLevelId" | "baseHours" | "reductionPercent" | "finalHours" | "actualHours" | "createdAt" | "updatedAt", ExtArgs["result"]["teachingQuota"]>
+export type TeachingQuotaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "staffId" | "baseHours" | "reductionPercent" | "finalHours" | "actualHours" | "createdAt" | "updatedAt" | "academicYearId", ExtArgs["result"]["teachingQuota"]>
 export type TeachingQuotaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  teachingLevel?: boolean | Prisma.TeachingLevelDefaultArgs<ExtArgs>
+  academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
 }
 export type TeachingQuotaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  teachingLevel?: boolean | Prisma.TeachingLevelDefaultArgs<ExtArgs>
+  academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
 }
 export type TeachingQuotaIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   staff?: boolean | Prisma.StaffDefaultArgs<ExtArgs>
-  teachingLevel?: boolean | Prisma.TeachingLevelDefaultArgs<ExtArgs>
+  academicYear?: boolean | Prisma.AcademicYearDefaultArgs<ExtArgs>
 }
 
 export type $TeachingQuotaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TeachingQuota"
   objects: {
     staff: Prisma.$StaffPayload<ExtArgs>
-    teachingLevel: Prisma.$TeachingLevelPayload<ExtArgs>
+    academicYear: Prisma.$AcademicYearPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     staffId: number
-    teachingLevelId: number
     baseHours: number
     reductionPercent: number
     finalHours: number
     actualHours: number
     createdAt: Date
     updatedAt: Date
+    academicYearId: number
   }, ExtArgs["result"]["teachingQuota"]>
   composites: {}
 }
@@ -1250,7 +1250,7 @@ readonly fields: TeachingQuotaFieldRefs;
 export interface Prisma__TeachingQuotaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   staff<T extends Prisma.StaffDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StaffDefaultArgs<ExtArgs>>): Prisma.Prisma__StaffClient<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  teachingLevel<T extends Prisma.TeachingLevelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeachingLevelDefaultArgs<ExtArgs>>): Prisma.Prisma__TeachingLevelClient<runtime.Types.Result.GetResult<Prisma.$TeachingLevelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  academicYear<T extends Prisma.AcademicYearDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYearDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicYearClient<runtime.Types.Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1282,13 +1282,13 @@ export interface Prisma__TeachingQuotaClient<T, Null = never, ExtArgs extends ru
 export interface TeachingQuotaFieldRefs {
   readonly id: Prisma.FieldRef<"TeachingQuota", 'Int'>
   readonly staffId: Prisma.FieldRef<"TeachingQuota", 'Int'>
-  readonly teachingLevelId: Prisma.FieldRef<"TeachingQuota", 'Int'>
   readonly baseHours: Prisma.FieldRef<"TeachingQuota", 'Float'>
   readonly reductionPercent: Prisma.FieldRef<"TeachingQuota", 'Float'>
   readonly finalHours: Prisma.FieldRef<"TeachingQuota", 'Float'>
   readonly actualHours: Prisma.FieldRef<"TeachingQuota", 'Float'>
   readonly createdAt: Prisma.FieldRef<"TeachingQuota", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TeachingQuota", 'DateTime'>
+  readonly academicYearId: Prisma.FieldRef<"TeachingQuota", 'Int'>
 }
     
 

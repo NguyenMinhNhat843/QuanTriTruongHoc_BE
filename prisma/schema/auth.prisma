@@ -100,41 +100,21 @@ model StaffPosition {
 }
 
 // ==========================
-// KHUNG ĐỊNH MỨC GIẢNG DẠY THEO TRÌNH ĐỘ, THEO NĂM HỌC
-// ==========================
-model TeachingLevel {
-  id             Int          @id @default(autoincrement())
-  code           String // TRUNG_CAP, SO_CAP
-  name           String
-  minHours       Int // sàn khung theo quy định
-  maxHours       Int // trần khung theo quy định
-  academicYearId Int
-  academicYear   AcademicYear @relation(fields: [academicYearId], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-
-  quotas TeachingQuota[]
-
-  @@unique([code, academicYearId])
-  @@map("teaching_levels")
-}
-
-// ==========================
 // ĐỊNH MỨC GIẢNG DẠY ÁP CHO TỪNG GIÁO VIÊN, THEO NĂM HỌC
 // ==========================
 model TeachingQuota {
   id               Int           @id @default(autoincrement())
   staffId          Int
   staff            Staff         @relation(fields: [staffId], references: [id])
-  teachingLevelId  Int
-  teachingLevel    TeachingLevel @relation(fields: [teachingLevelId], references: [id])
-  baseHours        Float         // định mức gốc hiệu trưởng chọn trong khung (VD 450)
+  baseHours        Float         // định mức ban đầu
   reductionPercent Float         @default(0) // % giảm trừ áp dụng, chốt tại thời điểm tính (lấy max từ StaffPosition)
   finalHours       Float         // = baseHours * (1 - reductionPercent)
   actualHours      Float         @default(0) // cộng dồn từ phân công giảng dạy thực tế
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
+  academicYearId   Int
+  academicYear     AcademicYear @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
 
-  @@unique([staffId, teachingLevelId])
+  @@unique([staffId, academicYearId])
   @@map("teaching_quotas")
 }

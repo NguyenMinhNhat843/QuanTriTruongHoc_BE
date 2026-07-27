@@ -79,7 +79,6 @@ export const ModelName = {
   Staff: 'Staff',
   ManagementPosition: 'ManagementPosition',
   StaffPosition: 'StaffPosition',
-  TeachingLevel: 'TeachingLevel',
   TeachingQuota: 'TeachingQuota',
   Province: 'Province',
   Ward: 'Ward',
@@ -552,30 +551,16 @@ export const StaffPositionScalarFieldEnum = {
 export type StaffPositionScalarFieldEnum = (typeof StaffPositionScalarFieldEnum)[keyof typeof StaffPositionScalarFieldEnum]
 
 
-export const TeachingLevelScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  minHours: 'minHours',
-  maxHours: 'maxHours',
-  academicYearId: 'academicYearId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TeachingLevelScalarFieldEnum = (typeof TeachingLevelScalarFieldEnum)[keyof typeof TeachingLevelScalarFieldEnum]
-
-
 export const TeachingQuotaScalarFieldEnum = {
   id: 'id',
   staffId: 'staffId',
-  teachingLevelId: 'teachingLevelId',
   baseHours: 'baseHours',
   reductionPercent: 'reductionPercent',
   finalHours: 'finalHours',
   actualHours: 'actualHours',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  academicYearId: 'academicYearId'
 } as const
 
 export type TeachingQuotaScalarFieldEnum = (typeof TeachingQuotaScalarFieldEnum)[keyof typeof TeachingQuotaScalarFieldEnum]

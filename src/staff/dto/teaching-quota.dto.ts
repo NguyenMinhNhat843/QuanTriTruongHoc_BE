@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { TeachingQuota } from "../../../prisma/generated/prisma/client";
-import { TeachingLevelDto } from "./teaching-level.dto";
+import { AcademicYearDto } from "../../academic-year/academic-year.dto";
 
 // BASE DTO
 export class TeachingQuotaDto implements TeachingQuota {
@@ -14,7 +14,7 @@ export class TeachingQuotaDto implements TeachingQuota {
 
   @ApiProperty()
   @Type(() => Number)
-  teachingLevelId: number;
+  academicYearId: number;
 
   @ApiProperty()
   @Type(() => Number)
@@ -43,8 +43,8 @@ export class TeachingQuotaDto implements TeachingQuota {
 
 // RESPONSE DETAIL DTO
 export class TeachingQuotaDetailResponseDto extends TeachingQuotaDto {
-  @ApiPropertyOptional({ type: TeachingLevelDto })
-  teachingLevel?: TeachingLevelDto;
+  @ApiProperty({ type: AcademicYearDto, required: false })
+  academicYear?: AcademicYearDto;
 }
 
 // RESPONSE PAGINATION DTO
@@ -63,7 +63,7 @@ export class CreateTeachingQuotaDto extends OmitType(TeachingQuotaDto, ["id", "c
 export class UpdateTeachingQuotaDto extends PartialType(CreateTeachingQuotaDto) {}
 
 // SEARCH DTO
-export class SearchTeachingQuotaDto extends PartialType(PickType(TeachingQuotaDto, ["staffId", "teachingLevelId"])) {
+export class SearchTeachingQuotaDto extends PartialType(PickType(TeachingQuotaDto, ["staffId", "academicYearId"])) {
   @ApiPropertyOptional()
   @Type(() => Number)
   page?: number;

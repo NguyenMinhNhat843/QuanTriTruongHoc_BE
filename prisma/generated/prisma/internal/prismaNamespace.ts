@@ -412,7 +412,6 @@ export const ModelName = {
   Staff: 'Staff',
   ManagementPosition: 'ManagementPosition',
   StaffPosition: 'StaffPosition',
-  TeachingLevel: 'TeachingLevel',
   TeachingQuota: 'TeachingQuota',
   Province: 'Province',
   Ward: 'Ward',
@@ -450,7 +449,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "academicYear" | "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "subjectCombination" | "subjectCombinationItem" | "admissionProfile" | "transcriptSubjectScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "managementPosition" | "staffPosition" | "teachingLevel" | "teachingQuota" | "province" | "ward" | "village" | "gradeStudent" | "attendance" | "attendanceSummary" | "teacherSubject" | "examSchedule" | "studentExamDetail" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "classSubject" | "classSubjectSession" | "classSubjectScheduleDetail"
+    modelProps: "academicYear" | "department" | "major" | "batch" | "class" | "subject" | "curriculum" | "curriculumSubject" | "admissionCampaign" | "admissionCampaignMajor" | "subjectCombination" | "subjectCombinationItem" | "admissionProfile" | "transcriptSubjectScore" | "admissionStatusLog" | "admissionDocument" | "student" | "documentConfig" | "documentConfigItem" | "evaluationPeriod" | "evaluationPeriodCriterion" | "criterion" | "assessment" | "assessmentDetail" | "user" | "staff" | "managementPosition" | "staffPosition" | "teachingQuota" | "province" | "ward" | "village" | "gradeStudent" | "attendance" | "attendanceSummary" | "teacherSubject" | "examSchedule" | "studentExamDetail" | "tuitionPeriod" | "tuitionConfig" | "tuitionConfigItem" | "feeInvoice" | "payment" | "post" | "fileStore" | "semester" | "room" | "classSubject" | "classSubjectSession" | "classSubjectScheduleDetail"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2523,80 +2522,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.StaffPositionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.StaffPositionCountAggregateOutputType> | number
-        }
-      }
-    }
-    TeachingLevel: {
-      payload: Prisma.$TeachingLevelPayload<ExtArgs>
-      fields: Prisma.TeachingLevelFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.TeachingLevelFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.TeachingLevelFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>
-        }
-        findFirst: {
-          args: Prisma.TeachingLevelFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.TeachingLevelFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>
-        }
-        findMany: {
-          args: Prisma.TeachingLevelFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>[]
-        }
-        create: {
-          args: Prisma.TeachingLevelCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>
-        }
-        createMany: {
-          args: Prisma.TeachingLevelCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.TeachingLevelCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>[]
-        }
-        delete: {
-          args: Prisma.TeachingLevelDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>
-        }
-        update: {
-          args: Prisma.TeachingLevelUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>
-        }
-        deleteMany: {
-          args: Prisma.TeachingLevelDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.TeachingLevelUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.TeachingLevelUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>[]
-        }
-        upsert: {
-          args: Prisma.TeachingLevelUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeachingLevelPayload>
-        }
-        aggregate: {
-          args: Prisma.TeachingLevelAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTeachingLevel>
-        }
-        groupBy: {
-          args: Prisma.TeachingLevelGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TeachingLevelGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.TeachingLevelCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TeachingLevelCountAggregateOutputType> | number
         }
       }
     }
@@ -4699,30 +4624,16 @@ export const StaffPositionScalarFieldEnum = {
 export type StaffPositionScalarFieldEnum = (typeof StaffPositionScalarFieldEnum)[keyof typeof StaffPositionScalarFieldEnum]
 
 
-export const TeachingLevelScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  minHours: 'minHours',
-  maxHours: 'maxHours',
-  academicYearId: 'academicYearId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TeachingLevelScalarFieldEnum = (typeof TeachingLevelScalarFieldEnum)[keyof typeof TeachingLevelScalarFieldEnum]
-
-
 export const TeachingQuotaScalarFieldEnum = {
   id: 'id',
   staffId: 'staffId',
-  teachingLevelId: 'teachingLevelId',
   baseHours: 'baseHours',
   reductionPercent: 'reductionPercent',
   finalHours: 'finalHours',
   actualHours: 'actualHours',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  academicYearId: 'academicYearId'
 } as const
 
 export type TeachingQuotaScalarFieldEnum = (typeof TeachingQuotaScalarFieldEnum)[keyof typeof TeachingQuotaScalarFieldEnum]
@@ -5538,7 +5449,6 @@ export type GlobalOmitConfig = {
   staff?: Prisma.StaffOmit
   managementPosition?: Prisma.ManagementPositionOmit
   staffPosition?: Prisma.StaffPositionOmit
-  teachingLevel?: Prisma.TeachingLevelOmit
   teachingQuota?: Prisma.TeachingQuotaOmit
   province?: Prisma.ProvinceOmit
   ward?: Prisma.WardOmit

@@ -57,9 +57,7 @@ export class TeachingQuotaService {
     const quota = await this.prisma.teachingQuota.findFirst({
       where: {
         staffId,
-        teachingLevel: {
-          academicYearId,
-        },
+        academicYearId,
       },
     });
 
@@ -87,9 +85,7 @@ export class TeachingQuotaService {
     // Lấy tất cả định mức trong năm học đó
     const quotas = await this.prisma.teachingQuota.findMany({
       where: {
-        teachingLevel: {
-          academicYearId,
-        },
+        academicYearId,
       },
       select: {
         staffId: true,
@@ -110,9 +106,7 @@ export class TeachingQuotaService {
   }
 
   async findAll(query: SearchTeachingQuotaDto): Promise<TeachingQuotaPaginationResponseDto> {
-    console.log("teachingLevelId", query.teachingLevelId);
-    console.log("academicYearId", query.academicYearId);
-    const { page = 1, limit = 10, staffId, teachingLevelId, academicYearId } = query;
+    const { page = 1, limit = 10, staffId, academicYearId } = query;
     const skip = (page - 1) * limit;
 
     // Khởi tạo điều kiện truy vấn Prisma
@@ -122,15 +116,8 @@ export class TeachingQuotaService {
       where.staffId = Number(staffId);
     }
 
-    if (teachingLevelId) {
-      where.teachingLevelId = Number(teachingLevelId);
-    }
-
-    // Lọc theo năm học thông qua bảng TeachingLevel
     if (academicYearId) {
-      where.teachingLevel = {
-        academicYearId: Number(academicYearId),
-      };
+      where.academicYearId = Number(academicYearId);
     }
 
     const [data, total] = await Promise.all([
@@ -139,18 +126,12 @@ export class TeachingQuotaService {
         skip,
         take: Number(limit),
         include: {
-          teachingLevel: {
-            include: {
-              academicYear: true,
-            },
-          },
+          academicYear: true,
         },
         orderBy: { createdAt: "desc" },
       }),
       this.prisma.teachingQuota.count({ where }),
     ]);
-
-    console.log(data);
 
     return { data, total };
   }

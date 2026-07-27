@@ -15,8 +15,8 @@ model AcademicYear {
 
   admissionCampaigns AdmissionCampaign[]
   batches            Batch[]
-  teachingLevels     TeachingLevel[]
   semesters          Semester[]
+  teachingQuotas TeachingQuota[]
 
   @@map("academic_years")
 }

@@ -180,11 +180,6 @@ export type ManagementPosition = Prisma.ManagementPositionModel
  */
 export type StaffPosition = Prisma.StaffPositionModel
 /**
- * Model TeachingLevel
- * 
- */
-export type TeachingLevel = Prisma.TeachingLevelModel
-/**
  * Model TeachingQuota
  * 
  */
