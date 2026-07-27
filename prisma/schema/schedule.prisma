@@ -14,6 +14,7 @@ model Semester {
   term          Int? // Kỳ, ví dụ: 1, 2 nghĩa là Học kỳ 1 2 dùng để truy vấn dễ hơn
   year          Int? // Năm học nào
   schoolYear    String? // Ví dụ: 2025-2026
+  academicYearId Int?            // Foreign key nối tới AcademicYear
   startDate     DateTime        @db.Date
   endDate       DateTime        @db.Date
   status        SemesterStatus?
@@ -22,6 +23,7 @@ model Semester {
   createdAt     DateTime        @default(now())
 
   // quan hệ
+  academicYear  AcademicYear?    @relation(fields: [academicYearId], references: [id], onDelete: Cascade)
   classSubjects    ClassSubject[]
   evaluationPeriod EvaluationPeriod?
   tuitionPeriods   TuitionPeriod[]

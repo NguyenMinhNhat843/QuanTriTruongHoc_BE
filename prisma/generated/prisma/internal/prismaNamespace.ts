@@ -4967,6 +4967,7 @@ export const SemesterScalarFieldEnum = {
   term: 'term',
   year: 'year',
   schoolYear: 'schoolYear',
+  academicYearId: 'academicYearId',
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',

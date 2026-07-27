@@ -17,6 +17,9 @@ export class SemesterResponseDto implements Semester {
   @ApiProperty({ example: "2025-2026" })
   schoolYear: string;
 
+  @ApiProperty({ type: Number, nullable: true })
+  academicYearId: number | null;
+
   @ApiProperty({ example: "2026-09-01" })
   startDate: Date;
 

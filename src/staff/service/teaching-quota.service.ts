@@ -31,7 +31,7 @@ export class TeachingQuotaService {
           classSubject: {
             teacherId: staffId,
             semester: {
-              year: academicYearId,
+              academicYearId: academicYearId,
             },
           },
         },
@@ -110,6 +110,8 @@ export class TeachingQuotaService {
   }
 
   async findAll(query: SearchTeachingQuotaDto): Promise<TeachingQuotaPaginationResponseDto> {
+    console.log("teachingLevelId", query.teachingLevelId);
+    console.log("academicYearId", query.academicYearId);
     const { page = 1, limit = 10, staffId, teachingLevelId, academicYearId } = query;
     const skip = (page - 1) * limit;
 
@@ -147,6 +149,8 @@ export class TeachingQuotaService {
       }),
       this.prisma.teachingQuota.count({ where }),
     ]);
+
+    console.log(data);
 
     return { data, total };
   }

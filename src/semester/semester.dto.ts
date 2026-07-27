@@ -16,6 +16,9 @@ export class SemesterDto implements Semester {
   schoolYear: string | null;
 
   @ApiProperty({ type: Number, nullable: true })
+  academicYearId: number | null;
+
+  @ApiProperty({ type: Number, nullable: true })
   @Type(() => Number)
   year: number | null;
 

@@ -227,6 +227,7 @@ export type AcademicYearWhereInput = {
   admissionCampaigns?: Prisma.AdmissionCampaignListRelationFilter
   batches?: Prisma.BatchListRelationFilter
   teachingLevels?: Prisma.TeachingLevelListRelationFilter
+  semesters?: Prisma.SemesterListRelationFilter
 }
 
 export type AcademicYearOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type AcademicYearOrderByWithRelationInput = {
   admissionCampaigns?: Prisma.AdmissionCampaignOrderByRelationAggregateInput
   batches?: Prisma.BatchOrderByRelationAggregateInput
   teachingLevels?: Prisma.TeachingLevelOrderByRelationAggregateInput
+  semesters?: Prisma.SemesterOrderByRelationAggregateInput
 }
 
 export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
@@ -254,6 +256,7 @@ export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
   admissionCampaigns?: Prisma.AdmissionCampaignListRelationFilter
   batches?: Prisma.BatchListRelationFilter
   teachingLevels?: Prisma.TeachingLevelListRelationFilter
+  semesters?: Prisma.SemesterListRelationFilter
 }, "id" | "code">
 
 export type AcademicYearOrderByWithAggregationInput = {
@@ -291,6 +294,7 @@ export type AcademicYearCreateInput = {
   admissionCampaigns?: Prisma.AdmissionCampaignCreateNestedManyWithoutAcademicYearInput
   batches?: Prisma.BatchCreateNestedManyWithoutAcademicYearInput
   teachingLevels?: Prisma.TeachingLevelCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUncheckedCreateInput = {
@@ -303,6 +307,7 @@ export type AcademicYearUncheckedCreateInput = {
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedCreateNestedManyWithoutAcademicYearInput
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutAcademicYearInput
   teachingLevels?: Prisma.TeachingLevelUncheckedCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterUncheckedCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUpdateInput = {
@@ -314,6 +319,7 @@ export type AcademicYearUpdateInput = {
   admissionCampaigns?: Prisma.AdmissionCampaignUpdateManyWithoutAcademicYearNestedInput
   batches?: Prisma.BatchUpdateManyWithoutAcademicYearNestedInput
   teachingLevels?: Prisma.TeachingLevelUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearUncheckedUpdateInput = {
@@ -326,6 +332,7 @@ export type AcademicYearUncheckedUpdateInput = {
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearNestedInput
   batches?: Prisma.BatchUncheckedUpdateManyWithoutAcademicYearNestedInput
   teachingLevels?: Prisma.TeachingLevelUncheckedUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUncheckedUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearCreateManyInput = {
@@ -467,6 +474,22 @@ export type AcademicYearUpdateOneRequiredWithoutTeachingLevelsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicYearUpdateToOneWithWhereWithoutTeachingLevelsInput, Prisma.AcademicYearUpdateWithoutTeachingLevelsInput>, Prisma.AcademicYearUncheckedUpdateWithoutTeachingLevelsInput>
 }
 
+export type AcademicYearCreateNestedOneWithoutSemestersInput = {
+  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutSemestersInput, Prisma.AcademicYearUncheckedCreateWithoutSemestersInput>
+  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutSemestersInput
+  connect?: Prisma.AcademicYearWhereUniqueInput
+}
+
+export type AcademicYearUpdateOneWithoutSemestersNestedInput = {
+  create?: Prisma.XOR<Prisma.AcademicYearCreateWithoutSemestersInput, Prisma.AcademicYearUncheckedCreateWithoutSemestersInput>
+  connectOrCreate?: Prisma.AcademicYearCreateOrConnectWithoutSemestersInput
+  upsert?: Prisma.AcademicYearUpsertWithoutSemestersInput
+  disconnect?: Prisma.AcademicYearWhereInput | boolean
+  delete?: Prisma.AcademicYearWhereInput | boolean
+  connect?: Prisma.AcademicYearWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AcademicYearUpdateToOneWithWhereWithoutSemestersInput, Prisma.AcademicYearUpdateWithoutSemestersInput>, Prisma.AcademicYearUncheckedUpdateWithoutSemestersInput>
+}
+
 export type AcademicYearCreateWithoutBatchesInput = {
   code: string
   startDate: Date | string
@@ -475,6 +498,7 @@ export type AcademicYearCreateWithoutBatchesInput = {
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignCreateNestedManyWithoutAcademicYearInput
   teachingLevels?: Prisma.TeachingLevelCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUncheckedCreateWithoutBatchesInput = {
@@ -486,6 +510,7 @@ export type AcademicYearUncheckedCreateWithoutBatchesInput = {
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedCreateNestedManyWithoutAcademicYearInput
   teachingLevels?: Prisma.TeachingLevelUncheckedCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterUncheckedCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearCreateOrConnectWithoutBatchesInput = {
@@ -512,6 +537,7 @@ export type AcademicYearUpdateWithoutBatchesInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUpdateManyWithoutAcademicYearNestedInput
   teachingLevels?: Prisma.TeachingLevelUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearUncheckedUpdateWithoutBatchesInput = {
@@ -523,6 +549,7 @@ export type AcademicYearUncheckedUpdateWithoutBatchesInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearNestedInput
   teachingLevels?: Prisma.TeachingLevelUncheckedUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUncheckedUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearCreateWithoutAdmissionCampaignsInput = {
@@ -533,6 +560,7 @@ export type AcademicYearCreateWithoutAdmissionCampaignsInput = {
   status?: $Enums.AcademicYearStatus
   batches?: Prisma.BatchCreateNestedManyWithoutAcademicYearInput
   teachingLevels?: Prisma.TeachingLevelCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUncheckedCreateWithoutAdmissionCampaignsInput = {
@@ -544,6 +572,7 @@ export type AcademicYearUncheckedCreateWithoutAdmissionCampaignsInput = {
   status?: $Enums.AcademicYearStatus
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutAcademicYearInput
   teachingLevels?: Prisma.TeachingLevelUncheckedCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterUncheckedCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearCreateOrConnectWithoutAdmissionCampaignsInput = {
@@ -570,6 +599,7 @@ export type AcademicYearUpdateWithoutAdmissionCampaignsInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   batches?: Prisma.BatchUpdateManyWithoutAcademicYearNestedInput
   teachingLevels?: Prisma.TeachingLevelUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearUncheckedUpdateWithoutAdmissionCampaignsInput = {
@@ -581,6 +611,7 @@ export type AcademicYearUncheckedUpdateWithoutAdmissionCampaignsInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   batches?: Prisma.BatchUncheckedUpdateManyWithoutAcademicYearNestedInput
   teachingLevels?: Prisma.TeachingLevelUncheckedUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUncheckedUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearCreateWithoutTeachingLevelsInput = {
@@ -591,6 +622,7 @@ export type AcademicYearCreateWithoutTeachingLevelsInput = {
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignCreateNestedManyWithoutAcademicYearInput
   batches?: Prisma.BatchCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearUncheckedCreateWithoutTeachingLevelsInput = {
@@ -602,6 +634,7 @@ export type AcademicYearUncheckedCreateWithoutTeachingLevelsInput = {
   status?: $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedCreateNestedManyWithoutAcademicYearInput
   batches?: Prisma.BatchUncheckedCreateNestedManyWithoutAcademicYearInput
+  semesters?: Prisma.SemesterUncheckedCreateNestedManyWithoutAcademicYearInput
 }
 
 export type AcademicYearCreateOrConnectWithoutTeachingLevelsInput = {
@@ -628,6 +661,7 @@ export type AcademicYearUpdateWithoutTeachingLevelsInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUpdateManyWithoutAcademicYearNestedInput
   batches?: Prisma.BatchUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUpdateManyWithoutAcademicYearNestedInput
 }
 
 export type AcademicYearUncheckedUpdateWithoutTeachingLevelsInput = {
@@ -639,6 +673,69 @@ export type AcademicYearUncheckedUpdateWithoutTeachingLevelsInput = {
   status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
   admissionCampaigns?: Prisma.AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearNestedInput
   batches?: Prisma.BatchUncheckedUpdateManyWithoutAcademicYearNestedInput
+  semesters?: Prisma.SemesterUncheckedUpdateManyWithoutAcademicYearNestedInput
+}
+
+export type AcademicYearCreateWithoutSemestersInput = {
+  code: string
+  startDate: Date | string
+  endDate: Date | string
+  isCurrent?: boolean
+  status?: $Enums.AcademicYearStatus
+  admissionCampaigns?: Prisma.AdmissionCampaignCreateNestedManyWithoutAcademicYearInput
+  batches?: Prisma.BatchCreateNestedManyWithoutAcademicYearInput
+  teachingLevels?: Prisma.TeachingLevelCreateNestedManyWithoutAcademicYearInput
+}
+
+export type AcademicYearUncheckedCreateWithoutSemestersInput = {
+  id?: number
+  code: string
+  startDate: Date | string
+  endDate: Date | string
+  isCurrent?: boolean
+  status?: $Enums.AcademicYearStatus
+  admissionCampaigns?: Prisma.AdmissionCampaignUncheckedCreateNestedManyWithoutAcademicYearInput
+  batches?: Prisma.BatchUncheckedCreateNestedManyWithoutAcademicYearInput
+  teachingLevels?: Prisma.TeachingLevelUncheckedCreateNestedManyWithoutAcademicYearInput
+}
+
+export type AcademicYearCreateOrConnectWithoutSemestersInput = {
+  where: Prisma.AcademicYearWhereUniqueInput
+  create: Prisma.XOR<Prisma.AcademicYearCreateWithoutSemestersInput, Prisma.AcademicYearUncheckedCreateWithoutSemestersInput>
+}
+
+export type AcademicYearUpsertWithoutSemestersInput = {
+  update: Prisma.XOR<Prisma.AcademicYearUpdateWithoutSemestersInput, Prisma.AcademicYearUncheckedUpdateWithoutSemestersInput>
+  create: Prisma.XOR<Prisma.AcademicYearCreateWithoutSemestersInput, Prisma.AcademicYearUncheckedCreateWithoutSemestersInput>
+  where?: Prisma.AcademicYearWhereInput
+}
+
+export type AcademicYearUpdateToOneWithWhereWithoutSemestersInput = {
+  where?: Prisma.AcademicYearWhereInput
+  data: Prisma.XOR<Prisma.AcademicYearUpdateWithoutSemestersInput, Prisma.AcademicYearUncheckedUpdateWithoutSemestersInput>
+}
+
+export type AcademicYearUpdateWithoutSemestersInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
+  admissionCampaigns?: Prisma.AdmissionCampaignUpdateManyWithoutAcademicYearNestedInput
+  batches?: Prisma.BatchUpdateManyWithoutAcademicYearNestedInput
+  teachingLevels?: Prisma.TeachingLevelUpdateManyWithoutAcademicYearNestedInput
+}
+
+export type AcademicYearUncheckedUpdateWithoutSemestersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isCurrent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  status?: Prisma.EnumAcademicYearStatusFieldUpdateOperationsInput | $Enums.AcademicYearStatus
+  admissionCampaigns?: Prisma.AdmissionCampaignUncheckedUpdateManyWithoutAcademicYearNestedInput
+  batches?: Prisma.BatchUncheckedUpdateManyWithoutAcademicYearNestedInput
+  teachingLevels?: Prisma.TeachingLevelUncheckedUpdateManyWithoutAcademicYearNestedInput
 }
 
 
@@ -650,12 +747,14 @@ export type AcademicYearCountOutputType = {
   admissionCampaigns: number
   batches: number
   teachingLevels: number
+  semesters: number
 }
 
 export type AcademicYearCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admissionCampaigns?: boolean | AcademicYearCountOutputTypeCountAdmissionCampaignsArgs
   batches?: boolean | AcademicYearCountOutputTypeCountBatchesArgs
   teachingLevels?: boolean | AcademicYearCountOutputTypeCountTeachingLevelsArgs
+  semesters?: boolean | AcademicYearCountOutputTypeCountSemestersArgs
 }
 
 /**
@@ -689,6 +788,13 @@ export type AcademicYearCountOutputTypeCountTeachingLevelsArgs<ExtArgs extends r
   where?: Prisma.TeachingLevelWhereInput
 }
 
+/**
+ * AcademicYearCountOutputType without action
+ */
+export type AcademicYearCountOutputTypeCountSemestersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SemesterWhereInput
+}
+
 
 export type AcademicYearSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -700,6 +806,7 @@ export type AcademicYearSelect<ExtArgs extends runtime.Types.Extensions.Internal
   admissionCampaigns?: boolean | Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs>
   batches?: boolean | Prisma.AcademicYear$batchesArgs<ExtArgs>
   teachingLevels?: boolean | Prisma.AcademicYear$teachingLevelsArgs<ExtArgs>
+  semesters?: boolean | Prisma.AcademicYear$semestersArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["academicYear"]>
 
@@ -735,6 +842,7 @@ export type AcademicYearInclude<ExtArgs extends runtime.Types.Extensions.Interna
   admissionCampaigns?: boolean | Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs>
   batches?: boolean | Prisma.AcademicYear$batchesArgs<ExtArgs>
   teachingLevels?: boolean | Prisma.AcademicYear$teachingLevelsArgs<ExtArgs>
+  semesters?: boolean | Prisma.AcademicYear$semestersArgs<ExtArgs>
   _count?: boolean | Prisma.AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AcademicYearIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -746,6 +854,7 @@ export type $AcademicYearPayload<ExtArgs extends runtime.Types.Extensions.Intern
     admissionCampaigns: Prisma.$AdmissionCampaignPayload<ExtArgs>[]
     batches: Prisma.$BatchPayload<ExtArgs>[]
     teachingLevels: Prisma.$TeachingLevelPayload<ExtArgs>[]
+    semesters: Prisma.$SemesterPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1151,6 +1260,7 @@ export interface Prisma__AcademicYearClient<T, Null = never, ExtArgs extends run
   admissionCampaigns<T extends Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$admissionCampaignsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdmissionCampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   batches<T extends Prisma.AcademicYear$batchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   teachingLevels<T extends Prisma.AcademicYear$teachingLevelsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$teachingLevelsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeachingLevelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  semesters<T extends Prisma.AcademicYear$semestersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicYear$semestersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SemesterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1648,6 +1758,30 @@ export type AcademicYear$teachingLevelsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.TeachingLevelScalarFieldEnum | Prisma.TeachingLevelScalarFieldEnum[]
+}
+
+/**
+ * AcademicYear.semesters
+ */
+export type AcademicYear$semestersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Semester
+   */
+  select?: Prisma.SemesterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Semester
+   */
+  omit?: Prisma.SemesterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SemesterInclude<ExtArgs> | null
+  where?: Prisma.SemesterWhereInput
+  orderBy?: Prisma.SemesterOrderByWithRelationInput | Prisma.SemesterOrderByWithRelationInput[]
+  cursor?: Prisma.SemesterWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SemesterScalarFieldEnum | Prisma.SemesterScalarFieldEnum[]
 }
 
 /**
