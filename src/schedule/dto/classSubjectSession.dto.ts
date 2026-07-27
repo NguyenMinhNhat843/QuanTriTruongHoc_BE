@@ -1,13 +1,5 @@
-import {
-  ApiProperty,
-  ApiPropertyOptional,
-  OmitType,
-  PartialType,
-} from "@nestjs/swagger";
-import {
-  ClassSubjectSession,
-  DayOfWeek,
-} from "../../../prisma/generated/prisma/client";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from "@nestjs/swagger";
+import { ClassSubjectSession, DayOfWeek } from "../../../prisma/generated/prisma/client";
 import { ClassSubjectScheduleDetailDto } from "./classSubjectScheduleDetail";
 import { RoomDto } from "../../room/room.dto";
 
@@ -45,13 +37,35 @@ export class ClassSubjectSessionWithRelationDto extends ClassSubjectSessionDto {
   room?: RoomDto;
 }
 
-export class CreateClassSubjectSessionDto extends OmitType(
-  ClassSubjectSessionDto,
-  ["id"],
-) {}
-export class UpdateClassSubjectSessionDto extends PartialType(
-  CreateClassSubjectSessionDto,
-) {}
-export class SearchClassSubjectSessionDto extends PartialType(
-  ClassSubjectSessionDto,
-) {}
+export class CreateClassSubjectSessionDto extends OmitType(ClassSubjectSessionDto, ["id"]) {}
+export class UpdateClassSubjectSessionDto extends PartialType(CreateClassSubjectSessionDto) {}
+export class SearchClassSubjectSessionDto extends PartialType(ClassSubjectSessionDto) {}
+
+// DTO CHECK TRUNG LỊCH SESSION
+export class ValidateSessionOverlapDto {
+  @ApiProperty()
+  classSubjectId: number;
+
+  @ApiProperty({
+    enum: ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"],
+  })
+  dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+
+  @ApiProperty()
+  shift: string;
+
+  @ApiProperty()
+  startPeriod: number;
+
+  @ApiProperty()
+  endPeriod: number;
+
+  @ApiPropertyOptional()
+  roomId?: number;
+
+  @ApiPropertyOptional()
+  teacherId?: number;
+
+  @ApiPropertyOptional()
+  excludeSessionId?: number;
+}

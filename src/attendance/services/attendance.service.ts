@@ -7,13 +7,38 @@ import {
 } from "../dto/attendance.dto";
 import { PrismaService } from "../../prisma/prisma.service";
 import { AttendanceSummaryService } from "./attendance-summary.service";
+import { TeachingQuotaService } from "../../staff/service/teaching-quota.service";
 
 @Injectable()
 export class AttendanceService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly attendanceSummaryService: AttendanceSummaryService,
+    private readonly teachingQuotaService: TeachingQuotaService,
   ) {}
+
+  /**
+   * Helper private: Tìm teacherId & academicYearId từ classSubjectId
+   * để phục vụ cập nhật số tiết thực dạy
+   */
+  private async triggerSyncTeacherHoursByClassSubject(classSubjectId: number) {
+    const classSubject = await this.prisma.classSubject.findUnique({
+      where: { id: classSubjectId },
+      select: {
+        teacherId: true,
+        semester: {
+          select: {
+            year: true, // Giả sử năm học được lưu trong semester.year (AcademicYearId)
+          },
+        },
+      },
+    });
+
+    if (classSubject?.teacherId && classSubject.semester?.year) {
+      // Gọi service cập nhật lại actualHours cho Giáo viên trong Năm học đó
+      await this.teachingQuotaService.syncTeacherActualHours(classSubject.teacherId, classSubject.semester.year);
+    }
+  }
 
   /**
    * 1. LẤY DANH SÁCH ĐIỂM DANH
@@ -66,7 +91,6 @@ export class AttendanceService {
    * 3. TẠO MỚI / ĐIỂM DANH 1 SINH VIÊN
    */
   async create(dto: CreateAttendanceDto, userId: number | null): Promise<AttendanceDto> {
-    // Kiểm tra trùng lặp (1 sinh viên chỉ điểm danh 1 lần trong 1 buổi học)
     const existingRecord = await this.prisma.attendance.findFirst({
       where: {
         studentId: dto.studentId,
@@ -89,18 +113,21 @@ export class AttendanceService {
       },
     });
 
-    // Tính lại tổng hợp chuyên cần
+    // 1. Tính lại tổng hợp chuyên cần của sinh viên
     await this.attendanceSummaryService.recalculateSummary(dto.studentId, dto.classSubjectId);
+
+    // 2. Đồng bộ số tiết giảng dạy của Giáo viên
+    await this.triggerSyncTeacherHoursByClassSubject(dto.classSubjectId);
 
     return newRecord;
   }
 
   /**
-   * 4. ĐIỂM DANH HÀNG LOẠT (BULK UPSERT - giáo viên lưu cả lớp)
+   * 4. ĐIỂM DANH HÀNG LOẠT (BULK UPSERT - Giáo viên lưu điểm danh cả lớp)
    */
   async bulkAttendance(body: CreateBulkAttendanceDto, recordedById: number) {
     const { scheduleDetailId, classSubjectId, attendances } = body;
-    // Lấy danh sách điểm danh hiện tại để so sánh status thay đổi
+
     const existingAttendances = await this.prisma.attendance.findMany({
       where: {
         scheduleDetailId,
@@ -111,7 +138,6 @@ export class AttendanceService {
 
     const existingMap = new Map(existingAttendances.map((item) => [item.studentId, item.status]));
 
-    // Lọc ra các sinh viên có sự THAY ĐỔI trạng thái hoặc MỚI được điểm danh
     const affectedStudentIds = attendances
       .filter((item) => {
         const currentStatus = existingMap.get(item.studentId);
@@ -144,10 +170,9 @@ export class AttendanceService {
       }),
     );
 
-    // Thực thi transaction
     const result = await this.prisma.$transaction(operations);
 
-    // Tính lại cho những sinh viên thực sự có thay đổi status
+    // 1. Tính lại chuyên cần sinh viên bị ảnh hưởng
     if (affectedStudentIds.length > 0) {
       await Promise.all(
         affectedStudentIds.map((studentId) =>
@@ -156,11 +181,14 @@ export class AttendanceService {
       );
     }
 
+    // 2. Đồng bộ số tiết thực dạy của Giáo viên
+    await this.triggerSyncTeacherHoursByClassSubject(classSubjectId);
+
     return result;
   }
 
   /**
-   * 5. CẬP NHẬT ĐIỂM DANH (Chỉ tính lại khi đổi status)
+   * 5. CẬP NHẬT ĐIỂM DANH
    */
   async update(id: number, dto: Partial<CreateAttendanceDto>, userId: number | null): Promise<AttendanceDto> {
     const oldRecord = await this.findOne(id);
@@ -174,9 +202,12 @@ export class AttendanceService {
       },
     });
 
-    // 🔄 Chỉ tính lại khi trạng thái (status) thay đổi
     if (dto.status && dto.status !== oldRecord.status) {
+      // Tính lại chuyên cần sinh viên
       await this.attendanceSummaryService.recalculateSummary(updatedRecord.studentId, updatedRecord.classSubjectId);
+
+      // Đồng bộ lại giờ giảng của Giáo viên
+      await this.triggerSyncTeacherHoursByClassSubject(updatedRecord.classSubjectId);
     }
 
     return updatedRecord;
@@ -192,8 +223,11 @@ export class AttendanceService {
       where: { id },
     });
 
-    // 🔄 Xóa điểm danh -> Tính lại tổng hợp chuyên cần
+    // 1. Tính lại chuyên cần sinh viên
     await this.attendanceSummaryService.recalculateSummary(oldRecord.studentId, oldRecord.classSubjectId);
+
+    // 2. Đồng bộ lại giờ giảng Giáo viên (nếu xóa hết điểm danh của buổi học đó)
+    await this.triggerSyncTeacherHoursByClassSubject(oldRecord.classSubjectId);
 
     return { message: `Xóa thành công bản ghi điểm danh #${id}` };
   }

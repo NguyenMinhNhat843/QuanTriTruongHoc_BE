@@ -146,13 +146,13 @@ export class TrainingPlanService {
     // =========================================================================
     return await this.prisma.$transaction(
       async (tx) => {
-        // Lấy danh sách ID của các CourseOffer thuộc lớp này và kỳ này (để loại trừ khi update)
-        const existingOffers = await tx.classSubject.findMany({
+        // Lấy danh sách ID của các ClassSubject thuộc lớp này và kỳ này (để loại trừ khi update)
+        const existingClassSubject = await tx.classSubject.findMany({
           where: { classId, semesterId },
           select: { id: true, subjectId: true },
         });
 
-        const existingOfferIds = existingOffers.map((o) => o.id);
+        const existingOfferIds = existingClassSubject.map((o) => o.id);
 
         // BƯỚC 2.1: KHỬ TRÙNG VỚI CÁC LỚP KHÁC TRONG CÙNG HỌC KỲ TRÊN DATABASE
         if (extractedSessions.length > 0) {
@@ -161,7 +161,7 @@ export class TrainingPlanService {
             where: {
               classSubject: {
                 semesterId: semesterId,
-                // Loại trừ các CourseOffer của chính lớp hiện tại ra (vì ta sắp ghi đè/upsert)
+                // Loại trừ các ClassSubject của chính lớp hiện tại ra (vì ta sắp ghi đè/upsert)
                 id: { notIn: existingOfferIds },
               },
               roomId: { in: extractedSessions.map((s) => s.roomId) },
@@ -213,7 +213,7 @@ export class TrainingPlanService {
         for (const item of items) {
           const { sessions, subjectId, teacherId } = item;
 
-          const classSubject = existingOffers.find((o) => o.subjectId === subjectId);
+          const classSubject = existingClassSubject.find((o) => o.subjectId === subjectId);
 
           // Standardize lồng dữ liệu session + schedule
           const sessionsCreateData = sessions.map((session) => {
