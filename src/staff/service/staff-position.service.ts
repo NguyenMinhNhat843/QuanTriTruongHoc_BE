@@ -34,6 +34,9 @@ export class StaffPositionService {
 
     return this.prisma.staffPosition.findMany({
       where,
+      include: {
+        position: true,
+      },
       orderBy: { createdAt: "desc" },
     });
   }

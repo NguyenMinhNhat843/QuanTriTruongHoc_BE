@@ -83,17 +83,7 @@ export class StaffService {
    * Tìm giáo viên
    */
   async searchStaffs(query: SearchStaffDto): Promise<StaffResponseDto[]> {
-    const {
-      page = 1,
-      limit = 10,
-      keyword,
-      departmentId,
-      sortBy = "createdAt",
-      sortOrder = "desc",
-      employeeRole,
-    } = query;
-
-    const skip = (page - 1) * limit;
+    const { keyword, departmentId, sortBy = "createdAt", sortOrder = "desc", employeeRole } = query;
 
     // Xây dựng điều kiện lọc
     const where: Prisma.StaffWhereInput = {
@@ -130,8 +120,6 @@ export class StaffService {
             },
           },
         },
-        skip,
-        take: limit,
         orderBy: { [sortBy]: sortOrder },
       }),
     ]);

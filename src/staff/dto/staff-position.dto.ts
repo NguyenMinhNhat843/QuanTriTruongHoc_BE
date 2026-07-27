@@ -1,6 +1,7 @@
 import { ApiProperty, OmitType, PartialType, PickType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { StaffPosition } from "../../../prisma/generated/prisma/client";
+import { ManagementPositionDto } from "./management-position.dto";
 
 // BASE DTO
 export class StaffPositionDto implements StaffPosition {
@@ -34,6 +35,11 @@ export class StaffPositionDto implements StaffPosition {
   @ApiProperty()
   @Type(() => Date)
   updatedAt: Date;
+}
+
+export class StaffPositionWithDetailsDto extends StaffPositionDto {
+  @ApiProperty({ type: ManagementPositionDto, nullable: true })
+  position?: ManagementPositionDto;
 }
 
 // CREATE DTO

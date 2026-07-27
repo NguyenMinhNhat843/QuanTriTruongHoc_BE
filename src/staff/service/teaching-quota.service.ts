@@ -6,6 +6,7 @@ import {
   UpdateTeachingQuotaDto,
 } from "../dto/teaching-quota.dto";
 import { PrismaService } from "../../prisma/prisma.service";
+import { Prisma } from "../../../prisma/generated/prisma/client";
 
 @Injectable()
 export class TeachingQuotaService {
@@ -18,23 +19,39 @@ export class TeachingQuotaService {
   }
 
   async findAll(query: SearchTeachingQuotaDto): Promise<TeachingQuotaPaginationResponseDto> {
-    const { page = 1, limit = 10, staffId, teachingLevelId } = query;
+    const { page = 1, limit = 10, staffId, teachingLevelId, academicYearId } = query;
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    // Khởi tạo điều kiện truy vấn Prisma
+    const where: Prisma.TeachingQuotaWhereInput = {};
 
     if (staffId) {
-      where.staffId = staffId;
+      where.staffId = Number(staffId);
     }
+
     if (teachingLevelId) {
-      where.teachingLevelId = teachingLevelId;
+      where.teachingLevelId = Number(teachingLevelId);
+    }
+
+    // Lọc theo năm học thông qua bảng TeachingLevel
+    if (academicYearId) {
+      where.teachingLevel = {
+        academicYearId: Number(academicYearId),
+      };
     }
 
     const [data, total] = await Promise.all([
       this.prisma.teachingQuota.findMany({
         where,
         skip,
-        take: limit,
+        take: Number(limit),
+        include: {
+          teachingLevel: {
+            include: {
+              academicYear: true,
+            },
+          },
+        },
         orderBy: { createdAt: "desc" },
       }),
       this.prisma.teachingQuota.count({ where }),

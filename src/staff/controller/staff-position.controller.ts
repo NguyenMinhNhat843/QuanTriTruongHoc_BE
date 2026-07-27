@@ -4,6 +4,7 @@ import {
   CreateStaffPositionDto,
   SearchStaffPositionDto,
   StaffPositionDto,
+  StaffPositionWithDetailsDto,
   UpdateStaffPositionDto,
 } from "../dto/staff-position.dto";
 import { StaffPositionService } from "../service/staff-position.service";
@@ -20,7 +21,7 @@ export class StaffPositionController {
   }
 
   @Get()
-  @ApiOkResponse({ type: [StaffPositionDto] })
+  @ApiOkResponse({ type: [StaffPositionWithDetailsDto] })
   findAll(@Query() query: SearchStaffPositionDto) {
     return this.staffPositionService.findAll(query);
   }
