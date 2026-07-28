@@ -507,17 +507,21 @@ export class StudentService {
       const student = gs.student;
       const summary = summaryMap.get(student.id);
 
-      // Tính toán các con số điểm danh
       const totalPeriods = summary?.totalPeriods ?? 0;
       const absentPeriods = summary?.totalAbsentPeriods ?? 0;
       const absentPercentage = summary?.absentPercentage ?? 0;
-      let examStatus = summary?.examStatus ?? ExamEligibilityStatus.ELIGIBLE;
       const isManuallyLocked = summary?.isManuallyLocked ?? false;
       const lockReason = summary?.lockReason ?? null;
 
-      // quy định: Vắng quá 20% và diemTB <=5 thì CẤM THI
-      if (!isManuallyLocked && totalPeriods > 0) {
-        if (absentPercentage > 20 && (gs?.diemTB || 0) <= 5) {
+      let examStatus = summary?.examStatus ?? ExamEligibilityStatus.ELIGIBLE;
+
+      if (!isManuallyLocked) {
+        const diemTB = gs?.diemTB; // Có thể là number hoặc null/undefined
+
+        const isOverAbsentLimit = absentPercentage > 20;
+
+        // Nếu vắng > 20% HOẶC (vắng > 20% VÀ diemTB <= 5)
+        if (isOverAbsentLimit && (diemTB === null || diemTB === undefined || diemTB <= 5)) {
           examStatus = ExamEligibilityStatus.INELIGIBLE;
         } else {
           examStatus = ExamEligibilityStatus.ELIGIBLE;
@@ -533,7 +537,7 @@ export class StudentService {
         dob: student.dob,
 
         // Thông tin điểm số
-        diemTB: gs.diemTB,
+        diemTB: gs.diemTB ?? null,
 
         // Thông tin chuyên cần
         totalPeriods,
