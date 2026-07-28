@@ -76,6 +76,13 @@ model Major {
 // ==========================
 // 2.5 BATCHES (KHÓA ĐÀO TẠO)
 // ==========================
+enum BatchStatus {
+  ADMISSION // Đang tuyển sinh
+  ACTIVE    // Đang học
+  GRADUATED // Đã tốt nghiệp
+}
+
+// 2. Cập nhật model Batch
 model Batch {
   id        Int    @id @default(autoincrement())
   batchCode String @unique // Ví dụ: K1, K26, 2026
@@ -95,8 +102,8 @@ model Batch {
   curriculumId Int?        @unique
   curriculum   Curriculum? @relation(fields: [curriculumId], references: [id])
 
-  // Trạng thái khóa học: ADMISSION (đang tuyển), ACTIVE (đang học), GRADUATED (đã tốt nghiệp)
-  status String @default("ACTIVE")
+  // Thay thế String bằng enum BatchStatus với giá trị mặc định ACTIVE
+  status BatchStatus @default(ACTIVE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -158,9 +165,9 @@ model Subject {
   department   Department? @relation(fields: [departmentId], references: [id])
 
   credits       Int     @default(0)
-  theoryHours   Int     @default(0)
-  practiceHours Int     @default(0)
-  testHours     Int?    @default(0)
+  theoryHours   Int     @default(0) // giờ lý thuyết
+  practiceHours Int     @default(0) // giờ thực hành
+  testHours     Int?    @default(0) // giờ kiểm tra
   description   String? @db.Text
 
   isThucTap Boolean @default(false) // Field này đánh dấu ClassSubject này có phải báo cáo thực tập ko

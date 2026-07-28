@@ -28,15 +28,18 @@ export class AttendanceService {
         teacherId: true,
         semester: {
           select: {
-            year: true, // Giả sử năm học được lưu trong semester.year (AcademicYearId)
+            academicYearId: true,
           },
         },
       },
     });
 
-    if (classSubject?.teacherId && classSubject.semester?.year) {
+    if (classSubject?.teacherId && classSubject.semester?.academicYearId) {
       // Gọi service cập nhật lại actualHours cho Giáo viên trong Năm học đó
-      await this.teachingQuotaService.syncTeacherActualHours(classSubject.teacherId, classSubject.semester.year);
+      await this.teachingQuotaService.syncTeacherActualHours(
+        classSubject.teacherId,
+        classSubject.semester.academicYearId,
+      );
     }
   }
 

@@ -18,6 +18,15 @@ export const AcademicYearStatus = {
 export type AcademicYearStatus = (typeof AcademicYearStatus)[keyof typeof AcademicYearStatus]
 
 
+export const BatchStatus = {
+  ADMISSION: 'ADMISSION',
+  ACTIVE: 'ACTIVE',
+  GRADUATED: 'GRADUATED'
+} as const
+
+export type BatchStatus = (typeof BatchStatus)[keyof typeof BatchStatus]
+
+
 export const KnowledgeBlock = {
   GENERAL: 'GENERAL',
   BASE_MAJOR: 'BASE_MAJOR',
@@ -249,3 +258,14 @@ export const SemesterStatus = {
 } as const
 
 export type SemesterStatus = (typeof SemesterStatus)[keyof typeof SemesterStatus]
+
+
+export const RoomType = {
+  THEORY: 'THEORY',
+  PRACTICE: 'PRACTICE',
+  WORKSHOP: 'WORKSHOP',
+  COMPUTER_LAB: 'COMPUTER_LAB',
+  FUNCTIONAL: 'FUNCTIONAL'
+} as const
+
+export type RoomType = (typeof RoomType)[keyof typeof RoomType]

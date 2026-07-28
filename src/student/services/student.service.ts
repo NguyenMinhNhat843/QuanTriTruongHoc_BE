@@ -238,15 +238,25 @@ export class StudentService {
     const numericBatchId = Number(batchId);
 
     return this.prisma.$transaction(async (tx) => {
+      // 1. Lấy thông tin Batch kèm thông tin Major để lấy majorCode
       const batch = await tx.batch.findUnique({
         where: { id: numericBatchId },
-        select: { id: true, batchCode: true, majorId: true },
+        select: {
+          id: true,
+          batchCode: true,
+          majorId: true,
+          major: { select: { majorCode: true } }, // Lấy thêm mã ngành (ví dụ: HDDL)
+        },
       });
 
       if (!batch) {
         throw new NotFoundException(`Không tìm thấy Khóa đào tạo với ID ${numericBatchId}`);
       }
 
+      const majorCode = batch.major?.majorCode || "NGANH"; // Mã ngành chuẩn (VD: HDDL)
+      const classCodePrefix = `TC${majorCode}`.toUpperCase().replace(/\s+/g, ""); // Tiền tố mã lớp: TCHDDL
+
+      // 2. Lấy danh sách sinh viên chưa phân lớp
       let studentsPool = await tx.student.findMany({
         where: {
           batchId: numericBatchId,
@@ -265,7 +275,6 @@ export class StudentService {
         orderBy: { classCode: "asc" },
       });
 
-      const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"];
       const resultDetails: Array<{
         classId: number;
         classCode: string;
@@ -273,6 +282,7 @@ export class StudentService {
         note: string;
       }> = [];
 
+      // 3. Lấp đầy các lớp cũ hiện có
       for (const cls of existingClasses) {
         if (studentsPool.length === 0) break;
 
@@ -307,15 +317,22 @@ export class StudentService {
         }
       }
 
-      let maxLetterIdx = -1;
+      // 4. Tìm số thứ tự lớp lớn nhất hiện tại dựa theo tiền tố TCHDDL
+      let maxNumber = 0;
       existingClasses.forEach((cls) => {
-        const lastChar = cls.classCode.slice(-1).toUpperCase();
-        const idx = letters.indexOf(lastChar);
-        if (idx > maxLetterIdx) maxLetterIdx = idx;
+        if (cls.classCode.startsWith(classCodePrefix)) {
+          // Trích xuất phần số ở cuối mã lớp (VD: TCHDDL2 -> 2)
+          const numberPart = cls.classCode.replace(classCodePrefix, "");
+          const num = parseInt(numberPart, 10);
+          if (!isNaN(num) && num > maxNumber) {
+            maxNumber = num;
+          }
+        }
       });
 
-      let classCounter = maxLetterIdx + 1;
+      let classCounter = maxNumber + 1; // Số thứ tự bắt đầu cho lớp mới
 
+      // 5. Tạo các lớp mới cho số học sinh còn dư
       while (studentsPool.length > 0) {
         const assignedStudents = studentsPool.slice(0, studentsPerClass);
         studentsPool = studentsPool.slice(studentsPerClass);
@@ -325,10 +342,10 @@ export class StudentService {
         let className = "";
         let isUnique = false;
 
+        // Kiểm tra trùng lặp mã lớp trong DB
         while (!isUnique) {
-          const suffix = letters[classCounter] || `LOP-${classCounter + 1}`;
-          classCode = `${batch.batchCode}${suffix}`.toUpperCase().replace(/\s+/g, "");
-          className = `${batch.batchCode} ${suffix}`;
+          classCode = `${classCodePrefix}${classCounter}`; // Kết quả: TCHDDL1, TCHDDL2,...
+          className = `Lớp ${classCodePrefix} ${classCounter}`; // Kết quả: Lớp TCHDDL 1
 
           const duplicateCheck = await tx.class.findFirst({
             where: { classCode },

@@ -193,6 +193,21 @@ export class SemesterService {
 
     try {
       return await this.prisma.$transaction(async (tx) => {
+        // 1. Nếu update status thành ACTIVE -> Chuyển các học kỳ ACTIVE khác thành CLOSE
+        if (data.status === "ACTIVE") {
+          await tx.semester.updateMany({
+            where: {
+              status: "ACTIVE",
+              id: { not: id },
+            },
+            data: {
+              status: "CLOSE",
+              isCurrent: false, // Thường khi đóng học kỳ thì cũng hủy trạng thái hiện tại
+            },
+          });
+        }
+
+        // 2. Xử lý flag isCurrent độc lập (nếu có truyền data.isCurrent = true)
         if (data.isCurrent) {
           await tx.semester.updateMany({
             where: { isCurrent: true, id: { not: id } },
@@ -200,10 +215,13 @@ export class SemesterService {
           });
         }
 
+        // 3. Tiến hành update dữ liệu mới cho học kỳ hiện tại
         const updated = await tx.semester.update({
           where: { id },
           data: {
             ...data,
+            // Nếu chuyển sang ACTIVE thì tự động set isCurrent = true (tùy chọn)
+            ...(data.status === "ACTIVE" && { isCurrent: true }),
             startDate: data.startDate ? new Date(data.startDate) : undefined,
             endDate: data.endDate ? new Date(data.endDate) : undefined,
           },

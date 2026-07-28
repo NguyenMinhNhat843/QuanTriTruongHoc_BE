@@ -39,7 +39,8 @@ export type RoomSumAggregateOutputType = {
 export type RoomMinAggregateOutputType = {
   id: number | null
   roomCode: string | null
-  type: string | null
+  roomName: string | null
+  type: $Enums.RoomType | null
   capacity: number | null
   building: string | null
   createdAt: Date | null
@@ -48,7 +49,8 @@ export type RoomMinAggregateOutputType = {
 export type RoomMaxAggregateOutputType = {
   id: number | null
   roomCode: string | null
-  type: string | null
+  roomName: string | null
+  type: $Enums.RoomType | null
   capacity: number | null
   building: string | null
   createdAt: Date | null
@@ -57,6 +59,7 @@ export type RoomMaxAggregateOutputType = {
 export type RoomCountAggregateOutputType = {
   id: number
   roomCode: number
+  roomName: number
   type: number
   capacity: number
   building: number
@@ -78,6 +81,7 @@ export type RoomSumAggregateInputType = {
 export type RoomMinAggregateInputType = {
   id?: true
   roomCode?: true
+  roomName?: true
   type?: true
   capacity?: true
   building?: true
@@ -87,6 +91,7 @@ export type RoomMinAggregateInputType = {
 export type RoomMaxAggregateInputType = {
   id?: true
   roomCode?: true
+  roomName?: true
   type?: true
   capacity?: true
   building?: true
@@ -96,6 +101,7 @@ export type RoomMaxAggregateInputType = {
 export type RoomCountAggregateInputType = {
   id?: true
   roomCode?: true
+  roomName?: true
   type?: true
   capacity?: true
   building?: true
@@ -192,7 +198,8 @@ export type RoomGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type RoomGroupByOutputType = {
   id: number
   roomCode: string
-  type: string
+  roomName: string | null
+  type: $Enums.RoomType
   capacity: number | null
   building: string | null
   createdAt: Date
@@ -224,7 +231,8 @@ export type RoomWhereInput = {
   NOT?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
   id?: Prisma.IntFilter<"Room"> | number
   roomCode?: Prisma.StringFilter<"Room"> | string
-  type?: Prisma.StringFilter<"Room"> | string
+  roomName?: Prisma.StringNullableFilter<"Room"> | string | null
+  type?: Prisma.EnumRoomTypeFilter<"Room"> | $Enums.RoomType
   capacity?: Prisma.IntNullableFilter<"Room"> | number | null
   building?: Prisma.StringNullableFilter<"Room"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
@@ -236,6 +244,7 @@ export type RoomWhereInput = {
 export type RoomOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   roomCode?: Prisma.SortOrder
+  roomName?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   capacity?: Prisma.SortOrderInput | Prisma.SortOrder
   building?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -251,7 +260,8 @@ export type RoomWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
   OR?: Prisma.RoomWhereInput[]
   NOT?: Prisma.RoomWhereInput | Prisma.RoomWhereInput[]
-  type?: Prisma.StringFilter<"Room"> | string
+  roomName?: Prisma.StringNullableFilter<"Room"> | string | null
+  type?: Prisma.EnumRoomTypeFilter<"Room"> | $Enums.RoomType
   capacity?: Prisma.IntNullableFilter<"Room"> | number | null
   building?: Prisma.StringNullableFilter<"Room"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Room"> | Date | string
@@ -263,6 +273,7 @@ export type RoomWhereUniqueInput = Prisma.AtLeast<{
 export type RoomOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   roomCode?: Prisma.SortOrder
+  roomName?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   capacity?: Prisma.SortOrderInput | Prisma.SortOrder
   building?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -280,7 +291,8 @@ export type RoomScalarWhereWithAggregatesInput = {
   NOT?: Prisma.RoomScalarWhereWithAggregatesInput | Prisma.RoomScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Room"> | number
   roomCode?: Prisma.StringWithAggregatesFilter<"Room"> | string
-  type?: Prisma.StringWithAggregatesFilter<"Room"> | string
+  roomName?: Prisma.StringNullableWithAggregatesFilter<"Room"> | string | null
+  type?: Prisma.EnumRoomTypeWithAggregatesFilter<"Room"> | $Enums.RoomType
   capacity?: Prisma.IntNullableWithAggregatesFilter<"Room"> | number | null
   building?: Prisma.StringNullableWithAggregatesFilter<"Room"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Room"> | Date | string
@@ -288,7 +300,8 @@ export type RoomScalarWhereWithAggregatesInput = {
 
 export type RoomCreateInput = {
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -300,7 +313,8 @@ export type RoomCreateInput = {
 export type RoomUncheckedCreateInput = {
   id?: number
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -311,7 +325,8 @@ export type RoomUncheckedCreateInput = {
 
 export type RoomUpdateInput = {
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,7 +338,8 @@ export type RoomUpdateInput = {
 export type RoomUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -335,7 +351,8 @@ export type RoomUncheckedUpdateInput = {
 export type RoomCreateManyInput = {
   id?: number
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -343,7 +360,8 @@ export type RoomCreateManyInput = {
 
 export type RoomUpdateManyMutationInput = {
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,7 +370,8 @@ export type RoomUpdateManyMutationInput = {
 export type RoomUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -366,6 +385,7 @@ export type RoomNullableScalarRelationFilter = {
 export type RoomCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   roomCode?: Prisma.SortOrder
+  roomName?: Prisma.SortOrder
   type?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   building?: Prisma.SortOrder
@@ -380,6 +400,7 @@ export type RoomAvgOrderByAggregateInput = {
 export type RoomMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   roomCode?: Prisma.SortOrder
+  roomName?: Prisma.SortOrder
   type?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   building?: Prisma.SortOrder
@@ -389,6 +410,7 @@ export type RoomMaxOrderByAggregateInput = {
 export type RoomMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   roomCode?: Prisma.SortOrder
+  roomName?: Prisma.SortOrder
   type?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   building?: Prisma.SortOrder
@@ -414,6 +436,10 @@ export type RoomUpdateOneWithoutExamSchedulesNestedInput = {
   delete?: Prisma.RoomWhereInput | boolean
   connect?: Prisma.RoomWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutExamSchedulesInput, Prisma.RoomUpdateWithoutExamSchedulesInput>, Prisma.RoomUncheckedUpdateWithoutExamSchedulesInput>
+}
+
+export type EnumRoomTypeFieldUpdateOperationsInput = {
+  set?: $Enums.RoomType
 }
 
 export type RoomCreateNestedOneWithoutClassSubjectSessionsInput = {
@@ -450,7 +476,8 @@ export type RoomUpdateOneWithoutClassSubjectSchedulesNestedInput = {
 
 export type RoomCreateWithoutExamSchedulesInput = {
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -461,7 +488,8 @@ export type RoomCreateWithoutExamSchedulesInput = {
 export type RoomUncheckedCreateWithoutExamSchedulesInput = {
   id?: number
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -487,7 +515,8 @@ export type RoomUpdateToOneWithWhereWithoutExamSchedulesInput = {
 
 export type RoomUpdateWithoutExamSchedulesInput = {
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -498,7 +527,8 @@ export type RoomUpdateWithoutExamSchedulesInput = {
 export type RoomUncheckedUpdateWithoutExamSchedulesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -508,7 +538,8 @@ export type RoomUncheckedUpdateWithoutExamSchedulesInput = {
 
 export type RoomCreateWithoutClassSubjectSessionsInput = {
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -519,7 +550,8 @@ export type RoomCreateWithoutClassSubjectSessionsInput = {
 export type RoomUncheckedCreateWithoutClassSubjectSessionsInput = {
   id?: number
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -545,7 +577,8 @@ export type RoomUpdateToOneWithWhereWithoutClassSubjectSessionsInput = {
 
 export type RoomUpdateWithoutClassSubjectSessionsInput = {
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -556,7 +589,8 @@ export type RoomUpdateWithoutClassSubjectSessionsInput = {
 export type RoomUncheckedUpdateWithoutClassSubjectSessionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -566,7 +600,8 @@ export type RoomUncheckedUpdateWithoutClassSubjectSessionsInput = {
 
 export type RoomCreateWithoutClassSubjectSchedulesInput = {
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -577,7 +612,8 @@ export type RoomCreateWithoutClassSubjectSchedulesInput = {
 export type RoomUncheckedCreateWithoutClassSubjectSchedulesInput = {
   id?: number
   roomCode: string
-  type: string
+  roomName?: string | null
+  type?: $Enums.RoomType
   capacity?: number | null
   building?: string | null
   createdAt?: Date | string
@@ -603,7 +639,8 @@ export type RoomUpdateToOneWithWhereWithoutClassSubjectSchedulesInput = {
 
 export type RoomUpdateWithoutClassSubjectSchedulesInput = {
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -614,7 +651,8 @@ export type RoomUpdateWithoutClassSubjectSchedulesInput = {
 export type RoomUncheckedUpdateWithoutClassSubjectSchedulesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   roomCode?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
+  roomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
   capacity?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   building?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -674,6 +712,7 @@ export type RoomCountOutputTypeCountExamSchedulesArgs<ExtArgs extends runtime.Ty
 export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   roomCode?: boolean
+  roomName?: boolean
   type?: boolean
   capacity?: boolean
   building?: boolean
@@ -687,6 +726,7 @@ export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type RoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   roomCode?: boolean
+  roomName?: boolean
   type?: boolean
   capacity?: boolean
   building?: boolean
@@ -696,6 +736,7 @@ export type RoomSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type RoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   roomCode?: boolean
+  roomName?: boolean
   type?: boolean
   capacity?: boolean
   building?: boolean
@@ -705,13 +746,14 @@ export type RoomSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type RoomSelectScalar = {
   id?: boolean
   roomCode?: boolean
+  roomName?: boolean
   type?: boolean
   capacity?: boolean
   building?: boolean
   createdAt?: boolean
 }
 
-export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomCode" | "type" | "capacity" | "building" | "createdAt", ExtArgs["result"]["room"]>
+export type RoomOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "roomCode" | "roomName" | "type" | "capacity" | "building" | "createdAt", ExtArgs["result"]["room"]>
 export type RoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   classSubjectSessions?: boolean | Prisma.Room$classSubjectSessionsArgs<ExtArgs>
   classSubjectSchedules?: boolean | Prisma.Room$classSubjectSchedulesArgs<ExtArgs>
@@ -731,7 +773,8 @@ export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     roomCode: string
-    type: string
+    roomName: string | null
+    type: $Enums.RoomType
     capacity: number | null
     building: string | null
     createdAt: Date
@@ -1163,7 +1206,8 @@ export interface Prisma__RoomClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface RoomFieldRefs {
   readonly id: Prisma.FieldRef<"Room", 'Int'>
   readonly roomCode: Prisma.FieldRef<"Room", 'String'>
-  readonly type: Prisma.FieldRef<"Room", 'String'>
+  readonly roomName: Prisma.FieldRef<"Room", 'String'>
+  readonly type: Prisma.FieldRef<"Room", 'RoomType'>
   readonly capacity: Prisma.FieldRef<"Room", 'Int'>
   readonly building: Prisma.FieldRef<"Room", 'String'>
   readonly createdAt: Prisma.FieldRef<"Room", 'DateTime'>

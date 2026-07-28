@@ -9,13 +9,7 @@ import {
   HttpStatus,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import {
-  ApiTags,
-  ApiOperation,
-  ApiConsumes,
-  ApiBody,
-  ApiResponse,
-} from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiConsumes, ApiBody, ApiResponse } from "@nestjs/swagger";
 import { GradeImportService } from "./script.service";
 import { ImportAssessmentDto } from "./dto";
 
@@ -47,15 +41,11 @@ export class GradeImportController {
 
     // Kiểm tra định dạng file (chỉ chấp nhận xlsx)
     if (!file.originalname.match(/\.(xlsx)$/)) {
-      throw new BadRequestException(
-        "Chỉ chấp nhận file Excel định dạng .xlsx!",
-      );
+      throw new BadRequestException("Chỉ chấp nhận file Excel định dạng .xlsx!");
     }
 
     try {
-      const results = await this.gradeImportService.importGradesFromExcel(
-        file.buffer,
-      );
+      const results = await this.gradeImportService.importGradesFromExcel(file.buffer);
       return {
         success: true,
         message: "Import hoàn tất!",
@@ -103,9 +93,7 @@ export class GradeImportController {
             errors: {
               type: "array",
               items: { type: "string" },
-              example: [
-                "Dòng 12: Không tìm thấy HS có mã [24206099] trong database.",
-              ],
+              example: ["Dòng 12: Không tìm thấy HS có mã [24206099] trong database."],
             },
           },
         },
@@ -114,14 +102,10 @@ export class GradeImportController {
   })
   @ApiResponse({
     status: 400,
-    description:
-      "Lỗi định dạng File, không tìm thấy Đợt đánh giá, hoặc thiếu dữ liệu bắt buộc.",
+    description: "Lỗi định dạng File, không tìm thấy Đợt đánh giá, hoặc thiếu dữ liệu bắt buộc.",
   })
   @UseInterceptors(FileInterceptor("file"))
-  async importAssessments(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() body: ImportAssessmentDto,
-  ) {
+  async importAssessments(@UploadedFile() file: Express.Multer.File, @Body() body: ImportAssessmentDto) {
     if (!file) {
       throw new BadRequestException("Vui lòng chọn file Excel để tải lên!");
     }
@@ -132,14 +116,9 @@ export class GradeImportController {
       "application/vnd.ms-excel",
     ];
     if (!allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException(
-        "Định dạng file không hợp lệ! Vui lòng tải lên file Excel (.xlsx).",
-      );
+      throw new BadRequestException("Định dạng file không hợp lệ! Vui lòng tải lên file Excel (.xlsx).");
     }
 
-    return this.gradeImportService.importAssessmentFromExcel(
-      file.buffer,
-      body.periodId,
-    );
+    return this.gradeImportService.importAssessmentFromExcel(file.buffer, body.periodId);
   }
 }

@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from "@nestjs/swagger";
 import { Exclude, Type } from "class-transformer";
 import { IsDate, IsNumber, IsOptional, IsString } from "class-validator";
-import { Batch } from "../../prisma/generated/prisma/client";
+import { Batch, BatchStatus } from "../../prisma/generated/prisma/client";
 
 export class BatchDto implements Batch {
   @ApiProperty()
@@ -52,9 +52,8 @@ export class BatchDto implements Batch {
   @Type(() => Number)
   startYear: number;
 
-  @ApiProperty()
-  @IsString()
-  status: string;
+  @ApiProperty({ enum: BatchStatus })
+  status: BatchStatus;
 
   @ApiProperty()
   @IsDate()

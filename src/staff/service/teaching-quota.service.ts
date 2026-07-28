@@ -54,6 +54,9 @@ export class TeachingQuotaService {
       return sum + periods;
     }, 0);
 
+    console.log(
+      `Đồng bộ actualHours cho Giáo viên ID ${staffId} trong Năm học ID ${academicYearId}: ${totalActualHours} tiết`,
+    );
     const quota = await this.prisma.teachingQuota.findFirst({
       where: {
         staffId,

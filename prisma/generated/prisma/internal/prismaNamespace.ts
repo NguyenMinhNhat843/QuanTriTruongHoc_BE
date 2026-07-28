@@ -4893,6 +4893,7 @@ export type SemesterScalarFieldEnum = (typeof SemesterScalarFieldEnum)[keyof typ
 export const RoomScalarFieldEnum = {
   id: 'id',
   roomCode: 'roomCode',
+  roomName: 'roomName',
   type: 'type',
   capacity: 'capacity',
   building: 'building',
@@ -5030,6 +5031,20 @@ export type EnumAcademicYearStatusFieldRefInput<$PrismaModel> = FieldRefInputTyp
  * Reference to a field of type 'AcademicYearStatus[]'
  */
 export type ListEnumAcademicYearStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AcademicYearStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BatchStatus'
+ */
+export type EnumBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BatchStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BatchStatus[]'
+ */
+export type ListEnumBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BatchStatus[]'>
     
 
 
@@ -5310,6 +5325,20 @@ export type EnumSemesterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'SemesterStatus[]'
  */
 export type ListEnumSemesterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SemesterStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RoomType'
+ */
+export type EnumRoomTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomType'>
+    
+
+
+/**
+ * Reference to a field of type 'RoomType[]'
+ */
+export type ListEnumRoomTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoomType[]'>
     
 
 

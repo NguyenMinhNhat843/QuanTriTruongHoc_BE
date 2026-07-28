@@ -1,17 +1,8 @@
 import { OmitType } from "@nestjs/swagger";
 import { PartialType } from "@nestjs/swagger";
-import { Room } from "../../prisma/generated/prisma/client";
+import { Room, RoomType } from "../../prisma/generated/prisma/client";
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-
-// 1. Định nghĩa Enum cho các loại phòng trường nghề
-export enum RoomType {
-  THEORY = "Lý thuyết",
-  PRACTICE = "Thực hành",
-  LAB = "Phòng Lab/Máy tính",
-  WORKSHOP = "Xưởng thực tập",
-  FUNCTIONAL = "Phòng chức năng", // Hội trường, thư viện, phòng họp...
-}
 
 export class RoomDto implements Room {
   @ApiProperty()
@@ -27,10 +18,11 @@ export class RoomDto implements Room {
   @ApiProperty()
   roomCode: string;
 
-  // 2. Cập nhật trường type sử dụng Enum và khai báo rõ cho Swagger biết
+  @ApiProperty({ type: String, nullable: true })
+  roomName: string | null;
+
   @ApiProperty({
     enum: RoomType,
-    example: RoomType.PRACTICE,
   })
   type: RoomType;
 

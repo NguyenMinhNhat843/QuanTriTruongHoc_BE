@@ -33,15 +33,23 @@ model Semester {
   @@map("semesters")
 }
 
-// ==========================
-// 2. ROOM (PHÒNG HỌC)
-// ==========================
+// 1. Khai báo Enum loại phòng học
+enum RoomType {
+  THEORY       // Lý thuyết
+  PRACTICE     // Thực hành
+  WORKSHOP     // Xưởng
+  COMPUTER_LAB // Phòng lab / Máy tính
+  FUNCTIONAL   // Phòng chức năng
+}
+
+// 2. Model Room
 model Room {
-  id       Int     @id @default(autoincrement())
-  roomCode String  @unique // Ví dụ: A1.102, LAB_IT_01
-  type     String // theory (lý thuyết), practice (thực hành), hall (hội trường)
-  capacity Int? // Sức chứa (tùy chọn thêm để kiểm tra sĩ số lớp)
-  building String? // Tòa nhà (ví dụ: Tòa A, Tòa B)
+  id        Int      @id @default(autoincrement())
+  roomCode  String   @unique // Ví dụ: A1.102, LAB_IT_01
+  roomName  String?  // Tên phòng học (Ví dụ: Phòng Thực hành Mạng 1)
+  type      RoomType @default(THEORY) // Loại phòng dùng Enum
+  capacity  Int?     // Sức chứa
+  building  String?  // Tòa nhà (Ví dụ: Tòa A, Tòa B)
 
   createdAt DateTime @default(now())
 

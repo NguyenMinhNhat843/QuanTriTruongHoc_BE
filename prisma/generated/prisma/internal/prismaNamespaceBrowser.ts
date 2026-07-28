@@ -820,6 +820,7 @@ export type SemesterScalarFieldEnum = (typeof SemesterScalarFieldEnum)[keyof typ
 export const RoomScalarFieldEnum = {
   id: 'id',
   roomCode: 'roomCode',
+  roomName: 'roomName',
   type: 'type',
   capacity: 'capacity',
   building: 'building',

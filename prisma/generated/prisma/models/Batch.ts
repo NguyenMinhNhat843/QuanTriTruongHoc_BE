@@ -57,7 +57,7 @@ export type BatchMinAggregateOutputType = {
   description: string | null
   majorId: number | null
   curriculumId: number | null
-  status: string | null
+  status: $Enums.BatchStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -73,7 +73,7 @@ export type BatchMaxAggregateOutputType = {
   description: string | null
   majorId: number | null
   curriculumId: number | null
-  status: string | null
+  status: $Enums.BatchStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -262,7 +262,7 @@ export type BatchGroupByOutputType = {
   description: string | null
   majorId: number
   curriculumId: number | null
-  status: string
+  status: $Enums.BatchStatus
   createdAt: Date
   updatedAt: Date
   _count: BatchCountAggregateOutputType | null
@@ -301,7 +301,7 @@ export type BatchWhereInput = {
   description?: Prisma.StringNullableFilter<"Batch"> | string | null
   majorId?: Prisma.IntFilter<"Batch"> | number
   curriculumId?: Prisma.IntNullableFilter<"Batch"> | number | null
-  status?: Prisma.StringFilter<"Batch"> | string
+  status?: Prisma.EnumBatchStatusFilter<"Batch"> | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFilter<"Batch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Batch"> | Date | string
   academicYear?: Prisma.XOR<Prisma.AcademicYearNullableScalarRelationFilter, Prisma.AcademicYearWhereInput> | null
@@ -348,7 +348,7 @@ export type BatchWhereUniqueInput = Prisma.AtLeast<{
   endTerm?: Prisma.IntNullableFilter<"Batch"> | number | null
   description?: Prisma.StringNullableFilter<"Batch"> | string | null
   majorId?: Prisma.IntFilter<"Batch"> | number
-  status?: Prisma.StringFilter<"Batch"> | string
+  status?: Prisma.EnumBatchStatusFilter<"Batch"> | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFilter<"Batch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Batch"> | Date | string
   academicYear?: Prisma.XOR<Prisma.AcademicYearNullableScalarRelationFilter, Prisma.AcademicYearWhereInput> | null
@@ -394,7 +394,7 @@ export type BatchScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Batch"> | string | null
   majorId?: Prisma.IntWithAggregatesFilter<"Batch"> | number
   curriculumId?: Prisma.IntNullableWithAggregatesFilter<"Batch"> | number | null
-  status?: Prisma.StringWithAggregatesFilter<"Batch"> | string
+  status?: Prisma.EnumBatchStatusWithAggregatesFilter<"Batch"> | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Batch"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Batch"> | Date | string
 }
@@ -406,7 +406,7 @@ export type BatchCreateInput = {
   endYear: number
   endTerm?: number | null
   description?: string | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutBatchesInput
@@ -428,7 +428,7 @@ export type BatchUncheckedCreateInput = {
   description?: string | null
   majorId: number
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
@@ -443,7 +443,7 @@ export type BatchUpdateInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneWithoutBatchesNestedInput
@@ -465,7 +465,7 @@ export type BatchUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
@@ -484,7 +484,7 @@ export type BatchCreateManyInput = {
   description?: string | null
   majorId: number
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -496,7 +496,7 @@ export type BatchUpdateManyMutationInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -512,7 +512,7 @@ export type BatchUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -684,6 +684,10 @@ export type BatchUncheckedUpdateManyWithoutMajorNestedInput = {
   deleteMany?: Prisma.BatchScalarWhereInput | Prisma.BatchScalarWhereInput[]
 }
 
+export type EnumBatchStatusFieldUpdateOperationsInput = {
+  set?: $Enums.BatchStatus
+}
+
 export type BatchCreateNestedOneWithoutClassesInput = {
   create?: Prisma.XOR<Prisma.BatchCreateWithoutClassesInput, Prisma.BatchUncheckedCreateWithoutClassesInput>
   connectOrCreate?: Prisma.BatchCreateOrConnectWithoutClassesInput
@@ -771,7 +775,7 @@ export type BatchCreateWithoutAcademicYearInput = {
   endYear: number
   endTerm?: number | null
   description?: string | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   major: Prisma.MajorCreateNestedOneWithoutBatchesInput
@@ -791,7 +795,7 @@ export type BatchUncheckedCreateWithoutAcademicYearInput = {
   description?: string | null
   majorId: number
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
@@ -839,7 +843,7 @@ export type BatchScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"Batch"> | string | null
   majorId?: Prisma.IntFilter<"Batch"> | number
   curriculumId?: Prisma.IntNullableFilter<"Batch"> | number | null
-  status?: Prisma.StringFilter<"Batch"> | string
+  status?: Prisma.EnumBatchStatusFilter<"Batch"> | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFilter<"Batch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Batch"> | Date | string
 }
@@ -851,7 +855,7 @@ export type BatchCreateWithoutMajorInput = {
   endYear: number
   endTerm?: number | null
   description?: string | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutBatchesInput
@@ -871,7 +875,7 @@ export type BatchUncheckedCreateWithoutMajorInput = {
   endTerm?: number | null
   description?: string | null
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
@@ -912,7 +916,7 @@ export type BatchCreateWithoutClassesInput = {
   endYear: number
   endTerm?: number | null
   description?: string | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutBatchesInput
@@ -933,7 +937,7 @@ export type BatchUncheckedCreateWithoutClassesInput = {
   description?: string | null
   majorId: number
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutBatchInput
@@ -963,7 +967,7 @@ export type BatchUpdateWithoutClassesInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneWithoutBatchesNestedInput
@@ -984,7 +988,7 @@ export type BatchUncheckedUpdateWithoutClassesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   students?: Prisma.StudentUncheckedUpdateManyWithoutBatchNestedInput
@@ -998,7 +1002,7 @@ export type BatchCreateWithoutCurriculumInput = {
   endYear: number
   endTerm?: number | null
   description?: string | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutBatchesInput
@@ -1018,7 +1022,7 @@ export type BatchUncheckedCreateWithoutCurriculumInput = {
   endTerm?: number | null
   description?: string | null
   majorId: number
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
@@ -1049,7 +1053,7 @@ export type BatchUpdateWithoutCurriculumInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneWithoutBatchesNestedInput
@@ -1069,7 +1073,7 @@ export type BatchUncheckedUpdateWithoutCurriculumInput = {
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
@@ -1084,7 +1088,7 @@ export type BatchCreateWithoutStudentsInput = {
   endYear: number
   endTerm?: number | null
   description?: string | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutBatchesInput
@@ -1105,7 +1109,7 @@ export type BatchUncheckedCreateWithoutStudentsInput = {
   description?: string | null
   majorId: number
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
@@ -1135,7 +1139,7 @@ export type BatchUpdateWithoutStudentsInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneWithoutBatchesNestedInput
@@ -1156,7 +1160,7 @@ export type BatchUncheckedUpdateWithoutStudentsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
@@ -1170,7 +1174,7 @@ export type BatchCreateWithoutTuitionConfigsInput = {
   endYear: number
   endTerm?: number | null
   description?: string | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   academicYear?: Prisma.AcademicYearCreateNestedOneWithoutBatchesInput
@@ -1191,7 +1195,7 @@ export type BatchUncheckedCreateWithoutTuitionConfigsInput = {
   description?: string | null
   majorId: number
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   classes?: Prisma.ClassUncheckedCreateNestedManyWithoutBatchInput
@@ -1221,7 +1225,7 @@ export type BatchUpdateWithoutTuitionConfigsInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneWithoutBatchesNestedInput
@@ -1242,7 +1246,7 @@ export type BatchUncheckedUpdateWithoutTuitionConfigsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
@@ -1259,7 +1263,7 @@ export type BatchCreateManyAcademicYearInput = {
   description?: string | null
   majorId: number
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1271,7 +1275,7 @@ export type BatchUpdateWithoutAcademicYearInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   major?: Prisma.MajorUpdateOneRequiredWithoutBatchesNestedInput
@@ -1291,7 +1295,7 @@ export type BatchUncheckedUpdateWithoutAcademicYearInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
@@ -1309,7 +1313,7 @@ export type BatchUncheckedUpdateManyWithoutAcademicYearInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   majorId?: Prisma.IntFieldUpdateOperationsInput | number
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1324,7 +1328,7 @@ export type BatchCreateManyMajorInput = {
   endTerm?: number | null
   description?: string | null
   curriculumId?: number | null
-  status?: string
+  status?: $Enums.BatchStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1336,7 +1340,7 @@ export type BatchUpdateWithoutMajorInput = {
   endYear?: Prisma.IntFieldUpdateOperationsInput | number
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.AcademicYearUpdateOneWithoutBatchesNestedInput
@@ -1356,7 +1360,7 @@ export type BatchUncheckedUpdateWithoutMajorInput = {
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   classes?: Prisma.ClassUncheckedUpdateManyWithoutBatchNestedInput
@@ -1374,7 +1378,7 @@ export type BatchUncheckedUpdateManyWithoutMajorInput = {
   endTerm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   curriculumId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1547,7 +1551,7 @@ export type $BatchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     description: string | null
     majorId: number
     curriculumId: number | null
-    status: string
+    status: $Enums.BatchStatus
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["batch"]>
@@ -1989,7 +1993,7 @@ export interface BatchFieldRefs {
   readonly description: Prisma.FieldRef<"Batch", 'String'>
   readonly majorId: Prisma.FieldRef<"Batch", 'Int'>
   readonly curriculumId: Prisma.FieldRef<"Batch", 'Int'>
-  readonly status: Prisma.FieldRef<"Batch", 'String'>
+  readonly status: Prisma.FieldRef<"Batch", 'BatchStatus'>
   readonly createdAt: Prisma.FieldRef<"Batch", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Batch", 'DateTime'>
 }
