@@ -460,52 +460,65 @@ export class StudentService {
   }
 
   async getStudentsForExam(classSubjectId: number) {
+    const targetId = Number(classSubjectId);
+
+    // 1. Lấy thông tin Lớp học phần để biết classId (Lớp hành chính)
     const classSubject = await this.prisma.classSubject.findUnique({
-      where: { id: classSubjectId },
-      include: {
-        subject: true,
+      where: { id: targetId },
+      select: {
+        id: true,
+        classId: true, // Giả sử ClassSubject chứa classId của lớp hành chính
       },
     });
 
     if (!classSubject) {
-      throw new NotFoundException(`Lớp học phần với ID ${classSubjectId} không tồn tại.`);
+      throw new NotFoundException(`Lớp học phần với ID ${targetId} không tồn tại.`);
     }
 
-    // 2. Lấy danh sách GradeStudent thuộc ClassSubject
-    // (Bảng GradeStudent quản lý danh sách học sinh và điểm số của môn học đó)
-    const gradeStudents = await this.prisma.gradeStudent.findMany({
-      where: { classSubjectId },
-      include: {
-        student: true,
+    // 2. Lấy danh sách Sinh viên thuộc lớp đó theo classId
+    const students = await this.prisma.student.findMany({
+      where: {
+        classId: classSubject.classId,
+        status: "STUDYING", // Chỉ lấy các sinh viên đang theo học (tùy chọn)
       },
       orderBy: {
-        student: {
-          fullName: "asc",
-        },
+        fullName: "asc",
       },
     });
+    console.log(`Found ${students.length} students in classId ${classSubject.classId} for classSubjectId ${targetId}`);
 
-    if (gradeStudents.length === 0) {
+    if (students.length === 0) {
       return [];
     }
 
-    const studentIds = gradeStudents.map((gs) => gs.studentId);
+    const studentIds = students.map((s) => s.id);
 
-    // 3. Lấy dữ liệu tổng hợp điểm danh từ bảng AttendanceSummary
-    const attendanceSummaries = await this.prisma.attendanceSummary.findMany({
+    // 3. Lấy Điểm số (GradeStudent) của các sinh viên thuộc ClassSubject này
+    const gradeStudents = await this.prisma.gradeStudent.findMany({
       where: {
-        classSubjectId,
+        classSubjectId: targetId,
         studentId: { in: studentIds },
       },
     });
 
-    // Tạo Map để tra cứu AttendanceSummary theo studentId cho nhanh
-    const summaryMap = new Map(attendanceSummaries.map((s) => [s.studentId, s]));
+    // 4. Lấy Chuyên cần (AttendanceSummary) của các sinh viên thuộc ClassSubject này
+    const attendanceSummaries = await this.prisma.attendanceSummary.findMany({
+      where: {
+        classSubjectId: targetId,
+        studentId: { in: studentIds },
+      },
+    });
 
-    // 4. Map dữ liệu trả về cho client
-    const result = gradeStudents.map((gs) => {
-      const student = gs.student;
+    // Tạo Map để tra cứu O(1)
+    const gradeMap = new Map(gradeStudents.map((g) => [g.studentId, g]));
+    const summaryMap = new Map(attendanceSummaries.map((a) => [a.studentId, a]));
+
+    // 5. Sinh viên làm gốc, ghép Điểm + Chuyên cần vào
+    const result = students.map((student) => {
+      const grade = gradeMap.get(student.id);
       const summary = summaryMap.get(student.id);
+
+      const diemTB = grade?.diemTB ?? null; // Nếu chưa có GradeStudent thì diemTB = null
 
       const totalPeriods = summary?.totalPeriods ?? 0;
       const absentPeriods = summary?.totalAbsentPeriods ?? 0;
@@ -516,12 +529,10 @@ export class StudentService {
       let examStatus = summary?.examStatus ?? ExamEligibilityStatus.ELIGIBLE;
 
       if (!isManuallyLocked) {
-        const diemTB = gs?.diemTB; // Có thể là number hoặc null/undefined
-
         const isOverAbsentLimit = absentPercentage > 20;
 
-        // Nếu vắng > 20% HOẶC (vắng > 20% VÀ diemTB <= 5)
-        if (isOverAbsentLimit && (diemTB === null || diemTB === undefined || diemTB <= 5)) {
+        // Cấm thi nếu: Vắng > 20% VÀ (chưa có điểm HOẶC điểm <= 5)
+        if (isOverAbsentLimit && (diemTB === null || diemTB <= 5)) {
           examStatus = ExamEligibilityStatus.INELIGIBLE;
         } else {
           examStatus = ExamEligibilityStatus.ELIGIBLE;
@@ -537,7 +548,7 @@ export class StudentService {
         dob: student.dob,
 
         // Thông tin điểm số
-        diemTB: gs.diemTB ?? null,
+        diemTB,
 
         // Thông tin chuyên cần
         totalPeriods,
